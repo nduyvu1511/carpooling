@@ -1,0 +1,107 @@
+import { ResetPasswordParams } from "@/models"
+import { userApi } from "@/services"
+import { AxiosResponse } from "axios"
+import useSWR, { KeyedMutator } from "swr"
+import { useFetcher } from "../async"
+
+interface ChangePasswordProps {
+  handleSuccess: Function
+  password: string
+  re_password: string
+  old_password: string
+}
+
+interface CreatePasswordProps {
+  handleSuccess: Function
+  password: string
+  re_password: string
+}
+
+interface DoResetPasswordParams {
+  params: ResetPasswordParams
+  onSuccess: Function
+  onError?: Function
+}
+
+interface UsePasswordRes {
+  data: boolean
+  isValidating: boolean
+  createPassword: (props: CreatePasswordProps) => void
+  changePassword: (props: ChangePasswordProps) => void
+  resetPassword: (props: DoResetPasswordParams) => void
+  mutate: KeyedMutator<any>
+}
+
+export const usePassword = (shouldFetch = false): UsePasswordRes => {
+  const { fetcherHandler } = useFetcher()
+
+  const { data, isValidating, mutate } = useSWR(
+    "check_password",
+    shouldFetch
+      ? () =>
+          userApi.checkHasPassword().then((res: AxiosResponse<any>) => {
+            if (res?.result?.success) {
+              return res?.result?.data?.has_password || false
+            }
+            return false
+          })
+      : null,
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    }
+  )
+
+  const createPassword = async (props: CreatePasswordProps) => {
+    const { password, handleSuccess, re_password } = props
+    if (!password || !re_password) return
+    fetcherHandler({
+      fetcher: userApi.createNewPassword({
+        password,
+        re_password,
+      }),
+      onSuccess: () => {
+        mutate(true, false)
+        handleSuccess()
+      },
+    })
+  }
+
+  const resetPassword = async (props: DoResetPasswordParams) => {
+    const { params, onSuccess, onError } = props
+    fetcherHandler({
+      fetcher: userApi.resetPassword(params),
+      onSuccess: () => {
+        onSuccess()
+      },
+      onError: () => {
+        onError?.()
+      },
+    })
+  }
+
+  const changePassword = async (props: ChangePasswordProps) => {
+    const { password, handleSuccess, re_password, old_password } = props
+    if (!password || !re_password) return
+    fetcherHandler({
+      fetcher: userApi.changePassword({
+        password,
+        re_password,
+        old_password,
+      }),
+      onSuccess: () => {
+        handleSuccess()
+      },
+      config: { successMsg: "Đổi mật khẩu thành công!" },
+    })
+  }
+
+  return {
+    createPassword,
+    data,
+    isValidating,
+    mutate,
+    changePassword,
+    resetPassword,
+  }
+}

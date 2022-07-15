@@ -1,0 +1,7 @@
+export const feature1 = require("./feature-1.svg")
+export const feature2 = require("./feature-2.svg")
+export const feature3 = require("./feature-3.svg")
+export const newsImage = require("./news-img.png")
+export const mapbanner = require("./map-banner.svg")
+export const bctImg = require("./bct-image.png")
+export const blankAvatar = require("./avatar.png")
