@@ -6,15 +6,9 @@ import {
   OneWayIcon,
   TwoWayIcon,
 } from "@/assets"
-import { formatMoneyVND, getColorByActivityState, getCompoundingCarStateName } from "@/helper"
-import {
-  CompoundingCarCustomerState,
-  CompoundingCarDriverState,
-  CustomerActivityRes,
-  DriverActivityRes,
-} from "@/models"
+import { formatMoneyVND, getCompoundingCarStateName, STATE_BG_COLOR, STATE_COLOR } from "@/helper"
+import { CustomerActivityRes, DriverActivityRes } from "@/models"
 import moment from "moment"
-import { useCallback } from "react"
 
 interface ActivityItemProps<T> {
   activity: T | null
@@ -23,19 +17,6 @@ interface ActivityItemProps<T> {
 const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
   activity,
 }: ActivityItemProps<T>) => {
-  const getColorByState = useCallback((state: CompoundingCarCustomerState) => {
-    if ((state as CompoundingCarDriverState) === "stop_picking") {
-    } else {
-      if (state === "assign") return "#ED9526"
-      if (state === "confirm") return "#2E41B6"
-      if (state === "done") return "#118A33"
-      if (state === "cancel") return "#FF3B30"
-      if (state === "in_process") return "#ED9526"
-      if (state === "deposit") return "#858585"
-      return "#373737"
-    }
-  }, [])
-
   if (!activity)
     return (
       <div className="p-24 block-element border border-solid border-border-color rounded-[20px] mb-[24px]">
@@ -78,8 +59,8 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               </p>
               <span
                 style={{
-                  color: getColorByState(state),
-                  border: `1px solid ${getColorByActivityState(state as any).bg}`,
+                  color: STATE_COLOR?.[state] || "",
+                  border: `1px solid ${STATE_BG_COLOR[state || ""]}`,
                 }}
                 className="py-[4px] px-[8px] text-sm rounded-[5px] bg-white-color"
               >

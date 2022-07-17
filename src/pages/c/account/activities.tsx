@@ -1,7 +1,13 @@
-import { ActivityFilter, ActivityItem, Spinner } from "@/components"
+import { ActivityItem, Spinner, Tabs, TagActivityItem } from "@/components"
+import {
+  customerActivityFilters,
+  getActiveStringOrListString,
+  STATE_BG_COLOR,
+  STATE_COLOR,
+} from "@/helper"
 import { useCustomerActivities } from "@/hooks"
 import { AccountLayout, CustomerLayout } from "@/layout"
-import { CustomerActivityRes } from "@/models"
+import { CompoundingCarCustomerState, CustomerActivityRes } from "@/models"
 import moment from "moment"
 import { useRouter } from "next/router"
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -11,9 +17,12 @@ const Activities = () => {
   const {
     data: activities,
     hasMore,
-    isInitialLoading,
     fetchMoreActivities,
     isFetchingMore,
+    activityStates,
+    isValidating,
+    ratingValue,
+    filterCompoundingActivities,
   } = useCustomerActivities()
 
   const handleRedirect = (params: CustomerActivityRes) => {
@@ -43,16 +52,39 @@ const Activities = () => {
         <div className="mb-24">
           <div className="flex items-center">
             <p className="text-base font-semibold mr-24">Trạng thái: </p>
-            <ActivityFilter
-              list={[
-                { color: "", label: "Tất cả", value: "all" },
-                { color: "", label: "Chưa đánh giá", value: "no_rating" },
-              ]}
-            />
+            <ul className="flex flex-wrap">
+              {customerActivityFilters.map(({ label, value }, index) => (
+                <li className="mr-[16px] last:mr-0" key={index}>
+                  <TagActivityItem<CompoundingCarCustomerState[]>
+                    bgColor={STATE_BG_COLOR[value?.[0] || ""]}
+                    color={STATE_COLOR[value?.[0] || ""]}
+                    label={label}
+                    value={value as CompoundingCarCustomerState[]}
+                    isActive={getActiveStringOrListString(activityStates, value)}
+                    onChange={(val) =>
+                      filterCompoundingActivities(val as CompoundingCarCustomerState[])
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
+
+          {activityStates?.includes("confirm_paid") ? (
+            <div className="mt-[12px]">
+              <Tabs
+                list={[
+                  { label: "Chưa đánh giá", value: "no_rating" },
+                  { label: "Đã đánh giá", value: "rated" },
+                ]}
+                tabActive={ratingValue || ""}
+                onChange={(val) => filterCompoundingActivities(activityStates, val as any)}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="">
-          {isInitialLoading ? (
+          {isValidating ? (
             <div className="">
               {Array.from({ length: 8 }).map((_, index) => (
                 <ActivityItem key={index} activity={null} />
@@ -61,7 +93,7 @@ const Activities = () => {
           ) : (
             <>
               {(activities?.length || 0) === 0 ? (
-                <div className="text-base font-normal pt-[20pxư text-center">
+                <div className="text-base font-normal pt-[20px] text-center">
                   Không tìm thấy hoạt động nào
                 </div>
               ) : (

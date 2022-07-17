@@ -5,6 +5,7 @@ import { AccountLayout, CustomerLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { notify } from "reapop"
 
 const Rating = () => {
   const {
@@ -34,7 +35,7 @@ const Rating = () => {
     if (!currentEditRating?.rating_id || !currentEditRating?.compounding_car_customer_id) return
     updateRating({
       params: {
-        rating_id: currentEditRating?.rating_id,
+        rating_id: currentEditRating.rating_id,
         compounding_car_customer_id: currentEditRating?.compounding_car_customer_id,
         ...params,
       },

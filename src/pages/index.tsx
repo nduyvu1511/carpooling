@@ -1,5 +1,13 @@
 import { feature1, feature2, feature3 } from "@/assets"
-import { Banner, Header, HeroSection, HeroSectionList, PlaceSlide, Switch } from "@/components"
+import {
+  Banner,
+  Header,
+  HeroSection,
+  HeroSectionList,
+  MyInputDateTime,
+  PlaceSlide,
+  Switch,
+} from "@/components"
 import { Footer } from "@/components/footer"
 import { NewsList } from "@/components/news"
 import { RootState } from "@/core/store"

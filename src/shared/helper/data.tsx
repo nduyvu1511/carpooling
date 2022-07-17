@@ -1,6 +1,7 @@
 import {
   CertificateInspectionFormKey,
   CompoundingCarCustomerFilterKey,
+  CompoundingCarCustomerState,
   CompoundingCarDriverState,
   CompoundingCarFilterKey,
   CompoundingOrderField,
@@ -593,25 +594,39 @@ export const CompoundingFilterFormFields: {
 export const driverActivityFilters: {
   label: string
   value: CompoundingCarDriverState[]
-  color: string
 }[] = [
-  { label: "Tất cả", value: [], color: "#373737" },
+  { label: "Tất cả", value: [] },
   {
     label: "Đang di chuyển",
     value: ["start_running", "stop_picking"],
-    color: "#ED9526",
   },
   {
     label: "Xác nhận",
     value: ["confirm_deposit", "confirm"],
-    color: "#2E41B6",
   },
 
   {
     label: "Đang đặt cọc",
     value: ["waiting_deposit"],
-    color: "#858585",
   },
-  { label: "Đã hoàn thành", value: ["done"], color: "#118A33" },
-  { label: "Đã hủy", value: ["cancel"], color: "#FF3B30" },
+  { label: "Đã hoàn thành", value: ["done"] },
+  { label: "Đã hủy", value: ["cancel"] },
+]
+
+export const customerActivityFilters: {
+  label: string
+  value: CompoundingCarCustomerState[]
+}[] = [
+  { label: "Tất cả", value: [] },
+  { label: "Đơn nháp", value: ["draft"] },
+  {
+    label: "Chờ xử lý",
+    value: ["confirm", "waiting", "assign", "deposit"],
+  },
+  {
+    label: "Đang di chuyển",
+    value: ["in_process", "done", "customer_pay"],
+  },
+  { label: "Đã thanh toán", value: ["confirm_paid"] },
+  { label: "Đã hủy", value: ["cancel"] },
 ]

@@ -40,10 +40,12 @@ const Tabs = ({ tabActive, list, onChange }: TabsProps) => {
         </li>
       ))}
 
-      <span
-        ref={lineRef}
-        className={`tabs-line absolute bottom-0 h-[2px] bg-primary transition-all duration-200`}
-      ></span>
+      {tabActive ? (
+        <span
+          ref={lineRef}
+          className={`tabs-line absolute bottom-0 h-[2px] bg-primary transition-all duration-200`}
+        ></span>
+      ) : null}
     </ul>
   )
 }

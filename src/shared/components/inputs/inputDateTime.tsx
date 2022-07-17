@@ -1,8 +1,6 @@
-import { subtractDateTimeToNumberOfHour } from "@/helper"
-import moment from "moment"
-import Datetime from "react-datetime"
 import "react-datetime/css/react-datetime.css"
 import { Control, Controller } from "react-hook-form"
+import { MyInputDateTime } from "./myInputDateTime"
 
 interface InputDateTimeProps {
   showLabel?: boolean
@@ -25,11 +23,6 @@ export const InputDateTime = ({
   placeholder,
   required = true,
 }: InputDateTimeProps) => {
-  const yesterday = moment().subtract(1, "day")
-  const disablePastDt = (current: any) => {
-    return current.isAfter(yesterday)
-  }
-
   return (
     <>
       {showLabel ? (
@@ -37,29 +30,22 @@ export const InputDateTime = ({
           {placeholder} {required ? "(*)" : ""}
         </label>
       ) : null}
-      <div className={`form-date ${isError ? "form-date-err" : ""}`}>
-        <Controller
-          control={control}
-          name={name}
-          render={({ field: { onChange, onBlur } }) => (
-            <Datetime
-              inputProps={{ placeholder }}
-              initialValue={defaultValue ? moment(defaultValue) : undefined}
-              locale="vi"
-              isValidDate={disablePastDt}
-              onChange={(e: any) => {
-                const dateTime = subtractDateTimeToNumberOfHour(
-                  moment(new Date(e._d)).format("YYYY-MM-DD HH:MM:SS"),
-                  7
-                )
-                onChange(dateTime)
-                onChangeProps(dateTime)
-              }}
-            />
-          )}
-          rules={{ required: true }}
-        />
-      </div>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, onBlur } }) => (
+          <MyInputDateTime
+            isError={isError}
+            onChange={(dateTime) => {
+              console.log({ dateTime })
+              onChange(dateTime)
+              onChangeProps(dateTime)
+            }}
+            initialValue={defaultValue}
+          />
+        )}
+        rules={{ required: true }}
+      />
 
       {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
     </>

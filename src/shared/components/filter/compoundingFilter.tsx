@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
-import { ItemSelect } from "../inputs"
+import { InputSelect, ItemSelect } from "../inputs"
 
 type CompoundingFilterKey = CompoundingCarCustomerFilterKey | CompoundingCarFilterKey
 interface CompoundingFilterFormProps {
@@ -45,8 +45,6 @@ export const CompoundingFilter = ({
   const [filterValues, setFilterValues] = useState<
     DefaultCompoundingCarFilterFormParams | undefined
   >()
-
-  console.log(provinceOptions)
 
   const getOptions = (field: CompoundingFilterKey): OptionModel[] => {
     if (field === "from_province_id" || field === "to_province_id") {
@@ -93,7 +91,6 @@ export const CompoundingFilter = ({
                         placeholder="Ngày đi"
                         onChange={(e) => {
                           const val = e.target.value
-                          handleSubmit((data) => console.log(data))
                           setValue(field.name, val)
                           onChange(val)
                           onChangeProps({ from_expected_going_on_date: val })
@@ -130,7 +127,7 @@ export const CompoundingFilter = ({
                           </>
                         ) : (
                           <Select
-                            value={defaultValues?.[field.name]}
+                            defaultValue={defaultValues?.[field.name]}
                             placeholder={field.label}
                             options={getOptions(field.name)}
                             onChange={(data: any) => {

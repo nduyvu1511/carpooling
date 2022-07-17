@@ -49,7 +49,7 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
   return (
     <section className="container py-24">
       <div className="grid grid-cols-sidebar-grid gap-[24px]">
-        <aside className="block-element p-24 h-fit sticky top-[104px]">
+        <aside className="block-element p-24 h-fit sticky top-[80px]">
           {userInfo ? (
             <AccountSidebar
               avatar={userInfo?.avatar_url?.image_url || blankAvatar || ""}

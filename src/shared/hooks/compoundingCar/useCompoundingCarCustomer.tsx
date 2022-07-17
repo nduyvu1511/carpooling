@@ -2,12 +2,13 @@ import { isObjectHasValue } from "@/helper"
 import { CompoundingCarCustomer } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
-import useSWR from "swr"
+import useSWR, { KeyedMutator } from "swr"
 
 interface Res {
   data: CompoundingCarCustomer | undefined
   isValidating: boolean
   isInitialLoading: boolean
+  mutate: KeyedMutator<CompoundingCarCustomer>
 }
 
 interface Props {
@@ -21,7 +22,7 @@ export const useCompoundingCarCustomer = ({
   type,
   compounding_car_customer_id,
 }: Props): Res => {
-  const { isValidating, data, error } = useSWR<CompoundingCarCustomer, any>(
+  const { isValidating, data, error, mutate } = useSWR<CompoundingCarCustomer, any>(
     compounding_car_customer_id ? key : null,
     () =>
       ridesApi
@@ -48,5 +49,6 @@ export const useCompoundingCarCustomer = ({
     isValidating,
     data,
     isInitialLoading: error === undefined && data === undefined,
+    mutate,
   }
 }

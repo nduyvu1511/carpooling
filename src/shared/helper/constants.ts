@@ -86,3 +86,39 @@ export const CARPOOLING_IS_PICKING_UP_FROM_START = "carpooling_is_picking_up_fro
 
 export const COMPOUNDING_VNPAY_CODE = "compounding_vnpay_code"
 export const LIMIT_COMPOUNDING_LIST = 12
+
+export const STATE_COLOR = {
+  draft: "#ff8800",
+  "": "#858585",
+  confirm: "#2E41B6",
+  confirm_deposit: "#2E41B6",
+  waiting: "#2E41B6",
+  assign: "#2E41B6",
+  deposit: "#2E41B6",
+  in_process: "#ED9526",
+  done: "#ED9526",
+  customer_pay: "#ED9526",
+  confirm_paid: "#118A33",
+  cancel: "#FF3B30",
+  waiting_deposit: "#ff8800",
+  start_running: "#ED9526",
+  stop_picking: "#2E41B6",
+}
+
+export const STATE_BG_COLOR = {
+  draft: "rgba(255, 59, 48, 0.2)",
+  confirm: "rgba(46, 76, 183, 0.2)",
+  confirm_deposit: "rgba(46, 76, 183, 0.2)",
+  waiting: "rgba(46, 76, 183, 0.2)",
+  assign: "rgba(46, 76, 183, 0.2)",
+  deposit: "rgba(46, 76, 183, 0.2)",
+  in_process: "rgba(237, 149, 38, 0.2)",
+  done: "rgba(237, 149, 38, 0.2)",
+  customer_pay: "rgba(237, 149, 38, 0.2)",
+  confirm_paid: "rgba(17, 138, 51, 0.2)",
+  cancel: "rgba(255, 59, 48, 0.2)",
+  waiting_deposit: "rgba(255, 59, 48, 0.2)",
+  start_running: "rgba(237, 149, 38, 0.2)",
+  stop_picking: "rgba(237, 149, 38, 0.2)",
+  "": "rgba(55, 55, 55, 0.2)",
+}

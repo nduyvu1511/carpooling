@@ -1,4 +1,4 @@
-import { CompoundingCarDriverState, CompoundingType, TimeType } from "@/models"
+import { CompoundingCarDriverState, CompoundingType, OptionModel, TimeType } from "@/models"
 import _ from "lodash"
 import moment from "moment"
 import { LatLng } from "use-places-autocomplete"
@@ -50,7 +50,7 @@ export const formatTimeType = (time: TimeType): string => {
   return "giây"
 }
 
-export function isValidHttpUrl(string: string) {
+export function isValidHttpUrl(string: string): boolean {
   let url
 
   try {
@@ -65,10 +65,6 @@ export const spliceArray = (arr: Array<any>, start: number, end: number) => {
   return [...arr].splice(start, end)
 }
 
-// hàm định dạng tiền việt nam
-// export function formatMoneyVND(num: string) {
-//   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-// }
 export const FormatNumber = (money: number, separator = ",") => {
   if (!money) return "0"
   return (money + "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1" + separator)
@@ -95,19 +91,6 @@ export function formatMoneyVND(num: number | string) {
     return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} đ`
   }
 }
-
-// export const translateDataToTree = (categories: Category[]) => {
-//   if (!isArrayHasValue(categories)) return []
-
-//   _(categories).forEach((f) => {
-//     f.children = _(categories)
-//       .filter((g) => g.parent_id === f.id)
-//       .value()
-//   })
-//   return _(categories)
-//     .filter((f) => !f.parent_id)
-//     .value()
-// }
 
 export function formatNumberInput(value: string, separator = ",") {
   value += ""
@@ -280,7 +263,7 @@ export const toggleBodyOverflow = (status: "hidden" | "unset") => {
   }
 }
 
-export const getTimes = (): { label: string; value: string }[] => {
+export const getTimes = (): OptionModel[] => {
   var times = [],
     periods = ["Sáng", "Chiều"],
     hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -375,20 +358,16 @@ export const getActiveStringOrListString = (
   return false
 }
 
-export const getColorByActivityState = (
-  state: CompoundingCarDriverState | CompoundingCarDriverState[]
-): { color: string; bg: string } => {
-  if (state === "confirm" || state?.includes("confirm"))
-    return { color: "#2E41B6", bg: "rgba(46, 76, 183, 0.3)" }
-  if (state === "start_running" || state?.includes("start_running"))
-    return { color: "#ED9526", bg: "rgba(237, 149, 38, 0.3)" }
-  if (state === "done" || state?.includes("done"))
-    return { color: "#118A33", bg: "rgba(17, 138, 51, 0.3)" }
-  if (state === "cancel" || state?.includes("cancel"))
-    return { color: "#FF3B30", bg: "rgba(255, 59, 48, 0.3)" }
-  if (typeof state === "object" && state.length === 0) return { bg: "#858585", color: "#ffffff" }
-  return { color: "", bg: "" }
-}
+// export const getColorByActivityState = (state: string[]): { color: string; bg: string } => {
+//   if (state.includes("confirm")) return { color: "#2E41B6", bg: "rgba(46, 76, 183, 0.3)" }
+//   if (state.includes("start_running" || state.includes("in_process")))
+//     return { color: "#ED9526", bg: "rgba(237, 149, 38, 0.3)" }
+//   if (state.includes("done")) return { color: "#118A33", bg: "rgba(17, 138, 51, 0.3)" }
+//   if (state.includes("cancel")) return { color: "#FF3B30", bg: "rgba(255, 59, 48, 0.3)" }
+//   if (state.includes("draft")) return { color: "#ff8800", bg: "rgba(255, 59, 48, 0.3)" }
+//   if (state.length === 0) return { bg: "#858585", color: "#ffffff" }
+//   return { color: "", bg: "" }
+// }
 
 export const getCompoundingCarStateName = (state: string): string => {
   if (state === "confirm") return "Xác nhận"

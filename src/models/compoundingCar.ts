@@ -168,7 +168,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   to_latitude: string
   distance: number
   duration?: number
-  rating: RatingRes
+  rating?: RatingRes
   rating_state: RatingState
 }
 
@@ -228,7 +228,7 @@ export interface CompoundingCarCustomer {
   number_available_seat: number
   duration: number
   rating_state: RatingState
-  rating: RatingRes
+  rating?: RatingRes
 }
 
 export interface PartnerCompoundingCar {
@@ -408,7 +408,7 @@ export interface GetCompoundingCarCustomerStateParams {
   compounding_car_state?: CompoundingCarCustomerState[]
   limit?: number
   offset?: number
-  rating_state?: RatingState
+  rating_state?: [RatingState]
 }
 
 export interface GetCompoundingCarDriverStateParams {

@@ -49,4 +49,5 @@ export interface RatingRes {
   rating_number: RatingRangePost
   rating_content: string
   rating_reported: string
+  rating_editable: boolean
 }

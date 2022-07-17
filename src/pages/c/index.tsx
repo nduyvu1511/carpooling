@@ -1,5 +1,5 @@
-import { BookingModal, CompoundingFilter, RidesItem, Spinner } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
+import { BookingModal, CompoundingFilter, MyInputDateTime, RidesItem, Spinner } from "@/components"
+import { isObjectHasValue, toggleBodyOverflow } from "@/helper"
 import { useQueryCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { CompoundingType } from "@/models"
@@ -40,12 +40,16 @@ const HomeCustomer = () => {
                   defaultValues={fromRouterQueryToDefaultValuesForm(router.query)}
                   onChange={(data) => {
                     const filter = getQueryParams(data)
-                    router.push({
-                      query: {
-                        ...router.query,
-                        ...filter,
-                      },
-                    })
+                    if (isObjectHasValue(filter)) {
+                      router.push({
+                        query: {
+                          ...router.query,
+                          ...filter,
+                        },
+                      })
+                    } else {
+                      router.push({})
+                    }
                   }}
                 />
               </div>
@@ -82,7 +86,7 @@ const HomeCustomer = () => {
 
             {isValidating ? (
               <div className="grid grid-cols-3 gap-24">
-                {Array.from({ length: 9 }).map((item, index) => (
+                {Array.from({ length: 9 }).map((_, index) => (
                   <RidesItem key={index} rides={null} />
                 ))}
               </div>

@@ -9,7 +9,7 @@ import { TagItem } from "../tag"
 interface RatingItemProps {
   rating: RatingRes | null
   onDelete?: (id: number) => void
-  onUpdate?: (id: number) => void
+  onUpdate?: (params: RatingRes) => void
   onReport?: Function
   car_account_type?: "car_driver" | "customer"
 }
@@ -57,7 +57,7 @@ export const RatingItem = ({
           <Star readonly ratingValue={rating?.rating_number * 20} size={14} allowHalfIcon />
         </p>
 
-        <p className="text-base leading-[24px] mb-[12px]">{rating?.rating_content}</p>
+        <p className="text-sm leading-[24px] mb-[12px]">{rating?.rating_content}</p>
 
         <p className="text-sm text-gray-color-2">{`${rating?.duration.time_value} ${formatTimeType(
           rating?.duration.time_type || ""
@@ -74,10 +74,17 @@ export const RatingItem = ({
         ) : null}
       </div>
 
-      <div className="-actions">
+      <div className="">
         {car_account_type === "customer" ? (
           <>
-            <button onClick={() => onUpdate && onUpdate(rating?.rating_id)} className="mr-[16px]">
+            <button
+              onClick={() => onUpdate && onUpdate(rating)}
+              className={`mr-[16px] ${
+                rating.rating_editable === false
+                  ? "pointer-events-none opacity-40 cursor-default"
+                  : ""
+              }`}
+            >
               <EditIcon />
             </button>
             <button onClick={() => onDelete && onDelete(rating?.rating_id)}>

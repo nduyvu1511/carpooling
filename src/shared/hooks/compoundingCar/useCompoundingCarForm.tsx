@@ -93,7 +93,7 @@ export const useCompoundingForm = (): Res => {
       length: limit,
     }).map((_, index) => ({
       label: `${index + 1}`,
-      value: index + 1 + "",
+      value: index + 1,
     }))
 
   const clearOneWayCompoundingCar = () => {
