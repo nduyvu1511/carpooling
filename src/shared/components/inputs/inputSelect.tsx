@@ -13,6 +13,7 @@ interface InputSelectProps {
   defaultValue: OptionModel | undefined
   isError?: boolean | undefined
   showLabel?: boolean
+  disabled?: boolean
 }
 
 const InputSelect = ({
@@ -25,6 +26,7 @@ const InputSelect = ({
   isError = false,
   defaultValue,
   showLabel = true,
+  disabled = false,
 }: InputSelectProps) => {
   const ref = useRef<any>(null)
 
@@ -57,9 +59,11 @@ const InputSelect = ({
                 onChangeProps(val as OptionModel)
               }}
               onBlur={onBlur}
-              defaultValue={defaultValue}
+              value={defaultValue}
               id={name}
-              className={`${isError ? "form-select-error" : ""}`}
+              className={`${isError ? "form-select-error" : ""} ${
+                disabled ? "pointer-events-none opacity-60" : ""
+              }`}
             />
           )}
           rules={{ required: true }}

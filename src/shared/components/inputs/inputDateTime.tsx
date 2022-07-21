@@ -11,6 +11,8 @@ interface InputDateTimeProps {
   name: string
   control: Control<any>
   isError?: boolean | undefined
+  disableHour?: boolean
+  disableDate?: boolean
 }
 
 export const InputDateTime = ({
@@ -22,6 +24,8 @@ export const InputDateTime = ({
   name,
   placeholder,
   required = true,
+  disableHour = false,
+  disableDate = false,
 }: InputDateTimeProps) => {
   return (
     <>
@@ -35,6 +39,8 @@ export const InputDateTime = ({
         name={name}
         render={({ field: { onChange, onBlur } }) => (
           <MyInputDateTime
+            disableHour={disableHour}
+            disableDate={disableDate}
             isError={isError}
             onChange={(dateTime) => {
               console.log({ dateTime })

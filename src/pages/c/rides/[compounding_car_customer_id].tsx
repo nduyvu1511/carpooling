@@ -6,13 +6,14 @@ import {
   NoSSRWrapper,
   RatingForm,
   RatingItem,
-  RidesSummary
+  RidesProgress,
+  RidesSummary,
 } from "@/components"
 import {
   useCompoundingCarActions,
   useCompoundingCarCustomer,
   useCompoundingForm,
-  useRatingActions
+  useRatingActions,
 } from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
@@ -108,6 +109,7 @@ const RidesDetail = () => {
   return (
     <NoSSRWrapper>
       <BookingLayout
+        topNode={<RidesProgress state={compoundingCar.state} />}
         rightNode={
           compoundingCar ? (
             <RidesSummary rides={compoundingCar} car_account_type="customer" />
@@ -168,7 +170,7 @@ const RidesDetail = () => {
               onSubmit={(data) => handleUpdateRating(data)}
             />
           </div>
-      </Modal>
+        </Modal>
       ) : null}
 
       {currentDeleteRating ? (

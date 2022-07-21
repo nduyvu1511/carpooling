@@ -22,11 +22,11 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
         label: "Hồ sơ cá nhân",
         path: "/profile",
       },
-      {
-        icon: <CalendarIcon className="w-[20px] h-[20px]" />,
-        label: "Lịch",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/schedules`,
-      },
+      // {
+      //   icon: <CalendarIcon className="w-[20px] h-[20px]" />,
+      //   label: "Lịch",
+      //   path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/schedules`,
+      // },
       {
         icon: <ActivityIcon className="w-[20px] h-[20px]" />,
         label: "Hoạt động",

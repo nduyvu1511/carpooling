@@ -384,6 +384,7 @@ export const TwoWayCompoundingForm = ({
         <ButtonSubmit
           view={viewButtonModal ? "modal" : "page"}
           title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
+          isError={!isValid}
         />
       ) : null}
     </form>

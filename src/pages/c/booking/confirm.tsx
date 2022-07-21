@@ -3,6 +3,7 @@ import {
   Map,
   OneWayCompoundingForm,
   RidesDetailLoading,
+  RidesProgress,
   RidesSummary,
   Toggle,
   TwoWayCompoundingForm,
@@ -79,6 +80,7 @@ const ConfirmBookingCustomer = () => {
 
   return (
     <BookingLayout
+      topNode={<RidesProgress state={compoundingCar?.state || "waiting"} />}
       showLoading={isInitialLoading}
       rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
       title="Xác nhận chuyến đi"

@@ -21,9 +21,9 @@ try {
     async (response) => {
       if (response?.data) {
         if (response?.data?.result?.code === 401) {
+          await userApi.logout()
           store.dispatch(setProfile(undefined))
           window.location.href = "/"
-          await userApi.logout()
           return
         }
 

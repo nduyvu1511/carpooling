@@ -30,6 +30,11 @@ const commonSlice = createSlice({
     },
 
     setAuthModalType: (state, { payload }: PayloadType<AuthModalType | undefined>) => {
+      if (payload === undefined) {
+        toggleBodyOverflow("unset")
+      } else {
+        toggleBodyOverflow("hidden")
+      }
       state.authModalType = payload
     },
   },

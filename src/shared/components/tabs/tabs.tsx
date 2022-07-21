@@ -43,7 +43,7 @@ const Tabs = ({ tabActive, list, onChange }: TabsProps) => {
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-0 h-[2px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-0 h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

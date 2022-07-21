@@ -324,33 +324,13 @@ export const CompoundingFilterSchema = Yup.object().shape({
     "sort_by_highest_price",
     "sort_by_distance",
   ]),
-  from_province_id: Yup.object()
-    .shape({
-      value: Yup.number().required(),
-      label: Yup.string().required(),
-    })
-    .nullable(),
-  to_province_id: Yup.object()
-    .shape({
-      value: Yup.number().required(),
-      label: Yup.string().required(),
-    })
-    .nullable(),
-  car_id: Yup.object()
-    .shape({
-      value: Yup.number().required(),
-      label: Yup.string().required(),
-    })
-    .nullable(),
+  from_province_id: Yup.number().nullable(),
+  to_province_id: Yup.number().nullable(),
+  car_id: Yup.number().required(),
   from_expected_going_on_date: Yup.string(),
   to_expected_going_on_date: Yup.string(),
   compounding_type: Yup.string().oneOf(["one_way", "two_way", "compounding"]),
   current_latitude: Yup.string().nullable(),
   current_longitude: Yup.string().nullable(),
-  number_seat: Yup.object()
-    .shape({
-      value: Yup.number().required(),
-      label: Yup.string().required(),
-    })
-    .nullable(),
+  number_seat: Yup.number().nullable(),
 })

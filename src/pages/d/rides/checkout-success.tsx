@@ -1,6 +1,6 @@
-import { RidesSummary } from "@/components"
+import { RidesPassengerItem, RidesProgress, RidesSummary, RidesSummaryHeader } from "@/components"
 import { useCompoundingCarDriver } from "@/hooks"
-import { DriverLayout } from "@/layout"
+import { BookingLayout, DriverLayout } from "@/layout"
 import { useRouter } from "next/router"
 
 const CheckoutSuccess = () => {
@@ -14,15 +14,39 @@ const CheckoutSuccess = () => {
 
   if (compoundingCar?.state !== "confirm_deposit") return null
   return (
-    <div className="max-w-[684px] w-full mx-auto py-24 checkout-success">
-      {isValidating ? (
-        <div className="skeleton h-[calc(100vh-140px)]"></div>
-      ) : (
-        <div className="block-element">
-          <RidesSummary type="bill" car_account_type="car_driver" rides={compoundingCar} />
-        </div>
-      )}
-    </div>
+    <BookingLayout
+      topNode={<RidesProgress state={compoundingCar.state} />}
+      showLoading={isValidating}
+      rightNode={
+        compoundingCar ? (
+          <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />
+        ) : null
+      }
+      title="Chi tiết chuyến đi"
+    >
+      <div className="bg-white-color block-element p-24 pt-0">
+        {isValidating ? (
+          <div className="skeleton h-[500px]"></div>
+        ) : (
+          <>
+            <div className="mb-[40px]">
+              <RidesSummaryHeader />
+            </div>
+            <h3 className="text-base mb-24">Danh sách hành khách</h3>
+
+            {compoundingCar.compounding_car_customers?.length > 0 ? (
+              <ul className="">
+                {compoundingCar.compounding_car_customers.map((item) => (
+                  <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
+                    <RidesPassengerItem readonly rides={item} />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </>
+        )}
+      </div>
+    </BookingLayout>
   )
 }
 

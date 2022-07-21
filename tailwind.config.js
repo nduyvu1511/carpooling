@@ -38,6 +38,7 @@ module.exports = {
       info: "#007BFF",
       bg: "#f0f0f0",
       error: "#FF3B30",
+      "bg-error": "rgba(255, 59, 48, 0.2)",
       warning: "#FF9500",
       active: "#1F6CB0",
       success: "#10B981",
@@ -105,7 +106,7 @@ module.exports = {
       sm: "640px",
       md: "768px",
       lg: "1024px",
-      xl: "1240px",
+      xl: "1280px",
       "2xl": "1536px",
     },
     maxWidth: {

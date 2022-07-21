@@ -1,7 +1,6 @@
 import { ImageFileLoading, InputLoading, VehicleInsuranceForm } from "@/components"
-import { ScreenContainer } from "@/container"
 import { useVehicleInsurance } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { VehicleInsuranceParams } from "@/models"
 import { useRouter } from "next/router"
 
@@ -36,7 +35,7 @@ const VehicleInsurance = () => {
   }
 
   return (
-    <ScreenContainer heading="Bảo Hiểm Xe">
+    <DriverRegisterLayout heading="Bảo Hiểm Xe">
       <div className="content-container px-24">
         {isValidating ? (
           <>
@@ -53,7 +52,7 @@ const VehicleInsurance = () => {
           />
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

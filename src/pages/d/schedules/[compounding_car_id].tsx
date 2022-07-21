@@ -1,11 +1,20 @@
-import { Alert, ItemSelect, ProgressBar, RidesPassengerItem, ScheduleSummary } from "@/components"
+import {
+  Alert,
+  ProgressBarMultiple,
+  RidesPassengerItem,
+  RidesProgress,
+  ScheduleSummary,
+} from "@/components"
 import { useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { notify } from "reapop"
 import { LatLng } from "use-places-autocomplete"
 
 const ScheduleCompounding = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { getCurrentLocation } = useCurrentLocation({ showLoading: true })
@@ -16,9 +25,16 @@ const ScheduleCompounding = () => {
     compoundingCar,
     isInitialLoading,
     getNumberOfPassengersPickedUp,
+    getNumberOfPassengersDone,
+    getNumberOfPassengersPaid,
+    confirmCustomerPayFullForCompoundingCar,
+    confirmWaitingForCompoundingCarCustomer,
+    mutateCompoundingCar,
+    getNumberOfNotPickedUp,
   } = useCompoundingCarProcess(Number(compounding_car_id))
 
-  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [confirmDoneCompoundingCarModal, setConfirmDoneCompoundingCarModal] =
+    useState<boolean>(false)
 
   const handleGenerateGoogleMapUrl = (params: LatLng) => {
     getCurrentLocation(({ lat, lng }) =>
@@ -29,105 +45,202 @@ const ScheduleCompounding = () => {
     )
   }
 
-  const handleConfirmPickedUpPassenger = (
-    compounding_car_customer_id: number,
-    customer_id: number
-  ) => {
-    if (!compounding_car_id) return
-    confirmStateCompoundingCarCustomer(
-      { compounding_car_customer_id, customer_id, state: "in_process" },
-      () => {}
-    )
+  const handleConfirmDoneCompoundingCar = () => {
+    if (!compoundingCar?.compounding_car_id) return
+    confirmDoneCompoundingCar(compoundingCar.compounding_car_id, () => {
+      setConfirmDoneCompoundingCarModal(false)
+      setTimeout(() => {
+        dispatch(notify("Hoàn thành chuyến đi thành công", "success"))
+        router.push("/d")
+      }, 100)
+    })
   }
 
-  if (!compoundingCar) return null
+  if (
+    compoundingCar?.state !== "start_running" &&
+    compoundingCar?.state !== "confirm_deposit" &&
+    compoundingCar?.state !== "done"
+  )
+    return null
   return (
     <>
       <BookingLayout
+        topNode={<RidesProgress state={compoundingCar.state} />}
         title="Tình trạng chuyến đi"
         rightNode={
           compoundingCar ? (
-            <ScheduleSummary
-              distance={compoundingCar.distance}
-              duration={compoundingCar.duration || 0}
-              expected_going_on_date={compoundingCar.expected_going_on_date}
-              expected_picking_up_date={compoundingCar.expected_picking_up_date}
-              from_province_name={compoundingCar.from_province.province_brief_name}
-              compounding_type={compoundingCar.compounding_type}
-              to_province_name={compoundingCar.to_province.province_brief_name}
-            />
+            <div className="sticky top-0">
+              <ScheduleSummary
+                number_seat={compoundingCar.car.number_seat}
+                number_seat_in_car={compoundingCar.number_seat_in_car}
+                distance={compoundingCar.distance}
+                duration={compoundingCar.duration || 0}
+                expected_going_on_date={compoundingCar.expected_going_on_date}
+                expected_picking_up_date={compoundingCar.expected_picking_up_date}
+                from_province_name={compoundingCar.from_province.province_brief_name}
+                compounding_type={compoundingCar.compounding_type}
+                to_province_name={compoundingCar.to_province.province_brief_name}
+              />
+            </div>
           ) : null
         }
       >
         <div className="p-24 pt-0 block-element">
-          <div className="mb-24 border-b border-solid border-border-color"></div>
+          <div className="py-24 sticky top-[80px] bg-white-color z-10 border-b border-solid border-border-color">
+            <div className="flex items-center justify-between mb-[8px]"></div>
+            {compoundingCar?.compounding_car_customers?.length ? (
+              <div className="">
+                <ul className="flex items-center flex-wrap mb-[16px]">
+                  <span className="text-xs mr-24">Trạng thái chuyến đi:</span>
+                  {[
+                    ["Chưa đón", "#f0f0f0", getNumberOfNotPickedUp],
+                    ["Đã đón", "#2E4CB7", getNumberOfPassengersPickedUp],
+                    ["Đã trả", "#EE542F", getNumberOfPassengersDone],
+                    ["Đã thanh toán", "#118A33", getNumberOfPassengersPaid],
+                    ["Tổng số khách", "", compoundingCar.compounding_car_customers?.length || 0],
+                  ].map(([label, backgroundColor, number]) =>
+                    number ? (
+                      <li key={backgroundColor} className="flex items-center mr-[12px] last:mr-0">
+                        {backgroundColor ? (
+                          <span
+                            className="w-[12px] h-[12px] mr-[8px] rounded-[2px]"
+                            style={{ backgroundColor: backgroundColor + "" }}
+                          ></span>
+                        ) : null}
+                        <span className={`text-xs ${!backgroundColor ? "font-semibold" : ""}`}>
+                          {label}: {number}
+                        </span>
+                      </li>
+                    ) : null
+                  )}
+                </ul>
 
-          <div className="flex items-center justify-between mb-24">
-            <span className="text-xs">Trạng thái</span>
-            <span className="text-base text-success">Đang đón khách</span>
-          </div>
+                <ProgressBarMultiple
+                  progressList={[
+                    {
+                      key: "paid",
+                      color: "#118A33",
+                      number: getNumberOfPassengersPaid,
+                      label: "Đã thanh toán",
+                    },
+                    {
+                      key: "done",
+                      color: "#EE542F",
+                      number: getNumberOfPassengersDone,
+                      label: "Đã trả khách",
+                    },
+                    {
+                      key: "pickedUp",
+                      color: "#2E4CB7",
+                      number: getNumberOfPassengersPickedUp,
+                      label: "Đã đón khách",
+                    },
+                  ]}
+                  totalNumber={compoundingCar?.compounding_car_customers?.length || 0}
+                />
+              </div>
+            ) : null}
 
-          <div className="mb-24">
-            <ProgressBar
-              label="Số khách đã đón"
-              progressNumber={getNumberOfPassengersPickedUp}
-              totalProgressNumber={compoundingCar.compounding_car_customers.length}
-            />
-          </div>
-
-          <ul>
-            {compoundingCar.compounding_car_customers?.length > 0 &&
-              compoundingCar.compounding_car_customers.map(
-                (item, index) =>
-                  item.state !== "done" && (
-                    <li
-                      key={index}
-                      className="border border-solid border-border-color block-element rounded-[20px] mb-24 last:mb-0"
+            {compoundingCar?.state === "confirm_deposit" ||
+            compoundingCar?.state === "start_running" ? (
+              <>
+                {getNumberOfPassengersPaid === compoundingCar?.compounding_car_customers.length ? (
+                  <div className="pt-24 flex-center">
+                    <button
+                      onClick={() => setConfirmDoneCompoundingCarModal(true)}
+                      className="btn-primary bg-success hover:bg-success"
                     >
-                      <RidesPassengerItem
-                        onClickViewMap={() =>
-                          handleGenerateGoogleMapUrl({
+                      Kết thúc chuyến đi
+                    </button>
+                  </div>
+                ) : compoundingCar.state === "confirm_deposit" ? (
+                  <div className="pt-24 flex-center">
+                    <button
+                      onClick={() => startRunningCompoundingCar(compoundingCar.compounding_car_id)}
+                      className="btn-primary"
+                    >
+                      Bắt đầu chuyến đi
+                    </button>
+                  </div>
+                ) : null}
+              </>
+            ) : null}
+          </div>
+
+          <ul
+            className={`${
+              compoundingCar?.state !== "start_running" && compoundingCar?.state !== "done"
+                ? "opacity-[50%] pointer-events-none select-none"
+                : ""
+            }`}
+          >
+            {compoundingCar.compounding_car_customers?.length > 0 &&
+              compoundingCar.compounding_car_customers.map((item, index) => (
+                <li
+                  key={index}
+                  className="border-b border-solid border-border-color py-24 last:mb-0 last:border-none"
+                >
+                  <RidesPassengerItem
+                    onClickViewMap={() =>
+                      item.state === "in_process"
+                        ? handleGenerateGoogleMapUrl({
+                            lat: +item.to_latitude,
+                            lng: +item.to_longitude,
+                          })
+                        : handleGenerateGoogleMapUrl({
                             lat: +item.from_latitude,
                             lng: +item.from_longitude,
                           })
+                    }
+                    rides={item}
+                    onClickWaiting={() =>
+                      confirmWaitingForCompoundingCarCustomer({
+                        compounding_car_customer_id: item.compounding_car_customer_id,
+                        customer_id: item.partner.partner_id,
+                      })
+                    }
+                    onClickPickUp={() =>
+                      confirmStateCompoundingCarCustomer({
+                        compounding_car_customer_id: item.compounding_car_customer_id,
+                        customer_id: item.partner.partner_id,
+                        state: "in_process",
+                      })
+                    }
+                    onClickPaid={() => {
+                      confirmCustomerPayFullForCompoundingCar(
+                        item.compounding_car_customer_id,
+                        () => {
+                          if (
+                            compoundingCar.compounding_car_customers?.length - 1 ===
+                            getNumberOfPassengersPaid
+                          ) {
+                            handleConfirmDoneCompoundingCar()
+                          }
                         }
-                        rides={item}
-                        onClickCancel={() => setShowAlert(true)}
-                        onClickPickUp={() =>
-                          handleConfirmPickedUpPassenger(
-                            item.compounding_car_customer_id,
-                            item.partner.partner_id
-                          )
-                        }
-                      />
-                    </li>
-                  )
-              )}
+                      )
+                    }}
+                    onClickConfirm={() =>
+                      confirmStateCompoundingCarCustomer({
+                        compounding_car_customer_id: item.compounding_car_customer_id,
+                        customer_id: item.partner.partner_id,
+                        state: "done",
+                      })
+                    }
+                    onCancelWaiting={() => mutateCompoundingCar()}
+                  />
+                </li>
+              ))}
           </ul>
         </div>
       </BookingLayout>
 
-      {showAlert ? (
+      {confirmDoneCompoundingCarModal ? (
         <Alert
-          desc="Vui lòng chọn lý do huỷ chuyến, sau khi xác nhận ..."
-          type="warning"
-          rightBtnLabel="Hủy chuyến"
-          onClose={() => setShowAlert(false)}
-          onConfirm={() => {}}
-          disabledBtn={true}
-        >
-          <ul>
-            <li className="mb-[16px]">
-              <ItemSelect title="Khách yêu cầu huỷ chuyến" />
-            </li>
-            <li className="mb-[16px]">
-              <ItemSelect title="Khách yêu cầu huỷ chuyến" />
-            </li>
-            <li className="mb-[16px]">
-              <ItemSelect title="Khách yêu cầu huỷ chuyến" />
-            </li>
-          </ul>
-        </Alert>
+          desc="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
+          onClose={() => setConfirmDoneCompoundingCarModal(false)}
+          onConfirm={() => handleConfirmDoneCompoundingCar()}
+          type="info"
+        />
       ) : null}
     </>
   )

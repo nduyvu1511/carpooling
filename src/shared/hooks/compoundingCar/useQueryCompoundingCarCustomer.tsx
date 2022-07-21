@@ -1,17 +1,16 @@
 import {
   CompoundingCarCustomerFilterParams,
+  CompoundingCarFilterParams,
   CompoundingCarRes,
   CompoundingFilterForm,
   CompoundingFilterParams,
   CompoundingListDriverParams,
-  CompoundingOrderField,
   GetCompoundingCarCustomerList,
 } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR from "swr"
-import { useAddress } from "../address"
 
 interface Res {
   data: CompoundingCarRes[]
@@ -36,8 +35,6 @@ interface Props {
 const LIMIT = 12
 
 export const useQueryCompoundingCarCustomer = ({ params }: Props): Res => {
-  const { provinceOptions, getProvinceOptionById } = useAddress()
-
   const { data, isValidating, mutate, error } = useSWR<CompoundingCarRes[]>(
     "query_compounding_car_customer",
     () =>
@@ -107,26 +104,7 @@ export const useQueryCompoundingCarCustomer = ({ params }: Props): Res => {
   const fromRouterQueryToDefaultValuesForm = (
     params: CompoundingFilterParams
   ): CompoundingFilterForm | undefined => {
-    let queryObj: CompoundingFilterForm = {} as CompoundingFilterForm
-
-    if (params.number_seat) {
-      queryObj.number_seat = { label: `${params.number_seat} Chỗ`, value: +queryObj.number_seat }
-    }
-    if (params.from_province_id) {
-      queryObj.from_province_id = provinceOptions.find(
-        (item) => item.value === Number(params.from_province_id)
-      )
-    }
-    if (params.to_province_id) {
-      queryObj.to_province_id = provinceOptions.find(
-        (item) => item.value === Number(params.to_province_id)
-      )
-    }
-    if (params.car_id) {
-      queryObj.car_id = { label: `${params.number_seat} Chỗ`, value: +queryObj.number_seat }
-    }
-
-    return queryObj
+    return undefined
   }
 
   function getQueryParams(
@@ -139,8 +117,17 @@ export const useQueryCompoundingCarCustomer = ({ params }: Props): Res => {
       offset: 0,
     }
     if (order_by) {
-      delete (queryObj as any).order_by
-      queryObj[order_by as CompoundingOrderField] = true
+      delete (queryObj as CompoundingCarFilterParams).order_by
+      Object.keys(queryObj).forEach((key) => {
+        if (
+          key === "sort_by_highest_price" ||
+          key === "sort_by_lowest_price" ||
+          key === "sort_by_distance"
+        ) {
+          delete (queryObj as CompoundingListDriverParams)?.[key]
+        }
+      })
+      queryObj[order_by] = true
     }
     if (from_province_id) {
       queryObj.from_province_id = Number(from_province_id)

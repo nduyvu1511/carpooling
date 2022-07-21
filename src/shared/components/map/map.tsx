@@ -1,5 +1,5 @@
 import { LocationIcon, LocationIcon2 } from "@/assets"
-import { getProvinceName, GOOGLE_MAP_API_KEY } from "@/helper"
+import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
 import { FromLocation, LatLng, LatlngAddress, LocationLatLng } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
@@ -71,7 +71,7 @@ export const Map = ({
     }),
     []
   )
-  const { getProvinceId } = useAddress()
+  const { getProvinceIdByGooglePlace } = useAddress()
   const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>()
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
@@ -152,16 +152,13 @@ export const Map = ({
 
   const handleConfirmLocation = () => {
     if (!currentAddress?.address) return
-    const provinceName = getProvinceName(currentAddress?.address || "")
-    if (!provinceName) {
-      dispatch(notify("Vui lòng chọn vị trí hợp lệ", "warning"))
-      return
-    }
-    const province_id = getProvinceId(provinceName)
+
+    const province_id = getProvinceIdByGooglePlace(currentAddress.address)
     if (!province_id) {
       dispatch(notify("Vui lòng chọn vị trí hợp lệ", "warning"))
       return
     }
+
     if (province_id === prevProvinceId) {
       dispatch(notify("Exxe chỉ hỗ chợ những quốc xe khác tỉnh", "warning"))
       return

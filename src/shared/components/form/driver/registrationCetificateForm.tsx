@@ -46,7 +46,6 @@ export const RegistrationCetificateForm = ({
         front_inspection_certificate_image_url: Number(data.front_inspection_certificate_image_url),
       })
   }
-  console.log(errors)
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>

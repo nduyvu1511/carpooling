@@ -1,4 +1,4 @@
-import { CheckoutDeposit, InputLoading, RidesSummary } from "@/components"
+import { Payment, CheckoutLoading, RidesProgress, RidesSummary } from "@/components"
 import { COMPOUNDING_VNPAY_CODE, setToSessionStorage } from "@/helper"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
@@ -27,7 +27,6 @@ const Checkout = () => {
       },
       onSuccess: (data) => {
         window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-        setToSessionStorage(COMPOUNDING_VNPAY_CODE, data.vnpay_code)
       },
     })
   }
@@ -56,20 +55,14 @@ const Checkout = () => {
 
   return (
     <BookingLayout
+      topNode={<RidesProgress state={compoundingCar?.state || "confirm"} />}
       rightNode={compoundingCar ? <RidesSummary rides={compoundingCar} /> : null}
       title="Đặt cọc chuyến đi"
     >
       {isInitialLoading ? (
-        <div className="block-element p-24">
-          <InputLoading />
-          <InputLoading />
-          <InputLoading />
-          <InputLoading />
-        </div>
-      ) : null}
-
-      {compoundingCar?.compounding_car_customer_id ? (
-        <CheckoutDeposit
+        <CheckoutLoading />
+      ) : compoundingCar?.compounding_car_customer_id ? (
+        <Payment
           amount_total={compoundingCar.amount_total}
           secondsRemains={compoundingCar.second_remains}
           onCheckout={(id) => handleConfirmTransaction(id)}

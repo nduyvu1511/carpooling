@@ -96,13 +96,14 @@ export const STATE_COLOR = {
   assign: "#2E41B6",
   deposit: "#2E41B6",
   in_process: "#ED9526",
-  done: "#ED9526",
+  done: "#118A33",
   customer_pay: "#ED9526",
   confirm_paid: "#118A33",
   cancel: "#FF3B30",
   waiting_deposit: "#ff8800",
   start_running: "#ED9526",
   stop_picking: "#2E41B6",
+  waiting_customer: "#2E41B6",
 }
 
 export const STATE_BG_COLOR = {
@@ -113,7 +114,7 @@ export const STATE_BG_COLOR = {
   assign: "rgba(46, 76, 183, 0.2)",
   deposit: "rgba(46, 76, 183, 0.2)",
   in_process: "rgba(237, 149, 38, 0.2)",
-  done: "rgba(237, 149, 38, 0.2)",
+  done: "rgba(17, 138, 51, 0.2)",
   customer_pay: "rgba(237, 149, 38, 0.2)",
   confirm_paid: "rgba(17, 138, 51, 0.2)",
   cancel: "rgba(255, 59, 48, 0.2)",
@@ -121,4 +122,37 @@ export const STATE_BG_COLOR = {
   start_running: "rgba(237, 149, 38, 0.2)",
   stop_picking: "rgba(237, 149, 38, 0.2)",
   "": "rgba(55, 55, 55, 0.2)",
+  waiting_customer: "rgba(46, 76, 183, 0.2)",
+}
+
+export const COMPOUNDING_TYPE_COLOR = {
+  one_way: "#2E4CB7",
+  two_way: "#EE542F",
+  compounding: "#278EA5",
+  convenient: "#7D27A5",
+}
+
+export const COMPOUNDING_STATE_NAME = {
+  cancel: "Đã hủy",
+  confirm: "Xác nhận",
+  done: "Hoàn thành",
+  start_running: "Đang di chuyển",
+  confirm_deposit: "Đã đặt cọc",
+  assign: "Đang tìm tài xế",
+  confirm_paid: "Đã thanh toán",
+  customer_pay: "Chờ thanh toán",
+  deposit: "Đặt cọc",
+  draft: "Đơn nháp",
+  in_process: "Đang di chuyển",
+  stop_picking: "Ngừng đón khách",
+  waiting: "Đang chờ",
+  waiting_deposit: "Chờ thanh toán",
+  waiting_customer: "Chờ khách hàng",
+}
+
+export const COMPOUNDING_TYPE_NAME = {
+  one_way: "Một chiều",
+  two_way: "Hai chiều",
+  compounding: "Đi ghép",
+  convenient: "Tiện chuyến",
 }

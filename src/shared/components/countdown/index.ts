@@ -1,1 +1,1 @@
-export * from "./depositCountdown"
+export * from "./countdown"

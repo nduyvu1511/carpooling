@@ -21,7 +21,7 @@ const UserNavs = ({ type }: UserNavsProps) => {
     <ul className="p-[10px]">
       {[
         ["Hồ sơ cá nhân", "/profile"],
-        ["Lịch", type === "car_driver" ? "/d/account/schedules" : "/c/account/schedules"],
+        // ["Lịch", type === "car_driver" ? "/d/account/schedules" : "/c/account/schedules"],
         ["Hoạt động", type === "car_driver" ? "/d/account/activities" : "/c/account/activities"],
         ["Đánh giá", type === "car_driver" ? "/d/account/rating" : "/c/account/rating"],
         ["Đổi mật khẩu", "/password"],

@@ -1,8 +1,7 @@
 import { ImageFileLoading, InputLoading } from "@/components"
 import DrivingLicenseForm from "@/components/form/driver/drivingLicenseForm"
-import { ScreenContainer } from "@/container"
 import { useVehicleDrivingLicense } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { DrivingLicenseFormParams } from "@/models"
 import { useRouter } from "next/router"
 
@@ -37,7 +36,7 @@ const DrivingLicenseDetail = () => {
   }
 
   return (
-    <ScreenContainer heading="Bằng Lái Xe">
+    <DriverRegisterLayout heading="Bằng Lái Xe">
       <div className="content-container">
         {!isValidating ? (
           <DrivingLicenseForm
@@ -55,7 +54,7 @@ const DrivingLicenseDetail = () => {
           </>
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

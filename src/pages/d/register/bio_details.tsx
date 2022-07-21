@@ -1,7 +1,6 @@
 import { ImageFileLoading, InputLoading, TextareaLoading, UserInfoForm } from "@/components"
-import { ScreenContainer } from "@/container"
 import { useProfile } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { UserInfoFormParams } from "@/models"
 import { setProfile } from "@/modules"
 import { useRouter } from "next/router"
@@ -40,7 +39,7 @@ const BioDetail = () => {
   }
 
   return (
-    <ScreenContainer heading="Thông tin người dùng">
+    <DriverRegisterLayout heading="Thông tin người dùng">
       <div className="content-container">
         {!isValidating ? (
           <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />
@@ -54,7 +53,7 @@ const BioDetail = () => {
           </>
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

@@ -1,7 +1,6 @@
 import { ImageFileLoading, InputLoading, RegistrationCetificateForm } from "@/components"
-import { ScreenContainer } from "@/container"
 import { useCertificateInspection } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { CertificateInspectionParams } from "@/models"
 import { useRouter } from "next/router"
 
@@ -37,7 +36,7 @@ const RegistrationCertificate = () => {
   }
 
   return (
-    <ScreenContainer heading="Giấy Đăng Kiểm">
+    <DriverRegisterLayout heading="Giấy Đăng Kiểm">
       <div className="content-container px-24">
         {isValidating ? (
           <>
@@ -53,7 +52,7 @@ const RegistrationCertificate = () => {
           />
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

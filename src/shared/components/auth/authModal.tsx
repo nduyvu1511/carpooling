@@ -1,4 +1,4 @@
-import { LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } from "@/components"
+import { LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm, AuthBg } from "@/components"
 import { RootState } from "@/core/store"
 import { useAuth, useProfile } from "@/hooks"
 import { loginFormParams, UpdateUserInfoParams, UserInfoFormParams } from "@/models"
@@ -18,7 +18,9 @@ const AuthModal = () => {
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
       dispatch(setAuthModalType(undefined))
-      router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+      setTimeout(() => {
+        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+      }, 200)
     })
   }
 
@@ -44,7 +46,9 @@ const AuthModal = () => {
         dispatch(setProfile(userInfo))
         dispatch(notify("Cập nhật thông tin thành công!", "success"))
         dispatch(setAuthModalType(undefined))
-        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+        setTimeout(() => {
+          router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+        }, 200)
       },
     })
   }
@@ -66,41 +70,44 @@ const AuthModal = () => {
 
   return (
     <Modal heading={getModalHeading()} onClose={() => dispatch(setAuthModalType(undefined))}>
-      <div className="px-24 pt-[24px] pb-[40px] h-full overflow-auto scrollbar-hide">
-        {authModalType === "login" ? (
-          <LoginForm
-            onSubmit={(data) => handleLoginWithPassword(data)}
-            onClickResetPassword={() => dispatch(setAuthModalType("resetPassword"))}
-            onClickLoginSMS={() => dispatch(setAuthModalType("sms"))}
-            onClickRegister={() => dispatch(setAuthModalType("register"))}
-            onClickLoginWithGoogle={handleLoginWithGoogle}
-          />
-        ) : null}
+      <div className="flex flex-col h-full overflow-auto scrollbar-hide">
+        <div className="flex-1 px-24 pt-[24px] z-[100]">
+          {authModalType === "login" ? (
+            <LoginForm
+              onSubmit={(data) => handleLoginWithPassword(data)}
+              onClickResetPassword={() => dispatch(setAuthModalType("resetPassword"))}
+              onClickLoginSMS={() => dispatch(setAuthModalType("sms"))}
+              onClickRegister={() => dispatch(setAuthModalType("register"))}
+              onClickLoginWithGoogle={handleLoginWithGoogle}
+            />
+          ) : null}
 
-        {authModalType === "resetPassword" ? (
-          <ResetPassword onSuccess={() => dispatch(setAuthModalType("login"))} />
-        ) : null}
+          {authModalType === "resetPassword" ? (
+            <ResetPassword onSuccess={() => dispatch(setAuthModalType("login"))} />
+          ) : null}
 
-        {authModalType === "sms" ? (
-          <OTP
-            type="login"
-            onVerifyOTP={(token) => {
-              handleLoginWithOTP(token)
-            }}
-          />
-        ) : null}
+          {authModalType === "sms" ? (
+            <OTP
+              type="login"
+              onVerifyOTP={(token) => {
+                handleLoginWithOTP(token)
+              }}
+            />
+          ) : null}
 
-        {authModalType === "register" ? (
-          <Register
-            onSuccess={() => {
-              dispatch(setAuthModalType("updateProfile"))
-            }}
-          />
-        ) : null}
+          {authModalType === "register" ? (
+            <Register
+              onSuccess={() => {
+                dispatch(setAuthModalType("updateProfile"))
+              }}
+            />
+          ) : null}
 
-        {authModalType === "updateProfile" ? (
-          <UserInfoForm onSubmit={(data) => handleUpdateUserInfo(data)} />
-        ) : null}
+          {authModalType === "updateProfile" ? (
+            <UserInfoForm onSubmit={(data) => handleUpdateUserInfo(data)} />
+          ) : null}
+        </div>
+        {authModalType !== "updateProfile" && authModalType !== "register" ? <AuthBg /> : null}
       </div>
     </Modal>
   )

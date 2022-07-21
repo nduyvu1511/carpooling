@@ -3,7 +3,7 @@ import { BookingModal, CompoundingFilter, RidesItem, Tabs } from "@/components"
 import { compoundingTypeFilters, toggleBodyOverflow } from "@/helper"
 import { useQueryCompoundingCarDriver } from "@/hooks"
 import { DriverLayout } from "@/layout"
-import { CompoundingType } from "@/models"
+import { CompoundingFilterParams, CompoundingType } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -18,7 +18,6 @@ const HomeDriver = () => {
     fetchMoreRides,
     isFetchingMore,
     getQueryParams,
-    fromRouterQueryToDefaultValuesForm,
   } = useQueryCompoundingCarDriver({})
   const [showBookingModal, setShowBookingModal] = useState<CompoundingType | undefined>()
 
@@ -35,22 +34,19 @@ const HomeDriver = () => {
         <div className="grid md:grid-cols-2 xl:grid-cols-sidebar-grid gap-24">
           <div className="">
             {router.isReady ? (
-              <div className="sticky top-[80px] block-element p-24">
+              <div className="sticky top-[81px] block-element p-24 z-[100]">
                 <CompoundingFilter
                   type="driver"
-                  defaultValues={fromRouterQueryToDefaultValuesForm(router.query)}
+                  defaultValues={router.query as any}
                   onChange={(data) => {
                     if (!data) {
                       router.push({})
                       return
                     }
-                    const filter = getQueryParams(data)
+                    const filter = getQueryParams({ ...router.query, ...data })
                     router.push(
                       {
-                        query: {
-                          ...router.query,
-                          ...filter,
-                        },
+                        query: { ...filter },
                       },
                       undefined,
                       { shallow: true, scroll: true }
@@ -122,7 +118,7 @@ const HomeDriver = () => {
               </div>
             ) : (
               <div className="flex-center my-[20px]">
-                <p>Không tìm thấy chuyến đi nào</p>
+                <p className="text-base">Không tìm thấy chuyến đi nào</p>
               </div>
             )}
           </div>

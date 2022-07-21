@@ -597,17 +597,16 @@ export const driverActivityFilters: {
 }[] = [
   { label: "Tất cả", value: [] },
   {
-    label: "Đang di chuyển",
-    value: ["start_running", "stop_picking"],
+    label: "Đang đặt cọc",
+    value: ["waiting_deposit"],
   },
   {
     label: "Xác nhận",
     value: ["confirm_deposit", "confirm"],
   },
-
   {
-    label: "Đang đặt cọc",
-    value: ["waiting_deposit"],
+    label: "Đang di chuyển",
+    value: ["start_running", "stop_picking"],
   },
   { label: "Đã hoàn thành", value: ["done"] },
   { label: "Đã hủy", value: ["cancel"] },

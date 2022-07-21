@@ -48,6 +48,6 @@ export interface RatingRes {
   rating_tag_ids: RatingTagRes[]
   rating_number: RatingRangePost
   rating_content: string
-  rating_reported: string
+  rating_reported: "waiting" | false | "reported"
   rating_editable: boolean
 }

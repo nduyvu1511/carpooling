@@ -1,4 +1,4 @@
- import { ArrowLeftIcon, CloseIcon } from "@/assets"
+import { ArrowLeftIcon, CloseIcon } from "@/assets"
 import { ReactNode } from "react"
 
 interface ModalProps {
@@ -52,3 +52,4 @@ const Modal = ({
 }
 
 export { Modal }
+

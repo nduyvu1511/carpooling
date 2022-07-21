@@ -7,23 +7,25 @@ import {
   Modal,
   NoSSRWrapper,
   OneWayCompoundingForm,
+  RatingItem,
+  RidesProgress,
   RidesSummary,
-  TwoWayCompoundingForm,
+  TwoWayCompoundingForm
 } from "@/components"
-import {
-  useCompoundingCarDriver,
-  useCompoundingCarProcess,
-  useCompoundingForm,
-  useDriverCheckout,
-} from "@/hooks"
+import { RootState } from "@/core/store"
+import { useCompoundingCarDriver, useCompoundingForm, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
-import { CompoundingCarRes, DepositCompoundingCarDriverFailureRes } from "@/models"
+import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { notify } from "reapop"
 
 const ConfirmBookingCustomer = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
+  const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarDriver({
     compounding_car_id: Number(compounding_car_id),
     key: "confirm_booking_compounding_car_customer",
@@ -36,15 +38,26 @@ const ConfirmBookingCustomer = () => {
   } = useCompoundingForm()
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
-  const { startRunningCompoundingCar } = useCompoundingCarProcess(undefined)
 
   const [showModal, setShowModal] = useState<boolean>(true)
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
   >()
+  const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
+    if (userInfo?.verified_car_driver_account === "blocked_account") {
+      dispatch(
+        notify("Tài khoản của bạn đã bị khóa, vui lòng liên hệ với Exxe để giải quyết", "warning")
+      )
+      return
+    }
+    if (userInfo?.verified_car_driver_account === "inactive_account") {
+      setShowAlertAccount(true)
+      return
+    }
+
     fetchDepositCompoundingCarDriver({
       compounding_car_id,
       onSuccess: () => {
@@ -63,14 +76,19 @@ const ConfirmBookingCustomer = () => {
     <NoSSRWrapper>
       <>
         <BookingLayout
+          topNode={<RidesProgress state={compoundingCar.state} />}
           rightNode={
             compoundingCar ? (
               <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />
             ) : null
           }
-          title="Xác nhận chuyến đi"
+          title="Chi tiết chuyến đi"
         >
           <div className="p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+            <p className="text-base text-primary mb-24">
+              Vui lòng đặt cọc 30% số tiền để hoàn tất giao dịch.
+            </p>
+
             <div className="h-[300px] mb-12">
               <Map viewOnly />
             </div>
@@ -101,22 +119,27 @@ const ConfirmBookingCustomer = () => {
               ) : null}
             </div>
 
-            <div className="">
-              <button
-                onClick={() =>
-                  compoundingCar.state === "confirm" || compoundingCar.state === "confirm_deposit"
-                    ? startRunningCompoundingCar(compoundingCar.compounding_car_id, () => {
-                        router.push(`/d/schedules/${compoundingCar.compounding_car_id}`)
-                      })
-                    : handleConfirmCheckout(compoundingCar.compounding_car_id)
-                }
-                className="btn-primary"
-              >
-                {compoundingCar.state === "confirm" || compoundingCar.state === "confirm_deposit"
-                  ? "Bắt đầu chuyến đi"
-                  : "Nhận chuyến đi"}
-              </button>
-            </div>
+            {compoundingCar.rating_ids?.length > 0 ? (
+              <ul className="mt-[40px] border-t border-solid border-border-color pt-24">
+                <p className="text-base mb-[12px]">Đánh giá của khách hàng: </p>
+                {compoundingCar.rating_ids.map((item) => (
+                  <li key={item.rating_id}>
+                    <RatingItem rating={item} car_account_type="car_driver" />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            {compoundingCar.state === "waiting_deposit" || compoundingCar.state === "waiting" ? (
+              <div className="">
+                <button
+                  onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
+                  className="btn-primary"
+                >
+                  Nhận chuyến đi
+                </button>
+              </div>
+            ) : null}
           </div>
         </BookingLayout>
 
@@ -173,6 +196,18 @@ const ConfirmBookingCustomer = () => {
               ) : null}
             </div>
           </Modal>
+        ) : null}
+
+        {showAlertAccount ? (
+          <Alert
+            onClose={() => setShowAlertAccount(false)}
+            onConfirm={() => {
+              setShowAlertAccount(false)
+              router.push("/d/register")
+            }}
+            desc="Tài khoản của bạn chưa được kích hoạt, vui lòng nhập đầy đủ thông tin đăng ký tài xế để Exxe xét duyệt hồ sơ"
+            type="warning"
+          />
         ) : null}
       </>
     </NoSSRWrapper>

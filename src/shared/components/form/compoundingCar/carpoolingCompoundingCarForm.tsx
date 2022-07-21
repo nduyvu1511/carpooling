@@ -206,7 +206,10 @@ export const CarpoolingCompoundingForm = ({
                       onCheck={handleGetFromLocation}
                       isChecked={!!getValues("from_location")?.province_id}
                     />
-                    <p className="flex-1 ml-[12px] text-12" onClick={handleGetFromLocation}>
+                    <p
+                      className="flex-1 ml-[12px] text-12 cursor-pointer"
+                      onClick={handleGetFromLocation}
+                    >
                       Đón tận nơi
                       <span className=""> (Chi phí phát sinh thêm với tài xế)</span>
                     </p>
@@ -262,6 +265,7 @@ export const CarpoolingCompoundingForm = ({
               options={vehicleTypeOptions}
               required
               isError={!!errors?.car_id}
+              disabled={type === "existed"}
             />
           </div>
 
@@ -275,6 +279,7 @@ export const CarpoolingCompoundingForm = ({
                 setToLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, val)
               }}
               isError={!!errors?.expected_going_on_date}
+              disableDate={type === "existed"}
             />
           </div>
 

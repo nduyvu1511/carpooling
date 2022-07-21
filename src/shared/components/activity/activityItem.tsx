@@ -93,7 +93,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               </span>
             </p>
           </div>
-        </div>
+         </div>
 
         <div className="flex-col flex-center mr-[12px]">
           <p className="text-sm text-gray-color-5 mb-[4px]">Tổng giá phí</p>

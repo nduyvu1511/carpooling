@@ -1,5 +1,10 @@
 import { ActivityItem, Spinner, TagActivityItem } from "@/components"
-import { driverActivityFilters, getActiveStringOrListString, STATE_BG_COLOR, STATE_COLOR } from "@/helper"
+import {
+  driverActivityFilters,
+  getActiveStringOrListString,
+  STATE_BG_COLOR,
+  STATE_COLOR,
+} from "@/helper"
 import { useDriverActivities } from "@/hooks"
 import { AccountLayout, DriverLayout } from "@/layout"
 import { CompoundingCarDriverState, DriverActivityRes } from "@/models"
@@ -16,6 +21,13 @@ const Activities = () => {
     hasMore,
     isLoading,
   } = useDriverActivities()
+
+  const activityStateHandler = (activity: DriverActivityRes) => {
+    const { state } = activity
+    if (state === "confirm_deposit" || state === "start_running" || state === "waiting_deposit")
+      router.push(`/d/schedules/${activity.compounding_car_id}`)
+    else router.push(`/d/rides/${activity.compounding_car_id}`)
+  }
 
   return (
     <DriverLayout>
@@ -65,7 +77,7 @@ const Activities = () => {
                   <ul className="grid gap-24">
                     {activities.map((item, index) => (
                       <li
-                        onClick={() => router.push(`/d/rides/${item.compounding_car_id}`)}
+                        onClick={() => activityStateHandler(item)}
                         key={index}
                         className="block-element transition-all duration-200 rounded-[20px] border border-border-color border-solid hover:border-primary hover:bg-bg-1 cursor-pointer"
                       >

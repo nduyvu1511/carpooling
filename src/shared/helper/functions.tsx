@@ -109,7 +109,7 @@ export function formatNumberInput(value: string, separator = ",") {
 }
 
 export const toFirstUpperCase = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 }
 
 export const toFirstLowerCase = (string: string) => {
@@ -299,18 +299,6 @@ export const convertToEnNoSpaceAndSpecialCharacter = (address: string) => {
 
 export const removeBase64Reader = (str: string) => str.replace(BASE64_READER_REGEX, "")
 
-export const getProvinceName = (address: string): string => {
-  const arr = address.split(",")
-  if (arr?.length < 3) return ""
-
-  return convertViToEn(arr[arr.length - 2])
-    .replace("city", "")
-    .replace(/\W/g, "")
-    .replace(/[0-9]/g, "")
-    .replace("thanhpho", "")
-    .replace("tp", "")
-}
-
 export const lngLatToKms = ({ from, to }: { from: LatLng; to: LatLng }): number => {
   var R = 6371.071 // Radius of the Earth in miles
   var rlat1 = from.lat * (Math.PI / 180) // Convert degrees to radians
@@ -370,8 +358,8 @@ export const getActiveStringOrListString = (
 // }
 
 export const getCompoundingCarStateName = (state: string): string => {
-  if (state === "confirm") return "Xác nhận"
   if (state === "cancel") return "Đã hủy"
+  if (state === "confirm") return "Xác nhận"
   if (state === "done") return "Hoàn thành"
   if (state === "start_running") return "Đang di chuyển"
   if (state === "confirm_deposit") return "Đã đặt cọc"

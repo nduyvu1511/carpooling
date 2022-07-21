@@ -1,19 +1,26 @@
-import { CarpoolingCompoundingForm, Map, NoSSRWrapper, RidesSummary } from "@/components"
+import {
+  CarpoolingCompoundingForm,
+  Map,
+  NoSSRWrapper,
+  RidesDetailLoading,
+  RidesProgress,
+  RidesSummary,
+} from "@/components"
 import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
 
-const RidesDetail = () => {
+const RidesDetailCustomer = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { confirmCompoundingCar, createExistingCompoundingCar } = useCompoundingCarActions()
+  const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
     key: "confirm_booking_compounding_car_customer",
     type: "once",
   })
-  const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
 
   const handleConfirmCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
     if (!compoundingCar?.compounding_car_id) return
@@ -32,38 +39,49 @@ const RidesDetail = () => {
     })
   }
 
-  if (!compoundingCar?.compounding_car_id) return null
   return (
     <NoSSRWrapper>
       <BookingLayout
+        showLoading={isInitialLoading}
+        topNode={<RidesProgress state={compoundingCar?.state} />}
         rightNode={
           compoundingCar ? (
             <RidesSummary rides={compoundingCar} car_account_type="customer" />
           ) : null
         }
-        title="Xác nhận chuyến đi"
+        title="Xác nhận chuyến đi ghép"
       >
         <div className="p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
-          <div className="h-[300px] mb-12">
-            <Map viewOnly />
-          </div>
-
-          <div className="">
-            <div className="mb-[40px]">
-              <CarpoolingCompoundingForm
-                viewButtonModal={false}
-                defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-                onSubmit={(data) => {
-                  handleConfirmCompoundingCar(data)
-                }}
-              />
+          {isInitialLoading ? (
+            <RidesDetailLoading />
+          ) : !compoundingCar?.compounding_car_id ? (
+            <div className="py-[40px] text-center">
+              <p className="text-base">Không tìm thấy chuyến đi này</p>
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="h-[300px] mb-12">
+                <Map viewOnly />
+              </div>
+
+              <div className="">
+                <div className="mb-[40px]">
+                  <CarpoolingCompoundingForm
+                    viewButtonModal={false}
+                    defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+                    onSubmit={(data) => handleConfirmCompoundingCar(data)}
+                    type="existed"
+                    limitNumberSeat={compoundingCar?.number_available_seat}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </BookingLayout>
     </NoSSRWrapper>
   )
 }
 
-RidesDetail.Layout = CustomerLayout
-export default RidesDetail
+RidesDetailCustomer.Layout = CustomerLayout
+export default RidesDetailCustomer

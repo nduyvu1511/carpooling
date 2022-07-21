@@ -1,11 +1,10 @@
 import { EmptyPocketIcon } from "@/assets"
-import { Alert, Modal, RatingForm, RatingItem, Spinner, Star } from "@/components"
+import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
 import { useCustomerRating, useRatingActions } from "@/hooks"
 import { AccountLayout, CustomerLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { notify } from "reapop"
 
 const Rating = () => {
   const {

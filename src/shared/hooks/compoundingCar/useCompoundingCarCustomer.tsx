@@ -32,7 +32,7 @@ export const useCompoundingCarCustomer = ({
         .then((res: AxiosResponse<any>) => {
           const data = res?.result?.data
           if (isObjectHasValue(data)) return data
-          return undefined
+          return null
         })
         .catch((err) => console.log(err)),
     type === "once"

@@ -4,7 +4,6 @@ import {
   CompoundingFilterForm,
   CompoundingFilterParams,
   CompoundingListDriverParams,
-  CompoundingOrderField,
 } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -106,14 +105,24 @@ export const useQueryCompoundingCarDriver = ({ params }: Props): Res => {
     params: CompoundingCarFilterParams | undefined
   ): CompoundingListDriverParams {
     if (!params) return {}
+    console.log({ params })
     const { order_by, from_province_id, to_province_id, car_id } = params
     let queryObj: CompoundingListDriverParams = {
       ...params,
       offset: 0,
     }
     if (order_by) {
-      delete (queryObj as any).order_by
-      queryObj[order_by as CompoundingOrderField] = true
+      delete (queryObj as CompoundingCarFilterParams).order_by
+      Object.keys(queryObj).forEach((key) => {
+        if (
+          key === "sort_by_highest_price" ||
+          key === "sort_by_lowest_price" ||
+          key === "sort_by_distance"
+        ) {
+          delete (queryObj as CompoundingListDriverParams)?.[key]
+        }
+      })
+      queryObj[order_by] = true
     }
     if (from_province_id) {
       queryObj.from_province_id = Number(from_province_id)
@@ -125,7 +134,7 @@ export const useQueryCompoundingCarDriver = ({ params }: Props): Res => {
       queryObj.car_id = Number(car_id)
     }
     Object.keys(queryObj).forEach(
-      (item) => !(queryObj as any)?.[item] && delete (queryObj as any)[item]
+      (key) => !(queryObj as any)?.[key] && delete (queryObj as any)[key]
     )
     return queryObj
   }

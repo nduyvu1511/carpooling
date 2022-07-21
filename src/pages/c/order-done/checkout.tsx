@@ -1,14 +1,11 @@
-import { CheckoutDeposit, RidesSummary } from "@/components"
+import { Payment, RidesSummary } from "@/components"
 import { COMPOUNDING_VNPAY_CODE, setToSessionStorage } from "@/helper"
 import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 const Checkout = () => {
-  const dispatch = useDispatch()
-  // const secondRef = useRef<boolean>(false)
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
@@ -39,7 +36,6 @@ const Checkout = () => {
       },
       onSuccess: (data) => {
         window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-        setToSessionStorage(COMPOUNDING_VNPAY_CODE, data.vnpay_code)
       },
     })
   }
@@ -52,7 +48,7 @@ const Checkout = () => {
       title="Thanh toán cho chuyến đi"
     >
       {compoundingCar ? (
-        <CheckoutDeposit
+        <Payment
           showCountdown={false}
           amount_total={+compoundingCar.down_payment}
           secondsRemains={+compoundingCar.second_remains}

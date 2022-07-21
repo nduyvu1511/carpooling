@@ -1,4 +1,5 @@
 import { RootState } from "@/core/store"
+import { convertViToEn } from "@/helper"
 import { DistrictId, OptionModel, ProvinceId, WardId } from "@/models"
 import { addressApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -19,7 +20,7 @@ interface UseAddress {
   clearAddressList: Function
   setDistricts: Function
   setWards: Function
-  getProvinceId: (stringTerms: string) => number | undefined
+  getProvinceIdByGooglePlace: (stringTerms: string) => number | undefined
   getProvinceOptionById: (id: number) => OptionModel | undefined
 }
 
@@ -67,11 +68,20 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
     setWards([])
   }
 
-  const getProvinceId = (stringTerms: string): number | undefined => {
-    if (!provinces?.length) return
+  const getProvinceIdByGooglePlace = (addressListProps: string): number | undefined => {
+    const arr = addressListProps.split(",")
 
-    const provinceId = provinces.find(
-      (item) => item.province_vietnamese_name === stringTerms
+    const listAddress = arr.map((item) =>
+      convertViToEn(item)
+        .replace("city", "")
+        .replace(/\W/g, "")
+        .replace(/[0-9]/g, "")
+        .replace("thanhpho", "")
+        .replace("tp", "")
+    )
+
+    const provinceId = provinces.find((item) =>
+      listAddress.includes(item.province_vietnamese_name)
     )?.province_id
 
     return provinceId
@@ -118,7 +128,7 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
     clearAddressList,
     setDistricts,
     setWards,
-    getProvinceId,
+    getProvinceIdByGooglePlace,
     provinceOptions,
     wardOptions,
     getProvinceOptionById,

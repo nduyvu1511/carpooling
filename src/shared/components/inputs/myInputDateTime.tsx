@@ -11,6 +11,8 @@ interface MyInputDateTimeProps {
   initialValue?: string
   isError?: boolean
   disablePassDay?: boolean
+  disableHour?: boolean
+  disableDate?: boolean
 }
 
 const MyInputDateTime = ({
@@ -18,6 +20,8 @@ const MyInputDateTime = ({
   initialValue,
   isError = false,
   disablePassDay = true,
+  disableHour = false,
+  disableDate = false,
 }: MyInputDateTimeProps) => {
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
@@ -55,14 +59,17 @@ const MyInputDateTime = ({
           timeFormat={false}
           inputProps={{ placeholder: "Chọn ngày" }}
           initialValue={date}
+          className={`${disableDate ? "pointer-events-none opacity-60" : ""} `}
         />
       </div>
-      <div className={`form-select w-[200px] h-full ${isError ? "form-select-error" : ""}`}>
+      <div className={`form-select flex-1 h-full ${isError ? "form-select-error" : ""}`}>
         <Select
+          menuShouldScrollIntoView={false}
           options={times}
           defaultValue={times?.find((item) => item.value === time) || undefined}
           placeholder="Chọn giờ"
           onChange={(val) => setTime(val?.value + "")}
+          className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
         />
       </div>
     </div>

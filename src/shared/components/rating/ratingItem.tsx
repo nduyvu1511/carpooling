@@ -3,8 +3,9 @@ import { Star } from "@/components/star"
 import { formatTimeType, toImageUrl } from "@/helper"
 import { RatingRes } from "@/models"
 import Image from "next/image"
-import { MdOutlineReportGmailerrorred } from "react-icons/md"
+import { VscReport } from "react-icons/vsc"
 import { TagItem } from "../tag"
+import { Tooltip } from "../tooltip"
 
 interface RatingItemProps {
   rating: RatingRes | null
@@ -79,21 +80,35 @@ export const RatingItem = ({
           <>
             <button
               onClick={() => onUpdate && onUpdate(rating)}
-              className={`mr-[16px] ${
+              className={`mr-[16px] relative group ${
                 rating.rating_editable === false
                   ? "pointer-events-none opacity-40 cursor-default"
                   : ""
               }`}
             >
+              <Tooltip title="Sửa đánh giá" className="hidden group-hover:block" />
               <EditIcon />
             </button>
-            <button onClick={() => onDelete && onDelete(rating?.rating_id)}>
+            <button
+              className="relative group"
+              onClick={() => onDelete && onDelete(rating?.rating_id)}
+            >
+              <Tooltip title="Xóa đánh giá" className="hidden group-hover:block -left-[30px]" />
               <TrashIcon />
             </button>
           </>
         ) : (
-          <button onClick={() => onReport && onReport(rating?.rating_id)} className="btn-reset">
-            <MdOutlineReportGmailerrorred />
+          <button
+            onClick={() => onReport && onReport(rating?.rating_id)}
+            className={`btn-reset relative group ${
+              rating.rating_reported ? "pointer-events-none opacity-40" : ""
+            }`}
+          >
+            <Tooltip
+              title="Báo cáo đánh giá"
+              className="hidden group-hover:block transform-none -left-[120px]"
+            />
+            <VscReport className="text-lg text-gray-color-4" />
           </button>
         )}
       </div>

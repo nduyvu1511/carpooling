@@ -1,5 +1,5 @@
 import { formatMoneyVND } from "@/helper"
-import { DepositCountdown } from "../countdown"
+import { Countdown } from "../countdown"
 
 interface CheckoutExistsItemProps {
   second_remains: number
@@ -36,8 +36,7 @@ export const CheckoutExistsItem = ({
 
         <li className="flex items-baseline">
           <p className="text-xs mr-[8px] w-[150px]">Thời gian còn lại: </p>
-          <DepositCountdown
-            showTitle={false}
+          <Countdown
             className="text-base text-error font-semibold"
             onExpiredCoundown={() => {}}
             secondsRemains={second_remains}

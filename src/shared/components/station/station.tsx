@@ -4,8 +4,8 @@ import { vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useState } from "react"
 import Select from "react-select"
-import { ItemSelect } from "../inputs"
 import { Spinner } from "../loading"
+import { StationItem } from "./stationItem"
 
 interface StationProps {
   defaultValue?: StationId
@@ -47,7 +47,6 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
         console.log(err)
       })
   }
-  // h-[calc(100%-50px)]
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="p-24 pb-0 flex-1 flex flex-col h-[calc(100%-70px)]">
@@ -91,23 +90,13 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
             <ul className="py-12 flex-1 overflow-y-auto scrollbar-hide">
               {stations.map((item, index) => (
                 <li className="mb-[16px] last:mb-0" key={index}>
-                  <ItemSelect
-                    onChange={() => {
-                      const station = {
-                        address: `${item.station_name}, ${item.street}, ${item.district_id.district_name}, ${item.province_id.province_name}`,
-                        lat: item.latitude,
-                        lng: item.longitude,
-                        province_id: item.province_id.province_id,
-                        province_name: item.province_id.province_name,
-                        station_id: item.station_id,
-                        station_name: item.station_name,
-                      }
-
-                      onSelectStation && onSelectStation(station)
+                  <StationItem
+                    station={item}
+                    onChange={(station) => {
+                      onSelectStation?.(station)
                       setStation(station)
                     }}
                     isActive={station?.station_id === item.station_id}
-                    title={item.station_name}
                   />
                 </li>
               ))}
@@ -117,7 +106,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
       </div>
 
       {/* Footer */}
-      <div className="h-[70px] flex-center py-[10px]">
+      <div className="h-[80px] flex-center ">
         <button
           onClick={confirmStationLocation}
           className={`btn-primary ${

@@ -1,5 +1,4 @@
-import { CheckoutDeposit, RidesSummary } from "@/components"
-import { COMPOUNDING_VNPAY_CODE, setToSessionStorage } from "@/helper"
+import { CheckoutLoading, Payment, RidesProgress, RidesSummary } from "@/components"
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { DepositCompoundingCarDriverRes } from "@/models"
@@ -19,7 +18,6 @@ const Checkout = () => {
     createPaymentForDriver,
     fetchDepositCompoundingCarDriver,
   } = useDriverCheckout()
-
   const [deposit, setDeposit] = useState<DepositCompoundingCarDriverRes>()
   const [depositLoading, setDepositLoading] = useState<boolean>(false)
 
@@ -52,12 +50,12 @@ const Checkout = () => {
       },
       onSuccess: (data) => {
         window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-        setToSessionStorage(COMPOUNDING_VNPAY_CODE, data.vnpay_code)
       },
     })
   }
 
   useEffect(() => {
+    if (!compoundingCar) return
     if (compoundingCar?.state === "confirm_deposit") {
       router.push(`/d/rides/checkout-success?compounding_car_id=${compounding_car_id}`)
     }
@@ -66,6 +64,7 @@ const Checkout = () => {
 
   return (
     <BookingLayout
+      topNode={<RidesProgress state={compoundingCar?.state || "waiting"} />}
       rightNode={
         compoundingCar ? (
           <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />
@@ -73,19 +72,28 @@ const Checkout = () => {
       }
       title="Đặt cọc chuyến đi"
     >
-      {deposit ? (
-        <CheckoutDeposit
-          amount_total={+deposit.amount}
-          secondsRemains={+deposit.second_remains}
-          onCheckout={(id) => handleCreatePayment(id)}
-          onCancelCheckout={() => {
-            if (!compoundingCar?.compounding_car_id) return
-            cancelDepositCompoundingCarDriver(compoundingCar.compounding_car_id, () => {
-              router.push("/d")
-            })
-          }}
-        />
-      ) : null}
+      <div className="bg-white-color block-element overflow-hidden">
+        {depositLoading ? (
+          <CheckoutLoading />
+        ) : (
+          <>
+            <div className="border-b border-solid border-border-color mx-24 mb-24"></div>
+            {deposit ? (
+              <Payment
+                amount_total={+deposit.amount}
+                secondsRemains={+deposit.second_remains}
+                onCheckout={(id) => handleCreatePayment(id)}
+                onCancelCheckout={() => {
+                  if (!compoundingCar?.compounding_car_id) return
+                  cancelDepositCompoundingCarDriver(compoundingCar.compounding_car_id, () => {
+                    router.push("/d")
+                  })
+                }}
+              />
+            ) : null}
+          </>
+        )}
+      </div>
     </BookingLayout>
   )
 }

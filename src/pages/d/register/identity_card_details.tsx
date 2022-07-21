@@ -1,7 +1,6 @@
-  import { IdentityCardForm, ImageFileLoading, InputLoading } from "@/components"
-import { ScreenContainer } from "@/container"
+import { IdentityCardForm, ImageFileLoading, InputLoading } from "@/components"
 import { useIdentityCard } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { IdCardParams } from "@/models"
 import { useRouter } from "next/router"
 
@@ -36,7 +35,7 @@ const IdentityCardDetail = () => {
   }
 
   return (
-    <ScreenContainer heading="CMND / Thẻ Căn Cước / Hộ Chiếu">
+    <DriverRegisterLayout heading="CMND / Thẻ Căn Cước / Hộ Chiếu">
       <div className="relative">
         {!isValidating ? (
           <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />
@@ -52,7 +51,7 @@ const IdentityCardDetail = () => {
           </>
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

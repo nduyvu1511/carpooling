@@ -2,19 +2,19 @@ import { ArrowLeftIcon } from "@/assets"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
 
-interface ScreenContainerProps {
+interface DriverRegisterLayout {
   children: ReactNode
   heading: string
   onBackBtnClick?: Function
   rightHeaderElement?: ReactNode
 }
 
-export const ScreenContainer = ({
+export const DriverRegisterLayout = ({
   children,
   heading,
   onBackBtnClick,
   rightHeaderElement,
-}: ScreenContainerProps) => {
+}: DriverRegisterLayout) => {
   const router = useRouter()
 
   return (

@@ -1,4 +1,10 @@
-import { CarpoolingIcon, OneWayIcon, TwoWayIcon } from "@/assets"
+import {
+  ArrowLineRightIcon,
+  ArrowRightIcon,
+  CarpoolingIcon,
+  OneWayIcon,
+  TwoWayIcon,
+} from "@/assets"
 import { CompoundingType } from "@/models"
 import moment from "moment"
 import React from "react"
@@ -29,13 +35,14 @@ const RidesItemLocation = ({
         </p>
       </div>
       <div className="mx-[8px] mt-[8px]">
-        {compounding_type === "one_way" ? (
+        <ArrowLineRightIcon />
+        {/* {compounding_type === "one_way" ? (
           <OneWayIcon />
         ) : compounding_type === "two_way" ? (
           <TwoWayIcon />
         ) : (
           <CarpoolingIcon />
-        )}
+        )} */}
       </div>
       <div className="flex-1 flex flex-col items-end justify-between">
         <p className="text-[20px] leading-[32px] font-medium text-gray-color-4 line-clamp-1">

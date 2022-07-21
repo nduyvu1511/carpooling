@@ -2,14 +2,21 @@ import { ArrowLeftIcon } from "@/assets"
 import { BookingLayoutProps } from "@/models"
 import { useRouter } from "next/router"
 
-const BookingLayout = ({ children, rightNode, title, showLoading = false }: BookingLayoutProps) => {
+const BookingLayout = ({
+  children,
+  rightNode,
+  title,
+  showLoading = false,
+  topNode,
+}: BookingLayoutProps) => {
   const router = useRouter()
 
   return (
     <section className="container py-24">
       <div className="grid grid-cols-booking-grid gap-24">
-        <div className="">
-          <div className="p-24 flex items-center bg-white-color rounded-tl-[5px] rounded-tr-[5px]">
+        <div className="block-element overflow-hidden h-fit">
+          {topNode ? <div className="bg-white-color pt-24">{topNode}</div> : null}
+          <div className="p-24 flex items-center">
             <button onClick={() => router.back()}>
               <ArrowLeftIcon />
             </button>
@@ -18,7 +25,8 @@ const BookingLayout = ({ children, rightNode, title, showLoading = false }: Book
           </div>
           {children}
         </div>
-        <div className="bg-white-color rounded-[5px] overflow-hidden h-fit shadow-shadow-1">
+
+        <div className="overflow-hidden h-fit block-element">
           {showLoading ? (
             <div className="">
               <div className="h-[80px] skeleton"></div>

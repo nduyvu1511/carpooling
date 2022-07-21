@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
+import { AuthBg } from "./authBg"
 
 interface RegisterModalProps {
   onSuccess: Function
@@ -67,6 +68,8 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
               </p>
             </div>
           </OTP>
+
+          <AuthBg />
         </div>
       ) : (
         <div className="py-12">

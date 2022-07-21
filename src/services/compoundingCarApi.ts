@@ -250,6 +250,15 @@ const ridesApi = {
     )
   },
 
+  driverConfirmWaitingForCustomer: (params: DriverConfirmCompoundingCarCustomerParams) => {
+    return axiosClient.post(
+      "/api/compounding_car_controller/waiting_customer_compounding_car_customer",
+      {
+        params,
+      }
+    )
+  },
+
   driverConfirmCompoundingCarCustomer: (params: DriverConfirmCompoundingCarCustomerParams) => {
     return axiosClient.post(
       "/api/compounding_car_controller/confirm_done_compounding_car_customer",
@@ -272,6 +281,24 @@ const ridesApi = {
 
   getCompoundingCarTemplates: (limit = 12, offset = 0) => {
     return axiosClient.post("/api/compounding_car_controller/data_compounding_car_template", {
+      params: {
+        limit,
+        offset,
+      },
+    })
+  },
+
+  getReasonsToCancelCompoundingCar: (limit = 12, offset = 0) => {
+    return axiosClient.post("/api/compounding_car_controller/get_cancel_reason_compounding_car", {
+      params: {
+        limit,
+        offset,
+      },
+    })
+  },
+
+  cancelCompoundingCar: (limit = 12, offset = 0) => {
+    return axiosClient.post("/api/compounding_car_controller/cancel_compounding_car", {
       params: {
         limit,
         offset,

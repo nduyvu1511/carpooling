@@ -17,18 +17,17 @@ export type HourWaitTimeType =
   | "11_hour"
   | "12_hour"
 export type QualityCarType = "5_star" | "4_star" | "3_star"
-export type CompoundingType = "one_way" | "two_way" | "compounding"
+export type CompoundingType = "one_way" | "two_way" | "compounding" | "convenient"
 export type CompoundingCarDriverState =
-  | "draft"
-  | "waiting"
+  | "draft" //danh cho tien chuyen
   | "waiting_deposit" //cho dat coc
+  | "waiting" // duoc phep bat dau chuyen di, da dat coc cho chuyen di
   | "confirm_deposit" //dat coc xong
-  | "confirm" //da hoan tat xong tien chuyen
+  | "confirm" //xac nwaiting_deposithan cho don tien chuyen
   | "start_running"
   | "stop_picking"
-  | "done"
-  | "cancel"
-
+  | "done" // hoan thanh
+  | "cancel" //huy chuyen di
 export type CompoundingCarCustomerState =
   | "draft"
   | "confirm"
@@ -40,6 +39,7 @@ export type CompoundingCarCustomerState =
   | "customer_pay" //thanh toan online
   | "confirm_paid" //thanh toan het
   | "cancel" //huy
+  | "waiting_customer"
 
 export interface VehicleTypeParams {
   car_id: number
@@ -118,7 +118,7 @@ export interface DriverActivityRes {
   quality_car: VehicleTypeParams
   number_seat_in_car: number
   number_available_seat: number
-  state: CompoundingCarCustomerState
+  state: CompoundingCarDriverState
   price_unit: PriceUnit
   note: string
   second_remains: number
@@ -168,7 +168,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   to_latitude: string
   distance: number
   duration?: number
-  rating?: RatingRes
+  rating_ids: RatingRes[]
   rating_state: RatingState
 }
 
@@ -176,7 +176,7 @@ export interface CompoundingCarDriverRes
   extends Omit<CompoundingCarRes, "state" | "rating" | "partner"> {
   compounding_car_customers: CompoundingCarCustomer[]
   state: CompoundingCarDriverState
-  rating: RatingRes[]
+  rating_ids: RatingRes[]
 }
 
 export interface PriceUnit {
@@ -228,7 +228,8 @@ export interface CompoundingCarCustomer {
   number_available_seat: number
   duration: number
   rating_state: RatingState
-  rating?: RatingRes
+  rating_ids?: RatingRes[]
+  second_waiting_remains: number
 }
 
 export interface PartnerCompoundingCar {
@@ -490,15 +491,15 @@ export type CreateCompoundingCar =
 
 export interface CompoundingFilterForm {
   order_by?: CompoundingOrderField
-  from_province_id?: OptionModel
-  to_province_id?: OptionModel
-  car_id?: OptionModel
+  from_province_id?: number
+  to_province_id?: number
+  car_id?: number
   from_expected_going_on_date?: string
   to_expected_going_on_date?: string
   compounding_type?: CompoundingType
   current_latitude?: string
   current_longitude?: string
-  number_seat: OptionModel
+  number_seat: number
 }
 
 export type CompoundingFilterParams = CompoundingCarCustomerFilterParams &
@@ -522,4 +523,15 @@ export interface DepositCompoundingCarDriverRes {
 export interface DepositCompoundingCarDriverFailureRes {
   message: string
   data: DepositCompoundingCarDriverRes[]
+}
+
+export type CompoundingCarCustomerWithState = Pick<
+  CompoundingCarCustomer,
+  "compounding_car_customer_id" | "state"
+>
+
+export interface CancelCompoundingCarParams {
+  compounding_car_customer_id: number
+  cancel_reason_id?: number
+  cancel_reason_other?: string
 }

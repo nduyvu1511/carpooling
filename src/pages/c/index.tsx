@@ -1,4 +1,4 @@
-import { BookingModal, CompoundingFilter, MyInputDateTime, RidesItem, Spinner } from "@/components"
+import { BookingModal, CompoundingFilter, RidesItem, Spinner, Tabs } from "@/components"
 import { isObjectHasValue, toggleBodyOverflow } from "@/helper"
 import { useQueryCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
@@ -17,7 +17,6 @@ const HomeCustomer = () => {
     fetchMoreRides,
     isFetchingMore,
     getQueryParams,
-    fromRouterQueryToDefaultValuesForm,
   } = useQueryCompoundingCarCustomer({})
   const [showBookingModal, setShowBookingModal] = useState<CompoundingType | undefined>()
 
@@ -34,16 +33,15 @@ const HomeCustomer = () => {
         <div className="grid md:grid-cols-2 xl:grid-cols-sidebar-grid gap-24">
           <div className="">
             {router.isReady ? (
-              <div className="sticky top-[80px] block-element p-24">
+              <div className="sticky top-[81px] block-element p-24 z-[100]">
                 <CompoundingFilter
                   type="customer"
-                  defaultValues={fromRouterQueryToDefaultValuesForm(router.query)}
+                  defaultValues={router.query as any}
                   onChange={(data) => {
-                    const filter = getQueryParams(data)
-                    if (isObjectHasValue(filter)) {
+                    const filter = getQueryParams({ ...data, ...router.query })
+                    if (isObjectHasValue(data)) {
                       router.push({
                         query: {
-                          ...router.query,
                           ...filter,
                         },
                       })
@@ -62,25 +60,23 @@ const HomeCustomer = () => {
             </div>
 
             <div className="mb-24">
-              <div className="flex">
+              <div className="flex items-center">
                 <p className="text-base font-semibold mr-24">Danh sách chuyến:</p>
-                <ul className="flex items-center">
-                  {[
-                    ["Ghép chuyến", ""],
-                    ["Tiện chuyến", ""],
-                  ].map(([label, value], index) => (
-                    <li
-                      key={index}
-                      className={`text-sm mr-[20px] border-b-[3px] ${
-                        index === 0
-                          ? "relative text-primary before:content-[''] before:absolute before:h-[2px] before:w-[100%] before:bg-primary before:top-[calc(100%+4px)] before:-translate-x-1/2 before:left-[50%]"
-                          : ""
-                      } `}
-                    >
-                      {label}
-                    </li>
-                  ))}
-                </ul>
+                <Tabs
+                  list={[
+                    { label: "Ghép chuyến", value: "compounding" },
+                    { label: "Tiện chuyến", value: "convenient" },
+                  ]}
+                  tabActive={router.query.compounding_type || ""}
+                  onChange={(val) =>
+                    router.push({
+                      query: {
+                        ...router.query,
+                        compounding_type: val,
+                      },
+                    })
+                  }
+                />
               </div>
             </div>
 
@@ -119,7 +115,7 @@ const HomeCustomer = () => {
               </div>
             ) : (
               <div className="flex-center my-[20px]">
-                <p>Không tìm thấy chuyến đi nào</p>
+                <p className="text-base">Không tìm thấy chuyến đi nào</p>
               </div>
             )}
           </div>

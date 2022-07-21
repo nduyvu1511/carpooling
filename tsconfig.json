@@ -33,8 +33,6 @@
       "@/hooks/*": ["./shared/hooks/*"],
       "@/assets": ["./shared/assets/index.ts"],
       "@/assets/*": ["./shared/assets/*"],
-      "@/container": ["./container/index.ts"],
-      "@/container/*": ["./container/*"],
       "@/layout": ["./layout/index.ts"],
       "@/layout/*": ["./layout/*"],
       "@/services": ["./services/index.ts"],

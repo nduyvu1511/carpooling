@@ -1,7 +1,6 @@
 import { ImageFileLoading, InputLoading, VehicleForm } from "@/components"
-import { ScreenContainer } from "@/container"
 import { useRegistrationCertificate } from "@/hooks"
-import { DriverEmptyLayout } from "@/layout"
+import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { VehicleDetailFormParams } from "@/models"
 import { useRouter } from "next/router"
 
@@ -36,7 +35,7 @@ const VehicleInsurance = () => {
   }
 
   return (
-    <ScreenContainer heading="Thông tin xe">
+    <DriverRegisterLayout heading="Thông tin xe">
       <div className="">
         {!isValidating ? (
           <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />
@@ -51,7 +50,7 @@ const VehicleInsurance = () => {
           </>
         )}
       </div>
-    </ScreenContainer>
+    </DriverRegisterLayout>
   )
 }
 

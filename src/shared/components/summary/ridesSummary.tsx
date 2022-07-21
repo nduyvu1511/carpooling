@@ -1,4 +1,4 @@
-import { CheckCircleIcon, OneWayIcon } from "@/assets"
+import { OneWayIcon } from "@/assets"
 import { formatMoneyVND, getCompoundingCarStateName } from "@/helper"
 import {
   CarAccountType,
@@ -7,6 +7,7 @@ import {
   CompoundingCarRes,
 } from "@/models"
 import moment from "moment"
+import { RidesSummaryHeader } from "./ridesSummaryHeader"
 
 interface RidesSummaryProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
@@ -24,28 +25,13 @@ const RidesSummary = ({
   return (
     <div className="">
       {type === "summary" ? (
-        <div className="bg-primary p-24">
-          <h3 className="text-18 leading-[26px] font-medium text-white-color">
-            Thông tin chuyến đi
-          </h3>
+        <div className="mx-24 py-24 border-b border-border-color border-solid">
+          <h3 className="text-18 leading-[26px] font-medium text-primary">Thông tin chuyến đi</h3>
         </div>
       ) : (
         <>
           <div className="p-24">
-            <div className="flex items-center">
-              <div className="mr-[40px]">
-                <CheckCircleIcon className="w-[80px] h-[80px]" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-[28px] leading-[36px] font-medium text-primary mb-[16px]">
-                  Đặt chuyến thành công
-                </h3>
-                <p className="text-16 font-medium leading-26">
-                  Chuyến đi của bạn đã được thanh toán/đặt cọc thành công, vui lòng kiểm tra chi
-                  tiết hoá đơn qua email
-                </p>
-              </div>
-            </div>
+            <RidesSummaryHeader />
           </div>
 
           <div className="mx-24 border border-b border-solid border-border-color"></div>
@@ -105,12 +91,64 @@ const RidesSummary = ({
 
         <div className="border border-solid border-border-color my-24"></div>
 
+        <div className="">
+          <p className="text-16 font-semibold leading-[26px] mb-[16px]">Thông tin lộ trình:</p>
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Ngày đi:</p>
+            <p className={item}>
+              {moment(rides.expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+            </p>
+          </div>
+
+          {rides?.expected_picking_up_date ? (
+            <div className="flex items-baseline justify-between mb-[16px]">
+              <p className={title}>Ngày về:</p>
+              <p className={item}>
+                {moment(rides.expected_picking_up_date).format("HH:MM DD/MM/YYYY")}
+              </p>
+            </div>
+          ) : null}
+
+          {type === "bill" ? (
+            <div className="flex items-baseline justify-between mb-[16px]">
+              <p className={title}>Tình trạng:</p>
+              <p className={item}>{getCompoundingCarStateName(rides.state)}</p>
+            </div>
+          ) : null}
+
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Tổng lộ trình:</p>
+            <p className={item}>{rides?.distance?.toFixed(2)} km</p>
+          </div>
+
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Tổng thời gian lộ trình:</p>
+            <p className={item}>{rides.duration || 0} giờ</p>
+          </div>
+
+          {(rides as CompoundingCarRes).number_seat_in_car ? (
+            <div className="flex items-baseline justify-between mb-[16px]">
+              <p className={title}>Số khách:</p>
+              <p className={item}>
+                {(rides as CompoundingCarRes)?.number_seat_in_car}/{rides.car.number_seat} Khách
+              </p>
+            </div>
+          ) : null}
+
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Loại xe:</p>
+            <p className={item}>{`${rides?.car.number_seat} Chỗ`}</p>
+          </div>
+        </div>
+
+        <div className="border border-solid border-border-color my-24"></div>
+
         <div className="flex items-center justify-between mb-[16px]">
           <p className={title}>Thuế phí:</p>
           <p className={item}>Đã bao gồm</p>
         </div>
 
-        {rides?.price_unit ? (
+        {car_account_type === "customer" && rides?.price_unit ? (
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Giá vé/khách:</p>
             <p className={item}>{formatMoneyVND(rides?.price_unit?.price_unit)}</p>
@@ -128,44 +166,9 @@ const RidesSummary = ({
           </p>
         </div>
 
-        {type === "bill" ? (
-          <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tình trạng:</p>
-            <p className={item}>{getCompoundingCarStateName(rides.state)}</p>
-          </div>
-        ) : null}
-
-        {(rides as CompoundingCarRes).number_seat_in_car ? (
-          <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Số khách:</p>
-            <p className={item}>{(rides as CompoundingCarRes)?.number_seat_in_car}</p>
-          </div>
-        ) : null}
-
-        <div className="flex items-baseline justify-between mb-[16px]">
-          <p className={title}>Loại xe:</p>
-          <p className={item}>{`${rides?.car.number_seat} Chỗ`}</p>
-        </div>
-
         <div className="flex items-baseline justify-between mb-[16px]">
           <p className={title}>Ghi chú:</p>
           <p className={item}>{rides?.note || "Không có ghi chú nào"}</p>
-        </div>
-
-        <div className="border border-solid border-border-color my-24"></div>
-
-        <div className="">
-          <p className="text-16 font-semibold leading-[26px] mb-[16px]">Thông tin lộ trình:</p>
-
-          <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tổng lộ trình:</p>
-            <p className={item}>{rides?.distance?.toFixed(2)} km</p>
-          </div>
-
-          <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tổng thời gian lộ trình:</p>
-            <p className={item}>{rides.duration || 0} giờ</p>
-          </div>
         </div>
 
         <div className="border border-solid border-border-color my-24"></div>

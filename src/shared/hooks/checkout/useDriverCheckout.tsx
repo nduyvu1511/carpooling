@@ -21,11 +21,6 @@ interface FetchDepositCompoundingCarDriver {
 interface UseDriverCheckoutRes {
   cancelDepositCompoundingCarDriver: (compounding_car_id: number, cb?: Function) => void
   createPaymentForDriver: (props: UseParams<CreatePaymentDriverParams, CreatePaymentRes>) => void
-  confirmCustomerPayFullForCompoundingCar: (
-    compounding_car_customer_id: number,
-    onSuccess: Function,
-    onError?: Function
-  ) => void
   fetchDepositCompoundingCarDriver: (params: FetchDepositCompoundingCarDriver) => void
 }
 
@@ -80,27 +75,9 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     })
   }
 
-  const confirmCustomerPayFullForCompoundingCar = async (
-    compounding_car_customer_id: number,
-    onSuccess: Function,
-    onError?: Function
-  ) => {
-    fetcherHandler({
-      fetcher: ridesApi.driverConfirmCustomerPayFullForCompoundingCar({
-        compounding_car_customer_id,
-      }),
-      onSuccess: () => {
-        onSuccess?.()
-      },
-      onError: onError?.(),
-      config: { showScreenLoading: false },
-    })
-  }
-
   return {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
-    confirmCustomerPayFullForCompoundingCar,
     fetchDepositCompoundingCarDriver,
   }
 }
