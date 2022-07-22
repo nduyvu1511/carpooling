@@ -24,14 +24,13 @@ export const CompoundingFilter = ({
   const [compoundingFormValues, setCompoundingFormValues] = useState<
     CompoundingFilterParams | undefined
   >(defaultValues)
+  const [fromProvinceValue, setFromProvinceValue] = useState<OptionModel | undefined>(() =>
+    provinceOptions.find((item) => item.value == compoundingFormValues?.from_province_id)
+  )
 
   const handleChange = (params: CompoundingFilterParams) => {
     onChangeProps({ ...compoundingFormValues, ...params })
   }
-
-  const fromProvinceOption = provinceOptions.find(
-    (item) => item.value == compoundingFormValues?.from_province_id
-  )
 
   return (
     <form>
@@ -44,6 +43,7 @@ export const CompoundingFilter = ({
                 onClick={() => {
                   onChangeProps(undefined)
                   setCompoundingFormValues(undefined)
+                  setFromProvinceValue(undefined)
                 }}
                 className="text-primary text-14 leading-26 font-medium cursor-pointer"
               >
@@ -85,12 +85,13 @@ export const CompoundingFilter = ({
               openMenuOnFocus={true}
               options={provinceOptions}
               controlShouldRenderValue
-              defaultValue={fromProvinceOption}
+              value={fromProvinceValue}
               name="from_province_id"
               onChange={(val) => {
                 if (!val) return
                 setCompoundingFormValues({ ...compoundingFormValues, from_province_id: +val.value })
                 handleChange({ from_province_id: +val.value })
+                setFromProvinceValue(val)
               }}
               placeholder="Đi từ"
             />

@@ -4,7 +4,7 @@ import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="py-[80px]">
       <div className="container">
         <div className="grid grid-cols-4">
           <div className="">
@@ -37,10 +37,10 @@ const Footer = () => {
             {
               heading: "Về chúng tôi",
               child: [
-                { label: "Hướng dẫn", path: "/" },
-                { label: "Chính sách & quy định", path: "/" },
+                { label: "Hướng dẫn", path: "/guide" },
+                { label: "Chính sách & quy định", path: "/terms-&-conditions" },
                 { label: "Quy chế hoạt động", path: "/" },
-                { label: "Tin tức", path: "/" },
+                { label: "Tin tức", path: "/news" },
               ],
             },
             {

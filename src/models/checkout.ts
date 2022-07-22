@@ -3,7 +3,10 @@ export interface PaymentRes {
   name: string
   provider: string
   state: "enabled"
-  image: string
+  image_url: {
+    id: number
+    url: string
+  }
 }
 
 export interface CreatePaymentRes {

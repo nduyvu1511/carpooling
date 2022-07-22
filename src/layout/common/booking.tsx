@@ -9,6 +9,7 @@ const BookingLayout = ({
   title,
   showLoading = false,
   topNode,
+  stickyRight = false,
 }: BookingLayoutProps) => {
   const router = useRouter()
 
@@ -27,7 +28,11 @@ const BookingLayout = ({
           {children}
         </div>
 
-        <div className="overflow-hidden h-fit block-element">
+        <div
+          className={`overflow-hidden h-fit block-element ${
+            stickyRight ? "sticky top-[80px]" : ""
+          }`}
+        >
           {showLoading ? <RidesSummaryLoading /> : rightNode}
         </div>
       </div>

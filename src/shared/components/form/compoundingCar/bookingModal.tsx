@@ -47,6 +47,8 @@ const BookingModal = ({ onClose, formType }: BookingModalProps) => {
           ? "Tạo chuyến đi ghép"
           : formType === "one_way"
           ? "Tạo chuyến đi một chiều"
+          : formType === "convenient"
+          ? "Tạo chuyến đi tiện chuyến"
           : "Tạo chuyến đi hai chiều"
       }
       onClose={onClose}

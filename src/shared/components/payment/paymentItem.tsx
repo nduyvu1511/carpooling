@@ -1,3 +1,4 @@
+import { toImageUrl } from "@/helper"
 import { PaymentRes } from "@/models"
 import Image from "next/image"
 
@@ -15,14 +16,9 @@ const PaymentItem = ({ payment, onChange, isActive }: PaymentItemProps) => {
         isActive ? "text-white-color bg-primary border-primary" : ""
       } transition-all duration-150 cursor-pointer`}
     >
-      {payment.image ? (
+      {payment?.image_url?.url ? (
         <div className="max-w-[50px] w-full h-[32px] relative overflow-hidden mr-[16px]">
-          <Image
-            src={`data:image/png;base64, ${payment.image}`}
-            alt=""
-            objectFit="contain"
-            layout="fill"
-          />
+          <Image src={toImageUrl(payment.image_url.url)} alt="" objectFit="contain" layout="fill" />
         </div>
       ) : null}
       <span className="flex-1">{payment.name}</span>

@@ -1,17 +1,7 @@
 import { feature1, feature2, feature3 } from "@/assets"
-import {
-  Banner,
-  Header,
-  HeroSection,
-  HeroSectionList,
-  MyInputDateTime,
-  PlaceSlide,
-  Switch,
-} from "@/components"
-import { Footer } from "@/components/footer"
-import { NewsList } from "@/components/news"
+import { Banner, Guide, HeroSection, NewsList, PlaceSlide } from "@/components"
 import { RootState } from "@/core/store"
-import { EmptyLayout } from "@/layout"
+import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
@@ -41,8 +31,6 @@ const HomeGuest = () => {
 
   return (
     <section className="">
-      <Header />
-
       <div className="h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
@@ -73,15 +61,7 @@ const HomeGuest = () => {
             Hướng dẫn trải nghiệm{" "}
           </h1>
 
-          <div className="mt-[80px]">
-            <div className="flex-center">
-              <Switch />
-            </div>
-          </div>
-
-          <div className="mt-[120px]">
-            <HeroSectionList />
-          </div>
+          <Guide />
         </div>
       </div>
 
@@ -98,13 +78,9 @@ const HomeGuest = () => {
           </div>
         </div>
       </div>
-
-      <div className="py-[80px]">
-        <Footer />
-      </div>
     </section>
   )
 }
 
-HomeGuest.Layout = EmptyLayout
+HomeGuest.Layout = GuestLayout
 export default HomeGuest

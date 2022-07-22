@@ -11,16 +11,20 @@ export const Header = () => {
     <HeaderWrapper>
       <section className="w-full">
         <div className="container">
-          <div className="flex items-center">
-            <div className="">
-              <LogoIcon />
+          <div className="flex items-stretch">
+            <div className="my-auto">
+              <Link href="/" passHref>
+                <a className="cursor-pointer">
+                  <LogoIcon />
+                </a>
+              </Link>
             </div>
             <div className="flex-1 flex justify-center">
               <ul className="flex items-center">
                 {[
-                  ["Về chúng tôi", "/ve-chung-toi"],
-                  ["Hướng dẫn", "/huong-dan"],
-                  // ["Ưu đãi", "/uu-dai"],
+                  ["Trang chủ", "/"],
+                  ["Về chúng tôi", "/about-us"],
+                  ["Hướng dẫn", "/guide"],
                   ["Tin tức", "/tin-tuc"],
                 ].map(([label, path]) => (
                   <li className="mr-[40px] last:mr-0" key={path}>
@@ -31,7 +35,6 @@ export const Header = () => {
                 ))}
               </ul>
             </div>
-
             <div className="flex items-center">
               <button
                 onClick={() => dispatch(setAuthModalType("login"))}

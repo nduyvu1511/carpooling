@@ -69,23 +69,22 @@ const ScheduleCompounding = () => {
       <BookingLayout
         topNode={<RidesProgress state={compoundingCar?.state} />}
         title="Tình trạng chuyến đi"
+        stickyRight
         rightNode={
           isInitialLoading ? (
             <RidesSummaryLoading />
           ) : !compoundingCar?.compounding_car_id ? null : (
-            <div className="sticky top-0">
-              <ScheduleSummary
-                number_seat={compoundingCar.car.number_seat}
-                number_seat_in_car={compoundingCar.number_seat_in_car}
-                distance={compoundingCar.distance}
-                duration={compoundingCar.duration || 0}
-                expected_going_on_date={compoundingCar.expected_going_on_date}
-                expected_picking_up_date={compoundingCar.expected_picking_up_date}
-                from_province_name={compoundingCar.from_province.province_brief_name}
-                compounding_type={compoundingCar.compounding_type}
-                to_province_name={compoundingCar.to_province.province_brief_name}
-              />
-            </div>
+            <ScheduleSummary
+              number_seat={compoundingCar.car.number_seat}
+              number_seat_in_car={compoundingCar.number_seat_in_car}
+              distance={compoundingCar.distance}
+              duration={compoundingCar.duration || 0}
+              expected_going_on_date={compoundingCar.expected_going_on_date}
+              expected_picking_up_date={compoundingCar.expected_picking_up_date}
+              from_province_name={compoundingCar.from_province.province_brief_name}
+              compounding_type={compoundingCar.compounding_type}
+              to_province_name={compoundingCar.to_province.province_brief_name}
+            />
           )
         }
       >

@@ -64,7 +64,8 @@ const Checkout = () => {
 
   return (
     <BookingLayout
-      topNode={<RidesProgress state={compoundingCar?.state || "waiting"} />}
+      topNode={<RidesProgress state={compoundingCar?.state} />}
+      showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
           <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />

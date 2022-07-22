@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Navigation } from "swiper"
+import { Autoplay, Navigation } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -16,8 +16,9 @@ const Banner = ({ images }: BannerProps) => {
       slidesPerView={3}
       onSlideChange={() => {}}
       onSwiper={(swiper) => {}}
-      modules={[Navigation]}
+      modules={[Navigation, Autoplay]}
       navigation={true}
+      autoplay={{ delay: 5000 }}
     >
       {images.map((src, index) => (
         <SwiperSlide className="relative aspect-[3/2]" key={index}>

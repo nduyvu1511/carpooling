@@ -1,5 +1,5 @@
 import { CompoundingCarRes } from "@/models"
-import { Navigation } from "swiper"
+import { Autoplay, Navigation } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -26,8 +26,9 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
       slidesPerView={3}
       onSlideChange={() => {}}
       onSwiper={(swiper) => {}}
-      modules={[Navigation]}
+      modules={[Navigation, Autoplay]}
       navigation={true}
+      autoplay={{ delay: 4000 }}
     >
       {places?.length > 0 &&
         places.map((item, index) => (

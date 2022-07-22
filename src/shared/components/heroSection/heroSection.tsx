@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { CarpoolingIcon, mapbanner, OneWayIcon, TwoWayIcon } from "@/assets"
+import { CarpoolingIcon, ConvenientIcon, mapbanner, OneWayIcon, TwoWayIcon } from "@/assets"
 import { toggleBodyOverflow } from "@/helper"
 import { CompoundingType } from "@/models"
 import Image from "next/image"
@@ -33,7 +33,7 @@ export const HeroSection = () => {
                 ["Hai chiều", "two_way", <TwoWayIcon />, "#EE542F"],
                 ["Một chiều", "one_way", <OneWayIcon />, "#2E4CB7"],
                 ["Ghép chuyến", "compounding", <CarpoolingIcon />, "#278EA5"],
-                ["Tiện chuyến", "compounding", <CarpoolingIcon />, "#7D27A5"],
+                ["Tiện chuyến", "convenient", <ConvenientIcon />, "#7D27A5"],
               ].map(([label, value, icon, color], index) => (
                 <li
                   onClick={() => {
@@ -43,7 +43,7 @@ export const HeroSection = () => {
                   className="cursor-pointer flex-center flex-col p-[16px] rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color"
                   key={index}
                 >
-                  <span className="mb-8">{icon}</span>
+                  <span className="mb-8 flex-1 my-auto flex items-center">{icon}</span>
                   <span style={{ color: color as string }} className="text-base font-semibold">
                     {label}
                   </span>

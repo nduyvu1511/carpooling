@@ -1,6 +1,7 @@
 import {
   blankAvatar,
   CarpoolingIcon,
+  ConvenientIcon,
   LogoIcon,
   NotificationIcon,
   OneWayIcon,
@@ -12,6 +13,7 @@ import { RootState } from "@/core/store"
 import { toggleBodyOverflow, toImageUrl } from "@/helper"
 import { CarAccountType, CompoundingType } from "@/models"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useSelector } from "react-redux"
@@ -79,12 +81,12 @@ const AuthHeader = () => {
                 ) : (
                   <li
                     onClick={() => {
-                      setBookingType("compounding")
+                      setBookingType("convenient")
                       toggleBodyOverflow("hidden")
                     }}
                     className="text-16 font-semibold mr-[40px] last:mr-0 cursor-pointer flex items-center"
                   >
-                    <TwoWayIcon />
+                    <ConvenientIcon />
                     <span className="ml-12">Tiện chuyến</span>
                   </li>
                 )}
@@ -92,7 +94,11 @@ const AuthHeader = () => {
 
               <div className="flex items-center">
                 <div className="mr-24">
-                  <QuestionIcon className="w-[24px] h-[24px]" />
+                  <Link passHref href="/guide">
+                    <span className="cursor-pointer">
+                      <QuestionIcon className="w-[24px] h-[24px]" />
+                    </span>
+                  </Link>
                 </div>
 
                 <div className="mr-24">

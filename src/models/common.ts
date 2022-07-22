@@ -115,7 +115,8 @@ export interface BookingLayoutProps {
   title?: string
   rightNode: ReactNode
   showLoading?: boolean
-  topNode?:ReactNode
+  topNode?: ReactNode
+  stickyRight?: boolean
 }
 
 declare module "axios" {
