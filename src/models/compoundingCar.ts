@@ -1,4 +1,4 @@
-import { OptionModel } from "./common"
+import { ListQuery, OptionModel } from "./common"
 import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
 import { RatingRes } from "./rating"
 import { CarDriverId, GenderType, UserInfo } from "./user"
@@ -228,7 +228,7 @@ export interface CompoundingCarCustomer {
   number_available_seat: number
   duration: number
   rating_state: RatingState
-  rating_ids?: RatingRes[]
+  rating?: RatingRes
   second_waiting_remains: number
 }
 
@@ -450,22 +450,6 @@ export type CompoundingOrderField =
   | "sort_by_highest_price"
   | "sort_by_distance"
 
-export interface CompoundingCarFilterParams {
-  order_by?: CompoundingOrderField
-  from_province_id?: number
-  to_province_id?: number
-  car_id?: number
-  from_expected_going_on_date?: string
-  to_expected_going_on_date?: string
-  compounding_type?: CompoundingType
-  current_latitude?: string
-  current_longitude?: string
-}
-
-export interface CompoundingCarCustomerFilterParams extends CompoundingCarFilterParams {
-  number_seat?: number
-}
-
 export type CompoundingCarCustomerFilterKey = keyof CompoundingCarCustomerFilterParams
 export type CompoundingCarFilterKey = keyof CompoundingCarFilterParams
 
@@ -489,7 +473,7 @@ export type CreateCompoundingCar =
   | CreateOneWayCompoundingCar
   | CreateTwoWayCompoundingCar
 
-export interface CompoundingFilterForm {
+export interface CompoundingCarFilterParams {
   order_by?: CompoundingOrderField
   from_province_id?: number
   to_province_id?: number
@@ -499,7 +483,10 @@ export interface CompoundingFilterForm {
   compounding_type?: CompoundingType
   current_latitude?: string
   current_longitude?: string
-  number_seat: number
+}
+
+export interface CompoundingCarCustomerFilterParams extends CompoundingCarFilterParams {
+  number_seat?: number
 }
 
 export type CompoundingFilterParams = CompoundingCarCustomerFilterParams &
@@ -534,4 +521,29 @@ export interface CancelCompoundingCarParams {
   compounding_car_customer_id: number
   cancel_reason_id?: number
   cancel_reason_other?: string
+}
+
+export type CancelCompoundingFormParams = Pick<
+  CancelCompoundingCarParams,
+  "cancel_reason_other" | "cancel_reason_id"
+>
+
+export type ReasonsCancelCompoundingCarParams = {
+  compounding_car_customer_id: number
+  compounding_car_customer_state?: string
+} & ListQuery
+
+export interface ReasonCancelCompoundingCarRes {
+  cancel_reason_id: number
+  reason: string
+  compounding_car_customer_state: string
+}
+
+export interface CompoundingCancelCar extends CompoundingCarCustomer {
+  amount_total: number
+  down_payment: number
+  amount_due: number
+  confirm_date: string
+  cancel_date: string
+  paid_date: string
 }

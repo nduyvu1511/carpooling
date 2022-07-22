@@ -25,7 +25,7 @@ interface UseAddress {
 }
 
 export const useAddress = (state_id?: number, district_id?: number): UseAddress => {
-  const { provinces } = useSelector((state: RootState) => state.compoundingCarData)
+  const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const [districts, setDistricts] = useState<DistrictId[]>([])
   const [wards, setWards] = useState<WardId[]>([])
 

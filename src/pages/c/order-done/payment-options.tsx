@@ -1,6 +1,6 @@
 import { Alert, ItemSelect, RidesSummary } from "@/components"
 import { formatMoneyVND } from "@/helper"
-import { useCompoundingCarCustomer, useFetcher } from "@/hooks"
+import { useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CompoundingCarCustomer, PaymentMethod } from "@/models"
 import { ridesApi } from "@/services"
@@ -12,13 +12,23 @@ const CheckoutOptions = () => {
   const { compounding_car_customer_id } = router.query
   const { fetcherHandler } = useFetcher()
 
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    isInitialLoading,
+    mutate: mutateCompoundingCar,
+  } = useCompoundingCarCustomer({
     key: "get_compounding_car_customer_to_check_full",
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
   const [paymentType, setPaymentType] = useState<PaymentMethod | undefined>()
   const [showAlert, setShowAlert] = useState<boolean>(false)
+
+  useEffectOnce(() => {
+    return () => {
+      mutateCompoundingCar(undefined, false)
+    }
+  })
 
   // Check deposit status
   useEffect(() => {
@@ -56,7 +66,7 @@ const CheckoutOptions = () => {
         rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
         title="Thanh toán cho chuyến đi"
       >
-        <div className="block-element pb-24 mb-24">
+        <div className="block-element pb-24">
           <div className="px-24">
             <div className="">
               <p className="text-base text-warning font-semibold mb-24">

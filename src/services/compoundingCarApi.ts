@@ -1,4 +1,5 @@
 import {
+  CancelCompoundingCarParams,
   CompoundingListDriverParams,
   ConfirmCompoundingCar,
   ConfirmTransactionParams,
@@ -15,6 +16,7 @@ import {
   GetDetailCompounding,
   GetDetailCompoundingCustomer,
   ListQuery,
+  ReasonsCancelCompoundingCarParams,
   UpdateCompoundingCar,
   UpdateCompoundingCarCustomer,
   UpdateCompoundingCarDriver,
@@ -288,21 +290,15 @@ const ridesApi = {
     })
   },
 
-  getReasonsToCancelCompoundingCar: (limit = 12, offset = 0) => {
+  getReasonsToCancelCompoundingCar: (params: ReasonsCancelCompoundingCarParams) => {
     return axiosClient.post("/api/compounding_car_controller/get_cancel_reason_compounding_car", {
-      params: {
-        limit,
-        offset,
-      },
+      params,
     })
   },
 
-  cancelCompoundingCar: (limit = 12, offset = 0) => {
+  cancelCompoundingCar: (params: CancelCompoundingCarParams) => {
     return axiosClient.post("/api/compounding_car_controller/cancel_compounding_car", {
-      params: {
-        limit,
-        offset,
-      },
+      params,
     })
   },
 }

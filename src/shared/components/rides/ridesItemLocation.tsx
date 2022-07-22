@@ -31,7 +31,7 @@ const RidesItemLocation = ({
           {from_province_name}
         </p>
         <p className="text-sm text-gray-color-5 line-clamp-1">
-          {moment(from_date).format("HH:MM")}
+          {moment(from_date).format("HH:mm")}
         </p>
       </div>
       <div className="mx-[8px] mt-[8px]">
@@ -48,7 +48,7 @@ const RidesItemLocation = ({
         <p className="text-[20px] leading-[32px] font-medium text-gray-color-4 line-clamp-1">
           {to_province_name}
         </p>
-        <p className="text-sm text-gray-color-5 line-clamp-1">{moment(to_date).format("HH:MM")}</p>
+        <p className="text-sm text-gray-color-5 line-clamp-1">{moment(to_date).format("HH:mm")}</p>
       </div>
     </div>
   )

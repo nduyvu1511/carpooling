@@ -258,7 +258,7 @@ export const useAuth = (): UseAuthRes => {
         handleError && handleError()
         return
       }
-      handleSuccess(res.result?.data as UserInfo)
+      handleSuccess(res.result?.data)
     } catch (error) {
       console.log(error)
       handleError && handleError()

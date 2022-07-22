@@ -1,5 +1,5 @@
 import { RidesSummary } from "@/components"
-import { useCompoundingCarCustomer } from "@/hooks"
+import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -7,20 +7,34 @@ import { useEffect } from "react"
 const CheckoutSuccess = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    mutate: mutateCompoundingCar,
+    isInitialLoading,
+  } = useCompoundingCarCustomer({
     key: "get_compounding_car_customer_detail_checkout",
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
 
-  useEffect(() => {
-    if (compoundingCar === undefined) return
-    // if (compoundingCar?.state !== "confirm_paid") {
-    //   router.push("/c")
-    // }
+  useEffectOnce(() => {
+    return () => {
+      mutateCompoundingCar(undefined, false)
+    }
+  })
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compoundingCar])
+  useEffect(() => {
+    router.beforePopState(({ as }) => {
+      if (as !== router.asPath) {
+        router.push("/c")
+      }
+      return true
+    })
+
+    return () => {
+      router.beforePopState(() => true)
+    }
+  }, [router])
 
   return (
     <div className="max-w-[684px] w-full mx-auto py-24 checkout-success">

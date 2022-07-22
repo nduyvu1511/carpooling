@@ -1,4 +1,5 @@
 import { ArrowLeftIcon } from "@/assets"
+import { RidesSummaryLoading } from "@/components"
 import { BookingLayoutProps } from "@/models"
 import { useRouter } from "next/router"
 
@@ -14,7 +15,7 @@ const BookingLayout = ({
   return (
     <section className="container py-24">
       <div className="grid grid-cols-booking-grid gap-24">
-        <div className="block-element overflow-hidden h-fit">
+        <div className="block-element h-fit">
           {topNode ? <div className="bg-white-color pt-24">{topNode}</div> : null}
           <div className="p-24 flex items-center">
             <button onClick={() => router.back()}>
@@ -27,22 +28,7 @@ const BookingLayout = ({
         </div>
 
         <div className="overflow-hidden h-fit block-element">
-          {showLoading ? (
-            <div className="">
-              <div className="h-[80px] skeleton"></div>
-              <div className="p-24 block-element border border-solid border-border-color">
-                <div className="flex items-center justify-between mb-[16px]">
-                  <div className="skeleton h-[16px] w-[150px] rounded-[5px]"></div>
-                  <div className="skeleton h-[16px] w-[150px] rounded-[5px]"></div>
-                </div>
-                <div className="h-[80px] skeleton mb-24 rounded-[5px]"></div>
-                <div className="h-[150px] skeleton mb-24 rounded-[5px]"></div>
-                <div className="h-[100px] skeleton mb-24 rounded-[5px]"></div>
-              </div>
-            </div>
-          ) : (
-            rightNode
-          )}
+          {showLoading ? <RidesSummaryLoading /> : rightNode}
         </div>
       </div>
     </section>

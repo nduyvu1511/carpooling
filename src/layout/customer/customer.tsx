@@ -4,7 +4,6 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../core"
-import { App } from "../main/app"
 
 const CustomerLayout = ({ children }: LayoutProps) => {
   const router = useRouter()
@@ -18,12 +17,10 @@ const CustomerLayout = ({ children }: LayoutProps) => {
   }, [userInfo])
 
   return (
-    <App>
-      <section className="">
-        <AuthHeader />
-        <main className="min-h-[calc(100vh-80px)] h-full bg-bg">{children}</main>
-      </section>
-    </App>
+    <section className="">
+      <AuthHeader />
+      <main className="min-h-[calc(100vh-80px)] h-full bg-bg">{children}</main>
+    </section>
   )
 }
 

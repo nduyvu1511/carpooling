@@ -22,6 +22,7 @@ const RidesSummary = ({
   const item = "flex-1 flex justify-end ml-24 text-16 font-medium leading-26 text-gray-color-4"
   const title = "text-12 font-normal leading-[18px] w-[90px]"
 
+  if (!rides) return null
   return (
     <div className="">
       {type === "summary" ? (
@@ -45,7 +46,7 @@ const RidesSummary = ({
               {rides?.from_province.province_brief_name}
             </p>
             <p className="text-14 font-medium leading-26">
-              {moment(rides?.expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+              {moment(rides?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
           <div className="mx-8">
@@ -58,7 +59,7 @@ const RidesSummary = ({
             <p className="text-14 font-medium leading-26">
               {moment(rides?.expected_going_on_date)
                 .add(rides.duration, "hours")
-                .format("HH:MM DD/MM/YYYY")}
+                .format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
         </div>
@@ -96,7 +97,7 @@ const RidesSummary = ({
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Ngày đi:</p>
             <p className={item}>
-              {moment(rides.expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+              {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
 
@@ -104,7 +105,7 @@ const RidesSummary = ({
             <div className="flex items-baseline justify-between mb-[16px]">
               <p className={title}>Ngày về:</p>
               <p className={item}>
-                {moment(rides.expected_picking_up_date).format("HH:MM DD/MM/YYYY")}
+                {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
               </p>
             </div>
           ) : null}
@@ -168,7 +169,9 @@ const RidesSummary = ({
 
         <div className="flex items-baseline justify-between mb-[16px]">
           <p className={title}>Ghi chú:</p>
-          <p className={item}>{rides?.note || "Không có ghi chú nào"}</p>
+          <div className={`${item} max-h-[300px] h-full overflow-y-auto`}>
+            <p className={item}>{rides?.note || "Không có ghi chú nào"}</p>
+          </div>
         </div>
 
         <div className="border border-solid border-border-color my-24"></div>

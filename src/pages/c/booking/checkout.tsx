@@ -1,14 +1,24 @@
-import { Payment, CheckoutLoading, RidesProgress, RidesSummary } from "@/components"
-import { COMPOUNDING_VNPAY_CODE, setToSessionStorage } from "@/helper"
-import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
+import { CheckoutLoading, Payment, RidesProgress, RidesSummary } from "@/components"
+import {
+  useCompoundingCarActions,
+  useCompoundingCarCustomer,
+  useCustomerCheckout,
+  useEffectOnce,
+} from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
+import { CompoundingCarCustomer } from "@/models"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 const Checkout = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    isInitialLoading,
+    mutate: mutateCompoundingCar,
+  } = useCompoundingCarCustomer({
     key: "booking_checkout_customer",
     type: "autoFocus",
     compounding_car_customer_id: Number(compounding_car_customer_id),
@@ -41,10 +51,15 @@ const Checkout = () => {
     })
   }
 
-  useEffect(() => {
-    if (compoundingCar?.state === "draft") {
-      router.push(`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`)
+  useEffectOnce(() => {
+    return () => {
+      mutateCompoundingCar(undefined, false)
     }
+  })
+
+  useEffect(() => {
+    if (compoundingCar === undefined) return
+
     if (compoundingCar?.state === "deposit") {
       router.push(
         `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
@@ -55,19 +70,32 @@ const Checkout = () => {
 
   return (
     <BookingLayout
-      topNode={<RidesProgress state={compoundingCar?.state || "confirm"} />}
-      rightNode={compoundingCar ? <RidesSummary rides={compoundingCar} /> : null}
+      showLoading={isInitialLoading}
+      topNode={<RidesProgress state={compoundingCar?.state} />}
+      rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
       title="Đặt cọc chuyến đi"
     >
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar?.compounding_car_customer_id ? (
-        <Payment
-          amount_total={compoundingCar.amount_total}
-          secondsRemains={compoundingCar.second_remains}
-          onCheckout={(id) => handleConfirmTransaction(id)}
-          onCancelCheckout={handleCancelCompoundingCarCustomer}
-        />
+        compoundingCar?.state === "draft" ? (
+          <p className="m-24 -[40px] text-base">
+            Vui lòng xác nhận
+            <Link
+              href={`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`}
+            >
+              <a className="text-primary"> chuyến đi này </a>
+            </Link>
+            trước khi thực hiện đặt cọc
+          </p>
+        ) : (
+          <Payment
+            amount_total={compoundingCar.amount_total}
+            secondsRemains={compoundingCar.second_remains}
+            onCheckout={(id) => handleConfirmTransaction(id)}
+            onCancelCheckout={handleCancelCompoundingCarCustomer}
+          />
+        )
       ) : null}
     </BookingLayout>
   )

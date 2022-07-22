@@ -6,7 +6,12 @@ import {
   RidesProgress,
   RidesSummary,
 } from "@/components"
-import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
+import {
+  useCompoundingCar,
+  useCompoundingCarActions,
+  useCompoundingForm,
+  useEffectOnce,
+} from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
@@ -16,7 +21,11 @@ const RidesDetailCustomer = () => {
   const { compounding_car_id } = router.query
   const { confirmCompoundingCar, createExistingCompoundingCar } = useCompoundingCarActions()
   const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
+  const {
+    data: compoundingCar,
+    isValidating,
+    mutate,
+  } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
     key: "confirm_booking_compounding_car_customer",
     type: "once",
@@ -39,10 +48,16 @@ const RidesDetailCustomer = () => {
     })
   }
 
+  useEffectOnce(() => {
+    return () => {
+      mutate(undefined, false)
+    }
+  })
+
   return (
     <NoSSRWrapper>
       <BookingLayout
-        showLoading={isInitialLoading}
+        showLoading={isValidating}
         topNode={<RidesProgress state={compoundingCar?.state} />}
         rightNode={
           compoundingCar ? (
@@ -52,7 +67,7 @@ const RidesDetailCustomer = () => {
         title="Xác nhận chuyến đi ghép"
       >
         <div className="p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
-          {isInitialLoading ? (
+          {isValidating ? (
             <RidesDetailLoading />
           ) : !compoundingCar?.compounding_car_id ? (
             <div className="py-[40px] text-center">
@@ -65,15 +80,13 @@ const RidesDetailCustomer = () => {
               </div>
 
               <div className="">
-                <div className="mb-[40px]">
-                  <CarpoolingCompoundingForm
-                    viewButtonModal={false}
-                    defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-                    onSubmit={(data) => handleConfirmCompoundingCar(data)}
-                    type="existed"
-                    limitNumberSeat={compoundingCar?.number_available_seat}
-                  />
-                </div>
+                <CarpoolingCompoundingForm
+                  viewButtonModal={false}
+                  defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+                  onSubmit={(data) => handleConfirmCompoundingCar(data)}
+                  type="existed"
+                  limitNumberSeat={compoundingCar?.number_available_seat}
+                />
               </div>
             </>
           )}

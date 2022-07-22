@@ -26,10 +26,11 @@ const ScheduleSummary = ({
   number_seat_in_car,
   number_seat,
 }: ScheduleSummary) => {
+  if (!compounding_type) return null
   return (
     <div className="">
-      <div className="bg-primary p-24">
-        <h3 className="text-18 leading-[26px] font-medium text-white-color">Thông tin chuyến đi</h3>
+      <div className="p-24">
+        <h3 className="text-18 leading-[26px] font-medium text-primary">Thông tin chuyến đi</h3>
       </div>
 
       <div className="p-24">
@@ -54,7 +55,7 @@ const ScheduleSummary = ({
             <li className="flex items-baseline justify-between py-8">
               <span className="mr-8 text-xs">Ngày đi:</span>
               <span className="text-sm">
-                {moment(expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+                {moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
               </span>
             </li>
 
@@ -62,7 +63,7 @@ const ScheduleSummary = ({
               <li className="flex items-baseline justify-between py-8">
                 <span className="mr-8 text-xs">Ngày về:</span>
                 <span className="text-sm">
-                  {moment(expected_picking_up_date).format("HH:MM DD/MM/YYYY")}
+                  {moment(expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
                 </span>
               </li>
             ) : null}

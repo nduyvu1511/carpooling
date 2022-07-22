@@ -1,4 +1,4 @@
-import { EmptyLayout } from "@/layout"
+import { App, EmptyLayout } from "@/layout"
 import { AppPropsWithLayout } from "@/models"
 import { persistor, store } from "core"
 import Head from "next/head"
@@ -18,11 +18,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
           </Head>
-          <Layout>
-            <NotificationsProvider>
-              <Component {...pageProps} />
-            </NotificationsProvider>
-          </Layout>
+          <App>
+            <Layout>
+              <NotificationsProvider>
+                <Component {...pageProps} />
+              </NotificationsProvider>
+            </Layout>
+          </App>
         </SWRConfig>
       </PersistGate>
     </Provider>

@@ -10,6 +10,7 @@ interface CheckoutProps {
   onCheckout?: (acquirer_id: number) => void
   onCancelCheckout?: Function
   showCountdown?: boolean
+  type?: "deposit" | "checkout"
 }
 
 const Payment = ({
@@ -18,6 +19,7 @@ const Payment = ({
   onCheckout,
   onCancelCheckout,
   showCountdown = true,
+  type = "deposit",
 }: CheckoutProps) => {
   const {
     currentSelectPayment,
@@ -41,7 +43,8 @@ const Payment = ({
               <div className="flex items-stretch">
                 <div className="flex-1 mr-24">
                   <p className="text-xs mb-[12px]">
-                    Số tiền cần cọc <span className="text-gray-color-2">(VND)</span>
+                    {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
+                    <span className="text-gray-color-2">(VND)</span>
                   </p>
 
                   <span className="text-xl text-error">{formatMoneyVND(amount_total)}</span>
@@ -111,7 +114,7 @@ const Payment = ({
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
                 }`}
               >
-                Tiến hành thanh toán
+                {type === "checkout" ? "Tiến hành thanh toán" : "Tiến hành đặt cọc"}
               </button>
             </div>
           </div>

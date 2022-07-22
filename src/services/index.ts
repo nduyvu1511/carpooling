@@ -23,7 +23,6 @@ try {
         if (response?.data?.result?.code === 401) {
           await userApi.logout()
           store.dispatch(setProfile(undefined))
-          window.location.href = "/"
           return
         }
 

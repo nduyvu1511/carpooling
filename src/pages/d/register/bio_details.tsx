@@ -1,10 +1,9 @@
 import { ImageFileLoading, InputLoading, TextareaLoading, UserInfoForm } from "@/components"
-import { useProfile } from "@/hooks"
+import { useEffectOnce, useProfile } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { UserInfoFormParams } from "@/models"
 import { setProfile } from "@/modules"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
@@ -13,10 +12,9 @@ const BioDetail = () => {
   const dispatch = useDispatch()
   const { data: userInfo, isValidating, createUserInfo } = useProfile(true)
 
-  useEffect(() => {
+  useEffectOnce(() => {
     dispatch(notify("Vui lòng nhập tên hợp lệ để tiếp tục", "info"))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const onSubmitHandler = (data: UserInfoFormParams) => {
     if (data.name === `USER-${userInfo?.phone}`) {

@@ -92,7 +92,7 @@ const HomeCustomer = () => {
                   dataLength={ridesList?.length || 0}
                   next={() => fetchMoreRides(router.query)}
                   hasMore={hasMore}
-                  loader={!isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
+                  loader={isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
                 >
                   <ul className="grid grid-cols-3 gap-24">
                     {ridesList?.length > 0 &&
@@ -111,7 +111,6 @@ const HomeCustomer = () => {
                       ))}
                   </ul>
                 </InfiniteScroll>
-                <Spinner size={30} className="py-[20px]" />
               </div>
             ) : (
               <div className="flex-center my-[20px]">

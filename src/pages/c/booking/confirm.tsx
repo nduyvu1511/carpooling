@@ -8,7 +8,12 @@ import {
   Toggle,
   TwoWayCompoundingForm,
 } from "@/components"
-import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
+import {
+  useCompoundingCarActions,
+  useCompoundingCarCustomer,
+  useCompoundingForm,
+  useEffectOnce,
+} from "@/hooks"
 import { BookingLayout, CustomerLayout } from "@/layout"
 import { CompoundingCarCustomer, CreateCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
@@ -20,7 +25,11 @@ const ConfirmBookingCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    isInitialLoading,
+    mutate: mutateCompoundingCar,
+  } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
     key: "confirm_booking_compounding_car_customer",
     type: "once",
@@ -45,6 +54,12 @@ const ConfirmBookingCustomer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
 
+  useEffectOnce(() => {
+    return () => {
+      mutateCompoundingCar(undefined, false)
+    }
+  })
+
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
 
@@ -55,6 +70,7 @@ const ConfirmBookingCustomer = () => {
           ...params,
         },
         onSuccess: () => {
+          setEditable(false)
           dispatch(notify("Chỉnh sửa chuyến đi thành công", "success"))
         },
       })
@@ -80,7 +96,7 @@ const ConfirmBookingCustomer = () => {
 
   return (
     <BookingLayout
-      topNode={<RidesProgress state={compoundingCar?.state || "waiting"} />}
+      topNode={<RidesProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
       title="Xác nhận chuyến đi"

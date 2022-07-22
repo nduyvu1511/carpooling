@@ -99,7 +99,7 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
         <div className="flex items-center justify-between mb-[8px]">
           <p className="text-xs text-gray-90 w-[120px] mx-auto">Ngày đi:</p>
           <p className="flex-1 text-sm">
-            {moment(rides.expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+            {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
           </p>
         </div>
 
@@ -107,7 +107,7 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
           <div className="flex items-center justify-between mb-[8px]">
             <p className="text-xs text-gray-90 w-[120px] mx-auto">Ngày về:</p>
             <p className="flex-1 text-sm">
-              {moment(rides.expected_picking_up_date).format("HH:MM DD/MM/YYYY")}
+              {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
         ) : null}

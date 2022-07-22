@@ -2,6 +2,7 @@ import { RidesPassengerItem, RidesProgress, RidesSummary, RidesSummaryHeader } f
 import { useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 const CheckoutSuccess = () => {
   const router = useRouter()
@@ -11,6 +12,19 @@ const CheckoutSuccess = () => {
     type: "once",
     compounding_car_id: Number(compounding_car_id),
   })
+
+  useEffect(() => {
+    router.beforePopState(({ as }) => {
+      if (as !== router.asPath) {
+        router.push("/d")
+      }
+      return true
+    })
+
+    return () => {
+      router.beforePopState(() => true)
+    }
+  }, [router])
 
   if (compoundingCar?.state !== "confirm_deposit") return null
   return (

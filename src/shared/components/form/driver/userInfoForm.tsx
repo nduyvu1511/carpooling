@@ -193,7 +193,7 @@ export const UserInfoForm = ({
         className="form-upload-btn"
         title="Tiếp tục"
         view={view}
-        isError={mode === "create" ? !isValid : !isDirty}
+        disabled={mode === "create" ? !isValid : !isDirty && isValid}
         onClick={() => handleSubmit(onSubmitHandler)}
       />
     </form>

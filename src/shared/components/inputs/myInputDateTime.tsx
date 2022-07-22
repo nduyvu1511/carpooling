@@ -58,7 +58,7 @@ const MyInputDateTime = ({
           }}
           timeFormat={false}
           inputProps={{ placeholder: "Chọn ngày" }}
-          initialValue={date}
+          value={date}
           className={`${disableDate ? "pointer-events-none opacity-60" : ""} `}
         />
       </div>
@@ -66,7 +66,7 @@ const MyInputDateTime = ({
         <Select
           menuShouldScrollIntoView={false}
           options={times}
-          defaultValue={times?.find((item) => item.value === time) || undefined}
+          value={times?.find((item) => item.value === time) || undefined}
           placeholder="Chọn giờ"
           onChange={(val) => setTime(val?.value + "")}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}

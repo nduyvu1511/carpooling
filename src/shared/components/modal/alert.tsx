@@ -59,7 +59,7 @@ const Alert = ({
           ) : null}
           <button
             onClick={() => onConfirm()}
-            className={`btn px-[26px] py-[8px] bg-gray-color-1 text-white-color ${
+            className={`btn px-[26px] py-[8px] text-white-color ${
               type === "success"
                 ? "bg-success"
                 : type === "warning"
@@ -80,4 +80,3 @@ const Alert = ({
 }
 
 export { Alert }
-

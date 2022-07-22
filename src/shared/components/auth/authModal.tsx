@@ -12,7 +12,7 @@ const AuthModal = () => {
   const router = useRouter()
   const { updateUserInfo } = useProfile()
   const { loginWithPassword, getUserInfo, loginWithPhoneNumber, loginWithGoogle } = useAuth()
-  const { authModalType } = useSelector((state: RootState) => state.common)
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
   const handleGetUserInfo = () => {
     getUserInfo((userInfo) => {

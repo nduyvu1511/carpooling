@@ -89,11 +89,11 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
             <p className="flex items-center">
               <CalendarIcon className="w-[14px] h-[14px] mr-[5px]" />
               <span className="text-sm text-gray-color-5">
-                {moment(expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+                {moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
               </span>
             </p>
           </div>
-         </div>
+        </div>
 
         <div className="flex-col flex-center mr-[12px]">
           <p className="text-sm text-gray-color-5 mb-[4px]">Tổng giá phí</p>

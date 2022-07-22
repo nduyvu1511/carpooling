@@ -27,20 +27,20 @@ const Activities = () => {
 
   const handleRedirect = (params: CustomerActivityRes) => {
     const { state, compounding_car_customer_id, expected_going_on_date } = params
-    if (state === "done" || state === "in_process") {
+    if (state === "done" || state === "in_process" || state === "customer_pay") {
       router.push(
         `/c/order-done/payment-options?compounding_car_customer_id=${compounding_car_customer_id}`
       )
-    } else if (state === "customer_pay") {
-      router.push(
-        `/c/order-done/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
-      )
+    } else if (state === "confirm") {
+      router.push(`/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`)
     } else if (state === "draft") {
       if (moment(expected_going_on_date).isAfter(Date.now())) {
         router.push(`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`)
       } else {
         router.push(`/c/rides/${compounding_car_customer_id}`)
       }
+    } else if (state === "cancel") {
+      router.push(`/c/ride-canceled?compounding_car_customer_id=${compounding_car_customer_id}`)
     } else {
       router.push(`/c/rides/${compounding_car_customer_id}`)
     }

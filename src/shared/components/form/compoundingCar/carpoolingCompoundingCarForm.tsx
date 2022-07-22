@@ -82,7 +82,7 @@ export const CarpoolingCompoundingForm = ({
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(false)
   const [isPickingFromStart, setPickingFromStart] = useState<boolean>()
-
+  console.log(defaultValues)
   const calcDistance = () => {
     const fromStation = getValues("from_station")
     const toStation = getValues("to_station")
@@ -165,7 +165,7 @@ export const CarpoolingCompoundingForm = ({
     setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, undefined)
     return
   }
-
+  console.log(errors)
   return (
     <>
       <form
@@ -181,12 +181,12 @@ export const CarpoolingCompoundingForm = ({
                 prevProvinceId={getValues("to_station.province_id")}
                 name="from_station"
                 control={control}
-                onChange={(location) => {
-                  if (!location) return
-                  setValue("from_station", location)
+                onChange={(station) => {
+                  if (!station) return
+                  setValue("from_station", station)
                   clearErrors("from_station")
                   calcPrice()
-                  setToLocalStorage(CARPOOLING_FROM_STATION, location)
+                  setToLocalStorage(CARPOOLING_FROM_STATION, station)
                   calcDistance()
                 }}
                 placeholder="Điểm đi"

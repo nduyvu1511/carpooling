@@ -90,7 +90,7 @@ const RidesPassengerItem = ({
           <li className="flex items-baseline mb-[12px]">
             <span className="text-xs w-[150px]">Giờ đi: </span>
             <span className="text-sm flex-1">
-              {moment(expected_going_on_date).format("HH:MM DD/MM/YYYY")}
+              {moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </span>
           </li>
 

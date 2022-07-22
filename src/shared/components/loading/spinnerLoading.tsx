@@ -3,7 +3,7 @@ import { RootState } from "@/core/store"
 import { useSelector } from "react-redux"
 
 const SpinnerLoading = () => {
-  const { isScreenLoading } = useSelector((state: RootState) => state.common)
+  const isScreenLoading = useSelector((state: RootState) => state.common.isScreenLoading)
   return (
     <>
       {isScreenLoading ? (

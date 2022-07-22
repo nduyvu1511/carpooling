@@ -319,7 +319,7 @@ export const lngLatToKms = ({ from, to }: { from: LatLng; to: LatLng }): number 
 }
 
 export const subtractDateTimeToNumberOfHour = (dateTime: string, hour: number): string => {
-  return moment(dateTime).subtract(hour, "hours").format("YYYY-MM-DD HH:MM:SS")
+  return moment(dateTime).subtract(hour, "hours").format("YYYY-MM-DD HH:mm:ss")
 }
 
 export const toImageUrl = (url: string) => `${process.env.NEXT_PUBLIC_API_URL}${url}`

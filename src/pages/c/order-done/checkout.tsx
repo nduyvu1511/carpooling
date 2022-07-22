@@ -1,6 +1,5 @@
-import { Payment, RidesSummary } from "@/components"
-import { COMPOUNDING_VNPAY_CODE, setToSessionStorage } from "@/helper"
-import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
+import { CheckoutLoading, Payment, RidesSummary } from "@/components"
+import { useCompoundingCarCustomer, useCustomerCheckout, useEffectOnce } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -9,7 +8,11 @@ const Checkout = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
-  const { data: compoundingCar, isValidating } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    isInitialLoading,
+    mutate: mutateCompoundingCar,
+  } = useCompoundingCarCustomer({
     key: "get_compounding_car_customer_to_check_full",
     type: "autoFocus",
     compounding_car_customer_id: Number(compounding_car_customer_id),
@@ -24,6 +27,12 @@ const Checkout = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
+
+  useEffectOnce(() => {
+    return () => {
+      mutateCompoundingCar(undefined, false)
+    }
+  })
 
   const handleCreatePayment = (acquirer_id: number) => {
     if (!acquirer_id || !compoundingCar?.compounding_car_customer_id) return
@@ -42,13 +51,17 @@ const Checkout = () => {
 
   return (
     <CustomerBookingLayout
+      showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? <RidesSummary car_account_type="customer" rides={compoundingCar} /> : null
       }
       title="Thanh toán cho chuyến đi"
     >
-      {compoundingCar ? (
+      {isInitialLoading ? (
+        <CheckoutLoading />
+      ) : compoundingCar ? (
         <Payment
+          type="checkout"
           showCountdown={false}
           amount_total={+compoundingCar.down_payment}
           secondsRemains={+compoundingCar.second_remains}

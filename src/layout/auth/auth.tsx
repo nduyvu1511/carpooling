@@ -4,7 +4,6 @@ import { LayoutProps } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { App } from "../main"
 
 const AuthLayout = ({ children }: LayoutProps) => {
   const router = useRouter()
@@ -18,10 +17,10 @@ const AuthLayout = ({ children }: LayoutProps) => {
   }, [userInfo])
 
   return (
-    <App>
+    <>
       <AuthHeader />
       <main className="min-h-[calc(100vh-80px)] h-full bg-bg">{children}</main>
-    </App>
+    </>
   )
 }
 

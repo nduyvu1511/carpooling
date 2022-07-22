@@ -1,3 +1,4 @@
+import { subtractDateTimeToNumberOfHour } from "@/helper"
 import "react-datetime/css/react-datetime.css"
 import { Control, Controller } from "react-hook-form"
 import { MyInputDateTime } from "./myInputDateTime"
@@ -43,9 +44,9 @@ export const InputDateTime = ({
             disableDate={disableDate}
             isError={isError}
             onChange={(dateTime) => {
-              console.log({ dateTime })
-              onChange(dateTime)
-              onChangeProps(dateTime)
+              const newDateTime = subtractDateTimeToNumberOfHour(dateTime, 7)
+              onChange(newDateTime)
+              onChangeProps(newDateTime)
             }}
             initialValue={defaultValue}
           />

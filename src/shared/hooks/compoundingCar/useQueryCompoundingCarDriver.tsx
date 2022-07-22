@@ -1,7 +1,6 @@
 import {
   CompoundingCarFilterParams,
   CompoundingCarRes,
-  CompoundingFilterForm,
   CompoundingFilterParams,
   CompoundingListDriverParams,
 } from "@/models"
@@ -21,7 +20,7 @@ interface Res {
   getQueryParams: (params: CompoundingCarFilterParams | undefined) => CompoundingListDriverParams
   fromRouterQueryToDefaultValuesForm: (
     params: CompoundingFilterParams
-  ) => CompoundingFilterForm | undefined
+  ) => CompoundingFilterParams | undefined
 }
 
 interface Props {
@@ -97,7 +96,7 @@ export const useQueryCompoundingCarDriver = ({ params }: Props): Res => {
 
   const fromRouterQueryToDefaultValuesForm = (
     params: CompoundingFilterParams
-  ): CompoundingFilterForm | undefined => {
+  ): CompoundingFilterParams | undefined => {
     return
   }
 

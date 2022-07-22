@@ -3,6 +3,7 @@ import { CompoundingCarCustomer } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import useSWR from "swr"
 
 const CheckingCheckoutStatus = () => {
@@ -28,6 +29,13 @@ const CheckingCheckoutStatus = () => {
       revalidateOnFocus: true,
     }
   )
+
+  useEffect(() => {
+    if (!router.isReady) return
+    if (vnp_ResponseCode !== "00") {
+      window.close()
+    }
+  }, [router, vnp_ResponseCode])
 
   return (
     <>

@@ -2,6 +2,7 @@ import { Spinner } from "@/components"
 import { DriverEmptyLayout } from "@/layout"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import useSWR from "swr"
 
 const ConfirmCheckoutDriver = () => {
@@ -26,6 +27,13 @@ const ConfirmCheckoutDriver = () => {
       revalidateOnFocus: true,
     }
   )
+
+  useEffect(() => {
+    if (!router.isReady) return
+    if (vnp_ResponseCode !== "00") {
+      window.close()
+    }
+  }, [router, vnp_ResponseCode])
 
   return (
     <>

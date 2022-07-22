@@ -34,11 +34,19 @@ export const InputStation = ({
   const dispatch = useDispatch()
   const [showStation, setShowStation] = useState<boolean>(false)
 
+  const handleSetShowStation = (status: boolean) => {
+    if (status) {
+      setShowStation(true)
+    } else {
+      setShowStation(false)
+    }
+  }
+
   return (
     <>
       <div className="">
         {showLabel ? (
-          <label onClick={() => setShowStation(true)} className="form-label">
+          <label onClick={() => handleSetShowStation(true)} className="form-label">
             {placeholder} {required ? "(*)" : ""}
           </label>
         ) : null}
@@ -48,7 +56,7 @@ export const InputStation = ({
           render={({ field: { onChange, onBlur } }) => (
             <input
               onClick={() => {
-                setShowStation(true)
+                handleSetShowStation(true)
               }}
               readOnly
               className={`form-input ${isError ? "form-input-err" : ""}`}
@@ -71,7 +79,7 @@ export const InputStation = ({
       {showStation ? (
         <Modal
           onClose={() => {
-            setShowStation(false)
+            handleSetShowStation(false)
           }}
           iconType="back"
           heading={type === "from" ? "Chọn trạm đến" : "Chọn trạm đi"}
@@ -82,7 +90,7 @@ export const InputStation = ({
                 dispatch(notify("Vui lòng chọn địa điểm khác với tỉnh trước đó", "error"))
                 return
               }
-              setShowStation(false)
+              handleSetShowStation(false)
               onChange(val)
             }}
             defaultValue={defaultValue}

@@ -1,8 +1,9 @@
 import { AuthModal, SpinnerLoading } from "@/components"
 import { RootState } from "@/core"
+import { useAuth } from "@/hooks"
 import { useEffectOnce } from "@/hooks/utilities/useEffectOnce"
 import { CarId, ProvinceId, VehicleTypeParams } from "@/models"
-import { setProvinces, setVehicleTypes } from "@/modules"
+import { setProfile, setProvinces, setVehicleTypes } from "@/modules"
 import { addressApi, vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { ReactNode } from "react"
@@ -10,12 +11,18 @@ import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
 
 const App = ({ children }: { children: ReactNode }) => {
+  const { getUserInfo } = useAuth()
   const dispatch = useDispatch()
   const notifications = useSelector((state: RootState) => state.notifications)
-  const { vehicleTypes, provinces } = useSelector((state: RootState) => state.compoundingCarData)
-  const { authModalType } = useSelector((state: RootState) => state.common)
+  const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
+  const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
   useEffectOnce(() => {
+    getUserInfo((userInfo) => {
+      dispatch(setProfile(userInfo))
+    })
+
     setUpNotifications({
       defaultProps: {
         position: "top-center",
@@ -67,4 +74,3 @@ const App = ({ children }: { children: ReactNode }) => {
 }
 
 export { App }
-

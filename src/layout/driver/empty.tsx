@@ -3,7 +3,6 @@ import { LayoutProps } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { App } from "../main/app"
 
 const DriverEmptyLayout = ({ children }: LayoutProps) => {
   const router = useRouter()
@@ -16,7 +15,7 @@ const DriverEmptyLayout = ({ children }: LayoutProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo])
 
-  return <App>{children}</App>
+  return <>{children}</>
 }
 
 export { DriverEmptyLayout }

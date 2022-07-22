@@ -4,6 +4,7 @@ interface ButtonSubmitProps {
   isError?: boolean
   className?: string
   view?: "modal" | "page"
+  disabled?: boolean
 }
 
 export const ButtonSubmit = ({
@@ -12,6 +13,7 @@ export const ButtonSubmit = ({
   title,
   className = "",
   view,
+  disabled = false,
 }: ButtonSubmitProps) => {
   return (
     <div
@@ -24,7 +26,7 @@ export const ButtonSubmit = ({
         type="submit"
         className={`btn-primary hover:border-none border-none hover:text-white-color ${
           isError ? "btn-disabled-clickable" : ""
-        } ${className} `}
+        } ${disabled ? "btn-disabled" : ""} ${className} `}
       >
         {title || "Xác nhận"}
       </button>

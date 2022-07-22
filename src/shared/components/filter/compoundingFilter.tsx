@@ -1,25 +1,15 @@
-import { CompoundingFilterSchema } from "@/core/schema"
 import { compoundingOrderList, isObjectHasValue } from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
-import {
-  CarIdType,
-  CompoundingCarCustomerFilterKey,
-  CompoundingCarFilterKey,
-  CompoundingFilterForm,
-  CompoundingFilterParams,
-  OptionModel,
-} from "@/models"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { CarIdType, CompoundingFilterParams, OptionModel } from "@/models"
 import { useState } from "react"
 import "react-datetime/css/react-datetime.css"
-import { Controller, useForm } from "react-hook-form"
-import { InputDate, InputSelect, ItemSelect } from "../inputs"
+import Select from "react-select"
+import { InputDate, ItemSelect } from "../inputs"
 
-type CompoundingFilterKey = CompoundingCarCustomerFilterKey | CompoundingCarFilterKey
 interface CompoundingFilterFormProps {
   type: "driver" | "customer"
   onChange: (params: CompoundingFilterParams | undefined) => void
-  defaultValues?: CompoundingFilterForm
+  defaultValues?: CompoundingFilterParams
 }
 
 export const CompoundingFilter = ({
@@ -30,11 +20,18 @@ export const CompoundingFilter = ({
   const { provinceOptions } = useAddress()
   const { vehicleTypeOptions, seats } = useCompoundingForm()
   const { getCurrentLocation } = useCurrentLocation({ showLoading: true })
-  const { setValue, control, getValues, reset } = useForm<CompoundingFilterForm>({
-    resolver: yupResolver(CompoundingFilterSchema),
-    defaultValues,
-  })
   const [numberSeatOptions, setNumberSeatOptions] = useState<OptionModel[]>([])
+  const [compoundingFormValues, setCompoundingFormValues] = useState<
+    CompoundingFilterParams | undefined
+  >(defaultValues)
+
+  const handleChange = (params: CompoundingFilterParams) => {
+    onChangeProps({ ...compoundingFormValues, ...params })
+  }
+
+  const fromProvinceOption = provinceOptions.find(
+    (item) => item.value == compoundingFormValues?.from_province_id
+  )
 
   return (
     <form>
@@ -46,7 +43,7 @@ export const CompoundingFilter = ({
               <span
                 onClick={() => {
                   onChangeProps(undefined)
-                  reset()
+                  setCompoundingFormValues(undefined)
                 }}
                 className="text-primary text-14 leading-26 font-medium cursor-pointer"
               >
@@ -56,120 +53,106 @@ export const CompoundingFilter = ({
           </div>
 
           <div className="form-date form-date-sm mb-[10px]">
-            <Controller
-              control={control}
-              name={"from_expected_going_on_date"}
-              render={({ field: { onChange, onBlur } }) => (
-                <InputDate
-                  onChange={(val) => {
-                    onChange(val)
-                    onChangeProps({ from_expected_going_on_date: val + "" })
-                  }}
-                  defaultValue={defaultValues?.from_expected_going_on_date}
-                  inputProps={{ placeholder: "Ngày đi" }}
-                />
-              )}
-              rules={{ required: true }}
+            <InputDate
+              onChange={(val) => {
+                setCompoundingFormValues({
+                  ...compoundingFormValues,
+                  from_expected_going_on_date: val + "",
+                })
+                handleChange({ from_expected_going_on_date: val + "" })
+              }}
+              defaultValue={compoundingFormValues?.from_expected_going_on_date}
+              inputProps={{ placeholder: "Ngày đi" }}
             />
           </div>
 
           <div className="form-date form-date-sm mb-[10px]">
-            <Controller
-              control={control}
-              name={"to_expected_going_on_date"}
-              render={({ field: { onChange, onBlur } }) => (
-                <InputDate
-                  onChange={(val) => {
-                    onChange(val)
-                    onChangeProps({ to_expected_going_on_date: val + "" })
-                  }}
-                  defaultValue={defaultValues?.to_expected_going_on_date}
-                  inputProps={{ placeholder: "Ngày về" }}
-                />
-              )}
-              rules={{ required: true }}
+            <InputDate
+              onChange={(val) => {
+                setCompoundingFormValues({
+                  ...compoundingFormValues,
+                  to_expected_going_on_date: val + "",
+                })
+                handleChange({ to_expected_going_on_date: val + "" })
+              }}
+              defaultValue={compoundingFormValues?.to_expected_going_on_date}
+              inputProps={{ placeholder: "Ngày về" }}
             />
           </div>
 
-          <div className="form-select-sm">
-            <InputSelect
+          <div className="form-select form-select-sm">
+            <Select
+              openMenuOnFocus={true}
               options={provinceOptions}
-              control={control}
-              defaultValue={
-                defaultValues?.from_province_id
-                  ? provinceOptions.find((item) => item.value == getValues("from_province_id"))
-                  : undefined
-              }
+              controlShouldRenderValue
+              defaultValue={fromProvinceOption}
               name="from_province_id"
               onChange={(val) => {
                 if (!val) return
-                setValue("from_province_id", +val.value)
-                onChangeProps({ from_province_id: +val.value })
+                setCompoundingFormValues({ ...compoundingFormValues, from_province_id: +val.value })
+                handleChange({ from_province_id: +val.value })
               }}
               placeholder="Đi từ"
-              showLabel={false}
             />
           </div>
 
-          <div className="form-select-sm">
-            <InputSelect
+          <div className="form-select form-select-sm">
+            <Select
               options={provinceOptions}
-              control={control}
-              defaultValue={
-                defaultValues?.to_province_id
-                  ? provinceOptions.find((item) => item.value == getValues("to_province_id"))
+              value={
+                compoundingFormValues?.to_province_id
+                  ? provinceOptions.find(
+                      (item) => item.value == compoundingFormValues?.to_province_id
+                    )
                   : undefined
               }
               name="to_province_id"
               onChange={(val) => {
                 if (!val) return
-                setValue("to_province_id", +val.value)
-                onChangeProps({ to_province_id: +val.value })
+                handleChange({ to_province_id: +val.value })
+                setCompoundingFormValues({ ...compoundingFormValues, to_province_id: +val.value })
               }}
               placeholder="Đến tại"
-              showLabel={false}
             />
           </div>
 
-          <div className="form-select-sm">
-            <InputSelect
+          <div className="form-select form-select-sm">
+            <Select
               options={vehicleTypeOptions}
-              control={control}
-              defaultValue={
-                defaultValues?.car_id
-                  ? provinceOptions.find((item) => item.value == getValues("car_id"))
+              value={
+                compoundingFormValues?.car_id
+                  ? provinceOptions.find((item) => item.value == compoundingFormValues?.car_id)
                   : undefined
               }
               name="car_id"
               onChange={(val) => {
                 if (!val) return
                 setNumberSeatOptions(seats(Number((val as CarIdType)?.number_seat) || 0))
-                setValue("car_id", +val.value)
-                onChangeProps({ car_id: +val.value })
+                handleChange({ car_id: +val.value })
+                setCompoundingFormValues({ ...compoundingFormValues, car_id: +val.value })
               }}
               placeholder="Loại xe"
-              showLabel={false}
             />
           </div>
+
           {type === "customer" ? (
-            <div className="form-select-sm">
-              <InputSelect
+            <div className="form-select form-select-sm">
+              <Select
                 options={numberSeatOptions}
-                control={control}
-                defaultValue={
-                  defaultValues?.number_seat
-                    ? provinceOptions.find((item) => item.value == getValues("number_seat"))
+                value={
+                  compoundingFormValues?.number_seat
+                    ? provinceOptions.find(
+                        (item) => item.value == compoundingFormValues?.number_seat
+                      )
                     : undefined
                 }
                 name="number_seat"
                 onChange={(val) => {
                   if (!val) return
-                  setNumberSeatOptions(seats(Number((val as CarIdType)?.number_seat) || 0))
-                  setValue("number_seat", +val.value)
-                  onChangeProps({ number_seat: +val.value })
+                  handleChange({ number_seat: +val.value })
+                  setCompoundingFormValues({ ...compoundingFormValues, number_seat: +val.value })
                 }}
                 placeholder="Số hành khách"
-                showLabel={false}
               />
             </div>
           ) : null}
@@ -182,18 +165,29 @@ export const CompoundingFilter = ({
               {compoundingOrderList.map(({ label, value }, index) => (
                 <li key={index} className="mb-[16px] last:mb-0">
                   <ItemSelect
-                    isActive={getValues("order_by") === value}
+                    isActive={compoundingFormValues?.order_by == value}
                     onChange={() => {
                       if (value === "sort_by_distance") {
                         getCurrentLocation(({ lng, lat }) => {
-                          setValue("order_by", "sort_by_distance")
-                          setValue("current_latitude", lat + "")
-                          setValue("current_longitude", lng + "")
-                          onChangeProps({ order_by: "sort_by_distance" })
+                          const val = {
+                            order_by: "sort_by_distance",
+                            current_latitude: lat + "",
+                            current_longitude: lng + "",
+                          }
+                          setCompoundingFormValues({
+                            ...compoundingFormValues,
+                            ...val,
+                          } as CompoundingFilterParams)
+                          handleChange(val as CompoundingFilterParams)
                         })
                       } else {
-                        setValue("order_by", value)
-                        onChangeProps({ order_by: value })
+                        setCompoundingFormValues({
+                          ...compoundingFormValues,
+                          order_by: value,
+                          current_latitude: "",
+                          current_longitude: "",
+                        })
+                        handleChange({ order_by: value })
                       }
                     }}
                     title={label}

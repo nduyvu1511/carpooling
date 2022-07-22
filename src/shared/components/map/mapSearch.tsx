@@ -1,5 +1,4 @@
 import { RootState } from "@/core/store"
-import { getProvinceName } from "@/helper"
 import { useAddress, useClickOutside } from "@/hooks"
 import { FromLocation } from "@/models"
 import { addLocationSearchHistory } from "@/modules"
@@ -7,14 +6,14 @@ import { useRef, useState } from "react"
 import { MdOutlineLocationOff } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
-import { LocationHistoryItem, LocationItem } from "../location"
+import { LocationHistoryItem } from "../location"
 
 interface MapSearchProps {
   onSelect?: (val: FromLocation) => void
 }
 
 export const MapSearch = ({ onSelect }: MapSearchProps) => {
-  const { getProvinceId } = useAddress()
+  const { getProvinceIdByGooglePlace } = useAddress()
   const dispatch = useDispatch()
   const { searchHistoryList } = useSelector((state: RootState) => state.locationHistory)
 
@@ -37,8 +36,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
   const getLocationFromSearchResult = (location: google.maps.places.AutocompletePrediction) => {
     getGeocode({ address: location.description }).then((results) => {
       const { lat, lng } = getLatLng(results?.[0])
-      const locationName = getProvinceName(location?.description)
-      const province_id = getProvinceId(locationName)
+      const province_id = getProvinceIdByGooglePlace(location.description)
       if (!province_id) return
 
       const newLocation: FromLocation = {
