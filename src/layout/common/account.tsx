@@ -1,10 +1,10 @@
 import {
   ActivityIcon,
   blankAvatar,
-  CalendarIcon,
-  ListIcon,
   LockIcon,
+  StarEmptyIcon,
   UserCircleIcon,
+  WalletIcon,
 } from "@/assets"
 import { AccountSidebar } from "@/components"
 import { RootState } from "@/core/store"
@@ -33,7 +33,12 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
         path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/activities`,
       },
       {
-        icon: <ListIcon className="w-[20px] h-[20px]" />,
+        icon: <WalletIcon className="w-[20px] h-[20px]" />,
+        label: "Ví cá nhân",
+        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/wallet`,
+      },
+      {
+        icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
         label: "Đánh giá",
         path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/rating`,
       },

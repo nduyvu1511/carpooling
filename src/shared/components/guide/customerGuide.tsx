@@ -9,7 +9,7 @@ export const CustomerGuide = () => {
         {
           icon: guide1,
           label: "Đăng ký tài khoản",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
             tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },
@@ -23,7 +23,7 @@ export const CustomerGuide = () => {
         {
           icon: guide3,
           label: "Kiểm tra và xác nhận",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
           tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },
@@ -37,12 +37,12 @@ export const CustomerGuide = () => {
         {
           icon: guide5,
           label: "Hoàn tất đặt chuyến và trải nghiệm",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
           tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },
       ].map((item, index) => (
-        <div key={index} className="mb-[80px]">
+        <div key={index} className="mb-[80px] last:mb-0">
           <Fade bottom delay={100}>
             <GuideItem
               index={index + 1}

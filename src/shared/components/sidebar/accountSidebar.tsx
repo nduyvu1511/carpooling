@@ -1,10 +1,9 @@
-import { ArrowDownIcon } from "@/assets"
+import { SignoutIcon } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { useAuth } from "@/hooks"
 import { SidebarItem } from "@/models"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useState } from "react"
 
 interface AccountSidebarProps {
   navList: SidebarItem[]
@@ -53,7 +52,10 @@ const AccountSidebar = ({ navList, avatar, name, phone }: AccountSidebarProps) =
           </li>
         ))}
 
-        <li className={`last:mb-0 mt-[12px] border-t border-solid border-border-color`}>
+        <li
+          className={`last:mb-0 mt-[12px] border-t px-12 border-solid border-border-color flex items-center`}
+        >
+          <SignoutIcon className="w-[20px] h-[20px] text-error" />
           <button
             onClick={() =>
               logout(() => {

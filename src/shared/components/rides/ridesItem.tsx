@@ -88,7 +88,9 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
         from_date={rides.expected_going_on_date}
         from_province_name={rides.from_province.province_brief_name}
         to_province_name={rides.to_province.province_brief_name}
-        to_date={rides.expected_picking_up_date}
+        to_date={moment(rides.expected_going_on_date)
+          .add(rides?.duration || 0, "hours")
+          .toString()}
       />
       <div className="mt-[18px] flex-1">
         {/* <div className="flex items-center justify-between mb-[8px]">

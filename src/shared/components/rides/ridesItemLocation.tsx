@@ -1,13 +1,8 @@
 import {
-  ArrowLineRightIcon,
-  ArrowRightIcon,
-  CarpoolingIcon,
-  OneWayIcon,
-  TwoWayIcon,
+  ArrowLineRightIcon
 } from "@/assets"
 import { CompoundingType } from "@/models"
 import moment from "moment"
-import React from "react"
 
 interface RidesItemLocationProps {
   compounding_type: CompoundingType
@@ -55,3 +50,4 @@ const RidesItemLocation = ({
 }
 
 export { RidesItemLocation }
+

@@ -4,7 +4,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1280px] w-full mx-auto;
+    @apply max-w-[1280px] w-full mx-auto px-[16px] sm:px-24 xl:px-0;
   }
 
   .flex-center {
@@ -12,15 +12,11 @@
   }
 
   .btn {
-    @apply cursor-pointer py-[10px] px-[32px] outline-none text-[16px] font-semibold leading-[26px] flex-center rounded-[30px] text-white-color;
+    @apply cursor-pointer py-[10px] px-[32px]  w-full rounded-[5px] md:w-fit outline-none text-[16px] font-semibold leading-[26px] flex-center md:rounded-[30px] text-white-color;
   }
 
   .btn-primary {
     @apply btn bg-primary hover:bg-[#2E4CB7];
-  }
-
-  .home-heading {
-    @apply text-primary font-[600] text-[50px] leading-[61px];
   }
 
   .normal-text {
@@ -104,11 +100,11 @@
   }
 
   .h1 {
-    @apply text-[60px] font-medium leading-[73px] text-gray-color-4;
+    @apply text-[30px] leading-[38px] lg:text-[60px] font-medium lg:leading-[73px] text-gray-color-4;
   }
 
   .h2 {
-    @apply text-[40px] font-medium leading-[49px] text-gray-color-4;
+    @apply text-[26px] leading-[34px] lg:text-[40px] font-medium lg:leading-[49px] text-gray-color-4;
   }
 
   .h3 {
@@ -170,8 +166,14 @@
 }
 
 .custom-swiper {
-  .swiper-slide {
-    width: 20vw !important;
+  .swiper {
+    &-slide {
+      width: 70%;
+
+      @media screen and (min-width: 640px) {
+        width: unset;
+      }
+    }
   }
 }
 
@@ -408,4 +410,29 @@
 
 .bg-linear-gradient {
   background: linear-gradient(180deg, #ffffff 21.76%, rgba(255, 255, 255, 0) 100%);
+}
+
+.body-hidden {
+  overflow: hidden;
+  @media screen and (min-width: 1024px) {
+    padding-right: 17px;
+  }
+}
+
+.drawer {
+  &-enter-active {
+    transform: translateX(0);
+  }
+
+  &-enter-done {
+    transform: translateX(0);
+  }
+
+  &-exit-active {
+    transform: translateX(100%);
+  }
+
+  &-exit-done {
+    transform: translateX(100%);
+  }
 }

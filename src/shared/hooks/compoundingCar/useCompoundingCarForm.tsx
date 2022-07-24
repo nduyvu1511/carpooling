@@ -33,7 +33,7 @@ import {
   TWO_WAY_IS_CHECKED_POLICY,
   TWO_WAY_NOTE,
   TWO_WAY_PRICE,
-  TWO_WAY_TO_LOCATION
+  TWO_WAY_TO_LOCATION,
 } from "@/helper"
 import {
   CarIdType,
@@ -43,7 +43,7 @@ import {
   CreateCommonCompoundingForm,
   CreateOneWayCompoundingCarForm,
   CreateTwoWayCompoundingCarForm,
-  OptionModel
+  OptionModel,
 } from "@/models"
 import { vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -276,8 +276,8 @@ export const useCompoundingForm = (): Res => {
         lng: from_longitude,
         province_id: from_province.province_id,
         province_name: from_province.province_name,
-        station_id: compoundingCar.from_pick_up_station.station_id,
-        station_name: compoundingCar.from_pick_up_station.station_name,
+        station_id: compoundingCar.from_pick_up_station?.station_id,
+        station_name: compoundingCar.from_pick_up_station?.station_name,
       },
       number_seat: {
         label: `1 ghế`,
@@ -297,8 +297,8 @@ export const useCompoundingForm = (): Res => {
         lng: to_longitude,
         province_id: to_province.province_id,
         province_name: to_province.province_name,
-        station_id: compoundingCar.to_pick_up_station.station_id,
-        station_name: compoundingCar.to_pick_up_station.station_name,
+        station_id: compoundingCar.to_pick_up_station?.station_id,
+        station_name: compoundingCar.to_pick_up_station?.station_name,
       },
       note: compoundingCar.note,
       distance: compoundingCar.distance,

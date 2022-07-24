@@ -12,7 +12,7 @@ const MenuIcon = ({ className = "" }) => {
     >
       <path
         d="M1 1H27M1 7H27"
-        stroke="#373737"
+        stroke="currentColor"
         strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"

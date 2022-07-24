@@ -31,48 +31,48 @@ const HomeGuest = () => {
 
   return (
     <section className="">
-      <div className="h-[calc(100vh-80px)]">
+      <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
 
-      <div className="mt-[160px]">
+      <div className="mt-[80px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
-          <h1 className="home-heading text-[60px] leading-[73px] text-center">Lịch sử chuyến đi</h1>
+          <h1 className="h1 text-primary text-center font-">Lịch sử chuyến đi</h1>
 
-          <div className="container mt-[80px]">
+          <div className="container px-0 mt-[80px] custom-swiper">
             <PlaceSlide showLoading={isValidating} places={data || []} />
           </div>
         </div>
       </div>
 
-      <div className="mt-[210px]">
+      <div className="mt-[80px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
-          <h1 className="home-heading text-[60px] leading-[73px] text-center">Tính năng nổi bật</h1>
+          <h1 className="h1 text-primary text-center">Tính năng nổi bật</h1>
 
-          <div className="container mt-[80px]">
+          <div className="container mt-[80px] custom-swiper">
             <Banner images={[feature1, feature2, feature3]} />
           </div>
         </div>
       </div>
 
-      <div className="container mt-[160px]">
+      <div className="container mt-[80px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
-          <h1 className="home-heading text-[60px] leading-[73px] text-center">
-            Hướng dẫn trải nghiệm{" "}
-          </h1>
+          <h1 className="h1 text-primary text-center">Hướng dẫn trải nghiệm </h1>
 
           <Guide />
         </div>
       </div>
 
-      <div className="mt-[120px] bg-bg-1 py-[160px]">
+      <div className="mt-[50px] lg:mt-[120px] bg-bg-1 py-[50px] lg:py-[120px]">
         <div className="container">
-          <h1 className="home-heading text-[60px] leading-[73px] mb-[80px] text-center">Tin tức</h1>
+          <h1 className="h1 text-primary mb-[40px] md:mb-[60px] lg:mb-[80px] text-center">
+            Tin tức
+          </h1>
 
           <div className="">
             <NewsList />
 
-            <div className="mt-[80px] flex justify-center">
+            <div className="mt-[40px] md:mt-[60px] lg:mt-[80px] flex justify-center">
               <button className="btn-primary-outline">Xem thêm</button>
             </div>
           </div>

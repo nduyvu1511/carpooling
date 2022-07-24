@@ -13,7 +13,12 @@ const Banner = ({ images }: BannerProps) => {
     <Swiper
       className="swiper-hover"
       spaceBetween={40}
-      slidesPerView={3}
+      slidesPerView={"auto"}
+      breakpoints={{
+        768: {
+          slidesPerView: 3,
+        },
+      }}
       onSlideChange={() => {}}
       onSwiper={(swiper) => {}}
       modules={[Navigation, Autoplay]}

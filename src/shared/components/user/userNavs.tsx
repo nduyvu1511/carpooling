@@ -23,6 +23,7 @@ const UserNavs = ({ type }: UserNavsProps) => {
         ["Hồ sơ cá nhân", "/profile"],
         // ["Lịch", type === "car_driver" ? "/d/account/schedules" : "/c/account/schedules"],
         ["Hoạt động", type === "car_driver" ? "/d/account/activities" : "/c/account/activities"],
+        ["Ví cá nhân", type === "car_driver" ? "/d/account/wallet" : "/c/account/wallet"],
         ["Đánh giá", type === "car_driver" ? "/d/account/rating" : "/c/account/rating"],
         ["Đổi mật khẩu", "/password"],
         ["Đăng xuất", "logout"],

@@ -22,7 +22,7 @@ const NewsItem = () => {
         <div className="">
           <p className="line-clamp-1 normal-text text-gray-color-3 mb-[8px]">1/12/2022</p>
           <Link href="/">
-            <a className="text-[28px] leading-[34px] text-primary font-medium">
+            <a className="text-24 leading-[32px] lg:text-[28px] lg:leading-[36px] text-primary font-medium">
               Tham khảo bảng giá bảo hiểm xe các hãng
             </a>
           </Link>

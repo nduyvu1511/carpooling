@@ -44,7 +44,10 @@ const AuthHeader = () => {
             </div>
 
             <div className="flex items-center">
-              <ul className="flex mr-[52px]">
+              <button className="btn-primary-outline px-[8px] py-[12px] h-fit">
+                Đặt chuyến mới
+              </button>
+              <ul className="mr-[52px] hidden lg:flex">
                 {userInfo?.car_account_type === "customer" ? (
                   [
                     {

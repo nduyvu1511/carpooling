@@ -8,7 +8,7 @@ import { BookingModal } from "../form"
 
 export const HeroSection = () => {
   const [modalType, setModalType] = useState<CompoundingType | undefined>()
-
+          
   return (
     <>
       <div className="relative h-full w-full">
@@ -16,15 +16,15 @@ export const HeroSection = () => {
           <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
         <div className="absolute inset-0 container">
-          <div className="absolute top-1/2 transform -translate-y-1/2 right-[0]">
-            <h1 className="home-heading font-[700] mb-[24px]">GỌI XE ĐƯỜNG DÀI</h1>
-            <p className="text-text-color text-[24px] font-[400] leading-[26px]">
+          <div className="absolute top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+            <h1 className="h1 text-primary mb-[12px] xl:font-medium">Đặt xe đường dài</h1>
+            <p className="w-2/3 xs:w-full text-text-color text-sm sm:text-base lg:text-xl">
               Ứng dụng gọi xe đường dài số 1 Việt Nam
             </p>
           </div>
         </div>
 
-        <div className="absolute bottom-[80px] left-1/2 transform -translate-x-1/2 container">
+        <div className="absolute bottom-24 xl:bottom-[80px] left-1/2 transform -translate-x-1/2 container hidden md:block">
           <div className="flex-center flex-col">
             <p className="text-base mb-[16px] font-semibold">Bạn muốn đi đâu?</p>
 

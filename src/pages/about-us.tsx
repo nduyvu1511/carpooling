@@ -14,7 +14,7 @@ const AboutUs = () => {
           <p className="text-[24px] font-normal leading-[26px] mb-24">Về chúng tôi</p>
           <h1 className="h1 text-primary text-center">Ứng dụng giải pháp đặt xe chuyên nghiệp</h1>
         </div>
-        <div className="">
+        <div className="mb-[40px]">
           <p className="text-base">
             Vì sao chúng ta không thể có những lựa chọn di chuyển an toàn hơn?”
           </p>

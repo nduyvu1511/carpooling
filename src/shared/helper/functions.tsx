@@ -1,4 +1,4 @@
-import { CompoundingCarDriverState, CompoundingType, OptionModel, TimeType } from "@/models"
+import { CompoundingType, OptionModel, TimeType } from "@/models"
 import _ from "lodash"
 import moment from "moment"
 import { LatLng } from "use-places-autocomplete"
@@ -259,7 +259,11 @@ export const calculateElapsedTime = (timeCreated: string) => {
 export const toggleBodyOverflow = (status: "hidden" | "unset") => {
   const body = document.body
   if (body) {
-    body.style.overflow = status
+    if (status === "hidden") {
+      body.classList.add("body-hidden")
+    } else {
+      body.classList.remove("body-hidden")
+    }
   }
 }
 

@@ -33,7 +33,7 @@ const InputDate = ({
       }}
       timeFormat={false}
       inputProps={{ ...inputProps }}
-      value={defaultValue}
+      initialValue={defaultValue}
     />
   )
 }

@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         "sidebar-grid": "236px 1fr",
+        "grid-330": "330px 1fr",
         "booking-grid": "1fr 450px",
       },
       boxShadow: {

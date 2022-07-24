@@ -10,18 +10,20 @@ interface GuideItemProps {
 
 export const GuideItem = ({ icon, desc, label, reverse = false, index }: GuideItemProps) => {
   return (
-    <div className={`flex items-center ${reverse ? "flex-row-reverse" : "flex-row"}`}>
-      <div className="flex-1">
-        <div className="relative h-[352px] flex-center">
+    <div className={`flex flex-col sm:flex-row ${reverse ? "sm:flex-row-reverse" : "sm:flex-row"}`}>
+      <div className={`flex-1 flex-center mb-[30px] md:mb-0`}>
+        <div className="relative h-[237px] lg:h-[352px] w-[80%] lg:w-full flex-center">
           <Image src={icon} layout="fill" alt="" objectFit="contain" />
         </div>
       </div>
-      <div className="w-[60px]"></div>
+
+      <div className="w-[20px] lg:w-[60px]"></div>
+
       <div className="flex-1">
-        <h2 className="text-primary font-medium text-[40px] leading-[48px] mb-[40px]">
+        <h2 className="h2 text-primary mb-[16px] md:mb-24 lg:mb-[40px]">
           {index}. {label}
         </h2>
-        <p className="font-normal text-[16px] leading-[26px]">{desc}</p>
+        <p className="text-base">{desc}</p>
       </div>
     </div>
   )

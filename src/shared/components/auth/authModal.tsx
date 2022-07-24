@@ -20,7 +20,7 @@ const AuthModal = () => {
       dispatch(setAuthModalType(undefined))
       setTimeout(() => {
         router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-      }, 200)
+      }, 1000)
     })
   }
 
@@ -48,7 +48,7 @@ const AuthModal = () => {
         dispatch(setAuthModalType(undefined))
         setTimeout(() => {
           router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-        }, 200)
+        }, 1000)
       },
     })
   }
@@ -71,7 +71,7 @@ const AuthModal = () => {
   return (
     <Modal heading={getModalHeading()} onClose={() => dispatch(setAuthModalType(undefined))}>
       <div className="flex flex-col h-full overflow-auto scrollbar-hide">
-        <div className="flex-1 px-24 pt-[24px] z-[100]">
+        <div className="flex-1 px-24 pt-[24px] z-[100] pb-[70px]">
           {authModalType === "login" ? (
             <LoginForm
               onSubmit={(data) => handleLoginWithPassword(data)}

@@ -54,8 +54,7 @@ const Profile = () => {
           <div className="w-[160px] h-[160px] rounded-[50%] skeleton mr-[24px]"></div>
           <div>
             <div className="skeleton h-[20px] w-[140px] rounded-[5px] mb-[16px]"></div>
-            <div className="skeleton h-[8px] w-[100px] rounded-[5px] mb-[16px]"></div>
-            <div className="skeleton h-[8px] w-[180px] rounded-[5px]"></div>
+            <div className="skeleton h-[8px] w-[100px] rounded-[5px]"></div>
           </div>
         </div>
 
@@ -105,11 +104,8 @@ const Profile = () => {
         <div className="flex-1 ml-[48px]">
           <div className="">
             <p className="h3 mb-[16px] line-clamp-1 word-wrap-anywhere">{userInfo.partner_name}</p>
-            <p className="text-sm text-gray-color-5 mb-[4px] line-clamp-1 word-wrap-anywhere">
-              {userInfo.phone}
-            </p>
             <p className="text-sm text-gray-color-5 line-clamp-1 word-wrap-anywhere">
-              {"example@gmail.com"}
+              {userInfo.phone}
             </p>
           </div>
         </div>

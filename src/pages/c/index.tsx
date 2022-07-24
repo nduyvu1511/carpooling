@@ -29,9 +29,9 @@ const HomeCustomer = () => {
 
   return (
     <>
-      <section className="container py-24">
-        <div className="grid md:grid-cols-2 xl:grid-cols-sidebar-grid gap-24">
-          <div className="">
+      <section className="container py-24 flex-1">
+        <div className="grid md:grid-cols-1 xl:grid-cols-sidebar-grid gap-24">
+          <div className="hidden xl:block">
             {router.isReady ? (
               <div className="sticky top-[81px] block-element p-24 z-[100]">
                 <CompoundingFilter
@@ -60,7 +60,7 @@ const HomeCustomer = () => {
             </div>
 
             <div className="mb-24">
-              <div className="flex items-center">
+              <div className="flex flex-col sm:items-center sm:flex-row">
                 <p className="text-base font-semibold mr-24">Danh sách chuyến:</p>
                 <Tabs
                   list={[
@@ -81,7 +81,7 @@ const HomeCustomer = () => {
             </div>
 
             {isValidating ? (
-              <div className="grid grid-cols-3 gap-24">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] lg:gap-24">
                 {Array.from({ length: 9 }).map((_, index) => (
                   <RidesItem key={index} rides={null} />
                 ))}
@@ -94,7 +94,7 @@ const HomeCustomer = () => {
                   hasMore={hasMore}
                   loader={isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
                 >
-                  <ul className="grid grid-cols-3 gap-24">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] lg:gap-24">
                     {ridesList?.length > 0 &&
                       ridesList.map((item, index) => (
                         <li
@@ -113,7 +113,7 @@ const HomeCustomer = () => {
                 </InfiniteScroll>
               </div>
             ) : (
-              <div className="flex-center my-[20px]">
+              <div className="flex-center mt-[60px] mb-[20px]">
                 <p className="text-base">Không tìm thấy chuyến đi nào</p>
               </div>
             )}

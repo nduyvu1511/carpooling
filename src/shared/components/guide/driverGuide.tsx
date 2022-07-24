@@ -9,27 +9,24 @@ export const DriverGuide = () => {
         {
           icon: guide1,
           label: "Đăng ký tài khoản",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
-            tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },
         {
           icon: guide2,
-          label: "Đặt chuyến xe",
-          desc: `Bạn có thể tìm xe ưng ý nhanh chóng ở nơi bạn muốn tìm, thời gian, hãng xe, đặt xe
-          nhanh`,
+          label: "Lựa chọn chuyến xe",
+          desc: `Bạn có thể tìm xe ưng ý nhanh chóng ở nơi bạn muốn tìm, thời gian, hãng xe, đặt xe nhanh`,
           reverse: true,
         },
         {
           icon: guide3,
           label: "Kiểm tra và xác nhận",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
-          tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },
         {
           icon: guide4,
-          label: "Chọn phương thức thanh toán",
+          label: "Lựa chọn phương thức thanh toán",
           desc: `Bạn có thể tìm xe ưng ý nhanh chóng ở nơi bạn muốn tìm, thời gian, hãng xe, đặt xe
           nhanh`,
           reverse: true,
@@ -37,7 +34,7 @@ export const DriverGuide = () => {
         {
           icon: guide5,
           label: "Hoàn tất đặt chuyến và trải nghiệm",
-          desc: `Đăng nhập vào Mioto qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
+          desc: `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
           tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
           reverse: false,
         },

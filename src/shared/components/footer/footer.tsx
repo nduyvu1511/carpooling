@@ -6,10 +6,10 @@ const Footer = () => {
   return (
     <footer className="py-[80px]">
       <div className="container">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-col-1 sm:grid-cols-3 md:grid-cols-4 gap-[40px]">
           <div className="">
             <Link passHref href="/">
-              <LogoIcon className="mb-[50px] cursor-pointer w-[130px] h-[80px]" />
+              <LogoIcon className="mb-[24px] cursor-pointer w-[130px] h-[80px]" />
             </Link>
             <div className="">
               <p className="text-base mb-[16px]">Kết nối với chúng tôi</p>
@@ -38,7 +38,7 @@ const Footer = () => {
               heading: "Về chúng tôi",
               child: [
                 { label: "Hướng dẫn", path: "/guide" },
-                { label: "Chính sách & quy định", path: "/terms-&-conditions" },
+                { label: "Chính sách & quy định", path: "/terms-&-conditions " },
                 { label: "Quy chế hoạt động", path: "/" },
                 { label: "Tin tức", path: "/news" },
               ],
@@ -49,21 +49,22 @@ const Footer = () => {
                 { label: "Tải ứng dụng Customer", path: "/" },
                 { label: "Thông tin mới nhất", path: "/" },
                 { label: "Vận chuyển", path: "/" },
+                { label: "Câu hỏi thường gặp", path: "/q&a " },
               ],
             },
             {
               heading: "Tài xế",
               child: [
                 { label: "Tải ứng dụng Driver", path: "/" },
-                { label: "Hướng dẫn đăng ký", path: "/" },
-                { label: "Chương trình thưởng", path: "/" },
+                { label: "Chương trình thưởng", path: "/guide" },
                 { label: "Chương trình đặc biệt", path: "/" },
+                { label: "Câu hỏi thường gặp", path: "/q&a " },
               ],
             },
           ].map((item, index) => (
             <div key={index} className="">
               <p
-                className={`font-[700] mb-[24px] leading-[26px] text-16 ${
+                className={`font-[700] mb-[16px] md:mb-[24px] leading-[26px] text-16 ${
                   item.heading === "Về chúng tôi" ? "text-primary" : "text-gray-color-4"
                 }`}
               >
@@ -105,8 +106,8 @@ const Footer = () => {
             </Link>
           </div>
 
-          <div className="flex items-center mb-24">
-            <div className="flex-[2]">
+          <div className="flex items-center flex-col md:flex-row mb-[40px]">
+            <div className="flex-[2] mb-[16px] md:mb-0">
               <div className="">
                 <p className="text-sm">
                   Địa chỉ: Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM. Số đăng ký
@@ -123,9 +124,11 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex lg:items-center lg:justify-between flex-col lg:flex-row">
+          <div className="flex md:items-center md:justify-between flex-col md:flex-row">
             <div className="">
-              <p className="text-sm text-gray-color-5">© 2022 Công ty Cổ Phần Exxe.Vn</p>
+              <p className="text-sm text-gray-color-5 mb-24 md:mb-0">
+                © 2022 Công ty Cổ Phần Exxe.Vn
+              </p>
             </div>
 
             <div className="flex items-center">

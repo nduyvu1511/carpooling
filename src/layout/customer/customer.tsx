@@ -19,7 +19,7 @@ const CustomerLayout = ({ children }: LayoutProps) => {
   return (
     <section className="">
       <AuthHeader />
-      <main className="min-h-[calc(100vh-80px)] h-full bg-bg">{children}</main>
+      <main className="min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">{children}</main>
     </section>
   )
 }
