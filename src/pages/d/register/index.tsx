@@ -58,8 +58,8 @@ const DriverInfo = () => {
 
   return (
     <>
-      <div className="py-24">
-        <div className="content-container">
+      <div className="px-[16px] sm:px-0 min-h-screen flex flex-col">
+        <div className="content-container flex-1 relative py-24">
           <div className="">
             <LogoIcon className="mb-24" />
             <p className="text-16 font-medium leading-26">
@@ -74,7 +74,7 @@ const DriverInfo = () => {
             />
           </div>
 
-          <div className="">
+          <div className="pb-[78px]">
             {driverFormFields.map((parent, index) => (
               <div key={index} className="driver__page-body-item">
                 <ul className="driver__body-list">
@@ -110,7 +110,7 @@ const DriverInfo = () => {
             ))}
           </div>
 
-          <div className="flex-center mt-[40px]">
+          <div className="flex-center absolute left-0 right-0 bottom-0 py-[16px]">
             <button
               onClick={handleCreateDriverForm}
               className={`btn-primary ${!isFilledAllData ? "btn-not-allowed" : ""}`}
@@ -120,14 +120,13 @@ const DriverInfo = () => {
           </div>
         </div>
       </div>
-      {openAlert ? (
-        <Alert
-          desc="Hồ sơ của bạn đang được xét duyệt, bộ phận CSKH Exxe sẽ liên hệ với bạn sớm nhất"
-          onClose={() => {}}
-          onConfirm={() => router.push("/d")}
-          showLeftBtn={false}
-        />
-      ) : null}
+      <Alert
+        show={openAlert}
+        desc="Hồ sơ của bạn đang được xét duyệt, bộ phận CSKH Exxe sẽ liên hệ với bạn sớm nhất"
+        onClose={() => {}}
+        onConfirm={() => router.push("/d")}
+        showLeftBtn={false}
+      />
     </>
   )
 }

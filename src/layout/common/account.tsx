@@ -48,13 +48,14 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
         path: "/password",
       },
     ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!userInfo) return null
   return (
-    <section className="container py-24">
-      <div className="grid grid-cols-sidebar-grid gap-[24px]">
-        <aside className="block-element p-24 h-fit sticky top-[80px]">
+    <section className="container lg:py-24 py-0 px-0 md:px-24 md:py-24 flex-1">
+      <div className="xl:grid xl:grid-cols-sidebar-grid gap-[24px]">
+        <aside className="hidden xl:block block-element p-24 h-fit sticky top-[80px]">
           {userInfo ? (
             <AccountSidebar
               avatar={userInfo?.avatar_url?.image_url || blankAvatar || ""}
@@ -64,10 +65,10 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
             />
           ) : null}
         </aside>
-        <div className="block-element pb-24">
-          <div className="mx-24 py-24 mb-24 border-b border-t border-solid border-border-color">
+        <div className="block-element pb-[12px] lg:pb-24">
+          <div className="mx-12 md:mx-[16px] lg:mx-24 py-[12px] md:py-[16px] lg:py-24 mb-12 lg:mb-24 border-b border-solid border-border-color">
             {title ? <h4 className="h4 text-primary">{title}</h4> : null}
-            {desc ? <p className="text-base mt-[4px]">{desc}</p> : null}
+            {desc ? <p className="text-base mt-[4px] hidden md:block">{desc}</p> : null}
           </div>
           {children}
         </div>

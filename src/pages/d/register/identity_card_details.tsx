@@ -36,7 +36,7 @@ const IdentityCardDetail = () => {
 
   return (
     <DriverRegisterLayout heading="CMND / Thẻ Căn Cước / Hộ Chiếu">
-      <div className="relative">
+      <div className="relative px-[16px] sm:px-0">
         {!isValidating ? (
           <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />
         ) : (

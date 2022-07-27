@@ -1,7 +1,9 @@
 import { Modal } from "@/components/modal"
+import { Tabs } from "@/components/tabs"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CompoundingType, CreateCompoundingCarParams } from "@/models"
 import { useRouter } from "next/router"
+import { useState } from "react"
 import { CarpoolingCompoundingForm } from "./carpoolingCompoundingCarForm"
 import { OneWayCompoundingForm } from "./oneWayCompoundingCarForm"
 import { TwoWayCompoundingForm } from "./twoWayCompoundingCarForm"
@@ -9,13 +11,14 @@ import { TwoWayCompoundingForm } from "./twoWayCompoundingCarForm"
 interface BookingModalProps {
   onClose: Function
   formType: CompoundingType
+  show: CompoundingType | undefined
 }
 
 interface HandleCreateCompoundingCarParams {
   params: CreateCompoundingCarParams
 }
 
-const BookingModal = ({ onClose, formType }: BookingModalProps) => {
+const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
   const router = useRouter()
   const {
     oneWayCompoundingCarFormFromLocalStorage,
@@ -23,6 +26,7 @@ const BookingModal = ({ onClose, formType }: BookingModalProps) => {
     carpoolingCompoundingFormFromLocalStorage,
   } = useCompoundingForm()
   const { createCompoundingCar } = useCompoundingCarActions()
+  const [compoundingType, setCompoundingType] = useState<CompoundingType | undefined>(formType)
 
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     createCompoundingCar({
@@ -41,27 +45,39 @@ const BookingModal = ({ onClose, formType }: BookingModalProps) => {
 
   return (
     <Modal
-      className="relative"
+      show={!!show}
       heading={
-        formType === "compounding"
+        compoundingType === "compounding"
           ? "Tạo chuyến đi ghép"
-          : formType === "one_way"
+          : compoundingType === "one_way"
           ? "Tạo chuyến đi một chiều"
-          : formType === "convenient"
+          : compoundingType === "convenient"
           ? "Tạo chuyến đi tiện chuyến"
           : "Tạo chuyến đi hai chiều"
       }
       onClose={onClose}
+      headerNode={
+        <Tabs
+          type="full"
+          list={[
+            { label: "Một chiều", value: "one_way" },
+            { label: "Hai chiều", value: "two_way" },
+            { label: "Đi ghép", value: "compounding" },
+          ]}
+          tabActive={compoundingType || formType}
+          onChange={(val) => setCompoundingType(val as CompoundingType)}
+        />
+      }
     >
-      <div className="px-24 py-12 pb-[40px] h-full overflow-auto">
-        {formType === "one_way" ? (
+      <div className="flex-1 w-full px-[16px] md:px-24 py-12 pb-[70px] sm:pb-[40px]">
+        {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}
             onSubmit={(params) => {
               handleCreateCompoundingCar({ params })
             }}
           />
-        ) : formType === "two_way" ? (
+        ) : compoundingType === "two_way" ? (
           <TwoWayCompoundingForm
             defaultValues={twoWayCompoundingCarFormFromLocalStorage()}
             onSubmit={(params) => {

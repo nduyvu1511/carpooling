@@ -1,7 +1,7 @@
 import { useScrollTop } from "@/hooks"
 import { ReactNode } from "react"
 
-const HeaderWrapper = ({ children }: { children: ReactNode; size?: number }) => {
+const HeaderWrapper = ({ children, size = 80 }: { children: ReactNode; size?: number }) => {
   const height = useScrollTop()
 
   return (

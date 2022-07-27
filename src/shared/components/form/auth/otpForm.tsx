@@ -41,14 +41,12 @@ export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFor
         <OtpSecondsRemains />
       </div>
 
-      <div className="flex-center">
-        <button
-          type="submit"
-          className={`btn-primary otp-btn-login ${otpVal.length === 6 ? "" : "btn-disabled"}`}
-        >
-          Xác nhận
-        </button>
-      </div>
+      <button
+        type="submit"
+        className={`btn-primary mx-auto otp-btn-login ${otpVal.length === 6 ? "" : "btn-disabled"}`}
+      >
+        Xác nhận
+      </button>
     </form>
   )
 }

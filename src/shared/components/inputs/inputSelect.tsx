@@ -50,6 +50,7 @@ const InputSelect = ({
           name={name}
           render={({ field: { onChange, onBlur } }) => (
             <Select
+              autoFocus={false}
               openMenuOnFocus={true}
               ref={ref}
               placeholder={placeholder}

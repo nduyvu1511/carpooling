@@ -37,7 +37,7 @@ const DrivingLicenseDetail = () => {
 
   return (
     <DriverRegisterLayout heading="Bằng Lái Xe">
-      <div className="content-container">
+      <div className="content-container px-[16px] sm:px-0">
         {!isValidating ? (
           <DrivingLicenseForm
             defaultValues={drivingLicense}

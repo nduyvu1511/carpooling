@@ -4,9 +4,17 @@ import {
   CarpoolingIcon,
   MultiUserIcon,
   OneWayIcon,
-  TwoWayIcon,
+  PaymentIcon,
+  TwoWayIcon
 } from "@/assets"
-import { formatMoneyVND, getCompoundingCarStateName, STATE_BG_COLOR, STATE_COLOR } from "@/helper"
+import {
+  COMPOUNDING_TYPE_NAME,
+  formatMoneyVND,
+  getCompoundingCarStateName,
+  STATE_BG_COLOR,
+  STATE_COLOR,
+  toFirstUpperCase
+} from "@/helper"
 import { CustomerActivityRes, DriverActivityRes } from "@/models"
 import moment from "moment"
 
@@ -19,8 +27,26 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 }: ActivityItemProps<T>) => {
   if (!activity)
     return (
-      <div className="p-24 block-element border border-solid border-border-color rounded-[20px] mb-[24px]">
-        <div className="flex items-center justify-between">
+      <div className="p-12 md:p-24 rounded-[20px]">
+        <div className="md:hidden">
+          <div className="flex items-center justify-between mb-24">
+            <div className="flex items-center">
+              <div className="skeleton rounded-[5px] w-[80px] mr-[16px] h-[14px]"></div>
+              <div className="hidden xs:block skeleton rounded-[4px] w-[120px] h-[14px]"></div>
+            </div>
+            <div className="skeleton rounded-[4px] h-[14px] w-[80px]"></div>
+          </div>
+          <div className="flex items-center justify-between mb-[12px]">
+            <div className="skeleton rounded-[4px] h-[8px] w-[100px] xs:w-[140px]"></div>
+            <div className="skeleton rounded-[4px] h-[8px] w-[120px]"></div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="skeleton rounded-[4px] h-[8px] w-[90px]"></div>
+            <div className="skeleton rounded-[4px] h-[8px] w-[100px] xs:w-[140px]"></div>
+          </div>
+        </div>
+
+        <div className="hidden md:flex items-center justify-between">
           <div className="">
             <div className="skeleton h-[20px] w-[200px] rounded-[4px] mb-[16px]"></div>
             <div className="skeleton h-[12px] w-[200px] rounded-[4px]"></div>
@@ -36,33 +62,34 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
       </div>
     )
 
+  const compoundingCarIcon: JSX.Element =
+    activity.compounding_type === "one_way" ? (
+      <OneWayIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
+    ) : activity.compounding_type === "two_way" ? (
+      <TwoWayIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
+    ) : (
+      <CarpoolingIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
+    )
+
   const { from_province, to_province, state, expected_going_on_date, compounding_type, car } =
     activity
   return (
-    <div className="py-24 px-[30px]">
-      <div className="flex items-stretch justify-between">
+    <div className="p-12 md:p-[20px] lg:p-24">
+      <div className="items-stretch justify-between hidden md:flex">
         <div className="mr-[12px]">
           <div className="flex">
-            <span className="mr-[16px] mt-[4px]">
-              {compounding_type === "one_way" ? (
-                <OneWayIcon className="w-[26px] h-[26px]" />
-              ) : compounding_type === "two_way" ? (
-                <TwoWayIcon className="w-[26px] h-[26px]" />
-              ) : (
-                <CarpoolingIcon className="w-[26px] h-[26px]" />
-              )}
-            </span>
+            <span className="mr-[16px] mt-[4px]">{compoundingCarIcon}</span>
 
             <div className="flex items-center mb-[12px]">
-              <p className="text-xl mr-[16px]">
+              <p className="md:text-base md:font-semibold lg:font-medium lg:text-xl mr-[16px]">
                 {from_province.province_brief_name} - {to_province.province_brief_name}
               </p>
               <span
                 style={{
                   color: STATE_COLOR?.[state] || "",
-                  border: `1px solid ${STATE_BG_COLOR[state || ""]}`,
+                  backgroundColor: STATE_BG_COLOR?.[state],
                 }}
-                className="py-[4px] px-[8px] text-sm rounded-[5px] bg-white-color"
+                className="py-[4px] px-[8px] text-xs rounded-[5px] bg-white-color"
               >
                 {getCompoundingCarStateName(state)}
               </span>
@@ -95,9 +122,9 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
           </div>
         </div>
 
-        <div className="flex-col flex-center mr-[12px]">
+        <div className="flex flex-col flex-center mr-[12px]">
           <p className="text-sm text-gray-color-5 mb-[4px]">Tổng giá phí</p>
-          <p className="text-xl">
+          <p className="md:text-lg lg:text-xl">
             {formatMoneyVND(
               (activity as DriverActivityRes).number_seat_in_car
                 ? (activity as DriverActivityRes).price_unit.price_unit
@@ -106,8 +133,69 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
           </p>
         </div>
 
-        <div className="my-auto">
+        <div className="my-auto block">
           <button className="text-sm font-semibold text-blue-3">Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div className="md:hidden">
+        <div className="flex items-center justify-between mb-[12px] pb-[12px] border-b border-solid border-border-color">
+          <div className="flex items-center">
+            <span className="mr-[8px]">{compoundingCarIcon}</span>
+            <span className="text-[10px] leading-[18px] mr-[8px]">
+              {COMPOUNDING_TYPE_NAME[activity.compounding_type]}
+            </span>
+            <span
+              style={{
+                color: STATE_COLOR?.[state] || "",
+                backgroundColor: STATE_BG_COLOR[state || ""],
+              }}
+              className="py-[4px] px-[8px] text-[10px] rounded-[5px] bg-white-color"
+            >
+              {getCompoundingCarStateName(state)}
+            </span>
+          </div>
+          <span className="text-xs text-primary">Chi tiết</span>
+        </div>
+
+        <div className="flex items-center justify-between mb-[8px]">
+          <p className="text-14 xs:text-18 leading-[20px] font-semibold mr-[16px]">
+            {from_province.province_brief_name} - {to_province.province_brief_name}
+          </p>
+          <p className="flex items-center">
+            {(activity as DriverActivityRes).number_seat_in_car ? (
+              <>
+                <MultiUserIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
+                <span className="text-sm text-gray-color-5">
+                  {(activity as DriverActivityRes).number_seat_in_car} Khách
+                </span>
+              </>
+            ) : (
+              <>
+                <CarIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
+                <span className="text-12 xs:text-14 xs:font-medium">
+                  {toFirstUpperCase(car.name)}
+                </span>
+              </>
+            )}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <p className="flex items-center text-12 xs:text-14 xs:font-medium">
+            <CalendarIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
+            <span>{moment(activity.expected_going_on_date).format("HH:mm DD/MM/YYYY")}</span>
+          </p>
+          <p className="flex items-center">
+            <PaymentIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
+            <span className="text-12 xs:text-14 font-medium text-error">
+              {formatMoneyVND(
+                (activity as DriverActivityRes).number_seat_in_car
+                  ? (activity as DriverActivityRes).price_unit.price_unit
+                  : (activity as CustomerActivityRes).amount_total
+              )}
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -115,3 +203,4 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 }
 
 export { ActivityItem }
+

@@ -4,7 +4,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1280px] w-full mx-auto px-[16px] sm:px-24 xl:px-0;
+    @apply max-w-[1280px] w-full mx-auto px-[12px] md:px-24 xl:px-0;
   }
 
   .flex-center {
@@ -12,7 +12,7 @@
   }
 
   .btn {
-    @apply cursor-pointer py-[10px] px-[32px]  w-full rounded-[5px] md:w-fit outline-none text-[16px] font-semibold leading-[26px] flex-center md:rounded-[30px] text-white-color;
+    @apply cursor-pointer py-[10px] w-full sm:w-fit px-[32px] rounded-[5px] text-[14px] lg:text-[16px] outline-none font-semibold leading-[26px] flex-center sm:rounded-[30px] text-white-color;
   }
 
   .btn-primary {
@@ -48,7 +48,7 @@
   }
 
   .form-err-msg {
-    @apply text-[12px] text-error leading-[24px] font-normal;
+    @apply text-[12px] text-error leading-[18px] mt-[4px] font-normal;
   }
 
   .form-input-sm {
@@ -56,7 +56,7 @@
   }
 
   .form-input {
-    @apply form-input-sm py-12 h-[52px];
+    @apply form-input-sm py-12 h-[44px] md:h-[52px];
   }
 
   .form-textarea {
@@ -68,7 +68,7 @@
   }
 
   .form-label {
-    @apply text-[14px] text-gray-color-4 leading-[26px] font-medium mb-[4px] inline-block;
+    @apply text-13 md:text-14 text-gray-color-4 leading-[26px] font-medium mb-[4px] inline-block;
   }
 
   .form-date {
@@ -96,23 +96,23 @@
   }
 
   .block-element {
-    @apply bg-white-color rounded-[5px] shadow-shadow-1;
+    @apply bg-white-color rounded-[5px] md:shadow-shadow-1;
   }
 
   .h1 {
-    @apply text-[30px] leading-[38px] lg:text-[60px] font-medium lg:leading-[73px] text-gray-color-4;
+    @apply text-[22px] leading-[28px] md:text-[30px] md:leading-[38px] lg:text-[60px] font-medium lg:leading-[73px] text-gray-color-4;
   }
 
   .h2 {
-    @apply text-[26px] leading-[34px] lg:text-[40px] font-medium lg:leading-[49px] text-gray-color-4;
+    @apply text-[18px] leading-[24px] md:text-[22px] md:leading-[34px] lg:text-[40px] font-medium lg:leading-[49px] text-gray-color-4;
   }
 
   .h3 {
-    @apply text-[28px] font-medium leading-[36px] text-gray-color-4;
+    @apply text-[20px] leading-[28px] md:text-[28px] font-medium md:leading-[36px] text-gray-color-4;
   }
 
   .h4 {
-    @apply text-[24px] font-medium leading-[32px] text-gray-color-4;
+    @apply text-[20px] leading-[26px] md:text-[24px] font-medium md:leading-[32px] text-gray-color-4;
   }
 
   .text-base {
@@ -143,24 +143,27 @@
     visibility: hidden;
   }
 
-  &:hover {
-    .swiper-button-prev,
-    .swiper-button-next {
-      visibility: visible;
+  @media screen and (min-width: 1024px) {
+    &:hover {
+      .swiper-button-prev,
+      .swiper-button-next {
+        visibility: visible;
+      }
     }
   }
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  width: 64px !important;
-  height: 64px !important;
+  width: 40px !important;
+  height: 40px !important;
   background-color: #fff;
   border-radius: 50%;
   display: flex;
 
   &::after {
-    font-size: 18px !important;
+    font-weight: 600;
+    font-size: 10px !important;
     color: #373737;
   }
 }
@@ -168,10 +171,9 @@
 .custom-swiper {
   .swiper {
     &-slide {
-      width: 70%;
-
+      width: calc(50% - 30px);
       @media screen and (min-width: 640px) {
-        width: unset;
+        width: calc(33.33% - 30px);
       }
     }
   }
@@ -225,6 +227,8 @@
       min-width: 300px;
       border: 1px solid rgba($color: #000000, $alpha: 0.07);
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      max-width: 400px;
+      width: 100%;
     }
 
     & tfoot {
@@ -244,21 +248,29 @@
   & .css-b62m3t-container {
     width: 100%;
     height: 52px;
-    border-radius: 8px;
+    border-radius: 5px;
 
     & .css-1s2u09g-control {
-      height: 52px;
-      border-radius: 8px;
+      height: 44px;
       padding-inline: 8px;
+      border-radius: 10px;
       border: 1px solid #bfbfbf;
+
+      @media screen and (min-width: 768px) {
+        height: 52px;
+      }
     }
 
     & .css-1pahdxg-control {
-      height: 52px;
-      border-radius: 8px;
+      height: 44px;
       box-shadow: none;
       padding-inline: 8px;
+      border-radius: 10px;
       border: 1px solid #bfbfbf;
+
+      @media screen and (min-width: 768px) {
+        height: 52px;
+      }
     }
 
     & .css-1okebmr-indicatorSeparator {
@@ -346,8 +358,6 @@
   & input {
     border: 0;
     padding-inline: 0;
-
-    // border-bottom: 1px solid #bfbfbf;
     border-radius: 0;
   }
 
@@ -419,20 +429,132 @@
   }
 }
 
-.drawer {
+.slide {
+  &-enter {
+    opacity: 0;
+    transform: translateX(100%);
+  }
   &-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  &-exit {
+    opacity: 1;
     transform: translateX(0);
   }
-
-  &-enter-done {
-    transform: translateX(0);
-  }
-
   &-exit-active {
     transform: translateX(100%);
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
   }
+}
 
-  &-exit-done {
-    transform: translateX(100%);
+.modal-up {
+  &-enter {
+    opacity: 0;
+    margin-top: 120px;
   }
+  &-enter-active {
+    opacity: 1;
+    margin-top: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-exit {
+    opacity: 1;
+    margin-top: 0;
+  }
+  &-exit-active {
+    margin-top: 120px;
+    opacity: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+}
+
+.modal-right {
+  &-enter {
+    opacity: 0;
+    margin-left: 120px;
+  }
+  &-enter-active {
+    opacity: 1;
+    margin-left: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-exit {
+    opacity: 1;
+    margin-left: 0;
+  }
+  &-exit-active {
+    margin-left: 120px;
+    opacity: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+}
+
+.modal-left {
+  &-enter {
+    opacity: 0;
+    margin-right: 120px;
+  }
+  &-enter-active {
+    opacity: 1;
+    margin-right: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-exit {
+    opacity: 1;
+    margin-right: 0;
+  }
+  &-exit-active {
+    margin-right: 120px;
+    opacity: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+}
+
+.modal-down {
+  &-enter {
+    opacity: 0;
+    margin-top: -120px;
+  }
+  &-enter-active {
+    opacity: 1;
+    margin-top: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-exit {
+    opacity: 1;
+    margin-top: 0;
+  }
+  &-exit-active {
+    margin-top: -120px;
+    opacity: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+}
+
+.place-linear-gradient {
+  background: linear-gradient(transparent, #5d5fef);
+}
+
+.fade {
+  &-enter {
+    opacity: 0;
+  }
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+  &-exit {
+    opacity: 1;
+  }
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+}
+
+.linear-gradient-white {
+  background: linear-gradient(270deg, #ffffff 0%, rgba(255, 255, 255, 0) 16.02%);
 }

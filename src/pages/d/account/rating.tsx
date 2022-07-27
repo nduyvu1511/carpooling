@@ -42,7 +42,7 @@ const Rating = () => {
               hasMore={hasMore}
               loader={isFetchingMore ? <Spinner className="py-[30px]" /> : null}
             >
-              <ul className="grid gap-[24px]">
+              <ul className="">
                 {ratings.map((item) => (
                   <li className="border-b border-solid border-border-color" key={item.rating_id}>
                     <RatingItem
@@ -63,21 +63,20 @@ const Rating = () => {
         </div>
       </AccountLayout>
 
-      {currentReportRatingId ? (
-        <Modal
-          className="h-auto"
-          onClose={() => setCurrentReportRatingId(undefined)}
-          heading="Báo cáo đánh giá"
-        >
-          <div className="p-24">
-            <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
-            <RatingReport
-              list={[{ id: 1, label: "Người dùng spam" }]}
-              onSubmit={() => handleReportRating(currentReportRatingId)}
-            />
-          </div>
-        </Modal>
-      ) : null}
+      <Modal
+        show={!!currentReportRatingId}
+        className="h-auto"
+        onClose={() => setCurrentReportRatingId(undefined)}
+        heading="Báo cáo đánh giá"
+      >
+        <div className="p-24">
+          <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
+          <RatingReport
+            list={[{ id: 1, label: "Người dùng spam" }]}
+            onSubmit={() => currentReportRatingId && handleReportRating(currentReportRatingId)}
+          />
+        </div>
+      </Modal>
     </DriverLayout>
   )
 }

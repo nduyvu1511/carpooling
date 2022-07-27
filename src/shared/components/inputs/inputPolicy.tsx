@@ -14,6 +14,7 @@ const InputPolicy = ({ onBlur, onChange, isError, value }: InputPolicyProps) => 
     <div className={`flex cursor-default items-center ${isError ? "" : ""}`}>
       <p className="mr-[12px]">
         <InputCheckbox
+          className={`${isError ? "border-error" : ""}`}
           size={20}
           isChecked={!!value}
           onCheck={() => {
@@ -32,11 +33,11 @@ const InputPolicy = ({ onBlur, onChange, isError, value }: InputPolicyProps) => 
       >
         Tôi đã đồng ý với Exxe về{" "}
         <Link href="/">
-          <a className="text-active">Điều khoản dịch vụ</a>
+          <a className={`${isError ? "text-error" : "text-active"}`}>Điều khoản dịch vụ</a>
         </Link>{" "}
         &{" "}
         <Link href="/">
-          <a className="text-active">Chính sách bảo mật.</a>
+          <a className={`${isError ? "text-error" : "text-active"}`}>Chính sách bảo mật.</a>
         </Link>
       </span>
     </div>

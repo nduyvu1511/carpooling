@@ -100,17 +100,16 @@ const CheckoutOptions = () => {
           </div>
         </div>
       </CustomerBookingLayout>
-      {showAlert ? (
-        <Alert
-          onClose={() => setShowAlert(false)}
-          onConfirm={() => {
-            setShowAlert(false)
-            router.push("/c")
-          }}
-          showLeftBtn={false}
-          desc="Chọn hình thức thanh toán thành công, vui lòng nhắc tài xế xác nhận để hoàn tất chuyến đi đặt hàng"
-        />
-      ) : null}
+      <Alert
+        show={showAlert}
+        onClose={() => setShowAlert(false)}
+        onConfirm={() => {
+          setShowAlert(false)
+          router.push("/c")
+        }}
+        showLeftBtn={false}
+        desc="Chọn hình thức thanh toán thành công, vui lòng nhắc tài xế xác nhận để hoàn tất chuyến đi đặt hàng"
+      />
     </>
   )
 }

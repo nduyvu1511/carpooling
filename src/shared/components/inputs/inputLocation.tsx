@@ -64,22 +64,22 @@ export const InputLocation = ({
         {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
       </>
 
-      {showMap ? (
-        <Modal
-          iconType="back"
-          heading={type === "from" ? "Chọn điểm đến" : "Chọn điểm đi"}
-          onClose={() => setShowMap(false)}
-        >
-          <Map
-            defaultLocation={defaultLocation}
-            prevProvinceId={prevProvinceId}
-            onChooseLocation={(location) => {
-              onChange({ ...location })
-              setShowMap(false)
-            }}
-          />
-        </Modal>
-      ) : null}
+      <Modal
+        show={showMap}
+        iconType="back"
+        heading={type === "from" ? "Chọn điểm đến" : "Chọn điểm đi"}
+        onClose={() => setShowMap(false)}
+        transitionType="right"
+      >
+        <Map
+          defaultLocation={defaultLocation}
+          prevProvinceId={prevProvinceId}
+          onChooseLocation={(location) => {
+            onChange({ ...location })
+            setShowMap(false)
+          }}
+        />
+      </Modal>
     </>
   )
 }

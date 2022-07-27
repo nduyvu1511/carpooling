@@ -84,11 +84,9 @@ export const CreatePasswordForm = forwardRef(function Child(
         ))}
       </div>
 
-      <div className="flex-center">
-        <button type="submit" className={`btn-primary ${isValid ? "" : "btn-disabled"}`}>
-          Xác nhận
-        </button>
-      </div>
+      <button type="submit" className={`btn-primary mx-auto ${isValid ? "" : "btn-disabled"}`}>
+        Xác nhận
+      </button>
     </form>
   )
 })

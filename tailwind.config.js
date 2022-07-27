@@ -98,7 +98,7 @@ module.exports = {
       8: 8,
       10: 10,
       "modal-width": 610,
-      "content-container-width": 684,
+      "content-container-width": 640,
       "sidebar-width": 236,
     },
 
@@ -112,7 +112,7 @@ module.exports = {
     },
     maxWidth: {
       "modal-width": 610,
-      "content-container-width": 684,
+      "content-container-width": 640,
     },
   },
   plugins: [

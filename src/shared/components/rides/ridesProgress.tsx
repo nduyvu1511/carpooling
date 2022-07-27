@@ -65,21 +65,16 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
                 opacity={1}
                 className="w-[30px] h-[30px] text-white-color mb-8 "
               />
-            ) : stateIndex === index ? (
-              <CheckCircleIcon
-                fill="#373737"
-                stroke="#fff"
-                opacity={1}
-                className="w-[30px] h-[30px] text-white-color mb-8 "
-              />
             ) : (
-              <span className="w-[30px] h-[30px] border border-solid border-border-color shadow-shadow-1 rounded-[50%] mb-8 flex-center">
+              <span
+                className={`w-[30px] h-[30px] text-sm font-semibold border border-solid border-border-color shadow-shadow-1 rounded-[50%] mb-8 flex-center text-primary`}
+              >
                 {index + 1}
               </span>
             )}
             <span
               className={`mx-[20px] text-xs ${
-                stateIndex === index ? "" : stateIndex > index ? "text-primary" : "opacity-60"
+                stateIndex === index || stateIndex > index ? "text-primary" : "opacity-60"
               }`}
             >
               {stateIndex === index
@@ -92,7 +87,7 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
 
           {index < stateList.length - 1 ? (
             <span className={`mt-[8px] `}>
-              <ArrowRightIcon className="w-[8px]" />
+              <ArrowRightIcon className="w-[7px]" />
             </span>
           ) : null}
         </li>

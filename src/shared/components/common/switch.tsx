@@ -20,7 +20,7 @@ export const Switch = ({ onChange, list, value }: SwitchProps) => {
           onClick={() => onChange?.(item.value + "")}
           className={`flex-1 transition-all duration-300 flex-center ${
             value === item.value ? "text-white-color" : "text-text-color"
-          } z-10 text-[16px] font-semibold`}
+          } z-10 text-[14px] lg:text-[16px] font-semibold`}
         >
           {item.label}
         </span>

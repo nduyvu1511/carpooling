@@ -47,8 +47,8 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
   }
 
   return (
-    <div className="flex flex-col justify-between h-full">
-      <div className="p-24 pb-0 flex-1 flex flex-col h-[calc(100%-70px)]">
+    <div className="flex flex-col justify-between w-full h-full">
+      <div className="p-[16px] sm:p-24 pb-0 flex-1 flex flex-col h-[calc(100%-70px)]">
         <div className="form-select">
           <Select
             defaultValue={
@@ -103,7 +103,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
       <div className="h-[80px] flex-center ">
         <button
           onClick={confirmStationLocation}
-          className={`btn-primary ${
+          className={`btn-primary mx-[16px] sm:mx-auto ${
             !station?.station_id ? "pointer-events-none btn-disabled" : ""
           }`}
         >

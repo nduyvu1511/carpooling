@@ -2,7 +2,7 @@ import { AuthModal, SpinnerLoading } from "@/components"
 import { RootState } from "@/core"
 import { useAuth } from "@/hooks"
 import { useEffectOnce } from "@/hooks/utilities/useEffectOnce"
-import { CarId, ProvinceId, VehicleTypeParams } from "@/models"
+import { AuthModalType, CarId, ProvinceId, VehicleTypeParams } from "@/models"
 import { setProfile, setProvinces, setVehicleTypes } from "@/modules"
 import { addressApi, vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -68,7 +68,7 @@ const App = ({ children }: { children: ReactNode }) => {
         dismissNotification={(id) => dispatch(dismissNotification(id))}
         theme={atalhoTheme}
       />
-      {authModalType ? <AuthModal /> : null}
+      <AuthModal show={authModalType as AuthModalType} />
     </>
   )
 }

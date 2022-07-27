@@ -1,13 +1,16 @@
 import { LogoIcon, MenuIcon, UserCircleIcon } from "@/assets"
 import { Drawer, HeaderWrapper } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import { useClickOutside } from "@/hooks"
 import { setAuthModalType } from "@/modules"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useRef, useState } from "react"
 import { useDispatch } from "react-redux"
-import { Transition } from "react-transition-group"
+import { Menu } from "../menu"
 
 export const Header = () => {
+  const router = useRouter()
   const dispatch = useDispatch()
   const menuRef = useRef<HTMLDivElement>(null)
   const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -25,7 +28,7 @@ export const Header = () => {
               <div className="my-auto">
                 <Link href="/" passHref>
                   <a className="cursor-pointer">
-                    <LogoIcon />
+                    <LogoIcon className="h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
                   </a>
                 </Link>
               </div>
@@ -39,11 +42,19 @@ export const Header = () => {
                     ["Tin tức", "/news"],
                   ].map(([label, path]) => (
                     <li
-                      className={`mr-[40px] last:mr-0 ${path === "/" ? "hidden lg:block" : ""}`}
+                      className={`mr-[40px] last:mr-0 ${path === "/" ? "hidden lg:block" : ""} ${
+                        path === router.pathname ? "text-primary" : ""
+                      }`}
                       key={path}
                     >
                       <Link href={path}>
-                        <a className="font-semibold text-[16px] leading-[20px]">{label}</a>
+                        <a
+                          className={`font-semibold text-[16px] leading-[20px] ${
+                            path === router.pathname ? "text-primary" : ""
+                          }`}
+                        >
+                          {label}
+                        </a>
                       </Link>
                     </li>
                   ))}
@@ -80,7 +91,13 @@ export const Header = () => {
                   ) : null}
                 </div>
 
-                <button onClick={() => setShowDrawer(true)} className="ml-24 block sm:hidden">
+                <button
+                  onClick={() => {
+                    toggleBodyOverflow("hidden")
+                    setShowDrawer(true)
+                  }}
+                  className="ml-24 block sm:hidden"
+                >
                   <MenuIcon />
                 </button>
 
@@ -102,7 +119,14 @@ export const Header = () => {
         </section>
       </HeaderWrapper>
 
-      <Drawer isShow={showDrawer} onClose={() => setShowDrawer(false)}></Drawer>
+      <Drawer isShow={showDrawer}>
+        <Menu
+          onClose={() => {
+            toggleBodyOverflow("unset")
+            setShowDrawer(false)
+          }}
+        />
+      </Drawer>
     </>
   )
 }

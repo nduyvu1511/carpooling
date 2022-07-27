@@ -18,12 +18,12 @@ const TagActivityItem = <T extends string | string[]>({
   return (
     <span
       style={{
-        border: !isActive ? `1px solid ${color}` : 0,
+        border: `1px solid ${!isActive ? color : "transparent"}`,
         color,
         backgroundColor: !isActive ? "#ffffff" : bgColor,
       }}
       onClick={() => onChange?.(value)}
-      className={`flex cursor-pointer text-sm py-[4px] px-[8px] rounded-[5px]`}
+      className={`flex cursor-pointer text-xs md:text-sm py-[4px] px-[8px] rounded-[5px] whitespace-nowrap`}
     >
       {label}
     </span>
@@ -31,4 +31,3 @@ const TagActivityItem = <T extends string | string[]>({
 }
 
 export { TagActivityItem }
-

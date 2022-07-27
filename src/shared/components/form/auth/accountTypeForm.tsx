@@ -15,19 +15,19 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
 
   return (
     <div className="">
-      <div className="flex items-stretch mb-[40px]">
+      <div className="flex flex-col items-start sm:flex-row sm:items-stretch mb-[40px]">
         {[
           ["Tài khoản khách hàng", CustomerIcon, "customer"],
           ["", DriverIcon, "separate"],
           ["Tài khoản tài xế", DriverIcon, "car_driver"],
         ].map(([label, Icon, value], index) =>
           value === "separate" ? (
-            <div className="mx-[32px] w-[1px] my-[50px] bg-border-color"></div>
+            <div className="sm:mx-[32px] w-[1px] my-[16px] sm:my-[50px] bg-border-color"></div>
           ) : (
             <div
               key={index}
               onClick={() => handleChooseAccountType(value as CarAccountType)}
-              className={`relative flex-1 flex-center flex-col p-24 border border-solid rounded-[20px] cursor-pointer ${
+              className={`relative flex-1 flex-center flex-col p-24 border border-solid rounded-[20px] cursor-pointer mx-auto max-w-[250px] w-full ${
                 accountType === value ? "bg-bg-1 border-primary" : "border-border-color-2"
               }`}
             >
@@ -44,14 +44,14 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
         )}
       </div>
 
-      <div className="flex items-start mt-[30px] mb-[80px]">
+      <div className="flex items-start mt-[30px]">
         <WarningIcon className="w-24 h-24 mr-12 mt-[4px]" />
-        <p className="text-sm leading-[22px]">
+        <p className="text-sm leading-[22px] flex-1">
           Vui lòng chọn đúng loại tài khoản, mỗi số điện thoại chỉ có thể đăng ký một tài khoản.{" "}
         </p>
       </div>
 
-      <div className="flex-center">
+      <div className="mx-[16px] flex justify-center absolute left-0 right-0 bottom-0 py-[16px] bg-white-color">
         <button
           onClick={() => accountType && onSubmit(accountType)}
           className={`btn-primary ${!accountType ? "btn-disabled" : ""}`}
@@ -64,3 +64,4 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
 }
 
 export { AccountTypeForm }
+

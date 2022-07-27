@@ -19,7 +19,7 @@ const AuthLayout = ({ children }: LayoutProps) => {
   return (
     <>
       <AuthHeader />
-      <main className="min-h-[calc(100vh-80px)] h-full bg-bg">{children}</main>
+      <main className="min-h-[calc(100vh-80px)] h-full bg-bg flex flex-col">{children}</main>
     </>
   )
 }

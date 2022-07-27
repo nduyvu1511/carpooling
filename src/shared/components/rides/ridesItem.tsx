@@ -1,19 +1,13 @@
-import {
-  CarpoolingIcon,
-  ConvenientIcon,
-  MultiUserIcon,
-  OneWayIcon,
-  PaymentIcon,
-  TwoWayIcon,
-} from "@/assets"
+import { CalendarIcon, MultiUserIcon, PaymentIcon } from "@/assets"
 import {
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
   formatMoneyVND,
-  toFirstUpperCase,
+  toFirstUpperCase
 } from "@/helper"
 import { CompoundingCarRes } from "@/models"
 import moment from "moment"
+import { CompoundingCarICon } from "../utilities"
 import { RidesItemLocation } from "./ridesItemLocation"
 
 interface RidesItemProps {
@@ -57,31 +51,29 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
   return (
     <div
       onClick={() => onClick?.()}
-      className="p-[18px] flex flex-col h-full justify-between relative overflow-hidden cursor-pointer"
+      className="p-[12px] md:p-[16px] lg:p-[18px] flex flex-col h-full justify-between relative overflow-hidden cursor-pointer"
     >
       <div className="flex items-center justify-between">
         <p className="flex items-center mr-[16px]">
-          {rides.compounding_type === "one_way" ? (
-            <OneWayIcon />
-          ) : rides.compounding_type === "two_way" ? (
-            <TwoWayIcon />
-          ) : rides.compounding_type === "convenient" ? (
-            <ConvenientIcon />
-          ) : (
-            <CarpoolingIcon />
-          )}
+          <CompoundingCarICon compounding_type={rides.compounding_type} />
           <span
             style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
-            className="text-sm ml-[8px] font-semibold"
+            className="text-xs lg:text-sm ml-[5px] lg:ml-[8px] font-semibold"
           >
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}
           </span>
         </p>
 
-        <span className="text-xs">Xem chi tiết</span>
+        <p className="flex items-center md:hidden">
+          <MultiUserIcon className="w-[12px] h-[12px]" />
+          <span className="text-[10px] font-semibold ml-[5px]">
+            {rides.number_available_seat}/{rides.number_seat_in_car}
+          </span>
+        </p>
+        <span className="text-xs hidden lg:block">Xem chi tiết</span>
       </div>
 
-      <div className="my-[18px] border-b border-solid border-border-color"></div>
+      <div className="my-[8px] lg:my-[18px] border-b border-solid border-border-color"></div>
 
       <RidesItemLocation
         compounding_type={rides.compounding_type}
@@ -99,28 +91,34 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
         </div> */}
 
         <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto">Ngày đi:</p>
-          <p className="flex-1 text-sm">
+          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Ngày đi:</p>
+          <CalendarIcon className="lg:hidden mr-[8px]" />
+          <p className="flex-1 text-[10px] md:text-[12px] lg:text-[14px] font-normal lg:font-medium">
             {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
           </p>
         </div>
 
         {rides?.expected_picking_up_date ? (
           <div className="flex items-center justify-between mb-[8px]">
-            <p className="text-xs text-gray-90 w-[120px] mx-auto">Ngày về:</p>
-            <p className="flex-1 text-sm">
+            <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Ngày về:</p>
+            <CalendarIcon className="lg:hidden mr-[8px]" />
+            <p className="flex-1 text-[10px] md:text-[12px] lg:text-[14px] font-normal lg:font-medium">
               {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
         ) : null}
 
         <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto">Loại xe:</p>
-          <p className="flex-1 text-sm">{toFirstUpperCase(rides.car.name)}</p>
+          <CalendarIcon className="lg:hidden mr-[8px]" />
+          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Loại xe:</p>
+          <p className="flex-1 text-[10px] md:text-[12px] lg:text-[14px] font-normal lg:font-medium">
+            {toFirstUpperCase(rides.car.name)}
+          </p>
         </div>
         <div className="flex items-center justify-between">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto">Số khách:</p>
-          <p className="flex-1 text-sm">
+          <CalendarIcon className="lg:hidden mr-[8px]" />
+          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Số khách:</p>
+          <p className="flex-1 text-[10px] md:text-[12px] lg:text-[14px] font-normal lg:font-medium">
             {rides.number_available_seat}/{rides.number_seat_in_car} khách
           </p>
         </div>
@@ -130,18 +128,18 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
         </div> */}
       </div>
 
-      <div className="my-[18px] border-b border-solid border-border-color"></div>
+      <div className="my-[8px] lg:my-[18px] border-b border-solid border-border-color"></div>
 
       <div className="flex items-center justify-between">
-        <p className="flex items-center">
+        <p className="items-center hidden lg:flex">
           <MultiUserIcon />
           <span className="text-sm font-semibold ml-[8px]">
-            {rides.number_available_seat}/{rides.number_seat_in_car}{" "}
+            {rides.number_available_seat}/{rides.number_seat_in_car}
           </span>
         </p>
         <p className="flex items-center">
-          <PaymentIcon />
-          <span className="text-sm font-semibold text-error ml-[8px]">
+          <PaymentIcon className="w-[12px] lg:w-[16px]" />
+          <span className="text-[12px] lg:text-[14px] font-semibold text-error ml-[8px]">
             {formatMoneyVND(rides.price_unit.price_unit)}/Khách
           </span>
         </p>
@@ -157,3 +155,4 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
 }
 
 export { RidesItem }
+

@@ -199,27 +199,35 @@ const RidesDetail = () => {
       {/* Modal... */}
       {compoundingCar?.compounding_car_id ? (
         <>
-          {showRatingForm ? (
-            <Modal onClose={() => setShowRatingForm(false)} heading="Thêm đánh giá">
-              <div className="p-24">
-                <RatingForm onSubmit={(data) => handleAddRating(data)} />
-              </div>
-            </Modal>
-          ) : null}
+          <Modal
+            show={showRatingForm}
+            onClose={() => setShowRatingForm(false)}
+            heading="Thêm đánh giá"
+          >
+            <div className="w-full p-24">
+              <RatingForm onSubmit={(data) => handleAddRating(data)} />
+            </div>
+          </Modal>
 
-          {currentRatingUpdate ? (
-            <Modal onClose={() => setCurrentRatingUpdate(undefined)} heading="Chỉnh sửa đánh giá">
-              <div className="p-24">
-                <RatingForm
-                  defaultValue={currentRatingUpdate}
-                  onSubmit={(data) => handleUpdateRating(data)}
-                />
-              </div>
-            </Modal>
-          ) : null}
+          <Modal
+            show={!!currentRatingUpdate}
+            onClose={() => setCurrentRatingUpdate(undefined)}
+            heading="Chỉnh sửa đánh giá"
+          >
+            <div className="w-full p-24">
+              <RatingForm
+                defaultValue={currentRatingUpdate}
+                onSubmit={(data) => handleUpdateRating(data)}
+              />
+            </div>
+          </Modal>
 
-          {showCancelModal ? (
-            <Modal onClose={() => setShowCancelModal(undefined)} heading="Hủy chuyến đi">
+          <Modal
+            show={!!showCancelModal}
+            onClose={() => setShowCancelModal(undefined)}
+            heading="Hủy chuyến đi"
+          >
+            <div className="w-full">
               <RidesCancelForm
                 params={{
                   compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
@@ -227,17 +235,16 @@ const RidesDetail = () => {
                 }}
                 onSubmit={(data) => handleCancelCompoundingCar(data)}
               />
-            </Modal>
-          ) : null}
+            </div>
+          </Modal>
 
-          {currentDeleteRating ? (
-            <Alert
-              desc="Bạn có chắc chắn muốn xóa đánh giá này"
-              onClose={() => setCurrentDeleteRating(undefined)}
-              onConfirm={() => handleDeleteRating(currentDeleteRating)}
-              type="warning"
-            />
-          ) : null}
+          <Alert
+            show={!!currentDeleteRating}
+            desc="Bạn có chắc chắn muốn xóa đánh giá này"
+            onClose={() => setCurrentDeleteRating(undefined)}
+            onConfirm={() => currentDeleteRating && handleDeleteRating(currentDeleteRating)}
+            type="warning"
+          />
         </>
       ) : null}
     </NoSSRWrapper>

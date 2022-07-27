@@ -1,13 +1,39 @@
 import { ArrowLeftIcon } from "@/assets"
+import { useScrollTop } from "@/hooks"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
 import { DriverEmptyLayout } from "."
 
-interface DriverRegisterLayout {
-  children: ReactNode
-  heading: string
+interface HeaderProps {
   onBackBtnClick?: Function
+  heading: string
   rightHeaderElement?: ReactNode
+}
+
+interface DriverRegisterLayout extends HeaderProps {
+  children: ReactNode
+}
+
+const Header = ({ onBackBtnClick, heading, rightHeaderElement }: HeaderProps) => {
+  const height = useScrollTop()
+  const router = useRouter()
+
+  return (
+    <header
+      className={`flex items-center h-[60px] px-[16px] sm:px-0 sticky top-0 bg-white-color z-[100] ${
+        height > 60 ? " border-b border-solid border-border-color" : ""
+      }`}
+    >
+      <button
+        onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
+        className="w-[30px]"
+      >
+        <ArrowLeftIcon />
+      </button>
+      <h3 className="text-16 font-semibold flex-1 ml-[24px] text-center">{heading}</h3>
+      <div className="">{rightHeaderElement || null}</div>
+    </header>
+  )
 }
 
 export const DriverRegisterLayout = ({
@@ -16,21 +42,14 @@ export const DriverRegisterLayout = ({
   onBackBtnClick,
   rightHeaderElement,
 }: DriverRegisterLayout) => {
-  const router = useRouter()
-
   return (
     <DriverEmptyLayout>
       <section className="content-container">
-        <header className="flex items-center h-[60px]">
-          <button
-            onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
-            className="w-[30px]"
-          >
-            <ArrowLeftIcon />
-          </button>
-          <h3 className="text-16 font-semibold flex-1 ml-[24px] text-center">{heading}</h3>
-          <div className="">{rightHeaderElement || null}</div>
-        </header>
+        <Header
+          heading={heading}
+          onBackBtnClick={onBackBtnClick}
+          rightHeaderElement={rightHeaderElement}
+        />
         <main className="">{children}</main>
       </section>
     </DriverEmptyLayout>

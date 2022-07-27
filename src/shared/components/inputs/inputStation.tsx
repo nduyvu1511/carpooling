@@ -76,27 +76,27 @@ export const InputStation = ({
         {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
       </div>
 
-      {showStation ? (
-        <Modal
-          onClose={() => {
+      <Modal
+        show={showStation}
+        onClose={() => {
+          handleSetShowStation(false)
+        }}
+        iconType="back"
+        heading={type === "from" ? "Chọn trạm đến" : "Chọn trạm đi"}
+        transitionType="right"
+      >
+        <Station
+          onChooseStation={(val) => {
+            if (prevProvinceId === val.province_id) {
+              dispatch(notify("Vui lòng chọn địa điểm khác với tỉnh trước đó", "error"))
+              return
+            }
             handleSetShowStation(false)
+            onChange(val)
           }}
-          iconType="back"
-          heading={type === "from" ? "Chọn trạm đến" : "Chọn trạm đi"}
-        >
-          <Station
-            onChooseStation={(val) => {
-              if (prevProvinceId === val.province_id) {
-                dispatch(notify("Vui lòng chọn địa điểm khác với tỉnh trước đó", "error"))
-                return
-              }
-              handleSetShowStation(false)
-              onChange(val)
-            }}
-            defaultValue={defaultValue}
-          />
-        </Modal>
-      ) : null}
+          defaultValue={defaultValue}
+        />
+      </Modal>
     </>
   )
 }

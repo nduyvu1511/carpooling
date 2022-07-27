@@ -10,7 +10,7 @@ const Guide = () => {
 
   return (
     <div>
-      <div className="mt-[40px] md:mt-[60px] lg:mt-[80px]">
+      <div className="">
         <div className="flex-center">
           <Switch
             list={[
@@ -22,7 +22,7 @@ const Guide = () => {
           />
         </div>
       </div>
-      <div className="mt-[60px] md:mt-[80px] lg:mt-[120px]">
+      <div className="mt-[32px] md:mt-[40px] lg:mt-[50px]">
         {type === "customer" ? <CustomerGuide /> : <DriverGuide />}
       </div>
     </div>

@@ -1,13 +1,13 @@
-import { LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm, AuthBg } from "@/components"
+import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } from "@/components"
 import { RootState } from "@/core/store"
 import { useAuth, useProfile } from "@/hooks"
-import { loginFormParams, UpdateUserInfoParams, UserInfoFormParams } from "@/models"
+import { AuthModalType, loginFormParams, UpdateUserInfoParams, UserInfoFormParams } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
-const AuthModal = () => {
+const AuthModal = ({ show }: { show: AuthModalType }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { updateUserInfo } = useProfile()
@@ -69,8 +69,12 @@ const AuthModal = () => {
   }
 
   return (
-    <Modal heading={getModalHeading()} onClose={() => dispatch(setAuthModalType(undefined))}>
-      <div className="flex flex-col h-full overflow-auto scrollbar-hide">
+    <Modal
+      show={!!show}
+      heading={getModalHeading()}
+      onClose={() => dispatch(setAuthModalType(undefined))}
+    >
+      <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
         <div className="flex-1 px-24 pt-[24px] z-[100] pb-[70px]">
           {authModalType === "login" ? (
             <LoginForm

@@ -74,7 +74,9 @@ const RidesPassengerItem = ({
         <ul className="pl-[24px]">
           <li className="flex items-baseline mb-[12px]">
             <span className="text-xs w-[150px]">Số điện thoại: </span>
-            <span className="text-sm flex-1">{partner.phone}</span>
+            <a href={`tel:${partner.phone}`} className="text-sm flex-1 text-primary underline">
+              {partner.phone}
+            </a>
           </li>
 
           <li className="flex items-baseline mb-[12px]">

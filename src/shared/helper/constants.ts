@@ -132,6 +132,13 @@ export const COMPOUNDING_TYPE_COLOR = {
   convenient: "#7D27A5",
 }
 
+export const COMPOUNDING_TYPE_BG = {
+  one_way: "#DAE2FD",
+  two_way: "#FADFBE",
+  compounding: "#D9EFF5",
+  convenient: "#F1E4F7",
+}
+
 export const COMPOUNDING_STATE_NAME = {
   cancel: "Đã hủy",
   confirm: "Xác nhận",

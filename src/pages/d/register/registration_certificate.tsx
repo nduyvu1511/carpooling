@@ -37,7 +37,7 @@ const RegistrationCertificate = () => {
 
   return (
     <DriverRegisterLayout heading="Giấy Đăng Kiểm">
-      <div className="content-container px-24">
+      <div className="content-container px-[16px] sm:px-0">
         {isValidating ? (
           <>
             <ImageFileLoading />

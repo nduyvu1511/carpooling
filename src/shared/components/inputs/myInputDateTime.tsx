@@ -43,9 +43,9 @@ const MyInputDateTime = ({
   }, [date, time])
 
   return (
-    <div className="my-input-datetime flex items-center h-[52px]">
+    <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
       <div
-        className={`form-date flex-1 h-full mr-[16px] bg-white-color rounded-[8px] ${
+        className={`form-date flex-1 h-full mr-[16px] bg-white-color rounded-[10px] ${
           isError ? "border border-solid border-error" : ""
         }`}
       >

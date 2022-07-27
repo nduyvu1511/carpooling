@@ -36,7 +36,7 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout heading="Thông tin xe">
-      <div className="">
+      <div className="px-[16px] sm:px-0">
         {!isValidating ? (
           <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />
         ) : (

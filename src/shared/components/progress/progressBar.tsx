@@ -29,7 +29,7 @@ const ProgressBar = ({
           style={{
             width: (progressNumber / totalProgressNumber) * 100 + "%",
           }}
-          className="absolute h-full left-[0] bg-success"
+          className="absolute h-full left-[0] bg-success transition-all duration-1000"
         ></div>
       </div>
     </div>

@@ -34,9 +34,7 @@ const News = () => {
           <div className="mb-[60px]"></div>
           <NewsList />
           <div className="mb-[60px]"></div>
-          <div className="flex-center">
-            <button className="btn-primary-outline">Xem thêm</button>
-          </div>
+          <button className="mx-auto btn-primary-outline">Xem thêm</button>
         </div>
       </div>
     </section>

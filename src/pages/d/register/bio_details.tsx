@@ -38,7 +38,7 @@ const BioDetail = () => {
 
   return (
     <DriverRegisterLayout heading="Thông tin người dùng">
-      <div className="content-container">
+      <div className="content-container px-[16px] sm:px-0">
         {!isValidating ? (
           <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />
         ) : (

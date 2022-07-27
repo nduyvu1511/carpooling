@@ -4,11 +4,13 @@ import { toggleBodyOverflow } from "@/helper"
 import { CompoundingType } from "@/models"
 import Image from "next/image"
 import { useState } from "react"
+import "swiper/css"
+import "swiper/css/navigation"
 import { BookingModal } from "../form"
 
 export const HeroSection = () => {
   const [modalType, setModalType] = useState<CompoundingType | undefined>()
-          
+
   return (
     <>
       <div className="relative h-full w-full">
@@ -16,9 +18,11 @@ export const HeroSection = () => {
           <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
         <div className="absolute inset-0 container">
-          <div className="absolute top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
-            <h1 className="h1 text-primary mb-[12px] xl:font-medium">Đặt xe đường dài</h1>
-            <p className="w-2/3 xs:w-full text-text-color text-sm sm:text-base lg:text-xl">
+          <div className="absolute w-1/2 top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+            <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+              Đặt xe đường dài
+            </h1>
+            <p className="text-text-color text-sm leading-[22px] sm:text-base lg:text-xl">
               Ứng dụng gọi xe đường dài số 1 Việt Nam
             </p>
           </div>
@@ -54,15 +58,14 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {modalType ? (
-        <BookingModal
-          formType={modalType}
-          onClose={() => {
-            setModalType(undefined)
-            toggleBodyOverflow("unset")
-          }}
-        />
-      ) : null}
+      <BookingModal
+        show={modalType}
+        formType={modalType as CompoundingType}
+        onClose={() => {
+          setModalType(undefined)
+          toggleBodyOverflow("unset")
+        }}
+      />
     </>
   )
 }

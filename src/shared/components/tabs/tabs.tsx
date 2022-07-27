@@ -5,9 +5,10 @@ interface TabsProps {
   list: { label: string; value: string[] | string }[]
   tabActive: string | string[]
   onChange?: (params: string | string[]) => void
+  type?: "fit" | "full"
 }
 
-const Tabs = ({ tabActive, list, onChange }: TabsProps) => {
+const Tabs = ({ tabActive, list, onChange, type = "fit" }: TabsProps) => {
   const lineRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
@@ -25,12 +26,18 @@ const Tabs = ({ tabActive, list, onChange }: TabsProps) => {
   }
 
   return (
-    <ul className="relative flex items-center flex-wrap">
+    <ul
+      className={`relative flex items-center flex-wrap ${
+        type === "full" ? "border-b border-solid border-border-color" : ""
+      }`}
+    >
       {list.map(({ label, value }, index) => (
         <li
-          className={`select-none text-sm mr-[20px] py-[8px] last:mr-0 cursor-pointer tabs-item-${index} transition-all duration-200 ${
-            getActiveStringOrListString(value, tabActive) ? "text-primary" : ""
-          } `}
+          className={`select-none text-sm font-semibold py-[8px] cursor-pointer tabs-item-${index} transition-all duration-200 ${
+            getActiveStringOrListString(value, tabActive) ? "text-primary" : "text-gray-color-5"
+          } ${type === "full" ? "flex-1 text-center" : ""} ${
+            index < list.length - 1 ? "mr-[20px]" : "mr-0"
+          }`}
           key={index}
           onClick={() => {
             onChange?.(value)
@@ -43,7 +50,7 @@ const Tabs = ({ tabActive, list, onChange }: TabsProps) => {
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-0 h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-0 h-[1px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

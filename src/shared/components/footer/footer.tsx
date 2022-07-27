@@ -4,9 +4,9 @@ import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer className="py-[80px]">
+    <footer className="py-[40px] lg:py-[80px]">
       <div className="container">
-        <div className="grid grid-col-1 sm:grid-cols-3 md:grid-cols-4 gap-[40px]">
+        <div className="grid grid-col-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[40px]">
           <div className="">
             <Link passHref href="/">
               <LogoIcon className="mb-[24px] cursor-pointer w-[130px] h-[80px]" />
@@ -74,9 +74,9 @@ const Footer = () => {
               <ul>
                 {item.child.map((_item, index) => (
                   <li
-                    className={`last:mb-0 ${
-                      item.heading === "Về chúng tôi" ? "mb-24" : "mb-[12px]"
-                    }`}
+                    className={`${
+                      item.heading === "Về chúng tôi" ? "mb-[12px] lg:mb-24" : "mb-8 lg:mb-[12px]"
+                    } last:mb-0`}
                     key={index}
                   >
                     <Link href={_item.path}>

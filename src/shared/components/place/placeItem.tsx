@@ -1,5 +1,5 @@
-import { CalendarIcon, CarIcon, LocationIcon, OneWayIcon } from "@/assets"
-import { toImageUrl } from "@/helper"
+import { ArrowLineRightIcon, ArrowRightIcon, CalendarIcon, CarIcon } from "@/assets"
+import { toFirstUpperCase, toImageUrl } from "@/helper"
 import moment from "moment"
 import Image from "next/image"
 
@@ -17,8 +17,8 @@ export const PlaceItem = ({
   placeItem: { image, from_province, to_province, car_type, date },
 }: PlaceItemProps) => {
   return (
-    <div onClick={() => {}} className="cursor-pointer rounded-[20px] ">
-      <div className="relative aspect-[4/3] overflow-hidden group rounded-tl-[20px] rounded-tr-[20px]">
+    <div onClick={() => {}} className="cursor-pointer rounded-[5px] overflow-hidden">
+      <div className="relative aspect-[4/5] overflow-hidden group">
         <Image
           className="select-none transform group-hover:scale-110 transition-all duration-500"
           src={toImageUrl(image)}
@@ -26,23 +26,34 @@ export const PlaceItem = ({
           objectFit="cover"
           alt=""
         />
-      </div>
-      <div className="p-24 border border-solid border-border-color-1 border-t-0 rounded-bl-[20px] rounded-br-[20px]">
-        <div className="flex items-stretch mb-24">
-          <span className="text-xl flex-1">{from_province}</span>
-          <OneWayIcon className="mx-[8px] w-[16px] h-[16px] my-auto" />
-          <span className="text-xl flex-1 text-right">{to_province}</span>
-        </div>
 
-        <div className="flex justify-between items-center">
-          <p className="flex items-center">
-            <CarIcon className="mr-[8px] w-[16px] h-[16px] text-gray-color-5" />
-            <span className="text-base normal-case">{car_type}</span>
-          </p>
-          <p className="flex items-center">
-            <CalendarIcon className="mr-[8px] w-[16px] h-[16px] text-gray-color-5" />
-            <span className="text-base">{moment(date).format("DD/MM/YYYY")}</span>
-          </p>
+        <div className="p-[12px] lg:p-[16px] absolute place-linear-gradient bottom-0 left-0 right-0 ">
+          <div className="flex items-stretch mb-[8px]">
+            <span className="text-[14px] md:text-[16px] font-semibold flex-1 text-white-color line-clamp-1">
+              {from_province}
+            </span>
+            <span className="my-auto">
+              <ArrowLineRightIcon className="w-[16px] h-[16px] text-white-color" />
+            </span>
+            <span className="text-[14px] md:text-[16px] md:font-medium font-semibold flex-1 text-right text-white-color line-clamp-1">
+              {to_province}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <p className="flex items-center">
+              <CarIcon className="mr-[5px] md:mr-[8px] w-[14px] h-[14px] md:w-[14px] md:h-[14px] text-white-color" />
+              <span className="line-clamp-1 text-[10px] md:text-[14px] text-white-color font-normal md:font-medium">
+                {toFirstUpperCase(car_type)}
+              </span>
+            </p>
+            <p className="flex items-center">
+              <CalendarIcon className="mr-[5px] md:mr-[8px] w-[14px] h-[14px] md:w-[14px] md:h-[14px] text-white-color" />
+              <span className="line-clamp-1 text-[10px] md:text-[14px] font-normal md:font-medium text-white-color">
+                {moment(date).format("DD/MM/YYYY")}
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

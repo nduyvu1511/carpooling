@@ -125,15 +125,14 @@ const HomeDriver = () => {
         </div>
       </section>
 
-      {showBookingModal ? (
-        <BookingModal
-          formType={showBookingModal}
-          onClose={() => {
-            setShowBookingModal(undefined)
-            toggleBodyOverflow("unset")
-          }}
-        />
-      ) : null}
+      <BookingModal
+        show={showBookingModal}
+        formType={showBookingModal as CompoundingType}
+        onClose={() => {
+          setShowBookingModal(undefined)
+          toggleBodyOverflow("unset")
+        }}
+      />
     </>
   )
 }

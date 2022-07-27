@@ -33,26 +33,23 @@ const Activities = () => {
     <DriverLayout>
       <AccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
         <div className="px-24 pb-24">
-          <div className="flex items-center mb-24">
-            <p className="text-base font-semibold mr-24">Trạng thái:</p>
-            <div className="">
-              <ul className="flex flex-wrap">
-                {driverActivityFilters.map(({ label, value }, index) => (
-                  <li className="mr-[16px] last:mr-0" key={index}>
-                    <TagActivityItem<CompoundingCarDriverState[]>
-                      bgColor={STATE_BG_COLOR[value?.[0] || ""]}
-                      color={STATE_COLOR?.[value?.[0] || ""]}
-                      label={label}
-                      value={value}
-                      isActive={getActiveStringOrListString(activityStates, value)}
-                      onChange={(val) =>
-                        filterCompoundingActivities(val as CompoundingCarDriverState[])
-                      }
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="mb-24">
+            <ul className="flex flex-wrap">
+              {driverActivityFilters.map(({ label, value }, index) => (
+                <li className="mr-[16px] last:mr-0" key={index}>
+                  <TagActivityItem<CompoundingCarDriverState[]>
+                    bgColor={STATE_BG_COLOR[value?.[0] || ""]}
+                    color={STATE_COLOR?.[value?.[0] || ""]}
+                    label={label}
+                    value={value}
+                    isActive={getActiveStringOrListString(activityStates, value)}
+                    onChange={(val) =>
+                      filterCompoundingActivities(val as CompoundingCarDriverState[])
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
 
           {isLoading ? (

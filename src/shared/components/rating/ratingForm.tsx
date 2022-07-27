@@ -85,7 +85,7 @@ export const RatingForm = ({ onSubmit, defaultValue, mode = "create" }: RatingFo
         </div>
       </div>
 
-      <div className="flex-center absolute py-[16px] left-0 right-0 bottom-0 bg-white-color">
+      <div className="flex-center absolute py-[16px] left-0 mx-[16px] right-0 bottom-0 bg-white-color">
         <button onClick={handleSubmit} className={`btn-primary ${!value ? "btn-disabled" : ""}`}>
           Gửi
         </button>

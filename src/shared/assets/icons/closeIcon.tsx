@@ -4,25 +4,25 @@ const CloseIcon = ({ className = "" }) => {
   return (
     <svg
       className={className}
-      width="40"
-      height="40"
-      viewBox="0 0 40 40"
+      width="28"
+      height="28"
+      viewBox="0 0 32 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <line
-        x1="8.04048"
-        y1="7.3335"
-        x2="32.6667"
-        y2="31.9597"
+        x1="6.57374"
+        y1="6.3667"
+        x2="26.1333"
+        y2="25.9263"
         stroke="currentColor"
         strokeLinecap="round"
       />
       <line
-        x1="32.6666"
-        y1="8.0406"
-        x2="8.0404"
-        y2="32.6668"
+        x1="26.1334"
+        y1="7.07381"
+        x2="6.5738"
+        y2="26.6334"
         stroke="currentColor"
         strokeLinecap="round"
       />

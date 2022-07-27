@@ -349,37 +349,39 @@ export const CarpoolingCompoundingForm = ({
         ) : null}
       </form>
 
-      {showAlert ? (
-        <Alert
-          onClose={() => setShowAlert(false)}
-          onConfirm={() => {
-            setShowAlert(false)
-            setShowMap(true)
-          }}
-          type="info"
-          desc="Nếu đi ghép, Exxe chỉ có thể cung cấp các trạm đón trên mỗi tỉnh, nếu bạn chọn đón tận nơi, chi phí phát sinh này sẽ được bạn và tài xế giải quyết"
-        />
-      ) : null}
+      <Alert
+        show={!!showAlert}
+        onClose={() => setShowAlert(false)}
+        onConfirm={() => {
+          setShowAlert(false)
+          setShowMap(true)
+        }}
+        type="info"
+        desc="Nếu đi ghép, Exxe chỉ có thể cung cấp các trạm đón trên mỗi tỉnh, nếu bạn chọn đón tận nơi, chi phí phát sinh này sẽ được bạn và tài xế giải quyết"
+      />
 
-      {showMap ? (
-        <Modal iconType="back" onClose={() => setShowMap(false)} heading="Chọn Điểm đến tại">
-          <Map
-            defaultLocation={{
-              address: getValues("from_station.address"),
-              lat: +getValues("from_station.lat"),
-              lng: +getValues("from_station.lng"),
-              province_id: getValues("from_station.province_id"),
-            }}
-            prevProvinceId={getValues("to_station.province_id")}
-            onChooseLocation={(location) => {
-              setValue("from_location", location)
-              setPickingFromStart(true)
-              setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
-              setShowMap(false)
-            }}
-          />
-        </Modal>
-      ) : null}
+      <Modal
+        show={showMap}
+        iconType="back"
+        onClose={() => setShowMap(false)}
+        heading="Chọn Điểm đến tại"
+      >
+        <Map
+          defaultLocation={{
+            address: getValues("from_station.address"),
+            lat: +getValues("from_station.lat"),
+            lng: +getValues("from_station.lng"),
+            province_id: getValues("from_station.province_id"),
+          }}
+          prevProvinceId={getValues("to_station.province_id")}
+          onChooseLocation={(location) => {
+            setValue("from_location", location)
+            setPickingFromStart(true)
+            setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
+            setShowMap(false)
+          }}
+        />
+      </Modal>
     </>
   )
 }

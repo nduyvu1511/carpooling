@@ -190,6 +190,7 @@ export const UserInfoForm = ({
       <div className="mb-[40px]"></div>
 
       <ButtonSubmit
+        showMargin={false}
         className="form-upload-btn"
         title="Tiếp tục"
         view={view}

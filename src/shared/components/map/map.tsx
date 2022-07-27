@@ -137,7 +137,7 @@ export const Map = ({
 
     const center = (mapRef as any)?.current?.getCenter()
     setCenterMapLoading(true)
-    Geocode.fromLatLng(center.lat(), center.lng()).then(
+    Geocode.fromLatLng(center.lat(), center.lng(), process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY).then(
       (response) => {
         setCenterMapLoading(false)
         const address = response.results[0].formatted_address
@@ -191,7 +191,7 @@ export const Map = ({
   return (
     <>
       {isLoaded ? (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col w-full h-full">
           <GoogleMap
             zoom={16}
             center={currentLocation}
@@ -262,16 +262,14 @@ export const Map = ({
                     <BiCurrentLocation className="text-primary w-[30px] h-[30px]" />
                   </button>
 
-                  <div className="flex-center">
-                    <button
-                      onClick={handleConfirmLocation}
-                      className={`btn-primary ${
-                        !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
-                      }`}
-                    >
-                      Xác nhận
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleConfirmLocation}
+                    className={`btn-primary mx-auto ${
+                      !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
+                    }`}
+                  >
+                    Xác nhận
+                  </button>
                 </div>
               </>
             ) : null}

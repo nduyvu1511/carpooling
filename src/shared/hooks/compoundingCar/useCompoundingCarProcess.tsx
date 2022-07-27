@@ -39,6 +39,7 @@ interface Res {
   ) => void
   mutateCompoundingCar: KeyedMutator<CompoundingCarDriverRes>
   getNumberOfNotPickedUp: number
+  getNumberOfPassengersCanceled: number
 }
 
 const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res => {
@@ -183,7 +184,8 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   const getNumberOfPassengersPickedUp: number = useMemo(() => {
     if (!compoundingCar?.compounding_car_customers?.length) return 0
     return compoundingCar.compounding_car_customers.reduce(
-      (a, b) => a + (b.state === "in_process" ? 1 : 0),
+      (a, b) =>
+        a + (b.state === "in_process" || b.state === "confirm_paid" || b.state === "done" ? 1 : 0),
       0
     )
   }, [compoundingCar])
@@ -191,7 +193,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   const getNumberOfPassengersDone: number = useMemo(() => {
     if (!compoundingCar?.compounding_car_customers?.length) return 0
     return compoundingCar.compounding_car_customers.reduce(
-      (a, b) => a + (b.state === "done" ? 1 : 0),
+      (a, b) => a + (b.state === "done" || b.state === "confirm_paid" ? 1 : 0),
       0
     )
   }, [compoundingCar])
@@ -204,12 +206,20 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     )
   }, [compoundingCar])
 
+  const getNumberOfPassengersCanceled: number = useMemo(() => {
+    if (!compoundingCar?.compounding_car_customers?.length) return 0
+    return compoundingCar.compounding_car_customers.reduce(
+      (a, b) => a + (b.state === "cancel" ? 1 : 0),
+      0
+    )
+  }, [compoundingCar])
+
   const getNumberOfNotPickedUp: number = useMemo(() => {
     if (!compoundingCar?.compounding_car_customers?.length) return 0
-    return (
+    const total =
       compoundingCar.compounding_car_customers.length -
       (getNumberOfPassengersPaid + getNumberOfPassengersPickedUp + getNumberOfPassengersDone)
-    )
+    return total > 0 ? total : 0
   }, [
     getNumberOfPassengersPaid,
     getNumberOfPassengersPickedUp,
@@ -231,6 +241,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     getNumberOfPassengersPaid,
     confirmWaitingForCompoundingCarCustomer,
     mutateCompoundingCar,
+    getNumberOfPassengersCanceled,
     getNumberOfNotPickedUp,
   }
 }

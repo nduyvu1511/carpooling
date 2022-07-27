@@ -10,9 +10,10 @@ interface AccountSidebarProps {
   avatar: string
   name: string
   phone: string
+  onClick?: Function
 }
 
-const AccountSidebar = ({ navList, avatar, name, phone }: AccountSidebarProps) => {
+const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSidebarProps) => {
   const router = useRouter()
   const { logout } = useAuth()
 
@@ -23,7 +24,7 @@ const AccountSidebar = ({ navList, avatar, name, phone }: AccountSidebarProps) =
           <Image src={toImageUrl(avatar)} layout="fill" alt="" objectFit="cover" />
         </div>
         <div className="flex-1">
-          <p className="text-14 font-medium leading-26 mb-[4px] line-clamp-1 word-wrap-anywhere">
+          <p className="text-14 font-medium leading-26 mb-[4px] line-clamp-1 word-wrap-anywhere mr-[50px] md:mr-0">
             {name}
           </p>
           <p className="text-12 leading-[16px]">{phone}</p>
@@ -33,7 +34,10 @@ const AccountSidebar = ({ navList, avatar, name, phone }: AccountSidebarProps) =
       <ul className="">
         {navList.map(({ icon, label, path, child }, index) => (
           <li
-            onClick={() => router.push(path)}
+            onClick={() => {
+              onClick?.()
+              router.push(path)
+            }}
             className={`mb-12 last:mb-0 ${
               child ? "relative" : ""
             } hover:bg-gray-color-1 rounded-[5px]`}

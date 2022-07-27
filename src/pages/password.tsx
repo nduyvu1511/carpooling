@@ -14,7 +14,7 @@ const Password = () => {
   return (
     <AuthLayout>
       <AccountLayout title={!hasPassword ? "Tạo mật khẩu" : "Đổi mật khẩu"}>
-        <div className="content-container">
+        <div className="content-container flex-1 bg-white-color min-h-[calc(100vh-140px)] h-screen px-[16px]">
           {isValidating ? (
             <div className="">
               <InputLoading />

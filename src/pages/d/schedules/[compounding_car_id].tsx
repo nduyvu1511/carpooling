@@ -33,6 +33,7 @@ const ScheduleCompounding = () => {
     confirmWaitingForCompoundingCarCustomer,
     mutateCompoundingCar,
     getNumberOfNotPickedUp,
+    getNumberOfPassengersCanceled,
   } = useCompoundingCarProcess(Number(compounding_car_id))
 
   const [confirmDoneCompoundingCarModal, setConfirmDoneCompoundingCarModal] =
@@ -109,6 +110,7 @@ const ScheduleCompounding = () => {
                     ["Đã đón", "#2E4CB7", getNumberOfPassengersPickedUp],
                     ["Đã trả", "#EE542F", getNumberOfPassengersDone],
                     ["Đã thanh toán", "#118A33", getNumberOfPassengersPaid],
+                    ["Đã hủy", "#FF3B30", getNumberOfPassengersCanceled],
                     ["Tổng số khách", "", compoundingCar.compounding_car_customers?.length || 0],
                   ].map(([label, backgroundColor, number]) =>
                     number ? (
@@ -130,18 +132,21 @@ const ScheduleCompounding = () => {
                 <ProgressBarMultiple
                   progressList={[
                     {
+                      order: 3,
                       key: "paid",
                       color: "#118A33",
                       number: getNumberOfPassengersPaid,
                       label: "Đã thanh toán",
                     },
                     {
+                      order: 2,
                       key: "done",
                       color: "#EE542F",
                       number: getNumberOfPassengersDone,
                       label: "Đã trả khách",
                     },
                     {
+                      order: 1,
                       key: "pickedUp",
                       color: "#2E4CB7",
                       number: getNumberOfPassengersPickedUp,
@@ -156,7 +161,8 @@ const ScheduleCompounding = () => {
               compoundingCar?.state === "start_running" ? (
                 <>
                   {getNumberOfPassengersPaid ===
-                  compoundingCar?.compounding_car_customers.length ? (
+                  compoundingCar?.compounding_car_customers.length -
+                    getNumberOfPassengersCanceled ? (
                     <div className="pt-24 flex-center">
                       <button
                         onClick={() => setConfirmDoneCompoundingCarModal(true)}
@@ -249,14 +255,13 @@ const ScheduleCompounding = () => {
         )}
       </BookingLayout>
 
-      {confirmDoneCompoundingCarModal ? (
-        <Alert
-          desc="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
-          onClose={() => setConfirmDoneCompoundingCarModal(false)}
-          onConfirm={() => handleConfirmDoneCompoundingCar()}
-          type="info"
-        />
-      ) : null}
+      <Alert
+        show={!!confirmDoneCompoundingCarModal}
+        desc="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
+        onClose={() => setConfirmDoneCompoundingCarModal(false)}
+        onConfirm={() => handleConfirmDoneCompoundingCar()}
+        type="info"
+      />
     </>
   )
 }

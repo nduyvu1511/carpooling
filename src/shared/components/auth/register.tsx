@@ -58,12 +58,20 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
             <div className="mb-[40px]">
               <p className="text-12 leading-[15px]">
                 Bằng việc đăng kí, bạn đã đồng ý với Exxe về{" "}
-                <Link href="/">
-                  <a className="text-active">Điều khoản dịch vụ</a>
+                <Link href="/terms-&-conditions">
+                  <a target="_blank" rel="noopen noreferrer" className="text-active">
+                    Điều khoản dịch vụ
+                  </a>
                 </Link>{" "}
                 &{" "}
-                <Link href="/">
-                  <a className="text-active text-12 leading-[15px]">Chính sách bảo mật.</a>
+                <Link href="/terms-&-conditions">
+                  <a
+                    target="_blank"
+                    rel="noopen noreferrer"
+                    className="text-active text-12 leading-[15px]"
+                  >
+                    Chính sách bảo mật.
+                  </a>
                 </Link>
               </p>
             </div>

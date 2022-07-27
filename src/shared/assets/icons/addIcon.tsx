@@ -1,23 +1,29 @@
 import React from "react"
 
-const AddIcon = () => {
+const AddIcon = ({ className = "" }) => {
   return (
-    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className={className}
+      width="28"
+      height="28"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
-        d="M8.74137 14.8494C12.4233 14.8494 15.408 11.8647 15.408 8.18278C15.408 4.50088 12.4233 1.51611 8.74137 1.51611C5.05948 1.51611 2.07471 4.50088 2.07471 8.18278C2.07471 11.8647 5.05948 14.8494 8.74137 14.8494Z"
-        stroke="white"
+        d="M16 29.3332C23.3638 29.3332 29.3333 23.3636 29.3333 15.9998C29.3333 8.63604 23.3638 2.6665 16 2.6665C8.63619 2.6665 2.66666 8.63604 2.66666 15.9998C2.66666 23.3636 8.63619 29.3332 16 29.3332Z"
+        fill="currentColor"
+        fillOpacity="0.3"
+      />
+      <path
+        d="M16 10.6665V21.3332"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M8.74121 5.51611V10.8494"
-        stroke="white"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6.07471 8.18262H11.408"
-        stroke="white"
+        d="M10.6667 16H21.3333"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -1,5 +1,6 @@
 import { ArrowLeftIcon, CloseIcon } from "@/assets"
 import { ReactNode } from "react"
+import { CSSTransition } from "react-transition-group"
 
 interface ModalProps {
   heading: string
@@ -8,6 +9,10 @@ interface ModalProps {
   className?: string
   iconType?: "close" | "back"
   overLayClose?: boolean
+  show: boolean | undefined
+  transitionType?: "up" | "down" | "right" | "left"
+  headerNode?: ReactNode
+  overFlowAuto?: boolean
 }
 
 const Modal = ({
@@ -17,39 +22,47 @@ const Modal = ({
   className = "",
   iconType = "close",
   overLayClose = false,
+  show,
+  transitionType = "up",
+  headerNode = null,
+  overFlowAuto = true,
 }: ModalProps) => {
   return (
-    <div className="fixed inset-[0] z-[3000]">
-      <div
-        className={`flex flex-col sm:max-w-[610px] w-full absolute-center overflow-hidden h-full sm:max-h-[650px] bg-white-color sm:rounded-[30px] z-10 ${className}`}
-      >
-        <div className="h-[60px] border-b border-solid border-gray-color-2 w-full flex px-24 items-center">
-          <button onClick={() => onClose()} className="w-[30px]">
-            {iconType === "close" ? (
-              <CloseIcon className="text-gray-color-4 w-[26px] h-[26px]" />
-            ) : (
-              <ArrowLeftIcon className="text-gray-color-4 w-[20px] h-[20px]" />
-            )}
-          </button>
+    <>
+      <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={300} in={show}>
+        <div
+          className={`flex flex-col sm:max-w-[610px] w-screen fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden h-full sm:max-h-[650px] bg-white-color sm:rounded-[30px] ${className}`}
+        >
+          <div className="h-[56px] border-b border-solid border-gray-color-1 w-full flex px-[16px] md:px-24 items-center">
+            <button onClick={() => onClose()} className="w-[30px]">
+              {iconType === "close" ? (
+                <CloseIcon className="text-gray-color-4 w-[26px] h-[26px]" />
+              ) : (
+                <ArrowLeftIcon className="text-gray-color-4 w-[20px] h-[20px]" />
+              )}
+            </button>
 
-          <div className="flex-1">
-            <p className="text-16 font-semibold leading-20 text-center text-gray-color-4 line-clamp-1">
-              {heading}
-            </p>
+            <div className="flex-1">
+              <p className="text-16 font-semibold leading-20 text-center text-gray-color-4 line-clamp-1">
+                {heading}
+              </p>
+            </div>
           </div>
-          <div className="w-[30px]"></div>
+          {headerNode}
+          <div className={`flex-1 flex flex-col ${overFlowAuto ? "overflow-y-auto" : ""}`}>
+            {children}
+          </div>
         </div>
+      </CSSTransition>
 
-        <div className="sm:max-h-[590px] flex-1">{children}</div>
-      </div>
-
-      <div
-        onClick={() => overLayClose && onClose()}
-        className={`absolute inset-[0] bg-black-60 ${overLayClose ? "cursor-pointer" : ""}`}
-      ></div>
-    </div>
+      <CSSTransition classNames="fade" unmountOnExit timeout={300} in={show}>
+        <div
+          onClick={() => overLayClose && onClose()}
+          className={`fixed z-[2999] inset-[0] bg-black-60 ${overLayClose ? "cursor-pointer" : ""}`}
+        ></div>
+      </CSSTransition>
+    </>
   )
 }
 
 export { Modal }
-

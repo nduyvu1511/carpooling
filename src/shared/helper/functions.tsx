@@ -86,7 +86,7 @@ export const formatNumberDec = (nStr: string, decSeparate: string, groupSeparate
 export function formatMoneyVND(num: number | string) {
   if (typeof num == "number") {
     num = Math.floor(num)
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} VND`
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} đ`
   } else if (typeof num == "string") {
     return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} đ`
   }

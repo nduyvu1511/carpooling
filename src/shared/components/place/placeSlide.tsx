@@ -13,21 +13,24 @@ interface PlaceSlideProps {
 export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => {
   if (showLoading)
     return (
-      <div className="grid grid-cols-3 gap-[40px]">
-        <div className="rounded-[20px] skeleton aspect-1"></div>
-        <div className="rounded-[20px] skeleton aspect-1"></div>
-        <div className="rounded-[20px] skeleton aspect-1"></div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-[16px] pr-12 md:pr-[16px]">
+        <div className="rounded-[5px] skeleton aspect-1"></div>
+        <div className="rounded-[5px] skeleton aspect-1"></div>
+        <div className="rounded-[5px] skeleton aspect-1 hidden lg:block"></div>
+        <div className="rounded-[5px] skeleton aspect-1 hidden md:block"></div>
       </div>
     )
   return (
     <Swiper
       className="swiper-hover"
-      spaceBetween={40}
-      
+      spaceBetween={12}
       slidesPerView={"auto"}
       breakpoints={{
         768: {
-          slidesPerView: 3,
+          spaceBetween: 16,
+        },
+        1024: {
+          slidesPerView: 4,
         },
       }}
       onSlideChange={() => {}}

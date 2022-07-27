@@ -1,5 +1,5 @@
 import { EditIcon, SpinnerIcon } from "@/assets"
-import { UserInfoForm, InputLoading, TextareaLoading } from "@/components"
+import { InputLoading, TextareaLoading, UserInfoForm } from "@/components"
 import { removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
 import { UpdateUserInfoParams } from "@/models"
@@ -51,7 +51,7 @@ const Profile = () => {
     return (
       <div className="">
         <div className="flex items-center mb-24">
-          <div className="w-[160px] h-[160px] rounded-[50%] skeleton mr-[24px]"></div>
+          <div className="w-[80px] h-[80px] md:w-[160px] md:h-[160px] rounded-[50%] skeleton mr-[24px]"></div>
           <div>
             <div className="skeleton h-[20px] w-[140px] rounded-[5px] mb-[16px]"></div>
             <div className="skeleton h-[8px] w-[100px] rounded-[5px]"></div>
@@ -69,9 +69,9 @@ const Profile = () => {
   if (!userInfo) return null
   return (
     <>
-      <div className="flex-center">
-        <div className="">
-          <div className="relative w-[160px] h-[160px] rounded-[50%] overflow-hidden mb-[8px]">
+      <div className="flex-center flex-col md:flex-row md:items-center md:justify-center mb-24">
+        <div className="flex-col flex-center mb-[16px] md:mb-0">
+          <div className="relative w-[80px] h-[80px] md:w-[160px] md:h-[160px] rounded-[50%] overflow-hidden mb-[8px]">
             {isUploading ? (
               <div className="w-full h-full rounded-[50%] flex-center bg-bg">
                 <SpinnerIcon className="animate-spin" />
@@ -79,7 +79,7 @@ const Profile = () => {
             ) : (
               <label htmlFor="avatar" className="cursor-pointer">
                 <Image
-                  src={toImageUrl(userInfo.avatar_url.image_url)}
+                  src={toImageUrl(userInfo?.avatar_url?.image_url)}
                   layout="fill"
                   alt=""
                   objectFit="cover"
@@ -101,10 +101,13 @@ const Profile = () => {
             <span className="text-sm text-primary">Thay đổi ảnh đại diện</span>
           </label>
         </div>
-        <div className="flex-1 ml-[48px]">
-          <div className="">
-            <p className="h3 mb-[16px] line-clamp-1 word-wrap-anywhere">{userInfo.partner_name}</p>
-            <p className="text-sm text-gray-color-5 line-clamp-1 word-wrap-anywhere">
+
+        <div className="flex-1 md:ml-[48px]">
+          <div className="flex-col flex-center md:items-start">
+            <p className="h3 mb-[8px] md:mb-[16px] line-clamp-1 word-wrap-anywhere">
+              {userInfo.partner_name}
+            </p>
+            <p className="text-xs md:text-sm text-gray-color-5 line-clamp-1 word-wrap-anywhere">
               {userInfo.phone}
             </p>
           </div>

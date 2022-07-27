@@ -36,7 +36,7 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout heading="Bảo Hiểm Xe">
-      <div className="content-container px-24">
+      <div className="content-container px-[16px] sm:px-0">
         {isValidating ? (
           <>
             <ImageFileLoading />

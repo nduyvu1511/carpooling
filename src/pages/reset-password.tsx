@@ -17,9 +17,9 @@ const ResetPasswordP = () => {
   }, [userInfo])
 
   return (
-    <section className="">
+    <section className="flex-1 min-h-[calc(100vh-80px)] h-screen bg-white-color">
       <AuthHeader />
-      <main className="min-h-[calc(100vh-80px)] h-full bg-bg">
+      <main className="min-h-[calc(100vh-80px)] h-full bg-bg flex flex-col">
         <section className="py-24">
           <div className="content-container block-element p-24">
             <h3 className="mb-24 h4">Đặt lại mật khẩu</h3>

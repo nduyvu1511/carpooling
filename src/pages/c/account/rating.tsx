@@ -1,5 +1,6 @@
 import { EmptyPocketIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import { useCustomerRating, useRatingActions } from "@/hooks"
 import { AccountLayout, CustomerLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
@@ -26,6 +27,7 @@ const Rating = () => {
       onSuccess: () => {
         mutateDeleteRating(rating_id)
         setCurrentDeleteRatingId(undefined)
+        toggleBodyOverflow("unset")
       },
     })
   }
@@ -40,6 +42,7 @@ const Rating = () => {
       },
       onSuccess: (res) => {
         mutateUpdateRating(res)
+        toggleBodyOverflow("unset")
         setCurrentEditRating(undefined)
       },
     })
@@ -48,7 +51,7 @@ const Rating = () => {
   return (
     <>
       <AccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
-        <div className="p-24 pt-0">
+        <div className="p-12 md:p-24 pt-0">
           {isValidating ? (
             <div>
               {Array.from({ length: 5 }).map((_, key) => (
@@ -64,7 +67,7 @@ const Rating = () => {
                   loader={isFetchingMore ? <Spinner size={30} /> : null}
                   next={() => fetchMoreRatings()}
                 >
-                  <ul className="grid grid-gap-">
+                  <ul className="">
                     {(ratingList?.length || 0) &&
                       ratingList.map((item) => (
                         <li
@@ -72,8 +75,14 @@ const Rating = () => {
                           key={item.rating_id}
                         >
                           <RatingItem
-                            onUpdate={() => setCurrentEditRating(item)}
-                            onDelete={() => setCurrentDeleteRatingId(item.rating_id)}
+                            onUpdate={() => {
+                              toggleBodyOverflow("hidden")
+                              setCurrentEditRating(item)
+                            }}
+                            onDelete={() => {
+                              toggleBodyOverflow("hidden")
+                              setCurrentDeleteRatingId(item.rating_id)
+                            }}
                             car_account_type="customer"
                             rating={item}
                           />
@@ -92,25 +101,32 @@ const Rating = () => {
         </div>
       </AccountLayout>
 
-      {currentEditRating ? (
-        <Modal heading="Chỉnh sửa đánh giá" onClose={() => setCurrentEditRating(undefined)}>
-          <div className="p-24 h-full">
-            <RatingForm
-              defaultValue={currentEditRating}
-              onSubmit={(data) => handleUpdateRating(data)}
-            />
-          </div>
-        </Modal>
-      ) : null}
+      <Modal
+        show={!!currentEditRating}
+        heading="Chỉnh sửa đánh giá"
+        onClose={() => {
+          toggleBodyOverflow("unset")
+          setCurrentEditRating(undefined)
+        }}
+      >
+        <div className="w-full p-[16px] md:p-24 h-full">
+          <RatingForm
+            defaultValue={currentEditRating}
+            onSubmit={(data) => handleUpdateRating(data)}
+          />
+        </div>
+      </Modal>
 
-      {currentDeleteRatingId ? (
-        <Alert
-          type="warning"
-          desc="Bạn có chắc chắn muốn xóa đi đánh giá này "
-          onClose={() => setCurrentDeleteRatingId(undefined)}
-          onConfirm={() => handleDeleteRating(currentDeleteRatingId)}
-        />
-      ) : null}
+      <Alert
+        show={!!currentDeleteRatingId}
+        type="warning"
+        desc="Bạn có chắc chắn muốn xóa đi đánh giá này "
+        onClose={() => {
+          toggleBodyOverflow("unset")
+          setCurrentDeleteRatingId(undefined)
+        }}
+        onConfirm={() => currentDeleteRatingId && handleDeleteRating(currentDeleteRatingId)}
+      />
     </>
   )
 }

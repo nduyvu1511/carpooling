@@ -42,7 +42,7 @@ export const CustomerGuide = () => {
           reverse: false,
         },
       ].map((item, index) => (
-        <div key={index} className="mb-[80px] last:mb-0">
+        <div key={index} className="mb-[32px] md:mb-[40px] lg:mb-[80px] last:mb-0">
           <Fade bottom delay={100}>
             <GuideItem
               index={index + 1}

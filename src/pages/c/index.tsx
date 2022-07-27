@@ -1,8 +1,16 @@
-import { BookingModal, CompoundingFilter, RidesItem, Spinner, Tabs } from "@/components"
+import {
+  BookingModal,
+  CompoundingFilter,
+  CompoundingFilterItem,
+  Modal,
+  RidesItem,
+  Spinner,
+  Tabs,
+} from "@/components"
 import { isObjectHasValue, toggleBodyOverflow } from "@/helper"
 import { useQueryCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
-import { CompoundingType } from "@/models"
+import { CompoundingFilterParams, CompoundingType } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -19,6 +27,7 @@ const HomeCustomer = () => {
     getQueryParams,
   } = useQueryCompoundingCarCustomer({})
   const [showBookingModal, setShowBookingModal] = useState<CompoundingType | undefined>()
+  const [showFilter, setShowFilter] = useState<boolean>(false)
 
   useEffect(() => {
     if (router.isReady) {
@@ -27,57 +36,72 @@ const HomeCustomer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
+  const toggleShowFilter = (status: boolean) => {
+    if (status) {
+      setShowFilter(true)
+      toggleBodyOverflow("hidden")
+    } else {
+      setShowFilter(false)
+      toggleBodyOverflow("unset")
+    }
+  }
+
+  const handleFilterRides = (params: CompoundingFilterParams | undefined) => {
+    const filter = getQueryParams({ ...router.query, ...params })
+    if (isObjectHasValue(params)) {
+      router.push({
+        query: {
+          ...filter,
+        },
+      })
+    } else {
+      router.push({})
+    }
+  }
+
   return (
     <>
-      <section className="container py-24 flex-1">
-        <div className="grid md:grid-cols-1 xl:grid-cols-sidebar-grid gap-24">
+      <section className="container py-12 lg:py-24 flex-1 pb-[70px] md:pb-0">
+        <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           <div className="hidden xl:block">
             {router.isReady ? (
               <div className="sticky top-[81px] block-element p-24 z-[100]">
                 <CompoundingFilter
                   type="customer"
                   defaultValues={router.query as any}
-                  onChange={(data) => {
-                    const filter = getQueryParams({ ...data, ...router.query })
-                    if (isObjectHasValue(data)) {
-                      router.push({
-                        query: {
-                          ...filter,
-                        },
-                      })
-                    } else {
-                      router.push({})
-                    }
-                  }}
+                  onChange={(data) => handleFilterRides(data)}
                 />
               </div>
             ) : null}
           </div>
 
-          <div className="block-element px-24 pb-24">
+          <div className="block-element px-12 md:px-[16px] lg:px-24 pb-24">
             <div className="mb-24">
-              <h1 className="h4 text-primary pt-24">Các chuyến đi hiện có</h1>
+              <h1 className="h4 text-primary pt-12 md:pt-24">Các chuyến đi hiện có</h1>
             </div>
 
             <div className="mb-24">
-              <div className="flex flex-col sm:items-center sm:flex-row">
-                <p className="text-base font-semibold mr-24">Danh sách chuyến:</p>
-                <Tabs
-                  list={[
-                    { label: "Ghép chuyến", value: "compounding" },
-                    { label: "Tiện chuyến", value: "convenient" },
-                  ]}
-                  tabActive={router.query.compounding_type || ""}
-                  onChange={(val) =>
-                    router.push({
-                      query: {
-                        ...router.query,
-                        compounding_type: val,
-                      },
-                    })
-                  }
-                />
-              </div>
+              <Tabs
+                list={[
+                  { label: "Một chiều", value: "one_way" },
+                  {
+                    label: "Hai chiều",
+                    value: "two_way",
+                  },
+                  { value: "compounding", label: "Đi ghép" },
+                ]}
+                tabActive={router.query?.compounding_type || ""}
+                onChange={(val) =>
+                  router.push({ query: { ...router.query, compounding_type: val } })
+                }
+              />
+              {/* <ul className="flex items-center">
+                {.map((item, index) => (
+                  <li key={index} className="mr-[8px] last:mr-0">
+                    <CompoundingFilterItem compounding_type={item as CompoundingType} />
+                  </li>
+                ))}
+              </ul> */}
             </div>
 
             {isValidating ? (
@@ -94,7 +118,7 @@ const HomeCustomer = () => {
                   hasMore={hasMore}
                   loader={isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
                 >
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] lg:gap-24">
+                  <ul className="grid grid-cols-2 md:grid-cols-3 gap-[8px] md:gap-[16px] lg:gap-24">
                     {ridesList?.length > 0 &&
                       ridesList.map((item, index) => (
                         <li
@@ -119,17 +143,34 @@ const HomeCustomer = () => {
             )}
           </div>
         </div>
+
+        <div className="fixed bottom-0 left-0 z-[100] right-0 w-full bg-white-color p-[12px] md:hidden">
+          <button onClick={() => toggleShowFilter(true)} className="btn-primary w-full">
+            Bộ lọc
+          </button>
+        </div>
       </section>
 
-      {showBookingModal ? (
-        <BookingModal
-          formType={showBookingModal}
-          onClose={() => {
-            setShowBookingModal(undefined)
-            toggleBodyOverflow("unset")
-          }}
-        />
-      ) : null}
+      <Modal show={showFilter} onClose={() => toggleShowFilter(false)} heading="Bộ lọc">
+        <div className="p-12 flex-1 flex flex-col">
+          <CompoundingFilter
+            touchableDevice
+            type="customer"
+            onChange={(val) => handleFilterRides(val)}
+            onCloseFilter={() => {
+              toggleBodyOverflow("unset")
+              setShowFilter(false)
+            }}
+            defaultValues={router.query}
+          />
+        </div>
+      </Modal>
+
+      <BookingModal
+        show={showBookingModal}
+        formType={showBookingModal as CompoundingType}
+        onClose={() => toggleShowFilter(false)}
+      />
     </>
   )
 }

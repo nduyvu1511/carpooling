@@ -164,72 +164,72 @@ const ConfirmBookingCustomer = () => {
         </div>
       </BookingLayout>
 
-      {showAlert && compoundingCar?.compounding_car_id ? (
-        <Alert
-          type="warning"
-          desc="Bạn có chắc chắn muốn hủy giao dịch này?"
-          onClose={() => setShowAlert(undefined)}
-          onConfirm={() =>
-            cancelDepositCompoundingCarDriver(showAlert, () => {
-              setShowAlert(undefined)
-              setShowModal(false)
-              setDepositFailure(undefined)
-              router.push(
-                `/d/rides/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`
-              )
-            })
-          }
-        />
-      ) : null}
+      <Alert
+        show={!!(showAlert && compoundingCar?.compounding_car_id)}
+        type="warning"
+        desc="Bạn có chắc chắn muốn hủy giao dịch này?"
+        onClose={() => setShowAlert(undefined)}
+        onConfirm={() =>
+          compoundingCar?.compounding_car_id &&
+          showAlert &&
+          cancelDepositCompoundingCarDriver(showAlert, () => {
+            setShowAlert(undefined)
+            setShowModal(false)
+            setDepositFailure(undefined)
+            router.push(`/d/rides/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`)
+          })
+        }
+      />
 
-      {showModal && depositFailure ? (
-        <Modal onClose={() => setShowModal(false)} heading="Cảnh báo">
-          <div className="p-24 h-full flex flex-col">
-            <div className="mb-[40px]">
-              <WarningIcon className="mx-auto mb-[24px]" />
-              <h3 className="text-base mb-[24px] text-center">{depositFailure.message}</h3>
-            </div>
-
-            {depositFailure.data?.length > 0 ? (
-              <ul className="flex-1 overflow-y-auto">
-                {depositFailure.data.map((item, index) => (
-                  <li
-                    className="border-b border-solid border-border-color last:border-none mb-24"
-                    key={index}
-                  >
-                    <CheckoutExistsItem
-                      amount={item.amount}
-                      compounding_car_name={item.compounding_car.compounding_car_name}
-                      date={item.date}
-                      second_remains={item.second_remains}
-                      onClickCancel={() => setShowAlert(item.compounding_car.compounding_car_id)}
-                      onClickCheckout={() => {
-                        router.push(
-                          `/d/rides/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
-                        )
-                        setShowModal(false)
-                        setDepositFailure(undefined)
-                      }}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+      <Modal
+        show={showModal && !!depositFailure}
+        onClose={() => setShowModal(false)}
+        heading="Cảnh báo"
+      >
+        <div className="p-24 w-full h-full flex flex-col">
+          <div className="mb-[40px]">
+            <WarningIcon className="mx-auto mb-[24px]" />
+            <h3 className="text-base mb-[24px] text-center">{depositFailure?.message}</h3>
           </div>
-        </Modal>
-      ) : null}
 
-      {showAlertAccount ? (
-        <Alert
-          onClose={() => setShowAlertAccount(false)}
-          onConfirm={() => {
-            setShowAlertAccount(false)
-            router.push("/d/register")
-          }}
-          desc="Tài khoản của bạn chưa được kích hoạt, vui lòng nhập đầy đủ thông tin đăng ký tài xế để Exxe xét duyệt hồ sơ"
-          type="warning"
-        />
-      ) : null}
+          {depositFailure && depositFailure.data?.length > 0 ? (
+            <ul className="flex-1 overflow-y-auto">
+              {depositFailure?.data.map((item, index) => (
+                <li
+                  className="border-b border-solid border-border-color last:border-none mb-24"
+                  key={index}
+                >
+                  <CheckoutExistsItem
+                    amount={item.amount}
+                    compounding_car_name={item.compounding_car.compounding_car_name}
+                    date={item.date}
+                    second_remains={item.second_remains}
+                    onClickCancel={() => setShowAlert(item.compounding_car.compounding_car_id)}
+                    onClickCheckout={() => {
+                      router.push(
+                        `/d/rides/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
+                      )
+                      setShowModal(false)
+                      setDepositFailure(undefined)
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      </Modal>
+
+      <Alert
+        show={showAlertAccount}
+        onClose={() => setShowAlertAccount(false)}
+        onConfirm={() => {
+          setShowAlertAccount(false)
+          router.push("/d/register")
+        }}
+        desc="Tài khoản của bạn chưa được kích hoạt, vui lòng nhập đầy đủ thông tin đăng ký tài xế để Exxe xét duyệt hồ sơ"
+        type="warning"
+      />
     </>
   )
 }
