@@ -1,7 +1,6 @@
 import {
   CarpoolingCompoundingForm,
   Map,
-  NoSSRWrapper,
   RidesDetailLoading,
   RidesProgress,
   RidesSummary,
@@ -12,7 +11,7 @@ import {
   useCompoundingForm,
   useEffectOnce,
 } from "@/hooks"
-import { BookingLayout, CustomerLayout } from "@/layout"
+import { CustomerBookingLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
 
@@ -55,46 +54,41 @@ const RidesDetailCustomer = () => {
   })
 
   return (
-    <NoSSRWrapper>
-      <BookingLayout
-        showLoading={isValidating}
-        topNode={<RidesProgress state={compoundingCar?.state} />}
-        rightNode={
-          compoundingCar ? (
-            <RidesSummary rides={compoundingCar} car_account_type="customer" />
-          ) : null
-        }
-        title="Xác nhận chuyến đi ghép"
-      >
-        <div className="p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
-          {isValidating ? (
-            <RidesDetailLoading />
-          ) : !compoundingCar?.compounding_car_id ? (
-            <div className="py-[40px] text-center">
-              <p className="text-base">Không tìm thấy chuyến đi này</p>
+    <CustomerBookingLayout
+      showLoading={isValidating}
+      topNode={<RidesProgress state={compoundingCar?.state} />}
+      rightNode={
+        compoundingCar ? <RidesSummary rides={compoundingCar} car_account_type="customer" /> : null
+      }
+      title="Xác nhận chuyến đi ghép"
+    >
+      <div className="p-12 md:p-24 pt-0 h-fit">
+        {isValidating ? (
+          <RidesDetailLoading />
+        ) : !compoundingCar?.compounding_car_id ? (
+          <div className="py-[40px] text-center">
+            <p className="text-base">Không tìm thấy chuyến đi này</p>
+          </div>
+        ) : (
+          <>
+            <div className="h-[200px] md:h-[300px] mb-12">
+              <Map viewOnly />
             </div>
-          ) : (
-            <>
-              <div className="h-[300px] mb-12">
-                <Map viewOnly />
-              </div>
 
-              <div className="">
-                <CarpoolingCompoundingForm
-                  viewButtonModal={false}
-                  defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-                  onSubmit={(data) => handleConfirmCompoundingCar(data)}
-                  type="existed"
-                  limitNumberSeat={compoundingCar?.number_available_seat}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </BookingLayout>
-    </NoSSRWrapper>
+            <div className="">
+              <CarpoolingCompoundingForm
+                viewButtonModal={false}
+                defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+                onSubmit={(data) => handleConfirmCompoundingCar(data)}
+                type="existed"
+                limitNumberSeat={compoundingCar?.number_available_seat}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </CustomerBookingLayout>
   )
 }
 
-RidesDetailCustomer.Layout = CustomerLayout
 export default RidesDetailCustomer

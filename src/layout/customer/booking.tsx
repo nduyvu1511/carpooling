@@ -10,7 +10,7 @@ const CustomerBookingLayout = ({
   topNode,
 }: BookingLayoutProps) => {
   return (
-    <CustomerLayout>
+    <CustomerLayout showHeaderOnMobile={false}>
       <BookingLayout
         topNode={topNode}
         showLoading={showLoading}

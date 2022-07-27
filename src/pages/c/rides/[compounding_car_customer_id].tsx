@@ -138,7 +138,7 @@ const RidesDetail = () => {
         }
         title="Chi tiết chuyến đi"
       >
-        <div className="p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+        <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
           {isInitialLoading ? (
             <RidesDetailLoading />
           ) : !compoundingCar?.compounding_car_id ? (

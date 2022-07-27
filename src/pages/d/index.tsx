@@ -16,6 +16,7 @@ const HomeDriver = () => {
     hasMore,
     fetchMoreRides,
     isFetchingMore,
+    isInitialLoading,
   } = useQueryCompoundingCarDriver({})
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const HomeDriver = () => {
     <RidesContainer
       hasMore={hasMore}
       isFetchingMore={isFetchingMore}
-      isValidating={isValidating}
+      isValidating={isInitialLoading || isValidating}
       list={ridesList}
       carAccountType="car_driver"
       defaultParams={router.query}

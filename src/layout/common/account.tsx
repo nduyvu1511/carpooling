@@ -20,7 +20,7 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
       {
         icon: <UserCircleIcon className="w-[20px] h-[20px]" />,
         label: "Hồ sơ cá nhân",
-        path: "/profile",
+      path: "/profile",
       },
       // {
       //   icon: <CalendarIcon className="w-[20px] h-[20px]" />,
@@ -53,7 +53,7 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
 
   if (!userInfo) return null
   return (
-    <section className="container lg:py-24 py-0 px-0 md:px-24 md:py-24 flex-1">
+    <section className="container lg:py-24 py-0 px-0 md:px-24 xl:px-0 md:py-24 flex-1">
       <div className="xl:grid xl:grid-cols-sidebar-grid gap-[24px]">
         <aside className="hidden xl:block block-element p-24 h-fit sticky top-[80px]">
           {userInfo ? (

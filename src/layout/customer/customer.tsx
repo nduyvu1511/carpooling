@@ -1,11 +1,15 @@
 import { AuthHeader } from "@/components"
-import { LayoutProps } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { ReactNode, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../core"
 
-const CustomerLayout = ({ children }: LayoutProps) => {
+interface CustomerLayoutProps {
+  children: ReactNode
+  showHeaderOnMobile?: boolean
+}
+
+const CustomerLayout = ({ children, showHeaderOnMobile = true }: CustomerLayoutProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
@@ -17,10 +21,12 @@ const CustomerLayout = ({ children }: LayoutProps) => {
   }, [userInfo])
 
   return (
-    <section className="">
-      <AuthHeader />
+    <>
+      <div className={`${showHeaderOnMobile ? "" : "hidden md:block"}`}>
+        <AuthHeader />
+      </div>
       <main className="min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">{children}</main>
-    </section>
+    </>
   )
 }
 

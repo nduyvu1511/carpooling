@@ -16,6 +16,7 @@ const HomeCustomer = () => {
     hasMore,
     fetchMoreRides,
     isFetchingMore,
+    isInitialLoading,
   } = useQueryCompoundingCarCustomer({})
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const HomeCustomer = () => {
     <RidesContainer
       hasMore={hasMore}
       isFetchingMore={isFetchingMore}
-      isValidating={isValidating}
+      isValidating={isInitialLoading || isValidating}
       list={ridesList}
       carAccountType="customer"
       defaultParams={router.query}

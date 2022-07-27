@@ -36,21 +36,29 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
 
   if (!state)
     return (
-      <ul className="flex items-center mx-24">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <li className="mr-[40px] last:mr-0 flex-center flex-col" key={index}>
-            <div className="w-[30px] h-[30px] rounded-[50%] skeleton mb-12"></div>
-            <div className="w-[90px] h-[8px] rounded-[4px] skeleton"></div>
-          </li>
-        ))}
-      </ul>
+      <div className="flex items-center mx-24">
+        <div className="xs-hidden skeleton h-[14px] rounded-[3px] w-full"></div>
+        <div className="hidden xs-block">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <li
+              className={`mr-[40px] last:mr-0 flex items-center md:justify-center flex-row md:flex-col ${
+                index === 2 ? "hidden sm:flex" : ""
+              } ${index === 3 ? "hidden md:flex" : ""}`}
+              key={index}
+            >
+              <div className="w-[30px] h-[30px] rounded-[50%] skeleton mr-12 md:mr-0 md:mb-12"></div>
+              <div className="w-[90px] h-[12px] rounded-[3px] skeleton"></div>
+            </li>
+          ))}
+        </div>
+      </div>
     )
   return (
-    <ul className="flex items-center">
+    <ul className="flex items-center overflow-x-auto scrollbar-hide">
       {stateList.map((val, index) => (
-        <li className="flex items-start" key={val[0]}>
+        <li className="flex items-center md:items-start mr-24 md:mr-0" key={val[0]}>
           <div
-            className={`flex-center flex-col ${
+            className={`flex flex-row items-center md:justify-center md:flex-col ${
               stateIndex === index
                 ? "text-gray-color-4"
                 : stateIndex > index
@@ -63,17 +71,17 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
                 fill="#2E4CB7"
                 stroke="#fff"
                 opacity={1}
-                className="w-[30px] h-[30px] text-white-color mb-8 "
+                className="w-[20px] h-[20px] md:w-[30px] shadow-shadow-1 md:h-[30px] text-white-color mr-8 md:mr-0 md:mb-8"
               />
             ) : (
               <span
-                className={`w-[30px] h-[30px] text-sm font-semibold border border-solid border-border-color shadow-shadow-1 rounded-[50%] mb-8 flex-center text-primary`}
+                className={`w-[20px] h-[20px] md:w-[30px] md:h-[30px] text-[12px] md:text-14 font-semibold border border-solid border-border-color shadow-shadow-1 rounded-[50%] mr-8 md:mr-0 md:mb-8 flex-center text-primary`}
               >
                 {index + 1}
               </span>
             )}
             <span
-              className={`mx-[20px] text-xs ${
+              className={`md:mx-[20px] text-xs font-medium whitespace-nowrap ${
                 stateIndex === index || stateIndex > index ? "text-primary" : "opacity-60"
               }`}
             >
@@ -86,7 +94,7 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
           </div>
 
           {index < stateList.length - 1 ? (
-            <span className={`mt-[8px] `}>
+            <span className={`hidden md:block mt-[8px] mx-[16px]`}>
               <ArrowRightIcon className="w-[7px]" />
             </span>
           ) : null}

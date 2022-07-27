@@ -23,6 +23,10 @@ interface listProps {
   carAccountType?: CarAccountType
 }
 
+const itemStyle =
+  "rounded-[8px] md:rounded-[20px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
+const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[18px] lg:gap-24"
+
 const RidesContainer = ({
   isValidating,
   list,
@@ -49,7 +53,7 @@ const RidesContainer = ({
 
   return (
     <>
-      <section className="container px-0 md:p-12 lg:py-24 flex-1 pb-[70px] md:pb-0">
+      <section className="container px-0 md:p-12 lg:py-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           <div className="hidden xl:block">
             {!showFilterMobile && !showFilterTablet && router.isReady ? (
@@ -92,22 +96,21 @@ const RidesContainer = ({
                 tabActive={defaultParams?.compounding_type || ""}
                 onChange={(val) => onFilterRides?.({ compounding_type: val as CompoundingType })}
               />
-              {/* <ul className="flex items-center">
-                {.map((item, index) => (
-                  <li key={index} className="mr-[8px] last:mr-0">
-                    <CompoundingFilterItem compounding_type={item as CompoundingType} />
-                  </li>
-                ))}
-              </ul> */}
             </div>
 
             {isValidating ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] lg:gap-24">
+              <div className={gridStyle}>
                 {Array.from({ length: 9 }).map((_, index) => (
-                  <RidesItem key={index} rides={null} />
+                  <li key={index} className={itemStyle}>
+                    <RidesItem rides={null} />
+                  </li>
                 ))}
               </div>
-            ) : list?.length > 0 ? (
+            ) : list?.length === 0 ? (
+              <div className="flex-center mt-[60px] mb-[20px]">
+                <p className="text-base">Không tìm thấy chuyến đi nào</p>
+              </div>
+            ) : (
               <div className="">
                 <InfiniteScroll
                   dataLength={list?.length || 0}
@@ -115,13 +118,10 @@ const RidesContainer = ({
                   hasMore={hasMore}
                   loader={isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
                 >
-                  <ul className="grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[18px] lg:gap-24">
+                  <ul className={gridStyle}>
                     {list?.length > 0 &&
                       list.map((item, index) => (
-                        <li
-                          className="rounded-[8px] md:rounded-[20px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
-                          key={index}
-                        >
+                        <li className={itemStyle} key={index}>
                           <RidesItem
                             onClick={() => onClickRideItem?.(item.compounding_car_id)}
                             rides={item}
@@ -130,10 +130,6 @@ const RidesContainer = ({
                       ))}
                   </ul>
                 </InfiniteScroll>
-              </div>
-            ) : (
-              <div className="flex-center mt-[60px] mb-[20px]">
-                <p className="text-base">Không tìm thấy chuyến đi nào</p>
               </div>
             )}
           </div>

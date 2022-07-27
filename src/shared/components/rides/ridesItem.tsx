@@ -18,31 +18,28 @@ interface RidesItemProps {
 const RidesItem = ({ onClick, rides }: RidesItemProps) => {
   if (rides === null) {
     return (
-      <div className="min-h-[200px] block-element p-[18px]">
+      <div className="p-12 md:p-[18px]">
         <div className="flex items-center justify-between mb-[24px]">
-          <div className="w-[80px] h-[12px] skeleton rounded-[4px]"></div>
-          <div className="w-[120px] h-[12px] skeleton rounded-[4px]"></div>
+          <div className="w-[60px] xs:w-[80px] h-[12px] skeleton rounded-[4px]"></div>
+          <div className="w-[40px] xs:w-[50px] sm:w-[60px] h-[8px] skeleton rounded-[4px]"></div>
         </div>
 
         <div className="mb-[40px]">
-          <div className="flex items-center justify-between mb-[40px]">
-            <div className="">
-              <div className="w-[50px] h-[12px] skeleton rounded-[4px] mb-[12px]"></div>
-              <div className="w-[70px] h-[12px] skeleton rounded-[4px] ml-auto"></div>
-            </div>
-            <div className="flex items-end flex-col">
-              <div className="w-[80px] h-[12px] skeleton rounded-[4px] mb-[12px]"></div>
-              <div className="w-[100px] h-[12px] skeleton rounded-[4px]"></div>
-            </div>
+          <div className="flex items-center justify-between mb-[8px]">
+            <div className="w-[40%] h-[16px] skeleton rounded-[4px]"></div>
+            <div className="w-[35%] h-[16px] skeleton rounded-[4px]"></div>
           </div>
-          <div className="skeleton h-[8px] rounded-[4px] mb-[24px] w-[90%] mx-auto"></div>
-          <div className="skeleton h-[8px] rounded-[4px] mb-[24px] w-[90%] mx-auto"></div>
-          <div className="skeleton h-[8px] rounded-[4px] mb-[24px] w-[90%] mx-auto"></div>
-          <div className="skeleton h-[8px] rounded-[4px] mb-[24px] w-[90%] mx-auto"></div>
+
+          <div className="flex items-center justify-between mb-[24px]">
+            <div className="w-[35%] h-[16px] skeleton rounded-[4px]"></div>
+            <div className="w-[40%] h-[16px] skeleton rounded-[4px]"></div>
+          </div>
+
+          <div className="mx-auto h-[40px] skeleton rounded-[4px] mb-[12px]"></div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="w-[80px] h-[12px] skeleton rounded-[4px]"></div>
-          <div className="w-[80px]  h-[12px] skeleton rounded-[4px]"></div>
+          <div className="w-[30px] h-[12px] skeleton rounded-[4px]"></div>
+          <div className="w-[80px] xs:aspect-h-8w-[100px] h-[16px] skeleton rounded-[4px]"></div>
         </div>
       </div>
     )
@@ -63,14 +60,8 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}
           </span>
         </p>
-
-        <p className="flex items-center sm:hidden">
-          <MultiUserIcon className="w-[12px] h-[12px]" />
-          <span className="text-[10px] font-semibold ml-[5px]">
-            {rides.number_available_seat}/{rides.number_seat_in_car}
-          </span>
-        </p>
-        <span className="text-xs hidden lg:block">Xem chi tiết</span>
+        <span className="sm:hidden text-[10px] text-primary">Chi tiết</span>
+        <span className="text-xs hidden sm:block text-xs">Xem chi tiết</span>
       </div>
 
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
@@ -85,11 +76,6 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
           .toString()}
       />
       <div className="mt-[18px] flex-1">
-        {/* <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto">Loại chuyến:</p>
-          <p className="flex-1 text-sm">{getCompoundingCarName(rides.compounding_type)}</p>
-        </div> */}
-
         <div className="flex items-center justify-between mb-[8px]">
           <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Ngày đi:</p>
           <CalendarIcon className="sm:hidden w-[11px]" />
@@ -115,35 +101,24 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
             {toFirstUpperCase(rides.car.name)}
           </p>
         </div>
-
-        {/* <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto">Giá vé/khách:</p>
-          <p className="flex-1 text-sm">{formatMoneyVND(rides.price_unit.price_unit)}</p>
-        </div> */}
       </div>
 
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
 
       <div className="flex items-center justify-between">
         <p className="items-center flex">
-          <MultiUserIcon className="w-[16px]" />
-          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[8px] text-[11px] leading-[18px]">
+          <MultiUserIcon className="w-[12px] sm:w-[16px]" />
+          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
             {rides.number_available_seat}/{rides.number_seat_in_car}
           </span>
         </p>
         <p className="flex items-center">
-          <PaymentIcon className="w-[16px]" />
-          <span className="text-[12px] sm:text-[14px] font-semibold text-error ml-[8px]">
+          <PaymentIcon className="w-[12px] sm:w-[16px]" />
+          <span className="text-[12px] sm:text-[14px] font-semibold text-error ml-[4px] xs:ml-[8px]">
             {formatMoneyVND(rides.price_unit.price_unit)}
           </span>
         </p>
       </div>
-
-      {/* <div className="flex justify-end">
-        <button className="text-base font-semibold">Xem chi tiết</button>
-      </div> */}
-
-      {/* <div className="h-8 rounded-[20px] gradient absolute-horizontal bottom-0 w-[96%]"></div> */}
     </div>
   )
 }
