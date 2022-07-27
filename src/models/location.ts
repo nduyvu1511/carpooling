@@ -54,6 +54,7 @@ export interface ProvinceId {
   province_id: number
   province_brief_name: string
   province_vietnamese_name: string
+  province_short_name: string
   ghn_province_id: string
   picking_up_stations: any
   image_url: { id: number; url: string }

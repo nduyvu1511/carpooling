@@ -1,17 +1,18 @@
-import { compoundingOrderList, isObjectHasValue } from "@/helper"
+import { compoundingOrderList, isArrayHasValue, isObjectHasValue } from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
-import { CarIdType, CompoundingFilterParams, OptionModel } from "@/models"
-import { useState } from "react"
+import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
+import { useEffect, useState } from "react"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
 import { InputDate, ItemSelect } from "../inputs"
 
 interface CompoundingFilterFormProps {
-  type: "driver" | "customer"
+  type: CarAccountType
   onChange: (params: CompoundingFilterParams | undefined) => void
   defaultValues?: CompoundingFilterParams
   touchableDevice?: boolean
   onCloseFilter?: Function
+  showInModal?: boolean
 }
 
 export const CompoundingFilter = ({
@@ -20,17 +21,19 @@ export const CompoundingFilter = ({
   type,
   touchableDevice = false,
   onCloseFilter,
+  showInModal = false,
 }: CompoundingFilterFormProps) => {
   const { provinceOptions } = useAddress()
   const { vehicleTypeOptions, seats } = useCompoundingForm()
   const { getCurrentLocation } = useCurrentLocation({ showLoading: true })
-  const [numberSeatOptions, setNumberSeatOptions] = useState<OptionModel[]>([])
+  const [numberSeatOptions, setNumberSeatOptions] = useState<OptionModel[]>(seats(16))
   const [compoundingFormValues, setCompoundingFormValues] = useState<
     CompoundingFilterParams | undefined
   >(defaultValues)
-  const [fromProvinceValue, setFromProvinceValue] = useState<OptionModel | undefined>(() =>
-    provinceOptions.find((item) => item.value == compoundingFormValues?.from_province_id)
-  )
+
+  useEffect(() => {
+    setCompoundingFormValues(defaultValues)
+  }, [defaultValues])
 
   const handleChange = (params: CompoundingFilterParams) => {
     !touchableDevice && onChangeProps({ ...compoundingFormValues, ...params })
@@ -38,15 +41,18 @@ export const CompoundingFilter = ({
 
   return (
     <div className="relative flex-1 flex-col">
-      <div className="compounding__filter flex-1 overflow-y-auto h-full pb-[80px]">
+      <div
+        className={`compounding__filter flex-1 overflow-y-auto ${
+          showInModal ? `h-[calc(100vh-120px)] md:h-[calc(100vh-170px)] p-12 lg:h-auto` : "h-full"
+        }`}
+      >
         <div className="items-center justify-between mb-[24px] hidden xl:flex">
           <p className="text-xl">Bộ lọc</p>
-          {!isObjectHasValue(defaultValues) ? (
+          {isObjectHasValue(defaultValues) ? (
             <span
               onClick={() => {
                 onChangeProps(undefined)
                 setCompoundingFormValues(undefined)
-                setFromProvinceValue(undefined)
               }}
               className="text-primary text-14 leading-26 font-medium cursor-pointer"
             >
@@ -64,7 +70,7 @@ export const CompoundingFilter = ({
               })
               handleChange({ from_expected_going_on_date: val + "" })
             }}
-            defaultValue={compoundingFormValues?.from_expected_going_on_date}
+            value={compoundingFormValues?.from_expected_going_on_date || ""}
             inputProps={{ placeholder: "Ngày đi" }}
           />
         </div>
@@ -78,23 +84,29 @@ export const CompoundingFilter = ({
               })
               handleChange({ to_expected_going_on_date: val + "" })
             }}
-            defaultValue={compoundingFormValues?.to_expected_going_on_date}
+            value={compoundingFormValues?.to_expected_going_on_date || ""}
             inputProps={{ placeholder: "Ngày về" }}
           />
         </div>
 
         <div className="form-select form-select-sm">
           <Select
+            key={"from_province_id"}
             openMenuOnFocus={true}
             options={provinceOptions}
             controlShouldRenderValue
-            value={fromProvinceValue}
+            value={
+              compoundingFormValues?.from_province_id
+                ? provinceOptions?.find(
+                    (item) => item.value == compoundingFormValues?.from_province_id
+                  )
+                : null
+            }
             name="from_province_id"
             onChange={(val) => {
               if (!val) return
               setCompoundingFormValues({ ...compoundingFormValues, from_province_id: +val.value })
               handleChange({ from_province_id: +val.value })
-              setFromProvinceValue(val)
             }}
             placeholder="Đi từ"
           />
@@ -102,13 +114,14 @@ export const CompoundingFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            key={"to_province_id"}
             options={provinceOptions}
             value={
               compoundingFormValues?.to_province_id
                 ? provinceOptions.find(
                     (item) => item.value == compoundingFormValues?.to_province_id
                   )
-                : undefined
+                : null
             }
             name="to_province_id"
             onChange={(val) => {
@@ -122,18 +135,19 @@ export const CompoundingFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            key={"car_id"}
             options={vehicleTypeOptions}
             value={
               compoundingFormValues?.car_id
-                ? provinceOptions.find((item) => item.value == compoundingFormValues?.car_id)
-                : undefined
+                ? vehicleTypeOptions.find((item) => item.value == compoundingFormValues.car_id)
+                : null
             }
             name="car_id"
             onChange={(val) => {
               if (!val) return
-              setNumberSeatOptions(seats(Number((val as CarIdType)?.number_seat) || 0))
               handleChange({ car_id: +val.value })
               setCompoundingFormValues({ ...compoundingFormValues, car_id: +val.value })
+              setNumberSeatOptions(seats(Number(val.number_seat)))
             }}
             placeholder="Loại xe"
           />
@@ -142,11 +156,17 @@ export const CompoundingFilter = ({
         {type === "customer" ? (
           <div className="form-select form-select-sm">
             <Select
+              maxMenuHeight={180}
+              key={"number_seat"}
               options={numberSeatOptions}
               value={
-                compoundingFormValues?.number_seat
-                  ? provinceOptions.find((item) => item.value == compoundingFormValues?.number_seat)
-                  : undefined
+                compoundingFormValues?.number_seat &&
+                numberSeatOptions &&
+                isArrayHasValue(numberSeatOptions)
+                  ? numberSeatOptions.find(
+                      (item) => item.value == compoundingFormValues.number_seat
+                    )
+                  : null
               }
               name="number_seat"
               onChange={(val) => {
@@ -200,24 +220,24 @@ export const CompoundingFilter = ({
         </div>
       </div>
 
-      <div className="fixed bottom-0 right-0 left-0 xl:hidden p-12 bg-white-color flex">
-        {isObjectHasValue(defaultValues) ? (
-          <button
-            onClick={() => {
-              onChangeProps(undefined)
-              onCloseFilter?.()
-            }}
-            className="btn-primary-outline py-[6px] mr-12 flex-1"
-          >
-            Xóa bộ lọc
-          </button>
-        ) : null}
+      <div className="absolute bottom-0 right-0 left-0 xl:hidden bg-white-color flex md:flex-col p-12">
+        <button
+          onClick={() => {
+            onChangeProps(undefined)
+            onCloseFilter?.()
+          }}
+          className={`btn-primary-outline py-[6px] mr-12 md:mr-0 md:mb-12 flex-1 rounded-[5px] w-full ${
+            !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
+          }`}
+        >
+          Xóa bộ lọc
+        </button>
         <button
           onClick={() => {
             isObjectHasValue(compoundingFormValues) && onChangeProps(compoundingFormValues)
             onCloseFilter?.()
           }}
-          className={`btn-primary py-[6px] flex-1 ${
+          className={`btn-primary py-[6px] flex-1 rounded-[5px] w-full ${
             !isObjectHasValue(compoundingFormValues) ? "btn-disabled" : ""
           }`}
         >

@@ -119,7 +119,14 @@ export const Header = () => {
         </section>
       </HeaderWrapper>
 
-      <Drawer isShow={showDrawer}>
+      <Drawer
+        onClose={() => {
+          setShowDrawer(false)
+          toggleBodyOverflow("hidden")
+        }}
+        isShow={showDrawer}
+        showCloseBtn={false}
+      >
         <Menu
           onClose={() => {
             toggleBodyOverflow("unset")

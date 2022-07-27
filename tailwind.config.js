@@ -12,7 +12,7 @@ module.exports = {
         "booking-grid": "1fr 450px",
       },
       boxShadow: {
-        "shadow-1": "0px 2px 4px rgba(191, 191, 191, 0.3);",
+        "shadow-1": "0px 1px 2px rgba(0, 0, 0, 0.05)",
       },
     },
     colors: {

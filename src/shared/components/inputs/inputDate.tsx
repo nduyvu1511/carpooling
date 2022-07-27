@@ -8,6 +8,7 @@ interface InputDateProps {
   onChange?: (params: string | number) => void
   defaultValue?: string
   inputProps?: HTMLProps<HTMLInputElement>
+  value?: string
 }
 
 const InputDate = ({
@@ -15,6 +16,7 @@ const InputDate = ({
   onChange,
   defaultValue,
   inputProps,
+  value,
 }: InputDateProps) => {
   const yesterday = moment().subtract(1, "day")
   const disablePastDt = (current: any) => {
@@ -34,6 +36,8 @@ const InputDate = ({
       timeFormat={false}
       inputProps={{ ...inputProps }}
       initialValue={defaultValue}
+      value={value ? new Date(value) : ""}
+      renderInput={(props) => <input {...props} value={value ? props.value : ""} />}
     />
   )
 }

@@ -13,6 +13,7 @@ interface ModalProps {
   transitionType?: "up" | "down" | "right" | "left"
   headerNode?: ReactNode
   overFlowAuto?: boolean
+  fullScreen?: boolean
 }
 
 const Modal = ({
@@ -26,12 +27,15 @@ const Modal = ({
   transitionType = "up",
   headerNode = null,
   overFlowAuto = true,
+  fullScreen = false,
 }: ModalProps) => {
   return (
     <>
       <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={300} in={show}>
         <div
-          className={`flex flex-col sm:max-w-[610px] w-screen fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden h-full sm:max-h-[650px] bg-white-color sm:rounded-[30px] ${className}`}
+          className={`flex flex-col w-screen h-full ${
+            fullScreen ? "" : "sm:max-w-[610px] sm:max-h-[650px] sm:rounded-[30px]"
+          } fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-white-color ${className}`}
         >
           <div className="h-[56px] border-b border-solid border-gray-color-1 w-full flex px-[16px] md:px-24 items-center">
             <button onClick={() => onClose()} className="w-[30px]">

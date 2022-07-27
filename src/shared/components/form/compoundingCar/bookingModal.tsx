@@ -3,7 +3,7 @@ import { Tabs } from "@/components/tabs"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CompoundingType, CreateCompoundingCarParams } from "@/models"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CarpoolingCompoundingForm } from "./carpoolingCompoundingCarForm"
 import { OneWayCompoundingForm } from "./oneWayCompoundingCarForm"
 import { TwoWayCompoundingForm } from "./twoWayCompoundingCarForm"
@@ -27,6 +27,10 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
   } = useCompoundingForm()
   const { createCompoundingCar } = useCompoundingCarActions()
   const [compoundingType, setCompoundingType] = useState<CompoundingType | undefined>(formType)
+
+  useEffect(() => {
+    setCompoundingType(formType)
+  }, [formType])
 
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     createCompoundingCar({
@@ -69,7 +73,7 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
         />
       }
     >
-      <div className="flex-1 w-full px-[16px] md:px-24 py-12 pb-[70px] sm:pb-[40px]">
+      <div className="flex-1 w-full px-[16px] md:px-24 py-12 mb-[70px] sm:mb-[40px]">
         {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}

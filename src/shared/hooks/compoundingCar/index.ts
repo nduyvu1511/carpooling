@@ -7,4 +7,4 @@ export * from "./useCompoundingCarForm"
 export * from "./useCompoundingCarProcess"
 export * from "./useQueryCompoundingCarCustomer"
 export * from "./useQueryCompoundingCarDriver"
-
+export * from "./useQueryCompoundingCarParams"

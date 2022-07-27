@@ -222,7 +222,7 @@ export const Map = ({
             ) : null} */}
 
             {!viewOnly ? (
-              <div className="absolute max-w-[400px] w-full top-[8px] left-[8px] z-[100]">
+              <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
                 {mapRef?.current ? (
                   <MapSearch
                     onSelect={(address) => {

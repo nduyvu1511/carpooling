@@ -1,15 +1,14 @@
-import { SpinnerIcon } from "@/assets"
-import { BookingModal, CompoundingFilter, RidesItem, Tabs } from "@/components"
-import { compoundingTypeFilters, toggleBodyOverflow } from "@/helper"
-import { useQueryCompoundingCarDriver } from "@/hooks"
+import { RidesContainer } from "@/components"
+import { isObjectHasValue } from "@/helper"
+import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams } from "@/hooks"
 import { DriverLayout } from "@/layout"
-import { CompoundingType } from "@/models"
+import { CompoundingFilterParams } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import InfiniteScroll from "react-infinite-scroll-component"
+import { useEffect } from "react"
 
 const HomeDriver = () => {
   const router = useRouter()
+  const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
     data: ridesList,
     isValidating,
@@ -17,123 +16,41 @@ const HomeDriver = () => {
     hasMore,
     fetchMoreRides,
     isFetchingMore,
-    getQueryParams,
   } = useQueryCompoundingCarDriver({})
-  const [showBookingModal, setShowBookingModal] = useState<CompoundingType | undefined>()
 
   useEffect(() => {
     if (router.isReady) {
-      filterRides(getQueryParams(router.query))
+      filterRides(getValueFromQuery(router.query))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
+  const handleFilterRides = (params: CompoundingFilterParams | undefined) => {
+    if (isObjectHasValue(params)) {
+      router.push({
+        query: {
+          ...router.query,
+          ...params,
+        },
+      })
+    } else {
+      router.push({})
+    }
+  }
+
   return (
-    <>
-      <section className="container py-24">
-        <div className="grid md:grid-cols-2 xl:grid-cols-sidebar-grid gap-24">
-          <div className="">
-            {router.isReady ? (
-              <div className="sticky top-[81px] block-element p-24 z-[100]">
-                <CompoundingFilter
-                  type="driver"
-                  defaultValues={router.query as any}
-                  onChange={(data) => {
-                    if (!data) {
-                      router.push({})
-                      return
-                    }
-                    const filter = getQueryParams({ ...router.query, ...data })
-                    router.push(
-                      {
-                        query: { ...filter },
-                      },
-                      undefined,
-                      { shallow: true, scroll: true }
-                    )
-                  }}
-                />
-              </div>
-            ) : null}
-          </div>
-
-          <div className="block-element px-24 pb-24">
-            <div className="mb-24">
-              <h1 className="h4 text-primary pt-24">Các chuyến xe có thể nhận</h1>
-            </div>
-
-            <div className="mb-24">
-              <div className="flex items-center">
-                <p className="text-base font-semibold mr-24">Danh sách chuyến:</p>
-                <Tabs
-                  list={compoundingTypeFilters}
-                  tabActive={router.query.compounding_type || ""}
-                  onChange={(val) =>
-                    router.push({
-                      query: {
-                        ...router.query,
-                        compounding_type: val,
-                      },
-                    })
-                  }
-                />
-              </div>
-            </div>
-
-            {isValidating ? (
-              <div className="grid grid-cols-3 gap-24">
-                {Array.from({ length: 9 }).map((item, index) => (
-                  <RidesItem key={index} rides={null} />
-                ))}
-              </div>
-            ) : ridesList?.length > 0 ? (
-              <div className="">
-                <InfiniteScroll
-                  dataLength={ridesList?.length || 0}
-                  next={() => fetchMoreRides(router.query)}
-                  hasMore={hasMore}
-                  loader={
-                    isFetchingMore ? (
-                      <div className="flex-center py-10">
-                        <SpinnerIcon className="animate-spin" />
-                      </div>
-                    ) : null
-                  }
-                >
-                  <ul className="grid grid-cols-3 gap-24">
-                    {ridesList?.length > 0 &&
-                      ridesList.map((item, index) => (
-                        <li
-                          className="rounded-[20px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
-                          key={index}
-                        >
-                          <RidesItem
-                            onClick={() => router.push(`/d/rides/${item.compounding_car_id}`)}
-                            rides={item}
-                          />
-                        </li>
-                      ))}
-                  </ul>
-                </InfiniteScroll>
-              </div>
-            ) : (
-              <div className="flex-center my-[20px]">
-                <p className="text-base">Không tìm thấy chuyến đi nào</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <BookingModal
-        show={showBookingModal}
-        formType={showBookingModal as CompoundingType}
-        onClose={() => {
-          setShowBookingModal(undefined)
-          toggleBodyOverflow("unset")
-        }}
-      />
-    </>
+    <RidesContainer
+      hasMore={hasMore}
+      isFetchingMore={isFetchingMore}
+      isValidating={isValidating}
+      list={ridesList}
+      carAccountType="car_driver"
+      defaultParams={router.query}
+      onClickRideItem={(compounding_car_id) => router.push(`/d/rides/${compounding_car_id}`)}
+      onFetchMore={() => fetchMoreRides(router.query)}
+      onFilterRides={(data) => handleFilterRides(data)}
+      key="car_driver"
+    />
   )
 }
 
