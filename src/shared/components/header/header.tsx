@@ -120,12 +120,12 @@ export const Header = () => {
       </HeaderWrapper>
 
       <Drawer
+        showCloseBtn={false}
         onClose={() => {
           setShowDrawer(false)
           toggleBodyOverflow("hidden")
         }}
         isShow={showDrawer}
-        showCloseBtn={false}
       >
         <Menu
           onClose={() => {

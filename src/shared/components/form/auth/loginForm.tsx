@@ -120,7 +120,12 @@ export const LoginForm = ({
       </div> */}
 
       <div className="flex justify-center mb-[40px]">
-        <ButtonSubmit onClick={() => handleSubmit(onSubmitHandler)} isError={!isValid} />
+        <button
+          onClick={() => handleSubmit(onSubmitHandler)}
+          className={`btn-primary ${!isValid ? "btn-disabled" : ""}`}
+        >
+          Xác nhận
+        </button>
       </div>
 
       <div className="text-14 font-medium text-gray-color-4 leading-26 text-center">

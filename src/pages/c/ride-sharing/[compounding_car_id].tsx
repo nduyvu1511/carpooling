@@ -4,6 +4,8 @@ import {
   RidesDetailLoading,
   RidesProgress,
   RidesSummary,
+  RidesSummaryMobile,
+  RidesSummaryModal,
 } from "@/components"
 import {
   useCompoundingCar,
@@ -13,9 +15,13 @@ import {
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
+import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
+import { useDispatch } from "react-redux"
 
 const RidesDetailCustomer = () => {
+  // const breakPoints = useBreakpoint()
+  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { confirmCompoundingCar, createExistingCompoundingCar } = useCompoundingCarActions()
@@ -50,6 +56,7 @@ const RidesDetailCustomer = () => {
   useEffectOnce(() => {
     return () => {
       mutate(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
   })
 
@@ -58,7 +65,16 @@ const RidesDetailCustomer = () => {
       showLoading={isValidating}
       topNode={<RidesProgress state={compoundingCar?.state} />}
       rightNode={
-        compoundingCar ? <RidesSummary rides={compoundingCar} car_account_type="customer" /> : null
+        compoundingCar ? (
+          <>
+            <div className="hidden lg:block">
+              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+            </div>
+            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+              <RidesSummaryMobile rides={compoundingCar} />
+            </div>
+          </>
+        ) : null
       }
       title="Xác nhận chuyến đi ghép"
     >
@@ -72,21 +88,33 @@ const RidesDetailCustomer = () => {
         ) : (
           <>
             <div className="h-[200px] md:h-[300px] mb-12">
-              <Map viewOnly />
-            </div>
-
-            <div className="">
-              <CarpoolingCompoundingForm
-                viewButtonModal={false}
-                defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-                onSubmit={(data) => handleConfirmCompoundingCar(data)}
-                type="existed"
-                limitNumberSeat={compoundingCar?.number_available_seat}
+              <Map
+                direction={{
+                  destination: {
+                    lat: Number(compoundingCar.to_latitude),
+                    lng: Number(compoundingCar.to_longitude),
+                  },
+                  origin: {
+                    lat: Number(compoundingCar.from_latitude),
+                    lng: Number(compoundingCar.from_longitude),
+                  },
+                }}
+                viewOnly
               />
             </div>
+
+            <CarpoolingCompoundingForm
+              defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+              onSubmit={(data) => handleConfirmCompoundingCar(data)}
+              type="existed"
+              limitNumberSeat={compoundingCar?.number_available_seat}
+              view="page"
+            />
           </>
         )}
       </div>
+
+      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

@@ -6,6 +6,7 @@ interface ButtonSubmitProps {
   view?: "modal" | "page"
   disabled?: boolean
   showMargin?: boolean
+  parentClassName?: string
 }
 
 export const ButtonSubmit = ({
@@ -16,21 +17,24 @@ export const ButtonSubmit = ({
   view,
   disabled = false,
   showMargin = true,
+  parentClassName = "",
 }: ButtonSubmitProps) => {
   return (
     <div
-      className={`flex-center w-full ${
-        view === "modal" ? "absolute left-[0] bottom-[0] right-[0] py-[16px] bg-white-color" : ""
-      }`}
+      className={`w-full ${
+        view === "modal"
+          ? "absolute left-[0] bottom-[0] right-[0] p-12 bg-white-color"
+          : "fixed bottom-0 right-0 left-0 bg-white-color p-12 md:static md:p-0"
+      } ${parentClassName}`}
     >
       <button
         onClick={() => onClick && onClick()}
         type="submit"
-        className={`${
-          showMargin ? "mx-[16px]" : ""
-        } btn-primary hover:border-none border-none hover:text-white-color ${
+        className={`btn-primary mx-auto md:mx-[unset] h-[40px] md:h-fit ${
+          showMargin ? "" : ""
+        } hover:border-none border-none hover:text-white-color ${
           isError ? "btn-disabled-clickable" : ""
-        } ${disabled ? "btn-disabled" : ""} ${className} `}
+        } ${disabled ? "btn-disabled" : ""} ${className} ${view === "modal" ? "mx-auto" : ""}`}
       >
         {title || "Xác nhận"}
       </button>

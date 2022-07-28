@@ -5,11 +5,13 @@ import { createSlice } from "@reduxjs/toolkit"
 interface CommonSliceParams {
   isScreenLoading: boolean
   authModalType: AuthModalType | undefined
+  isShowSummaryDetail: boolean
 }
 
 const initialState: CommonSliceParams = {
   isScreenLoading: false,
   authModalType: undefined,
+  isShowSummaryDetail: false,
 }
 
 const commonSlice = createSlice({
@@ -37,8 +39,17 @@ const commonSlice = createSlice({
       }
       state.authModalType = payload
     },
+
+    setShowSummaryDetail: (state, { payload }: PayloadType<boolean>) => {
+      if (!payload) {
+        toggleBodyOverflow("unset")
+      } else {
+        toggleBodyOverflow("hidden")
+      }
+      state.isShowSummaryDetail = payload
+    },
   },
 })
 
 export default commonSlice.reducer
-export const { setScreenLoading, setAuthModalType } = commonSlice.actions
+export const { setScreenLoading, setAuthModalType, setShowSummaryDetail } = commonSlice.actions

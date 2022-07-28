@@ -28,6 +28,11 @@ export const onScrollBottom = (callBack: Function) => {
   }
 }
 
+export const getHoursName = (hours: number): string => {
+  if (hours < 1) return `${hours * 6}`
+  return `${hours | 0} Giờ ${((hours % 1) * 10 * 6).toFixed(0)} Phút`
+}
+
 export const formatTimeType = (time: TimeType): string => {
   switch (time) {
     case "day":

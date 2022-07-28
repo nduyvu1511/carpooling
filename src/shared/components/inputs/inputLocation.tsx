@@ -69,7 +69,7 @@ export const InputLocation = ({
         iconType="back"
         heading={type === "from" ? "Chọn điểm đến" : "Chọn điểm đi"}
         onClose={() => setShowMap(false)}
-        transitionType="right"
+        transitionType="up"
       >
         <Map
           defaultLocation={defaultLocation}

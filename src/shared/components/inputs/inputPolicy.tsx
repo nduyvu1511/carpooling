@@ -32,12 +32,16 @@ const InputPolicy = ({ onBlur, onChange, isError, value }: InputPolicyProps) => 
         }}
       >
         Tôi đã đồng ý với Exxe về{" "}
-        <Link href="/">
-          <a className={`${isError ? "text-error" : "text-active"}`}>Điều khoản dịch vụ</a>
+        <Link href="/terms-&-conditions">
+          <a target="_blank" className={`${isError ? "text-error" : "text-active"}`}>
+            Điều khoản dịch vụ
+          </a>
         </Link>{" "}
         &{" "}
-        <Link href="/">
-          <a className={`${isError ? "text-error" : "text-active"}`}>Chính sách bảo mật.</a>
+        <Link href="/terms-&-conditions">
+          <a rel="noreferrer noopener" className={`${isError ? "text-error" : "text-active"}`}>
+            Chính sách bảo mật.
+          </a>
         </Link>
       </span>
     </div>

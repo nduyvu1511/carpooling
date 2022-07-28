@@ -85,6 +85,16 @@ const ScheduleCompounding = () => {
               from_province_name={compoundingCar.from_province.province_brief_name}
               compounding_type={compoundingCar.compounding_type}
               to_province_name={compoundingCar.to_province.province_brief_name}
+              direction={{
+                destination: {
+                  lat: Number(compoundingCar.to_latitude),
+                  lng: Number(compoundingCar.to_longitude),
+                },
+                origin: {
+                  lat: Number(compoundingCar.from_latitude),
+                  lng: Number(compoundingCar.from_longitude),
+                },
+              }}
             />
           )
         }

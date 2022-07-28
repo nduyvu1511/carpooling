@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, CloseIcon } from "@/assets"
+import { TransitionDirection } from "@/models"
 import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -10,7 +11,7 @@ interface ModalProps {
   iconType?: "close" | "back"
   overLayClose?: boolean
   show: boolean | undefined
-  transitionType?: "up" | "down" | "right" | "left"
+  transitionType?: TransitionDirection
   headerNode?: ReactNode
   overFlowAuto?: boolean
   fullScreen?: boolean
@@ -38,13 +39,13 @@ const Modal = ({
           } fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-white-color ${className}`}
         >
           <div className="h-[56px] border-b border-solid border-gray-color-1 w-full flex px-[16px] md:px-24 items-center">
-            <button onClick={() => onClose()} className="w-[30px]">
+            <span onClick={() => onClose()} className="w-[30px]">
               {iconType === "close" ? (
                 <CloseIcon className="text-gray-color-4 w-[26px] h-[26px]" />
               ) : (
                 <ArrowLeftIcon className="text-gray-color-4 w-[20px] h-[20px]" />
               )}
-            </button>
+            </span>
 
             <div className="flex-1">
               <p className="text-16 font-semibold leading-20 text-center text-gray-color-4 line-clamp-1">

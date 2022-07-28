@@ -52,6 +52,7 @@ export const DEFAULT_HOUR_BACK_VALUE = { value: "00_hour", label: "Số giờ ch
 
 export const ONE_WAY_FROM_LOCATION = "one_way_from_location"
 export const ONE_WAY_DISTANCE = "one_way_distance"
+export const ONE_WAY_DURATION = "one_way_duration"
 export const ONE_WAY_TO_LOCATION = "one_way_to_location"
 export const ONE_WAY_CAR_ID = "one_way_car_id"
 export const ONE_WAY_EXPECTED_GOING_ON_DATE = "one_way_expected_going_on_date"
@@ -61,6 +62,7 @@ export const ONE_WAY_PRICE = "one_way_price"
 
 export const TWO_WAY_FROM_LOCATION = "two_way_from_location"
 export const TWO_WAY_DISTANCE = "two_way_distance"
+export const TWO_WAY_DURATION = "two_way_duration"
 export const TWO_WAY_PRICE = "two_way_price"
 export const TWO_WAY_TO_LOCATION = "two_way_to_location"
 export const TWO_WAY_CAR_ID = "two_way_car_id"
@@ -71,6 +73,7 @@ export const TWO_WAY_HOUR_OF_WAIT_TIME = "two_way_hour_of_wait_time"
 export const TWO_WAY_IS_CHECKED_POLICY = "two_way_is_checked_policy"
 export const TWO_WAY_EXPECTED_PICKING_UP_DATE = "two_way_expected_picking_up_date"
 
+export const CARPOOLING_DURATION = "carpooling_from_duration"
 export const CARPOOLING_FROM_STATION = "carpooling_from_station"
 export const CARPOOLING_FROM_LOCATION = "carpooling_from_location"
 export const CARPOOLING_FROM_PICK_UP_STATION_ID = "carpooling_from_station"

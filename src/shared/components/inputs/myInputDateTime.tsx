@@ -45,11 +45,12 @@ const MyInputDateTime = ({
   return (
     <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
       <div
-        className={`form-date flex-1 h-full mr-[16px] bg-white-color rounded-[10px] ${
+        className={`form-date w-[40%] sm:w-1/2 h-full bg-white-color rounded-[10px] ${
           isError ? "border border-solid border-error" : ""
         }`}
       >
         <Datetime
+          closeOnSelect
           dateFormat="DD/MM/YYYY"
           locale="vi"
           isValidDate={disablePassDay ? disablePastDt : undefined}
@@ -58,11 +59,12 @@ const MyInputDateTime = ({
           }}
           timeFormat={false}
           inputProps={{ placeholder: "Chọn ngày" }}
-          value={date}
+          value={date ? new Date(date) : ""}
           className={`${disableDate ? "pointer-events-none opacity-60" : ""} `}
         />
       </div>
-      <div className={`form-select flex-1 h-full ${isError ? "form-select-error" : ""}`}>
+      <div className="mx-[6px] md:mx-[12px]"></div>
+      <div className={`form-select w-[60%] sm:w-1/2 h-full ${isError ? "form-select-error" : ""}`}>
         <Select
           menuShouldScrollIntoView={false}
           options={times}

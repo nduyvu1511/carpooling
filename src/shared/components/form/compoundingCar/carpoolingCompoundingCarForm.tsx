@@ -4,6 +4,7 @@ import {
   ButtonSubmit,
   InputCheckbox,
   InputDateTime,
+  InputLocation,
   InputPolicy,
   InputSelect,
   InputStation,
@@ -14,6 +15,7 @@ import { carpoolingCompoundingCarSchema } from "@/core/schema"
 import {
   CARPOOLING_CAR_ID,
   CARPOOLING_DISTANCE,
+  CARPOOLING_DURATION,
   CARPOOLING_EXPECTED_GOING_ON_DATE,
   CARPOOLING_FROM_LOCATION,
   CARPOOLING_FROM_STATION,
@@ -23,6 +25,7 @@ import {
   CARPOOLING_PRICE_PER_PASSENGER,
   CARPOOLING_TO_STATION,
   formatMoneyVND,
+  getHoursName,
   setToLocalStorage,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
@@ -42,10 +45,10 @@ interface CarpoolingCompoundingFormProps {
   defaultValues?: CreateCarpoolingCompoundingForm
   type?: "new" | "existed"
   limitNumberSeat?: number
-  viewButtonModal?: boolean
   mode?: "create" | "update" | "confirm"
   disabled?: boolean
   showButon?: boolean
+  view?: "page" | "modal"
 }
 
 export const CarpoolingCompoundingForm = ({
@@ -54,9 +57,9 @@ export const CarpoolingCompoundingForm = ({
   mode = "create",
   type = "new",
   limitNumberSeat,
-  viewButtonModal = true,
   disabled = false,
   showButon = true,
+  view,
 }: CarpoolingCompoundingFormProps) => {
   const dispatch = useDispatch()
   const {
@@ -64,6 +67,7 @@ export const CarpoolingCompoundingForm = ({
     handleSubmit,
     setValue,
     getValues,
+    watch,
     clearErrors,
     formState: { errors, isValid, isDirty },
     control,
@@ -77,12 +81,11 @@ export const CarpoolingCompoundingForm = ({
   const [numberSeat, setNumberSeat] = useState<number>(
     limitNumberSeat || getValues("car_id.number_seat")
   )
-  const [distance, setDistance] = useState<number>(getValues("distance") || 0)
-  const [price, setPrice] = useState<number>(getValues("price_per_passenger") || 0)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [showMap, setShowMap] = useState<boolean>(false)
-  const [isPickingFromStart, setPickingFromStart] = useState<boolean>()
-  console.log(defaultValues)
+  const [_, setPickingFromStart] = useState<boolean>()
+  const durationDistance = watch(["distance", "duration", "price_per_passenger"])
+
   const calcDistance = () => {
     const fromStation = getValues("from_station")
     const toStation = getValues("to_station")
@@ -93,10 +96,11 @@ export const CarpoolingCompoundingForm = ({
         origin: { lat: +fromStation.lat, lng: +fromStation.lng },
         destination: { lat: +toStation.lat, lng: +toStation.lng },
       },
-      onSuccess: (distance) => {
+      onSuccess: ({ distance, duration }) => {
         setToLocalStorage(CARPOOLING_DISTANCE, distance)
+        setToLocalStorage(CARPOOLING_DURATION, duration)
         setValue("distance", distance)
-        setDistance(distance)
+        setValue("duration", duration)
       },
     })
   }
@@ -126,7 +130,6 @@ export const CarpoolingCompoundingForm = ({
       onSuccess: (data) => {
         setValue("price_per_passenger", data)
         setToLocalStorage(CARPOOLING_PRICE_PER_PASSENGER, data)
-        setPrice(data)
       },
     })
   }
@@ -151,6 +154,7 @@ export const CarpoolingCompoundingForm = ({
       number_seat: Number(data.number_seat.value),
       to_pick_up_station_id: data.to_station.station_id,
       price_per_passenger: data.price_per_passenger,
+      duration: data?.duration || 0,
     }
     onSubmit?.(params)
   }
@@ -165,7 +169,7 @@ export const CarpoolingCompoundingForm = ({
     setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, undefined)
     return
   }
-  console.log(errors)
+
   return (
     <>
       <form
@@ -177,23 +181,43 @@ export const CarpoolingCompoundingForm = ({
         <div className={`${disabled ? "pointer-events-none" : ""}`}>
           <div className="form-item">
             <div className="mb-8">
-              <InputStation
-                prevProvinceId={getValues("to_station.province_id")}
-                name="from_station"
-                control={control}
-                onChange={(station) => {
-                  if (!station) return
-                  setValue("from_station", station)
-                  clearErrors("from_station")
-                  calcPrice()
-                  setToLocalStorage(CARPOOLING_FROM_STATION, station)
-                  calcDistance()
-                }}
-                placeholder="Điểm đi"
-                isError={!!errors?.from_station}
-                defaultValue={getValues("from_station")}
-                type="from"
-              />
+              {getValues("from_location") ? (
+                <InputLocation
+                  prevProvinceId={getValues("from_location.province_id")}
+                  isError={!!errors?.from_location}
+                  type="from"
+                  defaultValue={getValues("from_location")?.address || ""}
+                  placeholder="Điểm đi"
+                  onChange={(location) => {
+                    setValue("from_location", location)
+                    clearErrors("from_location")
+                    setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
+                    calcDistance()
+                    calcPrice()
+                  }}
+                  defaultLocation={getValues("from_location")}
+                  control={control}
+                  name="from_location"
+                />
+              ) : (
+                <InputStation
+                  prevProvinceId={getValues("to_station.province_id")}
+                  name="from_station"
+                  control={control}
+                  onChange={(station) => {
+                    if (!station) return
+                    setValue("from_station", station)
+                    clearErrors("from_station")
+                    calcPrice()
+                    setToLocalStorage(CARPOOLING_FROM_STATION, station)
+                    calcDistance()
+                  }}
+                  placeholder="Điểm đi"
+                  isError={!!errors?.from_station}
+                  defaultValue={getValues("from_station")}
+                  type="from"
+                />
+              )}
             </div>
 
             {type === "new" ? (
@@ -238,10 +262,17 @@ export const CarpoolingCompoundingForm = ({
               type="from"
             />
 
-            {price || distance ? (
-              <div className="flex justify-between text-[12px] font-medium mt-8">
-                {price ? <p className="mr-[12px]">Giá: {formatMoneyVND(price || 0)}</p> : null}
-                {distance ? <p className="">Quãng đường: {distance.toFixed(2)}km</p> : null}
+            {durationDistance?.[0] ? (
+              <div className="mt-[4px] text-xs leading-[22px] font-medium flex items-center flex-wrap">
+                {durationDistance?.[0] ? (
+                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+                ) : null}
+                {durationDistance?.[1] ? (
+                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+                ) : null}
+                {durationDistance?.[2] ? (
+                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -339,12 +370,14 @@ export const CarpoolingCompoundingForm = ({
           ) : null}
         </div>
 
-        {!viewButtonModal ? <div className="mt-24"></div> : null}
+        {view === "modal" ? <div className="mt-24"></div> : null}
+
         {onSubmit && showButon ? (
           <ButtonSubmit
-            view={viewButtonModal ? "modal" : "page"}
+            view={view}
             title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
             isError={!isValid}
+            parentClassName={`${view === "page" ? "mt-[40px]" : ""}`}
           />
         ) : null}
       </form>

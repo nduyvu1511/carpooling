@@ -10,6 +10,7 @@ module.exports = {
         "sidebar-grid": "236px 1fr",
         "grid-330": "330px 1fr",
         "booking-grid": "1fr 450px",
+        "booking-grid-sm": "1fr 400px",
       },
       boxShadow: {
         "shadow-1": "0px 1px 2px rgba(0, 0, 0, 0.05)",
@@ -56,6 +57,7 @@ module.exports = {
       "bg-success": "#DCFDD9",
       "bg-warning": "#EFD88F",
       "bg-error": "#FFDBDB",
+      "bg-primary": "#F1F5FF",
     },
     fontSize: {
       12: 12,
@@ -109,6 +111,8 @@ module.exports = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
+      900: "900px",
+      424: "425px",
     },
     maxWidth: {
       "modal-width": 610,

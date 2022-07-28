@@ -5,10 +5,12 @@ import {
   DEFAULT_DATE_TIME_VALUE,
   DEFAULT_HOUR_BACK_VALUE,
   formatMoneyVND,
+  getHoursName,
   hoursBackList,
   setToLocalStorage,
   TWO_WAY_CAR_ID,
   TWO_WAY_DISTANCE,
+  TWO_WAY_DURATION,
   TWO_WAY_EXPECTED_GOING_ON_DATE,
   TWO_WAY_EXPECTED_PICKING_UP_DATE,
   TWO_WAY_FROM_LOCATION,
@@ -34,16 +36,16 @@ interface TwoWayCompoundingFormProps {
   onSubmit?: (params: CreateTwoWayCompoundingCar) => void
   defaultValues?: CreateTwoWayCompoundingCarForm
   mode?: "create" | "update" | "confirm"
-  viewButtonModal?: boolean
   disabled?: boolean
+  view?: "page" | "modal"
 }
 
 export const TwoWayCompoundingForm = ({
   onSubmit,
   defaultValues,
   mode = "create",
-  viewButtonModal = true,
   disabled = false,
+  view = "page",
 }: TwoWayCompoundingFormProps) => {
   const {
     register,
@@ -52,6 +54,7 @@ export const TwoWayCompoundingForm = ({
     getValues,
     clearErrors,
     setError,
+    watch,
     formState: { errors, isValid, isDirty },
     control,
   } = useForm<CreateTwoWayCompoundingCarForm>({
@@ -61,9 +64,8 @@ export const TwoWayCompoundingForm = ({
   })
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, calcPriceFromProvinceIds } = useCompoundingForm()
-  const [isADayTour, setADayTour] = useState<boolean>(getValues("is_a_day_tour"))
-  const [distance, setDistance] = useState<number>(getValues("distance"))
-  const [price, setPrice] = useState<number>(getValues("price") || 0)
+  const [_, setADayTour] = useState<boolean>(getValues("is_a_day_tour"))
+  const durationDistance = watch(["distance", "duration", "price"])
 
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
@@ -74,10 +76,11 @@ export const TwoWayCompoundingForm = ({
         destination: { lat: fromLocation.lat, lng: fromLocation.lng },
         origin: { lat: toLocation.lat, lng: toLocation.lng },
       },
-      onSuccess: (distance) => {
+      onSuccess: ({ distance, duration }) => {
         setToLocalStorage(TWO_WAY_DISTANCE, distance)
+        setToLocalStorage(TWO_WAY_DURATION, duration)
         setValue("distance", distance)
-        setDistance(distance)
+        setValue("duration", duration)
       },
     })
   }
@@ -97,7 +100,6 @@ export const TwoWayCompoundingForm = ({
       onSuccess: (data) => {
         setValue("price", data)
         setToLocalStorage(TWO_WAY_PRICE, data)
-        setPrice(data)
       },
     })
   }
@@ -168,6 +170,7 @@ export const TwoWayCompoundingForm = ({
       hour_of_wait_time: is_a_day_tour
         ? (data.hour_of_wait_time?.value as HourWaitTimeType)
         : false,
+      duration: data?.duration || 0,
     }
     onSubmit?.(params)
   }
@@ -229,16 +232,19 @@ export const TwoWayCompoundingForm = ({
               control={control}
               name="to_location"
             />
-          </div>
 
-          <div className="rides__form-location-info">
-            {price ? (
-              <p className="rides__form-location-info-price">Giá: {formatMoneyVND(price)}</p>
-            ) : null}
-            {distance ? (
-              <p className="rides__form-location-info-distance">
-                Quãng đường: {distance.toFixed(2)}km
-              </p>
+            {durationDistance?.[0] ? (
+              <div className="mt-[4px] text-xs leading-[22px] font-medium flex items-center flex-wrap">
+                {durationDistance?.[0] ? (
+                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+                ) : null}
+                {durationDistance?.[1] ? (
+                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+                ) : null}
+                {durationDistance?.[2] ? (
+                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </div>
@@ -270,6 +276,8 @@ export const TwoWayCompoundingForm = ({
             isError={!!errors?.expected_going_on_date}
             onChange={(val) => {
               setToLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, val)
+              setValue("expected_going_on_date", val)
+              clearErrors("expected_going_on_date")
             }}
           />
         </div>
@@ -336,6 +344,7 @@ export const TwoWayCompoundingForm = ({
                 setToLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, val)
                 if (!getValues("hour_of_wait_time")) {
                   setValue("hour_of_wait_time", DEFAULT_HOUR_BACK_VALUE)
+                  clearErrors("hour_of_wait_time")
                 }
               }}
             />
@@ -377,14 +386,16 @@ export const TwoWayCompoundingForm = ({
             rules={{ required: true }}
           />
         </div>
-        {!viewButtonModal ? <div className="mt-24"></div> : null}
+        {view === "modal" ? <div className="mt-24"></div> : null}
       </div>
 
       {onSubmit ? (
         <ButtonSubmit
-          view={viewButtonModal ? "modal" : "page"}
-          title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
+          title={
+            mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Tiến hành đặt cọc"
+          }
           isError={!isValid}
+          view={view}
         />
       ) : null}
     </form>

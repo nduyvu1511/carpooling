@@ -3,13 +3,14 @@ import {
   CarpoolingCompoundingForm,
   Map,
   Modal,
-  NoSSRWrapper,
   RatingForm,
   RatingItem,
   RidesCancelForm,
   RidesDetailLoading,
   RidesProgress,
   RidesSummary,
+  RidesSummaryMobile,
+  RidesSummaryModal,
 } from "@/components"
 import {
   useCompoundingCarCustomer,
@@ -18,13 +19,8 @@ import {
   useFetcher,
   useRatingActions,
 } from "@/hooks"
-import { BookingLayout, CustomerLayout } from "@/layout"
-import {
-  CancelCompoundingFormParams,
-  CompoundingCarCustomer,
-  CreateRatingFormParams,
-  RatingRes,
-} from "@/models"
+import { CustomerBookingLayout } from "@/layout"
+import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
 import { ridesApi } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
@@ -126,15 +122,21 @@ const RidesDetail = () => {
   }
 
   return (
-    <NoSSRWrapper>
-      <BookingLayout
+    <>
+      <CustomerBookingLayout
         showLoading={isInitialLoading}
         topNode={<RidesProgress state={compoundingCar?.state} />}
         rightNode={
-          <RidesSummary
-            rides={compoundingCar as CompoundingCarCustomer}
-            car_account_type="customer"
-          />
+          compoundingCar ? (
+            <>
+              <div className="hidden lg:block">
+                <RidesSummary rides={compoundingCar} car_account_type="customer" />
+              </div>
+              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+                <RidesSummaryMobile rides={compoundingCar} />
+              </div>
+            </>
+          ) : null
         }
         title="Chi tiết chuyến đi"
       >
@@ -152,13 +154,24 @@ const RidesDetail = () => {
                 <p className="mb-24 text-base text-error">Chuyến đi này đã hết hạn</p>
               ) : null}
               <div className="h-[300px] mb-12">
-                <Map viewOnly />
+                <Map
+                  direction={{
+                    destination: {
+                      lat: Number(compoundingCar.to_latitude),
+                      lng: Number(compoundingCar.to_longitude),
+                    },
+                    origin: {
+                      lat: Number(compoundingCar.from_latitude),
+                      lng: Number(compoundingCar.from_longitude),
+                    },
+                  }}
+                  viewOnly
+                />
               </div>
 
               <div className="">
                 <div className="mb-[40px]">
                   <CarpoolingCompoundingForm
-                    viewButtonModal={false}
                     defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
                     disabled
                     showButon={false}
@@ -194,7 +207,7 @@ const RidesDetail = () => {
             </>
           )}
         </div>
-      </BookingLayout>
+      </CustomerBookingLayout>
 
       {/* Modal... */}
       {compoundingCar?.compounding_car_id ? (
@@ -247,9 +260,10 @@ const RidesDetail = () => {
           />
         </>
       ) : null}
-    </NoSSRWrapper>
+
+      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+    </>
   )
 }
 
-RidesDetail.Layout = CustomerLayout
 export default RidesDetail

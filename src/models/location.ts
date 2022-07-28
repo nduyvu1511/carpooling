@@ -156,3 +156,8 @@ export interface StationId {
   lat: string
   lng: string
 }
+
+export interface DirectionLngLat {
+  origin: LatLng
+  destination: LatLng
+}

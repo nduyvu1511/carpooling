@@ -1,6 +1,7 @@
 import {
   ActivityIcon,
   AddIcon,
+  AddIcon2,
   blankAvatar,
   CarpoolingIcon,
   CloseIcon,
@@ -24,11 +25,24 @@ import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 
-const AuthHeader = () => {
+interface AuthHeaderProps {
+  className?: string
+}
+
+const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const [bookingType, setBookingType] = useState<CompoundingType | undefined>()
   const [showUserNav, setShowUserNav] = useState<boolean>(false)
+
+  const toggleBookingModal = (status: CompoundingType | undefined) => {
+    setBookingType(status)
+    if (status) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
 
   const navList: SidebarItem[] = useMemo(() => {
     return [
@@ -68,7 +82,7 @@ const AuthHeader = () => {
 
   return (
     <>
-      <HeaderWrapper>
+      <HeaderWrapper className={className}>
         <div className="container">
           <div className="flex items-center justify-between">
             <div
@@ -88,17 +102,18 @@ const AuthHeader = () => {
 
             <div className="flex items-center">
               <button
-                onClick={() => setBookingType("one_way")}
-                className="hidden sm:block btn-primary-outline text-[14px] leading-[22px] rounded-[10px] p-[10px] h-fit w-fit lg:hidden mr-24"
+                onClick={() => toggleBookingModal("one_way")}
+                className="hidden sm:flex h-[40px] btn text-[14px] leading-[22px] bg-[#DAE2FD] font-medium text-primary rounded-[10px] p-[10px] w-fit md:hidden mr-24"
               >
+                <AddIcon2 className="mr-[10px]" />
                 Đặt chuyến mới
               </button>
 
-              <button onClick={() => setBookingType("one_way")} className="sm:hidden">
-                <AddIcon className="text-primary w-[36px] h-[36px] mr-24 fill-[#354BB1]" />
+              <button onClick={() => toggleBookingModal("one_way")} className="sm:hidden">
+                <AddIcon className="text-[#354BB1] w-[36px] h-[36px] mr-24 fill-[#354BB1]" />
               </button>
 
-              <ul className="mr-[52px] hidden lg:flex">
+              <ul className="mr-[52px] hidden md:flex">
                 {userInfo?.car_account_type === "customer" ? (
                   [
                     {
@@ -122,8 +137,7 @@ const AuthHeader = () => {
                   ].map(({ icon, label, value }, index) => (
                     <li
                       onClick={() => {
-                        setBookingType(value as CompoundingType)
-                        toggleBodyOverflow("hidden")
+                        toggleBookingModal(value as CompoundingType)
                       }}
                       className="text-16 font-semibold mr-[40px] last:mr-0 cursor-pointer flex items-center"
                       key={index}
@@ -135,8 +149,7 @@ const AuthHeader = () => {
                 ) : (
                   <li
                     onClick={() => {
-                      setBookingType("convenient")
-                      toggleBodyOverflow("hidden")
+                      toggleBookingModal("convenient")
                     }}
                     className="text-16 font-semibold mr-[40px] last:mr-0 cursor-pointer flex items-center"
                   >
@@ -162,29 +175,31 @@ const AuthHeader = () => {
                   </div>
                 </div> */}
 
-                <div
-                  onClick={() => {
-                    setShowUserNav(true)
-                    toggleBodyOverflow("hidden")
-                  }}
-                  className="relative lg:hidden w-[32px] h-[32px] cursor-pointer "
-                >
-                  <Image
-                    layout="fill"
-                    src={
-                      userInfo?.avatar_url?.image_url
-                        ? toImageUrl(userInfo?.avatar_url?.image_url || "")
-                        : blankAvatar
-                    }
-                    objectFit="cover"
-                    alt=""
-                    className="rounded-[50%]"
-                  />
+                <div className="flex items-center">
+                  <div
+                    onClick={() => {
+                      setShowUserNav(true)
+                      toggleBodyOverflow("hidden")
+                    }}
+                    className="relative lg:hidden w-[32px] h-[32px] cursor-pointer "
+                  >
+                    <Image
+                      layout="fill"
+                      src={
+                        userInfo?.avatar_url?.image_url
+                          ? toImageUrl(userInfo?.avatar_url?.image_url || "")
+                          : blankAvatar
+                      }
+                      objectFit="cover"
+                      alt=""
+                      className="rounded-[50%]"
+                    />
+                  </div>
                 </div>
 
                 <div
                   onClick={() => router.push("/profile")}
-                  className="hidden lg:flex items-center max-w-[300px] w-full relative group cursor-pointer"
+                  className="hidden lg:flex items-center max-w-[200px] w-full relative group cursor-pointer"
                 >
                   <div className="relative w-[32px] h-[32px]">
                     <Image
@@ -218,6 +233,7 @@ const AuthHeader = () => {
 
       <Drawer
         isShow={showUserNav}
+        showCloseBtn={false}
         onClose={() => {
           setShowUserNav(false)
           toggleBodyOverflow("unset")
@@ -255,8 +271,7 @@ const AuthHeader = () => {
         show={bookingType}
         formType={bookingType as CompoundingType}
         onClose={() => {
-          toggleBodyOverflow("unset")
-          setBookingType(undefined)
+          toggleBookingModal(undefined)
         }}
       />
     </>

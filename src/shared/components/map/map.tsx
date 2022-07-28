@@ -1,7 +1,7 @@
 import { LocationIcon, LocationIcon2 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
-import { FromLocation, LatLng, LatlngAddress, LocationLatLng } from "@/models"
+import { DirectionLngLat, FromLocation, LatLng, LatlngAddress, LocationLatLng } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
@@ -23,10 +23,7 @@ interface MapProps {
   onChooseLocation?: (params: FromLocation) => void
   defaultLocation?: FromLocation
   viewOnly?: boolean
-  direction?: {
-    origin: LatLng
-    destination: LatLng
-  }
+  direction?: DirectionLngLat
   prevProvinceId?: number
 }
 export const Map = ({
@@ -170,10 +167,11 @@ export const Map = ({
     if (!direction) return
 
     const directionsService = new google.maps.DirectionsService()
+    const { destination, origin } = direction
     directionsService.route(
       {
-        origin: { lng: 10.829326, lat: 106.604024 },
-        destination: { lng: 9.188576, lat: 105.177556 },
+        origin,
+        destination,
         travelMode: google.maps.TravelMode.TRANSIT,
       },
       (result, status) => {
@@ -247,8 +245,8 @@ export const Map = ({
           <div className="">
             {!viewOnly ? (
               <>
-                <div className="left-[0] right-[0] bottom-[0] p-24 bg-white-color">
-                  <div className="flex items-center h-[60px] bg-bg mb-24 px-12">
+                <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
+                  <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12">
                     <LocationIcon2 className="mr-[24px]" />
                     <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
                       {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
@@ -257,7 +255,7 @@ export const Map = ({
 
                   <button
                     onClick={pantoCurrentLocation}
-                    className="absolute right-[20px] bottom-[30px] z-[10]"
+                    className="absolute right-[20px] top-[10px] md:bottom-[30px] z-[10]"
                   >
                     <BiCurrentLocation className="text-primary w-[30px] h-[30px]" />
                   </button>

@@ -267,6 +267,7 @@ export interface CreateCommonCompounding {
   to_longitude: string
   expected_going_on_date: string
   distance: number
+  duration?: number
 }
 export interface CreateOneWayCompoundingCar extends CreateCommonCompounding {}
 export interface FormModeType {
@@ -302,6 +303,7 @@ export interface CreateCarpoolingCompoundingForm {
   expected_going_on_date: string
   distance: number
   is_checked_policy: boolean
+  duration: number
 }
 export type CreateCompoundingCarParams =
   | CreateCarpoolingCompoundingCar

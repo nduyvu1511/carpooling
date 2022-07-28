@@ -1,5 +1,5 @@
 import { OneWayIcon } from "@/assets"
-import { formatMoneyVND, getCompoundingCarStateName } from "@/helper"
+import { formatMoneyVND, getCompoundingCarName, getCompoundingCarStateName } from "@/helper"
 import {
   CarAccountType,
   CompoundingCarCustomer,
@@ -13,20 +13,24 @@ interface RidesSummaryProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
   type?: "bill" | "summary"
   car_account_type?: CarAccountType
+  view?: "page" | "modal"
 }
+
 const RidesSummary = ({
   rides,
   type = "summary",
   car_account_type = "customer",
+  view = "page",
 }: RidesSummaryProps) => {
-  const item = "flex-1 flex justify-end ml-24 text-16 font-medium leading-26 text-gray-color-4"
+  const item =
+    "flex-1 flex justify-end ml-24 text-14 md:text-16 font-medium leading-26 text-gray-color-4"
   const title = "text-12 font-normal leading-[18px] w-[90px]"
 
   if (!rides) return null
   return (
-    <div className="">
+    <>
       {type === "summary" ? (
-        <div className="mx-24 py-24 border-b border-border-color border-solid">
+        <div className="mx-[16px] md:mx-24 py-[16px] md:py-24 border-b border-border-color border-solid">
           <h3 className="text-18 leading-[26px] font-medium text-primary">Thông tin chuyến đi</h3>
         </div>
       ) : (
@@ -39,13 +43,17 @@ const RidesSummary = ({
         </>
       )}
 
-      <div className="bg-white p-24">
-        <div className="flex items-center mb-24">
+      <div
+        className={`bg-white p-12 md:p-24 ${
+          view === "modal" ? "h-[calc(100vh-60px)] overflow-y-auto" : ""
+        }`}
+      >
+        <div className="flex items-center mb-12 md:mb-24">
           <div className="flex-1">
-            <p className="text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] md:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {rides?.from_province.province_brief_name}
             </p>
-            <p className="text-14 font-medium leading-26">
+            <p className="text-12 md:text-14 font-medium leading-26">
               {moment(rides?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
@@ -53,10 +61,10 @@ const RidesSummary = ({
             <OneWayIcon />
           </div>
           <div className="flex-1 flex items-end flex-col">
-            <p className="text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] md:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {rides?.to_province.province_brief_name}
             </p>
-            <p className="text-14 font-medium leading-26">
+            <p className="text-12 md:text-14 font-medium leading-26">
               {moment(rides?.expected_going_on_date)
                 .add(rides.duration, "hours")
                 .format("HH:mm DD/MM/YYYY")}
@@ -90,10 +98,18 @@ const RidesSummary = ({
           </>
         ) : null}
 
-        <div className="border border-solid border-border-color my-24"></div>
+        <div className="border border-solid border-border-color my-12 md:my-24"></div>
 
         <div className="">
-          <p className="text-16 font-semibold leading-[26px] mb-[16px]">Thông tin lộ trình:</p>
+          <p className="text-154 md:text-16 font-semibold leading-[26px] mb-[16px]">
+            Thông tin lộ trình:
+          </p>
+
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Loại chuyến:</p>
+            <p className={item}>{getCompoundingCarName(rides.compounding_type)}</p>
+          </div>
+
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Ngày đi:</p>
             <p className={item}>
@@ -142,7 +158,7 @@ const RidesSummary = ({
           </div>
         </div>
 
-        <div className="border border-solid border-border-color my-24"></div>
+        <div className="border border-solid border-border-color my-12 md:my-24"></div>
 
         <div className="flex items-center justify-between mb-[16px]">
           <p className={title}>Thuế phí:</p>
@@ -174,10 +190,10 @@ const RidesSummary = ({
           </div>
         </div>
 
-        <div className="border border-solid border-border-color my-24"></div>
+        <div className="border border-solid border-border-color my-12 md:my-24"></div>
 
         <div className="">
-          <p className="text-16 font-semibold leading-[26px] mb-[16px]">Điều khoản*:</p>
+          <p className="text-154 md:text-16 font-semibold leading-[26px] mb-[16px]">Điều khoản*:</p>
 
           <ul className="ml-24 list-disc">
             <li className="mb-12">
@@ -195,7 +211,7 @@ const RidesSummary = ({
           </ul>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

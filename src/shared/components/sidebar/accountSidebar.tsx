@@ -1,5 +1,5 @@
 import { SignoutIcon } from "@/assets"
-import { toImageUrl } from "@/helper"
+import { toggleBodyOverflow, toImageUrl } from "@/helper"
 import { useAuth } from "@/hooks"
 import { SidebarItem } from "@/models"
 import Image from "next/image"
@@ -61,11 +61,12 @@ const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSideba
         >
           <SignoutIcon className="w-[20px] h-[20px] text-error" />
           <button
-            onClick={() =>
+            onClick={() => {
+              toggleBodyOverflow("unset")
               logout(() => {
                 router.push("/")
               })
-            }
+            }}
             className="py-[8px] w-full text-left px-[12px] leading-26 cursor-pointer text-error text-14 font-medium"
           >
             Đăng xuất

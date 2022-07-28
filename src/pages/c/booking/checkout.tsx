@@ -1,11 +1,18 @@
-import { CheckoutLoading, Payment, RidesProgress, RidesSummary } from "@/components"
+import {
+  CheckoutLoading,
+  Payment,
+  RidesProgress,
+  RidesSummary,
+  RidesSummaryMobile,
+  RidesSummaryModal,
+} from "@/components"
 import {
   useCompoundingCarActions,
   useCompoundingCarCustomer,
   useCustomerCheckout,
   useEffectOnce,
 } from "@/hooks"
-import { BookingLayout, CustomerLayout } from "@/layout"
+import { CustomerBookingLayout } from "@/layout"
 import { CompoundingCarCustomer } from "@/models"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -69,10 +76,22 @@ const Checkout = () => {
   }, [compoundingCar])
 
   return (
-    <BookingLayout
+    <CustomerBookingLayout
+      reverse={true}
       showLoading={isInitialLoading}
       topNode={<RidesProgress state={compoundingCar?.state} />}
-      rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
+      rightNode={
+        compoundingCar ? (
+          <>
+            <div className="hidden lg:block">
+              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+            </div>
+            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
+              <RidesSummaryMobile rides={compoundingCar} />
+            </div>
+          </>
+        ) : null
+      }
       title="Đặt cọc chuyến đi"
     >
       {isInitialLoading ? (
@@ -97,9 +116,9 @@ const Checkout = () => {
           />
         )
       ) : null}
-    </BookingLayout>
+      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+    </CustomerBookingLayout>
   )
 }
 
-Checkout.Layout = CustomerLayout
 export default Checkout

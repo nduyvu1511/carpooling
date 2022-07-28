@@ -70,7 +70,6 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
 
   const getProvinceIdByGooglePlace = (addressListProps: string): number | undefined => {
     const arr = addressListProps.split(",")
-
     const listAddress = arr.map((item) =>
       convertViToEn(item)
         .replace("city", "")

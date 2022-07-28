@@ -118,6 +118,7 @@ export interface BookingLayoutProps {
   topNode?: ReactNode
   stickyRight?: boolean
   onBackBtnClick?: Function
+  reverse?: boolean
 }
 
 declare module "axios" {
@@ -137,4 +138,11 @@ declare module "axios" {
 export interface ListQuery {
   limit?: number
   offset?: number
+}
+
+export type TransitionDirection = "up" | "down" | "right" | "left"
+
+export interface CalcDistanceRes {
+  distance: number
+  duration: number
 }

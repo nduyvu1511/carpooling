@@ -1,3 +1,4 @@
+import { getFromSessionStorage } from "./../shared/helper/functions"
 import { setToSessionStorage } from "@/helper"
 import { CarIdType, CompoundingType, ProvinceId } from "@/models"
 import { createSlice } from "@reduxjs/toolkit"
@@ -19,18 +20,17 @@ let initialState: CompoundingSlice = {
 }
 
 try {
-  // initialState.currentCarpoolingCompoundingCarCustomer = getFromSessionStorage(
-  //   "currentCarpoolingCompoundingCarCustomer"
-  // )
-  // initialState.currentOneWayCompoundingCarCustomer = getFromSessionStorage(
-  //   "currentOneWayCompoundingCarCustomer"
-  // )
-  // initialState.currentTwoWayCompoundingCarCustomer = getFromSessionStorage(
-  //   "currentTwoWayCompoundingCarCustomer"
-  // )
-  // initialState.vehicleTypes =
-  //   getFromSessionStorage("compounding_vehicleTypes") || []
-  // initialState.provinces = getFromSessionStorage("compounding_provinces") || []
+  initialState.currentCarpoolingCompoundingCarCustomer = getFromSessionStorage(
+    "currentCarpoolingCompoundingCarCustomer"
+  )
+  initialState.currentOneWayCompoundingCarCustomer = getFromSessionStorage(
+    "currentOneWayCompoundingCarCustomer"
+  )
+  initialState.currentTwoWayCompoundingCarCustomer = getFromSessionStorage(
+    "currentTwoWayCompoundingCarCustomer"
+  )
+  initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
+  initialState.provinces = getFromSessionStorage("compounding_provinces") || []
 } catch (error) {}
 
 const compoundingCarDataSlice = createSlice({
@@ -61,12 +61,12 @@ const compoundingCarDataSlice = createSlice({
 
     setVehicleTypes: (state, { payload }: { payload: CarIdType[] }) => {
       state.vehicleTypes = payload
-      // setToSessionStorage("compounding_vehicleTypes", payload)
+      setToSessionStorage("compounding_vehicleTypes", payload)
     },
 
     setProvinces: (state, { payload }: { payload: ProvinceId[] }) => {
       state.provinces = payload
-      // setToSessionStorage("compounding_provinces", payload)
+      setToSessionStorage("compounding_provinces", payload)
     },
 
     clearAllCurrentCompoundingCarId: (state) => {

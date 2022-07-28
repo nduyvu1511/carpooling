@@ -83,7 +83,7 @@ export const InputStation = ({
         }}
         iconType="back"
         heading={type === "from" ? "Chọn trạm đến" : "Chọn trạm đi"}
-        transitionType="right"
+        transitionType="up"
       >
         <Station
           onChooseStation={(val) => {

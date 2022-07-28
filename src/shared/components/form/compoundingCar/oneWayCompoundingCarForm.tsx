@@ -3,8 +3,10 @@ import { ButtonSubmit } from "@/components/buttons"
 import { oneWayCompoundingCarSchema } from "@/core/schema"
 import {
   formatMoneyVND,
+  getHoursName,
   ONE_WAY_CAR_ID,
   ONE_WAY_DISTANCE,
+  ONE_WAY_DURATION,
   ONE_WAY_EXPECTED_GOING_ON_DATE,
   ONE_WAY_FROM_LOCATION,
   ONE_WAY_IS_CHECKED_POLICY,
@@ -16,7 +18,6 @@ import {
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import { CreateOneWayCompoundingCar, CreateOneWayCompoundingCarForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { InputDateTime, InputLocation, InputPolicy, InputSelect } from "../../inputs"
 
@@ -24,16 +25,16 @@ interface OneWayCompoundingFormProps {
   onSubmit?: (params: CreateOneWayCompoundingCar) => void
   defaultValues?: CreateOneWayCompoundingCarForm
   mode?: "create" | "update" | "confirm"
-  viewButtonModal?: boolean
   disabled?: boolean
+  view?: "page" | "modal"
 }
 
 export const OneWayCompoundingForm = ({
   onSubmit,
   defaultValues,
   mode = "create",
-  viewButtonModal = true,
   disabled = false,
+  view = "page",
 }: OneWayCompoundingFormProps) => {
   const {
     register,
@@ -41,6 +42,7 @@ export const OneWayCompoundingForm = ({
     setValue,
     getValues,
     clearErrors,
+    watch,
     formState: { errors, isDirty, isValid },
     control,
   } = useForm<CreateOneWayCompoundingCarForm>({
@@ -50,9 +52,8 @@ export const OneWayCompoundingForm = ({
   })
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, calcPriceFromProvinceIds } = useCompoundingForm()
-  const [distance, setDistance] = useState<number>(getValues("distance"))
-  const [price, setPrice] = useState<number>(getValues("price") || 0)
-  // Get Distance
+  const durationDistance = watch(["distance", "duration", "price"])
+
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
     const toLocation = getValues("to_location")
@@ -63,10 +64,11 @@ export const OneWayCompoundingForm = ({
         origin: { lat: +fromLocation.lat, lng: +fromLocation.lng },
         destination: { lat: +toLocation.lat, lng: +toLocation.lng },
       },
-      onSuccess: (distance) => {
-        setDistance(distance)
-        setToLocalStorage(ONE_WAY_DISTANCE, distance)
+      onSuccess: ({ distance, duration }) => {
         setValue("distance", distance)
+        setValue("duration", duration)
+        setToLocalStorage(ONE_WAY_DISTANCE, distance)
+        setToLocalStorage(ONE_WAY_DURATION, duration)
       },
     })
   }
@@ -86,7 +88,6 @@ export const OneWayCompoundingForm = ({
       onSuccess: (data) => {
         setValue("price", data)
         setToLocalStorage(ONE_WAY_PRICE, data)
-        setPrice(data)
       },
     })
   }
@@ -106,6 +107,7 @@ export const OneWayCompoundingForm = ({
       from_province_id: data.from_location.province_id,
       to_province_id: data.to_location.province_id,
       note: data?.note || "",
+      duration: data?.duration || 0,
     }
 
     onSubmit?.(params)
@@ -169,11 +171,19 @@ export const OneWayCompoundingForm = ({
               control={control}
               name="to_location"
             />
-
-            <div className="mt-[8px] flex items-center text-xs justify-between">
-              {price ? <p className="">Giá: {formatMoneyVND(price)}</p> : null}
-              {distance ? <p className="">Quãng đường: {distance.toFixed(2)}km</p> : null}
-            </div>
+            {durationDistance?.[0] ? (
+              <div className="mt-[4px] text-xs leading-[22px] font-medium flex items-center flex-wrap">
+                {durationDistance?.[0] ? (
+                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+                ) : null}
+                {durationDistance?.[1] ? (
+                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+                ) : null}
+                {durationDistance?.[2] ? (
+                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -194,7 +204,7 @@ export const OneWayCompoundingForm = ({
             options={vehicleTypeOptions}
           />
         </div>
-
+        {console.log({ time: getValues("expected_going_on_date") })}
         <div className="form-item">
           <InputDateTime
             control={control}
@@ -203,6 +213,7 @@ export const OneWayCompoundingForm = ({
             defaultValue={defaultValues?.expected_going_on_date || ""}
             onChange={(val) => {
               setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
+              clearErrors("expected_going_on_date")
             }}
             isError={!!errors?.expected_going_on_date}
           />
@@ -230,7 +241,7 @@ export const OneWayCompoundingForm = ({
         </div>
 
         {mode === "create" ? (
-          <div className="mb-[40px]">
+          <div className="">
             <Controller
               control={control}
               name={"is_checked_policy"}
@@ -247,13 +258,15 @@ export const OneWayCompoundingForm = ({
           </div>
         ) : null}
 
-        {!viewButtonModal ? <div className="mt-24"></div> : null}
+        <div className={`${view === "modal" ? "mt-24" : "md:mt-[40px]"}`}></div>
       </div>
 
       {onSubmit ? (
         <ButtonSubmit
-          view={viewButtonModal ? "modal" : "page"}
-          title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
+          view={view}
+          title={
+            mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Tiến hành đặt cọc"
+          }
           isError={!isValid}
         />
       ) : null}

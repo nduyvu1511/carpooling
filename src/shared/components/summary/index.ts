@@ -1,3 +1,5 @@
 export * from "./ridesSummary"
 export * from "./scheduleSummary"
 export * from "./ridesSummaryHeader"
+export * from "./ridesSummaryMobile"
+export * from "./ridesSummaryModal"

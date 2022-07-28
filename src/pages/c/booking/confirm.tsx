@@ -5,21 +5,21 @@ import {
   RidesDetailLoading,
   RidesProgress,
   RidesSummary,
-  Toggle,
-  TwoWayCompoundingForm,
+  RidesSummaryMobile,
+  RidesSummaryModal,
+  TwoWayCompoundingForm
 } from "@/components"
 import {
   useCompoundingCarActions,
   useCompoundingCarCustomer,
   useCompoundingForm,
-  useEffectOnce,
+  useEffectOnce
 } from "@/hooks"
-import { BookingLayout, CustomerLayout } from "@/layout"
-import { CompoundingCarCustomer, CreateCompoundingCar } from "@/models"
+import { CustomerBookingLayout } from "@/layout"
+import { CreateCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { notify } from "reapop"
 
 const ConfirmBookingCustomer = () => {
   const router = useRouter()
@@ -43,7 +43,7 @@ const ConfirmBookingCustomer = () => {
     compoundingCarCustomerResToCarpoolingForm,
   } = useCompoundingForm()
   const dispatch = useDispatch()
-  const [editable, setEditable] = useState<boolean>(false)
+  // const [editable, setEditable] = useState<boolean>(false)
 
   useEffect(() => {
     if (compoundingCar?.state === "deposit") {
@@ -63,42 +63,48 @@ const ConfirmBookingCustomer = () => {
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
 
-    if (editable) {
-      updateCompoundingCar({
-        params: {
-          compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-          ...params,
-        },
-        onSuccess: () => {
-          setEditable(false)
-          dispatch(notify("Chỉnh sửa chuyến đi thành công", "success"))
-        },
-      })
-    } else {
-      confirmCompoundingCar({
-        params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
-        onSuccess: () => {
-          router.push(
-            `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
-          )
-          // Clear form from localstorage
-          if (compoundingCar?.compounding_type === "compounding") {
-            clearCarpoolingWayCompoundingCar()
-          } else if (compoundingCar?.compounding_type === "one_way") {
-            clearOneWayCompoundingCar()
-          } else {
-            clearTwoWayCompoundingCar()
-          }
-        },
-      })
-    }
+    updateCompoundingCar({
+      params: {
+        compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
+        ...params,
+      },
+      onSuccess: () => {
+        confirmCompoundingCar({
+          params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
+          onSuccess: () => {
+            router.push(
+              `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
+            )
+            // Clear form from localstorage
+            if (compoundingCar?.compounding_type === "compounding") {
+              clearCarpoolingWayCompoundingCar()
+            } else if (compoundingCar?.compounding_type === "one_way") {
+              clearOneWayCompoundingCar()
+            } else {
+              clearTwoWayCompoundingCar()
+            }
+          },
+        })
+      },
+    })
   }
 
   return (
-    <BookingLayout
+    <CustomerBookingLayout
       topNode={<RidesProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
-      rightNode={<RidesSummary rides={compoundingCar as CompoundingCarCustomer} />}
+      rightNode={
+        compoundingCar ? (
+          <>
+            <div className="hidden lg:block">
+              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+            </div>
+            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+              <RidesSummaryMobile rides={compoundingCar} />
+            </div>
+          </>
+        ) : null
+      }
       title="Xác nhận chuyến đi"
     >
       <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
@@ -110,48 +116,32 @@ const ConfirmBookingCustomer = () => {
               <Map viewOnly />
             </div>
 
-            <div className="mb-12 flex items-center">
-              <span
-                onClick={() => setEditable(!editable)}
-                className="mr-12 form-label mb-0 cursor-pointer"
-              >
-                Bật chỉnh sửa
-              </span>
-              <Toggle status={editable} onChange={() => setEditable(!editable)} />
-            </div>
-
             <div className="">
               {compoundingCar?.compounding_type ? (
                 <>
                   {compoundingCar.compounding_type === "one_way" ? (
                     <OneWayCompoundingForm
                       defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
-                      mode={editable ? "update" : "confirm"}
-                      viewButtonModal={false}
+                      mode={"update"}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)
                       }}
-                      disabled={!editable}
                     />
                   ) : compoundingCar.compounding_type === "two_way" ? (
                     <TwoWayCompoundingForm
                       defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
-                      mode={editable ? "update" : "confirm"}
-                      viewButtonModal={false}
+                      mode={"update"}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)
                       }}
-                      disabled={!editable}
                     />
                   ) : (
                     <CarpoolingCompoundingForm
-                      mode={editable ? "update" : "confirm"}
-                      viewButtonModal={false}
+                      mode={"update"}
                       defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)
                       }}
-                      disabled={!editable}
                     />
                   )}
                 </>
@@ -160,9 +150,9 @@ const ConfirmBookingCustomer = () => {
           </>
         )}
       </div>
-    </BookingLayout>
+      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+    </CustomerBookingLayout>
   )
 }
 
-ConfirmBookingCustomer.Layout = CustomerLayout
 export default ConfirmBookingCustomer

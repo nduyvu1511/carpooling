@@ -2,7 +2,7 @@ import { ArrowRightIcon, CheckCircleIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { COMPOUNDING_STATE_NAME } from "@/helper"
 import { CompoundingCarCustomerState, CompoundingCarDriverState } from "@/models"
-import { useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { useSelector } from "react-redux"
 
 interface RidesProgressProps {
@@ -10,6 +10,7 @@ interface RidesProgressProps {
 }
 
 const RidesProgress = ({ state }: RidesProgressProps) => {
+  const ulRef = useRef<HTMLUListElement>(null)
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const stateList = useMemo(() => {
     if (userInfo?.car_account_type === "car_driver")
@@ -36,7 +37,7 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
 
   if (!state)
     return (
-      <div className="flex items-center mx-24">
+      <div className="flex items-center md:mx-24">
         <div className="xs-hidden skeleton h-[14px] rounded-[3px] w-full"></div>
         <div className="hidden xs-block">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -54,9 +55,9 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
       </div>
     )
   return (
-    <ul className="flex items-center overflow-x-auto scrollbar-hide">
+    <ul ref={ulRef} className="flex items-center overflow-x-auto scrollbar-hide">
       {stateList.map((val, index) => (
-        <li className="flex items-center md:items-start mr-24 md:mr-0" key={val[0]}>
+        <li className="flex items-center md:items-start mr-12 xs:mr-24 md:mr-0" key={val[0]}>
           <div
             className={`flex flex-row items-center md:justify-center md:flex-col ${
               stateIndex === index

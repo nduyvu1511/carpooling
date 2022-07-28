@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
 interface AlertProps {
-  onClose: Function
+  onClose?: Function
   desc: string
   className?: string
   type?: "warning" | "error" | "success" | "info"
@@ -60,7 +60,7 @@ const Alert = ({
           <div className="flex-center mb-24 sm:mb-[40px]">
             {showLeftBtn ? (
               <button
-                onClick={() => onClose()}
+                onClick={() => onClose?.()}
                 className="btn px-[26px] py-[8px] mr-[16px] sm:mr-24 bg-disabled"
               >
                 {leftBtnLabel}

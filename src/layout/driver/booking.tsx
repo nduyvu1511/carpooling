@@ -8,14 +8,18 @@ const DriverBookingLayout = ({
   title,
   showLoading,
   topNode,
+  onBackBtnClick,
+  onShowDetail,
 }: BookingLayoutProps) => {
   return (
     <DriverLayout>
       <BookingLayout
         topNode={topNode}
-        rightNode={rightNode}
         showLoading={showLoading}
+        rightNode={rightNode}
         title={title}
+        onShowDetail={onShowDetail}
+        onBackBtnClick={onBackBtnClick}
       >
         {children}
       </BookingLayout>

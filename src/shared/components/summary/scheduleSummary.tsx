@@ -1,4 +1,4 @@
-import { CompoundingType } from "@/models"
+import { CompoundingType, DirectionLngLat } from "@/models"
 import moment from "moment"
 import { Map } from "../map"
 import { RidesItemLocation } from "../rides"
@@ -13,6 +13,7 @@ interface ScheduleSummary {
   compounding_type: CompoundingType
   number_seat: number
   number_seat_in_car: number
+  direction: DirectionLngLat
 }
 
 const ScheduleSummary = ({
@@ -25,6 +26,7 @@ const ScheduleSummary = ({
   to_province_name,
   number_seat_in_car,
   number_seat,
+  direction,
 }: ScheduleSummary) => {
   if (!compounding_type) return null
   return (
@@ -45,7 +47,13 @@ const ScheduleSummary = ({
         </div>
 
         <div className=" h-[200px] relative mb-[24px]">
-          <Map viewOnly />
+          <Map
+            direction={{
+              destination: direction.destination,
+              origin: direction.origin,
+            }}
+            viewOnly
+          />
         </div>
 
         <div className="">

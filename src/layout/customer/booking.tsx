@@ -8,6 +8,8 @@ const CustomerBookingLayout = ({
   title,
   showLoading,
   topNode,
+  onBackBtnClick,
+  reverse,
 }: BookingLayoutProps) => {
   return (
     <CustomerLayout showHeaderOnMobile={false}>
@@ -16,6 +18,8 @@ const CustomerBookingLayout = ({
         showLoading={showLoading}
         rightNode={rightNode}
         title={title}
+        onBackBtnClick={onBackBtnClick}
+        reverse={reverse}
       >
         {children}
       </BookingLayout>

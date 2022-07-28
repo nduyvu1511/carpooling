@@ -10,6 +10,7 @@ import {
   RidesDetailLoading,
   RidesProgress,
   RidesSummary,
+  RidesSummaryMobile,
   TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
@@ -20,7 +21,7 @@ import {
   useEffectOnce,
 } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
-import { CompoundingCarDriverRes, DepositCompoundingCarDriverFailureRes } from "@/models"
+import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -92,10 +93,20 @@ const ConfirmBookingCustomer = () => {
         showLoading={isInitialLoading}
         topNode={<RidesProgress state={compoundingCar?.state} />}
         rightNode={
-          <RidesSummary
-            car_account_type="car_driver"
-            rides={compoundingCar as CompoundingCarDriverRes}
-          />
+          // <RidesSummary
+          //   car_account_type="car_driver"
+          //   rides={compoundingCar as CompoundingCarDriverRes}
+          // />
+          compoundingCar ? (
+            <>
+              <div className="hidden lg:block">
+                <RidesSummary rides={compoundingCar} car_account_type="car_driver" />
+              </div>
+              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+                <RidesSummaryMobile rides={compoundingCar} />
+              </div>
+            </>
+          ) : null
         }
         title="Chi tiết chuyến đi"
       >
@@ -118,18 +129,15 @@ const ConfirmBookingCustomer = () => {
                     {compoundingCar.compounding_type === "one_way" ? (
                       <OneWayCompoundingForm
                         defaultValues={compoundingCarResToOneWayForm(compoundingCar as any)}
-                        viewButtonModal={false}
                         disabled
                       />
                     ) : compoundingCar.compounding_type === "two_way" ? (
                       <TwoWayCompoundingForm
                         defaultValues={compoundingCarResToTwoWayForm(compoundingCar as any)}
-                        viewButtonModal={false}
                         disabled
                       />
                     ) : (
                       <CarpoolingCompoundingForm
-                        viewButtonModal={false}
                         defaultValues={compoundingCarResToCarpoolingForm(compoundingCar as any)}
                         disabled
                       />

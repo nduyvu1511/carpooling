@@ -1,5 +1,5 @@
 import { lngLatToKms } from "@/helper"
-import { LatLng, UseParams } from "@/models"
+import { CalcDistanceRes, LatLng, UseParams } from "@/models"
 
 interface CalcDistanceParams {
   origin: LatLng
@@ -7,12 +7,14 @@ interface CalcDistanceParams {
 }
 
 interface Res {
-  calculateDistanceBetweenTwoCoordinates: (params: UseParams<CalcDistanceParams, number>) => void
+  calculateDistanceBetweenTwoCoordinates: (
+    params: UseParams<CalcDistanceParams, CalcDistanceRes>
+  ) => void
 }
 
 export const useCalcDistance = (): Res => {
   const calculateDistanceBetweenTwoCoordinates = (
-    _params: UseParams<CalcDistanceParams, number>
+    _params: UseParams<CalcDistanceParams, CalcDistanceRes>
   ) => {
     const { params, onSuccess, onError } = _params
     const { origin, destination } = params
@@ -22,7 +24,10 @@ export const useCalcDistance = (): Res => {
         from: origin,
         to: destination,
       })
-      onSuccess(distance)
+      onSuccess({
+        distance: distance,
+        duration: distance / 60,
+      })
       return
     }
 
@@ -40,9 +45,12 @@ export const useCalcDistance = (): Res => {
           avoidTolls: true,
         },
         (data) => {
-          console.log({ data })
-          const distance = data?.rows?.[0]?.elements?.[0]?.distance?.value
-          onSuccess(distance || 100)
+          const value = data?.rows?.[0]?.elements?.[0]
+          if (!value?.duration) return
+          onSuccess({
+            duration: value.duration.value / (60 * 60),
+            distance: value.distance.value / 1000,
+          })
         }
       )
     } catch (error) {
@@ -50,7 +58,10 @@ export const useCalcDistance = (): Res => {
         from: origin,
         to: destination,
       })
-      onSuccess(distance)
+      onSuccess({
+        distance: distance,
+        duration: distance / 60,
+      })
       onError?.()
     }
   }

@@ -1,7 +1,10 @@
 import { Alert, Countdown } from "@/components"
+import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { usePayment } from "@/hooks"
+import { useRouter } from "next/router"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 import { PaymentItem } from "./paymentItem"
 
 interface CheckoutProps {
@@ -21,6 +24,7 @@ const Payment = ({
   showCountdown = true,
   type = "deposit",
 }: CheckoutProps) => {
+  const router = useRouter()
   const {
     currentSelectPayment,
     isValidating: isPaymentLoading,
@@ -29,16 +33,17 @@ const Payment = ({
   } = usePayment()
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   return (
     <>
       {isExpiredCountdown && showCountdown ? (
-        <div className="bg-bg-warning p-24 mt-24">
+        <div className="bg-bg-warning p-24 rounded-[5px] mb-24 mx-12 md:mx-24">
           <p className="text-14 font-medium">Hết hạn cho giao dịch này</p>
         </div>
       ) : (
         <div className={`${isPaymentLoading ? "cursor-default pointer-events-none" : ""}`}>
-          <div className="bg-white-color p-24 pt-0">
+          <div className="p-12 md:p-24 pt-0">
             <div className="mb-[40px]">
               <div className="flex items-stretch">
                 <div className="flex-1 mr-24">
@@ -47,15 +52,17 @@ const Payment = ({
                     <span className="text-gray-color-2">(VND)</span>
                   </p>
 
-                  <span className="text-xl text-error">{formatMoneyVND(amount_total)}</span>
+                  <span className="text-lg sm:text-xl text-error">
+                    {formatMoneyVND(amount_total)}
+                  </span>
                 </div>
 
                 {showCountdown ? (
-                  <div className="px-[10px] flex items-center py-[8px] bg-bg-error whitespace-nowrap h-fit mt-auto text-sm text-error rounded-[5px]">
+                  <div className="px-[10px] flex items-center py-[8px] bg-bg-error whitespace-nowrap h-fit mt-auto text-12 text-error rounded-[5px]">
                     <span className="mr-[4px]">Hết hạn trong</span>
 
                     <Countdown
-                      className="w-[42px]"
+                      className="w-[32px]"
                       onExpiredCoundown={() => {
                         setExpiredCountdown(true)
                       }}
@@ -67,12 +74,14 @@ const Payment = ({
             </div>
 
             <div className="mb-[40px]">
-              <p className="mb-24 text-base font-semibold">Lựa chọn phương thức thanh toán</p>
+              <p className="mb-24 text-base uppercase md:capitalize font-semibold">
+                Chọn phương thức thanh toán
+              </p>
 
               {isPaymentLoading ? (
                 <div className="mb-[16px]">
-                  <div className="rounded-[5px] h-[36px] skeleton mb-[16px]"></div>
-                  <div className="rounded-[5px] h-[36px] skeleton"></div>
+                  <div className="rounded-[5px] h-[42px] skeleton mb-[16px]"></div>
+                  <div className="rounded-[5px] h-[42px] skeleton"></div>
                 </div>
               ) : (
                 <ul className="mb-[16px]">
@@ -98,10 +107,14 @@ const Payment = ({
               </p>
             </div>
 
-            <div className="flex items-center">
+            <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
-                <button onClick={() => setShowAlert(true)} className="btn bg-error mr-24">
-                  Hủy giao dịch
+                <button
+                  onClick={() => setShowAlert(true)}
+                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-24"
+                >
+                  <span className="hidden sm:block"> Hủy giao dịch</span>
+                  <span className="sm:hidden"> Hủy</span>
                 </button>
               ) : null}
 
@@ -110,25 +123,39 @@ const Payment = ({
                   currentSelectPayment?.acquirer_id &&
                   onCheckout?.(currentSelectPayment.acquirer_id)
                 }
-                className={`btn ${
+                className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
                 }`}
               >
-                {type === "checkout" ? "Tiến hành thanh toán" : "Tiến hành đặt cọc"}
+                <span className="hidden sm:block">
+                  {type === "checkout" ? "Tiến hành thanh toán" : "Tiến hành đặt cọc"}
+                </span>
+                <span className="sm:hidden">{type === "checkout" ? "Thanh toán" : "Đặt cọc"}</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {showAlert ? (
+      {isExpiredCountdown && showCountdown ? (
         <Alert
-          desc="Bạn có chắc chắc muốn hủy giao dịch này?"
-          onClose={() => setShowAlert(false)}
-          onConfirm={() => onCancelCheckout?.()}
-          type="warning"
+          show={true}
+          desc="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
+          onConfirm={() =>
+            router.push(`${userInfo?.car_account_type === "car_driver" ? "/d" : "/c"}`)
+          }
+          type="error"
+          showLeftBtn={false}
         />
       ) : null}
+
+      <Alert
+        show={showAlert}
+        desc="Bạn có chắc chắc muốn hủy giao dịch này?"
+        onClose={() => setShowAlert(false)}
+        onConfirm={() => onCancelCheckout?.()}
+        type="warning"
+      />
     </>
   )
 }

@@ -61,25 +61,28 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
       }
       onClose={onClose}
       headerNode={
-        <Tabs
-          type="full"
-          list={[
-            { label: "Một chiều", value: "one_way" },
-            { label: "Hai chiều", value: "two_way" },
-            { label: "Đi ghép", value: "compounding" },
-          ]}
-          tabActive={compoundingType || formType}
-          onChange={(val) => setCompoundingType(val as CompoundingType)}
-        />
+        <div className="md:hidden">
+          <Tabs
+            type="full"
+            list={[
+              { label: "Một chiều", value: "one_way" },
+              { label: "Hai chiều", value: "two_way" },
+              { label: "Đi ghép", value: "compounding" },
+            ]}
+            tabActive={compoundingType || formType}
+            onChange={(val) => setCompoundingType(val as CompoundingType)}
+          />
+        </div>
       }
     >
-      <div className="flex-1 w-full px-[16px] md:px-24 py-12 mb-[70px] sm:mb-[40px]">
+      <div className="flex-1 w-full px-[16px] md:px-24 py-12 mb-[64px] md:mb-[40px]">
         {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}
             onSubmit={(params) => {
               handleCreateCompoundingCar({ params })
             }}
+            view="modal"
           />
         ) : compoundingType === "two_way" ? (
           <TwoWayCompoundingForm
@@ -87,6 +90,7 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
             onSubmit={(params) => {
               handleCreateCompoundingCar({ params })
             }}
+            view="modal"
           />
         ) : (
           <CarpoolingCompoundingForm
@@ -94,6 +98,7 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
             onSubmit={(params) => {
               handleCreateCompoundingCar({ params })
             }}
+            view="modal"
           />
         )}
       </div>

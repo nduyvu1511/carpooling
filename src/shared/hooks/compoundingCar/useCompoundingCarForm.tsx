@@ -2,7 +2,9 @@ import { RootState } from "@/core/store"
 import {
   CARPOOLING_CAR_ID,
   CARPOOLING_DISTANCE,
+  CARPOOLING_DURATION,
   CARPOOLING_EXPECTED_GOING_ON_DATE,
+  CARPOOLING_FROM_LOCATION,
   CARPOOLING_FROM_PICK_UP_STATION_ID,
   CARPOOLING_FROM_STATION,
   CARPOOLING_IS_CHECKED_POLICY,
@@ -15,6 +17,7 @@ import {
   hoursBackList,
   ONE_WAY_CAR_ID,
   ONE_WAY_DISTANCE,
+  ONE_WAY_DURATION,
   ONE_WAY_EXPECTED_GOING_ON_DATE,
   ONE_WAY_FROM_LOCATION,
   ONE_WAY_IS_CHECKED_POLICY,
@@ -25,6 +28,7 @@ import {
   setToSessionStorage,
   TWO_WAY_CAR_ID,
   TWO_WAY_DISTANCE,
+  TWO_WAY_DURATION,
   TWO_WAY_EXPECTED_GOING_ON_DATE,
   TWO_WAY_EXPECTED_PICKING_UP_DATE,
   TWO_WAY_FROM_LOCATION,
@@ -105,6 +109,7 @@ export const useCompoundingForm = (): Res => {
     setToLocalStorage(ONE_WAY_NOTE, undefined)
     setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, undefined)
     setToLocalStorage(ONE_WAY_PRICE, undefined)
+    setToLocalStorage(ONE_WAY_DURATION, undefined)
   }
 
   const clearTwoWayCompoundingCar = () => {
@@ -119,6 +124,7 @@ export const useCompoundingForm = (): Res => {
     setToLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME, undefined)
     setToLocalStorage(TWO_WAY_IS_CHECKED_POLICY, undefined)
     setToLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, undefined)
+    setToLocalStorage(TWO_WAY_DURATION, undefined)
   }
 
   const clearCarpoolingWayCompoundingCar = () => {
@@ -134,6 +140,7 @@ export const useCompoundingForm = (): Res => {
     setToLocalStorage(CARPOOLING_NUMBER_SEAT, undefined)
     setToLocalStorage(CARPOOLING_IS_PICKING_UP_FROM_START, undefined)
     setToSessionStorage(CARPOOLING_IS_PICKING_UP_FROM_START, undefined)
+    setToSessionStorage(CARPOOLING_DURATION, undefined)
   }
 
   const calcPriceFromProvinceIds = async (params: CalcPriceParams) => {
@@ -205,6 +212,7 @@ export const useCompoundingForm = (): Res => {
         label: `${compoundingCar.number_available_seat} ghế`,
         value: compoundingCar.number_available_seat,
       },
+      duration: compoundingCar.duration,
     }
   }
 
@@ -232,6 +240,8 @@ export const useCompoundingForm = (): Res => {
       },
       is_checked_policy: true,
       note: compoundingCar.note,
+      duration: compoundingCar.duration,
+      price: compoundingCar.price_unit.price_unit,
     }
   }
 
@@ -302,6 +312,7 @@ export const useCompoundingForm = (): Res => {
       },
       note: compoundingCar.note,
       distance: compoundingCar.distance,
+      duration: compoundingCar?.duration || 0,
     }
   }
 
@@ -411,6 +422,8 @@ export const useCompoundingForm = (): Res => {
     note: getFromLocalStorage(CARPOOLING_NOTE),
     number_seat: getFromLocalStorage(CARPOOLING_NUMBER_SEAT),
     price_per_passenger: getFromLocalStorage(CARPOOLING_PRICE_PER_PASSENGER),
+    duration: getFromLocalStorage(CARPOOLING_DURATION),
+    from_location: getFromLocalStorage(CARPOOLING_FROM_LOCATION),
   })
 
   const twoWayCompoundingCarFormFromLocalStorage = (): CreateTwoWayCompoundingCarForm => ({
@@ -424,6 +437,8 @@ export const useCompoundingForm = (): Res => {
     is_a_day_tour: getFromLocalStorage(TWO_WAY_IS_A_DAY_TOUR),
     expected_picking_up_date: getFromLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE),
     hour_of_wait_time: getFromLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME),
+    duration: getFromLocalStorage(TWO_WAY_DURATION),
+    price: getFromLocalStorage(TWO_WAY_PRICE),
   })
 
   const oneWayCompoundingCarFormFromLocalStorage = (): CreateOneWayCompoundingCarForm => ({
@@ -434,6 +449,8 @@ export const useCompoundingForm = (): Res => {
     to_location: getFromLocalStorage(ONE_WAY_TO_LOCATION),
     is_checked_policy: getFromLocalStorage(ONE_WAY_IS_CHECKED_POLICY),
     note: getFromLocalStorage(ONE_WAY_NOTE),
+    duration: getFromLocalStorage(ONE_WAY_DURATION),
+    price: getFromLocalStorage(ONE_WAY_PRICE),
   })
 
   return {
