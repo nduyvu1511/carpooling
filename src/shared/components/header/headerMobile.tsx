@@ -10,6 +10,7 @@ interface HeaderMobileProps {
   title: string
   rightNode?: ReactNode
   showHomeBtn?: boolean
+  className?: string
 }
 
 const HeaderMobile = ({
@@ -17,6 +18,7 @@ const HeaderMobile = ({
   title,
   rightNode = null,
   showHomeBtn = true,
+  className = "",
 }: HeaderMobileProps) => {
   const router = useRouter()
   const height = useScrollTop()
@@ -26,7 +28,7 @@ const HeaderMobile = ({
     <div
       className={`flex items-center ${
         height > 56 ? "shadow-shadow-1" : ""
-      } h-[56px] fixed bg-white-color py-[16px] z-[1000] left-0 right-0 top-0 px-24 border-b border-border-color border-solid`}
+      } h-[56px] fixed bg-white-color py-[16px] z-[1000] left-0 right-0 top-0 px-24 border-b border-border-color border-solid ${className}`}
     >
       <button onClick={() => (onBackBtnClick ? onBackBtnClick() : router.back())}>
         <ArrowLeftIcon />
@@ -35,6 +37,7 @@ const HeaderMobile = ({
       {rightNode}
       {showHomeBtn ? (
         <button
+          className="ml-12"
           onClick={() => router.push(userInfo?.car_account_type === "car_driver" ? "/d" : "/c")}
         >
           <HomeIcon />

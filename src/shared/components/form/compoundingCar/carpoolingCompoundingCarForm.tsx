@@ -26,6 +26,7 @@ import {
   CARPOOLING_TO_STATION,
   formatMoneyVND,
   getHoursName,
+  isObjectHasValue,
   setToLocalStorage,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
@@ -69,12 +70,13 @@ export const CarpoolingCompoundingForm = ({
     getValues,
     watch,
     clearErrors,
-    formState: { errors, isValid, isDirty },
+    formState: { errors },
     control,
   } = useForm<CreateCarpoolingCompoundingForm>({
     resolver: yupResolver(carpoolingCompoundingCarSchema),
-    mode: "all",
+    mode: "onChange",
     defaultValues,
+    reValidateMode: "onBlur",
   })
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, seats, calcPriceFromProvinceIds } = useCompoundingForm()
@@ -219,27 +221,24 @@ export const CarpoolingCompoundingForm = ({
                 />
               )}
             </div>
-
-            {type === "new" ? (
-              <>
-                {getValues("from_station")?.province_id ? (
-                  <div className="flex items-center">
-                    <InputCheckbox
-                      type="circle"
-                      size={20}
-                      onCheck={handleGetFromLocation}
-                      isChecked={!!getValues("from_location")?.province_id}
-                    />
-                    <p
-                      className="flex-1 ml-[12px] text-12 cursor-pointer"
-                      onClick={handleGetFromLocation}
-                    >
-                      Đón tận nơi
-                      <span className=""> (Chi phí phát sinh thêm với tài xế)</span>
-                    </p>
-                  </div>
-                ) : null}
-              </>
+            {console.log(errors)}
+            {type === "new" &&
+            (getValues("from_station.province_id") || getValues("from_location.province_id")) ? (
+              <div className="flex items-center">
+                <InputCheckbox
+                  type="circle"
+                  size={20}
+                  onCheck={handleGetFromLocation}
+                  isChecked={!!getValues("from_location")?.province_id}
+                />
+                <p
+                  className="flex-1 ml-[12px] text-12 cursor-pointer"
+                  onClick={handleGetFromLocation}
+                >
+                  Đón tận nơi
+                  <span className=""> (Chi phí phát sinh thêm với tài xế)</span>
+                </p>
+              </div>
             ) : null}
           </div>
 
@@ -320,6 +319,7 @@ export const CarpoolingCompoundingForm = ({
                 if (!val?.value) return
                 setToLocalStorage(CARPOOLING_NUMBER_SEAT, val)
                 setValue("number_seat", val)
+                clearErrors("number_seat")
               }}
               control={control}
               defaultValue={getValues("number_seat")}
@@ -351,7 +351,7 @@ export const CarpoolingCompoundingForm = ({
             ></textarea>
           </div>
 
-          {!disabled ? (
+          {mode === "create" ? (
             <div className="mb-[40px]">
               <Controller
                 control={control}
@@ -376,7 +376,7 @@ export const CarpoolingCompoundingForm = ({
           <ButtonSubmit
             view={view}
             title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
-            isError={!isValid}
+            isError={isObjectHasValue(errors)}
             parentClassName={`${view === "page" ? "mt-[40px]" : ""}`}
           />
         ) : null}

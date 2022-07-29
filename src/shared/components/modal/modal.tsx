@@ -39,7 +39,7 @@ const Modal = ({
           } fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-white-color ${className}`}
         >
           <div className="h-[56px] border-b border-solid border-gray-color-1 w-full flex px-[16px] md:px-24 items-center">
-            <span onClick={() => onClose()} className="w-[30px]">
+            <span onClick={() => onClose()} className="w-[30px] cursor-pointer">
               {iconType === "close" ? (
                 <CloseIcon className="text-gray-color-4 w-[26px] h-[26px]" />
               ) : (

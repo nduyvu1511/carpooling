@@ -9,7 +9,9 @@ import { PaymentItem } from "./paymentItem"
 
 interface CheckoutProps {
   secondsRemains: number
-  amount_total: number
+  amount_total?: number
+  down_payment: number
+  amount_due?: number
   onCheckout?: (acquirer_id: number) => void
   onCancelCheckout?: Function
   showCountdown?: boolean
@@ -23,6 +25,8 @@ const Payment = ({
   onCancelCheckout,
   showCountdown = true,
   type = "deposit",
+  amount_due,
+  down_payment,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -43,17 +47,41 @@ const Payment = ({
         </div>
       ) : (
         <div className={`${isPaymentLoading ? "cursor-default pointer-events-none" : ""}`}>
-          <div className="p-12 md:p-24 pt-0">
-            <div className="mb-[40px]">
+          <div className="p-12 md:p-24 lg:pt-0">
+            <ul className="mb-[32px]">
+              <p className="text-base font-semibold mb-24 uppercase md:capitalize">
+                Giá trị chuyến đi
+              </p>
+              {amount_total ? (
+                <li className="flex items-center mb-12">
+                  <span className="text-xs mr-[12px] w-[150px]">Tổng tiền</span>
+                  <span className="text-sm">{formatMoneyVND(amount_total)}</span>
+                </li>
+              ) : null}
+              {down_payment ? (
+                <li className="flex items-center mb-12">
+                  <span className="text-xs mr-[12px] w-[150px]">Số tiền đặt cọc</span>
+                  <span className="text-sm">{formatMoneyVND(down_payment)}</span>
+                </li>
+              ) : null}
+              {amount_due ? (
+                <li className="flex items-center">
+                  <span className="text-xs mr-[12px] w-[150px]">Số tiền còn lại</span>
+                  <span className="text-sm">{formatMoneyVND(amount_due)}</span>
+                </li>
+              ) : null}
+            </ul>
+
+            <div className="mb-[32px]">
               <div className="flex items-stretch">
                 <div className="flex-1 mr-24">
-                  <p className="text-xs mb-[12px]">
+                  <p className="text-sm mb-[12px]">
                     {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
                     <span className="text-gray-color-2">(VND)</span>
                   </p>
 
                   <span className="text-lg sm:text-xl text-error">
-                    {formatMoneyVND(amount_total)}
+                    {formatMoneyVND(down_payment)}
                   </span>
                 </div>
 
@@ -62,7 +90,7 @@ const Payment = ({
                     <span className="mr-[4px]">Hết hạn trong</span>
 
                     <Countdown
-                      className="w-[32px]"
+                      className="w-[36px]"
                       onExpiredCoundown={() => {
                         setExpiredCountdown(true)
                       }}

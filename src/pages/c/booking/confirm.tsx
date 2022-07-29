@@ -7,19 +7,18 @@ import {
   RidesSummary,
   RidesSummaryMobile,
   RidesSummaryModal,
-  TwoWayCompoundingForm
+  TwoWayCompoundingForm,
 } from "@/components"
 import {
   useCompoundingCarActions,
   useCompoundingCarCustomer,
   useCompoundingForm,
-  useEffectOnce
+  useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 const ConfirmBookingCustomer = () => {
   const router = useRouter()
@@ -42,8 +41,6 @@ const ConfirmBookingCustomer = () => {
     compoundingCarCustomerResToTwoWayForm,
     compoundingCarCustomerResToCarpoolingForm,
   } = useCompoundingForm()
-  const dispatch = useDispatch()
-  // const [editable, setEditable] = useState<boolean>(false)
 
   useEffect(() => {
     if (compoundingCar?.state === "deposit") {
@@ -59,7 +56,7 @@ const ConfirmBookingCustomer = () => {
       mutateCompoundingCar(undefined, false)
     }
   })
-
+  
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
 
@@ -122,7 +119,7 @@ const ConfirmBookingCustomer = () => {
                   {compoundingCar.compounding_type === "one_way" ? (
                     <OneWayCompoundingForm
                       defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
-                      mode={"update"}
+                      mode={"confirm"}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)
                       }}
@@ -130,14 +127,14 @@ const ConfirmBookingCustomer = () => {
                   ) : compoundingCar.compounding_type === "two_way" ? (
                     <TwoWayCompoundingForm
                       defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
-                      mode={"update"}
+                      mode={"confirm"}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)
                       }}
                     />
                   ) : (
                     <CarpoolingCompoundingForm
-                      mode={"update"}
+                      mode={"confirm"}
                       defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
                       onSubmit={(data) => {
                         handleConfirmCompoundingCar(data)

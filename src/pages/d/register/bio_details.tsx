@@ -13,7 +13,9 @@ const BioDetail = () => {
   const { data: userInfo, isValidating, createUserInfo } = useProfile(true)
 
   useEffectOnce(() => {
-    dispatch(notify("Vui lòng nhập tên hợp lệ để tiếp tục", "info"))
+    if (userInfo?.partner_name === `USER-${userInfo?.phone}`) {
+      dispatch(notify("Vui lòng nhập tên hợp lệ để tiếp tục", "info"))
+    }
   })
 
   const onSubmitHandler = (data: UserInfoFormParams) => {

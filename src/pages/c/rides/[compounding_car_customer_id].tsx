@@ -1,5 +1,6 @@
 import {
   Alert,
+  ButtonSubmit,
   CarpoolingCompoundingForm,
   Map,
   Modal,
@@ -140,7 +141,7 @@ const RidesDetail = () => {
         }
         title="Chi tiết chuyến đi"
       >
-        <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+        <div className="p-12 md:p-24 pt-0">
           {isInitialLoading ? (
             <RidesDetailLoading />
           ) : !compoundingCar?.compounding_car_id ? (
@@ -175,12 +176,13 @@ const RidesDetail = () => {
                     defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
                     disabled
                     showButon={false}
+                    mode="confirm"
                   />
                 </div>
 
                 {compoundingCar?.rating?.compounding_car_customer_id ? (
                   <div className="">
-                    <p className="text-base mb-12">Đánh giá của bạn:</p>
+                    <p className="text0-sm md:text-base mb-12">Đánh giá của bạn:</p>
                     <RatingItem
                       onDelete={(id) => setCurrentDeleteRating(id)}
                       onUpdate={(params) => setCurrentRatingUpdate(params)}
@@ -192,16 +194,16 @@ const RidesDetail = () => {
                 {compoundingCar.state === "confirm_paid" ? (
                   compoundingCar.rating_state === "no_rating" &&
                   !compoundingCar?.rating?.compounding_car_customer_id ? (
-                    <button onClick={() => setShowRatingForm(true)} className="btn-primary">
-                      Thêm đánh giá
-                    </button>
+                    <ButtonSubmit title="Thêm đánh giá" onClick={() => setShowRatingForm(true)} />
                   ) : null
                 ) : compoundingCar.state === "done" ||
                   compoundingCar.state === "cancel" ||
                   compoundingCar.state === "draft" ? null : (
-                  <button onClick={() => setShowCancelModal(true)} className="btn bg-error">
-                    Hủy chuyến đi
-                  </button>
+                  <ButtonSubmit
+                    className="bg-error hover:bg-error"
+                    title="Hủy chuyến đi"
+                    onClick={() => setShowCancelModal(true)}
+                  />
                 )}
               </div>
             </>

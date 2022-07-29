@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react"
 
 interface CountdownProps {
   secondsRemains: number
-  onExpiredCoundown: Function
+  onExpiredCoundown?: Function
   className?: string
 }
 
@@ -20,7 +20,7 @@ export const Countdown = ({ onExpiredCoundown, secondsRemains, className }: Coun
 
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
-      onExpiredCoundown()
+      onExpiredCoundown?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minutes, seconds])

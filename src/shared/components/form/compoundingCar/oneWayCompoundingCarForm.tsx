@@ -4,6 +4,7 @@ import { oneWayCompoundingCarSchema } from "@/core/schema"
 import {
   formatMoneyVND,
   getHoursName,
+  isObjectHasValue,
   ONE_WAY_CAR_ID,
   ONE_WAY_DISTANCE,
   ONE_WAY_DURATION,
@@ -43,7 +44,7 @@ export const OneWayCompoundingForm = ({
     getValues,
     clearErrors,
     watch,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
     control,
   } = useForm<CreateOneWayCompoundingCarForm>({
     resolver: yupResolver(oneWayCompoundingCarSchema),
@@ -53,6 +54,7 @@ export const OneWayCompoundingForm = ({
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, calcPriceFromProvinceIds } = useCompoundingForm()
   const durationDistance = watch(["distance", "duration", "price"])
+  console.log({ errors })
 
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
@@ -267,7 +269,7 @@ export const OneWayCompoundingForm = ({
           title={
             mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Tiến hành đặt cọc"
           }
-          isError={!isValid}
+          isError={isObjectHasValue(errors)}
         />
       ) : null}
     </form>

@@ -14,4 +14,19 @@ export interface CreatePaymentRes {
   vnpay_code: string
 }
 
+export type VnpayStatus =
+  | "00"
+  | "07"
+  | "09"
+  | "10"
+  | "11"
+  | "12"
+  | "13"
+  | "24"
+  | "51"
+  | "65"
+  | "75"
+  | "79"
+  | "99"
+
 export type PaymentMethod = "cash" | "transfer"

@@ -12,6 +12,7 @@ const BookingLayout = ({
   stickyRight = false,
   onBackBtnClick,
   reverse = false,
+  className = "",
 }: BookingLayoutProps) => {
   const router = useRouter()
 
@@ -23,8 +24,10 @@ const BookingLayout = ({
         </div>
       ) : null}
 
-      <section className="container px-0 md:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] md:pb-24">
-        <div className="block-element">
+      <section
+        className={`container px-0 md:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
+      >
+        <div className="block-element h-full">
           {topNode ? (
             <div className="lg:hidden pt-12 md:pt-24 lg:pt-0 lg:px-0 pl-12 pb-[24px] w-[calc(100vw-12px)] sm:w-full">
               {topNode}

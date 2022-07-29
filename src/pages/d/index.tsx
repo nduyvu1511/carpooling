@@ -40,20 +40,21 @@ const HomeDriver = () => {
   }
 
   return (
-    <RidesContainer
-      hasMore={hasMore}
-      isFetchingMore={isFetchingMore}
-      isValidating={isInitialLoading || isValidating}
-      list={ridesList}
-      carAccountType="car_driver"
-      defaultParams={router.query}
-      onClickRideItem={(compounding_car_id) => router.push(`/d/rides/${compounding_car_id}`)}
-      onFetchMore={() => fetchMoreRides(router.query)}
-      onFilterRides={(data) => handleFilterRides(data)}
-      key="car_driver"
-    />
+    <DriverLayout showHeaderOnMobile>
+      <RidesContainer
+        hasMore={hasMore}
+        isFetchingMore={isFetchingMore}
+        isValidating={isInitialLoading || isValidating}
+        list={ridesList}
+        carAccountType="car_driver"
+        defaultParams={router.query}
+        onClickRideItem={(compounding_car_id) => router.push(`/d/rides/${compounding_car_id}`)}
+        onFetchMore={() => fetchMoreRides(router.query)}
+        onFilterRides={(data) => handleFilterRides(data)}
+        key="car_driver"
+      />
+    </DriverLayout>
   )
 }
 
 export default HomeDriver
-HomeDriver.Layout = DriverLayout

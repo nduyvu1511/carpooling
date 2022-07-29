@@ -1,4 +1,4 @@
-import { RidesSummary } from "@/components"
+import { RidesProgress, RidesSummary, RidesSummaryLoading } from "@/components"
 import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -37,12 +37,17 @@ const CheckoutSuccess = () => {
   }, [router])
 
   return (
-    <div className="max-w-[684px] w-full mx-auto py-24 checkout-success">
+    <div className="max-w-[684px] w-full mx-auto sm:py-24">
       {isInitialLoading ? (
-        <div className="skeleton h-[calc(100vh-140px)]"></div>
+        <RidesSummaryLoading />
       ) : (
-        <div className="block-element">
-          <RidesSummary type="bill" car_account_type="car_driver" rides={compoundingCar as any} />
+        <div className="">
+          <div className="block-element pt-24">
+            <div className="pl-12 md:pl-0 mb-24">
+              <RidesProgress state="assign" />
+            </div>
+            <RidesSummary type="bill" car_account_type="customer" rides={compoundingCar as any} />
+          </div>
         </div>
       )}
     </div>

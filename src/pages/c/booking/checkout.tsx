@@ -13,7 +13,6 @@ import {
   useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { CompoundingCarCustomer } from "@/models"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -109,6 +108,8 @@ const Checkout = () => {
           </p>
         ) : (
           <Payment
+            amount_due={compoundingCar?.amount_due}
+            down_payment={compoundingCar?.down_payment}
             amount_total={compoundingCar.amount_total}
             secondsRemains={compoundingCar.second_remains}
             onCheckout={(id) => handleConfirmTransaction(id)}

@@ -7,6 +7,7 @@ import {
   formatMoneyVND,
   getHoursName,
   hoursBackList,
+  isObjectHasValue,
   setToLocalStorage,
   TWO_WAY_CAR_ID,
   TWO_WAY_DISTANCE,
@@ -55,7 +56,7 @@ export const TwoWayCompoundingForm = ({
     clearErrors,
     setError,
     watch,
-    formState: { errors, isValid, isDirty },
+    formState: { errors },
     control,
   } = useForm<CreateTwoWayCompoundingCarForm>({
     resolver: yupResolver(twoWayCompoundingCarSchema),
@@ -371,21 +372,24 @@ export const TwoWayCompoundingForm = ({
           ></textarea>
         </div>
 
-        <div className="form-item mb-[40px]">
-          <Controller
-            control={control}
-            name={"is_checked_policy"}
-            render={({ field: { onChange, onBlur } }) => (
-              <InputPolicy
-                onChange={() => onChange(handleTogglePolicy())}
-                isError={!!errors?.is_checked_policy}
-                onBlur={onBlur}
-                value={getValues("is_checked_policy")}
-              />
-            )}
-            rules={{ required: true }}
-          />
-        </div>
+        {mode === "create" ? (
+          <div className="form-item mb-[40px]">
+            <Controller
+              control={control}
+              name={"is_checked_policy"}
+              render={({ field: { onChange, onBlur } }) => (
+                <InputPolicy
+                  onChange={() => onChange(handleTogglePolicy())}
+                  isError={!!errors?.is_checked_policy}
+                  onBlur={onBlur}
+                  value={getValues("is_checked_policy")}
+                />
+              )}
+              rules={{ required: true }}
+            />
+          </div>
+        ) : null}
+
         {view === "modal" ? <div className="mt-24"></div> : null}
       </div>
 
@@ -394,7 +398,7 @@ export const TwoWayCompoundingForm = ({
           title={
             mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Tiến hành đặt cọc"
           }
-          isError={!isValid}
+          isError={isObjectHasValue(errors)}
           view={view}
         />
       ) : null}

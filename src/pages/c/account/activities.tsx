@@ -6,7 +6,7 @@ import {
   STATE_COLOR,
 } from "@/helper"
 import { useCustomerActivities } from "@/hooks"
-import { AccountLayout, CustomerLayout } from "@/layout"
+import { CustomerAccountLayout, CustomerLayout } from "@/layout"
 import { CompoundingCarCustomerState, CustomerActivityRes } from "@/models"
 import moment from "moment"
 import { useRouter } from "next/router"
@@ -47,7 +47,7 @@ const Activities = () => {
   }
 
   return (
-    <AccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
+    <CustomerAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
       <div className="px-12 md:px-24 pb-24">
         <div className="mb-24">
           <div className="flex items-center relative linear-gradient-white">
@@ -124,9 +124,8 @@ const Activities = () => {
           )}
         </div>
       </div>
-    </AccountLayout>
+    </CustomerAccountLayout>
   )
 }
 
-Activities.Layout = CustomerLayout
 export default Activities

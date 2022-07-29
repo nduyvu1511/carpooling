@@ -11,16 +11,18 @@ import {
   RidesProgress,
   RidesSummary,
   RidesSummaryMobile,
+  RidesSummaryModal,
   TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
+import { toggleBodyOverflow } from "@/helper"
 import {
   useCompoundingCarDriver,
   useCompoundingForm,
   useDriverCheckout,
   useEffectOnce,
 } from "@/hooks"
-import { BookingLayout, DriverLayout } from "@/layout"
+import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -82,6 +84,9 @@ const ConfirmBookingCustomer = () => {
       onError: (data) => {
         setDepositFailure(data)
         setShowModal(true)
+        setTimeout(() => {
+          toggleBodyOverflow("hidden")
+        }, 0)
       },
       showLoading: true,
     })
@@ -89,14 +94,10 @@ const ConfirmBookingCustomer = () => {
 
   return (
     <>
-      <BookingLayout
+      <DriverBookingLayout
         showLoading={isInitialLoading}
         topNode={<RidesProgress state={compoundingCar?.state} />}
         rightNode={
-          // <RidesSummary
-          //   car_account_type="car_driver"
-          //   rides={compoundingCar as CompoundingCarDriverRes}
-          // />
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
@@ -120,7 +121,19 @@ const ConfirmBookingCustomer = () => {
               </p>
 
               <div className="h-[300px] mb-12">
-                <Map viewOnly />
+                <Map
+                  direction={{
+                    destination: {
+                      lat: Number(compoundingCar.to_latitude),
+                      lng: Number(compoundingCar.to_longitude),
+                    },
+                    origin: {
+                      lat: Number(compoundingCar.from_latitude),
+                      lng: Number(compoundingCar.from_longitude),
+                    },
+                  }}
+                  viewOnly
+                />
               </div>
 
               <div className="">
@@ -158,10 +171,10 @@ const ConfirmBookingCustomer = () => {
               ) : null}
 
               {compoundingCar.state === "waiting_deposit" || compoundingCar.state === "waiting" ? (
-                <div className="">
+                <div className="fixed left-0 right-0 bottom-0 p-12 bg-white-color md:static md:bg-[transparent]">
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
-                    className="btn-primary"
+                    className="btn-primary mx-auto md:mx-[unset]"
                   >
                     Nhận chuyến đi
                   </button>
@@ -170,7 +183,8 @@ const ConfirmBookingCustomer = () => {
             </>
           ) : null}
         </div>
-      </BookingLayout>
+        {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      </DriverBookingLayout>
 
       <Alert
         show={!!(showAlert && compoundingCar?.compounding_car_id)}
@@ -183,6 +197,7 @@ const ConfirmBookingCustomer = () => {
           cancelDepositCompoundingCarDriver(showAlert, () => {
             setShowAlert(undefined)
             setShowModal(false)
+            toggleBodyOverflow("unset")
             setDepositFailure(undefined)
             router.push(`/d/rides/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`)
           })
@@ -191,17 +206,22 @@ const ConfirmBookingCustomer = () => {
 
       <Modal
         show={showModal && !!depositFailure}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false)
+          toggleBodyOverflow("unset")
+        }}
         heading="Cảnh báo"
       >
-        <div className="p-24 w-full h-full flex flex-col">
-          <div className="mb-[40px]">
-            <WarningIcon className="mx-auto mb-[24px]" />
-            <h3 className="text-base mb-[24px] text-center">{depositFailure?.message}</h3>
+        <div className="p-12 md:p-24 pb-0 w-full h-full overflow-y-auto">
+          <div className="mb-[40px] flex items-start">
+            <span>
+              <WarningIcon className="mb-auto w-[40px] h-[40px] mr-[24px]" />
+            </span>
+            <h3 className="text-base flex-1">{depositFailure?.message}</h3>
           </div>
 
           {depositFailure && depositFailure.data?.length > 0 ? (
-            <ul className="flex-1 overflow-y-auto">
+            <ul className="">
               {depositFailure?.data.map((item, index) => (
                 <li
                   className="border-b border-solid border-border-color last:border-none mb-24"
@@ -218,6 +238,7 @@ const ConfirmBookingCustomer = () => {
                         `/d/rides/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
                       )
                       setShowModal(false)
+                      toggleBodyOverflow("unset")
                       setDepositFailure(undefined)
                     }}
                   />
@@ -242,5 +263,4 @@ const ConfirmBookingCustomer = () => {
   )
 }
 
-ConfirmBookingCustomer.Layout = DriverLayout
 export default ConfirmBookingCustomer

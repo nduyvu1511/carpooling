@@ -35,22 +35,22 @@ const RidesCanceled = ({ compoundingCar, showLoading }: RidesCanceledProps) => {
       ) : compoundingCar?.compounding_car_id ? (
         <div className="">
           <ul>
-            <li className="flex items-center justify-between mb-[20px]">
-              <span className="text-xs">Ngày hủy chuyến:</span>
+            <li className="flex items-center mb-[20px]">
+              <span className="text-xs w-[150px] xs:w-[180px]">Ngày hủy chuyến:</span>
               <span className="text-base">
                 {moment((compoundingCar as CompoundingCancelCar).cancel_date).format(
                   "HH:mm DD/MM/YYYY"
                 )}
               </span>
             </li>
-            <li className="flex items-center justify-between mb-[20px]">
-              <span className="text-xs">Tổng giá trị chuyến đi</span>
+            <li className="flex items-center mb-[20px]">
+              <span className="text-xs w-[150px] xs:w-[180px]">Tổng giá trị chuyến đi</span>
               <span className="text-base">
                 {formatMoneyVND((compoundingCar as CompoundingCancelCar).amount_total)}
               </span>
             </li>
-            <li className="flex items-center justify-between mb-[20px]">
-              <span className="text-xs">Đã đặt cọc</span>
+            <li className="flex items-center mb-[20px]">
+              <span className="text-xs w-[150px] xs:w-[180px]">Đã đặt cọc</span>
               <span className="text-base">
                 {formatMoneyVND((compoundingCar as CompoundingCancelCar).down_payment)}
               </span>

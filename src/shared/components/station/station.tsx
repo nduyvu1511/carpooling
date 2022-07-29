@@ -100,15 +100,15 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
       </div>
 
       {/* Footer */}
-      <div className="h-[64px] flex-center">
-        <button
+      <div className="h-[72px] flex-center">
+        <span
           onClick={confirmStationLocation}
           className={`btn-primary mx-12 md:mx-[16px] sm:mx-auto ${
             !station?.station_id ? "pointer-events-none btn-disabled" : ""
           }`}
         >
           Xác nhận Điểm đến
-        </button>
+        </span>
       </div>
     </div>
   )

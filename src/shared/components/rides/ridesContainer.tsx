@@ -69,11 +69,11 @@ const RidesContainer = ({
 
           <div className="block-element px-12 md:px-[16px] lg:px-24 pb-24">
             <div className="mb-12 md:mb-24">
-              <h1 className="h4 text-primary pt-[16px] md:pt-24">
+              <h4 className="text-[16px] leading-[26px] font-semibold md:font-medium md:text-[20px] md:leading-[32px] uppercase md:normal-case text-primary pt-[16px] md:pt-24">
                 {carAccountType === "car_driver"
                   ? "Các chuyến đi chưa có tài xế"
                   : "Các chuyến đi hiện có"}
-              </h1>
+              </h4>
             </div>
 
             <div className="mb-12 md:mb-24">

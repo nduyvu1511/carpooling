@@ -23,7 +23,9 @@ const CustomerLayout = ({ children, showHeaderOnMobile = true }: CustomerLayoutP
   return (
     <>
       <AuthHeader className={`${showHeaderOnMobile ? "" : "hidden lg:flex"}`} />
-      <main className="min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">{children}</main>
+      <main className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">
+        {children}
+      </main>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { feature1, feature2, feature3 } from "@/assets"
-import { Alert, Banner, Guide, HeroSection, NewsList, NewsSlide, PlaceSlide } from "@/components"
+import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide } from "@/components"
 import { RootState } from "@/core/store"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"

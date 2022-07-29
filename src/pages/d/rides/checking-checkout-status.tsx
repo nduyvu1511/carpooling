@@ -1,51 +1,23 @@
-import { Spinner } from "@/components"
-import { DriverEmptyLayout } from "@/layout"
-import { ridesApi } from "@/services"
+import { CheckoutProcess } from "@/components"
+import { DriverLayout } from "@/layout"
+import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
-import useSWR from "swr"
 
 const ConfirmCheckoutDriver = () => {
   const router = useRouter()
   const { compounding_car_id, vnp_ResponseCode } = router.query
 
-  const { isValidating } = useSWR(
-    compounding_car_id && vnp_ResponseCode === "00" ? "confirm_deposit_for_driver" : null,
-    () =>
-      ridesApi
-        .confirmDepositForDriver({
-          compounding_car_id: Number(compounding_car_id),
-        })
-        .then((res) => {
-          if (router.query.vnp_ResponseCode !== "00") return
-          if (res.result.data?.state === "confirm_deposit") {
-            window.close()
-          }
-        }),
-    {
-      dedupingInterval: 0,
-      revalidateOnFocus: true,
-    }
-  )
-
-  useEffect(() => {
-    if (!router.isReady) return
-    if (vnp_ResponseCode !== "00") {
-      window.close()
-    }
-  }, [router, vnp_ResponseCode])
-
   return (
-    <>
-      {isValidating ? (
-        <div className="flex-center flex-col py-[80px]">
-          <span className="text-sm">Đang xử lý giao dịch</span>
-          <Spinner size={40} />
-        </div>
+    <DriverLayout showHeaderOnMobile>
+      {compounding_car_id ? (
+        <CheckoutProcess
+          fetcher_type="confirmDepositForDriver"
+          compounding_car_id={Number(compounding_car_id)}
+          vnp_ResponseCode={vnp_ResponseCode as VnpayStatus}
+        />
       ) : null}
-    </>
+    </DriverLayout>
   )
 }
 
-ConfirmCheckoutDriver.Layout = DriverEmptyLayout
 export default ConfirmCheckoutDriver

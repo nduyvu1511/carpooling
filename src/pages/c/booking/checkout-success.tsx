@@ -1,4 +1,4 @@
-import { RidesSummary, RidesSummaryLoading } from "@/components"
+import { RidesProgress, RidesSummary, RidesSummaryLoading } from "@/components"
 import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -38,12 +38,21 @@ const CheckoutSuccess = () => {
 
   if (compoundingCarCustomer?.state !== "deposit") return null
   return (
-    <div className="max-w-[684px] w-full mx-auto py-24 checkout-success">
+    <div className="max-w-[684px] w-full mx-auto sm:py-24">
       {isValidating ? (
         <RidesSummaryLoading />
       ) : (
-        <div className="block-element">
-          <RidesSummary type="bill" rides={compoundingCarCustomer as any} />
+        <div className="">
+          <div className="block-element pt-24">
+            <div className="pl-12 md:pl-0 mb-24">
+              <RidesProgress state="assign" />
+            </div>
+            <RidesSummary
+              car_account_type="customer"
+              type="bill"
+              rides={compoundingCarCustomer as any}
+            />
+          </div>
         </div>
       )}
     </div>

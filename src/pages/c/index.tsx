@@ -16,7 +16,7 @@ const HomeCustomer = () => {
     hasMore,
     fetchMoreRides,
     isFetchingMore,
-    isInitialLoading,
+    isInitialLoading, 
   } = useQueryCompoundingCarCustomer({})
 
   useEffect(() => {

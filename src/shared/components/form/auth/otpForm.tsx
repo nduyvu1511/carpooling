@@ -21,10 +21,10 @@ export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFor
       className="form-control"
     >
       <div className="form-control-otp">
-        <label className="form-label text-center flex justify-center mb-[40px]" htmlFor="otpInput">
+        <p className="text-sm text-center mb-[40px]">
           Mã xác minh của bạn sẽ được gửi bằng tin nhắn đến{" "}
-          <b className="ml-[4px]">{phoneNumber}</b>
-        </label>
+          <span className="ml-[2px] text-base">{phoneNumber}</span>
+        </p>
 
         <div className="my-otp-input flex-center mb-[40px]">
           <OtpInput
@@ -43,7 +43,9 @@ export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFor
 
       <button
         type="submit"
-        className={`btn-primary mx-auto otp-btn-login ${otpVal.length === 6 ? "" : "btn-disabled"}`}
+        className={`btn-primary mx-auto otp-btn-login btn-submit-fixed ${
+          otpVal.length === 6 ? "" : "btn-disabled"
+        }`}
       >
         Xác nhận
       </button>

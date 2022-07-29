@@ -119,6 +119,8 @@ export interface BookingLayoutProps {
   stickyRight?: boolean
   onBackBtnClick?: Function
   reverse?: boolean
+  className?: string
+  showHeaderOnMobile?: boolean
 }
 
 declare module "axios" {

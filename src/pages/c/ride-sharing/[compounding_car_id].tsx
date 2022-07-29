@@ -5,13 +5,13 @@ import {
   RidesProgress,
   RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RidesSummaryModal
 } from "@/components"
 import {
   useCompoundingCar,
   useCompoundingCarActions,
   useCompoundingForm,
-  useEffectOnce,
+  useEffectOnce
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
@@ -20,7 +20,6 @@ import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 
 const RidesDetailCustomer = () => {
-  // const breakPoints = useBreakpoint()
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
@@ -109,6 +108,7 @@ const RidesDetailCustomer = () => {
               type="existed"
               limitNumberSeat={compoundingCar?.number_available_seat}
               view="page"
+              mode="confirm"
             />
           </>
         )}

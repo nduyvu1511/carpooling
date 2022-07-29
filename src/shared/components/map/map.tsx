@@ -1,11 +1,10 @@
-import { LocationIcon, LocationIcon2 } from "@/assets"
+import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
 import { DirectionLngLat, FromLocation, LatLng, LatlngAddress, LocationLatLng } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
-import { BiCurrentLocation } from "react-icons/bi"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
@@ -73,32 +72,49 @@ export const Map = ({
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
-
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
 
-  const getLocationFromLatlng = ({
-    params: { lat, lng },
-    onSuccess,
-    onErr,
-  }: {
-    params: LatLng
-    onSuccess: (params: LocationLatLng) => void
-    onErr?: Function
-  }) => {
-    Geocode.fromLatLng(lat + "", lng + "")
-      .then(
+  // const getLocationFromLngLat = ({
+  //   params: { lat, lng },
+  //   onSuccess,
+  //   onErr,
+  // }: {
+  //   params: LatLng
+  //   onSuccess: (params: LocationLatLng) => void
+  //   onErr?: Function
+  // }) => {
+  //   Geocode.fromLatLng(lat + "", lng + "", process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY)
+  //     .then(
+  //       (response) => {
+  //         const address = response?.results[0]?.formatted_address
+  //         onSuccess({ address, lat, lng })
+  //       },
+  //       (error) => {
+  //         console.error(error)
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       onErr && onErr()
+  //       console.log(err)
+  //     })
+  // }
+
+  const getAddressFromLngLat = ({ lng, lat }: { lng: number; lat: number }) => {
+    try {
+      setCenterMapLoading(true)
+      Geocode.fromLatLng(lat + "", lng + "", process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY).then(
         (response) => {
-          const address = response?.results[0]?.formatted_address
-          onSuccess({ address, lat, lng })
+          setCenterMapLoading(false)
+          const address = response.results[0].formatted_address
+          setCurrentAddress({ address, lat, lng })
         },
         (error) => {
-          console.error(error)
+          setCenterMapLoading(false)
         }
       )
-      .catch((err) => {
-        onErr && onErr()
-        console.log(err)
-      })
+    } catch (error) {
+      setCenterMapLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -110,12 +126,7 @@ export const Map = ({
 
     getCurrentLocation(({ lat, lng }) => {
       setCurrenLocation({ lat, lng })
-      getLocationFromLatlng({
-        params: { lat, lng },
-        onSuccess: (address) => {
-          setCurrentAddress(address)
-        },
-      })
+      getAddressFromLngLat({ lat, lng })
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultLocation])
@@ -125,26 +136,15 @@ export const Map = ({
       dispatch(notify("Không tìm thấy vị trí của bạn", "info"))
       return
     }
-
     mapRef.current?.panTo(currentLocation)
+    getAddressFromLngLat({ lat: currentLocation.lat, lng: currentLocation.lng })
   }
 
   const handleDragEnd = () => {
     if (!mapRef?.current) return
-
     const center = (mapRef as any)?.current?.getCenter()
-    setCenterMapLoading(true)
-    Geocode.fromLatLng(center.lat(), center.lng(), process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY).then(
-      (response) => {
-        setCenterMapLoading(false)
-        const address = response.results[0].formatted_address
-        setCurrentAddress({ address, lat: center.lat(), lng: center.lng() })
-      },
-      (error) => {
-        setCenterMapLoading(false)
-        console.error(error)
-      }
-    )
+    if (!center?.lat) return
+    getAddressFromLngLat({ lat: center.lat(), lng: center.lng() })
   }
 
   const handleConfirmLocation = () => {
@@ -164,7 +164,7 @@ export const Map = ({
   }
 
   useEffect(() => {
-    if (!direction) return
+    if (!direction || !window?.google) return
 
     const directionsService = new google.maps.DirectionsService()
     const { destination, origin } = direction
@@ -236,8 +236,17 @@ export const Map = ({
 
             {/* Icon center */}
             {!viewOnly ? (
-              <span className="z-10 ">
+              <span className="z-10">
                 <LocationIcon className="absolute-center w-[30px] h-[30px] text-error" />
+              </span>
+            ) : null}
+
+            {!viewOnly ? (
+              <span
+                onClick={pantoCurrentLocation}
+                className="absolute right-[20px] bottom-[20px] z-[10] w-[30px] flex-center h-[30px] bg-white-color rounded-[50%] block-element border border-solid border-border-color"
+              >
+                <LocationIcon3 className="w-[24px] h-[24px] text-gray-color-3" />
               </span>
             ) : null}
           </GoogleMap>
@@ -253,21 +262,14 @@ export const Map = ({
                     </span>
                   </div>
 
-                  <button
-                    onClick={pantoCurrentLocation}
-                    className="absolute right-[20px] top-[10px] md:bottom-[30px] z-[10]"
-                  >
-                    <BiCurrentLocation className="text-primary w-[30px] h-[30px]" />
-                  </button>
-
-                  <button
+                  <span
                     onClick={handleConfirmLocation}
                     className={`btn-primary mx-auto ${
                       !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
                     }`}
                   >
                     Xác nhận
-                  </button>
+                  </span>
                 </div>
               </>
             ) : null}

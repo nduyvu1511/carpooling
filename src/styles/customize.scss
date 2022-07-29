@@ -214,7 +214,10 @@
   & .rdt {
     height: 100%;
     width: 100%;
-    border-radius: 8px;
+
+    & div:first-child {
+      height: 100%;
+    }
 
     & .form-control {
       width: 100%;
@@ -225,11 +228,12 @@
     & .rdtPicker {
       border-radius: 8px;
       min-width: 300px;
-      border: 1px solid rgba($color: #000000, $alpha: 0.07);
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       max-width: 400px;
       width: 100%;
       left: -15px;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+      border-radius: 5px;
     }
 
     & tfoot {
@@ -441,6 +445,9 @@
     opacity: 1;
     transform: translateX(0);
     transition: opacity 300ms, transform 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, transform 500ms;
+    }
   }
   &-exit {
     opacity: 1;
@@ -450,6 +457,9 @@
     transform: translateX(100%);
     opacity: 0;
     transition: opacity 300ms, transform 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, transform 500ms;
+    }
   }
 }
 
@@ -462,6 +472,9 @@
     opacity: 1;
     margin-top: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
   &-exit {
     opacity: 1;
@@ -471,6 +484,9 @@
     margin-top: 100%;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
 }
 
@@ -483,6 +499,9 @@
     opacity: 1;
     margin-left: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
   &-exit {
     opacity: 1;
@@ -492,6 +511,9 @@
     margin-left: 120px;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
 }
 
@@ -504,6 +526,9 @@
     opacity: 1;
     margin-right: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
   &-exit {
     opacity: 1;
@@ -513,6 +538,9 @@
     margin-right: 120px;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
 }
 
@@ -525,6 +553,9 @@
     opacity: 1;
     margin-top: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
   &-exit {
     opacity: 1;
@@ -534,6 +565,9 @@
     margin-top: -100%;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
+    @media screen and (min-width: 1024px) {
+      transition: opacity 500ms, margin 500ms;
+    }
   }
 }
 
@@ -564,4 +598,32 @@
 
 .overflow-initial {
   overflow: initial;
+}
+
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+  display: none;
+}
+.gmnoprint div {
+  background: none !important;
+}
+
+.reset-password-page {
+  & .btn-submit-fixed {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: calc(100% - 24px);
+
+    @media screen and (min-width: 640px) {
+      width: unset;
+      margin: auto;
+    }
+
+    @media screen and (min-width: 768px) {
+      position: static;
+    }
+  }
 }

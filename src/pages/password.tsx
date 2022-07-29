@@ -12,9 +12,9 @@ const Password = () => {
   const { data: hasPassword, createPassword, changePassword, isValidating } = usePassword(true)
 
   return (
-    <AuthLayout>
+    <AuthLayout headerClassName="hidden lg:flex">
       <AccountLayout title={!hasPassword ? "Tạo mật khẩu" : "Đổi mật khẩu"}>
-        <div className="content-container flex-1 bg-white-color min-h-[calc(100vh-140px)] h-screen px-[16px]">
+        <div className="content-container px-[16px] flex-1 bg-white-color min-h-[calc(100vh-100px)] lg:min-h-[auto]">
           {isValidating ? (
             <div className="">
               <InputLoading />

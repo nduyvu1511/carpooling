@@ -1,4 +1,4 @@
-const CheckIcon = ({ className = "" }) => {
+const CheckIcon = ({ className = "", stroke = "white" }) => {
   return (
     <svg
       className={className}
@@ -10,7 +10,7 @@ const CheckIcon = ({ className = "" }) => {
     >
       <path
         d="M1.33337 5.8335L6.33337 10.8335L14.6667 0.833496"
-        stroke="white"
+        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

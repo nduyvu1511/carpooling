@@ -34,7 +34,11 @@ export const OtpSecondsRemains = ({ onChange }: Props) => {
           </span>
         </>
       ) : (
-        <p className="text-center">Vui lòng chờ {secondsExpire} giây để gửi lại</p>
+        <p className="text-center text-sm">
+          Vui lòng chờ{" "}
+          <span className="w-[20px] font-medium relative inline-block">{secondsExpire}</span> giây
+          để gửi lại
+        </p>
       )}
     </div>
   )

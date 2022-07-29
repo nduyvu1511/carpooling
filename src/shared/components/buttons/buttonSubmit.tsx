@@ -23,7 +23,7 @@ export const ButtonSubmit = ({
     <div
       className={`w-full ${
         view === "modal"
-          ? "absolute left-[0] bottom-[0] right-[0] p-12 bg-white-color"
+          ? "absolute left-[0] bottom-[0] right-[0] p-12 bg-white-color flex-center"
           : "fixed bottom-0 right-0 left-0 bg-white-color p-12 md:static md:p-0"
       } ${parentClassName}`}
     >
@@ -34,7 +34,7 @@ export const ButtonSubmit = ({
           showMargin ? "" : ""
         } hover:border-none border-none hover:text-white-color ${
           isError ? "btn-disabled-clickable" : ""
-        } ${disabled ? "btn-disabled" : ""} ${className} ${view === "modal" ? "mx-auto" : ""}`}
+        } ${disabled ? "btn-disabled" : ""} ${className}`}
       >
         {title || "Xác nhận"}
       </button>

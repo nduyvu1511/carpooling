@@ -6,7 +6,7 @@ type DriverAccountLayoutProps = Omit<AccountLayoutProps, "navList">
 
 const DriverAccountLayout = ({ children, desc, title }: DriverAccountLayoutProps) => {
   return (
-    <DriverLayout>
+    <DriverLayout >
       <AccountLayout desc={desc} title={title}>
         {children}
       </AccountLayout>

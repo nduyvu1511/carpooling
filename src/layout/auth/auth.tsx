@@ -1,11 +1,15 @@
 import { AuthHeader } from "@/components"
 import { RootState } from "@/core/store"
-import { LayoutProps } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { ReactNode, useEffect } from "react"
 import { useSelector } from "react-redux"
 
-const AuthLayout = ({ children }: LayoutProps) => {
+interface AuthLayoutProps {
+  children: ReactNode
+  headerClassName?: string
+}
+
+const AuthLayout = ({ children, headerClassName = "" }: AuthLayoutProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
@@ -18,10 +22,11 @@ const AuthLayout = ({ children }: LayoutProps) => {
 
   return (
     <>
-      <AuthHeader />
+      <AuthHeader className={headerClassName} />
       <main className="min-h-[calc(100vh-80px)] h-full bg-bg flex flex-col">{children}</main>
     </>
   )
 }
 
 export { AuthLayout }
+

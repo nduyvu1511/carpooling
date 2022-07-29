@@ -1,4 +1,11 @@
-import { CheckoutLoading, Payment, RidesProgress, RidesSummary } from "@/components"
+import {
+  CheckoutLoading,
+  Payment,
+  RidesProgress,
+  RidesSummary,
+  RidesSummaryMobile,
+  RidesSummaryModal,
+} from "@/components"
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { DepositCompoundingCarDriverRes } from "@/models"
@@ -64,11 +71,19 @@ const Checkout = () => {
 
   return (
     <BookingLayout
+      reverse
       topNode={<RidesProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
-          <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />
+          <>
+            <div className="hidden lg:block">
+              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+            </div>
+            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
+              <RidesSummaryMobile rides={compoundingCar} />
+            </div>
+          </>
         ) : null
       }
       title="Đặt cọc chuyến đi"
@@ -81,7 +96,7 @@ const Checkout = () => {
             <div className="border-b border-solid border-border-color mx-24 mb-24"></div>
             {deposit ? (
               <Payment
-                amount_total={+deposit.amount}
+                down_payment={+deposit.amount}
                 secondsRemains={+deposit.second_remains}
                 onCheckout={(id) => handleCreatePayment(id)}
                 onCancelCheckout={() => {
@@ -95,6 +110,8 @@ const Checkout = () => {
           </>
         )}
       </div>
+
+      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
     </BookingLayout>
   )
 }

@@ -2,7 +2,7 @@ import { EmptyPocketIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCustomerRating, useRatingActions } from "@/hooks"
-import { AccountLayout, CustomerLayout } from "@/layout"
+import { CustomerAccountLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -50,7 +50,7 @@ const Rating = () => {
 
   return (
     <>
-      <AccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
+      <CustomerAccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
         <div className="p-12 md:p-24 pt-0">
           {isValidating ? (
             <div>
@@ -99,7 +99,7 @@ const Rating = () => {
             </>
           )}
         </div>
-      </AccountLayout>
+      </CustomerAccountLayout>
 
       <Modal
         show={!!currentEditRating}
@@ -131,5 +131,4 @@ const Rating = () => {
   )
 }
 
-Rating.Layout = CustomerLayout
 export default Rating

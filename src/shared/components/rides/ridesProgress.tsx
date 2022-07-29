@@ -37,21 +37,8 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
 
   if (!state)
     return (
-      <div className="flex items-center md:mx-24">
-        <div className="xs-hidden skeleton h-[14px] rounded-[3px] w-full"></div>
-        <div className="hidden xs-block">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <li
-              className={`mr-[40px] last:mr-0 flex items-center md:justify-center flex-row md:flex-col ${
-                index === 2 ? "hidden sm:flex" : ""
-              } ${index === 3 ? "hidden md:flex" : ""}`}
-              key={index}
-            >
-              <div className="w-[30px] h-[30px] rounded-[50%] skeleton mr-12 md:mr-0 md:mb-12"></div>
-              <div className="w-[90px] h-[12px] rounded-[3px] skeleton"></div>
-            </li>
-          ))}
-        </div>
+      <div className="flex items-center w-[80%] md:mx-[16px] lg:mx-24">
+        <div className="xs-hidden skeleton h-[16px] rounded-[3px] w-full"></div>
       </div>
     )
   return (
@@ -82,7 +69,7 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
               </span>
             )}
             <span
-              className={`md:mx-[20px] text-xs font-medium whitespace-nowrap ${
+              className={`md:mx-[12px] xl:mx-[20px] text-xs font-medium whitespace-nowrap ${
                 stateIndex === index || stateIndex > index ? "text-primary" : "opacity-60"
               }`}
             >

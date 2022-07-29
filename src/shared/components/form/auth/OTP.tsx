@@ -18,13 +18,15 @@ interface LoginOtpProps {
   onVerifyOTP: (token: string) => void
   type?: "register" | "login" | "resetPassword"
   children?: ReactNode
+  btnClassName?: string
+  defaultPhoneNumber?: string
 }
 
-export const OTP = ({ onVerifyOTP, type, children }: LoginOtpProps) => {
+export const OTP = ({ onVerifyOTP, type, children, defaultPhoneNumber = "" }: LoginOtpProps) => {
   const dispatch = useDispatch()
   const { OTPVerifier, checkPhoneExist } = useAuth()
   const [expandForm, setExpandForm] = useState<boolean>(false)
-  const [phone, setPhone] = useState<string>("")
+  const [phone, setPhone] = useState<string>(defaultPhoneNumber)
 
   const generateRecaptcha = () => {
     return new RecaptchaVerifier(
@@ -93,7 +95,9 @@ export const OTP = ({ onVerifyOTP, type, children }: LoginOtpProps) => {
   return (
     <>
       {!expandForm ? (
-        <PhoneForm onSubmit={(phone) => handleGenerateOTPCode(phone)}>{children}</PhoneForm>
+        <PhoneForm phone={phone} onSubmit={(phone) => handleGenerateOTPCode(phone)}>
+          {children}
+        </PhoneForm>
       ) : (
         <div className="otp__form">
           <OtpForm

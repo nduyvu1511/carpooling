@@ -86,9 +86,11 @@ export const ChangePasswordForm = forwardRef(function Child(
           Quên mật khẩu?
         </span>
       </div>
-      <button type="submit" className={`mx-auto btn-primary ${isValid ? "" : "btn-disabled"}`}>
-        Xác nhận
-      </button>
+      <div className="fixed bottom-0 left-0 right-0 md:static p-12 bg-white-color md:bg-[transparent]">
+        <button type="submit" className={`mx-auto btn-primary  ${isValid ? "" : "btn-disabled"}`}>
+          Xác nhận
+        </button>
+      </div>
     </form>
   )
 })

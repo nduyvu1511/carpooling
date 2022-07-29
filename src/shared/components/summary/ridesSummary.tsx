@@ -1,5 +1,10 @@
 import { OneWayIcon } from "@/assets"
-import { formatMoneyVND, getCompoundingCarName, getCompoundingCarStateName } from "@/helper"
+import {
+  formatMoneyVND,
+  getCompoundingCarName,
+  getCompoundingCarStateName,
+  getHoursName,
+} from "@/helper"
 import {
   CarAccountType,
   CompoundingCarCustomer,
@@ -135,12 +140,12 @@ const RidesSummary = ({
 
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Tổng lộ trình:</p>
-            <p className={item}>{rides?.distance?.toFixed(2)} km</p>
+            <p className={item}>{rides?.distance.toFixed(0)} Km</p>
           </div>
 
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Tổng thời gian lộ trình:</p>
-            <p className={item}>{rides.duration || 0} giờ</p>
+            <p className={item}>{getHoursName(rides.duration || 0)}</p>
           </div>
 
           {(rides as CompoundingCarRes).number_seat_in_car ? (
@@ -168,20 +173,24 @@ const RidesSummary = ({
         {car_account_type === "customer" && rides?.price_unit ? (
           <div className="flex items-baseline justify-between mb-[16px]">
             <p className={title}>Giá vé/khách:</p>
-            <p className={item}>{formatMoneyVND(rides?.price_unit?.price_unit)}</p>
+            <p className={`font-medium text-orange-50 text-28 leading-[36px]`}>
+              {formatMoneyVND(rides?.price_unit?.price_unit)}
+            </p>
           </div>
         ) : null}
 
-        <div className="flex items-baseline justify-between mb-[16px]">
-          <p className={title}>Tổng giá vé:</p>
-          <p className="font-medium text-orange-50 text-28 leading-[36px]">
-            {formatMoneyVND(
-              car_account_type === "car_driver"
-                ? (rides as CompoundingCarRes).price_unit.price_unit
-                : (rides as CompoundingCarCustomer)?.amount_total || 0
-            )}
-          </p>
-        </div>
+        {car_account_type === "car_driver" ? (
+          <div className="flex items-baseline justify-between mb-[16px]">
+            <p className={title}>Tổng giá vé:</p>
+            <p className="font-medium text-orange-50 text-28 leading-[36px]">
+              {formatMoneyVND(
+                car_account_type === "car_driver"
+                  ? (rides as CompoundingCarRes).price_unit.price_unit
+                  : (rides as CompoundingCarCustomer)?.amount_total || 0
+              )}
+            </p>
+          </div>
+        ) : null}
 
         <div className="flex items-baseline justify-between mb-[16px]">
           <p className={title}>Ghi chú:</p>

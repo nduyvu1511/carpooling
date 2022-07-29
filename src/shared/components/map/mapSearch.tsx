@@ -54,7 +54,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
 
   return (
     <div ref={searchRef} className="">
-      <div className="mb-[4px]">
+      <div className="mb-[1px]">
         <input
           type="text"
           onChange={(e) => {
@@ -69,7 +69,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
       </div>
 
       {showSearchResult ? (
-        <div className="block-element max-h-[300px] h-full flex-col flex">
+        <div className="block-element max-h-[300px] h-full flex-col flex border border-solid border-border-color rounded-[5px]">
           {searchValues ? (
             <div className="location__result">
               {loading ? (

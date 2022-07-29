@@ -58,7 +58,10 @@ export const PhoneForm = ({ onSubmit, phone, children }: OtpFormProps) => {
       {children || null}
 
       <div className="flex justify-center">
-        <button type="submit" className={`btn-primary ${isValid ? "" : "btn-disabled"}`}>
+        <button
+          type="submit"
+          className={`btn-primary btn-submit-fixed ${isValid ? "" : "btn-disabled"}`}
+        >
           Xác nhận
         </button>
       </div>

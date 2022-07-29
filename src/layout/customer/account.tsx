@@ -6,7 +6,7 @@ type CustomerAccountLayoutProps = Omit<AccountLayoutProps, "navList">
 
 const CustomerAccountLayout = ({ children, desc, title }: CustomerAccountLayoutProps) => {
   return (
-    <CustomerLayout>
+    <CustomerLayout showHeaderOnMobile={false}>
       <AccountLayout desc={desc} title={title}>
         {children}
       </AccountLayout>

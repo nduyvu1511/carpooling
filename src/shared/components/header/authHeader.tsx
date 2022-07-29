@@ -1,28 +1,20 @@
 import {
-  ActivityIcon,
   AddIcon,
   AddIcon2,
   blankAvatar,
   CarpoolingIcon,
-  CloseIcon,
-  ConvenientIcon,
-  LockIcon,
-  LogoIcon,
+  ConvenientIcon, LogoIcon,
   OneWayIcon,
-  QuestionIcon,
-  StarEmptyIcon,
-  TwoWayIcon,
-  UserCircleIcon,
-  WalletIcon,
+  QuestionIcon, TwoWayIcon
 } from "@/assets"
-import { AccountSidebar, BookingModal, Drawer, HeaderWrapper, UserNavs } from "@/components"
+import { BookingModal, HeaderWrapper, UserNavs } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow, toImageUrl } from "@/helper"
-import { CarAccountType, CompoundingType, SidebarItem } from "@/models"
+import { CarAccountType, CompoundingType } from "@/models"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useSelector } from "react-redux"
 
 interface AuthHeaderProps {
@@ -33,7 +25,6 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const [bookingType, setBookingType] = useState<CompoundingType | undefined>()
-  const [showUserNav, setShowUserNav] = useState<boolean>(false)
 
   const toggleBookingModal = (status: CompoundingType | undefined) => {
     setBookingType(status)
@@ -43,42 +34,6 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
       toggleBodyOverflow("unset")
     }
   }
-
-  const navList: SidebarItem[] = useMemo(() => {
-    return [
-      {
-        icon: <UserCircleIcon className="w-[20px] h-[20px]" />,
-        label: "Hồ sơ cá nhân",
-        path: "/profile",
-      },
-      // {
-      //   icon: <CalendarIcon className="w-[20px] h-[20px]" />,
-      //   label: "Lịch",
-      //   path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/schedules`,
-      // },
-      {
-        icon: <ActivityIcon className="w-[20px] h-[20px]" />,
-        label: "Hoạt động",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/activities`,
-      },
-      {
-        icon: <WalletIcon className="w-[20px] h-[20px]" />,
-        label: "Ví cá nhân",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/wallet`,
-      },
-      {
-        icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
-        label: "Đánh giá",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/rating`,
-      },
-      {
-        icon: <LockIcon className="w-[20px] h-[20px]" />,
-        label: "Đổi mật khẩu",
-        path: "/password",
-      },
-    ]
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
@@ -168,40 +123,24 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                   </Link>
                 </div>
 
-                {/* <div className="mr-24">
-                  <div className="relative">
-                    <NotificationIcon className="" />
-                    <Badge className="left-[10px]" count={9} />
-                  </div>
-                </div> */}
-
-                <div className="flex items-center">
-                  <div
-                    onClick={() => {
-                      setShowUserNav(true)
-                      toggleBodyOverflow("hidden")
-                    }}
-                    className="relative lg:hidden w-[32px] h-[32px] cursor-pointer "
-                  >
-                    <Image
-                      layout="fill"
-                      src={
-                        userInfo?.avatar_url?.image_url
-                          ? toImageUrl(userInfo?.avatar_url?.image_url || "")
-                          : blankAvatar
-                      }
-                      objectFit="cover"
-                      alt=""
-                      className="rounded-[50%]"
-                    />
-                  </div>
-                </div>
-
                 <div
-                  onClick={() => router.push("/profile")}
-                  className="hidden lg:flex items-center max-w-[200px] w-full relative group cursor-pointer"
+                  onClick={() =>
+                    router.push(
+                      `/${userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"}`
+                    )
+                  }
+                  className="flex items-center max-w-[200px] w-full relative group cursor-pointer"
                 >
-                  <div className="relative w-[32px] h-[32px]">
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/${
+                          userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"
+                        }`
+                      )
+                    }
+                    className="relative w-[32px] h-[32px]"
+                  >
                     <Image
                       layout="fill"
                       src={
@@ -231,42 +170,6 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
         </div>
       </HeaderWrapper>
 
-      <Drawer
-        isShow={showUserNav}
-        showCloseBtn={false}
-        onClose={() => {
-          setShowUserNav(false)
-          toggleBodyOverflow("unset")
-        }}
-      >
-        <div className="">
-          <button
-            onClick={() => {
-              setShowUserNav(false)
-              toggleBodyOverflow("unset")
-            }}
-            className="ml-auto mr-[10px] mt-[10px] absolute right-0 top-0"
-          >
-            <CloseIcon />
-          </button>
-
-          {userInfo?.partner_id ? (
-            <div className="px-[16px]">
-              <AccountSidebar
-                onClick={() => {
-                  setShowUserNav(false)
-                  toggleBodyOverflow("unset")
-                }}
-                avatar={userInfo.avatar_url.image_url}
-                name={userInfo.partner_name}
-                navList={navList}
-                phone={userInfo.phone}
-              />
-            </div>
-          ) : null}
-        </div>
-      </Drawer>
-
       <BookingModal
         show={bookingType}
         formType={bookingType as CompoundingType}
@@ -279,3 +182,4 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
 }
 
 export { AuthHeader }
+

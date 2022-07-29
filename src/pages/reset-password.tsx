@@ -1,7 +1,6 @@
-import { AuthHeader, ResetPassword } from "@/components"
-import { CustomerLayout } from "@/layout"
+import { HeaderMobile, ResetPassword } from "@/components"
+import { AuthLayout } from "@/layout"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../core"
 
@@ -9,27 +8,22 @@ const ResetPasswordP = () => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
-  useEffect(() => {
-    if (!userInfo) {
-      router.push("/")
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo])
-
   return (
-    <section className="flex-1 min-h-[calc(100vh-80px)] h-screen bg-white-color">
-      <AuthHeader />
-      <main className="min-h-[calc(100vh-80px)] h-full bg-bg flex flex-col">
-        <section className="py-24">
-          <div className="content-container block-element p-24">
-            <h3 className="mb-24 h4">Đặt lại mật khẩu</h3>
-            <ResetPassword onSuccess={() => router.push(router.query.next as string)} />
-          </div>
-        </section>
-      </main>
-    </section>
+    <AuthLayout headerClassName="hidden lg:flex">
+      <HeaderMobile className="lg:hidden" title="Đặt lại mật khẩu" />
+      <section className="reset-password-page lg:py-24 bg-white-color lg:bg-[transparent] min-h-[calc(100vh-56px)] lg:min-h-[unset] pt-[56px]">
+        <div className="content-container block-element py-24 px-12 md:p-24">
+          <h3 className="hidden lg:block mb-24 md:font-medium md:normal-case md:h4">
+            Đặt lại mật khẩu
+          </h3>
+          <ResetPassword
+            defaultPhoneNumber={userInfo?.phone}
+            onSuccess={() => router.push(router.query.next as string)}
+          />
+        </div>
+      </section>
+    </AuthLayout>
   )
 }
 
-ResetPasswordP.Layout = CustomerLayout
 export default ResetPasswordP

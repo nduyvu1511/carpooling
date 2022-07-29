@@ -10,6 +10,7 @@ const CustomerBookingLayout = ({
   topNode,
   onBackBtnClick,
   reverse,
+  className,
 }: BookingLayoutProps) => {
   return (
     <CustomerLayout showHeaderOnMobile={false}>
@@ -20,6 +21,7 @@ const CustomerBookingLayout = ({
         title={title}
         onBackBtnClick={onBackBtnClick}
         reverse={reverse}
+        className={className}
       >
         {children}
       </BookingLayout>

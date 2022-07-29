@@ -4,9 +4,10 @@ import { useEffect, useState } from "react"
 
 interface ResetPasswordProps {
   onSuccess?: Function
+  defaultPhoneNumber?: string
 }
 
-const ResetPassword = ({ onSuccess }: ResetPasswordProps) => {
+const ResetPassword = ({ onSuccess, defaultPhoneNumber }: ResetPasswordProps) => {
   const { resetPassword } = usePassword()
   const [firebaseToken, setFirebaseToken] = useState<string>()
 
@@ -29,6 +30,7 @@ const ResetPassword = ({ onSuccess }: ResetPasswordProps) => {
       <div className="">
         {!firebaseToken ? (
           <OTP
+            defaultPhoneNumber={defaultPhoneNumber}
             type="resetPassword"
             onVerifyOTP={(token) => {
               console.log("firebase token: ", token)
