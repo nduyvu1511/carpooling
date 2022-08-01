@@ -35,7 +35,7 @@ const Alert = ({
         <div
           className={`flex flex-col max-h-[666px] ${
             !children ? "max-w-[350px] sm:max-w-[448px]" : "sm:max-w-modal-width"
-          } w-full fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[4000] overflow-hidden bg-white-color rounded-[20px] sm:rounded-[30px] px-24 sm:px-[40px] ${className}`}
+          } w-full fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[4000] overflow-hidden bg-white-color rounded-[10px] sm:rounded-[30px] px-24 sm:px-[40px] ${className}`}
         >
           <div className="flex-1 flex-center flex-col mb-24 flex-center sm:mb-[40px]">
             {type == "error" ? (

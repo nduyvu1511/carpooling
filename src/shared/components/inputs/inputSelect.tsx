@@ -15,6 +15,7 @@ interface InputSelectProps {
   isError?: boolean | undefined
   showLabel?: boolean
   disabled?: boolean
+  isSearchable?: boolean
 }
 
 const InputSelect = ({
@@ -29,6 +30,7 @@ const InputSelect = ({
   showLabel = true,
   disabled = false,
   value,
+  isSearchable = true,
 }: InputSelectProps) => {
   const ref = useRef<any>(null)
 
@@ -52,6 +54,7 @@ const InputSelect = ({
           name={name}
           render={({ field: { onChange, onBlur } }) => (
             <Select
+              isSearchable={isSearchable}
               autoFocus={false}
               openMenuOnFocus={true}
               ref={ref}

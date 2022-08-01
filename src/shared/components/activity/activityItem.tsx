@@ -5,15 +5,15 @@ import {
   MultiUserIcon,
   OneWayIcon,
   PaymentIcon,
-  TwoWayIcon
+  TwoWayIcon,
 } from "@/assets"
 import {
+  COMPOUNDING_STATE_NAME,
   COMPOUNDING_TYPE_NAME,
   formatMoneyVND,
-  getCompoundingCarStateName,
   STATE_BG_COLOR,
   STATE_COLOR,
-  toFirstUpperCase
+  toFirstUpperCase,
 } from "@/helper"
 import { CustomerActivityRes, DriverActivityRes } from "@/models"
 import moment from "moment"
@@ -81,7 +81,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
             <span className="mr-[16px] mt-[4px]">{compoundingCarIcon}</span>
 
             <div className="flex items-center mb-[12px]">
-              <p className="md:text-base md:font-semibold lg:font-medium lg:text-xl mr-[16px]">
+              <p className="md:text-base md:font-semibold lg:font-medium lg:text-lg xl:text-xl mr-[16px]">
                 {from_province.province_brief_name} - {to_province.province_brief_name}
               </p>
               <span
@@ -91,7 +91,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
                 }}
                 className="py-[4px] px-[8px] text-xs rounded-[5px] bg-white-color"
               >
-                {getCompoundingCarStateName(state)}
+                {COMPOUNDING_STATE_NAME[state]}
               </span>
             </div>
           </div>
@@ -124,7 +124,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 
         <div className="flex flex-col flex-center mr-[12px]">
           <p className="text-sm text-gray-color-5 mb-[4px]">Tổng giá phí</p>
-          <p className="md:text-lg lg:text-xl">
+          <p className="md:text-lg lg:text-lg xl:text-xl">
             {formatMoneyVND(
               (activity as DriverActivityRes).number_seat_in_car
                 ? (activity as DriverActivityRes).price_unit.price_unit
@@ -152,7 +152,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               }}
               className="py-[4px] px-[8px] text-[10px] rounded-[5px] bg-white-color"
             >
-              {getCompoundingCarStateName(state)}
+              {COMPOUNDING_STATE_NAME[state]}
             </span>
           </div>
           <span className="text-xs text-primary">Chi tiết</span>
@@ -203,4 +203,3 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 }
 
 export { ActivityItem }
-

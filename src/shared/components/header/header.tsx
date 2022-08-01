@@ -1,7 +1,7 @@
 import { LogoIcon, MenuIcon, UserCircleIcon } from "@/assets"
 import { Drawer, HeaderWrapper } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useClickOutside } from "@/hooks"
+import { useBackRouter, useClickOutside } from "@/hooks"
 import { setAuthModalType } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -17,6 +17,14 @@ export const Header = () => {
   const [showDrawer, setShowDrawer] = useState<boolean>(false)
   useClickOutside([menuRef], () => {
     setShowMenu(false)
+  })
+
+  useBackRouter({
+    cb: () => {
+      setShowMenu(false)
+      setShowDrawer(false)
+      toggleBodyOverflow("unset")
+    },
   })
 
   return (

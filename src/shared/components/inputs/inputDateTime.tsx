@@ -44,11 +44,12 @@ export const InputDateTime = ({
             disableDate={disableDate}
             isError={isError}
             onChange={(dateTime) => {
-              const newDateTime = subtractDateTimeToNumberOfHour(dateTime, 7)
-              onChange(newDateTime)
-              onChangeProps(newDateTime)
+              onChange(dateTime)
+              onChangeProps(dateTime)
             }}
             initialValue={defaultValue}
+            maxMenuHeight={200}
+            isSelectSearchable={false}
           />
         )}
         rules={{ required: true }}

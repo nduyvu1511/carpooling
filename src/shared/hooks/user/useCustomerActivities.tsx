@@ -71,13 +71,13 @@ export const useCustomerActivities = (): Res => {
     }
   }
 
-  console.log(ratingValue)
-
   const filterCompoundingActivities = async (
     compounding_car_state: CompoundingCarCustomerState[],
     rating_state?: RatingState
   ) => {
     try {
+      // if (compounding_car_state === activityStates) return
+
       setLoading(true)
       setActivityStates(compounding_car_state)
       if (compounding_car_state.includes("confirm_paid") && ratingValue) {

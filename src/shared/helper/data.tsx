@@ -578,6 +578,11 @@ export const compoundingOrderList: {
   { value: "sort_by_distance", label: "Vị trí gần nhất" },
 ]
 
+export const compoundingCustomerOrderList: {
+  value: CompoundingOrderField
+  label: string
+}[] = [{ value: "sort_by_distance", label: "Vị trí gần nhất" }]
+
 export const CompoundingFilterFormFields: {
   label: string
   name: CompoundingCarCustomerFilterKey | CompoundingCarFilterKey

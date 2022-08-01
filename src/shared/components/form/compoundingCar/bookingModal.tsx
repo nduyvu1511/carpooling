@@ -1,7 +1,13 @@
 import { Modal } from "@/components/modal"
 import { Tabs } from "@/components/tabs"
+import { subtractDateTimeToNumberOfHour } from "@/helper"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
-import { CompoundingType, CreateCompoundingCarParams } from "@/models"
+import {
+  CarAccountType,
+  CompoundingType,
+  CreateCompoundingCarParams,
+  CreateTwoWayCompoundingCar,
+} from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { CarpoolingCompoundingForm } from "./carpoolingCompoundingCarForm"
@@ -12,13 +18,19 @@ interface BookingModalProps {
   onClose: Function
   formType: CompoundingType
   show: CompoundingType | undefined
+  carAccountType?: CarAccountType
 }
 
 interface HandleCreateCompoundingCarParams {
   params: CreateCompoundingCarParams
 }
 
-const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
+const BookingModal = ({
+  onClose,
+  formType,
+  show,
+  carAccountType = "customer",
+}: BookingModalProps) => {
   const router = useRouter()
   const {
     oneWayCompoundingCarFormFromLocalStorage,
@@ -33,18 +45,32 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
   }, [formType])
 
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
-    createCompoundingCar({
-      params,
-      onSuccess: (data) => {
-        onClose()
-        router.push({
-          pathname: "/c/booking/confirm",
-          query: {
-            compounding_car_customer_id: data.compounding_car_customer_id,
-          },
-        })
-      },
-    })
+    if (!compoundingType) return
+
+    let data = {
+      ...params,
+      compounding_type: compoundingType,
+      expected_going_on_date: subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7),
+    }
+    if ((data as CreateTwoWayCompoundingCar).is_a_day_tour) {
+      ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date =
+        subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7)
+    }
+
+    console.log(data)
+
+    // createCompoundingCar({
+    //   params: data,
+    //   onSuccess: (data) => {
+    //     onClose()
+    //     router.push({
+    //       pathname: "/c/booking/confirm",
+    //       query: {
+    //         compounding_car_customer_id: data.compounding_car_customer_id,
+    //       },
+    //     })
+    //   },
+    // })
   }
 
   return (
@@ -61,18 +87,20 @@ const BookingModal = ({ onClose, formType, show }: BookingModalProps) => {
       }
       onClose={onClose}
       headerNode={
-        <div className="md:hidden">
-          <Tabs
-            type="full"
-            list={[
-              { label: "Một chiều", value: "one_way" },
-              { label: "Hai chiều", value: "two_way" },
-              { label: "Đi ghép", value: "compounding" },
-            ]}
-            tabActive={compoundingType || formType}
-            onChange={(val) => setCompoundingType(val as CompoundingType)}
-          />
-        </div>
+        carAccountType === "customer" ? (
+          <div className="md:hidden">
+            <Tabs
+              type="full"
+              list={[
+                { label: "Một chiều", value: "one_way" },
+                { label: "Hai chiều", value: "two_way" },
+                { label: "Đi ghép", value: "compounding" },
+              ]}
+              tabActive={compoundingType || formType}
+              onChange={(val) => setCompoundingType(val as CompoundingType)}
+            />
+          </div>
+        ) : null
       }
     >
       <div className="flex-1 w-full px-[16px] md:px-24 py-12 mb-[64px] md:mb-[40px]">

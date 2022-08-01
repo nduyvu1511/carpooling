@@ -191,6 +191,7 @@ export const OneWayCompoundingForm = ({
 
         <div className="form-item">
           <InputSelect
+            isSearchable={false}
             control={control}
             name={"car_id"}
             defaultValue={getValues("car_id") || defaultValues?.car_id}
@@ -206,7 +207,6 @@ export const OneWayCompoundingForm = ({
             options={vehicleTypeOptions}
           />
         </div>
-        {console.log({ time: getValues("expected_going_on_date") })}
         <div className="form-item">
           <InputDateTime
             control={control}

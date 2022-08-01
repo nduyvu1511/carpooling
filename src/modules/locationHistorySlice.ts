@@ -6,24 +6,7 @@ export interface LocationHistorySlice {
 }
 
 const initialState: LocationHistorySlice = {
-  searchHistoryList: [
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-    { address: "Thành Phố Hồ Chí Minh", id: "123", lat: 12, lng: 12, province_id: 1 },
-  ],
+  searchHistoryList: [],
 }
 
 const locationSlice = createSlice({

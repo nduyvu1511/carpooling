@@ -75,7 +75,7 @@ const Payment = ({
             <div className="mb-[32px]">
               <div className="flex items-stretch">
                 <div className="flex-1 mr-24">
-                  <p className="text-sm mb-[12px]">
+                  <p className="text-xs mb-[12px]">
                     {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
                     <span className="text-gray-color-2">(VND)</span>
                   </p>

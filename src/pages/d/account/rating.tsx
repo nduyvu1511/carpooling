@@ -46,6 +46,7 @@ const Rating = () => {
                 {ratings.map((item) => (
                   <li className="border-b border-solid border-border-color" key={item.rating_id}>
                     <RatingItem
+                      showLink
                       car_account_type="car_driver"
                       onReport={() => setCurrentReportRatingId(item.rating_id)}
                       rating={item}

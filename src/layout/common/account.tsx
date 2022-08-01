@@ -12,10 +12,8 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
   if (!userInfo) return null
   return (
     <>
-      <div className="lg:hidden">
-        <HeaderMobile title={title || ""} />
-      </div>
-      <section className="container pt-[56px] lg:py-24 py-0 px-0 lg:px-24 xl:px-0 flex-1 bg-white-color md:bg-[transparent]">
+      <HeaderMobile className="lg:hidden" title={title || ""} />
+      <section className="container pt-[56px] lg:py-24 py-0 px-0 lg:px-24 xl:px-0 flex-1 bg-white-color lg:bg-[transparent]">
         <div className="lg:grid lg:grid-cols-sidebar-grid gap-[24px]">
           <aside className="hidden lg:block block-element p-24 h-fit sticky top-[80px]">
             {userInfo ? (
@@ -41,3 +39,4 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
 }
 
 export { AccountLayout }
+

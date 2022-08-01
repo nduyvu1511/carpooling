@@ -95,7 +95,7 @@ const ScheduleSummary = ({
         </div>
       </div>
 
-      <div className="mx-24 border border-b border-solid border-border-color"></div>
+      <div className="mx-24 border-b border-solid border-border-color"></div>
     </div>
   )
 }

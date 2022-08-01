@@ -29,7 +29,7 @@ const Checkout = () => {
   useEffect(() => {
     if (compoundingCar?.state === "confirm_paid") {
       router.push(
-        `/c/order-done/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
+        `/c/ride-sharing/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +47,7 @@ const Checkout = () => {
     createPayment({
       params: {
         acquirer_id: acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/order-done/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/ride-sharing/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
         compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
       },
       onSuccess: (data) => {
@@ -72,7 +72,6 @@ const Checkout = () => {
             </div>
           </>
         ) : null
-        // compoundingCar ? <RidesSummary car_account_type="customer" rides={compoundingCar} /> : null
       }
       title="Thanh toán cho chuyến đi"
     >

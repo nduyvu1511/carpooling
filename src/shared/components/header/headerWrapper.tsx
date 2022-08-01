@@ -15,7 +15,7 @@ const HeaderWrapper = ({
   return (
     <header
       className={`h-[60px] md:h-[80px] sticky top-0 flex items-center bg-white-color z-[1000] ${
-        height > 80 ? "shadow-md" : ""
+        height > 24 ? "shadow-md" : ""
       } ${className}`}
     >
       {children}

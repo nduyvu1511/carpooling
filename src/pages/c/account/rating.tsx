@@ -1,7 +1,7 @@
 import { EmptyPocketIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useCustomerRating, useRatingActions } from "@/hooks"
+import { useBackRouter, useCustomerRating, useRatingActions } from "@/hooks"
 import { CustomerAccountLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
 import { useState } from "react"
@@ -32,6 +32,13 @@ const Rating = () => {
     })
   }
 
+  useBackRouter({
+    cb: () => {
+      toggleBodyOverflow("unset")
+      setCurrentDeleteRatingId(undefined)
+    },
+  })
+
   const handleUpdateRating = (params: CreateRatingFormParams) => {
     if (!currentEditRating?.rating_id || !currentEditRating?.compounding_car_customer_id) return
     updateRating({
@@ -51,7 +58,7 @@ const Rating = () => {
   return (
     <>
       <CustomerAccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
-        <div className="p-12 md:p-24 pt-0">
+        <div className="px-12 md:px-24 pt-0">
           {isValidating ? (
             <div>
               {Array.from({ length: 5 }).map((_, key) => (
@@ -85,6 +92,7 @@ const Rating = () => {
                             }}
                             car_account_type="customer"
                             rating={item}
+                            showLink
                           />
                         </li>
                       ))}

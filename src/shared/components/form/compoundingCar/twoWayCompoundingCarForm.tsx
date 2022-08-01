@@ -252,6 +252,7 @@ export const TwoWayCompoundingForm = ({
 
         <div className="form-item">
           <InputSelect
+            isSearchable={false}
             control={control}
             name={"car_id"}
             defaultValue={getValues("car_id") || defaultValues?.car_id}
@@ -316,6 +317,7 @@ export const TwoWayCompoundingForm = ({
 
           {getValues("is_a_day_tour") ? (
             <InputSelect
+              isSearchable={false}
               control={control}
               name={"hour_of_wait_time"}
               defaultValue={getValues("hour_of_wait_time")}

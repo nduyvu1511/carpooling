@@ -1,4 +1,9 @@
-import { compoundingOrderList, isArrayHasValue, isObjectHasValue } from "@/helper"
+import {
+  compoundingCustomerOrderList,
+  compoundingOrderList,
+  isArrayHasValue,
+  isObjectHasValue,
+} from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
 import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
 import { useEffect, useState } from "react"
@@ -184,38 +189,40 @@ export const CompoundingFilter = ({
             Sắp xếp theo:
           </label>
           <ul>
-            {compoundingOrderList.map(({ label, value }, index) => (
-              <li key={index} className="mb-[16px] last:mb-0">
-                <ItemSelect
-                  isActive={compoundingFormValues?.order_by == value}
-                  onChange={() => {
-                    if (value === "sort_by_distance") {
-                      getCurrentLocation(({ lng, lat }) => {
-                        const val = {
-                          order_by: "sort_by_distance",
-                          current_latitude: lat + "",
-                          current_longitude: lng + "",
-                        }
+            {(type === "car_driver" ? compoundingOrderList : compoundingCustomerOrderList).map(
+              ({ label, value }, index) => (
+                <li key={index} className="mb-[16px] last:mb-0">
+                  <ItemSelect
+                    isActive={compoundingFormValues?.order_by == value}
+                    onChange={() => {
+                      if (value === "sort_by_distance") {
+                        getCurrentLocation(({ lng, lat }) => {
+                          const val = {
+                            order_by: "sort_by_distance",
+                            current_latitude: lat + "",
+                            current_longitude: lng + "",
+                          }
+                          setCompoundingFormValues({
+                            ...compoundingFormValues,
+                            ...val,
+                          } as CompoundingFilterParams)
+                          handleChange(val as CompoundingFilterParams)
+                        })
+                      } else {
                         setCompoundingFormValues({
                           ...compoundingFormValues,
-                          ...val,
-                        } as CompoundingFilterParams)
-                        handleChange(val as CompoundingFilterParams)
-                      })
-                    } else {
-                      setCompoundingFormValues({
-                        ...compoundingFormValues,
-                        order_by: value,
-                        current_latitude: "",
-                        current_longitude: "",
-                      })
-                      handleChange({ order_by: value })
-                    }
-                  }}
-                  title={label}
-                />
-              </li>
-            ))}
+                          order_by: value,
+                          current_latitude: "",
+                          current_longitude: "",
+                        })
+                        handleChange({ order_by: value })
+                      }
+                    }}
+                    title={label}
+                  />
+                </li>
+              )
+            )}
           </ul>
         </div>
       </div>

@@ -144,3 +144,17 @@ export const VNPAY_STATUS_NAME = {
   "79": "	Giao dịch không thành công do: KH nhập sai mật khẩu thanh toán quá số lần quy định. Xin quý khách vui lòng thực hiện lại giao dịch",
   "99": "	Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)",
 }
+// export const PASSENGER_STATE_COLOR = {
+//   in_process: {
+//     bg: "#FFE9CD",
+//     color: "#ED9526",
+//   },
+//   done: {
+//     bg: "#DBFFEA",
+//     color: "#008F5D",
+//   },
+//   done: {
+//     bg: "#DBFFEA",
+//     color: "#008F5D",
+//   },
+// }

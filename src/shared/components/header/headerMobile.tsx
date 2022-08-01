@@ -17,7 +17,7 @@ const HeaderMobile = ({
   onBackBtnClick,
   title,
   rightNode = null,
-  showHomeBtn = true,
+  showHomeBtn = false,
   className = "",
 }: HeaderMobileProps) => {
   const router = useRouter()

@@ -61,7 +61,7 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
           </span>
         </p>
         <span className="sm:hidden text-[10px] text-primary">Chi tiết</span>
-        <span className="text-xs hidden sm:block text-xs">Xem chi tiết</span>
+        <span className="text-xs hidden sm:block text-xs text-primary">Xem chi tiết</span>
       </div>
 
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>

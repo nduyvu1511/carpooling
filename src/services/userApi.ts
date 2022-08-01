@@ -6,9 +6,13 @@ import {
   CreateNewPasswordParams,
   CreateUserFormParams,
   DrivingLicenseParams,
+  GetDetailTransactionParams,
+  GetTransactionListByWalletParams,
   IdCardParams,
   IdCardUpdateParams,
+  ListQuery,
   loginFormParams,
+  MakeWithdrawingRequestParams,
   ResetPasswordParams,
   UpdateCertificateInspectionParams,
   UpdateDrivingLicenseParams,
@@ -202,7 +206,7 @@ const userApi = {
         params,
       }
     )
-},
+  },
 
   getCertificateInspection: () => {
     return axiosClient.post(
@@ -216,6 +220,30 @@ const userApi = {
   getFilledDataFields: () => {
     return axiosClient.post("/api/user_information_controller/get_general_user_information", {
       params: {},
+    })
+  },
+
+  getWalletList: (params: ListQuery) => {
+    return axiosClient.post("/api/wallet_controller/get_list_journal", {
+      params,
+    })
+  },
+
+  getDetailTransaction: (params: GetDetailTransactionParams) => {
+    return axiosClient.post("/api/wallet_controller/get_detail_transaction", {
+      params,
+    })
+  },
+
+  getTransactionListByWallet: (params: GetTransactionListByWalletParams) => {
+    return axiosClient.post("/api/wallet_controller/get_list_transaction_by_journal", {
+      params,
+    })
+  },
+
+  MakeWithdrawingRequest: (params: MakeWithdrawingRequestParams) => {
+    return axiosClient.post("/api/car_driver_wallet_controller/make_withdrawing_money_request", {
+      params,
     })
   },
 }

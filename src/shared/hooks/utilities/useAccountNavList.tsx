@@ -7,31 +7,56 @@ import { useSelector } from "react-redux"
 const useAccountNavList = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const accountNavList: SidebarItem[] = useMemo(() => {
+    if (!userInfo?.partner_id) return []
+    if (userInfo.car_account_type === "car_driver")
+      return [
+        {
+          icon: <UserCircleIcon className="w-[20px] h-[20px]" />,
+          label: "Hồ sơ cá nhân",
+          path: `/d/account/profile`,
+        },
+        // {
+        //   icon: <CalendarIcon className="w-[20px] h-[20px]" />,
+        //   label: "Lịch",
+        //   path: `/d/account/schedules`,
+        // },
+        {
+          icon: <ActivityIcon className="w-[20px] h-[20px]" />,
+          label: "Hoạt động",
+          path: `/d/account/activities`,
+        },
+        {
+          icon: <WalletIcon className="w-[20px] h-[20px]" />,
+          label: "Ví cá nhân",
+          path: `/d/account/wallet`,
+        },
+        {
+          icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
+          label: "Đánh giá",
+          path: `/d/account/rating`,
+        },
+        {
+          icon: <LockIcon className="w-[20px] h-[20px]" />,
+          label: "Đổi mật khẩu",
+          path: "/password",
+        },
+      ]
+
     return [
       {
         icon: <UserCircleIcon className="w-[20px] h-[20px]" />,
         label: "Hồ sơ cá nhân",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/profile`,
+        path: `/c/account/profile`,
       },
-      // {
-      //   icon: <CalendarIcon className="w-[20px] h-[20px]" />,
-      //   label: "Lịch",
-      //   path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/schedules`,
-      // },
       {
         icon: <ActivityIcon className="w-[20px] h-[20px]" />,
         label: "Hoạt động",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/activities`,
-      },
-      {
-        icon: <WalletIcon className="w-[20px] h-[20px]" />,
-        label: "Ví cá nhân",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/wallet`,
+        path: `/c/account/activities`,
       },
       {
         icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
         label: "Đánh giá",
-        path: `/${userInfo?.car_account_type === "car_driver" ? "d" : "c"}/account/rating`,
+        path: `/c/account/rating`,
       },
       {
         icon: <LockIcon className="w-[20px] h-[20px]" />,
@@ -41,6 +66,7 @@ const useAccountNavList = () => {
     ]
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return {
     accountNavList,
   }

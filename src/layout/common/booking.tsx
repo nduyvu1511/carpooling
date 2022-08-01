@@ -39,7 +39,7 @@ const BookingLayout = ({
               reverse ? "flex-col" : "flex-col-reverse"
             } lg:grid lg:grid-cols-booking-grid-sm xl:lg:grid-cols-booking-grid xl:gap-24`}
           >
-            <div className="lg:pt-24">
+            <div className={`${topNode ? "lg:pt-24" : ""}`}>
               {topNode ? (
                 <div className="hidden lg:block lg:px-0 lg:pl-0 pb-[24px] lg:pb-0 lg:w-full">
                   {topNode}
@@ -59,7 +59,7 @@ const BookingLayout = ({
 
             <div
               className={`overflow-hidden lg:bg-bg-primary ${
-                stickyRight ? "sticky top-[80px]" : ""
+                stickyRight ? "lg:h-fit lg:sticky lg:top-[80px]" : ""
               }`}
             >
               {showLoading ? <RidesSummaryLoading /> : rightNode}

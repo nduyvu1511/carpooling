@@ -8,7 +8,7 @@ const Account = () => {
 
   return (
     <DriverLayout showHeaderOnMobile>
-      <div className="lg:max-w-content-container-width mx-auto w-full block-element md:mt-24 flex-1 md:flex-none bg-white-color">
+      <div className="lg:max-w-content-container-width mx-auto md:min-h-[calc(100vh-80px)] w-full block-element lg:mt-24 flex-1 md:flex-none bg-white-color">
         {userInfo ? <AccountDashboard userInfo={userInfo} /> : null}
       </div>
     </DriverLayout>

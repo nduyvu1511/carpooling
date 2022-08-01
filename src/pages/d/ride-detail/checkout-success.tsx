@@ -1,12 +1,13 @@
 import {
+  DriverInfoSummary,
   RidesDetailLoading,
   RidesPassengerItem,
   RidesProgress,
   RidesSummary,
-  RidesSummaryHeader
 } from "@/components"
-import { useCompoundingCarDriver, useEffectOnce } from "@/hooks"
+import { useBackRouter, useCompoundingCarDriver, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -23,18 +24,11 @@ const CheckoutSuccess = () => {
     compounding_car_id: Number(compounding_car_id),
   })
 
-  useEffect(() => {
-    router.beforePopState(({ as }) => {
-      if (as !== router.asPath) {
-        router.push("/d")
-      }
-      return true
-    })
-
-    return () => {
-      router.beforePopState(() => true)
-    }
-  }, [router])
+  useBackRouter({
+    cb: () => {
+      router.push("/d")
+    },
+  })
 
   useEffectOnce(() => {
     return () => {
@@ -48,20 +42,38 @@ const CheckoutSuccess = () => {
       showLoading={isValidating}
       rightNode={
         compoundingCar ? (
-          <RidesSummary car_account_type="car_driver" rides={compoundingCar as any} />
+          <RidesSummary
+            showRules={false}
+            desc={
+              <span>
+                Chuyến đi của bạn đã được đặt cọc và xác nhận, vui lòng kiểm tra chi tiết chuyến đi
+                qua email hoặc trang{" "}
+                <Link href="/d/activities">
+                  <a className="text-primary font-semibold">Hoạt động</a>
+                </Link>
+                .
+              </span>
+            }
+            title="Hoàn thành đặt chuyến"
+            car_account_type="car_driver"
+            type="bill"
+            rides={compoundingCar as any}
+          />
         ) : null
       }
-      title="Chi tiết chuyến đi"
+      title="Đặt cọc thành công"
     >
-      <div className="bg-white-color block-element p-24 pt-0">
+      <div className="bg-white-color block-element pt-24 px-12 md:px-24">
         {isValidating ? (
           <RidesDetailLoading />
         ) : (
           <>
-            <div className="mb-[40px]">
+            {/* <div className="mb-[40px]">
               <RidesSummaryHeader />
-            </div>
-            <h3 className="text-base mb-24">Danh sách hành khách</h3>
+            </div> */}
+            <h3 className="text-base uppercase font-semibold md:normal-case md:font-medium mb-24">
+              Danh sách hành khách
+            </h3>
             {compoundingCar?.state === "confirm_deposit" &&
             compoundingCar.compounding_car_customers?.length > 0 ? (
               <ul className="">

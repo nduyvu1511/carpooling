@@ -1,3 +1,4 @@
+import { EmptyPocketIcon } from "@/assets"
 import { ActivityItem, Spinner, TagActivityItem } from "@/components"
 import {
   driverActivityFilters,
@@ -25,17 +26,19 @@ const Activities = () => {
   const activityStateHandler = (activity: DriverActivityRes) => {
     const { state } = activity
     if (state === "confirm_deposit" || state === "start_running" || state === "waiting_deposit")
-      router.push(`/d/schedules/${activity.compounding_car_id}`)
-    else router.push(`/d/rides/${activity.compounding_car_id}`)
+      router.push(`/d/ride-detail/in-process/${activity.compounding_car_id}`)
+    else if (state === "cancel") router.push(`/d/ride-detail/cancel/${activity.compounding_car_id}`)
+    else if (state === "done") router.push(`/d/ride-detail/done/${activity.compounding_car_id}`)
+    else router.push(`/d/ride-detail/${activity.compounding_car_id}`)
   }
 
   return (
     <DriverAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
-      <div className="px-12 md:px-24 pb-24">
+      <div className="px-12 md:px-24">
         <div className="mb-24">
           <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
             {driverActivityFilters.map(({ label, value }, index) => (
-              <li className="mr-[16px] last:mr-0" key={index}>
+              <li className="mr-12 md:mr-[16px] last:mr-0 lg:mb-[16px]" key={index}>
                 <TagActivityItem<CompoundingCarDriverState[]>
                   bgColor={STATE_BG_COLOR[value?.[0] || ""]}
                   color={STATE_COLOR?.[value?.[0] || ""]}
@@ -52,16 +55,22 @@ const Activities = () => {
         </div>
 
         {isLoading ? (
-          <div>
+          <ul>
             {Array.from({ length: 8 }).map((_, index) => (
-              <ActivityItem key={index} activity={null} />
+              <li
+                className="block-element border border-solid border-border-color mb-12 lg:mb-24"
+                key={index}
+              >
+                <ActivityItem key={index} activity={null} />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
           <>
             {(activities?.length || 0) === 0 ? (
-              <div className="text-center text-base py-[20px] font-normal">
-                Chưa có hoạt động nào
+              <div className="flex-center flex-col py-[20px]">
+                <p className="mb-24 text-sm md:text-base">Chưa có hoạt động nào</p>
+                <EmptyPocketIcon className="h-[200px]" />
               </div>
             ) : (
               <InfiniteScroll

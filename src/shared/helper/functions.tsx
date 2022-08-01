@@ -354,32 +354,3 @@ export const getActiveStringOrListString = (
 
   return false
 }
-
-// export const getColorByActivityState = (state: string[]): { color: string; bg: string } => {
-//   if (state.includes("confirm")) return { color: "#2E41B6", bg: "rgba(46, 76, 183, 0.3)" }
-//   if (state.includes("start_running" || state.includes("in_process")))
-//     return { color: "#ED9526", bg: "rgba(237, 149, 38, 0.3)" }
-//   if (state.includes("done")) return { color: "#118A33", bg: "rgba(17, 138, 51, 0.3)" }
-//   if (state.includes("cancel")) return { color: "#FF3B30", bg: "rgba(255, 59, 48, 0.3)" }
-//   if (state.includes("draft")) return { color: "#ff8800", bg: "rgba(255, 59, 48, 0.3)" }
-//   if (state.length === 0) return { bg: "#858585", color: "#ffffff" }
-//   return { color: "", bg: "" }
-// }
-
-export const getCompoundingCarStateName = (state: string): string => {
-  if (state === "cancel") return "Đã hủy"
-  if (state === "confirm") return "Xác nhận"
-  if (state === "done") return "Hoàn thành"
-  if (state === "start_running") return "Đang di chuyển"
-  if (state === "confirm_deposit") return "Đã đặt cọc"
-  if (state === "assign") return "Đang tìm tài xế"
-  if (state === "confirm_paid") return "Đã thanh toán"
-  if (state === "customer_pay") return "Chờ thanh toán"
-  if (state === "deposit") return "Đặt cọc"
-  if (state === "draft") return "Đơn nháp"
-  if (state === "in_process") return "Đang di chuyển"
-  if (state === "stop_picking") return "Ngừng đón khách"
-  if (state === "waiting") return "Đang chờ"
-  if (state === "waiting_deposit") return "Chờ thanh toán"
-  return "Tất cả"
-}

@@ -37,7 +37,7 @@ const DriverInfo = () => {
 
   if (isInitialLoading)
     return (
-      <div className="content-container py-24">
+      <div className="content-container px-12 md:px-24 py-24">
         <div className="skeleton h-[40px] w-[140px] mb-[24px] rounded-[4px]"></div>
         <div className="skeleton h-[30px] rounded-[4px] mb-[40px]"></div>
         <div className="flex justify-between mb-[4px]">

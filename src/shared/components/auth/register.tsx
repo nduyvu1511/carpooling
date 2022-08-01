@@ -49,33 +49,35 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
     <div className="register-container">
       {!token ? (
         <div className="">
-          <OTP
-            type="register"
-            onVerifyOTP={(token) => {
-              handleGenerateToken(token)
-            }}
-          >
-            <div className="mb-[40px]">
-              <p className="text-12 leading-[15px]">
-                Bằng việc đăng kí, bạn đã đồng ý với Exxe về{" "}
-                <Link href="/terms-&-conditions">
-                  <a target="_blank" rel="noopen noreferrer" className="text-active">
-                    Điều khoản dịch vụ
-                  </a>
-                </Link>{" "}
-                &{" "}
-                <Link href="/terms-&-conditions">
-                  <a
-                    target="_blank"
-                    rel="noopen noreferrer"
-                    className="text-active text-12 leading-[15px]"
-                  >
-                    Chính sách bảo mật.
-                  </a>
-                </Link>
-              </p>
-            </div>
-          </OTP>
+          <div className="relative z-[1000]">
+            <OTP
+              type="register"
+              onVerifyOTP={(token) => {
+                handleGenerateToken(token)
+              }}
+            >
+              <div className="mb-[40px]">
+                <p className="text-12 leading-[15px]">
+                  Bằng việc đăng kí, bạn đã đồng ý với Exxe về{" "}
+                  <Link href="/terms-&-conditions">
+                    <a target="_blank" rel="noopen noreferrer" className="text-active">
+                      Điều khoản dịch vụ
+                    </a>
+                  </Link>{" "}
+                  &{" "}
+                  <Link href="/terms-&-conditions">
+                    <a
+                      target="_blank"
+                      rel="noopen noreferrer"
+                      className="text-active text-12 leading-[15px]"
+                    >
+                      Chính sách bảo mật.
+                    </a>
+                  </Link>
+                </p>
+              </div>
+            </OTP>
+          </div>
 
           <AuthBg />
         </div>

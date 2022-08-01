@@ -2,6 +2,7 @@ import {
   Alert,
   ButtonSubmit,
   CarpoolingCompoundingForm,
+  DriverInfoSummary,
   Map,
   Modal,
   RatingForm,
@@ -13,7 +14,9 @@ import {
   RidesSummaryMobile,
   RidesSummaryModal,
 } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import {
+  useBackRouter,
   useCompoundingCarCustomer,
   useCompoundingForm,
   useEffectOnce,
@@ -44,7 +47,7 @@ const RidesDetail = () => {
     type: "once",
   })
   const { compoundingCarCustomerResToCarpoolingForm } = useCompoundingForm()
-  const [showRatingForm, setShowRatingForm] = useState<boolean>(false)
+  const [showRatingModal, setShowRatingModal] = useState<boolean>(false)
   const [currentRatingUpdate, setCurrentRatingUpdate] = useState<RatingRes>()
   const { addRating, updateRating, deleteRating } = useRatingActions()
   const [currentDeleteRating, setCurrentDeleteRating] = useState<number | undefined>()
@@ -54,6 +57,15 @@ const RidesDetail = () => {
     return () => {
       mutate(undefined, false)
     }
+  })
+
+  useBackRouter({
+    cb: () => {
+      setShowCancelModal(undefined)
+      setCurrentRatingUpdate(undefined)
+      setCurrentDeleteRating(undefined)
+      toggleBodyOverflow("unset")
+    },
   })
 
   const handleAddRating = (params: CreateRatingFormParams) => {
@@ -70,7 +82,7 @@ const RidesDetail = () => {
       },
       onSuccess: () => {
         mutate()
-        setShowRatingForm(false)
+        toggleRatingModal(false)
       },
     })
   }
@@ -106,6 +118,15 @@ const RidesDetail = () => {
     })
   }
 
+  const toggleRatingModal = (status: boolean) => {
+    setShowRatingModal(status)
+    if (status) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
+
   const handleCancelCompoundingCar = (params: CancelCompoundingFormParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
     fetcherHandler({
@@ -115,9 +136,7 @@ const RidesDetail = () => {
       }),
       onSuccess: () => {
         setShowCancelModal(false)
-        router.push(
-          `/c/ride-canceled?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`
-        )
+        router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
       },
     })
   }
@@ -154,6 +173,20 @@ const RidesDetail = () => {
               moment(compoundingCar.expected_going_on_date).isBefore(Date.now()) ? (
                 <p className="mb-24 text-base text-error">Chuyến đi này đã hết hạn</p>
               ) : null}
+
+              {compoundingCar.state === "confirm_paid" ? (
+                <button
+                  className="text-sm text-primary mb-12 underline"
+                  onClick={() =>
+                    router.push(
+                      `/c/ride-sharing/checkout-success?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`
+                    )
+                  }
+                >
+                  Xem chi tiết hóa đơn
+                </button>
+              ) : null}
+
               <div className="h-[300px] mb-12">
                 <Map
                   direction={{
@@ -182,7 +215,9 @@ const RidesDetail = () => {
 
                 {compoundingCar?.rating?.compounding_car_customer_id ? (
                   <div className="">
-                    <p className="text0-sm md:text-base mb-12">Đánh giá của bạn:</p>
+                    <p className="text-base mb-24 uppercase md:normal-case font-semibold md:font-medium">
+                      Đánh giá của bạn:
+                    </p>
                     <RatingItem
                       onDelete={(id) => setCurrentDeleteRating(id)}
                       onUpdate={(params) => setCurrentRatingUpdate(params)}
@@ -194,7 +229,7 @@ const RidesDetail = () => {
                 {compoundingCar.state === "confirm_paid" ? (
                   compoundingCar.rating_state === "no_rating" &&
                   !compoundingCar?.rating?.compounding_car_customer_id ? (
-                    <ButtonSubmit title="Thêm đánh giá" onClick={() => setShowRatingForm(true)} />
+                    <ButtonSubmit title="Thêm đánh giá" onClick={() => toggleRatingModal(true)} />
                   ) : null
                 ) : compoundingCar.state === "done" ||
                   compoundingCar.state === "cancel" ||
@@ -215,8 +250,8 @@ const RidesDetail = () => {
       {compoundingCar?.compounding_car_id ? (
         <>
           <Modal
-            show={showRatingForm}
-            onClose={() => setShowRatingForm(false)}
+            show={showRatingModal}
+            onClose={() => toggleRatingModal(false)}
             heading="Thêm đánh giá"
           >
             <div className="w-full p-24">

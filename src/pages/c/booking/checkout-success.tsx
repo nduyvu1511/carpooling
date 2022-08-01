@@ -1,5 +1,5 @@
 import { RidesProgress, RidesSummary, RidesSummaryLoading } from "@/components"
-import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
+import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -23,18 +23,11 @@ const CheckoutSuccess = () => {
     }
   })
 
-  useEffect(() => {
-    router.beforePopState(({ as }) => {
-      if (as !== router.asPath) {
-        router.push("/c")
-      }
-      return true
-    })
-
-    return () => {
-      router.beforePopState(() => true)
-    }
-  }, [router])
+  useBackRouter({
+    cb: () => {
+      router.push("/c")
+    },
+  })
 
   if (compoundingCarCustomer?.state !== "deposit") return null
   return (

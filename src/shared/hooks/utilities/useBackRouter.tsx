@@ -1,0 +1,27 @@
+import { useRouter } from "next/router"
+import { useEffect } from "react"
+
+interface Props {
+  cb: (as: string) => void
+  shouldStay?: boolean
+}
+
+const useBackRouter = ({ cb, shouldStay = true }: Props) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.beforePopState(({ as }) => {
+      if (as !== router.asPath) {
+        cb(as)
+      }
+      return true
+    })
+
+    return () => {
+      router.beforePopState(() => false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router])
+}
+
+export { useBackRouter }

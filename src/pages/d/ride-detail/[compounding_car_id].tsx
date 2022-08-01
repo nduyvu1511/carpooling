@@ -17,6 +17,7 @@ import {
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
 import {
+  useBackRouter,
   useCompoundingCarDriver,
   useCompoundingForm,
   useDriverCheckout,
@@ -51,7 +52,7 @@ const ConfirmBookingCustomer = () => {
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
 
-  const [showModal, setShowModal] = useState<boolean>(true)
+  const [showModal, setShowModal] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
@@ -62,6 +63,14 @@ const ConfirmBookingCustomer = () => {
     return () => {
       mutate(undefined, false)
     }
+  })
+
+  useBackRouter({
+    cb: () => {
+      setShowAlert(undefined)
+      setShowModal(false)
+      toggleBodyOverflow("unset")
+    },
   })
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
@@ -79,7 +88,7 @@ const ConfirmBookingCustomer = () => {
     fetchDepositCompoundingCarDriver({
       compounding_car_id,
       onSuccess: () => {
-        router.push(`/d/rides/checkout?compounding_car_id=${compounding_car_id}`)
+        router.push(`/d/ride-detail/checkout?compounding_car_id=${compounding_car_id}`)
       },
       onError: (data) => {
         setDepositFailure(data)
@@ -96,7 +105,14 @@ const ConfirmBookingCustomer = () => {
     <>
       <DriverBookingLayout
         showLoading={isInitialLoading}
-        topNode={<RidesProgress state={compoundingCar?.state} />}
+        topNode={
+          <div>
+            <RidesProgress state={compoundingCar?.state} />
+            <p className="text-14 font-medium md:text-16 text-primary md:px-12 lg:px-24 mt-24">
+              Vui lòng đặt cọc 30% số tiền để hoàn tất giao dịch.
+            </p>
+          </div>
+        }
         rightNode={
           compoundingCar ? (
             <>
@@ -116,10 +132,6 @@ const ConfirmBookingCustomer = () => {
             <RidesDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
-              <p className="text-base text-primary mb-24">
-                Vui lòng đặt cọc 30% số tiền để hoàn tất giao dịch.
-              </p>
-
               <div className="h-[300px] mb-12">
                 <Map
                   direction={{
@@ -199,7 +211,9 @@ const ConfirmBookingCustomer = () => {
             setShowModal(false)
             toggleBodyOverflow("unset")
             setDepositFailure(undefined)
-            router.push(`/d/rides/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`)
+            router.push(
+              `/d/ride-detail/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`
+            )
           })
         }
       />
@@ -235,7 +249,7 @@ const ConfirmBookingCustomer = () => {
                     onClickCancel={() => setShowAlert(item.compounding_car.compounding_car_id)}
                     onClickCheckout={() => {
                       router.push(
-                        `/d/rides/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
+                        `/d/ride-detail/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
                       )
                       setShowModal(false)
                       toggleBodyOverflow("unset")

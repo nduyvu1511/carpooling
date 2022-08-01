@@ -1,8 +1,8 @@
 import { OneWayIcon } from "@/assets"
 import {
+  COMPOUNDING_STATE_NAME,
   formatMoneyVND,
   getCompoundingCarName,
-  getCompoundingCarStateName,
   getHoursName,
 } from "@/helper"
 import {
@@ -12,13 +12,19 @@ import {
   CompoundingCarRes,
 } from "@/models"
 import moment from "moment"
-import { RidesSummaryHeader } from "./ridesSummaryHeader"
+import DriverInfo from "pages/d/register"
+import { ReactNode } from "react"
+import { RidesSummaryHeader } from "./rideSummaryHeader"
 
 interface RidesSummaryProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
   type?: "bill" | "summary"
   car_account_type?: CarAccountType
   view?: "page" | "modal"
+  title?: string | ReactNode
+  desc?: string | ReactNode
+  showRules?: boolean
+  children?: ReactNode
 }
 
 const RidesSummary = ({
@@ -26,10 +32,14 @@ const RidesSummary = ({
   type = "summary",
   car_account_type = "customer",
   view = "page",
+  desc,
+  title,
+  showRules = true,
+  children = null,
 }: RidesSummaryProps) => {
   const item =
-    "flex-1 flex justify-end ml-24 text-14 md:text-16 font-medium leading-26 text-gray-color-4"
-  const title = "text-12 font-normal leading-[18px] w-[90px]"
+    "flex-1 flex justify-end ml-24 text-14 text-right md:text-16 font-medium leading-26 text-gray-color-4"
+  const titleClassName = "text-12 font-normal leading-[18px] w-[90px]"
 
   if (!rides) return null
   return (
@@ -41,10 +51,10 @@ const RidesSummary = ({
       ) : (
         <>
           <div className="p-24">
-            <RidesSummaryHeader />
+            <RidesSummaryHeader title={title} desc={desc} />
           </div>
 
-          <div className="mx-24 border border-b border-solid border-border-color"></div>
+          <div className="mx-24 border-b border-solid border-border-color"></div>
         </>
       )}
 
@@ -80,22 +90,22 @@ const RidesSummary = ({
         {type === "bill" ? (
           <>
             <div className="flex items-baseline justify-between mb-[16px]">
-              <p className={title}>Nơi đi:</p>
-              <p className={item}>{formatMoneyVND(rides?.from_address)}</p>
+              <p className={titleClassName}>Nơi đi:</p>
+              <p className={item}>{rides?.from_address}</p>
             </div>
             <div className="flex items-baseline justify-between mb-[16px]">
-              <p className={title}>Nơi đến:</p>
-              <p className={item}>{formatMoneyVND(rides?.to_address)}</p>
+              <p className={titleClassName}>Nơi đến:</p>
+              <p className={item}>{rides?.to_address}</p>
             </div>
             {(rides as CompoundingCarCustomer)?.partner ? (
               <>
                 <div className="flex items-baseline justify-between mb-[16px]">
-                  <p className={title}>Tên KH:</p>
+                  <p className={titleClassName}>Tên KH:</p>
                   <p className={item}>{(rides as CompoundingCarCustomer)?.partner.partner_name}</p>
                 </div>
 
                 <div className="flex items-baseline justify-between mb-[16px]">
-                  <p className={title}>Số điện thoại:</p>
+                  <p className={titleClassName}>Số điện thoại:</p>
                   <p className={item}>{(rides as CompoundingCarCustomer)?.partner.phone}</p>
                 </div>
               </>
@@ -103,20 +113,27 @@ const RidesSummary = ({
           </>
         ) : null}
 
-        <div className="border border-solid border-border-color my-12 md:my-24"></div>
+        <div className="border-b border-solid border-border-color my-24"></div>
+
+        {children ? (
+          <>
+            <div className="mb-24">{children}</div>
+            <div className="border-b border-solid border-border-color my-24"></div>
+          </>
+        ) : null}
 
         <div className="">
-          <p className="text-154 md:text-16 font-semibold leading-[26px] mb-[16px]">
+          <p className="text-16 font-semibold leading-[26px] uppercase md:normal-case text-primary md:text-gray-color-4 mb-[16px]">
             Thông tin lộ trình:
           </p>
 
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Loại chuyến:</p>
+            <p className={titleClassName}>Loại chuyến:</p>
             <p className={item}>{getCompoundingCarName(rides.compounding_type)}</p>
           </div>
 
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Ngày đi:</p>
+            <p className={titleClassName}>Ngày đi:</p>
             <p className={item}>
               {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
@@ -124,7 +141,7 @@ const RidesSummary = ({
 
           {rides?.expected_picking_up_date ? (
             <div className="flex items-baseline justify-between mb-[16px]">
-              <p className={title}>Ngày về:</p>
+              <p className={titleClassName}>Ngày về:</p>
               <p className={item}>
                 {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
               </p>
@@ -133,24 +150,24 @@ const RidesSummary = ({
 
           {type === "bill" ? (
             <div className="flex items-baseline justify-between mb-[16px]">
-              <p className={title}>Tình trạng:</p>
-              <p className={item}>{getCompoundingCarStateName(rides.state)}</p>
+              <p className={titleClassName}>Tình trạng:</p>
+              <p className={item}>{COMPOUNDING_STATE_NAME[rides.state]}</p>
             </div>
           ) : null}
 
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tổng lộ trình:</p>
+            <p className={titleClassName}>Tổng lộ trình:</p>
             <p className={item}>{rides?.distance.toFixed(0)} Km</p>
           </div>
 
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tổng thời gian lộ trình:</p>
+            <p className={titleClassName}>Tổng thời gian lộ trình:</p>
             <p className={item}>{getHoursName(rides.duration || 0)}</p>
           </div>
 
           {(rides as CompoundingCarRes).number_seat_in_car ? (
             <div className="flex items-baseline justify-between mb-[16px]">
-              <p className={title}>Số khách:</p>
+              <p className={titleClassName}>Số khách:</p>
               <p className={item}>
                 {(rides as CompoundingCarRes)?.number_seat_in_car}/{rides.car.number_seat} Khách
               </p>
@@ -158,21 +175,21 @@ const RidesSummary = ({
           ) : null}
 
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Loại xe:</p>
+            <p className={titleClassName}>Loại xe:</p>
             <p className={item}>{`${rides?.car.number_seat} Chỗ`}</p>
           </div>
         </div>
 
-        <div className="border border-solid border-border-color my-12 md:my-24"></div>
+        <div className="border-b border-solid border-border-color my-24"></div>
 
         <div className="flex items-center justify-between mb-[16px]">
-          <p className={title}>Thuế phí:</p>
+          <p className={titleClassName}>Thuế phí:</p>
           <p className={item}>Đã bao gồm</p>
         </div>
 
         {car_account_type === "customer" && rides?.price_unit ? (
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Giá vé/khách:</p>
+            <p className={titleClassName}>Giá vé/khách:</p>
             <p className={`font-medium text-orange-50 text-28 leading-[36px]`}>
               {formatMoneyVND(rides?.price_unit?.price_unit)}
             </p>
@@ -181,7 +198,7 @@ const RidesSummary = ({
 
         {car_account_type === "car_driver" ? (
           <div className="flex items-baseline justify-between mb-[16px]">
-            <p className={title}>Tổng giá vé:</p>
+            <p className={titleClassName}>Tổng giá vé:</p>
             <p className="font-medium text-orange-50 text-28 leading-[36px]">
               {formatMoneyVND(
                 car_account_type === "car_driver"
@@ -193,32 +210,38 @@ const RidesSummary = ({
         ) : null}
 
         <div className="flex items-baseline justify-between mb-[16px]">
-          <p className={title}>Ghi chú:</p>
+          <p className={titleClassName}>Ghi chú:</p>
           <div className={`${item} max-h-[300px] h-full overflow-y-auto`}>
             <p className={item}>{rides?.note || "Không có ghi chú nào"}</p>
           </div>
         </div>
 
-        <div className="border border-solid border-border-color my-12 md:my-24"></div>
+        {showRules ? (
+          <>
+            <div className="border-b border-solid border-border-color my-24"></div>
 
-        <div className="">
-          <p className="text-154 md:text-16 font-semibold leading-[26px] mb-[16px]">Điều khoản*:</p>
+            <div className="">
+              <p className="text-154 md:text-16 font-semibold leading-[26px] mb-[16px]">
+                Điều khoản*:
+              </p>
 
-          <ul className="ml-24 list-disc">
-            <li className="mb-12">
-              Quý khách vui lòng không hút thuốc trên xe hoặc mang các thực phẩm có mùi và ướt.
-            </li>
-            <li className="mb-12">
-              Để đảm bảo thời gian đón khách đúng giờ & tránh tắc đường, tài xế chỉ đón khách tại
-              điểm đã đặt xe hoặc điểm thay thế (Vui lòng báo trước cho tài xế trong trường hợp có
-              thay đổi địa Điểm đến khách)
-            </li>
-            <li className="mb-12">
-              Trong trường hợp khách thuê thay đổi lộ trình chuyến đi, vui lòng báo trước với tài xế
-              để chuẩn bị và chăm sóc tốt hơn.
-            </li>
-          </ul>
-        </div>
+              <ul className="ml-24 list-disc">
+                <li className="mb-12">
+                  Quý khách vui lòng không hút thuốc trên xe hoặc mang các thực phẩm có mùi và ướt.
+                </li>
+                <li className="mb-12">
+                  Để đảm bảo thời gian đón khách đúng giờ & tránh tắc đường, tài xế chỉ đón khách
+                  tại điểm đã đặt xe hoặc điểm thay thế (Vui lòng báo trước cho tài xế trong trường
+                  hợp có thay đổi địa Điểm đến khách)
+                </li>
+                <li className="mb-12">
+                  Trong trường hợp khách thuê thay đổi lộ trình chuyến đi, vui lòng báo trước với
+                  tài xế để chuẩn bị và chăm sóc tốt hơn.
+                </li>
+              </ul>
+            </div>
+          </>
+        ) : null}
       </div>
     </>
   )

@@ -301,6 +301,15 @@ const ridesApi = {
       params,
     })
   },
+
+  getDriverCompoundingCarInvoice: (params: { compounding_car_id: number }) => {
+    return axiosClient.post(
+      "/api/compounding_car_for_driver_controller/done_compounding_car_invoice",
+      {
+        params,
+      }
+    )
+  },
 }
 
 export { ridesApi }

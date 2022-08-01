@@ -4,7 +4,7 @@ import { CompoundingCarCustomer, CompoundingCarDriverRes, CompoundingCarRes } fr
 import { setShowSummaryDetail } from "@/modules"
 import { useDispatch, useSelector } from "react-redux"
 import { Drawer } from "../drawer"
-import { RidesSummary } from "./ridesSummary"
+import { RidesSummary } from "./rideSummary"
 
 const RidesSummaryModal = ({
   rides,
@@ -34,7 +34,7 @@ const RidesSummaryModal = ({
         >
           <CloseIcon />
         </button>
-        <RidesSummary view="modal" rides={rides} />
+        <RidesSummary showRules={false} view="modal" rides={rides} />
       </div>
     </Drawer>
   )

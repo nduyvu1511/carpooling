@@ -497,3 +497,43 @@ export interface CompoundingCancelCar extends CompoundingCarCustomer {
   cancel_date: string
   paid_date: string
 }
+export interface CustomerInvoice extends CompoundingCarCustomer {
+  amount_total: number
+  payment_amount: number
+  paid_date: string
+}
+export interface DriverCompoundingCarInvoiceRes {
+  compounding_car_id: number
+  compounding_car_code: string
+  compounding_car_name: string
+  car_driver_id: UserInfo
+  compounding_type: CompoundingType
+  from_province: ProvinceId
+  to_province: ProvinceId
+  expected_going_on_date: string
+  expected_picking_up_date: string
+  car: CarId
+  number_seat_in_car: number
+  is_a_day_tour: true
+  hour_of_wait_time: HourWaitTimeType
+  distance: number
+  duration: number
+  state: CompoundingCarDriverState
+  customer_invoice: CustomerInvoice[]
+  amount_total: number
+  vat: {
+    percent: number
+    total: number
+  }
+  service_charge: {
+    percent: number
+    total: number
+  }
+  pit: {
+    percent: number
+    total: number
+  }
+  down_payment: number
+  cash: number
+  amount_due: number
+}

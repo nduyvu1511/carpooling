@@ -13,6 +13,8 @@ interface MyInputDateTimeProps {
   disablePassDay?: boolean
   disableHour?: boolean
   disableDate?: boolean
+  maxMenuHeight?: number
+  isSelectSearchable?: boolean
 }
 
 const MyInputDateTime = ({
@@ -22,6 +24,8 @@ const MyInputDateTime = ({
   disablePassDay = true,
   disableHour = false,
   disableDate = false,
+  maxMenuHeight,
+  isSelectSearchable,
 }: MyInputDateTimeProps) => {
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
@@ -37,7 +41,7 @@ const MyInputDateTime = ({
   }, [])
 
   useEffect(() => {
-    // if (!date || !time) return
+    if (!date || !time) return
     onChange(`${date} ${time}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, time])
@@ -45,11 +49,12 @@ const MyInputDateTime = ({
   return (
     <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
       <div
-        className={`form-date w-[40%] sm:w-1/2 h-full bg-white-color rounded-[10px] ${
+        className={`form-date w-[40%] sm:w-1/2 h-full borer border-solid border-black-10 md:border-border-color-2 bg-white-color rounded-[5px] md:rounded-[10px] ${
           isError ? "border border-solid border-error" : ""
         }`}
       >
         <Datetime
+          input={true}
           closeOnSelect
           dateFormat="DD/MM/YYYY"
           locale="vi"
@@ -68,10 +73,18 @@ const MyInputDateTime = ({
         <Select
           menuShouldScrollIntoView={false}
           options={times}
-          value={times?.find((item) => item.value === time) || undefined}
+          value={
+            times?.find((item) => item.value === time) || {
+              label: `${time.slice(0, 5)}`,
+              value: time,
+            } ||
+            undefined
+          }
           placeholder="Chọn giờ"
           onChange={(val) => setTime(val?.value + "")}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
+          maxMenuHeight={maxMenuHeight}
+          isSearchable={isSelectSearchable}
         />
       </div>
     </div>

@@ -50,6 +50,7 @@ export const useQueryCompoundingCarDriver = ({ params }: Props): Res => {
   const filterRides = async (params: CompoundingListDriverParams) => {
     try {
       setLoading(true)
+      mutate(undefined, false)
       const res: AxiosResponse<any> = await ridesApi.getCompoundingCarListForDriver({
         ...params,
         limit: params.limit || LIMIT,

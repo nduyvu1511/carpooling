@@ -43,8 +43,8 @@ export const useDriverActivities = (): Res => {
     compounding_car_state: CompoundingCarDriverState[]
   ) => {
     try {
+      if (compounding_car_state === activityStates) return
       setLoading(true)
-      // const newStates = getNewActivityStates(compounding_car_state)
       setActivityStates(compounding_car_state)
       const res: AxiosResponse<DriverActivityRes[]> = await ridesApi.getHistoryCompoundingCarDriver(
         {

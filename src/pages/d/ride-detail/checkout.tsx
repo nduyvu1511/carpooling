@@ -51,7 +51,7 @@ const Checkout = () => {
     createPaymentForDriver({
       params: {
         acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/rides/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
         compounding_car_id,
         payment_id: Number(deposit.payment_id),
       },
@@ -64,7 +64,7 @@ const Checkout = () => {
   useEffect(() => {
     if (!compoundingCar) return
     if (compoundingCar?.state === "confirm_deposit") {
-      router.push(`/d/rides/checkout-success?compounding_car_id=${compounding_car_id}`)
+      router.push(`/d/ride-detail/checkout-success?compounding_car_id=${compounding_car_id}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])

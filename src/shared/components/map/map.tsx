@@ -1,7 +1,7 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
-import { DirectionLngLat, FromLocation, LatLng, LatlngAddress, LocationLatLng } from "@/models"
+import { DirectionLngLat, FromLocation, LatlngAddress } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
@@ -32,10 +32,6 @@ export const Map = ({
   direction,
   prevProvinceId,
 }: MapProps) => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: GOOGLE_MAP_API_KEY,
-    libraries: ["geometry", "places"],
-  })
   const dispatch = useDispatch()
   const mapRef = useRef<GoogleMap>()
   const { getCurrentLocation } = useCurrentLocation({})
@@ -67,12 +63,18 @@ export const Map = ({
     }),
     []
   )
+  const [libraries] = useState(["places", "geometry"])
   const { getProvinceIdByGooglePlace } = useAddress()
   const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>()
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    libraries: libraries as any,
+  })
 
   // const getLocationFromLngLat = ({
   //   params: { lat, lng },
@@ -256,7 +258,7 @@ export const Map = ({
               <>
                 <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
                   <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12">
-                    <LocationIcon2 className="mr-[24px]" />
+                    <LocationIcon2 className="mr-[24px] fill-error" />
                     <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
                       {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
                     </span>

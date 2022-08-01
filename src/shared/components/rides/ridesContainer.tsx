@@ -1,6 +1,7 @@
 import { FilterIcon } from "@/assets"
 import { CompoundingFilter, Drawer, Modal, RidesItem, Spinner, Tabs } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
+import { useBackRouter } from "@/hooks"
 import {
   CarAccountType,
   CompoundingCarRes,
@@ -42,6 +43,14 @@ const RidesContainer = ({
   const [showFilterMobile, setShowFilterMobile] = useState<boolean>(false)
   const [showFilterTablet, setShowFilterTablet] = useState<boolean>(false)
 
+  useBackRouter({
+    cb: () => {
+      setShowFilterTablet(false)
+      setShowFilterMobile(false)
+      toggleBodyOverflow("unset")
+    },
+  })
+
   const toggleShowFilter = ({ status, type }: { status: boolean; type: "mobile" | "tablet" }) => {
     type === "mobile" ? setShowFilterMobile(status) : setShowFilterTablet(status)
     if (status) {
@@ -76,7 +85,7 @@ const RidesContainer = ({
               </h4>
             </div>
 
-            <div className="mb-12 md:mb-24">
+            <div className="bg-white-color mx-[-12px] border-t border-border-color border-solid sm:border-none sm:mx-0 left-0 right-0 sticky z-[1000] sm:z-0 sm:bg-[transparent] sm:static top-[59px] mb-12 md:mb-24">
               <Tabs
                 list={
                   carAccountType === "car_driver"
@@ -99,13 +108,13 @@ const RidesContainer = ({
             </div>
 
             {isValidating ? (
-              <div className={gridStyle}>
+              <ul className={gridStyle}>
                 {Array.from({ length: 9 }).map((_, index) => (
                   <li key={index} className={itemStyle}>
                     <RidesItem rides={null} />
                   </li>
                 ))}
-              </div>
+              </ul>
             ) : list?.length === 0 ? (
               <div className="flex-center mt-[60px] mb-[20px]">
                 <p className="text-base">Không tìm thấy chuyến đi nào</p>
@@ -137,7 +146,7 @@ const RidesContainer = ({
 
         <button
           onClick={() => toggleShowFilter({ status: true, type: "tablet" })}
-          className="hidden md:flex xl:hidden fixed right-0 top-[200px] rounded-[5px] border border-solid border-border-color block-element flex-col flex-center p-[8px]"
+          className="hidden md:flex xl:hidden fixed right-0 top-[200px] z-[1000] rounded-[5px] border border-solid border-border-color block-element flex-col flex-center p-[8px]"
         >
           <FilterIcon className="mb-[12px]" />
           <span className="text-base font-semibold">Bộ lọc</span>

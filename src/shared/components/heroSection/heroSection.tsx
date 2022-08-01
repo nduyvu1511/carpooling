@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { CarpoolingIcon, ConvenientIcon, mapbanner, OneWayIcon, TwoWayIcon } from "@/assets"
 import { toggleBodyOverflow } from "@/helper"
+import { useBackRouter } from "@/hooks"
 import { CompoundingType } from "@/models"
 import Image from "next/image"
 import { useState } from "react"
@@ -10,6 +11,13 @@ import { BookingModal } from "../form"
 
 export const HeroSection = () => {
   const [modalType, setModalType] = useState<CompoundingType | undefined>()
+
+  useBackRouter({
+    cb: () => {
+      setModalType(undefined)
+      toggleBodyOverflow("unset")
+    },
+  })
 
   return (
     <>

@@ -3,6 +3,7 @@ import { Star } from "@/components/star"
 import { formatTimeType, toImageUrl } from "@/helper"
 import { RatingRes } from "@/models"
 import Image from "next/image"
+import Link from "next/link"
 import { VscReport } from "react-icons/vsc"
 import { TagItem } from "../tag"
 import { Tooltip } from "../tooltip"
@@ -13,6 +14,7 @@ interface RatingItemProps {
   onUpdate?: (params: RatingRes) => void
   onReport?: Function
   car_account_type?: "car_driver" | "customer"
+  showLink?: boolean
 }
 
 export const RatingItem = ({
@@ -21,6 +23,7 @@ export const RatingItem = ({
   onUpdate,
   onReport,
   car_account_type = "customer",
+  showLink = false,
 }: RatingItemProps) => {
   if (rating === null)
     return (
@@ -29,19 +32,19 @@ export const RatingItem = ({
           <div className="w-[32px] h-[32px] rounded-[50%] skeleton mr-[16px]"></div>
           <div className="mr-[16px] flex-1">
             <div className="skeleton w-[120px] h-[8px] skeleton rounded-[5px] mb-[12px]"></div>
-            <div className="skeleton w-[160px] h-[8px] skeleton rounded-[5px] mb-[12px]"></div>
-            <div className="skeleton w-[80%] h-[8px] skeleton rounded-[5px] mb-[12px]"></div>
-            <div className="skeleton w-[140px] h-[8px] skeleton rounded-[5px]"></div>
+            <div className="skeleton w-[140px] h-[14px] skeleton rounded-[5px] mb-[12px]"></div>
+            <div className="skeleton w-[90%] h-[24px] skeleton rounded-[5px] mb-[12px]"></div>
+            <div className="skeleton w-[140px] h-[12px] skeleton rounded-[5px]"></div>
           </div>
           <div className="flex">
-            <div className="skeleton w-[20px] h-[8px] rounded-[5px] mr-[16px]"></div>
-            <div className="skeleton w-[20px] h-[8px] rounded-[5px]"></div>
+            <div className="skeleton w-[30px] h-[15px] rounded-[5px] mr-[16px]"></div>
+            <div className="skeleton w-[30px] h-[15px] rounded-[5px]"></div>
           </div>
         </div>
       </div>
     )
   return (
-    <div className="flex items-start py-[20px] md:py-[24px] w-full">
+    <div className="flex items-start py-[20px] md:py-[24px] w-full overflow-hidden">
       <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden mr-[16px]">
         <Image
           src={toImageUrl(rating?.partner_id?.avatar_url.image_url || "")}
@@ -65,7 +68,7 @@ export const RatingItem = ({
                       : ""
                   }`}
                 >
-                  <Tooltip title="Sửa đánh giá" className="hidden lg:group-hover:block" />
+                  <Tooltip title="Sửa đánh giá" className="hidden lg:group-hover:block left-0" />
                   <EditIcon className="w-[18px] md:w-[24px]" />
                 </button>
                 <button
@@ -102,9 +105,16 @@ export const RatingItem = ({
 
         <p className="text-sm leading-[24px] mb-[12px]">{rating?.rating_content}</p>
 
-        <p className="text-sm text-gray-color-2">{`${rating?.duration.time_value} ${formatTimeType(
-          rating?.duration.time_type || ""
-        )} trước`}</p>
+        <div className="flex items-center justify-between flex-wrap">
+          <p className="text-sm text-gray-color-2 mr-8">{`${
+            rating?.duration.time_value
+          } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
+          {showLink ? (
+            <Link href={`/c/ride-detail/${rating.compounding_car_customer_id}`}>
+              <a className="text-xs font-medium underline text-primary">Xem chuyến đi</a>
+            </Link>
+          ) : null}
+        </div>
 
         {rating.rating_tag_ids?.length > 0 ? (
           <ul className="flex flex-wrap mt-[12px]">

@@ -1,11 +1,5 @@
-import { ActivityCarId, CompoundingCarDriverState, CompoundingType } from "./compoundingCar"
-import {
-  DistrictId,
-  FromStationPickUpParams,
-  ProvinceId,
-  StationPickUpParams,
-  WardId,
-} from "./location"
+import { ListQuery } from "./common"
+import { DistrictId, ProvinceId, WardId } from "./location"
 
 export interface loginFormParams {
   phone: string
@@ -402,11 +396,34 @@ export interface FilledDataFieldsRes {
 }
 
 export interface CarDriverId {
-  partner_name: string
-  avatar_url: string
+  avatar_url: {
+    image_id: number
+    image_url: string
+  }
   car_account_type: CarAccountType
-  gender: string
+  car_information: any[]
   date_of_birth: string
   description: string
-  car_information: any[]
+  gender: GenderType
+  partner_id: number
+  partner_name: string
+  phone: string
+  rating_number: number
+  verified_account_date: string
+  verified_car_driver_account: DriverAccountStatus
+}
+
+export interface GetTransactionListByWalletParams extends ListQuery {
+  journal_id: number
+  start_date: string
+  end_date: string
+}
+
+export interface GetDetailTransactionParams {
+  payment_id: number
+}
+
+export interface MakeWithdrawingRequestParams {
+  journal_id: number
+  amount: number
 }

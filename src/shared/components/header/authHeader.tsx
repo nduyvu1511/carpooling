@@ -3,13 +3,16 @@ import {
   AddIcon2,
   blankAvatar,
   CarpoolingIcon,
-  ConvenientIcon, LogoIcon,
+  ConvenientIcon,
+  LogoIcon,
   OneWayIcon,
-  QuestionIcon, TwoWayIcon
+  QuestionIcon,
+  TwoWayIcon,
 } from "@/assets"
 import { BookingModal, HeaderWrapper, UserNavs } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow, toImageUrl } from "@/helper"
+import { useBackRouter } from "@/hooks"
 import { CarAccountType, CompoundingType } from "@/models"
 import Image from "next/image"
 import Link from "next/link"
@@ -35,6 +38,13 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
     }
   }
 
+  useBackRouter({
+    cb: () => {
+      setBookingType(undefined)
+      toggleBodyOverflow("unset")
+    },
+  })
+
   return (
     <>
       <HeaderWrapper className={className}>
@@ -57,14 +67,25 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
 
             <div className="flex items-center">
               <button
-                onClick={() => toggleBookingModal("one_way")}
+                onClick={() =>
+                  toggleBookingModal(
+                    userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
+                  )
+                }
                 className="hidden sm:flex h-[40px] btn text-[14px] leading-[22px] bg-[#DAE2FD] font-medium text-primary rounded-[10px] p-[10px] w-fit md:hidden mr-24"
               >
                 <AddIcon2 className="mr-[10px]" />
                 Đặt chuyến mới
               </button>
 
-              <button onClick={() => toggleBookingModal("one_way")} className="sm:hidden">
+              <button
+                onClick={() =>
+                  toggleBookingModal(
+                    userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
+                  )
+                }
+                className="sm:hidden"
+              >
                 <AddIcon className="text-[#354BB1] w-[36px] h-[36px] mr-24 fill-[#354BB1]" />
               </button>
 
@@ -129,7 +150,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       `/${userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"}`
                     )
                   }
-                  className="flex items-center max-w-[200px] w-full relative group cursor-pointer"
+                  className="flex items-center max-w-[150px] w-full relative group cursor-pointer"
                 >
                   <div
                     onClick={() =>
@@ -153,7 +174,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       className="rounded-[50%]"
                     />
                   </div>
-                  <div className="ml-8 flex-1">
+                  <div className="hidden sm:block ml-8 flex-1">
                     <p className="text-sm word-wrap-anywhere line-clamp-1">
                       <span>{userInfo?.partner_name}</span>
                     </p>
@@ -176,10 +197,10 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
         onClose={() => {
           toggleBookingModal(undefined)
         }}
+        carAccountType={userInfo?.car_account_type}
       />
     </>
   )
 }
 
 export { AuthHeader }
-

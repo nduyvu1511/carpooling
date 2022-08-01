@@ -75,7 +75,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       onClose={() => dispatch(setAuthModalType(undefined))}
     >
       <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
-        <div className="flex-1 px-24 pt-[24px] z-[100] pb-[70px]">
+        <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] relative">
           {authModalType === "login" ? (
             <LoginForm
               onSubmit={(data) => handleLoginWithPassword(data)}

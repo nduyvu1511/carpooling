@@ -278,6 +278,7 @@ export const CarpoolingCompoundingForm = ({
 
           <div className="form-item">
             <InputSelect
+              isSearchable={false}
               onChange={(val) => {
                 if (getValues("car_id")?.value >= (val as any).number_seat) {
                   setValue("car_id", undefined as any)
@@ -315,6 +316,7 @@ export const CarpoolingCompoundingForm = ({
 
           <div className="form-item">
             <InputSelect
+              isSearchable={false}
               onChange={(val) => {
                 if (!val?.value) return
                 setToLocalStorage(CARPOOLING_NUMBER_SEAT, val)
