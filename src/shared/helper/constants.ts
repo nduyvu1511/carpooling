@@ -158,3 +158,12 @@ export const VNPAY_STATUS_NAME = {
 //     color: "#008F5D",
 //   },
 // }
+
+export const PAYMENT_PURPOSE_NAME = {
+  car_driver_deposit: "Đặt cọc",
+  passenger_deposit: "Đặt cọc",
+  return_car_driver_deposit: "Trả cọc",
+  return_passenger_deposit: "Trả cọc",
+  car_driver_invoice: "Hóa đơn kết chuyến",
+  car_driver_withdrawing: "Rút tiền",
+}

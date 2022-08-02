@@ -10,6 +10,7 @@ module.exports = {
         "sidebar-grid": "236px 1fr",
         "grid-330": "330px 1fr",
         "booking-grid": "1fr 450px",
+        "wallet-grid": "1fr 426px",
         "booking-grid-sm": "1fr 400px",
       },
       boxShadow: {

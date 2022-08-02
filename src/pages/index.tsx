@@ -41,20 +41,20 @@ const HomeGuest = () => {
 
       <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
-          <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
+          <h1 className="h1 text-primary text-center font-semibold">Tính năng nổi bật</h1>
 
-          <div className="container px-0 pl-12 md:pl-[16px] mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-            <PlaceSlide showLoading={isValidating} places={data || []} />
+          <div className="container mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
+            <Banner images={[feature1, feature2, feature3, feature3]} />
           </div>
         </div>
       </div>
 
       <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
-          <h1 className="h1 text-primary text-center font-semibold">Tính năng nổi bật</h1>
+          <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
 
-          <div className="container mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-            <Banner images={[feature1, feature2, feature3, feature3]} />
+          <div className="container px-0 pl-12 md:pl-[16px] mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
+            <PlaceSlide showLoading={isValidating} places={data || []} />
           </div>
         </div>
       </div>

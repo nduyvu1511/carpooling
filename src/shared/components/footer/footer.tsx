@@ -1,4 +1,4 @@
-import { bctImg, FacebookIcon, LogoIcon, YoutubeIcon } from "@/assets"
+import { bctImg, FacebookIcon, LogoIcon, TiktokIcon, YoutubeIcon } from "@/assets"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -9,25 +9,34 @@ const Footer = () => {
         <div className="grid grid-col-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[40px]">
           <div className="">
             <Link passHref href="/">
-              <LogoIcon className="mb-[24px] cursor-pointer w-[130px] h-[80px]" />
+              <LogoIcon className="mb-[24px] cursor-pointer h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
             </Link>
             <div className="">
-              <p className="text-base mb-[16px]">Kết nối với chúng tôi</p>
+              <p className="text-14 sm:text-16 font-bold mb-[16px]">Kết nối với chúng tôi</p>
 
               <p className="flex items-center">
                 <a
+                  className="mr-[20px]"
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.facebook.com/satavancom"
                 >
-                  <FacebookIcon className="mr-[20px]" />
+                  <FacebookIcon className="" />
+                </a>
+                <a
+                  className="mr-[20px]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
+                >
+                  <YoutubeIcon />
                 </a>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
                 >
-                  <YoutubeIcon />
+                  <TiktokIcon />
                 </a>
               </p>
             </div>
@@ -39,7 +48,7 @@ const Footer = () => {
               child: [
                 { label: "Hướng dẫn", path: "/guide" },
                 { label: "Chính sách & quy định", path: "/terms-&-conditions " },
-                { label: "Quy chế hoạt động", path: "/" },
+                { label: "Quy chế hoạt động", path: "/regulations" },
                 { label: "Tin tức", path: "/news" },
               ],
             },
@@ -64,7 +73,7 @@ const Footer = () => {
           ].map((item, index) => (
             <div key={index} className="">
               <p
-                className={`font-[700] mb-[16px] md:mb-[24px] leading-[26px] text-16 ${
+                className={`mb-[16px] md:mb-[24px] leading-[26px] text- font-bold ${
                   item.heading === "Về chúng tôi" ? "text-primary" : "text-gray-color-4"
                 }`}
               >
@@ -83,7 +92,7 @@ const Footer = () => {
                       <a
                         className={`leading-[26px] text-14 ${
                           item.heading === "Về chúng tôi"
-                            ? "text-primary font-semibold text-16 leading-[20px]"
+                            ? "text-primary font-semibold text-14 sm:text-16 leading-[20px]"
                             : "text-gray-color-4 font-[400]"
                         }`}
                       >
@@ -97,7 +106,7 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="my-[48px] border border-solid border-border-color"></div>
+        <div className="my-[48px] border-b border-solid border-border-color"></div>
 
         <div className="">
           <div className="mb-[16px]">
@@ -126,20 +135,22 @@ const Footer = () => {
 
           <div className="flex md:items-center md:justify-between flex-col md:flex-row">
             <div className="">
-              <p className="text-sm text-gray-color-5 mb-24 md:mb-0">
+              <p className="text-12 sm:text-14 text-border-color-2 mb-24 md:mb-0">
                 © 2022 Công ty Cổ Phần Exxe.Vn
               </p>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <Link href="/">
-                <a className="mr-24 text-sm font-normal text-gray-color-5 text-normal">
+                <a className="mr-24 text-12 sm:text-14 font-normal text-border-color-2 text-normal">
                   Privacy policy
                 </a>
               </Link>
 
               <Link href="/">
-                <a className="text-sm font-normal text-gray-color-5">Term & Conditions</a>
+                <a className="text-12 sm:text-14 font-normal text-border-color-2">
+                  Term & Conditions
+                </a>
               </Link>
             </div>
           </div>

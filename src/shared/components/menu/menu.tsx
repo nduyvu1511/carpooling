@@ -1,40 +1,54 @@
 import { CloseIcon, MailIcon, PhoneIcon } from "@/assets"
-import Link from "next/link"
 import { useRouter } from "next/router"
 
 interface MenuProps {
+  onClickLogin?: Function
+  onClickRegister?: Function
   onClose?: Function
 }
 
-export const Menu = ({ onClose }: MenuProps) => {
+export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
   const router = useRouter()
 
   return (
-    <div className={`flex-1 flex flex-col justify-between`}>
+    <div className={`flex-1 flex flex-col justify-between bg-bg-primary`}>
       <div className="flex justify-end mt-[10px] mr-[10px]">
         <button onClick={() => onClose?.()} className="ml-auto">
           <CloseIcon className="w-[26px] h-[26px]" />
         </button>
       </div>
 
-      <ul className="flex-1 flex flex-col items-center">
+      <ul className="flex-1 flex flex-col items-center mt-[40px]">
         {[
+          ["Đăng nhập", "login"],
+          ["Đăng ký", "register"],
           ["Trang chủ", "/"],
           ["Về chúng tôi", "/about-us"],
           ["Hướng dẫn", "/guide"],
           ["Tin tức", "/news"],
         ].map(([label, path]) => (
-          <li
-            className={`px-24 mb-[32px] last:mb-0 text-sm ${
-              router.pathname === path ? "text-primary font-semibold" : ""
-            }`}
-            key={path}
-          >
-            <Link href={path}>
-              <a className="text-base font-semibold" onClick={() => onClose?.()}>
+          <li className={`px-24 mb-[32px] last:mb-0 text-14`} key={path}>
+            <button
+              className=""
+              onClick={() => {
+                if (path === "login") {
+                  onClickLogin?.()
+                } else if (path === "register") {
+                  onClickRegister?.()
+                } else {
+                  router.push(path)
+                  onClose?.()
+                }
+              }}
+            >
+              <span
+                className={`text-base ${
+                  router.pathname === path ? "text-primary font-semibold" : "font-semibold"
+                }`}
+              >
                 {label}
-              </a>
-            </Link>
+              </span>
+            </button>
           </li>
         ))}
       </ul>

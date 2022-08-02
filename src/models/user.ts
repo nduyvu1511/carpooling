@@ -427,3 +427,48 @@ export interface MakeWithdrawingRequestParams {
   journal_id: number
   amount: number
 }
+
+export interface WalletUserRes {
+  partner_id: number
+  partner_name: string
+  phone: string
+  avatar_url: {
+    image_id: number
+    image_url: string
+  }
+}
+
+export interface JournalRes {
+  journal_id: number
+  journal_name: string
+  journal_type: string
+  wallet_owner: WalletUserRes
+  wallet_type: string
+  remains_amount: number
+}
+
+export type PaymentPurpose =
+  | "car_driver_deposit"
+  | "passenger_deposit"
+  | "return_car_driver_deposit"
+  | "return_passenger_deposit"
+  | "car_driver_invoice"
+  | "car_driver_withdrawing"
+
+export interface TransactionRes {
+  payment_id: number
+  date: string
+  partner_id: WalletUserRes
+  journal_id: JournalRes[]
+  amount: number
+  ref: string
+  state: string
+  is_make_withdrawing_request: boolean
+  payment_type: "inbound" | "outbound"
+  partner_type: CarAccountType
+  payment_purpose: PaymentPurpose
+  compounding_car: {
+    compounding_car_id: number
+    compounding_car_name: string
+  }
+}

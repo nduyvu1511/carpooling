@@ -1,6 +1,13 @@
 const TwoWayIcon = ({ className = "" }) => {
   return (
-    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className={className}
+      width="21"
+      height="21"
+      viewBox="0 0 21 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M19.6404 5.45508H7.1604"
         stroke="#EE542F"

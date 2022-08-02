@@ -1,3 +1,4 @@
+import { CloseIcon } from "@/assets"
 import { getTimes } from "@/helper"
 import { OptionModel } from "@/models"
 import moment from "moment"
@@ -49,7 +50,7 @@ const MyInputDateTime = ({
   return (
     <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
       <div
-        className={`form-date w-[40%] sm:w-1/2 h-full borer border-solid border-black-10 md:border-border-color-2 bg-white-color rounded-[5px] md:rounded-[10px] ${
+        className={`relative form-date w-[40%] sm:w-1/2 h-full borer border-solid border-black-10 md:border-border-color-2 bg-white-color rounded-[5px] md:rounded-[10px] ${
           isError ? "border border-solid border-error" : ""
         }`}
       >
@@ -67,6 +68,16 @@ const MyInputDateTime = ({
           value={date ? new Date(date) : ""}
           className={`${disableDate ? "pointer-events-none opacity-60" : ""} `}
         />
+        {/* <button
+          onClick={() => {
+            setTime("")
+            setDate("")
+            onChange("")
+          }}
+          className="absolute-vertical right-[10px]"
+        >
+          <CloseIcon className="w-[13px] h-[13px]" />
+        </button> */}
       </div>
       <div className="mx-[6px] md:mx-[12px]"></div>
       <div className={`form-select w-[60%] sm:w-1/2 h-full ${isError ? "form-select-error" : ""}`}>

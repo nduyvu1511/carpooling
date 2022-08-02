@@ -26,10 +26,12 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
             ) : null}
           </aside>
           <div className="block-element pt-12 md:pt-24 lg:pt-0 pb-[12px] lg:pb-24">
-            <div className="hidden lg:block mx-12 md:mx-[16px] lg:mx-24 py-[12px] md:py-[16px] lg:py-24 mb-12 lg:mb-24 border-b border-solid border-border-color">
-              {title ? <h4 className="h4 text-primary">{title}</h4> : null}
-              {desc ? <p className="text-base mt-[4px]">{desc}</p> : null}
-            </div>
+            {title || desc ? (
+              <div className="hidden lg:block mx-12 md:mx-[16px] lg:mx-24 py-[12px] md:py-[16px] lg:py-24 mb-12 lg:mb-24 border-b border-solid border-border-color">
+                {title ? <h4 className="h4 text-primary">{title}</h4> : null}
+                {desc ? <p className="text-base mt-[4px]">{desc}</p> : null}
+              </div>
+            ) : null}
             {children}
           </div>
         </div>
@@ -39,4 +41,3 @@ const AccountLayout = ({ children, desc, title }: AccountLayoutProps) => {
 }
 
 export { AccountLayout }
-

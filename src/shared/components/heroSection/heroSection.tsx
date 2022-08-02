@@ -5,8 +5,10 @@ import { useBackRouter } from "@/hooks"
 import { CompoundingType } from "@/models"
 import Image from "next/image"
 import { useState } from "react"
+import { Autoplay } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
+import { Swiper, SwiperSlide } from "swiper/react"
 import { BookingModal } from "../form"
 
 export const HeroSection = () => {
@@ -25,15 +27,40 @@ export const HeroSection = () => {
         <div className="relative w-full h-full">
           <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
-        <div className="absolute inset-0 container">
-          <div className="absolute w-1/2 top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+        <div className="absolute inset-0 p-24">
+          <div className="absolute w-[50%] xs:w-[52%] sm:w-[40%] md:w-[35%] lg:w-[50%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+            <Swiper
+              className="w-full"
+              slidesPerView={1}
+              modules={[Autoplay]}
+              autoplay={{ delay: 4000 }}
+            >
+              {[
+                ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 1 Việt Nam"],
+                ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 2 Việt Nam"],
+              ].map(([title, desc], index) => (
+                <SwiperSlide key={index}>
+                  <div className="flex items-baseline flex-col">
+                    <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+                      {title}
+                    </h1>
+                    <p className="text-text-color text-xs xs:text-sm leading-[22px] sm:text-base lg:text-xl font-medium">
+                      {desc}
+                    </p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* <div className="absolute w-1/2 top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
             <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
               Đặt xe đường dài
             </h1>
             <p className="text-text-color text-sm leading-[22px] sm:text-base lg:text-xl">
               Ứng dụng gọi xe đường dài số 1 Việt Nam
             </p>
-          </div>
+          </div> */}
         </div>
 
         <div className="absolute bottom-24 xl:bottom-[80px] left-1/2 transform -translate-x-1/2 container hidden md:block">

@@ -1,6 +1,13 @@
 const OneWayIcon = ({ className = "" }) => {
   return (
-    <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className={className}
+      width="22"
+      height="11"
+      viewBox="0 0 22 11"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M20.1404 5.77539H7.6604"
         stroke="#2E4CB7"

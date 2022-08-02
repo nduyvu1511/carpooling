@@ -71,9 +71,9 @@ export const Header = () => {
 
               <div className="flex items-center">
                 <div ref={menuRef} className="relative block lg:hidden">
-                  <button onClick={() => setShowMenu(true)}>
+                  {/* <button onClick={() => setShowMenu(true)}>
                     <UserCircleIcon className="w-[26px] h-[26px] sm:w-[33px] sm:h-[33px]" />
-                  </button>
+                  </button> */}
 
                   {showMenu ? (
                     <div className="absolute right-0 top-[calc(100%+10px)] p-8 block-element border border-solid border-border-color">
@@ -128,6 +128,7 @@ export const Header = () => {
       </HeaderWrapper>
 
       <Drawer
+        width={414}
         showCloseBtn={false}
         onClose={() => {
           setShowDrawer(false)
@@ -136,6 +137,14 @@ export const Header = () => {
         isShow={showDrawer}
       >
         <Menu
+          onClickLogin={() => {
+            dispatch(setAuthModalType("login"))
+            setShowDrawer(false)
+          }}
+          onClickRegister={() => {
+            dispatch(setAuthModalType("register"))
+            setShowDrawer(false)
+          }}
           onClose={() => {
             toggleBodyOverflow("unset")
             setShowDrawer(false)

@@ -1,5 +1,5 @@
 import { AxiosPromise, AxiosResponse } from "axios"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 interface Res<T> {
   isLoading: boolean
@@ -24,20 +24,6 @@ export const useQueryList = <T,>({ fetcher, limit = 12 }: Props): Res<T> => {
   const [isFetchingMore, setFetchingMore] = useState<boolean>(false)
   const [data, setData] = useState<T[]>()
   const [error, setError] = useState()
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        setLoading(true)
-        const res: AxiosResponse<T[]> = await fetcher
-        setLoading(false)
-        setData(res.result.data || [])
-      } catch (error) {
-        setError(error as any)
-        setLoading(false)
-      }
-    })()
-  }, [])
 
   const filter = async (fetcher: AxiosPromise, cb?: Function, err?: Function) => {
     try {

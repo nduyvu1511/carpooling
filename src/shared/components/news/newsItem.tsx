@@ -20,11 +20,11 @@ const NewsItem = () => {
 
       <div className="">
         <div className="">
-          <p className="line-clamp-1 text-xs md:text-sm lg:text-base text-gray-color-3 font-normal mb-[4px] lg:mb-[8px]">
+          <p className="line-clamp-1 text-[10px] md:text-12 lg:text-14 text-gray-color-3 font-normal mb-[4px] lg:mb-[8px]">
             1/12/2022
           </p>
           <Link href="/">
-            <a className="text-sm leading-[22px] md:text-[24px] md:text-base lg:text-xl text-primary lg:text-primary font-medium">
+            <a className="text-14 font-semibold md:font-medium leading-[22px] md:text-[20px] md:leading-[28px] text-primary line-clamp-2">
               Tham khảo bảng giá bảo hiểm xe các hãng
             </a>
           </Link>
