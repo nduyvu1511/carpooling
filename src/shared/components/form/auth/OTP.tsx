@@ -1,5 +1,6 @@
 import { OtpForm, PhoneForm } from "@/components"
 import { authentication } from "@/core/config"
+import { toggleBodyOverflow } from "@/helper"
 import { useAuth } from "@/hooks"
 import { setScreenLoading } from "@/modules"
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
@@ -20,9 +21,16 @@ interface LoginOtpProps {
   children?: ReactNode
   btnClassName?: string
   defaultPhoneNumber?: string
+  view?: "modal" | "page"
 }
 
-export const OTP = ({ onVerifyOTP, type, children, defaultPhoneNumber = "" }: LoginOtpProps) => {
+export const OTP = ({
+  onVerifyOTP,
+  type,
+  children,
+  defaultPhoneNumber = "",
+  view,
+}: LoginOtpProps) => {
   const dispatch = useDispatch()
   const { OTPVerifier, checkPhoneExist } = useAuth()
   const [expandForm, setExpandForm] = useState<boolean>(false)
@@ -54,11 +62,12 @@ export const OTP = ({ onVerifyOTP, type, children, defaultPhoneNumber = "" }: Lo
       dispatch(setScreenLoading(false))
       setPhone(phoneNumber)
       window.confirmationResult = confirmationResult
-
+      view === "modal" && toggleBodyOverflow("hidden")
       setExpandForm(true)
     } catch (error) {
       dispatch(setScreenLoading(false))
       generateRecaptcha()
+      view === "modal" && toggleBodyOverflow("hidden")
     }
   }
 
@@ -67,7 +76,11 @@ export const OTP = ({ onVerifyOTP, type, children, defaultPhoneNumber = "" }: Lo
     OTPVerifier({
       otpInput,
       handleSuccess: (token) => {
+        view === "modal" && toggleBodyOverflow("hidden")
         onVerifyOTP(token)
+      },
+      handleError: () => {
+        view === "modal" && toggleBodyOverflow("hidden")
       },
     })
   }

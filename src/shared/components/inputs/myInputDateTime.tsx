@@ -91,7 +91,7 @@ const MyInputDateTime = ({
             } ||
             undefined
           }
-          placeholder="Chọn giờ"
+          placeholder={<div>Type to search</div>}
           onChange={(val) => setTime(val?.value + "")}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
           maxMenuHeight={maxMenuHeight}

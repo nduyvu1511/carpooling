@@ -32,7 +32,7 @@ export const CreatePasswordForm = forwardRef(function Child(
   }))
 
   useEffect(() => {
-    ;(document.querySelector(".form-input") as HTMLInputElement).focus()
+    ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
   }, [])
 
   const handleToggleInputType = (name: string) => {

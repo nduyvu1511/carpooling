@@ -25,11 +25,11 @@ const useAccountNavList = () => {
           label: "Hoạt động",
           path: `/d/account/activities`,
         },
-        // {
-        //   icon: <WalletIcon className="w-[20px] h-[20px]" />,
-        //   label: "Ví cá nhân",
-        //   path: `/d/account/wallet`,
-        // },
+        {
+          icon: <WalletIcon className="w-[20px] h-[20px]" />,
+          label: "Ví cá nhân",
+          path: `/d/account/wallet`,
+        },
         {
           icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
           label: "Đánh giá",

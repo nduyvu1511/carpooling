@@ -1,4 +1,4 @@
-import { CloseIcon, MailIcon, PhoneIcon } from "@/assets"
+import { CloseIcon, LogoIcon, MailIcon, PhoneIcon } from "@/assets"
 import { useRouter } from "next/router"
 
 interface MenuProps {
@@ -12,13 +12,21 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
 
   return (
     <div className={`flex-1 flex flex-col justify-between bg-bg-primary`}>
-      <div className="flex justify-end mt-[10px] mr-[10px]">
-        <button onClick={() => onClose?.()} className="ml-auto">
+      <div className="flex justify-between p-[16px]">
+        <button
+          onClick={() => {
+            router.push("/")
+            onClose?.()
+          }}
+        >
+          <LogoIcon className="h-[40px] w-[72px]" />
+        </button>
+        <button onClick={() => onClose?.()}>
           <CloseIcon className="w-[26px] h-[26px]" />
         </button>
       </div>
 
-      <ul className="flex-1 flex flex-col items-center mt-[40px]">
+      <ul className="flex-1 flex flex-col items-center mt-24">
         {[
           ["Đăng nhập", "login"],
           ["Đăng ký", "register"],
@@ -27,7 +35,10 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
           ["Hướng dẫn", "/guide"],
           ["Tin tức", "/news"],
         ].map(([label, path]) => (
-          <li className={`px-24 mb-[32px] last:mb-0 text-14`} key={path}>
+          <li
+            className={`px-24 last:mb-0 text-14 ${path === "register" ? "mb-[64px]" : "mb-24"}`}
+            key={path}
+          >
             <button
               className=""
               onClick={() => {

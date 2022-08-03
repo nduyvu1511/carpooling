@@ -1,4 +1,4 @@
-import { LogoIcon, MenuIcon, UserCircleIcon } from "@/assets"
+import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
 import { Drawer, HeaderWrapper } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useClickOutside } from "@/hooks"
@@ -70,10 +70,10 @@ export const Header = () => {
               </div>
 
               <div className="flex items-center">
-                <div ref={menuRef} className="relative block lg:hidden">
-                  {/* <button onClick={() => setShowMenu(true)}>
-                    <UserCircleIcon className="w-[26px] h-[26px] sm:w-[33px] sm:h-[33px]" />
-                  </button> */}
+                <div ref={menuRef} className="relative block xl:hidden">
+                  <button onClick={() => setShowMenu(true)}>
+                    <UserCircleIcon className="w-[26px] h-[26px] hidden sm:block sm:w-[33px] xl:hidden sm:h-[33px]" />
+                  </button>
 
                   {showMenu ? (
                     <div className="absolute right-0 top-[calc(100%+10px)] p-8 block-element border border-solid border-border-color">
@@ -109,15 +109,22 @@ export const Header = () => {
                   <MenuIcon />
                 </button>
 
+                <div className="mr-[16px] items-center hidden xl:flex">
+                  <PhoneIcon className="mr-8 w-[15px]" />
+                  <a className="text-base font-semibold text-primary" href="tel:1900998880">
+                    1900 998 880
+                  </a>
+                </div>
+
                 <button
                   onClick={() => dispatch(setAuthModalType("login"))}
-                  className="btn-primary mr-[24px] px-[35px] py-[11px] hidden lg:block"
+                  className="btn-primary mr-[16px] leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng nhập
                 </button>
                 <button
                   onClick={() => dispatch(setAuthModalType("register"))}
-                  className="btn-primary-outline px-[35px] py-[11px] hidden lg:block"
+                  className="btn-primary-outline leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng ký
                 </button>
@@ -128,7 +135,7 @@ export const Header = () => {
       </HeaderWrapper>
 
       <Drawer
-        width={414}
+        width={400}
         showCloseBtn={false}
         onClose={() => {
           setShowDrawer(false)

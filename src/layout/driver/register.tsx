@@ -8,13 +8,14 @@ interface HeaderProps {
   onBackBtnClick?: Function
   heading: string
   rightHeaderElement?: ReactNode
+  onRightBtnClick?: Function
 }
 
 interface DriverRegisterLayout extends HeaderProps {
   children: ReactNode
 }
 
-const Header = ({ onBackBtnClick, heading, rightHeaderElement }: HeaderProps) => {
+const Header = ({ onBackBtnClick, heading, rightHeaderElement, onRightBtnClick }: HeaderProps) => {
   const height = useScrollTop()
   const router = useRouter()
 
@@ -31,7 +32,14 @@ const Header = ({ onBackBtnClick, heading, rightHeaderElement }: HeaderProps) =>
         <ArrowLeftIcon />
       </button>
       <h3 className="text-16 font-semibold flex-1 ml-[24px] text-center">{heading}</h3>
-      <div className="">{rightHeaderElement || null}</div>
+      <div className="">
+        {rightHeaderElement ||
+          (onRightBtnClick ? (
+            <button onClick={() => onRightBtnClick?.()}>
+              <ArrowLeftIcon className="transform rotate-[180deg]" />
+            </button>
+          ) : null)}
+      </div>
     </header>
   )
 }
@@ -41,6 +49,7 @@ export const DriverRegisterLayout = ({
   heading,
   onBackBtnClick,
   rightHeaderElement,
+  onRightBtnClick,
 }: DriverRegisterLayout) => {
   return (
     <DriverEmptyLayout>
@@ -49,6 +58,7 @@ export const DriverRegisterLayout = ({
           heading={heading}
           onBackBtnClick={onBackBtnClick}
           rightHeaderElement={rightHeaderElement}
+          onRightBtnClick={onRightBtnClick}
         />
         <main className="">{children}</main>
       </section>

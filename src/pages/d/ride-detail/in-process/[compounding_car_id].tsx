@@ -18,6 +18,7 @@ import {
 } from "@/components"
 import { useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
+import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -51,6 +52,7 @@ const ScheduleCompounding = () => {
   useEffectOnce(() => {
     return () => {
       mutateCompoundingCar(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
   })
 

@@ -44,17 +44,17 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi không thể sử dụng mã khuyến mãi?"
                 isActive={accordionActive === 1}
               >
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Mã khuyến mãi hợp lệ sẽ được tự động áp dụng trên ứng dụng Exxe khi bạn đặt xe.
                   Bấm vào phần “Khuyến mãi” để xem danh sách các khuyến mãi hiện có từ Exxe. Giá trị
                   của mã khuyến mãi chỉ áp dụng cho cước phí của một chuyến đi và số tiền còn thừa
                   sẽ không còn giá trị.
                 </p>
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Nếu mã khuyến mãi đã được nhập thành công, bạn sẽ thấy dấu xác nhận màu xanh lá
                   hiện ra ngay bên cạnh mã khuyến mãi và giá cước được thể hiện đã giảm giá.
                 </p>
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Nếu mã khuyến mãi vẫn không sử dụng được, hãy gửi màn hình thông báo lỗi đến chúng
                   tôi để được hỗ trợ kiểm tra.
                 </p>
@@ -65,12 +65,12 @@ const FrequentlyAskedQuestions = () => {
                 title="Làm thế nào để tạo tài khoản Exxe?"
                 isActive={accordionActive === 2}
               >
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Bạn cần có địa chỉ email và số điện thoại hợp lệ để tạo tài khoản Exxe. Sau khi
                   nhập số điện thoại, hệ thống sẽ gửi đến bạn một mã OTP thông qua tin nhắn SMS với
                   số điện thoại mà bạn vừa nhập.
                 </p>
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Nhập mã OTP và điền họ tên, email của bạn để hoàn tất đăng ký tài khoản với Exxe.
                   Sau khi điền đầy đủ thông tin, bạn đã có thể sử dụng ứng dụng Exxe để yêu cầu xe.
                 </p>
@@ -81,7 +81,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi muốn thêm/ thay đổi phương thức thanh toán?"
                 isActive={accordionActive === 3}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Quý khách có thể thanh toán cho chuyến đi bằng tiền mặt cũng như thêm các phương
                   thức thanh toán khác. Hiện tại, Exxe hỗ trợ các khách hàng cá nhân thanh toán bằng
                   2 hình thức: Tiền mặt và Thẻ.
@@ -93,7 +93,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Hướng dẫn “THÊM PHƯƠNG THỨC THANH TOÁN”"
                 isActive={accordionActive === 4}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Chọn "Thanh toán" từ menu ứng dụng. Nhấn Thêm thanh toán. Thêm phương thức thanh
                   toán bằng cách nhập thủ công thông tin thẻ hoặc thêm một loại thanh toán thay thế.
                 </p>
@@ -104,7 +104,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Làm thế nào để gửi hỗ trợ cho chuyến đi của tôi?"
                 isActive={accordionActive === 5}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Quý khách vui lòng nhấp vào mục Trợ Giúp từ menu chính bên phía trái màn hình ứng
                   dụng để tìm giải pháp cho vấn đề gặp phải hoặc gửi yêu cầu hỗ trợ đến đội ngũ hỗ
                   trợ của Exxe. Để Exxe có thể hỗ trợ nhanh chóng, xin lưu ý một số điều khi gửi yêu
@@ -121,8 +121,10 @@ const FrequentlyAskedQuestions = () => {
                 title="Cước phí chuyến đi sau khi đổi điểm đến được tính như thế nào? "
                 isActive={accordionActive === 6}
               >
-                <p className="text-base mb-24">Cước phí mới của chuyến đi sẽ được tính dựa trên:</p>
-                <ul className="text-base">
+                <p className="text-sm md:text-base mb-24">
+                  Cước phí mới của chuyến đi sẽ được tính dựa trên:
+                </p>
+                <ul className="text-sm md:text-base">
                   <li className="mb-24">- Quãng đường bạn đã đi </li>
                   <li className="mb-24">
                     - Khoảng cách từ vị trí bạn chọn đổi điếm đến tới điểm đến mới
@@ -139,7 +141,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Khuyến mãi có được áp dụng cho chuyến đi đổi điểm đến? "
                 isActive={accordionActive === 7}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Khuyến mãi vẫn được áp dụng cho chuyến đi đổi điểm đến. Nếu lộ trình ban đầu của
                   bạn đã được áp dụng khuyến mãi và lộ trình mới sau khi đổi điểm đến cũng thoả điều
                   kiện để áp dụng cùng khuyến mãi đó, Exxe sẽ giữ khuyến mãi này cho bạn. Nếu không,
@@ -153,8 +155,10 @@ const FrequentlyAskedQuestions = () => {
                 title="Tại sao tôi không đổi điểm đến được? "
                 isActive={accordionActive === 10}
               >
-                <p className="text-base mb-24">Các trường hợp không được đổi điểm đến:</p>
-                <ul className="text-base">
+                <p className="text-sm md:text-base mb-24">
+                  Các trường hợp không được đổi điểm đến:
+                </p>
+                <ul className="text-sm md:text-base">
                   <li className="mb-24">
                     - Lộ trình mới của bạn ngoài phạm vi của chuyến đi nội thành.
                   </li>
@@ -179,7 +183,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi cần xuất hóa đơn giá trị gia tăng đối với các chuyến xe Exxe tôi phải làm thế nào?"
                 isActive={accordionActive === 8}
               >
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Khi có nhu cầu xuất Hóa đơn giá trị gia tăng (GTGT) cho các chuyến xe Exxe, Quý
                   Khách có thể lựa chọn Tôi cần xuất hóa đơn ở phần Tùy chọn thêm của mỗi chuyến xe.
                   Hóa đơn được xuất khi có yêu cầu của khách hàng cho các dịch vụ với tất cả các
@@ -209,7 +213,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Exxe Corporate là gì?"
                 isActive={accordionActive === 1}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   EXXE Corporate là gói sản phẩm dành riêng cho các doanh nghiệp tùy theo nhu cầu sử
                   dụng và quản trị việc đi lại, công tác của nhân viên doanh nghiệp.
                 </p>
@@ -220,7 +224,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Sử dụng Exxe Corporate có tính phí không?"
                 isActive={accordionActive === 2}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Khi hợp tác với Exxe doanh nghiệp không cần chi trả thêm khoản chi phí phát sinh
                   nào mà ngược lại, doanh nghiệp có thể được hưởng chiết khấu trên giá cước căn cứ
                   vào giá trị sử dụng hàng tháng của doanh nghiệp.
@@ -232,7 +236,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi muốn đăng ký Exxe Corporate"
                 isActive={accordionActive === 3}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Quý khách hàng Doanh nghiệp có thể đăng ký tại{" "}
                   <a
                     className="text-primary"
@@ -251,7 +255,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Cách quản lý tài khoản của nhân viên?"
                 isActive={accordionActive === 4}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Khi ký hợp đồng với Exxe Corporate, người phụ trách của doanh nghiệp sẽ được cấp
                   một tài khoản truy cập vào Cổng quản lý Doanh nghiệp của Exxe, trong đó có thể cài
                   đặt các tài khoản của nhân viên theo yêu cầu (hạn mức, thời gian, bán kính sử dụng
@@ -271,12 +275,12 @@ const FrequentlyAskedQuestions = () => {
                 title="Chương trình Exxe Loyalty là gì?"
                 isActive={accordionActive === 1}
               >
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Exxe Loyalty là chương trình khách hàng thân thiết áp dụng cho tất cả khách hàng
                   sử dụng dịch vụ trên ứng dụng Exxe. Tôi cần làm gì để tham gia chương trình EXXE
                   Loyalty?
                 </p>
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Bạn sẽ tự động trở thành thành viên của chương trình EXXE Loyalty khi sử dụng một
                   trong các dịch vụ. Có 5 hạng thành viên (bao gồm Thành Viên, Bạc, Vàng, Bạch Kim
                   và Kim Cương). Bạn có thể đạt được các hạng thành viên khi tích lũy đủ số điểm
@@ -290,7 +294,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Điểm thưởng Exxe Point là gì?"
                 isActive={accordionActive === 2}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Điểm thưởng Exxe Point là đơn vị tích lũy được khi bạn sử dụng dịch vụ trên ứng
                   dụng Exxe .
                 </p>
@@ -301,7 +305,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Điểm thưởng Exxe Point có hết hạn không? ( có thể quy định lại )"
                 isActive={accordionActive === 3}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Số điểm thưởng bạn tích lũy được trong thời gian 3 tháng – ví dụ từ ngày 01/07 đến
                   30/09 – có thời hạn sử dụng đến hết 3 tháng tiếp theo. Theo đó, điểm thưởng có hạn
                   sử dụng lên đến 6 tháng. VD: 5,000 điểm của bạn được tích luỹ trong kì xếp hạng
@@ -314,7 +318,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi muốn đăng ký Exxe Corporate"
                 isActive={accordionActive === 4}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Quý khách hàng Doanh nghiệp có thể đăng ký tại{" "}
                   <a
                     className="text-primary"
@@ -333,7 +337,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Ưu đãi của từng hạng thành viên khác nhau như thế nào?cước phí nào?"
                 isActive={accordionActive === 5}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Với các hạng thành viên cao hơn, bạn sẽ nhận nhiều ưu đãi và đặc quyền hơn. Các ưu
                   đãi có thể bao gồm tỷ lệ tích lũy điểm thưởng, giảm giá dịch vụ trên ứng dụng
                   Exxe, dịch vụ ưu tiên và ưu đãi từ các Đối tác của Exxe
@@ -345,14 +349,14 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi có được xét nâng hạng thành viên không?"
                 isActive={accordionActive === 6}
               >
-                <p className="text-base mb-24">
+                <p className="text-sm md:text-base mb-24">
                   Một năm có 04 kỳ xếp hạng, mỗi kỳ kéo dài 03 tháng:
                 </p>
-                <li className="text-base mb-24">· Kỳ 1: Từ 1/1 đến 31/3</li>
-                <li className="text-base mb-24">· Kỳ 2: Từ 1/3 đến 30/6</li>
-                <li className="text-base mb-24">· Kỳ 3: Từ 1/7 đến 30/9</li>
-                <li className="text-base mb-24">· Kỳ 4: Từ 1/10 đến 31/12</li>
-                <p className="text-base">
+                <li className="text-sm md:text-base mb-24">· Kỳ 1: Từ 1/1 đến 31/3</li>
+                <li className="text-sm md:text-base mb-24">· Kỳ 2: Từ 1/3 đến 30/6</li>
+                <li className="text-sm md:text-base mb-24">· Kỳ 3: Từ 1/7 đến 30/9</li>
+                <li className="text-sm md:text-base mb-24">· Kỳ 4: Từ 1/10 đến 31/12</li>
+                <p className="text-sm md:text-base">
                   Khách hàng tích lũy đủ điểm của mỗi hạng thành viên trong kỳ xếp hạng hiện tại sẽ
                   được duy trì hạng thành viên trong 03 tháng tiếp theo.
                 </p>
@@ -363,7 +367,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Hạng thành viên Exxe Loyalty của tôi có thể bị giảm không?"
                 isActive={accordionActive === 7}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Miễn là bạn tích lũy đủ số điểm thưởng theo quy định của từng hạng thành viên Exxe
                   Loyalty trong giai đoạn 6 tháng đầu tiên – ví dụ giai đoạn từ ngày 01/01 đến 30/06
                   hoặc giai đoạn từ ngày 01/07 đến 31/12 – bạn sẽ được duy trì hạng thành viên của
@@ -377,7 +381,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Nếu tôi bị giảm hạng thành viên thì những ưu đãi của tôi sẽ bị ảnh hưởng như thế nào?"
                 isActive={accordionActive === 8}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Nếu bạn bị giảm hạng thành viên, bạn sẽ không còn được tận hưởng các ưu đãi dành
                   riêng cho hạng thành viên Exxe Loyalty cao hơn trước đó của bạn. Hãy sử dụng dịch
                   vụ Exxe nhiều hơn và tích lũy thật nhiều điểm thưởng EXXE Point đủ duy trì và nâng
@@ -390,7 +394,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi sẽ sử dụng điểm thưởng Exxe Point như thế nào?"
                 isActive={accordionActive === 9}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Exxe Point được dùng để đổi các voucher ưu đãi từ Exxe và các Đối tác của Exxe.
                   Tại mục Exxe Loyalty trong ứng dụng Exxe, phần “Ưu đãi của tôi” sẽ thể hiện các
                   voucher bạn có thể đổi được bằng điểm Exxe Point. Ngoài ra bạn cũng có thể xem các
@@ -403,7 +407,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi có thể xem lại các giao dịch đổi điểm Exxe Point ở đâu?"
                 isActive={accordionActive === 10}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Bạn có thể xem chi tiết các giao dịch đổi điểm tại phần “Lịch sử giao dịch” trong
                   mục Exxe Loyalty của ứng dụng Exxe.
                 </p>
@@ -414,7 +418,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Ưu đãi và quy chế tích điểm EXXE Point có bị thay đổi không?"
                 isActive={accordionActive === 11}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Có. Exxe có thể thay đổi các ưu đãi và tỷ lệ tích lũy điểm Exxe Point đối với hình
                   thức thanh toán bằng tiền mặt hoặc thẻ tín dụng / thẻ ghi nợ trên ứng dụng Exxe mà
                   không cần thông báo trước. Để biết chi tiết về Quy chế dịch vụ EXXE Loyalty, vui
@@ -424,14 +428,14 @@ const FrequentlyAskedQuestions = () => {
             </div>
           ) : null}
           {tabActive === 4 ? (
-            <div className="h-fit rounded-[5px] border border-solid border-border-color text-base">
+            <div className="h-fit rounded-[5px] border border-solid border-border-color text-sm md:text-base">
               <AccordionItem
                 titleClassName="text-14 md:text-[16px] text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Thời gian chờ đợi tối đa mà Khách hàng có thể yêu cầu là bao nhiêu? Và cách tính thời gian chờ ra sao?"
                 isActive={accordionActive === 1}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Thời gian chờ đợi tối đa trên ứng dụng hiện tại là 03 ngày. Thời gian chờ sẽ được
                   tự động tính bằng khoảng chênh lệch giữa thời điểm Tài xế kết thúc chuyến xe chiều
                   đi và bắt đầu chuyến xe chiều về. Thời gian chờ sẽ được tính cước phí chờ theo
@@ -445,7 +449,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Các loại phí cầu đường, phí đỗ xe và các chi phí phát sinh khác sẽ do ai chịu?"
                 isActive={accordionActive === 2}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Cước phí hiện tại của 1 chuyến Exxe chưa bao gồm phụ phí cầu đường, phí bến bãi,
                   phí đỗ xe cũng như các phí phát sinh khác. Vì vậy nếu có phát sinh các chi phí này
                   trong chuyến đi, Khách hàng sẽ phải thanh toán thêm cho Tài xế. Tài xế và Khách
@@ -458,7 +462,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tại sao cước phí hiển thị trên ứng dụng lúc bắt đầu đặt xe và sau khi kết thúc chuyến đi lại khác nhau? Khách hàng sẽ thanh toán theo cước phí nào?"
                 isActive={accordionActive === 3}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Cước phí hiển thị sau khi chuyến đi đã kết thúc có thể khác với cước phí khi bắt
                   đầu chuyến đi do ứng dụng đã tính toán lại thời gian chờ đợi thực tế, quãng đường
                   thực tế, thời gian di chuyển thực tế của chuyến đi. Khách hàng sẽ phải thanh toán
@@ -471,7 +475,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Ứng dụng có tự động phát chuyến “Exxe đi tỉnh” cho tài xế nếu tài xế chọn chế độ “Tự động nhận chuyến” không?"
                 isActive={accordionActive === 4}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Không. Nếu Tài xế lựa chọn bật chế độ cung cấp dịch vụ “Exxe đi tỉnh”, mỗi khi có
                   yêu cầu phù hợp, ứng dụng sẽ thông báo với Quý Tài xế chi tiết yêu cầu: điểm đón,
                   điểm đến, chuyến 1 chiều hay 2 chiều, loại xe, thời gian chờ mà khách hàng yêu
@@ -484,7 +488,7 @@ const FrequentlyAskedQuestions = () => {
                 title={`Thời gian tài xế có thể đưa ra quyết định nhận yêu cầu cho chuyến "Exxe đi tỉnh" là bao lâu?`}
                 isActive={accordionActive === 5}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Thời gian Tài xế có để đưa ra quyết định có nhận yêu cầu chuyến "Exxe đi tỉnh" hay
                   không là trong vòng 15 giây kể từ khi ứng dụng bắt đầu phát chuyến.
                 </p>
@@ -495,7 +499,7 @@ const FrequentlyAskedQuestions = () => {
                 title={`Các chuyến "Exxe đi tỉnh" có được tính cho các chương trình thưởng tài xế hiện tại không?`}
                 isActive={accordionActive === 6}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Có. Các chuyến "Exxe đi tỉnh" đều được tính đầy đủ cho các chương trình thưởng tài
                   xế EXXE Car hiện tại, bao gồm chương trình theo ngày, chương trình theo tuần và
                   chương trình tháng.
@@ -507,7 +511,7 @@ const FrequentlyAskedQuestions = () => {
                 title={`Tài xế có thể bật/ tắt dịch vụ “Exxe đi tỉnh” theo ý muốn không?`}
                 isActive={accordionActive === 7}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Có. Quý Tài xế được quyền quyết định có cung cấp dịch vụ “Exxe đi tỉnh” hay không.
                 </p>
               </AccordionItem>
@@ -517,7 +521,7 @@ const FrequentlyAskedQuestions = () => {
                 title={`Trong trường hợp đối với các chuyến đi với phương thức thanh toán bằng tiền mặt, nếu Tài xế gặp vấn đề về việc thu tiền từ khách hàng (do không liên lạc được khách hàng hoặc khách hàng từ chối thanh toán) thì EXXE  có chịu trách nhiệm hỗ trợ lại cho tài xế không?`}
                 isActive={accordionActive === 8}
               >
-                <p className="text-base">
+                <p className="text-sm md:text-base">
                   Exxe rất tiếc với vấn đề đã xảy ra với Quý Tài xế trong quá trình đồng hành cùng
                   Exxe. Đối với các chuyến đi có phụ phí hoặc cước phí thanh toán bằng tiền mặt, Quý
                   Tài xế cần thu đúng, đủ số tiền với hành khách khi kết thúc chuyến xe. Trường hợp
@@ -529,7 +533,7 @@ const FrequentlyAskedQuestions = () => {
             </div>
           ) : null}
           {tabActive === 5 ? (
-            <div className="h-fit rounded-[5px] border border-solid border-border-color text-base">
+            <div className="h-fit rounded-[5px] border border-solid border-border-color text-sm md:text-base">
               <AccordionItem
                 titleClassName="text-14 md:text-[16px] text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}

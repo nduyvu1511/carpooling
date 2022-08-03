@@ -25,6 +25,7 @@ const Banner = ({ images }: BannerProps) => {
       modules={[Navigation, Autoplay]}
       navigation={true}
       autoplay={{ delay: 5000 }}
+      loop
     >
       {images.map((src, index) => (
         <SwiperSlide className="relative aspect-[3/2]" key={index}>

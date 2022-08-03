@@ -11,7 +11,7 @@ const CreatePassword = ({ onSuccess }: CreatePasswordProps) => {
   const [firebaseToken, setFirebaseToken] = useState<string>()
 
   useEffect(() => {
-    ;(document.querySelector(".form-input") as HTMLInputElement).focus()
+    ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
   }, [])
 
   const handleCreatePassword = (params: { password: string; re_password: string }) => {

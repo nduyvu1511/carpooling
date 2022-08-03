@@ -10,6 +10,7 @@ import "swiper/css"
 import "swiper/css/navigation"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { BookingModal } from "../form"
+import Fade from "react-reveal"
 
 export const HeroSection = () => {
   const [modalType, setModalType] = useState<CompoundingType | undefined>()
@@ -34,6 +35,7 @@ export const HeroSection = () => {
               slidesPerView={1}
               modules={[Autoplay]}
               autoplay={{ delay: 4000 }}
+              loop
             >
               {[
                 ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 1 Việt Nam"],
@@ -41,12 +43,16 @@ export const HeroSection = () => {
               ].map(([title, desc], index) => (
                 <SwiperSlide key={index}>
                   <div className="flex items-baseline flex-col">
-                    <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
-                      {title}
-                    </h1>
-                    <p className="text-text-color text-xs xs:text-sm leading-[22px] sm:text-base lg:text-xl font-medium">
-                      {desc}
-                    </p>
+                    <Fade bottom delay={100}>
+                      <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+                        {title}
+                      </h1>
+                    </Fade>
+                    <Fade bottom delay={100}>
+                      <p className="text-text-color text-xs xs:text-sm leading-[22px] sm:text-base lg:text-xl font-medium">
+                        {desc}
+                      </p>
+                    </Fade>
                   </div>
                 </SwiperSlide>
               ))}

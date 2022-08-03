@@ -165,6 +165,7 @@ export interface CompoundingCarDriverRes
   compounding_car_customers: CompoundingCarCustomer[]
   state: CompoundingCarDriverState
   rating_ids: RatingRes[]
+  car_driver_deposit_percentage: number
 }
 export interface PriceUnit {
   name: string
@@ -216,6 +217,7 @@ export interface CompoundingCarCustomer {
   rating_state: RatingState
   rating?: RatingRes
   second_waiting_remains: number
+  customer_deposit_percentage: number
 }
 export interface PartnerCompoundingCar {
   partner_id: number

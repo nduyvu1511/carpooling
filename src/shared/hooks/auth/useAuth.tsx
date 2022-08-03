@@ -99,19 +99,13 @@ export const useAuth = (): UseAuthRes => {
     cb: (t: string) => void,
     onErr?: Function
   ) => {
-    try {
-      const res: AxiosResponse<{ token: string }> = await userApi.getTokenFromFirebase({
+    fetcherHandler({
+      fetcher: userApi.getTokenFromFirebase({
         firebase_access_token,
-      })
-      if (res?.result?.code !== 200) {
-        dispatch(notify(res?.result?.message || "Có lỗi xảy ra, vui lòng thử lại!", "error"))
-        onErr && onErr()
-        return
-      }
-      cb(res?.result?.data?.token || "")
-    } catch (error) {
-      onErr && onErr()
-    }
+      }),
+      onSuccess: ({ token }) => cb(token),
+      onError: () => onErr?.(),
+    })
   }
 
   const register = async (_params: UseParams<RegisterParams, UserInfo>) => {
@@ -183,6 +177,7 @@ export const useAuth = (): UseAuthRes => {
           position: "top-center",
         })
       )
+      handleError && handleError()
     }
   }
 

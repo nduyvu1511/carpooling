@@ -441,7 +441,7 @@ export interface WalletUserRes {
 export interface JournalRes {
   journal_id: number
   journal_name: string
-  journal_type: string
+  journal_type: "cash" | "bank"
   wallet_owner: WalletUserRes
   wallet_type: string
   remains_amount: number
@@ -472,3 +472,10 @@ export interface TransactionRes {
     compounding_car_name: string
   }
 }
+
+export interface JournalFilterDate {
+  start_date: string
+  end_date: string
+}
+
+export type JournalFilterDateOptional = Partial<JournalFilterDate>

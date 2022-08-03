@@ -1,5 +1,4 @@
 import { CloseIcon } from "@/assets"
-import { TransitionDirection } from "@/models"
 import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -12,6 +11,7 @@ interface DrawerProps {
   direction?: "left" | "bottom" | "right" | "top"
   transitionDirection?: "bottom" | "right"
   headerChild?: ReactNode
+  className?: string
 }
 
 const Drawer = ({
@@ -23,6 +23,7 @@ const Drawer = ({
   direction = "right",
   headerChild = null,
   transitionDirection = "right",
+  className = "",
 }: DrawerProps) => {
   return (
     <>
@@ -42,7 +43,7 @@ const Drawer = ({
               : direction === "bottom"
               ? "inset-0"
               : "top-0 left-0 right-0"
-          }`}
+          } ${className}`}
         >
           {headerChild || showCloseBtn ? (
             <div className="flex items-center justify-between p-12">

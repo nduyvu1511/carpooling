@@ -61,8 +61,10 @@ const DriverInfo = () => {
       <div className="px-[16px] sm:px-0 min-h-screen flex flex-col">
         <div className="content-container flex-1 relative py-24">
           <div className="">
-            <LogoIcon className="mb-24" />
-            <p className="text-16 font-medium leading-26">
+            <button onClick={() => router.push("/d")}>
+              <LogoIcon className="mb-24 h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
+            </button>
+            <p className="text-base">
               Vui lòng hoàn thành toàn bộ thông tin sau đăng ký để bắt đầu lái xe
             </p>
           </div>
@@ -83,14 +85,13 @@ const DriverInfo = () => {
                       <li
                         onClick={() => router.push(`/d/register/${child.route}`)}
                         key={index}
-                        className="flex items-center justify-between cursor-pointer py-[14px] text-16 font-semibold leading-[22px]"
+                        className="flex items-center justify-between cursor-pointer py-[14px] text-14 md:text-16 font-semibold leading-[22px]"
                       >
                         <p className="text-gray-color-4">{child.label}</p>
                         <p
-                          className={`flex items-center text-warning ${
+                          className={`flex whitespace-nowrap items-center text-warning ${
                             data?.[child.name] ? "text-success" : ""
-                          }
-                        } ${!child.isRequired ? "driver__body-list-item-noti-no-required" : ""}`}
+                          } ${!child.isRequired ? "driver__body-list-item-noti-no-required" : ""}`}
                         >
                           {data?.[child.name]
                             ? "Hoàn thành"

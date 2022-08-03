@@ -6,7 +6,8 @@ import { useRef, useState } from "react"
 import { MdOutlineLocationOff } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
-import { LocationHistoryItem } from "../location"
+import { Spinner } from "../loading"
+import { LocationHistoryItem, LocationItem } from "../location"
 
 interface MapSearchProps {
   onSelect?: (val: FromLocation) => void
@@ -36,6 +37,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
   const getLocationFromSearchResult = (location: google.maps.places.AutocompletePrediction) => {
     getGeocode({ address: location.description }).then((results) => {
       const { lat, lng } = getLatLng(results?.[0])
+      console.log(location.description)
       const province_id = getProvinceIdByGooglePlace(location.description)
       if (!province_id) return
 
@@ -69,58 +71,56 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
       </div>
 
       {showSearchResult ? (
-        <div className="block-element max-h-[300px] h-full flex-col flex border border-solid border-border-color rounded-[5px]">
+        <div className="block-element max-h-[300px] flex-col flex  rounded-[5px]">
           {searchValues ? (
-            <div className="location__result">
+            <div className="flex-1 flex flex-col">
               {loading ? (
-                <div className="px-12 py-12">
-                  {/* {Array.from({ length: 4 }).map((_, index) => (
-                    <LocationItem key={index} location={null as any} isLoading={true} />
-                  ))} */}
-                </div>
-              ) : null}
+                <Spinner className="py-80px" size={40} />
+              ) : (
+                <>
+                  <ul className="overflow-y-auto">
+                    {status === "OK" &&
+                      locations?.length > 0 &&
+                      locations.map((item, index) => (
+                        <li key={index} className="">
+                          <LocationItem
+                            location={item}
+                            onSelect={(val) => getLocationFromSearchResult(val)}
+                          />
+                        </li>
+                      ))}
+                  </ul>
 
-              <ul className="overflow-y-auto">
-                {status === "OK" &&
-                  locations?.length > 0 &&
-                  locations.map((item, index) => (
-                    <li key={index} className="">
-                      {/* <LocationItem
-                        location={item}
-                        onSelect={(val) => getLocationFromSearchResult(val)}
-                      /> */}
-                    </li>
-                  ))}
-              </ul>
-
-              {status && status !== "OK" ? (
-                <div className="px-12 py-[24px]">
-                  <p className="flex-center mb-[12px] text-sm">
-                    <MdOutlineLocationOff className="mr-[8px] text-16" />
-                    Không tìm được vị trí
-                  </p>
-                  <p className="text-sm leading-[20px] font-normal">
-                    Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của bạn
-                  </p>
-                </div>
-              ) : null}
+                  {status && status !== "OK" ? (
+                    <div className="px-12 py-[24px] flex-1 flex-col flex-center">
+                      <p className="flex-center mb-[12px] text-sm">
+                        <MdOutlineLocationOff className="mr-[8px] text-base" />
+                        Không tìm được vị trí
+                      </p>
+                      <p className="text-sm leading-[20px]">
+                        Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
+                        bạn
+                      </p>
+                    </div>
+                  ) : null}
+                </>
+              )}
             </div>
-          ) : (
-            <ul className="overflow-y-auto flex-1 scrollbar-hide">
-              {searchHistoryList?.length > 0 &&
-                searchHistoryList.map((item, index) => (
-                  <li key={index}>
-                    <LocationHistoryItem
-                      location={item}
-                      onSelect={(location) => {
-                        onSelect && onSelect(location)
-                        setShowSearchResult(false)
-                      }}
-                    />
-                  </li>
-                ))}
+          ) : searchHistoryList?.length > 0 ? (
+            <ul className="overflow-y-auto flex-1 scrollbar-hide border border-solid border-border-color">
+              {searchHistoryList.map((item, index) => (
+                <li key={index}>
+                  <LocationHistoryItem
+                    location={item}
+                    onSelect={(location) => {
+                      onSelect && onSelect(location)
+                      setShowSearchResult(false)
+                    }}
+                  />
+                </li>
+              ))}
             </ul>
-          )}
+          ) : null}
         </div>
       ) : null}
     </div>

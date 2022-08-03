@@ -1,4 +1,5 @@
 import { AccountTypeForm, OTP } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import { useAuth } from "@/hooks"
 import { CarAccountType } from "@/models"
 import { setAuthModalType, setProfile, setScreenLoading } from "@/modules"
@@ -19,14 +20,16 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
   const [token, setToken] = useState<string>("")
 
   const handleGenerateToken = async (firebase_access_token: string) => {
+    toggleBodyOverflow("hidden")
     getTokenFromFirebaseAccessToken(firebase_access_token, (token) => {
       setToken(token)
+      toggleBodyOverflow("hidden")
     })
   }
 
   const handleRegister = async (car_account_type: CarAccountType) => {
     if (!token) return
-    dispatch(setScreenLoading(true))
+    // dispatch(setScreenLoading(true))
     register({
       params: { car_account_type, token },
       onSuccess: (userInfo) => {
@@ -51,6 +54,7 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
         <div className="">
           <div className="relative z-[1000]">
             <OTP
+              view="modal"
               type="register"
               onVerifyOTP={(token) => {
                 handleGenerateToken(token)
@@ -59,13 +63,23 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
               <div className="mb-[40px]">
                 <p className="text-12 leading-[15px]">
                   Bằng việc đăng kí, bạn đã đồng ý với Exxe về{" "}
-                  <Link passHref target="_blank" rel="noopen noreferrer" href="/terms-&-conditions">
-                    <span className="text-active">Điều khoản dịch vụ</span>
-                  </Link>{" "}
+                  <a
+                    target="_blank"
+                    rel="noopen noreferrer"
+                    href="/terms-&-conditions"
+                    className="cursor-pointer text-active"
+                  >
+                    Điều khoản dịch vụ
+                  </a>{" "}
                   &{" "}
-                  <Link passHref target="_blank" rel="noopen noreferrer" href="/terms-&-conditions">
-                    <span className="text-active text-12 leading-[15px]">Chính sách bảo mật.</span>
-                  </Link>
+                  <a
+                    target="_blank"
+                    rel="noopen noreferrer"
+                    href="/terms-&-conditions"
+                    className="cursor-pointer text-active text-12 leading-[15px]"
+                  >
+                    Chính sách bảo mật.
+                  </a>
                 </p>
               </div>
             </OTP>

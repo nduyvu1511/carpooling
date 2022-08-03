@@ -77,7 +77,7 @@ const userApi = {
   },
 
   getTokenFromFirebase: (params: Auth) => {
-    return axiosClient.post("/api/get_token_from_firebase", {
+    return axiosClient.post("/api/user_information_controller/auth", {
       params,
     })
   },
@@ -223,7 +223,7 @@ const userApi = {
     })
   },
 
-  getWalletList: (params: ListQuery) => {
+  getJournalList: (params: ListQuery) => {
     return axiosClient.post("/api/wallet_controller/get_list_journal", {
       params,
     })

@@ -76,7 +76,7 @@ export const CompoundingFilter = ({
               handleChange({ from_expected_going_on_date: val + "" })
             }}
             value={compoundingFormValues?.from_expected_going_on_date || ""}
-            inputProps={{ placeholder: "Ngày đi" }}
+            placeholder="Ngày đi"
           />
         </div>
 
@@ -90,7 +90,7 @@ export const CompoundingFilter = ({
               handleChange({ to_expected_going_on_date: val + "" })
             }}
             value={compoundingFormValues?.to_expected_going_on_date || ""}
-            inputProps={{ placeholder: "Ngày về" }}
+            placeholder="Ngày về"
           />
         </div>
 

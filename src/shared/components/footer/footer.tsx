@@ -1,4 +1,4 @@
-import { bctImg, FacebookIcon, LogoIcon, TiktokIcon, YoutubeIcon } from "@/assets"
+import { bctImg, FacebookIcon, LogoIcon, paymentMehods, TiktokIcon, YoutubeIcon } from "@/assets"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -119,16 +119,16 @@ const Footer = () => {
             <div className="flex-[2] mb-[16px] md:mb-0">
               <div className="">
                 <p className="text-sm">
-                  Địa chỉ: Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM. Số đăng ký
-                  kinh doanh: 0109832983. Ngày cấp: 25/11/2021. Nơi cấp: Sở Kế hoạch và đầu tư Hà
-                  Nội
+                  Địa chỉ: Số 2 đường Hoàng Thế Thiện, Phường An Lợi Đông, Thành phố Thủ Đức, Thành
+                  phố Hồ Chí Minh, Việt Nam. Số đăng ký kinh doanh: 0317412411. Ngày cấp:
+                  01/08/2022. Nơi cấp: Sở Kế hoạch và đầu tư Thành phố Hồ Chí Minh
                 </p>
               </div>
             </div>
 
             <div className="flex-1">
               <div className="relative w-[211px] h-[80px] ml-auto">
-                <Image src={bctImg} alt="" layout="fill" objectFit="cover" />
+                <Image src={paymentMehods} alt="" layout="fill" objectFit="contain" />
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ const Footer = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <Link href="/">
                 <a className="mr-24 text-12 sm:text-14 font-normal text-border-color-2 text-normal">
                   Privacy policy
@@ -152,7 +152,7 @@ const Footer = () => {
                   Term & Conditions
                 </a>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ const useBackRouter = ({ cb, shouldStay = true }: Props) => {
     })
 
     return () => {
-      router.beforePopState(() => false)
+      router.beforePopState(() => true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])

@@ -1,4 +1,4 @@
-import { Footer, Header } from "@/components"
+import { ButtonCall, Footer, Header } from "@/components"
 import { LayoutProps } from "@/models"
 
 const GuestLayout = ({ children }: LayoutProps) => {
@@ -7,6 +7,7 @@ const GuestLayout = ({ children }: LayoutProps) => {
       <Header />
       <main>{children}</main>
       <Footer />
+      <ButtonCall />
     </>
   )
 }

@@ -2,7 +2,6 @@ import { RidesProgress, RidesSummary, RidesSummaryLoading } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 const CheckoutSuccess = () => {
   const router = useRouter()
@@ -29,7 +28,6 @@ const CheckoutSuccess = () => {
     },
   })
 
-  if (compoundingCarCustomer?.state !== "deposit") return null
   return (
     <div className="max-w-[684px] w-full mx-auto sm:py-24">
       {isValidating ? (

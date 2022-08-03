@@ -1,4 +1,13 @@
-import { feature1, feature2, feature3 } from "@/assets"
+import {
+  feature1,
+  feature2,
+  feature3,
+  feature4,
+  feature5,
+  feature6,
+  feature7,
+  feature8,
+} from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide } from "@/components"
 import { RootState } from "@/core/store"
 import { GuestLayout } from "@/layout"
@@ -44,7 +53,19 @@ const HomeGuest = () => {
           <h1 className="h1 text-primary text-center font-semibold">Tính năng nổi bật</h1>
 
           <div className="container mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-            <Banner images={[feature1, feature2, feature3, feature3]} />
+            <Banner
+              images={[
+                feature1,
+                feature2,
+                feature3,
+                feature4,
+                feature5,
+                feature5,
+                feature6,
+                feature7,
+                feature8,
+              ]}
+            />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { guideBg } from "@/assets"
-import { Footer, Header } from "@/components"
+import { ButtonCall, Footer, Header } from "@/components"
 import Image from "next/image"
 import { ReactNode } from "react"
 
@@ -40,6 +40,9 @@ export const StaticLayout = ({
           {children}
         </div>
       </main>
+
+      <ButtonCall />
+
       <Footer />
     </>
   )

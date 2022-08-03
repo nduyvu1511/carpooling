@@ -57,20 +57,18 @@ const BookingModal = ({
         subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7)
     }
 
-    console.log(data)
-
-    // createCompoundingCar({
-    //   params: data,
-    //   onSuccess: (data) => {
-    //     onClose()
-    //     router.push({
-    //       pathname: "/c/booking/confirm",
-    //       query: {
-    //         compounding_car_customer_id: data.compounding_car_customer_id,
-    //       },
-    //     })
-    //   },
-    // })
+    createCompoundingCar({
+      params: data,
+      onSuccess: (data) => {
+        onClose()
+        router.push({
+          pathname: "/c/booking/confirm",
+          query: {
+            compounding_car_customer_id: data.compounding_car_customer_id,
+          },
+        })
+      },
+    })
   }
 
   return (
@@ -103,7 +101,7 @@ const BookingModal = ({
         ) : null
       }
     >
-      <div className="flex-1 w-full px-[16px] md:px-24 py-12 mb-[64px] md:mb-[40px]">
+      <div className="flex-1 w-full px-[16px] overflow-auto md:px-24 py-12 mb-[64px] md:mb-[40px]">
         {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}

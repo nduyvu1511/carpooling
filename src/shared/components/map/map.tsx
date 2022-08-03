@@ -76,31 +76,6 @@ export const Map = ({
     libraries: libraries as any,
   })
 
-  // const getLocationFromLngLat = ({
-  //   params: { lat, lng },
-  //   onSuccess,
-  //   onErr,
-  // }: {
-  //   params: LatLng
-  //   onSuccess: (params: LocationLatLng) => void
-  //   onErr?: Function
-  // }) => {
-  //   Geocode.fromLatLng(lat + "", lng + "", process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY)
-  //     .then(
-  //       (response) => {
-  //         const address = response?.results[0]?.formatted_address
-  //         onSuccess({ address, lat, lng })
-  //       },
-  //       (error) => {
-  //         console.error(error)
-  //       }
-  //     )
-  //     .catch((err) => {
-  //       onErr && onErr()
-  //       console.log(err)
-  //     })
-  // }
-
   const getAddressFromLngLat = ({ lng, lat }: { lng: number; lat: number }) => {
     try {
       setCenterMapLoading(true)
@@ -120,6 +95,7 @@ export const Map = ({
   }
 
   useEffect(() => {
+    if (viewOnly) return
     if (defaultLocation?.province_id && defaultLocation?.lat) {
       setCurrentAddress(defaultLocation)
       setCurrenLocation(defaultLocation)

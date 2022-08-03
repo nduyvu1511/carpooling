@@ -109,7 +109,7 @@ const ConfirmBookingCustomer = () => {
           <div>
             <RidesProgress state={compoundingCar?.state} />
             <p className="text-14 font-medium md:text-16 text-primary md:px-12 lg:px-24 mt-24">
-              Vui lòng đặt cọc 30% số tiền để hoàn tất giao dịch.
+              Vui lòng đặt cọc {compoundingCar?.car_driver_deposit_percentage}% số tiền để hoàn tất giao dịch.
             </p>
           </div>
         }

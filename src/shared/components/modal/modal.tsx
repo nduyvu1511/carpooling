@@ -32,7 +32,7 @@ const Modal = ({
 }: ModalProps) => {
   return (
     <>
-      <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={300} in={show}>
+      <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={500} in={show}>
         <div
           className={`flex flex-col w-screen h-full ${
             fullScreen ? "" : "sm:max-w-[610px] sm:max-h-[650px] sm:rounded-[30px]"

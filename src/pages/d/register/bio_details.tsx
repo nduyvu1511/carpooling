@@ -30,7 +30,7 @@ const BioDetail = () => {
       },
       onSuccess: (userInfo) => {
         dispatch(setProfile(userInfo))
-        router.push("/d/register")
+        router.push("/d/register/identity_card_details")
       },
       onError: () => {
         dispatch(notify("Có lỗi xảy ra, vui lòng thử lại", "error"))

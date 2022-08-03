@@ -1,3 +1,4 @@
+import { CalendarIcon } from "@/assets"
 import moment from "moment"
 import { HTMLProps } from "react"
 import Datetime from "react-datetime"
@@ -9,6 +10,7 @@ interface InputDateProps {
   defaultValue?: string
   inputProps?: HTMLProps<HTMLInputElement>
   value?: string
+  placeholder?: string
 }
 
 const InputDate = ({
@@ -17,6 +19,7 @@ const InputDate = ({
   defaultValue,
   inputProps,
   value,
+  placeholder,
 }: InputDateProps) => {
   const yesterday = moment().subtract(1, "day")
   const disablePastDt = (current: any) => {
@@ -24,21 +27,26 @@ const InputDate = ({
   }
 
   return (
-    <Datetime
-      closeOnSelect
-      dateFormat="DD/MM/YYYY"
-      locale="vi"
-      isValidDate={disablePassDay ? disablePastDt : undefined}
-      onChange={(e: any) => {
-        const val = moment(e._d).format("YYYY-MM-DD")
-        onChange?.(val)
-      }}
-      timeFormat={false}
-      inputProps={{ ...inputProps }}
-      initialValue={defaultValue}
-      value={value ? new Date(value) : ""}
-      renderInput={(props) => <input {...props} value={value ? props.value : ""} />}
-    />
+    <div className="relative h-full">
+      <Datetime
+        closeOnSelect
+        dateFormat="DD/MM/YYYY"
+        locale="vi"
+        isValidDate={disablePassDay ? disablePastDt : undefined}
+        onChange={(e: any) => {
+          const val = moment(e._d).format("YYYY-MM-DD")
+          onChange?.(val)
+        }}
+        timeFormat={false}
+        inputProps={{ ...inputProps }}
+        initialValue={defaultValue}
+        value={value ? new Date(value) : ""}
+        renderInput={(props) => (
+          <input {...props} placeholder={placeholder} value={value ? props.value : ""} />
+        )}
+      />
+      <CalendarIcon className="absolute-vertical right-[10px] text-gray-color-5 pointer-events-none" />
+    </div>
   )
 }
 

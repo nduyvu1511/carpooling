@@ -71,7 +71,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
             <li
               onClick={() => router.push(path)}
               key={index}
-              className={`cursor-pointer flex items-center text-sm font-semibold px-[18px] py-[14px] border-b border-solid border-border-color ${
+              className={`cursor-pointer flex items-start text-sm font-semibold px-[18px] py-[14px] border-b border-solid border-border-color ${
                 activePath === path ? "bg-primary text-white-color rounded-[5px]" : "text-primary"
               }`}
             >

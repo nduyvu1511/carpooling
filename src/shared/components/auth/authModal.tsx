@@ -1,6 +1,7 @@
 import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } from "@/components"
 import { RootState } from "@/core/store"
-import { useAuth, useProfile } from "@/hooks"
+import { toggleBodyOverflow } from "@/helper"
+import { useAuth, useEffectOnce, useProfile } from "@/hooks"
 import { AuthModalType, loginFormParams, UpdateUserInfoParams, UserInfoFormParams } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
@@ -17,10 +18,10 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   const handleGetUserInfo = () => {
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
-      dispatch(setAuthModalType(undefined))
+      router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
       setTimeout(() => {
-        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-      }, 1000)
+        dispatch(setAuthModalType(undefined))
+      }, 250)
     })
   }
 
@@ -45,10 +46,10 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       onSuccess: (userInfo) => {
         dispatch(setProfile(userInfo))
         dispatch(notify("Cập nhật thông tin thành công!", "success"))
-        dispatch(setAuthModalType(undefined))
         setTimeout(() => {
-          router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-        }, 1000)
+          dispatch(setAuthModalType(undefined))
+        }, 250)
+        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
       },
     })
   }
@@ -68,6 +69,10 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     return "Đăng nhập"
   }
 
+  useEffectOnce(() => {
+    toggleBodyOverflow("unset")
+  })
+
   return (
     <Modal
       show={!!show}
@@ -75,7 +80,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       onClose={() => dispatch(setAuthModalType(undefined))}
     >
       <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
-        <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] relative">
+        <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] ">
           {authModalType === "login" ? (
             <LoginForm
               onSubmit={(data) => handleLoginWithPassword(data)}
@@ -87,11 +92,12 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
           ) : null}
 
           {authModalType === "resetPassword" ? (
-            <ResetPassword onSuccess={() => dispatch(setAuthModalType("login"))} />
+            <ResetPassword view="modal" onSuccess={() => dispatch(setAuthModalType("login"))} />
           ) : null}
 
           {authModalType === "sms" ? (
             <OTP
+              view="modal"
               type="login"
               onVerifyOTP={(token) => {
                 handleLoginWithOTP(token)
@@ -108,7 +114,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
           ) : null}
 
           {authModalType === "updateProfile" ? (
-            <UserInfoForm onSubmit={(data) => handleUpdateUserInfo(data)} />
+            <UserInfoForm view="modal" onSubmit={(data) => handleUpdateUserInfo(data)} />
           ) : null}
         </div>
         {authModalType !== "updateProfile" && authModalType !== "register" ? <AuthBg /> : null}

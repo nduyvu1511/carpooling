@@ -1,18 +1,20 @@
 import { CreatePasswordForm, OTP } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import { usePassword } from "@/hooks"
 import { useEffect, useState } from "react"
 
 interface ResetPasswordProps {
   onSuccess?: Function
   defaultPhoneNumber?: string
+  view?: "modal" | "page"
 }
 
-const ResetPassword = ({ onSuccess, defaultPhoneNumber }: ResetPasswordProps) => {
+const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordProps) => {
   const { resetPassword } = usePassword()
   const [firebaseToken, setFirebaseToken] = useState<string>()
 
   useEffect(() => {
-    ;(document?.querySelector(".form-input") as HTMLInputElement).focus()
+    ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
   }, [])
 
   const handleResetPassword = (params: { password: string; re_password: string }) => {
@@ -20,7 +22,11 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber }: ResetPasswordProps) =>
     resetPassword({
       params: { ...params, firebase_access_token: firebaseToken },
       onSuccess: () => {
+        view === "modal" && toggleBodyOverflow("hidden")
         onSuccess?.()
+      },
+      onError: () => {
+        view === "modal" && toggleBodyOverflow("hidden")
       },
     })
   }
@@ -30,10 +36,10 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber }: ResetPasswordProps) =>
       <div className="">
         {!firebaseToken ? (
           <OTP
+            view={view}
             defaultPhoneNumber={defaultPhoneNumber}
             type="resetPassword"
             onVerifyOTP={(token) => {
-              console.log("firebase token: ", token)
               setFirebaseToken(token)
             }}
           />

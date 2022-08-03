@@ -40,8 +40,10 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
 
   useBackRouter({
     cb: () => {
-      setBookingType(undefined)
-      toggleBodyOverflow("unset")
+      if (bookingType) {
+        setBookingType(undefined)
+        toggleBodyOverflow("unset")
+      }
     },
   })
 

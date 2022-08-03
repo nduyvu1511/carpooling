@@ -22,9 +22,9 @@ export const OtpSecondsRemains = ({ onChange }: Props) => {
     <div className="flex justify-center">
       {secondsExpire === 0 ? (
         <>
-          <p className="text-[12px]">Bạn không nhận được mã?</p>
+          <p className="text-xs">Bạn không nhận được mã?</p>
           <span
-            className="text-[12px] ml-[2px] font-medium text-primary cursor-pointer"
+            className="text-primary cursor-pointer text-xs ml-[2px] font-medium"
             onClick={() => {
               setSecondsExprire(RESEND_OTP_TIMEOUT)
               onChange && onChange()
@@ -34,9 +34,8 @@ export const OtpSecondsRemains = ({ onChange }: Props) => {
           </span>
         </>
       ) : (
-        <p className="text-center text-sm">
-          Vui lòng chờ{" "}
-          <span className="w-[20px] font-medium relative inline-block">{secondsExpire}</span> giây
+        <p className="text-center text-xs">
+          Vui lòng chờ <span className="w-[16px] relative inline-block">{secondsExpire}</span> giây
           để gửi lại
         </p>
       )}
