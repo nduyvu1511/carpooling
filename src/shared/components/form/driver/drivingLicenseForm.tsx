@@ -158,7 +158,6 @@ const DrivingLicenseForm = ({
         </div>
       ))}
 
-      {view === "modal" ? <div className="mb-[80px]"></div> : null}
       <div className="flex-center content-container fixed bottom-0 left-0 right-0">
         <ButtonSubmit
           className="form-upload-btn"

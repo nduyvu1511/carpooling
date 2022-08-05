@@ -4,9 +4,9 @@ import { CompoundingCarCustomer, CompoundingCarDriverRes, CompoundingCarRes } fr
 import { setShowSummaryDetail } from "@/modules"
 import { useDispatch, useSelector } from "react-redux"
 import { Drawer } from "../drawer"
-import { RidesSummary } from "./rideSummary"
+import { RideSummary } from "./rideSummary"
 
-const RidesSummaryModal = ({
+const RideSummaryModal = ({
   rides,
 }: {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
@@ -28,16 +28,16 @@ const RidesSummaryModal = ({
       onClose={() => toggleShowDetail(false)}
     >
       <div className="overflow-y-scroll flex-1 relative flex flex-col">
-        <button
-          onClick={() => toggleShowDetail(false)}
-          className="absolute top-[10px] right-[10px]"
-        >
-          <CloseIcon />
-        </button>
-        <RidesSummary showRules={false} view="modal" rides={rides} />
+        <div className="flex items-center h-[56px] justify-between px-12 border-b border-solid border-border-color">
+          <button onClick={() => toggleShowDetail(false)} className="">
+            <CloseIcon />
+          </button>
+          <p className="text-base flex-1 ml-12 text-center font-semibold">Thông tin chuyến đi</p>
+        </div>
+        <RideSummary showFull view="modal" data={rides} />
       </div>
     </Drawer>
   )
 }
 
-export { RidesSummaryModal }
+export { RideSummaryModal }

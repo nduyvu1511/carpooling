@@ -11,7 +11,7 @@ interface CustomerLayoutProps {
 
 const CustomerLayout = ({ children, showHeaderOnMobile = true }: CustomerLayoutProps) => {
   const router = useRouter()
-  const { userInfo } = useSelector((state: RootState) => state.userInfo)
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   useEffect(() => {
     if (userInfo?.car_account_type !== "customer") {

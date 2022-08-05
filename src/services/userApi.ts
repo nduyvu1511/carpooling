@@ -11,7 +11,7 @@ import {
   IdCardParams,
   IdCardUpdateParams,
   ListQuery,
-  loginFormParams,
+  LoginFormParams,
   MakeWithdrawingRequestParams,
   ResetPasswordParams,
   UpdateCertificateInspectionParams,
@@ -24,7 +24,7 @@ import {
 import axiosClient from "."
 
 const userApi = {
-  login: (data: loginFormParams) => {
+  login: (data: LoginFormParams) => {
     return axiosClient.post("/api/user_information_controller/login", {
       params: data,
     })

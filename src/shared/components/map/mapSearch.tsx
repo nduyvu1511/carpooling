@@ -1,3 +1,4 @@
+import { CloseIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { useAddress, useClickOutside } from "@/hooks"
 import { FromLocation } from "@/models"
@@ -13,6 +14,11 @@ interface MapSearchProps {
   onSelect?: (val: FromLocation) => void
 }
 
+const requestOptions = {
+  componentRestrictions: { country: ["vi"] },
+  types: ["country"],
+}
+
 export const MapSearch = ({ onSelect }: MapSearchProps) => {
   const { getProvinceIdByGooglePlace } = useAddress()
   const dispatch = useDispatch()
@@ -24,9 +30,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
     setValue,
     suggestions: { data: locations, loading, status },
     clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: { componentRestrictions: { country: ["vi"] }, types: ["(regions)"] },
-  })
+  } = usePlacesAutocomplete({ debounce: 500, requestOptions })
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
@@ -37,7 +41,6 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
   const getLocationFromSearchResult = (location: google.maps.places.AutocompletePrediction) => {
     getGeocode({ address: location.description }).then((results) => {
       const { lat, lng } = getLatLng(results?.[0])
-      console.log(location.description)
       const province_id = getProvinceIdByGooglePlace(location.description)
       if (!province_id) return
 
@@ -57,28 +60,43 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
   return (
     <div ref={searchRef} className="">
       <div className="mb-[1px]">
-        <input
-          type="text"
-          onChange={(e) => {
-            setValue(e.target.value)
-            clearSuggestions()
-          }}
-          onFocus={() => setShowSearchResult(true)}
-          className="form-input h-[40px] rounded-[4px] border border-solid border-border-color shadow-shadow-1"
-          placeholder="Tìm kiếm vị trí..."
-          disabled={!ready}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            value={searchValues}
+            onChange={(e) => {
+              setValue(e.target.value)
+              clearSuggestions()
+            }}
+            onFocus={() => setShowSearchResult(true)}
+            className={`form-input h-[40px] pr-[40px] ${
+              !showSearchResult
+                ? "rounded-[10px]"
+                : "rounded-tl-[10px] rounded-tr-[10px] rounded-none"
+            } border border-solid border-border-color shadow-shadow-1`}
+            placeholder="Tìm kiếm vị trí..."
+            disabled={!ready}
+          />
+
+          {searchValues ? (
+            <button onClick={() => setValue("", false)} className="absolute-vertical right-[10px]">
+              <CloseIcon className="w-[18px]" />
+            </button>
+          ) : null}
+        </div>
       </div>
 
+      {console.log({ searchValues })}
+
       {showSearchResult ? (
-        <div className="block-element max-h-[300px] flex-col flex  rounded-[5px]">
+        <div className="block-element max-h-[300px] flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
           {searchValues ? (
             <div className="flex-1 flex flex-col">
               {loading ? (
                 <Spinner className="py-80px" size={40} />
               ) : (
                 <>
-                  <ul className="overflow-y-auto">
+                  <ul className="overflow-y-auto py-8">
                     {status === "OK" &&
                       locations?.length > 0 &&
                       locations.map((item, index) => (

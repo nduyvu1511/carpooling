@@ -13,7 +13,7 @@ import {
   RidesPassengerItem,
   RidesProgress,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummaryModal,
   ScheduleSummary,
 } from "@/components"
 import { useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
@@ -341,7 +341,7 @@ const ScheduleCompounding = () => {
             </div>
           </>
         )}
-        {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
       </BookingLayout>
 
       <Alert

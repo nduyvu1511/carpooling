@@ -15,15 +15,15 @@ const useCurrentLocation = ({ showLoading = false }: Props): Res => {
   const dispatch = useDispatch()
 
   const getCurrentLocation = (cb: (params: LatLng) => void) => {
-    showLoading && dispatch(setScreenLoading(true))
+    showLoading && dispatch(setScreenLoading({ show: true }))
     if (!navigator?.geolocation) return
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        showLoading && dispatch(setScreenLoading(false))
+        showLoading && dispatch(setScreenLoading({ show: false }))
         cb({ lat: latitude, lng: longitude })
       },
       () => {
-        showLoading && dispatch(setScreenLoading(false))
+        showLoading && dispatch(setScreenLoading({ show: false }))
         dispatch(notify("Không thể lấy vị trí hiện tại, vui lòng cấp quyền để tiếp tục", "error"))
       }
     )

@@ -1,5 +1,5 @@
 import { PlusIcon } from "@/assets"
-import { formatMoneyVND, PAYMENT_PURPOSE_NAME } from "@/helper"
+import { formatMoneyVND, PAYMENT_PURPOSE_COLOR, PAYMENT_PURPOSE_NAME } from "@/helper"
 import { TransactionRes } from "@/models"
 import moment from "moment"
 
@@ -27,19 +27,18 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
   return (
     <div
       onClick={() => onChange?.(transaction.payment_id)}
-      className={`p-[16px] hover:bg-bg-primary rounded-[5px] flex justify-between cursor-pointer transition-all duration-100 ${
+      className={`p-[16px] block-element rounded-[8px] border border-border-color border-solid flex justify-between items-center cursor-pointer transition-all duration-100 ${
         isActive ? "bg-bg-primary" : ""
       }`}
     >
-      <div className="mr-24 flex-1">
-        <p className="text-base font-semibold mb-8">
-          {transaction.compounding_car.compounding_car_name}
-        </p>
-        <p className="text-xs">{PAYMENT_PURPOSE_NAME[transaction.payment_purpose]}</p>
+      <div className="mr-24">
+        <p className="mb-12 text-sm">ID: 089IUIUHIB980</p>
+        <p className="text-xs">{moment(transaction.date).format("HH:mm DD/MM/YYYY")}</p>
       </div>
-      <div className="w-[300px] mr-24">
+
+      <div className="mr-24 flex-1 flex flex-col items-center">
         <p
-          className={`text-base font-semibold whitespace-nowrap mb-8 ${
+          className={`text-sm md:text-base font-semibold whitespace-nowrap mb-8 ${
             transaction.payment_type === "inbound" ? "text-success" : "text-error"
           }`}
         >
@@ -47,7 +46,16 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
             transaction.amount
           )}`}
         </p>
-        <p className="text-xs">{moment(transaction.date).format("HH:mm DD/MM/YYYY")}</p>
+
+        <span
+          style={{
+            color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].color,
+            backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].bg,
+          }}
+          className="text-xs rounded-[5px] py-[4px] px-8"
+        >
+          {PAYMENT_PURPOSE_NAME[transaction.payment_purpose]}
+        </span>
       </div>
 
       <div className="">

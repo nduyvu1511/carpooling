@@ -61,6 +61,7 @@ export const Map = ({
         },
       ],
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
   const [libraries] = useState(["places", "geometry"])
@@ -202,10 +203,12 @@ export const Map = ({
                 {mapRef?.current ? (
                   <MapSearch
                     onSelect={(address) => {
+                      console.log(address)
                       mapRef.current?.panTo({
                         lat: address.lat,
                         lng: address.lng,
                       })
+                      getAddressFromLngLat(address)
                     }}
                   />
                 ) : null}

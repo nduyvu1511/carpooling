@@ -48,7 +48,7 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
           <div
             className={`flex flex-row items-center md:justify-center md:flex-col ${
               stateIndex === index
-                ? "text-gray-color-4"
+                ? "text-blue-8"
                 : stateIndex > index
                 ? "text-primary"
                 : "opacity-50"

@@ -2,7 +2,9 @@ import { authentication, fbProvider, googleProvider } from "@/core"
 import { isObjectHasValue } from "@/helper"
 import { useFetcher } from "@/hooks"
 import {
-  loginFormParams,
+  CheckPhoneExistParams,
+  FetcherConfig,
+  LoginFormParams,
   LoginRes,
   RegisterParams,
   UpdateUserInfoParams,
@@ -20,35 +22,21 @@ interface otpProps {
   otpInput: string
   handleSuccess: (token: string) => void
   handleError?: Function
-}
-
-interface LoginWithPhoneNumberProps {
-  firebaseToken: string
-  onSuccess: (token: string) => void
-  onError?: Function
+  config?: FetcherConfig
 }
 
 interface UseAuthRes {
   loginWithFacebook: (handleSuccess: (token: string) => void, handleError?: Function) => void
   loginWithGoogle: (handleSuccess: (token: string) => void) => void
-  loginWithPhoneNumber: (props: LoginWithPhoneNumberProps) => void
+  loginWithPhoneNumber: (_params: UseParams<string, string>) => void
   getUserInfo: (handleSuccess: (props: UserInfo) => void, handleError?: Function) => void
-  loginWithPassword: (loginForm: loginFormParams, handleSuccess: (params: LoginRes) => void) => void
+  loginWithPassword: (_params: UseParams<LoginFormParams, LoginRes>) => void
   OTPVerifier: (props: otpProps) => void
-  checkPhoneExist: (
-    phone: string,
-    type: "login" | "register" | "resetPassword",
-    onSuccess: Function,
-    onErr?: Function
-  ) => void
+  checkPhoneExist: (_params: UseParams<CheckPhoneExistParams, undefined>) => void
   logout: (cb?: Function) => void
   register: (_params: UseParams<RegisterParams, UserInfo>) => void
-  getTokenFromFirebaseAccessToken: (
-    firebase_access_token: string,
-    cb: (t: string) => void,
-    onErr?: Function
-  ) => void
-  setToken: (token: string, cb: Function, onErr?: Function) => void
+  getTokenFromFirebaseAccessToken: (_params: UseParams<string, string>) => void
+  setToken: (params: UseParams<string, undefined>) => void
 }
 
 export const useAuth = (): UseAuthRes => {
@@ -78,38 +66,38 @@ export const useAuth = (): UseAuthRes => {
       })
     } catch (error: any) {
       handleError?.()
-      dispatch(setScreenLoading(false))
+      // dispatch(setScreenLoading(false))
     }
   }
 
-  const setToken = async (token: string, cb: Function, onErr?: Function) => {
+  const setToken = async (_params: UseParams<string, undefined>) => {
+    const { params, onSuccess, config, onError } = _params
     fetcherHandler<null>({
-      fetcher: userApi.setToken(token),
+      fetcher: userApi.setToken(params),
       onSuccess: () => {
-        cb()
+        onSuccess(undefined)
       },
       onError: () => {
-        onErr?.()
+        onError?.()
       },
+      config,
     })
   }
 
-  const getTokenFromFirebaseAccessToken = async (
-    firebase_access_token: string,
-    cb: (t: string) => void,
-    onErr?: Function
-  ) => {
+  const getTokenFromFirebaseAccessToken = async (_params: UseParams<string, string>) => {
+    const { onSuccess, params, config, onError } = _params
     fetcherHandler({
       fetcher: userApi.getTokenFromFirebase({
-        firebase_access_token,
+        firebase_access_token: params,
       }),
-      onSuccess: ({ token }) => cb(token),
-      onError: () => onErr?.(),
+      onSuccess: ({ token }) => onSuccess(token),
+      onError: () => onError?.(),
+      config,
     })
   }
 
   const register = async (_params: UseParams<RegisterParams, UserInfo>) => {
-    const { onSuccess, params, onError } = _params
+    const { onSuccess, params, onError, config } = _params
 
     fetcherHandler<UserInfo>({
       fetcher: userApi.updateUserInfo(params as UpdateUserInfoParams),
@@ -119,6 +107,7 @@ export const useAuth = (): UseAuthRes => {
       onError: () => {
         onError?.()
       },
+      config,
     })
   }
 
@@ -128,14 +117,14 @@ export const useAuth = (): UseAuthRes => {
       const credential = GoogleAuthProvider.credentialFromResult(response)
       const firebase_access_token = credential?.idToken
       if (!googleProvider || !firebase_access_token || !response?.user) return
-      dispatch(setScreenLoading(true))
+      // dispatch(setScreenLoading(true))
 
       const res: AxiosResponse<any> = await userApi.firebaseAuth({
         type: "data_google",
         data_in_token: response.user,
         firebase_access_token,
       })
-      dispatch(setScreenLoading(false))
+      // dispatch(setScreenLoading(false))
       const token = res?.result?.data?.token
       if (res?.result?.code !== 200) {
         dispatch(
@@ -150,19 +139,19 @@ export const useAuth = (): UseAuthRes => {
       handleSuccess(token)
     } catch (error) {
       console.log(error)
-      dispatch(setScreenLoading(false))
+      // dispatch(setScreenLoading(false))
     }
   }
 
   const OTPVerifier = async (props: otpProps) => {
-    const { otpInput, handleSuccess, handleError } = props
+    const { otpInput, handleSuccess, handleError, config } = props
     const confirmationResult = window.confirmationResult
-    dispatch(setScreenLoading(true))
+    dispatch(setScreenLoading({ show: true, toggleOverFlow: config?.toggleOverFlow }))
 
     try {
       const responseToken = await confirmationResult.confirm(otpInput)
       const firebaseToken = responseToken?._tokenResponse?.idToken
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
 
       if (firebaseToken) {
         handleSuccess(firebaseToken)
@@ -171,7 +160,7 @@ export const useAuth = (): UseAuthRes => {
         dispatch(notify("Vui lòng nhập đúng mã OTP", "error"))
       }
     } catch (error) {
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
       dispatch(
         notify("Vui lòng nhập đúng mã OTP", "error", {
           position: "top-center",
@@ -192,41 +181,43 @@ export const useAuth = (): UseAuthRes => {
     }
   }
 
-  const loginWithPhoneNumber = async (props: LoginWithPhoneNumberProps) => {
-    const { onSuccess, firebaseToken, onError } = props
+  const loginWithPhoneNumber = async (_params: UseParams<string, string>) => {
+    const { onSuccess, params, onError, config } = _params
     fetcherHandler<{ token: string }>({
-      fetcher: userApi.firebaseAuth({ firebase_access_token: firebaseToken }),
+      fetcher: userApi.firebaseAuth({ firebase_access_token: params }),
       onSuccess: (data) => {
         onSuccess(data.token)
       },
       onError: () => {
         onError?.()
       },
+      config,
     })
   }
 
-  const loginWithPassword = async (
-    loginForm: loginFormParams,
-    handleSuccess: (params: LoginRes) => void
-  ) => {
+  const loginWithPassword = async (_params: UseParams<LoginFormParams, LoginRes>) => {
+    const { onSuccess, params, config, onError } = _params
     fetcherHandler<LoginRes>({
-      fetcher: userApi.login(loginForm),
+      fetcher: userApi.login(params),
       onSuccess: ({ car_account_type }: LoginRes) => {
-        handleSuccess({ car_account_type })
+        onSuccess({ car_account_type })
       },
+      onError: onError?.(),
+      config,
     })
   }
 
-  const checkPhoneExist = async (
-    phone: string,
-    type: "login" | "register" | "resetPassword",
-    onSuccess: Function,
-    onErr?: Function
-  ) => {
+  const checkPhoneExist = async (_params: UseParams<CheckPhoneExistParams, undefined>) => {
+    const {
+      onSuccess,
+      params: { phone, type },
+      config,
+      onError,
+    } = _params
     try {
-      dispatch(setScreenLoading(true))
-      const res: AxiosResponse<any> = await userApi.checkPhoneExist(phone)
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: true, toggleOverFlow: config?.toggleOverFlow }))
+      const res = await userApi.checkPhoneExist(phone)
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
       const hasPw = res?.result?.success
       if (hasPw !== true && hasPw !== false) {
         return
@@ -234,15 +225,15 @@ export const useAuth = (): UseAuthRes => {
 
       if (type === "register") {
         if (hasPw && res?.result?.data?.car_account_type) {
-          onErr && onErr()
+          onError?.()
           return
         }
-        onSuccess && onSuccess()
+        onSuccess(undefined)
       } else {
-        hasPw ? onSuccess() : onErr && onErr()
+        hasPw ? onSuccess(undefined) : onError?.()
       }
     } catch (error) {
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
     }
   }
 

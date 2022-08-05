@@ -30,7 +30,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
   const createCompoundingCar = async (
     _params: UseParams<CreateCompoundingCar, CompoundingCarCustomer>
   ) => {
-    const { params, onSuccess, onError } = _params
+    const { params, onSuccess, onError, config } = _params
 
     fetcherHandler({
       fetcher: ridesApi.createCompoundingCar(params),
@@ -40,13 +40,15 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       onError: () => {
         onError?.()
       },
+
+      config,
     })
   }
 
   const createExistingCompoundingCar = async (
     _params: UseParams<CreateCarpoolingCompoundingCar, CompoundingCarCustomer>
   ) => {
-    const { params, onSuccess, onError } = _params
+    const { params, onSuccess, onError, config } = _params
 
     fetcherHandler({
       fetcher: ridesApi.createExistedCarpoolingCompoundingCar(params),
@@ -56,13 +58,14 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       onError: () => {
         onError?.()
       },
+      config,
     })
   }
 
   const customerCancelCompoundingCarBeforeDeposit = async (
     _params: UseParams<ConfirmCompoundingCar, any>
   ) => {
-    const { params, onSuccess, onError } = _params
+    const { params, onSuccess, onError, config } = _params
     fetcherHandler({
       fetcher: ridesApi.customerCancelCompoundingCarBeforeDeposit(params),
       onSuccess: (data: CompoundingCarCustomer) => {
@@ -71,7 +74,8 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       onError: () => {
         onError?.()
       },
-      config: { successMsg: "Hủy chuyến đi thành công!" },
+
+      config: { ...config, successMsg: "Hủy chuyến đi thành công!" },
     })
   }
 
@@ -104,6 +108,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       params: { compounding_car_customer_id },
       onSuccess,
       onError,
+      config,
     } = _params
 
     fetcherHandler({
@@ -116,11 +121,12 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       onError: () => {
         onError?.()
       },
+      config,
     })
   }
 
   const updateCompoundingCar = async (_params: UseParams<UpdateCompoundingCar, any>) => {
-    const { params, onSuccess, onError } = _params
+    const { params, onSuccess, onError, config } = _params
 
     fetcherHandler({
       fetcher: ridesApi.updateCompoundingCar(params),
@@ -130,6 +136,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       onError: () => {
         onError?.()
       },
+      config,
     })
   }
 

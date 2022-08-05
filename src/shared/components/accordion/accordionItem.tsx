@@ -8,6 +8,7 @@ interface AccordionItemProps {
   title: string
   maxHeight?: number
   titleClassName?: string
+  className?: string
 }
 
 const AccordionItem = ({
@@ -17,6 +18,7 @@ const AccordionItem = ({
   title,
   maxHeight = 1000,
   titleClassName = "",
+  className = "",
 }: AccordionItemProps) => {
   return (
     <div>
@@ -24,7 +26,7 @@ const AccordionItem = ({
         onClick={() => onClick?.()}
         className={`flex items-center justify-between p-12 md:p-24 ${
           isActive ? "bg-[#F1F5FF]" : "bg-white-color"
-        } cursor-pointer border-b border-solid border-border-color`}
+        } cursor-pointer border-b border-solid border-border-color ${className}`}
       >
         <h3
           className={`flex-1 mr-12 select-none ${

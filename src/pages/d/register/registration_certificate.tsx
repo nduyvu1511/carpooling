@@ -29,14 +29,17 @@ const RegistrationCertificate = () => {
       createCertificateInspection({
         params: data,
         onSuccess: () => {
-          router.push("/d/register")
+          router.push("/d/register/vehicle_insurance")
         },
       })
     }
   }
 
   return (
-    <DriverRegisterLayout heading="Giấy Đăng Kiểm">
+    <DriverRegisterLayout
+      onRightBtnClick={() => router.push("/d/register")}
+      heading="Giấy Đăng Kiểm"
+    >
       <div className="content-container px-[16px] sm:px-0">
         {isValidating ? (
           <>

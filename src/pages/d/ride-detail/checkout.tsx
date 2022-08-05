@@ -4,7 +4,7 @@ import {
   RidesProgress,
   RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummaryModal,
 } from "@/components"
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
@@ -111,7 +111,7 @@ const Checkout = () => {
         )}
       </div>
 
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </BookingLayout>
   )
 }

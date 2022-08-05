@@ -50,6 +50,7 @@ interface CarpoolingCompoundingFormProps {
   disabled?: boolean
   showButon?: boolean
   view?: "page" | "modal"
+  btnLabel?: string
 }
 
 export const CarpoolingCompoundingForm = ({
@@ -61,6 +62,7 @@ export const CarpoolingCompoundingForm = ({
   disabled = false,
   showButon = true,
   view,
+  btnLabel,
 }: CarpoolingCompoundingFormProps) => {
   const dispatch = useDispatch()
   const {
@@ -262,7 +264,7 @@ export const CarpoolingCompoundingForm = ({
             />
 
             {durationDistance?.[0] ? (
-              <div className="mt-[4px] text-xs leading-[22px] font-medium flex items-center flex-wrap">
+              <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
                 {durationDistance?.[0] ? (
                   <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
                 ) : null}
@@ -302,6 +304,9 @@ export const CarpoolingCompoundingForm = ({
 
           <div className="form-item">
             <InputDateTime
+              maxHour={
+                type === "existed" ? defaultValues?.expected_going_on_date?.slice(11) : undefined
+              }
               control={control}
               name="expected_going_on_date"
               placeholder="Chọn ngày đi"
@@ -377,7 +382,9 @@ export const CarpoolingCompoundingForm = ({
         {onSubmit && showButon ? (
           <ButtonSubmit
             view={view}
-            title={mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu"}
+            title={
+              btnLabel || (mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu")
+            }
             isError={isObjectHasValue(errors)}
             parentClassName={`${view === "page" ? "mt-[40px]" : ""}`}
           />

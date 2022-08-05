@@ -68,7 +68,7 @@
   }
 
   .form-label {
-    @apply text-13 md:text-14 text-gray-color-4 leading-[26px] font-medium mb-[4px] inline-block;
+    @apply text-13 md:text-14 text-blue-8 leading-[26px] font-medium mb-[4px] inline-block;
   }
 
   .form-date {
@@ -100,39 +100,39 @@
   }
 
   .h1 {
-    @apply text-[22px] leading-[28px] md:text-[30px] md:leading-[38px] lg:text-[60px] font-medium lg:leading-[73px] text-gray-color-4;
+    @apply text-[22px] leading-[28px] md:text-[30px] md:leading-[38px] lg:text-[60px] font-medium lg:leading-[73px] text-blue-8;
   }
 
   .h2 {
-    @apply text-[18px] leading-[24px] md:text-[22px] md:leading-[34px] lg:text-[40px] font-medium lg:leading-[49px] text-gray-color-4;
+    @apply text-[18px] leading-[24px] md:text-[22px] md:leading-[34px] lg:text-[40px] font-medium lg:leading-[49px] text-blue-8;
   }
 
   .h3 {
-    @apply text-[20px] leading-[28px] md:text-[28px] font-medium md:leading-[36px] text-gray-color-4;
+    @apply text-[20px] leading-[28px] md:text-[28px] font-medium md:leading-[36px] text-blue-8;
   }
 
   .h4 {
-    @apply text-[20px] leading-[26px] md:text-[24px] font-medium md:leading-[32px] text-gray-color-4;
+    @apply text-[20px] leading-[26px] md:text-[24px] font-medium md:leading-[32px] text-blue-8;
   }
 
   .text-base {
-    @apply text-16 leading-26 font-medium text-gray-color-4;
+    @apply text-16 leading-26 font-medium text-blue-8;
   }
 
   .text-sm {
-    @apply text-14 leading-26 font-medium text-gray-color-4;
+    @apply text-14 leading-26 font-medium text-blue-8;
   }
 
   .text-xs {
-    @apply text-12 leading-[16px] font-normal text-gray-color-4;
+    @apply text-12 leading-[16px] font-normal text-blue-8;
   }
 
   .text-lg {
-    @apply text-[18px] leading-[28px] font-medium text-gray-color-4;
+    @apply text-[18px] leading-[28px] font-medium text-blue-8;
   }
 
   .text-xl {
-    @apply text-[24px] leading-[32px] font-medium text-gray-color-4;
+    @apply text-[24px] leading-[32px] font-medium text-blue-8;
   }
 }
 
@@ -661,4 +661,16 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.driver-register-layout {
+  padding-bottom: 72px;
+
+  .btn-submit {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    bottom: 0;
+  }
 }

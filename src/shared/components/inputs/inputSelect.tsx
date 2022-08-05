@@ -42,7 +42,7 @@ const InputSelect = ({
             ref.current?.focus()
           }}
           htmlFor={name}
-          className="form-label"
+          className={`form-label ${disabled ? "pointer-events-none" : ""}`}
         >
           {placeholder} {required ? "(*)" : ""}
         </label>

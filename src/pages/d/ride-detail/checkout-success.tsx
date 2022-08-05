@@ -1,15 +1,8 @@
-import {
-  DriverInfoSummary,
-  RidesDetailLoading,
-  RidesPassengerItem,
-  RidesProgress,
-  RidesSummary,
-} from "@/components"
+import { RidesDetailLoading, RidesPassengerItem, RidesProgress, RidesSummary } from "@/components"
 import { useBackRouter, useCompoundingCarDriver, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 const CheckoutSuccess = () => {
   const router = useRouter()
@@ -87,6 +80,14 @@ const CheckoutSuccess = () => {
           </>
         )}
       </div>
+
+      {!isValidating ? (
+        <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
+          <Link href="/d">
+            <a className="btn-primary-outline mx-auto">Về trang chủ</a>
+          </Link>
+        </div>
+      ) : null}
     </BookingLayout>
   )
 }

@@ -1,4 +1,10 @@
-import { CreateUserFormParams, UpdateUserInfoParams, UseParams, UserInfo } from "@/models"
+import {
+  CreateUserFormParams,
+  IdentityCardRes,
+  UpdateUserInfoParams,
+  UseParams,
+  UserInfo,
+} from "@/models"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
@@ -11,6 +17,7 @@ interface UserRes {
   updateUserInfo: (
     para: UseParams<UpdateUserInfoParams, UserInfo> & { showLoading?: boolean }
   ) => void
+  updateUserInfoIdentityCard: (_: IdentityCardRes) => void
 }
 
 const useProfile = (shouldFetch = false): UserRes => {
@@ -57,7 +64,12 @@ const useProfile = (shouldFetch = false): UserRes => {
     })
   }
 
-  return { data, isValidating, createUserInfo, updateUserInfo }
+  const updateUserInfoIdentityCard = async (params: IdentityCardRes) => {
+    if (!data) return
+    mutate({ ...data, identity_card_id: params }, false)
+  }
+
+  return { data, isValidating, createUserInfo, updateUserInfo, updateUserInfoIdentityCard }
 }
 
 export { useProfile }

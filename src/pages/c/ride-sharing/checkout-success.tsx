@@ -8,6 +8,7 @@ import {
 import { formatMoneyVND } from "@/helper"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 const RideDoneCustomer = () => {
@@ -35,9 +36,9 @@ const RideDoneCustomer = () => {
 
   return (
     <>
-      <HeaderMobile className="lg:hidden" title="Thông tin hóa đơn" />
+      <HeaderMobile showHomeBtn className="lg:hidden" title="Thông tin hóa đơn" />
       <CustomerLayout showHeaderOnMobile={false}>
-        <div className="pt-[56px] lg:pt-0 content-container block-element md:mt-24 md:px-12 lg:px-0 flex-1 bg-white-color">
+        <div className="pt-[56px] lg:pt-0 content-container block-element md:mt-24 md:px-12 lg:px-0 flex-1 bg-white-color pb-[64px]">
           {isInitialLoading ? (
             <RidesSummaryLoading view="lg" />
           ) : data ? (
@@ -60,7 +61,7 @@ const RideDoneCustomer = () => {
                 rides={data}
               >
                 <div className="mb-[40px]">
-                  <p className="text-base font-semibold uppercase text-primary md:text-gray-color-4 md:normal-case mb-24">
+                  <p className="text-base font-semibold uppercase text-primary md:text-blue-8 md:normal-case mb-24">
                     Thông tin thanh toán
                   </p>
                   <ul>
@@ -92,16 +93,18 @@ const RideDoneCustomer = () => {
                   </ul>
                 </div>
                 <DriverInfoSummary
-                  titleClassName="text-primary md:text-gray-color-4"
+                  titleClassName="text-primary md:text-blue-8"
                   driver={data.car_driver_id}
                 />
               </RidesSummary>
+
+              <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
+                <Link href="/c">
+                  <a className="btn-primary-outline mx-auto">Về trang chủ</a>
+                </Link>
+              </div>
             </div>
           ) : null}
-
-          {/* {data.rating_state === "no_rating" && !data?.rating?.compounding_car_customer_id ? (
-            <ButtonSubmit title="Thêm đánh giá" onClick={() => {}} />
-          ) : null} */}
         </div>
       </CustomerLayout>
     </>

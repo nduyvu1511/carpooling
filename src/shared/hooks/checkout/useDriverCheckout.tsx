@@ -35,7 +35,7 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     showLoading,
   }: FetchDepositCompoundingCarDriver) => {
     try {
-      showLoading && dispatch(setScreenLoading(true))
+      showLoading && dispatch(setScreenLoading({ show: true }))
       const res: AxiosResponse<any> = await ridesApi.getDepositCompoundingCarDriver({
         compounding_car_id,
       })
@@ -44,9 +44,9 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
       } else {
         onSuccess?.(res.result.data)
       }
-      showLoading && dispatch(setScreenLoading(false))
+      showLoading && dispatch(setScreenLoading({ show: false }))
     } catch (error) {
-      showLoading && dispatch(setScreenLoading(false))
+      showLoading && dispatch(setScreenLoading({ show: false }))
     }
   }
 

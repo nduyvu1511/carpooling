@@ -1,9 +1,9 @@
-import { Alert, Countdown } from "@/components"
+import { Alert, Countdown, RideToolTip } from "@/components"
 import { RootState } from "@/core/store"
-import { formatMoneyVND } from "@/helper"
+import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { PaymentItem } from "./paymentItem"
 
@@ -12,6 +12,7 @@ interface CheckoutProps {
   amount_total?: number
   down_payment: number
   amount_due?: number
+  percentage?: number
   onCheckout?: (acquirer_id: number) => void
   onCancelCheckout?: Function
   showCountdown?: boolean
@@ -27,6 +28,7 @@ const Payment = ({
   type = "deposit",
   amount_due,
   down_payment,
+  percentage,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -39,6 +41,15 @@ const Payment = ({
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
+  useEffect(() => {
+    return () => {
+      if (showAlert) {
+        toggleBodyOverflow("unset")
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       {isExpiredCountdown && showCountdown ? (
@@ -48,63 +59,71 @@ const Payment = ({
       ) : (
         <div className={`${isPaymentLoading ? "cursor-default pointer-events-none" : ""}`}>
           <div className="p-12 md:p-24 lg:pt-0">
-            <ul className="mb-[32px]">
-              <p className="text-base font-semibold mb-24 uppercase md:capitalize">
-                Giá trị chuyến đi
-              </p>
+            {percentage ? (
+              <RideToolTip
+                className="mb-[40px]"
+                percentage={percentage}
+                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
+              />
+            ) : null}
+
+            <ul className="">
+              <p className="text-base font-semibold mb-24 uppercase">Giá trị chuyến đi</p>
               {amount_total ? (
-                <li className="flex items-center mb-12">
-                  <span className="text-xs mr-[12px] w-[150px]">Tổng tiền</span>
-                  <span className="text-sm">{formatMoneyVND(amount_total)}</span>
+                <li className="flex items-center justify-between mb-12">
+                  <span className="text-xs mr-[12px]">Tổng tiền</span>
+                  <span className="text-sm md:text-base whitespace-nowrap">
+                    {formatMoneyVND(amount_total)}
+                  </span>
                 </li>
               ) : null}
               {down_payment ? (
-                <li className="flex items-center mb-12">
-                  <span className="text-xs mr-[12px] w-[150px]">Số tiền đặt cọc</span>
-                  <span className="text-sm">{formatMoneyVND(down_payment)}</span>
+                <li className="flex items-center justify-between mb-12">
+                  <span className="text-xs mr-[12px]">Số tiền đặt cọc</span>
+                  <span className="text-sm md:text-base whitespace-nowrap">
+                    {formatMoneyVND(down_payment)}
+                  </span>
                 </li>
               ) : null}
               {amount_due ? (
-                <li className="flex items-center">
-                  <span className="text-xs mr-[12px] w-[150px]">Số tiền còn lại</span>
-                  <span className="text-sm">{formatMoneyVND(amount_due)}</span>
+                <li className="flex items-center justify-between">
+                  <span className="text-xs mr-[12px]">Số tiền còn lại</span>
+                  <span className="text-sm md:text-base whitespace-nowrap">
+                    {formatMoneyVND(amount_due)}
+                  </span>
                 </li>
               ) : null}
             </ul>
+            <div className="my-[16px] border-b border-border-color border-solid"></div>
+            <div className="flex items-stretch mb-[40px]">
+              <div className="flex-1 mr-24">
+                <p className="text-xs mb-[12px]">
+                  {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
+                  <span className="text-gray-color-2">(VND)</span>
+                </p>
 
-            <div className="mb-[32px]">
-              <div className="flex items-stretch">
-                <div className="flex-1 mr-24">
-                  <p className="text-xs mb-[12px]">
-                    {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
-                    <span className="text-gray-color-2">(VND)</span>
-                  </p>
-
-                  <span className="text-lg sm:text-xl text-error">
-                    {formatMoneyVND(down_payment)}
-                  </span>
-                </div>
-
-                {showCountdown ? (
-                  <div className="px-[10px] flex items-center py-[8px] bg-bg-error whitespace-nowrap h-fit mt-auto text-12 text-error rounded-[5px]">
-                    <span className="mr-[4px]">Hết hạn trong</span>
-
-                    <Countdown
-                      className="w-[36px]"
-                      onExpiredCoundown={() => {
-                        setExpiredCountdown(true)
-                      }}
-                      secondsRemains={secondsRemains}
-                    />
-                  </div>
-                ) : null}
+                <span className="text-18 sm:text-24 text-error font-medium">
+                  {formatMoneyVND(down_payment)}
+                </span>
               </div>
+
+              {showCountdown ? (
+                <div className="px-[10px] flex items-center py-[8px] font-medium bg-bg-error whitespace-nowrap h-fit mt-auto text-12 text-error rounded-[5px]">
+                  <span className="mr-[4px]">Hết hạn trong</span>
+
+                  <Countdown
+                    className="w-[36px]"
+                    onExpiredCoundown={() => {
+                      setExpiredCountdown(true)
+                    }}
+                    secondsRemains={secondsRemains}
+                  />
+                </div>
+              ) : null}
             </div>
 
             <div className="mb-[40px]">
-              <p className="mb-24 text-base uppercase md:capitalize font-semibold">
-                Chọn phương thức thanh toán
-              </p>
+              <p className="mb-24 text-base uppercase font-semibold">Chọn phương thức thanh toán</p>
 
               {isPaymentLoading ? (
                 <div className="mb-[16px]">
@@ -138,7 +157,10 @@ const Payment = ({
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
                 <button
-                  onClick={() => setShowAlert(true)}
+                  onClick={() => {
+                    setShowAlert(true)
+                    toggleBodyOverflow("hidden")
+                  }}
                   className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-24"
                 >
                   <span className="hidden sm:block"> Hủy giao dịch</span>
@@ -180,7 +202,10 @@ const Payment = ({
       <Alert
         show={showAlert}
         desc="Bạn có chắc chắc muốn hủy giao dịch này?"
-        onClose={() => setShowAlert(false)}
+        onClose={() => {
+          setShowAlert(false)
+          toggleBodyOverflow("unset")
+        }}
         onConfirm={() => onCancelCheckout?.()}
         type="warning"
       />

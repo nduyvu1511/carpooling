@@ -3,7 +3,7 @@ import { InputLoading } from "./inputLoading"
 const RidesDetailLoading = () => {
   return (
     <>
-      <div className="h-[200px] md:h-[300px] skeleton rounded-[5px] mb-[24px]"></div>
+      {/* <div className="h-[200px] md:h-[300px] skeleton rounded-[5px] mb-[24px]"></div> */}
       <InputLoading />
       <InputLoading />
       <InputLoading />

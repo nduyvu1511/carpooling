@@ -2,9 +2,7 @@ import {
   CheckoutLoading,
   Payment,
   RidesProgress,
-  RidesSummary,
-  RidesSummaryMobile,
-  RidesSummaryModal,
+  RidesSummaryMobile, RideSummary, RideSummaryModal
 } from "@/components"
 import { useCompoundingCarCustomer, useCustomerCheckout, useEffectOnce } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
@@ -65,7 +63,7 @@ const Checkout = () => {
         compoundingCar ? (
           <>
             <div className="hidden lg:block">
-              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+              <RideSummary data={compoundingCar} />
             </div>
             <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
               <RidesSummaryMobile rides={compoundingCar} />
@@ -89,7 +87,7 @@ const Checkout = () => {
         />
       ) : null}
 
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

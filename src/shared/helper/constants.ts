@@ -167,3 +167,30 @@ export const PAYMENT_PURPOSE_NAME = {
   car_driver_invoice: "Hóa đơn kết chuyến",
   car_driver_withdrawing: "Rút tiền",
 }
+
+export const PAYMENT_PURPOSE_COLOR = {
+  car_driver_deposit: {
+    color: "#FF3B30",
+    bg: "#FFEBEA",
+  },
+  passenger_deposit: {
+    color: "#FF3B30",
+    bg: "#FFEBEA",
+  },
+  return_car_driver_deposit: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
+  return_passenger_deposit: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
+  car_driver_invoice: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
+  car_driver_withdrawing: {
+    color: "#FF3B30",
+    bg: "#FFEBEA",
+  },
+}

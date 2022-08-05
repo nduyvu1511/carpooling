@@ -85,7 +85,7 @@ const Alert = ({
       </CSSTransition>
 
       <CSSTransition in={show} classNames="fade" timeout={300} unmountOnExit>
-        <div className={`fixed z-[3999] inset-[0] bg-black-60`}></div>
+        <div className={`fixed z-[3999] inset-[0] bg-black-40`}></div>
       </CSSTransition>
     </>
   )

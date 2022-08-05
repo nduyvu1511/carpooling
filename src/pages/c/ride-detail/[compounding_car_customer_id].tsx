@@ -12,7 +12,7 @@ import {
   RidesProgress,
   RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import {
@@ -298,7 +298,7 @@ const RidesDetail = () => {
         </>
       ) : null}
 
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </>
   )
 }

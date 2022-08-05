@@ -126,7 +126,6 @@ export const RegistrationCetificateForm = ({
         </div>
       ))}
 
-      {view === "modal" ? <div className="mb-[40px]"></div> : null}
       <ButtonSubmit
         className="form-upload-btn"
         title="Tiếp tục"

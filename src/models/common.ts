@@ -27,6 +27,7 @@ export interface UseParams<T, U> {
   params: T
   onSuccess: (params: U) => void
   onError?: Function
+  config?: FetcherConfig
 }
 
 export interface HasChildren {
@@ -108,6 +109,7 @@ export interface AccountLayoutProps {
   children: ReactNode
   title?: string
   desc?: string
+  showHeaderMobile?: boolean
 }
 
 export interface BookingLayoutProps {
@@ -147,4 +149,12 @@ export type TransitionDirection = "up" | "down" | "right" | "left"
 export interface CalcDistanceRes {
   distance: number
   duration: number
+}
+
+export interface FetcherConfig {
+  showScreenLoading?: boolean
+  errorMsg?: string
+  successMsg?: string
+  showErrorMsg?: boolean
+  toggleOverFlow?: boolean
 }

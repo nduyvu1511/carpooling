@@ -17,6 +17,7 @@ const ResetPasswordP = () => {
             Đặt lại mật khẩu
           </h3>
           <ResetPassword
+            view="page"
             defaultPhoneNumber={userInfo?.phone}
             onSuccess={() => router.push(router.query.next as string)}
           />

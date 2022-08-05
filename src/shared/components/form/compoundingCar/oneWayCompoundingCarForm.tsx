@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ButtonSubmit } from "@/components/buttons"
+import { ButtonSubmit } from "@/components"
 import { oneWayCompoundingCarSchema } from "@/core/schema"
 import {
   formatMoneyVND,
@@ -174,7 +174,7 @@ export const OneWayCompoundingForm = ({
               name="to_location"
             />
             {durationDistance?.[0] ? (
-              <div className="mt-[4px] text-xs leading-[22px] font-medium flex items-center flex-wrap">
+              <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
                 {durationDistance?.[0] ? (
                   <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
                 ) : null}

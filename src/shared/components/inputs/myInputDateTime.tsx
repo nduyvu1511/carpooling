@@ -1,4 +1,3 @@
-import { CloseIcon } from "@/assets"
 import { getTimes } from "@/helper"
 import { OptionModel } from "@/models"
 import moment from "moment"
@@ -16,6 +15,7 @@ interface MyInputDateTimeProps {
   disableDate?: boolean
   maxMenuHeight?: number
   isSelectSearchable?: boolean
+  maxHour?: string
 }
 
 const MyInputDateTime = ({
@@ -27,6 +27,7 @@ const MyInputDateTime = ({
   disableDate = false,
   maxMenuHeight,
   isSelectSearchable,
+  maxHour,
 }: MyInputDateTimeProps) => {
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
@@ -38,7 +39,15 @@ const MyInputDateTime = ({
   }
 
   const times: OptionModel[] = useMemo(() => {
-    return getTimes()
+    const times = getTimes()
+    if (maxHour) {
+      return times.slice(
+        0,
+        times.findIndex((item) => item.value > maxHour)
+      )
+    }
+    return times
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

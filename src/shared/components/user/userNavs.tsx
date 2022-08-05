@@ -27,7 +27,7 @@ const UserNavs = ({ type }: UserNavsProps) => {
               <div className="mt-[10px] pt-[10px] border-t border-solid border-border-color">
                 <a
                   onClick={handleLogout}
-                  className="cursor-pointer text-14 font-medium text-gray-color-4 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100"
+                  className="cursor-pointer text-14 font-medium text-blue-8 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100"
                 >
                   {label}
                 </a>
@@ -35,14 +35,14 @@ const UserNavs = ({ type }: UserNavsProps) => {
             ) : path.includes("/account/schedules") ? (
               type === "car_driver" ? (
                 <Link href={path}>
-                  <a className="text-14 font-medium text-gray-color-4 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">
+                  <a className="text-14 font-medium text-blue-8 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">
                     {label}
                   </a>
                 </Link>
               ) : null
             ) : (
               <Link href={path}>
-                <a className="text-14 font-medium text-gray-color-4 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">
+                <a className="text-14 font-medium text-blue-8 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">
                   {label}
                 </a>
               </Link>
@@ -55,4 +55,3 @@ const UserNavs = ({ type }: UserNavsProps) => {
 }
 
 export { UserNavs }
-

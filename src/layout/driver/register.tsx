@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@/assets"
+import { ArrowLeftIcon, HomeIcon } from "@/assets"
 import { useScrollTop } from "@/hooks"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
@@ -36,7 +36,7 @@ const Header = ({ onBackBtnClick, heading, rightHeaderElement, onRightBtnClick }
         {rightHeaderElement ||
           (onRightBtnClick ? (
             <button onClick={() => onRightBtnClick?.()}>
-              <ArrowLeftIcon className="transform rotate-[180deg]" />
+              <HomeIcon />
             </button>
           ) : null)}
       </div>
@@ -53,7 +53,7 @@ export const DriverRegisterLayout = ({
 }: DriverRegisterLayout) => {
   return (
     <DriverEmptyLayout>
-      <section className="content-container">
+      <section className="content-container driver-register-layout">
         <Header
           heading={heading}
           onBackBtnClick={onBackBtnClick}

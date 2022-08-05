@@ -1,17 +1,18 @@
-import { JournalFilterDateOptional } from "@/models"
+import { JournalFilterDate, JournalFilterDateOptional } from "@/models"
 import { useState } from "react"
 import { InputDate } from "../inputs"
 
 interface JournalFilterProps {
   onChange?: (params: JournalFilterDateOptional | undefined) => void
+  defaultValues?: JournalFilterDate
 }
 
-const JournalFilter = ({ onChange }: JournalFilterProps) => {
-  const [data, setData] = useState<JournalFilterDateOptional | undefined>(undefined)
+const JournalFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
+  const [data, setData] = useState<JournalFilterDateOptional | undefined>(defaultValues)
 
   return (
-    <div className="flex items-center h-[42px]">
-      <div className="form-date w-full h-full max-w-[180px] rounded-[5px] mr-[16px]">
+    <div className="flex-col sm:flex-row flex sm:h-[42px]">
+      <div className="h-[42px] sm:h-full sm:max-w-[220px] mb-12 sm:mb-0 form-date w-full rounded-[5px] mr-[16px]">
         <InputDate
           value={data?.start_date}
           disablePassDay={false}
@@ -24,7 +25,7 @@ const JournalFilter = ({ onChange }: JournalFilterProps) => {
           }
         />
       </div>
-      <div className="form-date w-full h-full max-w-[180px] rounded-[5px] mr-[16px]">
+      <div className="h-[42px] sm:h-full sm:max-w-[220px] mb-[40px] sm:mb-0 form-date w-full rounded-[5px] mr-[16px]">
         <InputDate
           placeholder="Đến ngày"
           value={data?.end_date}
@@ -37,25 +38,27 @@ const JournalFilter = ({ onChange }: JournalFilterProps) => {
           }
         />
       </div>
-      <button
-        onClick={() => data?.end_date && data?.start_date && onChange?.(data)}
-        className={`btn-primary h-full mr-[16px] ${
-          data?.end_date && data?.start_date ? "" : "btn-disabled"
-        }`}
-      >
-        Lọc
-      </button>
-      {data?.end_date && data?.start_date ? (
+      <div className="flex">
         <button
-          onClick={() => {
-            setData(undefined)
-            onChange?.(undefined)
-          }}
-          className="btn-primary-outline h-full"
+          onClick={() => data?.end_date && data?.start_date && onChange?.(data)}
+          className={`flex-1 btn-primary h-full ${
+            data?.end_date && data?.start_date ? "" : "btn-disabled"
+          }`}
         >
-          Đặt lại
+          Lọc
         </button>
-      ) : null}
+        {data?.end_date && data?.start_date ? (
+          <button
+            onClick={() => {
+              setData(undefined)
+              onChange?.(undefined)
+            }}
+            className="flex-1 rounded-[5px] border border-solid border-primary sm:border-none sm:flex-auto text-sm whitespace-nowrap ml-[16px] font-medium text-primary"
+          >
+            Đặt lại
+          </button>
+        ) : null}
+      </div>
     </div>
   )
 }

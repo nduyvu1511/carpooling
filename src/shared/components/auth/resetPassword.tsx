@@ -22,12 +22,9 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
     resetPassword({
       params: { ...params, firebase_access_token: firebaseToken },
       onSuccess: () => {
-        view === "modal" && toggleBodyOverflow("hidden")
         onSuccess?.()
       },
-      onError: () => {
-        view === "modal" && toggleBodyOverflow("hidden")
-      },
+      onError: () => {},
     })
   }
 

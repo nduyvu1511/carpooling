@@ -1,7 +1,7 @@
 import { ImageFileLoading, InputLoading, TextareaLoading, UserInfoForm } from "@/components"
 import { useEffectOnce, useProfile } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
-import { UserInfoFormParams } from "@/models"
+import { UserInfoFormSubmit } from "@/models"
 import { setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
@@ -18,7 +18,7 @@ const BioDetail = () => {
     }
   })
 
-  const onSubmitHandler = (data: UserInfoFormParams) => {
+  const onSubmitHandler = (data: UserInfoFormSubmit) => {
     if (data.name === `USER-${userInfo?.phone}`) {
       dispatch(notify("Vui lòng nhập tên hợp lệ để tiếp tục", "warning"))
       return
@@ -39,7 +39,10 @@ const BioDetail = () => {
   }
 
   return (
-    <DriverRegisterLayout heading="Thông tin người dùng">
+    <DriverRegisterLayout
+      onRightBtnClick={() => router.push("/d/register")}
+      heading="Thông tin người dùng"
+    >
       <div className="content-container px-[16px] sm:px-0">
         {!isValidating ? (
           <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />

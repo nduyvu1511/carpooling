@@ -1,6 +1,7 @@
-import { RidesProgress, RidesSummary, RidesSummaryLoading } from "@/components"
+import { RideCustomerBill, RidesProgress, RidesSummaryLoading, Spinner } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 const CheckoutSuccess = () => {
@@ -29,24 +30,31 @@ const CheckoutSuccess = () => {
   })
 
   return (
-    <div className="max-w-[684px] w-full mx-auto sm:py-24">
-      {isValidating ? (
-        <RidesSummaryLoading />
-      ) : (
-        <div className="">
-          <div className="block-element pt-24">
-            <div className="pl-12 md:pl-0 mb-24">
-              <RidesProgress state="assign" />
+    <>
+      <div className="content-container sm:py-24 pb-[64px]">
+        {isValidating ? (
+          <Spinner className="py-[60px]" size={40} />
+        ) : (
+          <div className="">
+            <div className="block-element pt-24">
+              <div className="pl-12 md:px12 mb-24">
+                <RidesProgress state={compoundingCarCustomer?.state} />
+              </div>
+              {compoundingCarCustomer?.compounding_car_customer_id ? (
+                <RideCustomerBill data={compoundingCarCustomer} />
+              ) : null}
             </div>
-            <RidesSummary
-              car_account_type="customer"
-              type="bill"
-              rides={compoundingCarCustomer as any}
-            />
           </div>
+        )}
+      </div>
+      {!isValidating ? (
+        <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
+          <Link href="/c">
+            <a className="btn-primary-outline mx-auto">Về trang chủ</a>
+          </Link>
         </div>
-      )}
-    </div>
+      ) : null}
+    </>
   )
 }
 

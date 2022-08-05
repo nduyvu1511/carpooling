@@ -9,7 +9,7 @@ const ProfilePage = () => {
         desc="Quản lý thông tin hồ sơ để bảo mật tài khoản"
       >
         <div className="content-container px-[16px] md:px-0">
-          <Profile />
+          <Profile type="car_driver" />
         </div>
       </DriverAccountLayout>
     </>

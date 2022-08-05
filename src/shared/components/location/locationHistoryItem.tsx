@@ -12,7 +12,7 @@ const LocationHistoryItem = ({ location, onSelect }: LocationHistoryItemProps) =
       onClick={() => onSelect?.(location)}
       className="px-[16px] py-[8px] cursor-pointer hover:bg-bg flex items-center"
     >
-      <ClockIcon className="mr-[12px] text-gray-color-4" />
+      <ClockIcon className="mr-[12px] text-blue-8" />
       <p className="text-sm flex-1">{location.address}</p>
     </div>
   )

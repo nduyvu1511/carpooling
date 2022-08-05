@@ -18,16 +18,18 @@ const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
-    setScreenLoading: (state, { payload }: PayloadType<boolean>) => {
-      state.isScreenLoading = payload
-      try {
-        if (payload) {
-          toggleBodyOverflow("hidden")
-        } else {
-          toggleBodyOverflow("unset")
-        }
-      } catch (error) {
-        console.log(error)
+    setScreenLoading: (
+      state,
+      {
+        payload: { show, toggleOverFlow = true },
+      }: { payload: { show: boolean; toggleOverFlow?: boolean } }
+    ) => {
+      state.isScreenLoading = show
+      if (!toggleOverFlow) return
+      if (show) {
+        toggleBodyOverflow("hidden")
+      } else {
+        toggleBodyOverflow("unset")
       }
     },
 

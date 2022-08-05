@@ -171,7 +171,6 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
           ) : null}
         </div>
       ))}
-      {view === "modal" ? <div className="mb-[80px]"></div> : null}
       <div className="fixed bottom-0 right-0 left-0">
         <ButtonSubmit
           className="form-upload-btn"

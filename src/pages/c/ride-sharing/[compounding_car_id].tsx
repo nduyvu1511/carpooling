@@ -1,23 +1,25 @@
 import {
   CarpoolingCompoundingForm,
-  Map,
   RidesDetailLoading,
   RidesProgress,
-  RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal
+  RideSummaryModal,
+  RideSummary,
+  RideToolTip,
 } from "@/components"
 import {
   useCompoundingCar,
   useCompoundingCarActions,
   useCompoundingForm,
-  useEffectOnce
+  useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { CreateCarpoolingCompoundingCar } from "@/models"
+import { CompoundingCarCustomer, CreateCarpoolingCompoundingCar } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
+import { notify } from "reapop"
 
 const RidesDetailCustomer = () => {
   const dispatch = useDispatch()
@@ -34,20 +36,33 @@ const RidesDetailCustomer = () => {
     key: "confirm_booking_compounding_car_customer",
     type: "once",
   })
+  const [compoundingCarCustomer, setCompoundingCarCustomer] = useState<
+    CompoundingCarCustomer | undefined
+  >(undefined)
 
-  const handleConfirmCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
+  const handleCreateExistedCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
     if (!compoundingCar?.compounding_car_id) return
     createExistingCompoundingCar({
       params: { ...params, compounding_car_id: compoundingCar.compounding_car_id },
       onSuccess: (data) => {
-        confirmCompoundingCar({
-          params: { compounding_car_customer_id: data.compounding_car_customer_id },
-          onSuccess: () => {
-            router.push(
-              `/c/booking/checkout?compounding_car_customer_id=${data.compounding_car_customer_id}`
-            )
-          },
-        })
+        document?.body?.scrollIntoView({ behavior: "smooth" })
+        setCompoundingCarCustomer(data)
+        setTimeout(() => {
+          dispatch(notify("Tạo chuyến đi ghép thành công!", "success"))
+        }, 0)
+      },
+    })
+  }
+
+  const handleConfirmCompoundingCar = () => {
+    if (!compoundingCarCustomer) return
+
+    confirmCompoundingCar({
+      params: { compounding_car_customer_id: compoundingCarCustomer.compounding_car_customer_id },
+      onSuccess: () => {
+        router.push(
+          `/c/booking/checkout?compounding_car_customer_id=${compoundingCarCustomer.compounding_car_customer_id}`
+        )
       },
     })
   }
@@ -60,62 +75,63 @@ const RidesDetailCustomer = () => {
   })
 
   return (
-    <CustomerBookingLayout
-      showLoading={isValidating}
-      topNode={<RidesProgress state={compoundingCar?.state} />}
-      rightNode={
-        compoundingCar ? (
-          <>
-            <div className="hidden lg:block">
-              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+    <>
+      <CustomerBookingLayout
+        showLoading={isValidating}
+        topNode={<RidesProgress state={compoundingCar?.state} />}
+        rightNode={
+          compoundingCar ? (
+            <>
+              <div className="hidden lg:block">
+                <RideSummary
+                  showFull={!!compoundingCarCustomer}
+                  data={compoundingCarCustomer || compoundingCar}
+                />
+              </div>
+              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+                <RidesSummaryMobile rides={compoundingCar} />
+              </div>
+            </>
+          ) : null
+        }
+        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Tạo chuyến đi ghép"}
+      >
+        <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
+          {isValidating ? (
+            <RidesDetailLoading />
+          ) : !compoundingCar?.compounding_car_id ? (
+            <div className="py-[40px] text-center">
+              <p className="text-base">Không tìm thấy chuyến đi này</p>
             </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
-            </div>
-          </>
-        ) : null
-      }
-      title="Xác nhận chuyến đi ghép"
-    >
-      <div className="p-12 md:p-24 pt-0 h-fit">
-        {isValidating ? (
-          <RidesDetailLoading />
-        ) : !compoundingCar?.compounding_car_id ? (
-          <div className="py-[40px] text-center">
-            <p className="text-base">Không tìm thấy chuyến đi này</p>
-          </div>
-        ) : (
-          <>
-            <div className="h-[200px] md:h-[300px] mb-12">
-              <Map
-                direction={{
-                  destination: {
-                    lat: Number(compoundingCar.to_latitude),
-                    lng: Number(compoundingCar.to_longitude),
-                  },
-                  origin: {
-                    lat: Number(compoundingCar.from_latitude),
-                    lng: Number(compoundingCar.from_longitude),
-                  },
-                }}
-                viewOnly
+          ) : (
+            <>
+              <RideToolTip
+                className="mb-24"
+                percentage={compoundingCar.car_driver_deposit_percentage}
+                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
               />
-            </div>
+              <CarpoolingCompoundingForm
+                defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+                onSubmit={(data) => {
+                  if (compoundingCarCustomer) {
+                    handleConfirmCompoundingCar()
+                  } else {
+                    handleCreateExistedCompoundingCar(data)
+                  }
+                }}
+                type="existed"
+                limitNumberSeat={compoundingCar?.number_available_seat}
+                view="page"
+                mode="confirm"
+                btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
+              />
+            </>
+          )}
+        </div>
 
-            <CarpoolingCompoundingForm
-              defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-              onSubmit={(data) => handleConfirmCompoundingCar(data)}
-              type="existed"
-              limitNumberSeat={compoundingCar?.number_available_seat}
-              view="page"
-              mode="confirm"
-            />
-          </>
-        )}
-      </div>
-
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
-    </CustomerBookingLayout>
+        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+      </CustomerBookingLayout>
+    </>
   )
 }
 

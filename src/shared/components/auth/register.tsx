@@ -2,8 +2,7 @@ import { AccountTypeForm, OTP } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useAuth } from "@/hooks"
 import { CarAccountType } from "@/models"
-import { setAuthModalType, setProfile, setScreenLoading } from "@/modules"
-import Link from "next/link"
+import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -21,30 +20,38 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
 
   const handleGenerateToken = async (firebase_access_token: string) => {
     toggleBodyOverflow("hidden")
-    getTokenFromFirebaseAccessToken(firebase_access_token, (token) => {
-      setToken(token)
-      toggleBodyOverflow("hidden")
+    getTokenFromFirebaseAccessToken({
+      params: firebase_access_token,
+      onSuccess: (token) => {
+        setToken(token)
+        toggleBodyOverflow("hidden")
+      },
+      config: { toggleOverFlow: false },
     })
   }
 
   const handleRegister = async (car_account_type: CarAccountType) => {
     if (!token) return
-    // dispatch(setScreenLoading(true))
     register({
       params: { car_account_type, token },
       onSuccess: (userInfo) => {
-        setTokenToCookie(token, () => {
-          dispatch(setProfile({ ...userInfo, car_account_type }))
-          if (car_account_type === "customer") {
-            onSuccess()
-          } else {
-            dispatch(setAuthModalType(undefined))
-            setTimeout(() => {
-              router.push("/d/register")
-            }, 0)
-          }
+        setTokenToCookie({
+          params: token,
+          onSuccess: () => {
+            dispatch(setProfile({ ...userInfo, car_account_type }))
+            if (car_account_type === "customer") {
+              onSuccess()
+            } else {
+              dispatch(setAuthModalType(undefined))
+              setTimeout(() => {
+                router.push("/d/register")
+              }, 0)
+            }
+          },
+          config: { toggleOverFlow: false },
         })
       },
+      config: { toggleOverFlow: false },
     })
   }
 

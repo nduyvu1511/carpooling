@@ -16,7 +16,7 @@ const LocationItem = ({ location, onSelect }: LocationItemProps) => {
 
     <div
       onClick={() => onSelect && onSelect(location)}
-      className="flex items-center px-12 py-4 hover:bg-bg cursor-pointer"
+      className="flex items-center px-12 py-8 hover:bg-bg cursor-pointer"
     >
       <LocationIcon4 className="mr-[16px]" />
       <p className="flex-1 text-sm">{location.description}</p>

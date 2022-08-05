@@ -17,6 +17,7 @@ import {
   NewPasswordFormKeys,
   OptionModel,
   UserInfoFormKey,
+  UserInforFormAddressKey,
   VehicleDetailFormKey,
   VehicleInsuranceFormKey,
 } from "@/models"
@@ -212,7 +213,7 @@ export const idCardFormFields: {
     name: "date_of_expiry",
     type: "date",
     placeholder: "Ngày Hết Hạn",
-    isRequired: true,
+    isRequired: false,
   },
   {
     name: "place_of_issue",
@@ -221,27 +222,9 @@ export const idCardFormFields: {
     isRequired: true,
   },
   {
-    name: "province_id",
-    type: "select",
-    placeholder: "Tỉnh | Địa Chỉ Hiện Tại",
-    isRequired: true,
-  },
-  {
-    name: "district_id",
-    type: "select",
-    placeholder: "Quận/Huyện | Địa Chỉ Hiện Tại",
-    isRequired: true,
-  },
-  {
-    name: "ward_id",
-    type: "select",
-    placeholder: "Xã/Phường | Địa Chỉ Hiện Tại",
-    isRequired: true,
-  },
-  {
-    name: "street",
+    name: "address",
     type: "text",
-    placeholder: "Số Nhà/Tổ | Địa Chỉ Hiện Tại",
+    placeholder: "Địa chỉ trong CMND / Thẻ Căn Cước / Hộ Chiếu",
     isRequired: true,
   },
 ]
@@ -475,7 +458,7 @@ export const genderList: {
 export const userInfoFormfields: {
   name: UserInfoFormKey
   placeholder: string
-  type: "file" | "text" | "select" | "date" | "textarea" | "radio"
+  type: "file" | "text" | "select" | "date" | "textarea" | "radio" | "address"
   isRequired: boolean
 }[] = [
   {
@@ -491,6 +474,12 @@ export const userInfoFormfields: {
     type: "text",
   },
   {
+    name: "identity_number",
+    isRequired: false,
+    placeholder: "CMND / Thẻ Căn Cước / Hộ Chiếu",
+    type: "text",
+  },
+  {
     name: "date_of_birth",
     isRequired: true,
     placeholder: "Ngày sinh",
@@ -501,6 +490,12 @@ export const userInfoFormfields: {
     isRequired: true,
     placeholder: "Giới tính",
     type: "radio",
+  },
+  {
+    name: "street",
+    isRequired: false,
+    placeholder: "Địa chỉ cụ thể",
+    type: "address",
   },
   {
     name: "description",
@@ -633,4 +628,15 @@ export const customerActivityFilters: {
   },
   { label: "Đã thanh toán", value: ["confirm_paid"] },
   { label: "Đã hủy", value: ["cancel"] },
+]
+
+export const userInfoAddressData: {
+  type: "select" | "text"
+  name: UserInforFormAddressKey
+  placeholder: string
+}[] = [
+  { name: "province_id", type: "select", placeholder: "Chọn Tỉnh/Thành Phố" },
+  { name: "district_id", type: "select", placeholder: "Chọn Quận/Huyện" },
+  { name: "ward_id", type: "select", placeholder: "Chọn Phường/Xã" },
+  { name: "street", type: "text", placeholder: "Địa chỉ cụ thể" },
 ]

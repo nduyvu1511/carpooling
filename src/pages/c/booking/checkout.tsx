@@ -2,9 +2,9 @@ import {
   CheckoutLoading,
   Payment,
   RidesProgress,
-  RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummary,
+  RideSummaryModal,
 } from "@/components"
 import {
   useCompoundingCarActions,
@@ -13,12 +13,15 @@ import {
   useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
+import { setShowSummaryDetail } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 const Checkout = () => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
   const {
     data: compoundingCar,
@@ -60,6 +63,7 @@ const Checkout = () => {
   useEffectOnce(() => {
     return () => {
       mutateCompoundingCar(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
   })
 
@@ -83,7 +87,7 @@ const Checkout = () => {
         compoundingCar ? (
           <>
             <div className="hidden lg:block">
-              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+              <RideSummary data={compoundingCar} />
             </div>
             <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
               <RidesSummaryMobile rides={compoundingCar} />
@@ -108,6 +112,7 @@ const Checkout = () => {
           </p>
         ) : (
           <Payment
+            percentage={compoundingCar.customer_deposit_percentage}
             amount_due={compoundingCar?.amount_due}
             down_payment={compoundingCar?.down_payment}
             amount_total={compoundingCar.amount_total}
@@ -117,7 +122,7 @@ const Checkout = () => {
           />
         )
       ) : null}
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

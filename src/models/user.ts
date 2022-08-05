@@ -1,7 +1,6 @@
-import { ListQuery } from "./common"
-import { DistrictId, ProvinceId, WardId } from "./location"
+import { ListQuery, OptionModel } from "./common"
 
-export interface loginFormParams {
+export interface LoginFormParams {
   phone: string
   password: string
 }
@@ -26,28 +25,21 @@ export interface UserInfo {
   car_information: any
   phone: string
   address: string
+  country_id: { country_id: number; country_name: string }
+  province_id: { province_id: number; province_name: string }
+  district_id: { district_id: number; district_name: string }
+  ward_id: { ward_id: number; ward_name: string }
+  street: string
+  identity_card_id?: IdentityCardRes
+  rating_number?: number
 }
 
-export type UserInfoFormKey =
-  | "date_of_birth"
-  | "description"
-  | "avatar_attachment_id"
-  | "name"
-  | "gender"
+export type UserInfoFormKey = keyof UserInfoFormParams
 export type VehicleKeyType = "brand" | "model" | "type" | "desc"
 export type IdCardKeyType = "text" | "select" | "date" | "file"
 export type DrivingLicenseKeyType = "text" | "select" | "file" | "date"
-export type IdCardName =
-  | "front_identity_card_image_url"
-  | "back_identity_card_image_url"
-  | "identity_number"
-  | "date_of_issue"
-  | "date_of_expiry"
-  | "place_of_issue"
-  | "province_id"
-  | "district_id"
-  | "ward_id"
-  | "street"
+export type IdCardName = keyof IdCardParams
+
 export type NewPasswordFormKeys = "password" | "re_password" | "old_password"
 export type DriverFormKey =
   | "idCard"
@@ -85,7 +77,7 @@ export type CertificateInspectionFormKey =
   | "front_inspection_certificate_image_url"
   | "identity_number"
   | "date_of_expiry"
-export type GenderType = "male" | "female"
+export type GenderType = "male" | "female" | "no_info"
 export type DriverAccountStatus = "inactive_account" | "active_acount" | "blocked_account"
 export type DrivingLicenseClassType = "b1" | "b2" | "c" | "d" | "e" | "f"
 
@@ -131,27 +123,21 @@ export interface ChangePasswordFormParams extends NewPasswordParams {
 
 export interface CreatePasswordFormParams extends NewPasswordParams {}
 
-export interface UserInfo {
-  partner_id: number
-  partner_name: string
-  avatar_url: {
-    image_id: number
-    image_url: string
-  }
-  gender: GenderType
-  date_of_birth: string
-  car_account_type: CarAccountType
-  verified_car_driver_account: DriverAccountStatus
-  verified_account_date: string
-  description: string
-  car_information: any
-  phone: string
-  address: string
-}
-
 export interface LoginRes {
   car_account_type: CarAccountType
 }
+
+export interface UserInfoFormAddress {
+  country_id?: OptionModel
+  province_id: OptionModel
+  district_id: OptionModel
+  ward_id: OptionModel
+  street: string
+}
+
+export type UserInfoFormAddressOptional = Partial<UserInfoFormAddress>
+
+export type UserInforFormAddressKey = keyof UserInfoFormAddress
 
 // User form
 export interface UserInfoFormParams {
@@ -160,6 +146,28 @@ export interface UserInfoFormParams {
   avatar_attachment_id: number
   name: string
   gender: GenderType
+  country_id?: OptionModel
+  province_id?: OptionModel
+  district_id?: OptionModel
+  ward_id?: OptionModel
+  street?: string
+  identity_number?: string
+}
+
+export type UserInfoFormSubmit = Pick<
+  UserInfoFormParams,
+  | "avatar_attachment_id"
+  | "date_of_birth"
+  | "description"
+  | "avatar_attachment_id"
+  | "name"
+  | "gender"
+> & {
+  country_id?: number
+  province_id?: number
+  district_id?: number
+  ward_id?: number
+  street?: string
 }
 
 export interface CreateUserFormParams {
@@ -185,11 +193,7 @@ export interface IdCardParams {
   date_of_issue: string
   date_of_expiry: string
   place_of_issue: string
-  country_id: number
-  province_id: number
-  district_id: number
-  ward_id: number
-  street: string
+  address: string
 }
 
 export interface IdCardUpdateParams extends IdCardParams {
@@ -367,15 +371,7 @@ export interface IdentityCardRes {
   date_of_issue: string
   date_of_expiry: string
   place_of_issue: string
-  country_id: {
-    country_id: number
-    country_name: string
-    country_vietnamese_name: string
-  }
-  province_id: ProvinceId
-  district_id: DistrictId
-  ward_id: WardId
-  street: string
+  address: string
 }
 
 export type FilledDataFieldsKey =
@@ -455,11 +451,30 @@ export type PaymentPurpose =
   | "car_driver_invoice"
   | "car_driver_withdrawing"
 
+export interface JournalUserRes {
+  partner_id: number
+  partner_name: string
+  phone: string
+  avatar_url: {
+    image_id: number
+    image_url: string
+  }
+}
+
+export interface JournalId {
+  journal_id: number
+  journal_name: string
+  journal_type: "cash" | "bank"
+  journal_owner_id: JournalUserRes
+  wallet_type: false
+  remains_amount: 925000.0
+}
+
 export interface TransactionRes {
   payment_id: number
   date: string
   partner_id: WalletUserRes
-  journal_id: JournalRes[]
+  journal_id: JournalRes
   amount: number
   ref: string
   state: string
@@ -473,9 +488,35 @@ export interface TransactionRes {
   }
 }
 
+export interface JournalDetailRes {
+  payment_purpose: PaymentPurpose
+  partner_id: {
+    payment_id: number
+    date: string
+    partner_id: JournalUserRes
+    journal_id: JournalId
+    amount: number
+    ref: string
+    state: string
+    is_make_withdrawing_request: boolean
+    payment_type: "outbound" | "inbound"
+    partner_type: CarAccountType
+    payment_purpose: PaymentPurpose
+    compounding_car: {
+      compounding_car_id: string
+      compounding_car_name: string
+    }
+  }
+}
+
 export interface JournalFilterDate {
   start_date: string
   end_date: string
 }
 
 export type JournalFilterDateOptional = Partial<JournalFilterDate>
+
+export interface CheckPhoneExistParams {
+  phone: string
+  type: "login" | "register" | "resetPassword"
+}

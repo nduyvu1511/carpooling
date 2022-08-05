@@ -19,9 +19,7 @@ const BookingLayout = ({
   return (
     <>
       {title ? (
-        <div className="lg:hidden">
-          <HeaderMobile title={title} onBackBtnClick={onBackBtnClick} />
-        </div>
+        <HeaderMobile className="lg:hidden" title={title} onBackBtnClick={onBackBtnClick} />
       ) : null}
 
       <section
@@ -29,7 +27,8 @@ const BookingLayout = ({
       >
         <div className="block-element h-full">
           {topNode ? (
-            <div className="lg:hidden pt-12 md:pt-24 lg:pt-0 lg:px-0 pl-12 pb-[24px] w-[calc(100vw-12px)] sm:w-full">
+            <div className="lg:hidden pt-12 md:pt-24 lg:pt-0 lg:px-0 pl-12 pb-12 lg:pb-[24px] w-[calc(100vw-12px)] sm:w-full relative">
+              <div className="absolute w-[200px] pointer-events-none top-0 bottom-0 right-0 linear-gradient-white"></div>
               {topNode}
             </div>
           ) : null}
@@ -37,7 +36,7 @@ const BookingLayout = ({
           <div
             className={`flex ${
               reverse ? "flex-col" : "flex-col-reverse"
-            } lg:grid lg:grid-cols-booking-grid-sm xl:lg:grid-cols-booking-grid xl:gap-24`}
+            } lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid xl:gap-24`}
           >
             <div className={`${topNode ? "lg:pt-24" : ""}`}>
               {topNode ? (
@@ -51,15 +50,15 @@ const BookingLayout = ({
                   <ArrowLeftIcon />
                 </button>
 
-                <h3 className="text-24 font-medium leading-[32px] ml-32">{title}</h3>
+                <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-32">{title}</h3>
               </div>
 
               {children}
             </div>
 
             <div
-              className={`overflow-hidden lg:bg-bg-primary ${
-                stickyRight ? "lg:h-fit lg:sticky lg:top-[80px]" : ""
+              className={`overflow-hidden lg:p-24 lg:h-fit lg:sticky lg:top-[80px] ${
+                stickyRight ? "" : ""
               }`}
             >
               {showLoading ? <RidesSummaryLoading /> : rightNode}

@@ -30,11 +30,11 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
   const [wards, setWards] = useState<WardId[]>([])
 
   useEffect(() => {
-    if (state_id) {
+    if (state_id && typeof state_id === "number") {
       getDistricts(state_id)
     }
 
-    if (district_id) {
+    if (district_id && typeof state_id === "number") {
       getWards(district_id)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

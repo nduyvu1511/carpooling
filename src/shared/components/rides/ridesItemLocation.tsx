@@ -11,7 +11,7 @@ interface RidesItemLocationProps {
 }
 
 const titleStyle =
-  "text-[12px] leading-[22px] sm:text-[18px] sm:leading-[30px] md:text-[24px] font-semibold sm:font-medium text-gray-color-4 line-clamp-1"
+  "text-[12px] leading-[22px] sm:text-[18px] sm:leading-[30px] md:text-[24px] font-semibold sm:font-medium text-blue-8 line-clamp-1"
 
 const RidesItemLocation = ({
   compounding_type,

@@ -4,9 +4,9 @@ import {
   OneWayCompoundingForm,
   RidesDetailLoading,
   RidesProgress,
-  RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummary,
+  RideSummaryModal,
   TwoWayCompoundingForm,
 } from "@/components"
 import {
@@ -56,7 +56,7 @@ const ConfirmBookingCustomer = () => {
       mutateCompoundingCar(undefined, false)
     }
   })
-  
+
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
 
@@ -94,7 +94,7 @@ const ConfirmBookingCustomer = () => {
         compoundingCar ? (
           <>
             <div className="hidden lg:block">
-              <RidesSummary rides={compoundingCar} car_account_type="customer" />
+              <RideSummary data={compoundingCar} />
             </div>
             <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
               <RidesSummaryMobile rides={compoundingCar} />
@@ -109,9 +109,9 @@ const ConfirmBookingCustomer = () => {
           <RidesDetailLoading />
         ) : (
           <>
-            <div className="h-[300px] mb-12">
+            {/* <div className="h-[300px] mb-12">
               <Map viewOnly />
-            </div>
+            </div> */}
 
             <div className="">
               {compoundingCar?.compounding_type ? (
@@ -147,7 +147,7 @@ const ConfirmBookingCustomer = () => {
           </>
         )}
       </div>
-      {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

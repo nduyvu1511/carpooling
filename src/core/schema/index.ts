@@ -79,9 +79,45 @@ export const userFormSchema = Yup.object().shape({
     .required("Vui lòng nhập ngày sinh"),
   name: Yup.string().required("Vui lòng nhập tên"),
   gender: Yup.string()
-    .oneOf(["male", "female"], "Vui lòng chọn giới tính")
+    .oneOf(["male", "female", "no_info"], "Vui lòng chọn giới tính")
     .required("Vui lòng chọn giới tính"),
   description: Yup.string(),
+  province_id: Yup.object({
+    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+    label: Yup.string(),
+  }).nullable(),
+  district_id: Yup.object({
+    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+    label: Yup.string(),
+  }).nullable(),
+  ward_id: Yup.object({
+    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+    label: Yup.string(),
+  }).nullable(),
+  street: Yup.string().nullable(),
+  identity_number: Yup.string().nullable(),
+})
+
+export const userFormAddressSchema = Yup.object().shape({
+  province_id: Yup.object().shape({
+    value: Yup.number()
+      .typeError("Vui lòng nhập đúng định dạng số")
+      .required("Vui lòng nhập trường này"),
+    label: Yup.string(),
+  }),
+  district_id: Yup.object().shape({
+    value: Yup.number()
+      .typeError("Vui lòng nhập đúng định dạng số")
+      .required("Vui lòng nhập trường này"),
+    label: Yup.string(),
+  }),
+  ward_id: Yup.object().shape({
+    value: Yup.number()
+      .typeError("Vui lòng nhập đúng định dạng số")
+      .required("Vui lòng nhập trường này"),
+    label: Yup.string(),
+  }),
+  street: Yup.string().required("Vui lòng nhập trường này"),
 })
 
 export const identityCardSchema = Yup.object().shape({
@@ -94,14 +130,10 @@ export const identityCardSchema = Yup.object().shape({
   date_of_issue: Yup.string()
     .matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ")
     .required("Vui lòng nhập ngày cấp"),
-  date_of_expiry: Yup.string()
-    .matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ")
-    .required("Vui lòng nhập ngày hết hạn"),
-  place_of_issue: Yup.string().required("Vui lòng nhập địa chỉ"),
-  province_id: Yup.string().required("Vui lòng nhập Tỉnh/Thành Phố"),
-  district_id: Yup.string().required("Vui lòng nhập Quận/Huyện"),
-  ward_id: Yup.string().required("Vui lòng nhập Phường/Xã"),
-  street: Yup.string().required("Vui lòng nhập địa chỉ cụ thể"),
+  date_of_expiry: Yup.string().matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ").nullable(),
+  place_of_issue: Yup.string().required("Vui lòng nhập nơi cấp"),
+  address: Yup.string().required("Vui lòng nhập địa chỉ"),
+  identity_card_id: Yup.string().nullable(),
 })
 
 export const insuranceShema = Yup.object().shape({

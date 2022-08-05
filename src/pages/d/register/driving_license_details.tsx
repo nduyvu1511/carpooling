@@ -29,14 +29,14 @@ const DrivingLicenseDetail = () => {
       createVehicleDrivingLicense({
         params: data,
         onSuccess: () => {
-          router.push("/d/register")
+          router.push("/d/register/vehicle_details")
         },
       })
     }
   }
 
   return (
-    <DriverRegisterLayout heading="Bằng Lái Xe">
+    <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bằng Lái Xe">
       <div className="content-container px-[16px] sm:px-0">
         {!isValidating ? (
           <DrivingLicenseForm

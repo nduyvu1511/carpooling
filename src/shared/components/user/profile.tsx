@@ -1,17 +1,28 @@
 import { EditIcon, SpinnerIcon } from "@/assets"
-import { InputLoading, TextareaLoading, UserInfoForm } from "@/components"
+import { InputLoading, TextareaLoading, UserInfoForm, RatingTag } from "@/components"
 import { removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
-import { UpdateUserInfoParams } from "@/models"
+import { CarAccountType, UpdateUserInfoParams } from "@/models"
 import { setProfile } from "@/modules"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { ChangeEvent } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
-const Profile = () => {
+interface ProfileProps {
+  type?: CarAccountType
+}
+
+const Profile = ({ type }: ProfileProps) => {
+  const router = useRouter()
   const dispatch = useDispatch()
-  const { updateUserInfo, isValidating, data: userInfo } = useProfile(true)
+  const {
+    updateUserInfo,
+    isValidating,
+    data: userInfo,
+    updateUserInfoIdentityCard,
+  } = useProfile(true)
   const { getBase64Images } = useAttachment({ limit: 1, useState: false })
   const { uploadImages, isUploading } = useUploadAttachment()
 
@@ -71,19 +82,21 @@ const Profile = () => {
     <>
       <div className="flex-center flex-col md:flex-row md:items-center md:justify-center mb-24">
         <div className="flex-col flex-center mb-[16px] md:mb-0">
-          <div className="relative w-[80px] h-[80px] md:w-[160px] md:h-[160px] rounded-[50%] overflow-hidden mb-[8px]">
+          <div className="relative w-[105px] h-[105px] md:w-[160px] md:h-[160px] flex-center border border-solid border-border-color-1 rounded-[50%]">
             {isUploading ? (
               <div className="w-full h-full rounded-[50%] flex-center bg-bg">
                 <SpinnerIcon className="animate-spin" />
               </div>
             ) : (
               <label htmlFor="avatar" className="cursor-pointer">
-                <Image
-                  src={toImageUrl(userInfo?.avatar_url?.image_url)}
-                  layout="fill"
-                  alt=""
-                  objectFit="cover"
-                />
+                <div className="w-[90px] h-[90px] md:w-[140px] md:h-[140px] relative rounded-[50%] overflow-hidden">
+                  <Image
+                    src={toImageUrl(userInfo?.avatar_url?.image_url)}
+                    layout="fill"
+                    alt=""
+                    objectFit="cover"
+                  />
+                </div>
               </label>
             )}
             <input
@@ -94,19 +107,31 @@ const Profile = () => {
               accept="image/png, image/jpeg"
               id="avatar"
             />
+
+            <span className="w-24 h-24 md:w-[32px] md:h-[32px] rounded-[50%] bg-primary flex-center absolute bottom-[8px] right-[8px]">
+              <EditIcon className="w-[12px] text-white-color" />
+            </span>
           </div>
 
-          <label htmlFor="avatar" className="flex-center cursor-pointer">
+          {/* <label htmlFor="avatar" className="flex-center cursor-pointer">
             <EditIcon className="mr-[8px]" />
             <span className="text-sm text-primary">Thay đổi ảnh đại diện</span>
-          </label>
+          </label> */}
         </div>
-
         <div className="flex-1 md:ml-[48px]">
           <div className="flex-col flex-center md:items-start">
-            <p className="h3 mb-[8px] md:mb-[16px] line-clamp-1 word-wrap-anywhere">
-              {userInfo.partner_name}
-            </p>
+            <div className="flex items-center mb-[8px] md:mb-[16px]">
+              <p className="h3 line-clamp-1 word-wrap-anywhere flex-1 mr-[16px]">
+                {userInfo.partner_name}
+              </p>
+              {userInfo?.rating_number ? (
+                <RatingTag
+                  onClick={() => router.push("/d/account/rating")}
+                  value={userInfo.rating_number}
+                />
+              ) : null}
+            </div>
+
             <p className="text-xs md:text-sm text-gray-color-5 line-clamp-1 word-wrap-anywhere">
               {userInfo.phone}
             </p>
@@ -114,13 +139,16 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="">
+      <div className="pb-24 md:pb-0">
         <UserInfoForm
+          onSubmitIdentityCard={(params) => updateUserInfoIdentityCard(params)}
+          type={type}
           mode="update"
           showAvatar={false}
           defaultValues={userInfo}
           onSubmit={(data) => handleUpdateUserInfo(data)}
           view="page"
+          btnLabel="Lưu"
         />
       </div>
     </>

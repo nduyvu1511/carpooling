@@ -5,7 +5,7 @@ import {
   RidesProgress,
   RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal
+  RideSummaryModal,
 } from "@/components"
 import { formatMoneyVND } from "@/helper"
 import { useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
@@ -171,7 +171,7 @@ const CheckoutOptions = () => {
             </div>
           ) : null}
 
-          {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+          {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
         </div>
       </CustomerBookingLayout>
       <Alert

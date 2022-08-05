@@ -28,14 +28,17 @@ const IdentityCardDetail = () => {
       createIdentityCard({
         params: data,
         onSuccess: () => {
-          router.push("/d/register")
+          router.push("/d/register/driving_license_details")
         },
       })
     }
   }
 
   return (
-    <DriverRegisterLayout heading="CMND / Thẻ Căn Cước / Hộ Chiếu">
+    <DriverRegisterLayout
+      onRightBtnClick={() => router.push("/d/register")}
+      heading="CMND / Thẻ Căn Cước / Hộ Chiếu"
+    >
       <div className="relative px-[16px] sm:px-0">
         {!isValidating ? (
           <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />

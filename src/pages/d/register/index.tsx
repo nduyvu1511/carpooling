@@ -87,10 +87,10 @@ const DriverInfo = () => {
                         key={index}
                         className="flex items-center justify-between cursor-pointer py-[14px] text-14 md:text-16 font-semibold leading-[22px]"
                       >
-                        <p className="text-gray-color-4">{child.label}</p>
+                        <p className="text-blue-8">{child.label}</p>
                         <p
-                          className={`flex whitespace-nowrap items-center text-warning ${
-                            data?.[child.name] ? "text-success" : ""
+                          className={`flex whitespace-nowrap items-center ${
+                            data?.[child.name] ? "text-success" : "text-warning"
                           } ${!child.isRequired ? "driver__body-list-item-noti-no-required" : ""}`}
                         >
                           {data?.[child.name]

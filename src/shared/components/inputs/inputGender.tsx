@@ -1,42 +1,39 @@
 import { GenderType } from "@/models"
-import { InputCheckbox } from "./inputCheckbox"
+import { InputRadio } from "./inputRadio"
 
 interface InputGenderProps {
   onChange: (params: GenderType) => void
   value: GenderType | undefined
-  isError?: undefined | boolean
 }
 
-const InputGender = ({ onChange: onChangeProps, value, isError = false }: InputGenderProps) => {
+const InputGender = ({ onChange: onChangeProps, value: valueProps }: InputGenderProps) => {
   return (
     <div className="flex items-center">
-      <div className="flex items-center mr-[40px]">
-        <span className="mr-[14px]">
-          <InputCheckbox
-            size={20}
-            type="circle"
-            isChecked={value === "male"}
-            onCheck={() => onChangeProps("male")}
-          />
-        </span>
-        <span onClick={() => onChangeProps("male")} className="text-sm cursor-pointer">
-          Nam
-        </span>
-      </div>
-      <div className="flex items-center">
-        <span className="mr-[14px]">
-          <InputCheckbox
-            type="circle"
-            size={20}
-            isChecked={value === "female"}
-            onCheck={() => onChangeProps("female")}
-          />
-        </span>
-
-        <span onClick={() => onChangeProps("female")} className="text-sm cursor-pointer">
-          Nữ
-        </span>
-      </div>
+      {[
+        ["Nam", "male"],
+        ["Nữ", "female"],
+        ["Khác", "no_info"],
+      ].map(([label, value], index) => (
+        <div
+          key={value}
+          style={{ marginRight: index === 2 ? 0 : 40 }}
+          className="flex items-center"
+        >
+          <span className="mr-[14px]">
+            <InputRadio
+              size={20}
+              isChecked={valueProps === value}
+              onCheck={() => onChangeProps(value as GenderType)}
+            />
+          </span>
+          <span
+            onClick={() => onChangeProps(value as GenderType)}
+            className="text-sm cursor-pointer"
+          >
+            {label}
+          </span>
+        </div>
+      ))}
     </div>
   )
 }

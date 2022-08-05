@@ -1,4 +1,11 @@
-import { bctImg, FacebookIcon, LogoIcon, paymentMehods, TiktokIcon, YoutubeIcon } from "@/assets"
+import {
+  FacebookIcon,
+  LogoIcon,
+  paymentMehods,
+  TiktokIcon,
+  TwitterIcon,
+  YoutubeIcon,
+} from "@/assets"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -32,11 +39,19 @@ const Footer = () => {
                   <YoutubeIcon />
                 </a>
                 <a
+                  className="mr-[20px]"
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
                 >
                   <TiktokIcon />
+                </a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
+                >
+                  <TwitterIcon className="w-[23px]" />
                 </a>
               </p>
             </div>
@@ -74,7 +89,7 @@ const Footer = () => {
             <div key={index} className="">
               <p
                 className={`mb-[16px] md:mb-[24px] leading-[26px] text- font-bold ${
-                  item.heading === "Về chúng tôi" ? "text-primary" : "text-gray-color-4"
+                  item.heading === "Về chúng tôi" ? "text-primary" : "text-blue-8"
                 }`}
               >
                 {item.heading}
@@ -93,7 +108,7 @@ const Footer = () => {
                         className={`leading-[26px] text-14 ${
                           item.heading === "Về chúng tôi"
                             ? "text-primary font-semibold text-14 sm:text-16 leading-[20px]"
-                            : "text-gray-color-4 font-[400]"
+                            : "text-blue-8 font-[400]"
                         }`}
                       >
                         {_item.label}

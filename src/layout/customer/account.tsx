@@ -4,10 +4,15 @@ import { CustomerLayout } from "./customer"
 
 type CustomerAccountLayoutProps = Omit<AccountLayoutProps, "navList">
 
-const CustomerAccountLayout = ({ children, desc, title }: CustomerAccountLayoutProps) => {
+const CustomerAccountLayout = ({
+  children,
+  desc,
+  title,
+  showHeaderMobile,
+}: CustomerAccountLayoutProps) => {
   return (
     <CustomerLayout showHeaderOnMobile={false}>
-      <AccountLayout desc={desc} title={title}>
+      <AccountLayout showHeaderMobile={showHeaderMobile} desc={desc} title={title}>
         {children}
       </AccountLayout>
     </CustomerLayout>
@@ -15,3 +20,4 @@ const CustomerAccountLayout = ({ children, desc, title }: CustomerAccountLayoutP
 }
 
 export { CustomerAccountLayout }
+

@@ -2,7 +2,7 @@ import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } 
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
 import { useAuth, useEffectOnce, useProfile } from "@/hooks"
-import { AuthModalType, loginFormParams, UpdateUserInfoParams, UserInfoFormParams } from "@/models"
+import { AuthModalType, LoginFormParams, UpdateUserInfoParams, UserInfoFormSubmit } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
@@ -25,22 +25,25 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     })
   }
 
-  const handleLoginWithPassword = (params: loginFormParams) => {
-    loginWithPassword(params, () => {
-      handleGetUserInfo()
+  const handleLoginWithPassword = (params: LoginFormParams) => {
+    loginWithPassword({
+      params,
+      onSuccess: () => handleGetUserInfo(),
+      config: { toggleOverFlow: false },
     })
   }
 
-  const handleLoginWithOTP = (firebaseToken: string) => {
+  const handleLoginWithOTP = (params: string) => {
     loginWithPhoneNumber({
-      firebaseToken,
+      params,
       onSuccess: () => {
         handleGetUserInfo()
       },
+      config: { toggleOverFlow: false },
     })
   }
 
-  const handleUpdateUserInfo = async (params: UserInfoFormParams) => {
+  const handleUpdateUserInfo = async (params: UserInfoFormSubmit) => {
     updateUserInfo({
       params: params as UpdateUserInfoParams,
       onSuccess: (userInfo) => {
@@ -83,6 +86,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
         <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] ">
           {authModalType === "login" ? (
             <LoginForm
+              view="modal"
               onSubmit={(data) => handleLoginWithPassword(data)}
               onClickResetPassword={() => dispatch(setAuthModalType("resetPassword"))}
               onClickLoginSMS={() => dispatch(setAuthModalType("sms"))}

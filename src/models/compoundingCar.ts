@@ -159,6 +159,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   duration?: number
   rating_ids: RatingRes[]
   rating_state: RatingState
+  car_driver_deposit_percentage: number
 }
 export interface CompoundingCarDriverRes
   extends Omit<CompoundingCarRes, "state" | "rating" | "partner"> {

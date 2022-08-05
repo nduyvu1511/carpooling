@@ -3,15 +3,15 @@ import {
   Alert,
   CarpoolingCompoundingForm,
   CheckoutExistsItem,
-  Map,
   Modal,
   OneWayCompoundingForm,
   RatingItem,
   RidesDetailLoading,
   RidesProgress,
-  RidesSummary,
   RidesSummaryMobile,
-  RidesSummaryModal,
+  RideSummaryModal,
+  RideSummary,
+  RideToolTip,
   TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
@@ -108,16 +108,21 @@ const ConfirmBookingCustomer = () => {
         topNode={
           <div>
             <RidesProgress state={compoundingCar?.state} />
-            <p className="text-14 font-medium md:text-16 text-primary md:px-12 lg:px-24 mt-24">
-              Vui lòng đặt cọc {compoundingCar?.car_driver_deposit_percentage}% số tiền để hoàn tất giao dịch.
-            </p>
+            {compoundingCar?.car_driver_deposit_percentage ? (
+              <RideToolTip
+                percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
+                className="mt-12 lg:hidden sm:mr-12 md:ml-12 md:mr-24"
+                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi
+              hoàn tất chuyến đi"
+              />
+            ) : null}
           </div>
         }
         rightNode={
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RidesSummary rides={compoundingCar} car_account_type="car_driver" />
+                <RideSummary rides={compoundingCar} />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
                 <RidesSummaryMobile rides={compoundingCar} />
@@ -127,27 +132,19 @@ const ConfirmBookingCustomer = () => {
         }
         title="Chi tiết chuyến đi"
       >
+        {compoundingCar?.car_driver_deposit_percentage ? (
+          <RideToolTip
+            percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
+            className="hidden lg:flex mx-24"
+            desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi"
+          />
+        ) : null}
+
         <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
           {isInitialLoading ? (
             <RidesDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
-              <div className="h-[300px] mb-12">
-                <Map
-                  direction={{
-                    destination: {
-                      lat: Number(compoundingCar.to_latitude),
-                      lng: Number(compoundingCar.to_longitude),
-                    },
-                    origin: {
-                      lat: Number(compoundingCar.from_latitude),
-                      lng: Number(compoundingCar.from_longitude),
-                    },
-                  }}
-                  viewOnly
-                />
-              </div>
-
               <div className="">
                 {compoundingCar?.compounding_type ? (
                   <>
@@ -195,7 +192,7 @@ const ConfirmBookingCustomer = () => {
             </>
           ) : null}
         </div>
-        {compoundingCar ? <RidesSummaryModal rides={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
       </DriverBookingLayout>
 
       <Alert

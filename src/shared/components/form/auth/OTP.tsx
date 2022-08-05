@@ -1,6 +1,5 @@
 import { OtpForm, PhoneForm } from "@/components"
 import { authentication } from "@/core/config"
-import { toggleBodyOverflow } from "@/helper"
 import { useAuth } from "@/hooks"
 import { setScreenLoading } from "@/modules"
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
@@ -29,7 +28,7 @@ export const OTP = ({
   type,
   children,
   defaultPhoneNumber = "",
-  view,
+  view = "modal",
 }: LoginOtpProps) => {
   const dispatch = useDispatch()
   const { OTPVerifier, checkPhoneExist } = useAuth()
@@ -50,7 +49,7 @@ export const OTP = ({
   const generateOTPCode = async (phoneNumber: string) => {
     if (!phoneNumber) return
 
-    dispatch(setScreenLoading(true))
+    dispatch(setScreenLoading({ show: true, toggleOverFlow: view === "page" }))
     const verify = generateRecaptcha()
 
     try {
@@ -59,15 +58,13 @@ export const OTP = ({
         `+84${phoneNumber.slice(1)}`,
         verify
       )
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
       setPhone(phoneNumber)
       window.confirmationResult = confirmationResult
-      view === "modal" && toggleBodyOverflow("hidden")
       setExpandForm(true)
     } catch (error) {
-      dispatch(setScreenLoading(false))
+      dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
       generateRecaptcha()
-      view === "modal" && toggleBodyOverflow("hidden")
     }
   }
 
@@ -76,12 +73,10 @@ export const OTP = ({
     OTPVerifier({
       otpInput,
       handleSuccess: (token) => {
-        view === "modal" && toggleBodyOverflow("hidden")
         onVerifyOTP(token)
       },
-      handleError: () => {
-        view === "modal" && toggleBodyOverflow("hidden")
-      },
+      handleError: () => {},
+      config: { toggleOverFlow: view === "page" },
     })
   }
 
@@ -91,18 +86,18 @@ export const OTP = ({
       return
     }
 
-    checkPhoneExist(
-      phone,
-      type,
-      () => {
+    checkPhoneExist({
+      params: { phone, type },
+      onSuccess: () => {
         generateOTPCode(phone)
       },
-      () => {
+      onError: () => {
         type === "register"
           ? dispatch(notify("SĐT đã tồn tại, vui lòng thử đăng nhập!", "warning"))
           : dispatch(notify("Không tìm thấy SĐT, vui lòng thử lại", "warning"))
-      }
-    )
+      },
+      config: { toggleOverFlow: view === "page" },
+    })
   }
 
   return (

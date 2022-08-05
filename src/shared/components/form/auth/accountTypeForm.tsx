@@ -64,4 +64,3 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
 }
 
 export { AccountTypeForm }
-

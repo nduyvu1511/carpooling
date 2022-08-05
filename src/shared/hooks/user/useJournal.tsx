@@ -3,7 +3,7 @@ import {
   JournalRes,
   MakeWithdrawingRequestParams,
   TransactionRes,
-  UseParams
+  UseParams,
 } from "@/models"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -11,11 +11,12 @@ import { useMemo, useState } from "react"
 import useSWR from "swr"
 import { useFetcher } from "../async"
 
-interface UseDriverWalletProps {
+interface useJournalProps {
   isValidating: boolean
   isInitialLoading: boolean
   data: Journal | undefined
   hasMore: boolean
+  journalFilter: JournalFilterDate | undefined
   fetchMoreTransactions: () => void
   filterTransactions: (params: JournalFilterDate) => void
   isFetchingMore: boolean
@@ -34,7 +35,7 @@ type Journal = {
 
 const LIMIT = 12
 
-const useDriverWallet = (): UseDriverWalletProps => {
+const useJournal = (): useJournalProps => {
   const { fetcherHandler } = useFetcher()
   const { isValidating, mutate, data, error } = useSWR("get_wallet_list", () =>
     userApi.getJournalList({ limit: LIMIT }).then((res) => {
@@ -46,7 +47,7 @@ const useDriverWallet = (): UseDriverWalletProps => {
   const [offset, setOffset] = useState<number>(0)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(false)
-  const [isFetchingMore, setFetchingMore] = useState<boolean>(true)
+  const [isFetchingMore, setFetchingMore] = useState<boolean>(false)
   const [date, setDate] = useState<JournalFilterDate | undefined>()
 
   const fetchMoreTransactions = async () => {
@@ -105,7 +106,6 @@ const useDriverWallet = (): UseDriverWalletProps => {
         onSuccess?.(data)
       },
       onError: onError?.(),
-      config: { successMsg: "Rút tiền thành công!" },
     })
   }
 
@@ -124,8 +124,8 @@ const useDriverWallet = (): UseDriverWalletProps => {
     isFetchingMore,
     getTotalMoney,
     addWithdrawRequest,
+    journalFilter: date,
   }
 }
 
-export { useDriverWallet }
-
+export { useJournal }

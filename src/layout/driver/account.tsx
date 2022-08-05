@@ -4,10 +4,15 @@ import { DriverLayout } from "./driver"
 
 type DriverAccountLayoutProps = Omit<AccountLayoutProps, "navList">
 
-const DriverAccountLayout = ({ children, desc, title }: DriverAccountLayoutProps) => {
+const DriverAccountLayout = ({
+  children,
+  desc,
+  title,
+  showHeaderMobile,
+}: DriverAccountLayoutProps) => {
   return (
-    <DriverLayout >
-      <AccountLayout desc={desc} title={title}>
+    <DriverLayout>
+      <AccountLayout showHeaderMobile={showHeaderMobile} desc={desc} title={title}>
         {children}
       </AccountLayout>
     </DriverLayout>

@@ -28,14 +28,14 @@ const VehicleInsurance = () => {
       createRegistrationCertificate({
         params: data,
         onSuccess: () => {
-          router.push("/d/register")
+          router.push("/d/register/registration_certificate")
         },
       })
     }
   }
 
   return (
-    <DriverRegisterLayout heading="Thông tin xe">
+    <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Thông tin xe">
       <div className="px-[16px] sm:px-0">
         {!isValidating ? (
           <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />

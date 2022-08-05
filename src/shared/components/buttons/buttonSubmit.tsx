@@ -25,7 +25,7 @@ export const ButtonSubmit = ({
         view === "modal"
           ? "absolute left-[0] bottom-[0] right-[0] p-12 bg-white-color flex-center"
           : "fixed bottom-0 right-0 left-0 bg-white-color p-12 md:static md:p-0"
-      } ${parentClassName}`}
+      } btn-submit ${parentClassName}`}
     >
       <button
         onClick={() => onClick && onClick()}

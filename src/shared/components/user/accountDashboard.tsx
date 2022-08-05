@@ -5,6 +5,7 @@ import { UserInfo } from "@/models"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { RatingTag } from "../rating"
 
 interface AccountDashboardProps {
   activePath?: string
@@ -42,7 +43,17 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
         </div>
 
         <div className="flex items-center flex-col">
-          <p className="mb-[8px] h3 text-primary font-semibold flex-1">{userInfo?.partner_name}</p>
+          <div className="flex items-center flex-1 mb-8">
+            <p className="mr-[16px] h3 text-primary font-semibold flex-1">
+              {userInfo?.partner_name}
+            </p>
+            {userInfo?.rating_number ? (
+              <RatingTag
+                onClick={() => router.push("/d/account/rating")}
+                value={userInfo.rating_number}
+              />
+            ) : null}
+          </div>
           {userInfo?.car_account_type === "customer" ||
           (userInfo?.car_account_type === "car_driver" &&
             userInfo.verified_car_driver_account === "active_acount") ? (

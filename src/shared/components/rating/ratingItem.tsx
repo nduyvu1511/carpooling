@@ -93,7 +93,7 @@ export const RatingItem = ({
                   title="Báo cáo đánh giá"
                   className="hidden lg:group-hover:block transform-none -left-[120px]"
                 />
-                <VscReport className="w-[18px] md:w-[24px] text-gray-color-4" />
+                <VscReport className="w-[18px] md:w-[24px] text-blue-8" />
               </button>
             )}
           </div>

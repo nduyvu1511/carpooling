@@ -1,17 +1,18 @@
 import { EyeHideIcon, EyeShowIcon } from "@/assets"
 import { loginSchema } from "@/core/schema"
 import { FORM_LOGIN_KEY, getFromLocalStorage, setToLocalStorage } from "@/helper"
-import { loginFormParams } from "@/models"
+import { LoginFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 interface LoginFormProps {
-  onSubmit?: (data: loginFormParams) => void
+  onSubmit?: (data: LoginFormParams) => void
   onClickResetPassword?: Function
   onClickLoginSMS?: Function
   onClickRegister?: Function
   onClickLoginWithGoogle?: Function
+  view?: "page" | "modal"
 }
 
 export const LoginForm = ({
@@ -19,6 +20,7 @@ export const LoginForm = ({
   onClickResetPassword,
   onClickLoginSMS,
   onClickRegister,
+  view,
   onClickLoginWithGoogle,
 }: LoginFormProps) => {
   const formStorage = getFromLocalStorage(FORM_LOGIN_KEY)
@@ -28,7 +30,7 @@ export const LoginForm = ({
     register,
     handleSubmit,
     formState: { errors, dirtyFields, isValid },
-  } = useForm<loginFormParams>({
+  } = useForm<LoginFormParams>({
     resolver: yupResolver(loginSchema),
     mode: "all",
     defaultValues: {
@@ -41,7 +43,7 @@ export const LoginForm = ({
     ;(document.querySelector(".form-input") as HTMLInputElement)?.focus()
   }, [])
 
-  const onSubmitHandler = (data: loginFormParams) => {
+  const onSubmitHandler = (data: LoginFormParams) => {
     const { password, phone } = data
     onSubmit && onSubmit(data)
     setToLocalStorage(FORM_LOGIN_KEY, { phone, password })
@@ -91,7 +93,7 @@ export const LoginForm = ({
               onClick={() => setShowPw(!showPw)}
               className="cursor-pointer absolute top-1/2 transform -translate-y-1/2 right-[10px]"
             >
-              {showPw ? <EyeHideIcon /> : <EyeShowIcon />}
+              {!showPw ? <EyeHideIcon /> : <EyeShowIcon />}
             </span>
           </div>
           {errors.password || dirtyFields.password ? (
@@ -100,7 +102,7 @@ export const LoginForm = ({
         </div>
       </div>
 
-      <div className="flex items-center justify-between text-[12px] text-gray-color-4 font-normal mb-[40px]">
+      <div className="flex items-center justify-between text-[12px] text-blue-8 font-normal mb-[40px]">
         <span
           onClick={() => onClickResetPassword && onClickResetPassword()}
           className="cursor-pointer"
@@ -127,7 +129,7 @@ export const LoginForm = ({
         </button>
       </div>
 
-      <div className="text-14 font-medium text-gray-color-4 leading-26 text-center">
+      <div className="text-14 font-medium text-blue-8 leading-26 text-center">
         Bạn chưa có tài khoản?{" "}
         <a
           onClick={() => onClickRegister && onClickRegister()}

@@ -1,3 +1,4 @@
+import { ErrorCircleIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
 import { useEffectOnce } from "@/hooks"
@@ -69,8 +70,11 @@ const CheckoutProcess = ({
         </div>
       ) : (
         <div className="py-[40px] flex-center flex-col">
-          <div className="text-sm md:text-base mb-[40px] p-12 md:p-[24px] bg-bg-error">
-            {VNPAY_STATUS_NAME[vnp_ResponseCode]}
+          <div className=" mb-[40px] p-12 md:p-[24px] bg-bg-error flex items-center rounded-[5px]">
+            <ErrorCircleIcon className="w-[24px] h-[24px]" />
+            <p className="text-sm ml-12 leading-[22px] flex-1">
+              {VNPAY_STATUS_NAME[vnp_ResponseCode]}
+            </p>
           </div>
           <button onClick={() => window.close()} className="btn-primary mb-[40px]">
             Trở về trang chủ

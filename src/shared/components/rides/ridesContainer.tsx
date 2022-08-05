@@ -1,5 +1,13 @@
 import { FilterIcon } from "@/assets"
-import { CompoundingFilter, Drawer, Modal, RidesItem, Spinner, Tabs } from "@/components"
+import {
+  CompoundingFilter,
+  Drawer,
+  Modal,
+  RidesItem,
+  Spinner,
+  Tabs,
+  FilterNotFound,
+} from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter } from "@/hooks"
 import {
@@ -116,9 +124,7 @@ const RidesContainer = ({
                 ))}
               </ul>
             ) : list?.length === 0 ? (
-              <div className="flex-center mt-[60px] mb-[20px]">
-                <p className="text-base">Không tìm thấy chuyến đi nào</p>
-              </div>
+              <FilterNotFound title="Không tìm thấy chuyến đi nào" />
             ) : (
               <div className="">
                 <InfiniteScroll

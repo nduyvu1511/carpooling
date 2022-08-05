@@ -49,6 +49,11 @@ const useAccountNavList = () => {
         path: `/c/account/profile`,
       },
       {
+        icon: <WalletIcon className="w-[20px] h-[20px]" />,
+        label: "Ví cá nhân",
+        path: `/c/account/wallet`,
+      },
+      {
         icon: <ActivityIcon className="w-[20px] h-[20px]" />,
         label: "Hoạt động",
         path: `/c/account/activities`,
