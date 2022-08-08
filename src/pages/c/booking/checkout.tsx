@@ -55,7 +55,7 @@ const Checkout = () => {
     customerCancelCompoundingCarBeforeDeposit({
       params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
       onSuccess: () => {
-        router.push("/c")
+        router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
       },
     })
   }
@@ -114,7 +114,7 @@ const Checkout = () => {
           <Payment
             percentage={compoundingCar.customer_deposit_percentage}
             amount_due={compoundingCar?.amount_due}
-            down_payment={compoundingCar?.down_payment}
+            down_payment={compoundingCar?.down_payment?.total}
             amount_total={compoundingCar?.price_unit?.price_unit}
             secondsRemains={compoundingCar.second_remains}
             onCheckout={(id) => handleConfirmTransaction(id)}

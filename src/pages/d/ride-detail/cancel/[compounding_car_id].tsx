@@ -1,4 +1,4 @@
-import { RideCanceled, RideSummary } from "@/components"
+import { RideCanceled, RideProgress, RideSummary } from "@/components"
 import { useCompoundingCarDriver, useEffectOnce } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CompoundingCarDriverRes } from "@/models"
@@ -25,11 +25,19 @@ const RideCanceledPage = () => {
 
   return (
     <DriverBookingLayout
+      reverse
       showLoading={isInitialLoading}
       title="Thông tin hủy chuyến đi"
-      rightNode={<RideSummary data={compoundingCar as CompoundingCarDriverRes} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
+      rightNode={
+        <div className="p-12 md:p-24 lg:p-0">
+          <RideSummary data={compoundingCar as CompoundingCarDriverRes} />
+        </div>
+      }
     >
-      <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+      <div className="">
+        <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+      </div>
     </DriverBookingLayout>
   )
 }

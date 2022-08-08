@@ -9,8 +9,8 @@ import {
   RatingReport,
   RideProgress,
   RidesDetailLoading,
-  RideSummaryMobile,
   RideSummary,
+  RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
   TwoWayCompoundingForm,
@@ -110,7 +110,7 @@ const ConfirmBookingCustomer = () => {
         setDepositFailure(data)
         setShowModal(true)
         setTimeout(() => {
-          toggleBodyOverflow("hidden")
+          toggleBodyOverflow("unset")
         }, 0)
       },
       showLoading: true,
@@ -151,7 +151,7 @@ const ConfirmBookingCustomer = () => {
           <RideToolTip
             percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
             className="hidden lg:flex mx-24"
-            desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi"
+            desc="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
           />
         ) : null}
 

@@ -61,15 +61,15 @@ const DriverInfo = () => {
       <div className="px-[16px] sm:px-0 min-h-screen flex flex-col">
         <div className="content-container flex-1 relative py-24">
           <div className="">
-            <button onClick={() => router.push("/d")}>
+            <button className="mb-[16px]" onClick={() => router.push("/d")}>
               <LogoIcon />
             </button>
-            <p className="text-base">
+            <p className="text-sm md:text-base">
               Vui lòng hoàn thành toàn bộ thông tin sau đăng ký để bắt đầu lái xe
             </p>
           </div>
 
-          <div className="my-[40px]">
+          <div className="my-[24px] md:my-[40px]">
             <ProgressBar
               totalProgressNumber={Object.keys(data || {}).length}
               progressNumber={filledDataLength}

@@ -1,6 +1,7 @@
 import {
   CheckIcon,
   CloseIcon,
+  InfoIcon,
   LocationIcon2,
   LocationIcon3,
   LocationIcon4,
@@ -12,6 +13,7 @@ import {
   RidePassengerItem,
   RideProgress,
   RidesDetailLoading,
+  RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
   ScheduleSummary,
@@ -160,35 +162,13 @@ const ScheduleCompounding = () => {
             <RideProgress state={compoundingCar?.state} />
           </div>
         }
-        title="Thông tin chuyến đi"
+        title="Bắt đầu chuyến đi"
         stickyRight
         rightNode={
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <ScheduleSummary
-                  number_seat={compoundingCar.car.number_seat}
-                  number_seat_in_car={compoundingCar.number_seat_in_car}
-                  distance={compoundingCar.distance}
-                  duration={compoundingCar.duration || 0}
-                  expected_going_on_date={compoundingCar.expected_going_on_date}
-                  expected_picking_up_date={moment(compoundingCar.expected_going_on_date)
-                    .add(compoundingCar?.duration || 0, "hours")
-                    .toString()}
-                  from_province_name={compoundingCar.from_province.province_brief_name}
-                  compounding_type={compoundingCar.compounding_type}
-                  to_province_name={compoundingCar.to_province.province_brief_name}
-                  direction={{
-                    destination: {
-                      lat: Number(compoundingCar.to_latitude),
-                      lng: Number(compoundingCar.to_longitude),
-                    },
-                    origin: {
-                      lat: Number(compoundingCar.from_latitude),
-                      lng: Number(compoundingCar.from_longitude),
-                    },
-                  }}
-                />
+                <RideSummary data={compoundingCar} />
               </div>
             </>
           ) : null
@@ -200,11 +180,16 @@ const ScheduleCompounding = () => {
           </div>
         ) : compoundingCar?.state !== "start_running" &&
           compoundingCar?.state !== "confirm_deposit" &&
+          compoundingCar?.state !== "confirm" &&
+          compoundingCar?.state !== "stop_picking" &&
           compoundingCar?.state !== "done" ? (
-          <div className="flex-center p-[40px] text-base">Chuyến đi chưa được bắt đầu</div>
+          <div className="flex-center text-base rounded-[5px] mx-auto my-24 p-12 bg-bg-primary w-fit text-xs">
+            <InfoIcon className="w-[18px] h-[18px]" />
+            <p className="flex-1 ml-12 text-sm">Chuyến đi chưa được bắt đầu</p>
+          </div>
         ) : (
           <>
-            <div className="mt-12 md:mt-24 px-12 md:px-24 pt-0 flex items-center justify-between">
+            <div className="mt-12 px-12 md:px-24 pt-0 flex items-center justify-between">
               <p className="text-16 font-semibold uppercase md:font-medium md:normal-case">
                 Trạng thái chuyến đi
               </p>
@@ -221,7 +206,7 @@ const ScheduleCompounding = () => {
                 </p>
               ) : null}
             </div>
-            <div className="px-12 md:px-24 pt-12 md:pt-24 md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
+            <div className="px-12 md:px-24 pt-12 md:pt-[16px] md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
               <ProgressBarMultiple
                 height={3}
                 type="dashed"
@@ -261,7 +246,9 @@ const ScheduleCompounding = () => {
 
             <div className="px-12 md:px-24 lg:py-24 pt-0 ">
               {compoundingCar?.state === "confirm_deposit" ||
-              compoundingCar?.state === "start_running" ? (
+              compoundingCar?.state === "start_running" ||
+              compoundingCar?.state === "stop_picking" ||
+              compoundingCar?.state === "confirm" ? (
                 <>
                   {getNumberOfPassengersPaid ===
                   compoundingCar?.compounding_car_customers.length -
@@ -274,7 +261,8 @@ const ScheduleCompounding = () => {
                         Kết thúc chuyến đi
                       </button>
                     </div>
-                  ) : compoundingCar.state === "confirm_deposit" ? (
+                  ) : compoundingCar.state === "confirm_deposit" ||
+                    compoundingCar.state === "confirm" ? (
                     <div className="flex-center p-12 lg:pb-[36px] fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
                       <button
                         onClick={() =>
@@ -292,13 +280,13 @@ const ScheduleCompounding = () => {
               <div className="lg:hidden my-24 border-b lg:mx-12 border-solid border-border-color"></div>
 
               <div className="mb-0 md:mb-[64px] lg:mb-0">
-                <p className="text-base font-semibold uppercase md:normal-case mb-12">
-                  Danh sách hành khách
-                </p>
+                <p className="text-base font-semibold uppercase mb-12">Danh sách hành khách</p>
 
                 <ul
                   className={`${
-                    compoundingCar?.state !== "start_running" && compoundingCar?.state !== "done"
+                    compoundingCar?.state !== "start_running" &&
+                    compoundingCar?.state !== "done" &&
+                    compoundingCar?.state !== "stop_picking"
                       ? "opacity-[50%] pointer-events-none select-none"
                       : ""
                   }`}

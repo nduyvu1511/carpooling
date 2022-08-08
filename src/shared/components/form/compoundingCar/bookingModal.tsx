@@ -61,12 +61,16 @@ const BookingModal = ({
       params: data,
       onSuccess: (data) => {
         onClose()
-        router.push({
-          pathname: "/c/booking/confirm",
-          query: {
-            compounding_car_customer_id: data.compounding_car_customer_id,
-          },
-        })
+        if (compoundingType === "convenient") {
+          router.push(`/d/booking/confirm/${data.compounding_car_customer_id}`)
+        } else {
+          router.push({
+            pathname: "/c/booking/confirm",
+            query: {
+              compounding_car_customer_id: data.compounding_car_customer_id,
+            },
+          })
+        }
       },
       config: { toggleOverFlow: false },
     })

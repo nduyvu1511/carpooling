@@ -5,7 +5,7 @@ import {
   RideProgress,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal
+  RideSummaryModal,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
@@ -113,14 +113,16 @@ const CheckoutOptions = () => {
                     </p>
                     <li className="flex justify-between items-start mb-12">
                       <p className="text-xs leading-[26px] mr-[24px]">Tổng giá trị chuyến đi</p>
-                      <p className="flex-1 text-sm whitespace-nowrap text-right"> 
-                        {formatMoneyVND(compoundingCar?.price_unit?.price_unit || 0)}
+                      <p className="flex-1 text-sm whitespace-nowrap text-right">
+                        {formatMoneyVND(
+                          compoundingCar?.amount_total || compoundingCar?.price_unit.price_unit
+                        )}
                       </p>
                     </li>
                     <li className="flex items-start">
                       <p className="text-xs leading-[26px] mr-[24px]">Đã đặt cọc</p>
                       <p className="flex-1 text-sm whitespace-nowrap text-right">
-                        {formatMoneyVND(compoundingCar?.down_payment || 0)}
+                        {formatMoneyVND(compoundingCar?.down_payment?.total || 0)}
                       </p>
                     </li>
                   </ul>
@@ -137,7 +139,7 @@ const CheckoutOptions = () => {
                   <>
                     <p className="text-xs mb-12">Số tiền còn lại cần thanh toán cho tài xế (VND)</p>
                     <p className="text-xl text-error">
-                      {formatMoneyVND(compoundingCar?.down_payment || 0)}
+                      {formatMoneyVND(compoundingCar?.amount_due || 0)}
                     </p>
                   </>
                 )}

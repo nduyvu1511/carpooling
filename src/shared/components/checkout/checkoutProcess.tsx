@@ -24,9 +24,7 @@ const CheckoutProcess = ({
   compounding_car_id,
 }: CheckoutProcessProps) => {
   const [isValidating, setValidating] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState<number | undefined>(
-    vnp_ResponseCode === "00" ? undefined : 30
-  )
+  const [countdown, setCountdown] = useState<number | undefined>(30)
 
   useEffectOnce(() => {
     if (vnp_ResponseCode !== "00") return
@@ -104,4 +102,3 @@ const CheckoutProcess = ({
   )
 }
 export { CheckoutProcess }
-

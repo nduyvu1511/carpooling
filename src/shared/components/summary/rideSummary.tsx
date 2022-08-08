@@ -1,8 +1,8 @@
 import { ArrowLineRightIcon } from "@/assets"
-import { formatMoneyVND } from "@/helper"
+import { COMPOUNDING_TYPE_NAME, formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { AccordionItem } from "../accordion"
 import { Map } from "../map"
 import { RideSummaryInfo } from "./rideSummaryInfo"
@@ -13,6 +13,7 @@ interface RideSummaryProps {
   view?: "page" | "modal"
   showFull?: boolean
   showMap?: boolean
+  children?: ReactNode
 }
 
 const item =
@@ -24,6 +25,7 @@ const RideSummary = ({
   view = "page",
   showFull = true,
   showMap = true,
+  children = null,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
 
@@ -57,22 +59,25 @@ const RideSummary = ({
         ) : null}
         <div className="p-12 md:p-24 bg-bg-primary rounded-[5px] flex items-center mb-12 md:mb-24">
           <div className="flex-1">
-            <p className="text-[22px] md:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {data?.from_province.province_brief_name}
             </p>
             <p className="text-12 md:text-14 font-medium leading-26">
-              {moment(data?.expected_going_on_date).format("HH:mm")}
+              {moment(data?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
-          <div className="mx-8">
-            <ArrowLineRightIcon className="w-[14px]" />
+          <div className="mx-8 flex-center flex-col">
+            <ArrowLineRightIcon className="w-[14px] mb-12" />
+            {/* <p className="text-xs">{COMPOUNDING_TYPE_NAME[data.compounding_type]}</p> */}
           </div>
           <div className="flex-1 flex items-end flex-col">
-            <p className="text-[22px] md:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {data?.to_province.province_brief_name}
             </p>
             <p className="text-12 md:text-14 font-medium leading-26">
-              {moment(data?.expected_going_on_date).add(data.duration, "hours").format("HH:mm")}
+              {moment(data?.expected_going_on_date)
+                .add(data.duration, "hours")
+                .format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
         </div>
@@ -90,12 +95,14 @@ const RideSummary = ({
             {data?.price_unit ? (
               <div className="flex items-baseline justify-between">
                 <p className={titleClassName}>Giá vé/khách:</p>
-                <p className={`font-medium text-orange-50 text-22 md:text-28 leading-[36px]`}>
+                <p className={`font-medium text-orange-50 text-22 xl:text-28 leading-[36px]`}>
                   {formatMoneyVND(data?.price_unit?.price_unit)}
                 </p>
               </div>
             ) : null}
           </div>
+
+          {children}
 
           <div className="lg:hidden">
             <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
@@ -106,7 +113,7 @@ const RideSummary = ({
 
           <div className="lg:hidden">
             <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
-              Thông tin chuyến đi
+              Điều khoản sử dụng
             </p>
             <RideSummaryRules />
           </div>

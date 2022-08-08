@@ -56,10 +56,10 @@ const RidePassengerItem = ({
                 alt={partner.partner_name}
               />
             </div>
-            <div className="text-base flex items-stretch flex-1 ml-[16px] w-full text-primary">
+            <div className="text-sm md:text-base flex items-stretch flex-1 ml-[16px] w-full text-primary">
               <span className="flex-1 my-auto">{partner.partner_name}</span>
               <span
-                className={`h-fit whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] ${
+                className={`h-fit ml-12 whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] ${
                   rides.state === "cancel"
                     ? "bg-bg-error text-error"
                     : rides.state === "in_process"
@@ -167,13 +167,13 @@ const RidePassengerItem = ({
         <div className="flex xl:hidden mt-24">
           <a
             href={`tel:${partner.phone}`}
-            className="w-[52px] h-[52px] bg-primary-opacity rounded-[5px] flex-center mr-12"
+            className="w-[56px] h-[56px] bg-primary-opacity rounded-[5px] flex-center mr-12"
           >
             <PhoneIcon className="w-[18px] h-[18px] text-primary" />
           </a>
           <button
             onClick={() => onClickViewMap?.()}
-            className="w-[52px] h-[52px] bg-primary-opacity rounded-[5px] flex-center"
+            className="w-[56px] h-[56px] bg-primary-opacity rounded-[5px] flex-center"
           >
             <LocationIcon4 className="w-[18px] h-[18px] text-primary" />
           </button>
@@ -203,7 +203,7 @@ const RidePassengerItem = ({
             {rides.state === "deposit" || rides.state === "waiting" || rides.state === "assign" ? (
               <button
                 onClick={() => onClickWaiting?.()}
-                className="btn bg-gray-color-2 flex-1 sm:flex-none mr-12 px-[32px] text-white-color"
+                className="btn bg-gray-color-2 flex-1 sm:flex-none mr-12 sm:px-[32px] text-white-color px-12"
               >
                 Chờ khách
               </button>
@@ -212,7 +212,7 @@ const RidePassengerItem = ({
             {rides?.state === "in_process" ? (
               <button
                 onClick={() => onClickConfirm?.()}
-                className="flex-1 sm:flex-none btn-primary px-[32px] bg-warning hover:bg-warning"
+                className="flex-1 sm:flex-none btn-primary sm:px-[32px] bg-warning hover:bg-warning px-12"
               >
                 Trả khách
               </button>
@@ -226,7 +226,7 @@ const RidePassengerItem = ({
             ) : (
               <button
                 onClick={() => onClickPickUp?.()}
-                className="flex-1 sm:flex-none btn-primary px-[32px]"
+                className="flex-1 sm:flex-none btn-primary sm:px-[32px] px-12"
               >
                 <span>Đón khách</span>
               </button>

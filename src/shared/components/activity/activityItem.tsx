@@ -1,12 +1,4 @@
-import {
-  CalendarIcon,
-  CarIcon,
-  CarpoolingIcon,
-  MultiUserIcon,
-  OneWayIcon,
-  PaymentIcon,
-  TwoWayIcon,
-} from "@/assets"
+import { CalendarIcon, CarIcon, MultiUserIcon, OneWayIcon, PaymentIcon } from "@/assets"
 import {
   COMPOUNDING_STATE_NAME,
   COMPOUNDING_TYPE_NAME,
@@ -17,6 +9,7 @@ import {
 } from "@/helper"
 import { CustomerActivityRes, DriverActivityRes } from "@/models"
 import moment from "moment"
+import { CompoundingCarICon } from "../utilities"
 
 interface ActivityItemProps<T> {
   activity: T | null
@@ -62,15 +55,6 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
       </div>
     )
 
-  const compoundingCarIcon: JSX.Element =
-    activity.compounding_type === "one_way" ? (
-      <OneWayIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
-    ) : activity.compounding_type === "two_way" ? (
-      <TwoWayIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
-    ) : (
-      <CarpoolingIcon className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px] lg:w-[26px] lg:h-[26px]" />
-    )
-
   const { from_province, to_province, state, expected_going_on_date, compounding_type, car } =
     activity
   return (
@@ -78,7 +62,9 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
       <div className="items-stretch justify-between hidden md:flex">
         <div className="mr-[12px]">
           <div className="flex">
-            <span className="mr-[16px] mt-[4px]">{compoundingCarIcon}</span>
+            <span className="mr-[16px] mt-[4px]">
+              <CompoundingCarICon compounding_type={compounding_type} />
+            </span>
 
             <div className="flex items-center mb-[12px]">
               <p className="md:text-base md:font-semibold lg:font-medium lg:text-lg xl:text-xl mr-[16px]">
@@ -140,8 +126,10 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 
       <div className="md:hidden">
         <div className="flex items-center justify-between mb-[12px] pb-[12px] border-b border-solid border-border-color">
-          <div className="flex items-center">
-            <span className="mr-[8px]">{compoundingCarIcon}</span>
+          <div className="flex-1 flex items-center">
+            <span className="mr-[8px]">
+              <CompoundingCarICon compounding_type={compounding_type} />
+            </span>
             <span className="text-[10px] leading-[18px] mr-[8px]">
               {COMPOUNDING_TYPE_NAME[activity.compounding_type]}
             </span>

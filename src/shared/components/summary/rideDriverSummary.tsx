@@ -1,6 +1,7 @@
 import { formatMoneyVND, getHoursName } from "@/helper"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import moment from "moment"
+import Link from "next/link"
 import { RidesSummaryHeader } from "./rideSummaryHeader"
 import { RideSummaryPassengerItem } from "./rideSummaryPassengerItem"
 
@@ -12,7 +13,15 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
   return (
     <div className="">
       <RidesSummaryHeader
-        desc={<p>Chúc mừng bạn đã hoàn thành chuyến đi!</p>}
+        desc={
+          <p className="text-sm">
+            Chúc mừng bạn đã hoàn thành chuyến đi, số tiền thực nhận sẽ được chuyển vào ví, xem chi
+            tiết{" "}
+            <Link href="/d/account/wallet">
+              <a className="text-primary">tại đây</a>
+            </Link>
+          </p>
+        }
         title="Hoàn thành chuyến đi"
       />
       <div className="mt-[40px]">
@@ -41,9 +50,11 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
             </p>
           </li>
           <li className="flex items-start justify-between mb-12">
-            <p className="text-xs mr-12 min-w-[100px]">Đã đặt cọc</p>
+            <p className="text-xs mr-12 min-w-[100px]">
+              Đã đặt cọc(({ride.down_payment.percent * 100}%))
+            </p>
             <p className="whitespace-nowrap text-sm md:text-base text-right">
-              {formatMoneyVND(ride.down_payment)}
+              {formatMoneyVND(ride.down_payment.total)}
             </p>
           </li>
           <li className="flex items-start justify-between mb-12">
@@ -123,41 +134,8 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
                 className="border-b border-solid border-border-color py-12 last:border-none"
                 key={item.compounding_car_customer_id}
               >
+                <p className="mb-12 text-xs">{index + 1},</p>
                 <RideSummaryPassengerItem data={item} />
-                {/* <ul>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">Tên khách hàng</p>
-                    <p className="whitespace-nowrap text-sm md:text-base text-right">
-                      {item?.partner?.partner_name}
-                    </p>
-                  </li>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">SĐT</p>
-                    <p className="whitespace-nowrap text-sm md:text-base text-right">
-                      {item?.partner?.phone}
-                    </p>
-                  </li>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">Điểm đi</p>
-                    <p className="text-sm md:text-base text-right">{item.from_address}</p>
-                  </li>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">Điếm đến</p>
-                    <p className="text-sm md:text-base text-right">{item.to_address}</p>
-                  </li>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">Ngày đi</p>
-                    <p className="whitespace-nowrap text-sm md:text-base text-right">
-                      {moment(item.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
-                    </p>
-                  </li>
-                  <li className="flex items-start justify-between mb-12">
-                    <p className="text-xs mr-12 min-w-[100px]">Số tiền đã trả</p>
-                    <p className="whitespace-nowrap text-sm md:text-base text-right">
-                      {formatMoneyVND(item.payment_amount)}
-                    </p>
-                  </li>
-                </ul> */}
               </li>
             ))}
         </ul>

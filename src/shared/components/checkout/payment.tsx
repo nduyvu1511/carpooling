@@ -62,11 +62,7 @@ const Payment = ({
         <div className={`${isPaymentLoading ? "cursor-default pointer-events-none" : ""}`}>
           <div className="p-12 md:p-24 lg:pt-0">
             {percentage ? (
-              <RideToolTip
-                className="mb-24 md:mb-[40px]"
-                percentage={percentage}
-                desc={descRideTooltip}
-              />
+              <RideToolTip className="mb-[40px]" percentage={percentage} desc={descRideTooltip} />
             ) : null}
 
             <ul className="">
@@ -97,7 +93,7 @@ const Payment = ({
               ) : null}
             </ul>
             <div className="my-[16px] border-b border-border-color border-solid"></div>
-            <div className="flex items-stretch mb-24 md:mb-[40px]">
+            <div className="flex items-stretch mb-[40px]">
               <div className="flex-1 mr-24">
                 <p className="text-xs mb-[12px]">
                   {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
@@ -124,7 +120,7 @@ const Payment = ({
               ) : null}
             </div>
 
-            <div className="mb-24 md:mb-[40px]">
+            <div className="mb-[40px]">
               <p className="mb-24 text-base uppercase font-semibold">Chọn phương thức thanh toán</p>
 
               {isPaymentLoading ? (

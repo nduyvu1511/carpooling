@@ -96,7 +96,7 @@ const Checkout = () => {
       ) : compoundingCar ? (
         <Payment
           type="checkout"
-          down_payment={compoundingCar.down_payment}
+          down_payment={compoundingCar?.down_payment?.total}
           amount_due={compoundingCar.amount_due}
           showCountdown={false}
           amount_total={+compoundingCar.amount_total}

@@ -23,7 +23,7 @@ export type CompoundingCarDriverState =
   | "waiting_deposit" //cho dat coc
   | "waiting" // duoc phep bat dau chuyen di, da dat coc cho chuyen di
   | "confirm_deposit" //dat coc xong
-  | "confirm" //xac nwaiting_deposithan cho don tien chuyen
+  | "confirm" //xac nhan cho don tien chuyen
   | "start_running"
   | "stop_picking"
   | "done" // hoan thanh
@@ -141,7 +141,7 @@ export interface CustomerActivityRes {
   distance: number
   number_seat: number
   amount_total: number
-  down_payment: number
+  down_payment: { percent: number; total: number }
   amount_due: number
   state: CompoundingCarCustomerState
   second_remains: number
@@ -169,6 +169,8 @@ export interface CompoundingCarDriverRes
   state: CompoundingCarDriverState
   rating_ids: RatingRes[]
   car_driver_deposit_percentage: number
+  amount_total?: number
+  down_payment?: { total: number; percent: number }
 }
 export interface PriceUnit {
   name: string
@@ -204,7 +206,7 @@ export interface CompoundingCarCustomer {
   promotion: string
   sale_order_id: SaleOrderCompoundingCar
   amount_total: number
-  down_payment: number
+  down_payment: { percent: number; total: number }
   payment_method: "cash" | "transfer" | false
   amount_due: number
   state: CompoundingCarCustomerState
@@ -471,7 +473,7 @@ export interface DepositCompoundingCarDriverRes {
   }
   second_remains: number
   amount_total: number
-  down_payment: number
+  down_payment: { percent: number; total: number }
   amount_due: number
 }
 export interface DepositCompoundingCarDriverFailureRes {
@@ -505,7 +507,6 @@ export interface ReasonCancelCompoundingCarRes {
 }
 export interface CompoundingCancelCar extends CompoundingCarCustomer {
   amount_total: number
-  down_payment: number
   amount_due: number
   confirm_date: string
   cancel_date: string
@@ -547,7 +548,7 @@ export interface DriverCompoundingCarInvoiceRes {
     percent: number
     total: number
   }
-  down_payment: number
+  down_payment: { percent: number; total: number }
   cash: number
   amount_due: number
 }

@@ -120,14 +120,14 @@ const Checkout = () => {
                 descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
                 amount_due={deposit.amount_due}
                 amount_total={deposit.amount_total}
-                down_payment={+deposit.down_payment}
+                down_payment={+deposit.down_payment.total}
                 secondsRemains={+deposit.second_remains}
                 percentage={compoundingCar?.car_driver_deposit_percentage}
                 onCheckout={(id) => handleCreatePayment(id)}
                 onCancelCheckout={() => {
                   if (!compoundingCar?.compounding_car_id) return
                   cancelDepositCompoundingCarDriver(compoundingCar.compounding_car_id, () => {
-                    router.push("/d")
+                    router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
                   })
                 }}
               />

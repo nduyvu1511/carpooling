@@ -74,15 +74,11 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
             <Spinner size={40} className="py-[40px]" />
           ) : stations === undefined ? (
             <div className="py-[20px] flex-center">
-              <span className="text-14 md:text-16 text-gray-color-3 font-medium">
-                Vui lòng chọn tỉnh
-              </span>
+              <span className="text-14 text-gray-color-3 font-medium">Vui lòng chọn tỉnh</span>
             </div>
           ) : isArray(stations) && stations?.length === 0 ? (
             <div className="py-[20px] flex-center">
-              <span className="text-14 md:text-16 text-gray-color-3 font-medium">
-                Không tìm thấy trạm nào
-              </span>
+              <span className="text-14 text-gray-color-3 font-medium">Không tìm thấy trạm nào</span>
             </div>
           ) : stations?.length > 0 ? (
             <ul className="py-12 flex-1 overflow-y-auto scrollbar-hide">

@@ -126,7 +126,7 @@ export const COMPOUNDING_STATE_NAME = {
 export const COMPOUNDING_TYPE_NAME = {
   one_way: "Một chiều",
   two_way: "Hai chiều",
-  compounding: "Đi ghép",
+  compounding: "Ghép chuyến",
   convenient: "Tiện chuyến",
 }
 export const VNPAY_STATUS_NAME = {

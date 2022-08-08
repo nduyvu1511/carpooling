@@ -17,7 +17,12 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
       </li>
       <li className="flex items-start justify-between mb-12">
         <p className="text-xs mr-12 min-w-[100px]">SĐT</p>
-        <p className="whitespace-nowrap text-sm md:text-base text-right">{data?.partner?.phone}</p>
+        <a
+          href={`tel:${data.partner.phone}`}
+          className="whitespace-nowrap text-14 md:text-16 font-medium text-right underline text-primary"
+        >
+          {data?.partner?.phone}
+        </a>
       </li>
       <li className="flex items-start justify-between mb-12">
         <p className="text-xs mr-12 min-w-[100px]">Điểm đi</p>
@@ -46,4 +51,3 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
 }
 
 export { RideSummaryPassengerItem }
-

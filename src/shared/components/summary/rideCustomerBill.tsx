@@ -27,9 +27,9 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
               </p>
             </li>
             <li className="flex items-start justify-between mb-[16px]">
-              <p className="text-xs">Đã đặt cọc</p>
+              <p className="text-xs">Đã đặt cọc({data.down_payment.percent * 100}%)</p>
               <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
-                {formatMoneyVND(data.down_payment)}
+                {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
             <li className="flex items-start justify-between">
@@ -53,7 +53,7 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
             <li className="flex items-start justify-between mb-[16px]">
               <p className="text-xs">Đã đặt cọc</p>
               <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
-                {formatMoneyVND(data.down_payment)}
+                {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
             <li className="flex items-start">
@@ -66,7 +66,7 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
             <li className="flex items-start">
               <p className="text-14 leading-[26px] uppercase font-semibold">TỔNG GIÁ TRỊ</p>
               <p className="text-base font-semibold text-error flex-1 text-right ml-[16px] whitespace-nowrap">
-                {formatMoneyVND(data.amount_due + data.down_payment)}
+                {formatMoneyVND(data.amount_due + data.down_payment.total)}
               </p>
             </li>
           </ul>

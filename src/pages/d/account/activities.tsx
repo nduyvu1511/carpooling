@@ -26,7 +26,12 @@ const Activities = () => {
 
   const activityStateHandler = (activity: DriverActivityRes) => {
     const { state } = activity
-    if (state === "confirm_deposit" || state === "start_running" || state === "waiting_deposit")
+    if (
+      state === "confirm_deposit" ||
+      state === "start_running" ||
+      state === "waiting_deposit" ||
+      state === "stop_picking"
+    )
       router.push(`/d/ride-detail/in-process/${activity.compounding_car_id}`)
     else if (state === "cancel") router.push(`/d/ride-detail/cancel/${activity.compounding_car_id}`)
     // else if (state === "done") router.push(`/d/ride-detail/done/${activity.compounding_car_id}`)

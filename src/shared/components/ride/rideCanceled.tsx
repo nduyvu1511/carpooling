@@ -93,9 +93,11 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
                 !(compoundingCar as CompoundingCancelCar)?.paid_date ? "mb-[16px]" : ""
               }`}
             >
-              <span className="text-xs w-[150px] xs:w-[180px]">Đã đặt cọc</span>
+              <span className="text-xs w-[150px] xs:w-[180px]">
+                Đã đặt cọc({(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)
+              </span>
               <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment)}
+                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
               </span>
             </li>
             {(compoundingCar as CompoundingCancelCar)?.paid_date ? (

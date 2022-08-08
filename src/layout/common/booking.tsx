@@ -36,7 +36,7 @@ const BookingLayout = ({
           <div
             className={`flex ${
               reverse ? "flex-col pb-12 md:pb-24" : "flex-col-reverse"
-            } lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid xl:gap-24`}
+            } lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid`}
           >
             <div className={`${topNode ? "lg:pt-24" : ""}`}>
               {topNode ? (
@@ -64,7 +64,7 @@ const BookingLayout = ({
             </div>
 
             <div
-              className={`overflow-hidden lg:p-24 lg:h-fit lg:sticky lg:top-[80px] ${
+              className={`overflow-hidden lg:p-24 pl-0 lg:h-fit lg:sticky lg:top-[80px] ${
                 stickyRight ? "" : ""
               }`}
             >
@@ -78,4 +78,3 @@ const BookingLayout = ({
 }
 
 export { BookingLayout }
-
