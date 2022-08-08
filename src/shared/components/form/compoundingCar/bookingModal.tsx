@@ -61,7 +61,8 @@ const BookingModal = ({
       params: data,
       onSuccess: (data) => {
         onClose()
-        if (compoundingType === "convenient") {
+        if (data.compounding_type === "convenient") {
+          console.log(data)
           router.push(`/d/booking/confirm/${data.compounding_car_customer_id}`)
         } else {
           router.push({

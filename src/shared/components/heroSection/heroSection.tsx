@@ -39,12 +39,14 @@ export const HeroSection = () => {
             >
               {[
                 ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 1 Việt Nam"],
-                ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 2 Việt Nam"],
+                ["Tiết kiệm chi phí", "Tối ưu chi phí chuyến đi và đảm bảo chất lượng"],
+                ["Nhiều mô hình chuyến đi", "Phù hợp với nhu cầu của hành khách"],
+                ["Minh bạch về giá cả", "Lợi ích rõ ràng, chi tiết cho hành khách và đối tác"],
               ].map(([title, desc], index) => (
                 <SwiperSlide key={index}>
                   <div className="flex items-baseline flex-col">
                     <Fade bottom delay={100}>
-                      <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+                      <h1 className="h2 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
                         {title}
                       </h1>
                     </Fade>
@@ -75,11 +77,11 @@ export const HeroSection = () => {
 
             <ul className="grid grid-cols-4 gap-x-[16px]">
               {[
-                ["Hai chiều", "two_way", <TwoWayIcon />, "#EE542F"],
-                ["Một chiều", "one_way", <OneWayIcon />, "#2E4CB7"],
-                ["Ghép chuyến", "compounding", <CarpoolingIcon />, "#278EA5"],
-                ["Tiện chuyến", "convenient", <ConvenientIcon />, "#7D27A5"],
-              ].map(([label, value, icon, color], index) => (
+                ["Hai chiều", "two_way", <TwoWayIcon />],
+                ["Một chiều", "one_way", <OneWayIcon />],
+                ["Ghép chuyến", "compounding", <CarpoolingIcon />],
+                ["Tiện chuyến", "convenient", <ConvenientIcon />],
+              ].map(([label, value, icon], index) => (
                 <li
                   onClick={() => {
                     setModalType(value as CompoundingType)
@@ -89,9 +91,7 @@ export const HeroSection = () => {
                   key={index}
                 >
                   <span className="mb-8 flex-1 my-auto flex items-center">{icon}</span>
-                  <span style={{ color: color as string }} className="text-base font-semibold">
-                    {label}
-                  </span>
+                  <span className="text-sm">{label}</span>
                 </li>
               ))}
             </ul>

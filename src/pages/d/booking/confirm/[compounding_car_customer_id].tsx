@@ -14,48 +14,60 @@ import {
   useCompoundingForm,
   useEffectOnce,
 } from "@/hooks"
-import { CustomerBookingLayout } from "@/layout"
-import { CompoundingCarCustomer } from "@/models"
+import { DriverBookingLayout } from "@/layout"
+import { CreateCarpoolingCompoundingCar } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
-import { useState } from "react"
 import { useDispatch } from "react-redux"
 
 const CompoundingCarDriver = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
-  const { confirmCompoundingCar } = useCompoundingCarActions()
-  const { compoundingCarCustomerResToCarpoolingForm } = useCompoundingForm()
+  const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
+  const { compoundingCarCustomerResToCarpoolingForm, clearCarpoolingWayCompoundingCar } =
+    useCompoundingForm()
   const {
     data: compoundingCar,
     isInitialLoading,
     mutate,
   } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
-    key: "confirm_booking_compounding_car_customer_driver",
+    key: `confirm_booking_compounding_car_customer_driver_${compounding_car_customer_id}`,
     type: "once",
   })
-  const [compoundingCarCustomer, setCompoundingCarCustomer] = useState<
-    CompoundingCarCustomer | undefined
-  >(undefined)
 
-  const handleConfirmCompoundingCar = () => {
-    if (!compoundingCarCustomer) return
+  const handleConfirmCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
+    if (!compoundingCar?.compounding_car_customer_id) return
 
-    confirmCompoundingCar({
-      params: { compounding_car_customer_id: compoundingCarCustomer.compounding_car_customer_id },
+    if (compoundingCar.state === "confirm") {
+      router.push(
+        `/d/ride-detail/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
+      )
+      return
+    }
+
+    updateCompoundingCar({
+      params: {
+        ...params,
+        compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
+      },
       onSuccess: () => {
-        router.push(
-          `/c/booking/checkout?compounding_car_customer_id=${compoundingCarCustomer.compounding_car_customer_id}`
-        )
+        clearCarpoolingWayCompoundingCar()
+        confirmCompoundingCar({
+          params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
+          onSuccess: () => {
+            router.push(
+              `/d/ride-detail/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
+            )
+          },
+        })
       },
     })
   }
 
   useEffectOnce(() => {
     return () => {
-      mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })
@@ -68,17 +80,14 @@ const CompoundingCarDriver = () => {
 
   return (
     <>
-      <CustomerBookingLayout
+      <DriverBookingLayout
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         rightNode={
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RideSummary
-                  showFull={!!compoundingCarCustomer}
-                  data={compoundingCarCustomer || compoundingCar}
-                />
+                <RideSummary data={compoundingCar} />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden mt-12">
                 <RideSummaryMobile rides={compoundingCar} />
@@ -86,7 +95,7 @@ const CompoundingCarDriver = () => {
             </>
           ) : null
         }
-        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Tạo chuyến đi ghép"}
+        title="Xác nhận chuyến đi"
       >
         <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
           {isInitialLoading ? (
@@ -97,33 +106,19 @@ const CompoundingCarDriver = () => {
             </div>
           ) : (
             <>
-              {/* <RideToolTip
-                className="mb-24"
-                percentage={compoundingCar.car_driver_deposit_percentage}
-                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
-              /> */}
               <CarpoolingCompoundingForm
                 defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
-                onSubmit={(data) => {
-                  handleConfirmCompoundingCar()
-                  //   if (compoundingCarCustomer) {
-                  //   handleConfirmCompoundingCar()
-                  // } else {
-                  //   handleCreateExistedCompoundingCar(data)
-                  // }
-                }}
-                type="existed"
-                limitNumberSeat={compoundingCar?.number_available_seat}
+                onSubmit={(data) => handleConfirmCompoundingCar(data)}
                 view="page"
                 mode="confirm"
-                btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
+                btnLabel=""
               />
             </>
           )}
         </div>
 
         {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
-      </CustomerBookingLayout>
+      </DriverBookingLayout>
     </>
   )
 }

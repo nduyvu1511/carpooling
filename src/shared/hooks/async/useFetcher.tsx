@@ -28,7 +28,6 @@ const useFetcher = () => {
       toggleOverFlow = true,
     } = config || {}
     try {
-      console.log({ config })
       showScreenLoading && dispatch(setScreenLoading({ show: true, toggleOverFlow }))
       const res: AxiosResponse<T> = await fetcher
       showScreenLoading && dispatch(setScreenLoading({ show: false, toggleOverFlow }))

@@ -1,12 +1,13 @@
 import { ArrowRightIcon, CheckCircleIcon, LogoIcon } from "@/assets"
 import { Alert, ProgressBar } from "@/components"
+import { RootState } from "@/core/store"
 import { driverFormFields, isObjectHasValue } from "@/helper"
 import { useFetchFilledDriverFormFields } from "@/hooks"
 import { DriverEmptyLayout } from "@/layout"
 import { FilledDataFieldsKey } from "@/models"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
 const DriverInfo = () => {
@@ -14,6 +15,7 @@ const DriverInfo = () => {
   const dispatch = useDispatch()
   const { data, isInitialLoading } = useFetchFilledDriverFormFields()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   const filledDataLength = useMemo(() => {
     if (!data || !isObjectHasValue(data)) return 0
@@ -111,19 +113,21 @@ const DriverInfo = () => {
             ))}
           </div>
 
-          <div className="flex-center absolute left-0 right-0 bottom-0 py-[16px]">
-            <button
-              onClick={handleCreateDriverForm}
-              className={`btn-primary ${!isFilledAllData ? "btn-not-allowed" : ""}`}
-            >
-              Gửi hồ sơ
-            </button>
-          </div>
+          {userInfo?.verified_car_driver_account === "inactive_account" ? (
+            <div className="flex-center absolute left-0 right-0 bottom-0 py-[16px]">
+              <button
+                onClick={handleCreateDriverForm}
+                className={`btn-primary ${!isFilledAllData ? "btn-not-allowed" : ""}`}
+              >
+                Gửi hồ sơ
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
       <Alert
         show={openAlert}
-        desc="Hồ sơ của bạn đang được xét duyệt, bộ phận CSKH Exxe sẽ liên hệ với bạn sớm nhất"
+        desc="Hồ sơ của bạn đang được xét duyệt, bộ phận Nhân Sự của Exxe sẽ liên hệ với bạn sớm nhất"
         onClose={() => {}}
         onConfirm={() => router.push("/d")}
         showLeftBtn={false}

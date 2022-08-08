@@ -51,7 +51,7 @@ export const useRatingActions = (): Res => {
       fetcher: ratingApi.reportRating(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
-      config: { successMsg: "Báo cáo đánh giá thành công, vui lòng chờ CSKH Exxe xác nhận" },
+      config: { successMsg: "Báo cáo đánh giá thành công, vui lòng chờ xác nhận" },
     })
   }
 

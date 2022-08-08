@@ -20,7 +20,7 @@ try {
   axiosClient.interceptors.response.use(
     async (response) => {
       if (response?.data) {
-        if (response?.data?.result?.code === 401) {
+        if (response?.data?.result?.code === 401 || response?.data?.result?.code === 403) {
           await userApi.logout()
           store.dispatch(setProfile(undefined))
           return
