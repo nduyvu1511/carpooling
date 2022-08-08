@@ -1,4 +1,4 @@
-import { RidesCanceled, RidesProgress, RidesSummary, RidesSummaryMobile } from "@/components"
+import { RideCanceled, RideProgress, RideSummaryMobile, RideSummary } from "@/components"
 import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -24,26 +24,26 @@ const RideCanceledPage = () => {
 
   return (
     <CustomerBookingLayout
-      className="pb-0 min-h-[calc(100vh-56px)] h-full"
+      className="pb- min-h-[calc(100vh-56px)] h-full"
       reverse
-      topNode={<RidesProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       title="Thông tin hủy chuyến đi"
       rightNode={
         compoundingCar ? (
           <>
             <div className="hidden lg:block">
-              <RidesSummary rides={compoundingCar} car_account_type="car_driver" />
+              <RideSummary data={compoundingCar} />
             </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
+            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
+              <RideSummaryMobile rides={compoundingCar} />
             </div>
           </>
         ) : null
       }
     >
       <div className="mt-12 md:mt-0">
-        <RidesCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+        <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       </div>
     </CustomerBookingLayout>
   )

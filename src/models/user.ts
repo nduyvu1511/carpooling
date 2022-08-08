@@ -1,4 +1,5 @@
 import { ListQuery, OptionModel } from "./common"
+import { CompoundingCarCustomer } from "./compoundingCar"
 
 export interface LoginFormParams {
   phone: string
@@ -391,22 +392,8 @@ export interface FilledDataFieldsRes {
   compulsory_car_insurance: boolean
 }
 
-export interface CarDriverId {
-  avatar_url: {
-    image_id: number
-    image_url: string
-  }
-  car_account_type: CarAccountType
-  car_information: any[]
-  date_of_birth: string
-  description: string
-  gender: GenderType
-  partner_id: number
-  partner_name: string
-  phone: string
+export interface CarDriverId extends UserInfo {
   rating_number: number
-  verified_account_date: string
-  verified_car_driver_account: DriverAccountStatus
 }
 
 export interface GetTransactionListByWalletParams extends ListQuery {
@@ -467,7 +454,7 @@ export interface JournalId {
   journal_type: "cash" | "bank"
   journal_owner_id: JournalUserRes
   wallet_type: false
-  remains_amount: 925000.0
+  remains_amount: number
 }
 
 export interface TransactionRes {
@@ -478,6 +465,7 @@ export interface TransactionRes {
   amount: number
   ref: string
   state: string
+  payment_code: string
   is_make_withdrawing_request: boolean
   payment_type: "inbound" | "outbound"
   partner_type: CarAccountType
@@ -488,25 +476,32 @@ export interface TransactionRes {
   }
 }
 
+export interface JournalPaymentRes {
+  payment_id: number
+  date: string
+  partner_id: JournalUserRes
+  journal_id: JournalId
+  amount: number
+  ref: string
+  state: string
+  is_make_withdrawing_request: boolean
+  payment_type: "outbound" | "inbound"
+  partner_type: CarAccountType
+  payment_purpose: PaymentPurpose
+  compounding_car: {
+    compounding_car_id: string
+    compounding_car_name: string
+  }
+  payment_code: string
+}
+
+export interface JournalDetailCompoundingCarCustomerRes extends JournalDetailRes {
+  compounding_car_customer_id: CompoundingCarCustomer
+}
+
 export interface JournalDetailRes {
   payment_purpose: PaymentPurpose
-  partner_id: {
-    payment_id: number
-    date: string
-    partner_id: JournalUserRes
-    journal_id: JournalId
-    amount: number
-    ref: string
-    state: string
-    is_make_withdrawing_request: boolean
-    payment_type: "outbound" | "inbound"
-    partner_type: CarAccountType
-    payment_purpose: PaymentPurpose
-    compounding_car: {
-      compounding_car_id: string
-      compounding_car_name: string
-    }
-  }
+  payment_id: JournalPaymentRes
 }
 
 export interface JournalFilterDate {

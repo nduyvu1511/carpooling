@@ -12,6 +12,7 @@ const Rating = () => {
     isFetchingMore,
     hasMore,
     fetchMoreRatings,
+    mutate,
   } = useDriverRating()
   const { reportRating } = useRatingActions()
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
@@ -21,6 +22,12 @@ const Rating = () => {
       params: { rating_id },
       onSuccess() {
         setCurrentReportRatingId(undefined)
+        mutate(
+          [...ratings].map((item) =>
+            item.rating_id === rating_id ? { ...item, rating_reported: "waiting" } : item
+          ),
+          false
+        )
       },
     })
   }

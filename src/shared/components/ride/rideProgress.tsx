@@ -2,14 +2,14 @@ import { ArrowRightIcon, CheckCircleIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { COMPOUNDING_STATE_NAME } from "@/helper"
 import { CompoundingCarCustomerState, CompoundingCarDriverState } from "@/models"
-import { useEffect, useMemo, useRef } from "react"
+import { useMemo, useRef } from "react"
 import { useSelector } from "react-redux"
 
-interface RidesProgressProps {
+interface RideProgressProps {
   state: CompoundingCarCustomerState | CompoundingCarDriverState | undefined
 }
 
-const RidesProgress = ({ state }: RidesProgressProps) => {
+const RideProgress = ({ state }: RideProgressProps) => {
   const ulRef = useRef<HTMLUListElement>(null)
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const stateList = useMemo(() => {
@@ -92,4 +92,4 @@ const RidesProgress = ({ state }: RidesProgressProps) => {
   )
 }
 
-export { RidesProgress }
+export { RideProgress }

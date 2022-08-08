@@ -27,8 +27,8 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
             <div
               key={index}
               onClick={() => handleChooseAccountType(value as CarAccountType)}
-              className={`relative flex-1 flex-center flex-col p-24 border border-solid rounded-[20px] cursor-pointer mx-auto max-w-[250px] w-full ${
-                accountType === value ? "bg-bg-1 border-primary" : "border-border-color-2"
+              className={`relative flex-1 flex-center flex-col p-24 border border-solid block-element rounded-[20px] cursor-pointer mx-auto max-w-[250px] w-full ${
+                accountType === value ? "bg-bg-1 border-primary" : "border-border-color"
               }`}
             >
               <Icon className="w-[80%]" />

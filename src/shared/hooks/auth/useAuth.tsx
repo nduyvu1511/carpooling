@@ -174,8 +174,8 @@ export const useAuth = (): UseAuthRes => {
     try {
       const res: AxiosResponse<any> = await userApi.logout()
       if (res?.result?.code !== 200) return
-      dispatch(setProfile(undefined))
       cb?.()
+      dispatch(setProfile(undefined))
     } catch (error) {
       console.log(error)
     }

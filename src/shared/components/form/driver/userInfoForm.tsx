@@ -57,29 +57,37 @@ export const UserInfoForm = ({
     resolver: yupResolver(userFormSchema),
     mode: "all",
     defaultValues: {
-      avatar_attachment_id: Number(defaultValues?.avatar_url?.image_id),
-      date_of_birth: defaultValues?.date_of_birth,
-      gender: defaultValues?.gender,
-      name: defaultValues?.partner_name,
+      avatar_attachment_id: Number(defaultValues?.avatar_url?.image_id) || undefined,
+      date_of_birth: defaultValues?.date_of_birth || undefined,
+      gender: defaultValues?.gender || undefined,
+      name: defaultValues?.partner_name || undefined,
       description: defaultValues?.description || "",
-      country_id: {
-        label: defaultValues?.country_id.country_name,
-        value: defaultValues?.country_id.country_id,
-      },
-      district_id: {
-        label: defaultValues?.district_id.district_name,
-        value: defaultValues?.district_id.district_id,
-      },
-      ward_id: {
-        label: defaultValues?.ward_id.ward_name,
-        value: defaultValues?.ward_id.ward_id,
-      },
-      province_id: {
-        label: defaultValues?.province_id.province_name,
-        value: defaultValues?.province_id.province_id,
-      },
-      street: defaultValues?.street,
-      identity_number: defaultValues?.identity_card_id?.identity_number,
+      country_id: defaultValues?.country_id.country_id
+        ? {
+            label: defaultValues?.country_id.country_name,
+            value: defaultValues?.country_id.country_id,
+          }
+        : undefined,
+      district_id: defaultValues?.district_id?.district_id
+        ? {
+            label: defaultValues?.district_id.district_name,
+            value: defaultValues?.district_id.district_id,
+          }
+        : undefined,
+      ward_id: defaultValues?.ward_id?.ward_id
+        ? {
+            label: defaultValues?.ward_id.ward_name,
+            value: defaultValues?.ward_id.ward_id,
+          }
+        : undefined,
+      province_id: defaultValues?.province_id?.province_id
+        ? {
+            label: defaultValues?.province_id.province_name,
+            value: defaultValues?.province_id.province_id,
+          }
+        : undefined,
+      street: defaultValues?.street || undefined,
+      identity_number: defaultValues?.identity_card_id?.identity_number || undefined,
     },
   })
   const [image, setImage] = useState<string>()
@@ -371,7 +379,7 @@ export const UserInfoForm = ({
               district_id: getValues("district_id.value") ? getValues("district_id") : undefined,
               province_id: getValues("province_id.value") ? getValues("province_id") : undefined,
               ward_id: getValues("ward_id.value") ? getValues("ward_id") : undefined,
-              street: getValues("street") ? getValues("street") : undefined,
+              street: getValues("street") || undefined,
             }}
             onSubmit={(data) => {
               setValue("district_id", data.district_id)

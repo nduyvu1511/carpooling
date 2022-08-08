@@ -1,12 +1,12 @@
 import {
   CarpoolingCompoundingForm,
-  Map,
   OneWayCompoundingForm,
+  RideProgress,
   RidesDetailLoading,
-  RidesProgress,
-  RidesSummaryMobile,
+  RideSummaryMobile,
   RideSummary,
   RideSummaryModal,
+  RideToolTip,
   TwoWayCompoundingForm,
 } from "@/components"
 import {
@@ -17,10 +17,13 @@ import {
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCompoundingCar } from "@/models"
+import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 const ConfirmBookingCustomer = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
@@ -54,11 +57,17 @@ const ConfirmBookingCustomer = () => {
   useEffectOnce(() => {
     return () => {
       mutateCompoundingCar(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
   })
 
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
+
+    if (compoundingCar.state === "confirm") {
+      router.push(`/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`)
+      return
+    }
 
     updateCompoundingCar({
       params: {
@@ -88,7 +97,7 @@ const ConfirmBookingCustomer = () => {
 
   return (
     <CustomerBookingLayout
-      topNode={<RidesProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
@@ -96,54 +105,56 @@ const ConfirmBookingCustomer = () => {
             <div className="hidden lg:block">
               <RideSummary data={compoundingCar} />
             </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
+            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
+              <RideSummaryMobile rides={compoundingCar} />
             </div>
           </>
         ) : null
       }
       title="Xác nhận chuyến đi"
     >
-      <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+      <div className="p-12 md:p-24 pt-0 md:pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
         {isInitialLoading ? (
           <RidesDetailLoading />
         ) : (
           <>
-            {/* <div className="h-[300px] mb-12">
-              <Map viewOnly />
-            </div> */}
-
-            <div className="">
-              {compoundingCar?.compounding_type ? (
-                <>
-                  {compoundingCar.compounding_type === "one_way" ? (
-                    <OneWayCompoundingForm
-                      defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
-                      mode={"confirm"}
-                      onSubmit={(data) => {
-                        handleConfirmCompoundingCar(data)
-                      }}
-                    />
-                  ) : compoundingCar.compounding_type === "two_way" ? (
-                    <TwoWayCompoundingForm
-                      defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
-                      mode={"confirm"}
-                      onSubmit={(data) => {
-                        handleConfirmCompoundingCar(data)
-                      }}
-                    />
-                  ) : (
-                    <CarpoolingCompoundingForm
-                      mode={"confirm"}
-                      defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
-                      onSubmit={(data) => {
-                        handleConfirmCompoundingCar(data)
-                      }}
-                    />
-                  )}
-                </>
-              ) : null}
-            </div>
+            {compoundingCar?.compounding_type ? (
+              <>
+                <RideToolTip
+                  className="mb-24"
+                  percentage={compoundingCar?.customer_deposit_percentage}
+                  desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
+                />
+                {compoundingCar.compounding_type === "one_way" ? (
+                  <OneWayCompoundingForm
+                    view="page"
+                    defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
+                    mode={"confirm"}
+                    onSubmit={(data) => {
+                      handleConfirmCompoundingCar(data)
+                    }}
+                  />
+                ) : compoundingCar.compounding_type === "two_way" ? (
+                  <TwoWayCompoundingForm
+                    view="page"
+                    defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
+                    mode={"confirm"}
+                    onSubmit={(data) => {
+                      handleConfirmCompoundingCar(data)
+                    }}
+                  />
+                ) : (
+                  <CarpoolingCompoundingForm
+                    view="page"
+                    mode={"confirm"}
+                    defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
+                    onSubmit={(data) => {
+                      handleConfirmCompoundingCar(data)
+                    }}
+                  />
+                )}
+              </>
+            ) : null}
           </>
         )}
       </div>

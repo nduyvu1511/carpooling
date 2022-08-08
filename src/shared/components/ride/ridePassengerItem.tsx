@@ -1,8 +1,6 @@
 import {
   blankAvatar,
   CalendarIcon,
-  LocationIcon,
-  LocationIcon2,
   LocationIcon3,
   LocationIcon4,
   NoteIcon,
@@ -14,7 +12,7 @@ import moment from "moment"
 import Image from "next/image"
 import { Countdown } from "../countdown"
 
-interface RidesPassengerItemProps {
+interface RidePassengerItemProps {
   rides: CompoundingCarCustomer
   onClickViewMap?: Function
   onClickPickUp?: Function
@@ -25,7 +23,7 @@ interface RidesPassengerItemProps {
   readonly?: boolean
 }
 
-const RidesPassengerItem = ({
+const RidePassengerItem = ({
   rides,
   onClickWaiting,
   onClickPickUp,
@@ -34,7 +32,7 @@ const RidesPassengerItem = ({
   onClickPaid,
   onCancelWaiting,
   readonly = false,
-}: RidesPassengerItemProps) => {
+}: RidePassengerItemProps) => {
   const { partner, from_address, to_address, expected_going_on_date } = rides
 
   return (
@@ -118,6 +116,7 @@ const RidesPassengerItem = ({
             </p>
             <p className="text-sm flex-1 flex items-start">
               <span className="flex-1 mr-12">{from_address}</span>
+
               {!readonly ? (
                 rides?.state === "waiting" ||
                 rides?.state === "in_process" ||
@@ -125,7 +124,7 @@ const RidesPassengerItem = ({
                 rides?.state === "assign" ? (
                   <button
                     onClick={() => onClickViewMap?.()}
-                    className="hidden md:block text-sm text-primary"
+                    className="hidden xl:block text-sm text-primary"
                   >
                     Xem đường đi
                   </button>
@@ -165,7 +164,7 @@ const RidesPassengerItem = ({
           ) : null}
         </ul>
 
-        <div className="flex lg:hidden mt-24">
+        <div className="flex xl:hidden mt-24">
           <a
             href={`tel:${partner.phone}`}
             className="w-[52px] h-[52px] bg-primary-opacity rounded-[5px] flex-center mr-12"
@@ -239,4 +238,4 @@ const RidesPassengerItem = ({
   )
 }
 
-export { RidesPassengerItem }
+export { RidePassengerItem }

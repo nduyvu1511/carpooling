@@ -15,6 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component"
 
 const Activities = () => {
   const router = useRouter()
+
   const {
     data: activities,
     hasMore,
@@ -47,7 +48,8 @@ const Activities = () => {
     <CustomerAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
       <div className="px-12 md:px-24">
         <div className="mb-24">
-          <div className="flex items-center relative linear-gradient-white">
+          <div className="flex items-center relative">
+            <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
             <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
               {customerActivityFilters.map(({ label, value }, index) => (
                 <li className="mr-[12px] lg:mr-[16px] last:mr-0 lg:mb-[16px]" key={index}>
@@ -95,8 +97,8 @@ const Activities = () => {
             <>
               {(activities?.length || 0) === 0 ? (
                 <div className="flex-center flex-col py-[20px]">
-                  <p className="mb-24 text-sm md:text-base">Chưa có hoạt động nào</p>
                   <EmptyPocketIcon className="h-[200px]" />
+                  <p className="mt-24 text-sm md:text-base">Chưa có hoạt động nào</p>
                 </div>
               ) : (
                 <InfiniteScroll

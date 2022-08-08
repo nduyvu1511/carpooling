@@ -6,11 +6,12 @@ import {
   Modal,
   OneWayCompoundingForm,
   RatingItem,
+  RatingReport,
+  RideProgress,
   RidesDetailLoading,
-  RidesProgress,
-  RidesSummaryMobile,
-  RideSummaryModal,
+  RideSummaryMobile,
   RideSummary,
+  RideSummaryModal,
   RideToolTip,
   TwoWayCompoundingForm,
 } from "@/components"
@@ -22,9 +23,12 @@ import {
   useCompoundingForm,
   useDriverCheckout,
   useEffectOnce,
+  useRatingActions,
 } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
+import { setShowSummaryDetail } from "@/modules"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -44,6 +48,7 @@ const ConfirmBookingCustomer = () => {
     key: "confirm_booking_compounding_car_customer",
     type: "once",
   })
+  const { reportRating } = useRatingActions()
   const {
     compoundingCarResToCarpoolingForm,
     compoundingCarResToOneWayForm,
@@ -51,19 +56,23 @@ const ConfirmBookingCustomer = () => {
   } = useCompoundingForm()
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
-
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
   >()
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
+  const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
 
-  useEffectOnce(() => {
-    return () => {
-      mutate(undefined, false)
-    }
-  })
+  const handleReportRating = (rating_id: number) => {
+    reportRating({
+      params: { rating_id },
+      onSuccess() {
+        setCurrentReportRatingId(undefined)
+        mutate()
+      },
+    })
+  }
 
   useBackRouter({
     cb: () => {
@@ -71,6 +80,13 @@ const ConfirmBookingCustomer = () => {
       setShowModal(false)
       toggleBodyOverflow("unset")
     },
+  })
+
+  useEffectOnce(() => {
+    return () => {
+      mutate(undefined, false)
+      dispatch(setShowSummaryDetail(false))
+    }
   })
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
@@ -107,13 +123,12 @@ const ConfirmBookingCustomer = () => {
         showLoading={isInitialLoading}
         topNode={
           <div>
-            <RidesProgress state={compoundingCar?.state} />
-            {compoundingCar?.car_driver_deposit_percentage ? (
+            <RideProgress state={compoundingCar?.state} />
+            {compoundingCar?.car_driver_deposit_percentage && compoundingCar.state !== "done" ? (
               <RideToolTip
                 percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
-                className="mt-12 lg:hidden sm:mr-12 md:ml-12 md:mr-24"
-                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi
-              hoàn tất chuyến đi"
+                className="mt-12 lg:hidden mr-12 md:ml-12 md:mr-24 mb-[-12px] md:mb-0 md:mt-24"
+                desc="Phần chi phí còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi"
               />
             ) : null}
           </div>
@@ -122,22 +137,30 @@ const ConfirmBookingCustomer = () => {
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RideSummary rides={compoundingCar} />
+                <RideSummary data={compoundingCar} />
               </div>
-              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-                <RidesSummaryMobile rides={compoundingCar} />
+              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
+                <RideSummaryMobile rides={compoundingCar} />
               </div>
             </>
           ) : null
         }
         title="Chi tiết chuyến đi"
       >
-        {compoundingCar?.car_driver_deposit_percentage ? (
+        {compoundingCar?.car_driver_deposit_percentage && compoundingCar.state !== "done" ? (
           <RideToolTip
             percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
             className="hidden lg:flex mx-24"
             desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi"
           />
+        ) : null}
+
+        {compoundingCar?.state === "done" ? (
+          <div className="px-12 md:px-24 md:mt-12 lg:mt-0 mb-24 md:mb-0">
+            <Link href={`/d/ride-detail/done/${compoundingCar.compounding_car_id}`} passHref>
+              <a className="text-sm text-primary underline">Xem chi tiết trong hóa đơn</a>
+            </Link>
+          </div>
         ) : null}
 
         <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
@@ -173,7 +196,11 @@ const ConfirmBookingCustomer = () => {
                   <p className="text-base mb-[12px]">Đánh giá của khách hàng: </p>
                   {compoundingCar.rating_ids.map((item) => (
                     <li key={item.rating_id}>
-                      <RatingItem rating={item} car_account_type="car_driver" />
+                      <RatingItem
+                        rating={item}
+                        onReport={() => setCurrentReportRatingId(item.rating_id)}
+                        car_account_type="car_driver"
+                      />
                     </li>
                   ))}
                 </ul>
@@ -257,6 +284,21 @@ const ConfirmBookingCustomer = () => {
               ))}
             </ul>
           ) : null}
+        </div>
+      </Modal>
+
+      <Modal
+        show={!!currentReportRatingId}
+        className="h-auto"
+        onClose={() => setCurrentReportRatingId(undefined)}
+        heading="Báo cáo đánh giá"
+      >
+        <div className="p-24">
+          <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
+          <RatingReport
+            list={[{ id: 1, label: "Người dùng spam" }]}
+            onSubmit={() => currentReportRatingId && handleReportRating(currentReportRatingId)}
+          />
         </div>
       </Modal>
 

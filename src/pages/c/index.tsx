@@ -1,4 +1,4 @@
-import { RidesContainer } from "@/components"
+import { RideContainer } from "@/components"
 import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
 import { CustomerLayout } from "@/layout"
@@ -10,14 +10,14 @@ const HomeCustomer = () => {
   const router = useRouter()
   const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
-    data: ridesList,
+    data: rideList,
     isValidating,
     filterRides,
     hasMore,
     fetchMoreRides,
     isFetchingMore,
-    isInitialLoading, 
-  } = useQueryCompoundingCarCustomer({})
+    isInitialLoading,
+  } = useQueryCompoundingCarCustomer()
 
   useEffect(() => {
     if (router.isReady) {
@@ -40,11 +40,11 @@ const HomeCustomer = () => {
   }
 
   return (
-    <RidesContainer
+    <RideContainer
       hasMore={hasMore}
       isFetchingMore={isFetchingMore}
       isValidating={isInitialLoading || isValidating}
-      list={ridesList}
+      list={rideList}
       carAccountType="customer"
       defaultParams={router.query}
       onClickRideItem={(compounding_car_id) => router.push(`/c/ride-sharing/${compounding_car_id}`)}

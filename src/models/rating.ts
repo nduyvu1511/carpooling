@@ -31,6 +31,7 @@ export interface RatingTagRes {
 
 export interface RatingRes {
   compounding_car_customer_id: number
+  compounding_car_id: number
   compounding_car_customer_name: "Compounding: From TP Đà Nẵng to TP Hồ Chí Minh"
   partner_id: {
     partner_id: number

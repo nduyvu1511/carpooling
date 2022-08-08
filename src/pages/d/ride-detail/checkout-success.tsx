@@ -1,4 +1,10 @@
-import { RidesDetailLoading, RidesPassengerItem, RidesProgress, RidesSummary } from "@/components"
+import {
+  RideProgress,
+  RidesDetailLoading,
+  RidesSummaryHeader,
+  RideSummary,
+  RideSummaryPassengerItem,
+} from "@/components"
 import { useBackRouter, useCompoundingCarDriver, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
@@ -31,27 +37,14 @@ const CheckoutSuccess = () => {
 
   return (
     <BookingLayout
-      topNode={<RidesProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isValidating}
+      reverse
       rightNode={
         compoundingCar ? (
-          <RidesSummary
-            showRules={false}
-            desc={
-              <span>
-                Chuyến đi của bạn đã được đặt cọc và xác nhận, vui lòng kiểm tra chi tiết chuyến đi
-                qua email hoặc trang{" "}
-                <Link href="/d/activities">
-                  <a className="text-primary font-semibold">Hoạt động</a>
-                </Link>
-                .
-              </span>
-            }
-            title="Hoàn thành đặt chuyến"
-            car_account_type="car_driver"
-            type="bill"
-            rides={compoundingCar as any}
-          />
+          <div className="px-12">
+            <RideSummary showMap={false} data={compoundingCar as any} />
+          </div>
         ) : null
       }
       title="Đặt cọc thành công"
@@ -61,9 +54,9 @@ const CheckoutSuccess = () => {
           <RidesDetailLoading />
         ) : (
           <>
-            {/* <div className="mb-[40px]">
+            <div className="mb-[40px]">
               <RidesSummaryHeader />
-            </div> */}
+            </div>
             <h3 className="text-base uppercase font-semibold md:normal-case md:font-medium mb-24">
               Danh sách hành khách
             </h3>
@@ -72,17 +65,18 @@ const CheckoutSuccess = () => {
               <ul className="">
                 {compoundingCar.compounding_car_customers.map((item) => (
                   <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
-                    <RidesPassengerItem readonly rides={item} />
+                    <RideSummaryPassengerItem data={item} />
                   </li>
                 ))}
               </ul>
             ) : null}
+            {/* {compoundingCar ? <RideDriverSummary ride={compoundingCar} /> : null} */}
           </>
         )}
       </div>
 
       {!isValidating ? (
-        <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
+        <div className="max-w-[1280px] mx-auto fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
           <Link href="/d">
             <a className="btn-primary-outline mx-auto">Về trang chủ</a>
           </Link>

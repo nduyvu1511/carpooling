@@ -180,202 +180,200 @@ export const CarpoolingCompoundingForm = ({
         onSubmit={handleSubmit((data) => {
           onSubmitHandler(data)
         })}
-        className=""
       >
-        <div className={`${disabled ? "pointer-events-none" : ""}`}>
-          <div className="form-item">
-            <div className="mb-8">
-              {getValues("from_location") ? (
-                <InputLocation
-                  prevProvinceId={getValues("from_location.province_id")}
-                  isError={!!errors?.from_location}
-                  type="from"
-                  defaultValue={getValues("from_location")?.address || ""}
-                  placeholder="Điểm đi"
-                  onChange={(location) => {
-                    setValue("from_location", location)
-                    clearErrors("from_location")
-                    setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
-                    calcDistance()
-                    calcPrice()
-                  }}
-                  defaultLocation={getValues("from_location")}
-                  control={control}
-                  name="from_location"
-                />
-              ) : (
-                <InputStation
-                  prevProvinceId={getValues("to_station.province_id")}
-                  name="from_station"
-                  control={control}
-                  onChange={(station) => {
-                    if (!station) return
-                    setValue("from_station", station)
-                    clearErrors("from_station")
-                    calcPrice()
-                    setToLocalStorage(CARPOOLING_FROM_STATION, station)
-                    calcDistance()
-                  }}
-                  placeholder="Điểm đi"
-                  isError={!!errors?.from_station}
-                  defaultValue={getValues("from_station")}
-                  type="from"
-                />
-              )}
-            </div>
-            {console.log(errors)}
-            {type === "new" &&
-            (getValues("from_station.province_id") || getValues("from_location.province_id")) ? (
-              <div className="flex items-center">
-                <InputCheckbox
-                  type="circle"
-                  size={20}
-                  onCheck={handleGetFromLocation}
-                  isChecked={!!getValues("from_location")?.province_id}
-                />
-                <p
-                  className="flex-1 ml-[12px] text-12 cursor-pointer"
-                  onClick={handleGetFromLocation}
-                >
-                  Đón tận nơi
-                  <span className=""> (Chi phí phát sinh thêm với tài xế)</span>
-                </p>
-              </div>
-            ) : null}
-          </div>
-
-          <div className="form-item">
-            <InputStation
-              name="to_station"
-              control={control}
-              onChange={(location) => {
-                if (!location) return
-                setToLocalStorage(CARPOOLING_TO_STATION, location)
-                setValue("to_station", location)
-                clearErrors("to_station")
-                calcDistance()
-                calcPrice()
-              }}
-              placeholder="Điểm đến"
-              isError={!!errors?.to_station}
-              defaultValue={getValues("to_station")}
-              prevProvinceId={getValues("from_station.province_id")}
-              type="from"
-            />
-
-            {durationDistance?.[0] ? (
-              <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
-                {durationDistance?.[0] ? (
-                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
-                ) : null}
-                {durationDistance?.[1] ? (
-                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
-                ) : null}
-                {durationDistance?.[2] ? (
-                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="form-item">
-            <InputSelect
-              isSearchable={false}
-              onChange={(val) => {
-                if (getValues("car_id")?.value >= (val as any).number_seat) {
-                  setValue("car_id", undefined as any)
-                  dispatch(notify("Vui lòng chọn lại số hành khách", "error"))
-                }
-                setNumberSeat((val as any).number_seat)
-                setToLocalStorage(CARPOOLING_CAR_ID, val)
-                calcPrice()
-                setValue("car_id", val as NumberSeatOptionModel)
-              }}
-              control={control}
-              defaultValue={getValues("car_id")}
-              name="car_id"
-              placeholder="Loại xe"
-              options={vehicleTypeOptions}
-              required
-              isError={!!errors?.car_id}
-              disabled={type === "existed"}
-            />
-          </div>
-
-          <div className="form-item">
-            <InputDateTime
-              maxHour={
-                type === "existed" ? defaultValues?.expected_going_on_date?.slice(11) : undefined
-              }
-              control={control}
-              name="expected_going_on_date"
-              placeholder="Chọn ngày đi"
-              defaultValue={getValues("expected_going_on_date")}
-              onChange={(val) => {
-                setToLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, val)
-              }}
-              isError={!!errors?.expected_going_on_date}
-              disableDate={type === "existed"}
-            />
-          </div>
-
-          <div className="form-item">
-            <InputSelect
-              isSearchable={false}
-              onChange={(val) => {
-                if (!val?.value) return
-                setToLocalStorage(CARPOOLING_NUMBER_SEAT, val)
-                setValue("number_seat", val)
-                clearErrors("number_seat")
-              }}
-              control={control}
-              defaultValue={getValues("number_seat")}
-              name="number_seat"
-              placeholder="Số hành khách"
-              options={seats(limitNumberSeat || numberSeat || 0) as NumberSeatOptionModel[]}
-              required
-              isError={!!errors?.number_seat}
-            />
-          </div>
-
-          <div className="form-item">
-            <label htmlFor="note" className="form-label">
-              Ghi chú cho chuyến đi
-            </label>
-
-            <textarea
-              {...register}
-              className="form-textarea form-input"
-              name="note"
-              id="note"
-              cols={10}
-              placeholder="Ghi chú thêm cho chuyến đi..."
-              defaultValue={getValues("note")}
-              onChange={(e) => {
-                setValue("note", e.target.value)
-                setToLocalStorage(CARPOOLING_NOTE, e.target.value)
-              }}
-            ></textarea>
-          </div>
-
-          {mode === "create" ? (
-            <div className="mb-[40px]">
-              <Controller
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <div className="mb-8">
+            {getValues("from_location") ? (
+              <InputLocation
+                prevProvinceId={getValues("from_location.province_id")}
+                isError={!!errors?.from_location}
+                type="from"
+                defaultValue={getValues("from_location")?.address || ""}
+                placeholder="Điểm đi"
+                onChange={(location) => {
+                  setValue("from_location", location)
+                  clearErrors("from_location")
+                  setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
+                  calcDistance()
+                  calcPrice()
+                }}
+                defaultLocation={getValues("from_location")}
                 control={control}
-                name={"is_checked_policy"}
-                render={({ field: { onChange, onBlur } }) => (
-                  <InputPolicy
-                    onChange={() => onChange(handleTogglePolicy())}
-                    isError={!!errors?.is_checked_policy}
-                    onBlur={onBlur}
-                    value={getValues("is_checked_policy")}
-                  />
-                )}
-                rules={{ required: true }}
+                name="from_location"
               />
+            ) : (
+              <InputStation
+                prevProvinceId={getValues("to_station.province_id")}
+                name="from_station"
+                control={control}
+                onChange={(station) => {
+                  if (!station) return
+                  setValue("from_station", station)
+                  clearErrors("from_station")
+                  calcPrice()
+                  setToLocalStorage(CARPOOLING_FROM_STATION, station)
+                  calcDistance()
+                }}
+                placeholder="Điểm đi"
+                isError={!!errors?.from_station}
+                defaultValue={getValues("from_station")}
+                type="from"
+              />
+            )}
+          </div>
+
+          {getValues("from_station.province_id") || getValues("from_location.province_id") ? (
+            <div className="flex items-center">
+              <InputCheckbox
+                type="circle"
+                size={20}
+                onCheck={handleGetFromLocation}
+                isChecked={!!getValues("from_location")?.province_id}
+              />
+              <p
+                className="flex-1 ml-[12px] text-12 cursor-pointer"
+                onClick={handleGetFromLocation}
+              >
+                Đón tận nơi
+                <span className=""> (Chi phí phát sinh thêm với tài xế)</span>
+              </p>
             </div>
           ) : null}
         </div>
+
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputStation
+            name="to_station"
+            control={control}
+            onChange={(location) => {
+              if (!location) return
+              setToLocalStorage(CARPOOLING_TO_STATION, location)
+              setValue("to_station", location)
+              clearErrors("to_station")
+              calcDistance()
+              calcPrice()
+            }}
+            placeholder="Điểm đến"
+            isError={!!errors?.to_station}
+            defaultValue={getValues("to_station")}
+            prevProvinceId={getValues("from_station.province_id")}
+            type="from"
+          />
+
+          {durationDistance?.[0] ? (
+            <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
+              {durationDistance?.[0] ? (
+                <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+              ) : null}
+              {durationDistance?.[1] ? (
+                <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+              ) : null}
+              {durationDistance?.[2] ? (
+                <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputSelect
+            isSearchable={false}
+            onChange={(val) => {
+              if (getValues("car_id")?.value >= (val as any).number_seat) {
+                setValue("car_id", undefined as any)
+                dispatch(notify("Vui lòng chọn lại số hành khách", "error"))
+              }
+              setNumberSeat((val as any).number_seat)
+              setToLocalStorage(CARPOOLING_CAR_ID, val)
+              calcPrice()
+              setValue("car_id", val as NumberSeatOptionModel)
+            }}
+            control={control}
+            defaultValue={getValues("car_id")}
+            name="car_id"
+            placeholder="Loại xe"
+            options={vehicleTypeOptions}
+            required
+            isError={!!errors?.car_id}
+            disabled={type === "existed"}
+          />
+        </div>
+
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputDateTime
+            maxHour={
+              type === "existed" ? defaultValues?.expected_going_on_date?.slice(11) : undefined
+            }
+            control={control}
+            name="expected_going_on_date"
+            placeholder="Chọn ngày đi"
+            defaultValue={getValues("expected_going_on_date")}
+            onChange={(val) => {
+              setToLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, val)
+            }}
+            isError={!!errors?.expected_going_on_date}
+            disableDate={type === "existed"}
+          />
+        </div>
+
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputSelect
+            isSearchable={false}
+            onChange={(val) => {
+              if (!val?.value) return
+              setToLocalStorage(CARPOOLING_NUMBER_SEAT, val)
+              setValue("number_seat", val)
+              clearErrors("number_seat")
+            }}
+            control={control}
+            defaultValue={getValues("number_seat")}
+            name="number_seat"
+            placeholder="Số hành khách"
+            options={seats(limitNumberSeat || numberSeat || 0) as NumberSeatOptionModel[]}
+            required
+            isError={!!errors?.number_seat}
+          />
+        </div>
+
+        <div className="form-item">
+          <label htmlFor="note" className="form-label">
+            Ghi chú cho chuyến đi
+          </label>
+
+          <textarea
+            readOnly={disabled}
+            {...register}
+            className="form-textarea form-input"
+            name="note"
+            id="note"
+            cols={10}
+            rows={3}
+            placeholder="Ghi chú thêm cho chuyến đi..."
+            defaultValue={getValues("note")}
+            onChange={(e) => {
+              setValue("note", e.target.value)
+              setToLocalStorage(CARPOOLING_NOTE, e.target.value)
+            }}
+          ></textarea>
+        </div>
+
+        {mode === "create" && !disabled ? (
+          <div className={`mb-[40px] ${disabled ? "pointer-events-none" : ""}`}>
+            <Controller
+              control={control}
+              name={"is_checked_policy"}
+              render={({ field: { onChange, onBlur } }) => (
+                <InputPolicy
+                  onChange={() => onChange(handleTogglePolicy())}
+                  isError={!!errors?.is_checked_policy}
+                  onBlur={onBlur}
+                  value={getValues("is_checked_policy")}
+                />
+              )}
+              rules={{ required: true }}
+            />
+          </div>
+        ) : null}
 
         {view === "modal" ? <div className="mt-24"></div> : null}
 

@@ -23,7 +23,7 @@ const AboutUs = () => {
       </div>
 
       <div className="">
-        <div className="relative h-[400px] mb-[40px]">
+        <div className="relative aspect-[3/2] mb-[40px]">
           <Image src={bg2} layout="fill" alt="" objectFit="cover" />
         </div>
 

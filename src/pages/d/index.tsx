@@ -1,4 +1,4 @@
-import { RidesContainer } from "@/components"
+import { RideContainer } from "@/components"
 import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams } from "@/hooks"
 import { DriverLayout } from "@/layout"
@@ -17,7 +17,7 @@ const HomeDriver = () => {
     fetchMoreRides,
     isFetchingMore,
     isInitialLoading,
-  } = useQueryCompoundingCarDriver({})
+  } = useQueryCompoundingCarDriver()
 
   useEffect(() => {
     if (router.isReady) {
@@ -41,7 +41,7 @@ const HomeDriver = () => {
 
   return (
     <DriverLayout showHeaderOnMobile>
-      <RidesContainer
+      <RideContainer
         hasMore={hasMore}
         isFetchingMore={isFetchingMore}
         isValidating={isInitialLoading || isValidating}

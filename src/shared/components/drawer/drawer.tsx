@@ -64,9 +64,7 @@ const Drawer = ({
       <CSSTransition in={isShow} classNames="fade" unmountOnExit timeout={300}>
         <div
           onClick={() => onClose?.()}
-          className={`fixed cursor-pointer z-[1000] bg-black-60 inset-0 transition-all duration-300 ${
-            isShow ? "visible opacity-100" : "invisible opacity-0"
-          } `}
+          className={`fixed cursor-pointer z-[1000] bg-black-60 inset-0`}
         ></div>
       </CSSTransition>
     </>

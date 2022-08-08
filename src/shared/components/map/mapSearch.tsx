@@ -3,7 +3,7 @@ import { RootState } from "@/core/store"
 import { useAddress, useClickOutside } from "@/hooks"
 import { FromLocation } from "@/models"
 import { addLocationSearchHistory } from "@/modules"
-import { useRef, useState } from "react"
+import { memo, useRef, useState } from "react"
 import { MdOutlineLocationOff } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
@@ -18,8 +18,7 @@ const requestOptions = {
   componentRestrictions: { country: ["vi"] },
   types: ["country"],
 }
-
-export const MapSearch = ({ onSelect }: MapSearchProps) => {
+const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
   const { getProvinceIdByGooglePlace } = useAddress()
   const dispatch = useDispatch()
   const { searchHistoryList } = useSelector((state: RootState) => state.locationHistory)
@@ -86,8 +85,6 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
         </div>
       </div>
 
-      {console.log({ searchValues })}
-
       {showSearchResult ? (
         <div className="block-element max-h-[300px] flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
           {searchValues ? (
@@ -125,7 +122,7 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
               )}
             </div>
           ) : searchHistoryList?.length > 0 ? (
-            <ul className="overflow-y-auto flex-1 scrollbar-hide border border-solid border-border-color">
+            <ul className="overflow-y-auto flex-1 py-8 scrollbar-hide border border-solid border-border-color">
               {searchHistoryList.map((item, index) => (
                 <li key={index}>
                   <LocationHistoryItem
@@ -143,4 +140,6 @@ export const MapSearch = ({ onSelect }: MapSearchProps) => {
       ) : null}
     </div>
   )
-}
+})
+
+export { MapSearch }

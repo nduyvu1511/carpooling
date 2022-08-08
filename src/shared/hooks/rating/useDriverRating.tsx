@@ -2,7 +2,7 @@ import { RatingRes } from "@/models"
 import { ratingApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
-import useSWR from "swr"
+import useSWR, { KeyedMutator } from "swr"
 
 interface Res {
   data: RatingRes[]
@@ -11,6 +11,7 @@ interface Res {
   fetchMoreRatings: Function
   hasMore: boolean
   isInitialLoading: boolean
+  mutate: KeyedMutator<RatingRes[]>
 }
 
 export const useDriverRating = (limit = 12): Res => {
@@ -55,5 +56,6 @@ export const useDriverRating = (limit = 12): Res => {
     isFetchingMore,
     hasMore,
     isInitialLoading: error === undefined && data === undefined,
+    mutate,
   }
 }

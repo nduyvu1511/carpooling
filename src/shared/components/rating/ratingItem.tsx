@@ -110,7 +110,13 @@ export const RatingItem = ({
             rating?.duration.time_value
           } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
           {showLink ? (
-            <Link href={`/c/ride-detail/${rating.compounding_car_customer_id}`}>
+            <Link
+              href={`/${car_account_type === "car_driver" ? "d" : "c"}/ride-detail/${
+                car_account_type === "car_driver"
+                  ? rating.compounding_car_id
+                  : rating.compounding_car_customer_id
+              }`}
+            >
               <a className="text-xs font-medium underline text-primary">Xem chuyến đi</a>
             </Link>
           ) : null}

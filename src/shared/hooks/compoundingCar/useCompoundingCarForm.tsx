@@ -161,6 +161,7 @@ export const useCompoundingForm = (): Res => {
         return
       }
       const price = Number(res?.result?.data?.[0]?.price_unit)
+      console.log({ price })
       onSuccess(price || 0)
     } catch (error) {
       onErr && onErr()

@@ -8,14 +8,14 @@ import {
 import { CompoundingCarRes } from "@/models"
 import moment from "moment"
 import { CompoundingCarICon } from "../utilities"
-import { RidesItemLocation } from "./ridesItemLocation"
+import { RideItemLocation } from "./rideItemLocation"
 
 interface RidesItemProps {
   onClick?: Function
   rides: CompoundingCarRes | null
 }
 
-const RidesItem = ({ onClick, rides }: RidesItemProps) => {
+const RideItem = ({ onClick, rides }: RidesItemProps) => {
   if (rides === null) {
     return (
       <div className="p-12 md:p-[18px]">
@@ -66,7 +66,7 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
 
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
 
-      <RidesItemLocation
+      <RideItemLocation
         compounding_type={rides.compounding_type}
         from_date={rides.expected_going_on_date}
         from_province_name={rides.from_province.province_short_name}
@@ -123,4 +123,4 @@ const RidesItem = ({ onClick, rides }: RidesItemProps) => {
   )
 }
 
-export { RidesItem }
+export { RideItem }

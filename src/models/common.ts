@@ -1,3 +1,4 @@
+import { AxiosPromise } from "axios"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ForwardedRef, ReactChild, ReactElement, ReactNode } from "react"
@@ -157,4 +158,15 @@ export interface FetcherConfig {
   successMsg?: string
   showErrorMsg?: boolean
   toggleOverFlow?: boolean
+}
+
+export interface UseQueryListRes<T> {
+  isValidating: boolean
+  hasMore: boolean
+  filterList: (fetcher: AxiosPromise, cb?: Function, err?: Function) => void
+  fetchMoreItem: (fetcher: AxiosPromise, cb?: Function, err?: Function) => void
+  isFetchingMore: boolean
+  offset: number
+  data: T[] | undefined
+  error: any
 }

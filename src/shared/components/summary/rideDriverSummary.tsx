@@ -2,6 +2,7 @@ import { formatMoneyVND, getHoursName } from "@/helper"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import moment from "moment"
 import { RidesSummaryHeader } from "./rideSummaryHeader"
+import { RideSummaryPassengerItem } from "./rideSummaryPassengerItem"
 
 interface RideDriverSummaryProps {
   ride: DriverCompoundingCarInvoiceRes
@@ -122,8 +123,8 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
                 className="border-b border-solid border-border-color py-12 last:border-none"
                 key={item.compounding_car_customer_id}
               >
-                <p className="text-sm uppercase">{index + 1},</p>
-                <ul>
+                <RideSummaryPassengerItem data={item} />
+                {/* <ul>
                   <li className="flex items-start justify-between mb-12">
                     <p className="text-xs mr-12 min-w-[100px]">Tên khách hàng</p>
                     <p className="whitespace-nowrap text-sm md:text-base text-right">
@@ -156,7 +157,7 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
                       {formatMoneyVND(item.payment_amount)}
                     </p>
                   </li>
-                </ul>
+                </ul> */}
               </li>
             ))}
         </ul>

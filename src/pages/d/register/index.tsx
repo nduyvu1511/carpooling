@@ -62,7 +62,7 @@ const DriverInfo = () => {
         <div className="content-container flex-1 relative py-24">
           <div className="">
             <button onClick={() => router.push("/d")}>
-              <LogoIcon className="mb-24 h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
+              <LogoIcon />
             </button>
             <p className="text-base">
               Vui lòng hoàn thành toàn bộ thông tin sau đăng ký để bắt đầu lái xe

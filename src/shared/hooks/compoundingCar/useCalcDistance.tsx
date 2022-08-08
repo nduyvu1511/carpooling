@@ -18,7 +18,6 @@ export const useCalcDistance = (): Res => {
   ) => {
     const { params, onSuccess, onError } = _params
     const { origin, destination } = params
-    console.log(params)
     if (!window?.google) {
       const distance = lngLatToKms({
         from: origin,

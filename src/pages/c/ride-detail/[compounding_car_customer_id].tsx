@@ -1,17 +1,16 @@
+import { ErrorCircleIcon } from "@/assets"
 import {
   Alert,
   ButtonSubmit,
   CarpoolingCompoundingForm,
-  DriverInfoSummary,
-  Map,
   Modal,
   RatingForm,
   RatingItem,
-  RidesCancelForm,
+  RideCancelForm,
+  RideProgress,
   RidesDetailLoading,
-  RidesProgress,
-  RidesSummary,
-  RidesSummaryMobile,
+  RideSummary,
+  RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
@@ -25,6 +24,7 @@ import {
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
+import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
@@ -56,6 +56,7 @@ const RidesDetail = () => {
   useEffectOnce(() => {
     return () => {
       mutate(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
   })
 
@@ -145,15 +146,15 @@ const RidesDetail = () => {
     <>
       <CustomerBookingLayout
         showLoading={isInitialLoading}
-        topNode={<RidesProgress state={compoundingCar?.state} />}
+        topNode={<RideProgress state={compoundingCar?.state} />}
         rightNode={
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RidesSummary rides={compoundingCar} car_account_type="customer" />
+                <RideSummary data={compoundingCar} />
               </div>
-              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-                <RidesSummaryMobile rides={compoundingCar} />
+              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
+                <RideSummaryMobile rides={compoundingCar} />
               </div>
             </>
           ) : null
@@ -171,7 +172,10 @@ const RidesDetail = () => {
             <>
               {compoundingCar.state === "draft" &&
               moment(compoundingCar.expected_going_on_date).isBefore(Date.now()) ? (
-                <p className="mb-24 text-base text-error">Chuyến đi này đã hết hạn</p>
+                <div className="mb-24 flex items-center bg-bg-error rounded-[5px] p-12">
+                  <ErrorCircleIcon className="mr-12 h-[18px] w-[18px]" />{" "}
+                  <span className="text-xs text-error">Chuyến đi này đã hết hạn</span>
+                </div>
               ) : null}
 
               {compoundingCar.state === "confirm_paid" ? (
@@ -183,25 +187,9 @@ const RidesDetail = () => {
                     )
                   }
                 >
-                  Xem chi tiết hóa đơn
+                  Xem chi tiết trong hóa đơn
                 </button>
               ) : null}
-
-              <div className="h-[300px] mb-12">
-                <Map
-                  direction={{
-                    destination: {
-                      lat: Number(compoundingCar.to_latitude),
-                      lng: Number(compoundingCar.to_longitude),
-                    },
-                    origin: {
-                      lat: Number(compoundingCar.from_latitude),
-                      lng: Number(compoundingCar.from_longitude),
-                    },
-                  }}
-                  viewOnly
-                />
-              </div>
 
               <div className="">
                 <div className="mb-[40px]">
@@ -277,15 +265,13 @@ const RidesDetail = () => {
             onClose={() => setShowCancelModal(undefined)}
             heading="Hủy chuyến đi"
           >
-            <div className="w-full">
-              <RidesCancelForm
-                params={{
-                  compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-                  compounding_car_customer_state: compoundingCar.state,
-                }}
-                onSubmit={(data) => handleCancelCompoundingCar(data)}
-              />
-            </div>
+            <RideCancelForm
+              params={{
+                compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
+                compounding_car_customer_state: compoundingCar.state,
+              }}
+              onSubmit={(data) => handleCancelCompoundingCar(data)}
+            />
           </Modal>
 
           <Alert

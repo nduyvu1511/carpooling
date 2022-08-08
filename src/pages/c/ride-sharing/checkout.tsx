@@ -1,16 +1,27 @@
 import {
   CheckoutLoading,
   Payment,
-  RidesProgress,
-  RidesSummaryMobile, RideSummary, RideSummaryModal
+  RideProgress,
+  RideSummary,
+  RideSummaryMobile,
+  RideSummaryModal,
 } from "@/components"
-import { useCompoundingCarCustomer, useCustomerCheckout, useEffectOnce } from "@/hooks"
+import { toggleBodyOverflow } from "@/helper"
+import {
+  useBackRouter,
+  useCompoundingCarCustomer,
+  useCustomerCheckout,
+  useEffectOnce,
+} from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
+import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 const Checkout = () => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
   const {
@@ -36,7 +47,14 @@ const Checkout = () => {
   useEffectOnce(() => {
     return () => {
       mutateCompoundingCar(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
+  })
+
+  useBackRouter({
+    cb: () => {
+      toggleBodyOverflow("unset")
+    },
   })
 
   const handleCreatePayment = (acquirer_id: number) => {
@@ -57,7 +75,7 @@ const Checkout = () => {
   return (
     <CustomerBookingLayout
       reverse
-      topNode={<RidesProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
@@ -65,8 +83,8 @@ const Checkout = () => {
             <div className="hidden lg:block">
               <RideSummary data={compoundingCar} />
             </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
+            <div className="lg:hidden mx-12 mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+              <RideSummaryMobile rides={compoundingCar} />
             </div>
           </>
         ) : null

@@ -1,11 +1,4 @@
-import {
-  DriverInfoSummary,
-  HeaderMobile,
-  RidesProgress,
-  RidesSummary,
-  RidesSummaryLoading,
-} from "@/components"
-import { formatMoneyVND } from "@/helper"
+import { HeaderMobile, RideCustomerBill, RideProgress, RideSummaryLoading } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -40,15 +33,16 @@ const RideDoneCustomer = () => {
       <CustomerLayout showHeaderOnMobile={false}>
         <div className="pt-[56px] lg:pt-0 content-container block-element md:mt-24 md:px-12 lg:px-0 flex-1 bg-white-color pb-[64px]">
           {isInitialLoading ? (
-            <RidesSummaryLoading view="lg" />
+            <RideSummaryLoading view="lg" />
           ) : data ? (
             <div className="">
               <div className="p-12 md:pt-0 lg:py-24">
-                <RidesProgress state={data?.state} />
+                <RideProgress state={data?.state} />
               </div>
 
               <div className=""></div>
-              <RidesSummary
+              <RideCustomerBill
+                type="checkout"
                 title="Hoàn thành chuyến đi"
                 desc={
                   <p>
@@ -56,11 +50,9 @@ const RideDoneCustomer = () => {
                     qua SMS
                   </p>
                 }
-                type="bill"
-                showRules={false}
-                rides={data}
-              >
-                <div className="mb-[40px]">
+                data={data}
+              />
+              {/* <div className="mb-[40px]">
                   <p className="text-base font-semibold uppercase text-primary md:text-blue-8 md:normal-case mb-24">
                     Thông tin thanh toán
                   </p>
@@ -96,7 +88,7 @@ const RideDoneCustomer = () => {
                   titleClassName="text-primary md:text-blue-8"
                   driver={data.car_driver_id}
                 />
-              </RidesSummary>
+              </RideCustomerBill> */}
 
               <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
                 <Link href="/c">

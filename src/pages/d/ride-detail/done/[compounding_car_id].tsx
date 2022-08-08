@@ -1,4 +1,4 @@
-import { HeaderMobile, RideDriverSummary, RidesSummaryLoading } from "@/components"
+import { HeaderMobile, RideDriverSummary, RideSummaryLoading } from "@/components"
 import { useEffectOnce } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
@@ -45,7 +45,7 @@ const RideDone = () => {
       <DriverLayout>
         <div className="content-container pt-[56px] lg:pt-0 block-element md:mt-24 px-12 sm:px-24 flex-1 bg-white-color pb-[64px]">
           {data === undefined && error === undefined ? (
-            <RidesSummaryLoading view="lg" />
+            <RideSummaryLoading view="lg" />
           ) : data ? (
             <div className="py-24">
               <RideDriverSummary ride={data} />

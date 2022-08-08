@@ -18,7 +18,7 @@ interface RidesCancelProps {
   onSubmit?: (params: CancelCompoundingFormParams) => void
 }
 
-const RidesCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
+const RideCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
   const { onChange, value } = useInputText()
   const ref = useRef<HTMLTextAreaElement>(null)
   const { data, error } = useSWR(
@@ -41,8 +41,8 @@ const RidesCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
   if (data === undefined && error === undefined) return <Spinner size={40} className="py[40px]" />
   if (!data || !isArrayHasValue(data)) return null
   return (
-    <div className="h-full flex flex-col relative">
-      <div className="mb-[40px] p-24">
+    <div className="h-full flex-1 flex flex-col">
+      <div className="mb-[40px] p-24 pb-[80px]">
         <ul className="mb-[24px] flex-1 overflow-y-auto select-none">
           <p className="text-sm mb-24">Chọn lý do hủy chuyến đi:</p>
           {data.map((item) => (
@@ -67,13 +67,11 @@ const RidesCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
               }
             }}
             htmlFor="input"
-            className="form-label flex items-center cursor-pointer"
+            className="text-sm mb-4 flex items-center cursor-pointer"
           >
             Lý do khác:{" "}
             <ArrowDownIcon
-              className={`ml-[8px] mt-[2px] transform transition-all ${
-                showOther ? "rotate-[180deg]" : ""
-              }`}
+              className={`ml-[8px] mt-[2px] transform ${showOther ? "rotate-[180deg]" : ""}`}
             />
           </label>
           {showOther ? (
@@ -91,7 +89,7 @@ const RidesCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
         </div>
       </div>
 
-      <div className="flex-center bg-white-color h-[80px] absolute bottom-0 right-0 left-0">
+      <div className="flex-center bg-white-color p-12 md:p-[12px] absolute bottom-0 right-0 left-0">
         <button
           onClick={() =>
             (reasonId || value) &&
@@ -106,4 +104,4 @@ const RidesCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
   )
 }
 
-export { RidesCancelForm }
+export { RideCancelForm }

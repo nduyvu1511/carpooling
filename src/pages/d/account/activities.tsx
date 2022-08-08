@@ -21,6 +21,7 @@ const Activities = () => {
     filterCompoundingActivities,
     hasMore,
     isLoading,
+    isFetchingMore,
   } = useDriverActivities()
 
   const activityStateHandler = (activity: DriverActivityRes) => {
@@ -28,14 +29,15 @@ const Activities = () => {
     if (state === "confirm_deposit" || state === "start_running" || state === "waiting_deposit")
       router.push(`/d/ride-detail/in-process/${activity.compounding_car_id}`)
     else if (state === "cancel") router.push(`/d/ride-detail/cancel/${activity.compounding_car_id}`)
-    else if (state === "done") router.push(`/d/ride-detail/done/${activity.compounding_car_id}`)
+    // else if (state === "done") router.push(`/d/ride-detail/done/${activity.compounding_car_id}`)
     else router.push(`/d/ride-detail/${activity.compounding_car_id}`)
   }
 
   return (
     <DriverAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
       <div className="px-12 md:px-24">
-        <div className="mb-24">
+        <div className="mb-24 relative">
+          <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
           <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
             {driverActivityFilters.map(({ label, value }, index) => (
               <li className="mr-12 md:mr-[16px] last:mr-0 lg:mb-[16px]" key={index}>
@@ -69,14 +71,14 @@ const Activities = () => {
           <>
             {(activities?.length || 0) === 0 ? (
               <div className="flex-center flex-col py-[20px]">
-                <p className="mb-24 text-sm md:text-base">Chưa có hoạt động nào</p>
                 <EmptyPocketIcon className="h-[200px]" />
+                <p className="mt-24 text-sm md:text-base">Chưa có hoạt động nào</p>
               </div>
             ) : (
               <InfiniteScroll
                 dataLength={activities.length}
                 hasMore={hasMore}
-                loader={<Spinner />}
+                loader={isFetchingMore ? <Spinner /> : null}
                 next={() => fetchMoreActivities()}
               >
                 <ul className="grid gap-12 md:gap-24">

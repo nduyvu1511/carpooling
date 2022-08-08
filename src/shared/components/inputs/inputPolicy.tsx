@@ -25,7 +25,7 @@ const InputPolicy = ({ onBlur, onChange, isError, value }: InputPolicyProps) => 
         />
       </p>
       <span
-        className={`text-[13px] leading-[18px] select-none flex-1 ${isError ? "text-error" : ""}`}
+        className={`text-sm leading-[18px] select-none flex-1 ${isError ? "text-error" : ""}`}
         onClick={() => {
           onChange()
           onBlur()
@@ -39,7 +39,7 @@ const InputPolicy = ({ onBlur, onChange, isError, value }: InputPolicyProps) => 
         </Link>{" "}
         &{" "}
         <Link href="/terms-&-conditions">
-          <a rel="noreferrer noopener" className={`${isError ? "text-error" : "text-active"}`}>
+          <a target="_blank" className={`${isError ? "text-error" : "text-active"}`}>
             Chính sách bảo mật.
           </a>
         </Link>

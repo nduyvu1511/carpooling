@@ -1,11 +1,11 @@
-interface RidesSummaryLoadingProps {
+interface RideSummaryLoadingProps {
   view?: "sm" | "lg"
 }
 
-export const RidesSummaryLoading = ({ view = "sm" }: RidesSummaryLoadingProps) => {
+export const RideSummaryLoading = ({ view = "sm" }: RideSummaryLoadingProps) => {
   return (
     <div className="mb-24 lg:mb-0">
-      <div className={`p-12 md:p-24 ${view === "lg" ? "" : "hidden lg:block"}`}>
+      <div className={`${view === "lg" ? "" : "hidden lg:block"}`}>
         <div className="flex mb-[40px]">
           <div className="w-[80px] h-[80px] rounded-[50%] skeleton mr-[40px]"></div>
 

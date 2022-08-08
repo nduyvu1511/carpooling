@@ -11,7 +11,12 @@ import {
 } from "@/assets"
 import { BookingModal, HeaderWrapper, UserNavs } from "@/components"
 import { RootState } from "@/core/store"
-import { toggleBodyOverflow, toImageUrl } from "@/helper"
+import {
+  COMPOUNDING_TYPE_BG,
+  COMPOUNDING_TYPE_COLOR,
+  toggleBodyOverflow,
+  toImageUrl,
+} from "@/helper"
 import { useBackRouter } from "@/hooks"
 import { CarAccountType, CompoundingType } from "@/models"
 import Image from "next/image"
@@ -64,7 +69,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
               }
               className=""
             >
-              <LogoIcon className="cursor-pointer h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
+              <LogoIcon className="cursor-pointer" />
             </div>
 
             <div className="flex items-center">
@@ -98,30 +103,33 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       icon: <OneWayIcon />,
                       label: "Một chiều",
                       value: "one_way",
-                      color: "#2E4CB7",
                     },
                     {
                       icon: <TwoWayIcon />,
                       label: "Hai chiều",
                       value: "two_way",
-                      color: "#EE542F",
                     },
                     {
                       icon: <CarpoolingIcon />,
                       label: "Ghép chuyến",
                       value: "compounding",
-                      color: "#278EA5 ",
                     },
                   ].map(({ icon, label, value }, index) => (
                     <li
+                      style={{ backgroundColor: COMPOUNDING_TYPE_BG[value as CompoundingType] }}
                       onClick={() => {
                         toggleBookingModal(value as CompoundingType)
                       }}
-                      className="text-16 font-semibold mr-[40px] last:mr-0 cursor-pointer flex items-center"
+                      className="flex-center mr-[16px] p-[8px] h-[40px] w-[144px] rounded-[8px] last:mr-0 cursor-pointer flex items-center"
                       key={index}
                     >
                       {icon}
-                      <span className="ml-12">{label}</span>
+                      <span
+                        style={{ color: COMPOUNDING_TYPE_COLOR[value as CompoundingType] }}
+                        className="ml-8 text-14 font-semibold"
+                      >
+                        {label}
+                      </span>
                     </li>
                   ))
                 ) : (
@@ -177,8 +185,8 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     />
                   </div>
                   <div className="hidden sm:block ml-8 flex-1">
-                    <p className="text-sm word-wrap-anywhere line-clamp-1">
-                      <span>{userInfo?.partner_name}</span>
+                    <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
+                      {userInfo?.partner_name}
                     </p>
                   </div>
 

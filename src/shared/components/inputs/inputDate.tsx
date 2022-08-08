@@ -42,7 +42,7 @@ const InputDate = ({
         initialValue={defaultValue}
         value={value ? new Date(value) : ""}
         renderInput={(props) => (
-          <input {...props} placeholder={placeholder} value={value ? props.value : ""} />
+          <input {...props} readOnly placeholder={placeholder} value={value ? props.value : ""} />
         )}
       />
       <CalendarIcon className="absolute-vertical right-[10px] text-gray-color-5 pointer-events-none" />

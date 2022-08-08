@@ -4,11 +4,11 @@ import { setShowSummaryDetail } from "@/modules"
 import moment from "moment"
 import { useDispatch } from "react-redux"
 
-interface RidesSummaryMobileProps {
+interface RideSummaryMobileProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
 }
 
-export const RidesSummaryMobile = ({ rides }: RidesSummaryMobileProps) => {
+export const RideSummaryMobile = ({ rides }: RideSummaryMobileProps) => {
   const dispatch = useDispatch()
 
   return (

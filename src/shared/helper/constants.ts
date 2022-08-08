@@ -73,7 +73,7 @@ export const STATE_COLOR = {
   cancel: "#FF3B30",
   waiting_deposit: "#ff8800",
   start_running: "#ED9526",
-  stop_picking: "#2E41B6",
+  stop_picking: "#ED9526",
   waiting_customer: "#2E41B6",
 }
 export const STATE_BG_COLOR = {
@@ -95,16 +95,16 @@ export const STATE_BG_COLOR = {
   waiting_customer: "rgba(46, 76, 183, 0.2)",
 }
 export const COMPOUNDING_TYPE_COLOR = {
-  one_way: "#2E4CB7",
+  one_way: "#2F19BB",
   two_way: "#EE542F",
-  compounding: "#278EA5",
-  convenient: "#7D27A5",
+  compounding: "#1BB5C8",
+  convenient: "#2F19BB",
 }
 export const COMPOUNDING_TYPE_BG = {
   one_way: "#DAE2FD",
   two_way: "#FADFBE",
   compounding: "#D9EFF5",
-  convenient: "#F1E4F7",
+  convenient: "#EEEBFF",
 }
 export const COMPOUNDING_STATE_NAME = {
   cancel: "Đã hủy",
@@ -194,3 +194,5 @@ export const PAYMENT_PURPOSE_COLOR = {
     bg: "#FFEBEA",
   },
 }
+
+export const LIMIT_HOUR_OF_WAITING_TIME = 4

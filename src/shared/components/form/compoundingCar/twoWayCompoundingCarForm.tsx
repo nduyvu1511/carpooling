@@ -193,207 +193,206 @@ export const TwoWayCompoundingForm = ({
       })}
       className=""
     >
-      <div className={`${disabled ? "pointer-events-none" : ""}`}>
-        <div className="">
-          <div className="form-item">
-            <InputLocation
-              prevProvinceId={getValues("to_location.province_id")}
-              isError={!!errors?.from_location}
-              type="from"
-              defaultValue={getValues("from_location")?.address}
-              placeholder="Điểm đi"
-              onChange={(location) => {
-                setToLocalStorage(TWO_WAY_FROM_LOCATION, location)
-                setValue("from_location", location)
-                clearErrors("from_location")
-                calcPrice()
-                calcDistance()
+      <div className="">
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputLocation
+            prevProvinceId={getValues("to_location.province_id")}
+            isError={!!errors?.from_location}
+            type="from"
+            defaultValue={getValues("from_location")?.address}
+            placeholder="Điểm đi"
+            onChange={(location) => {
+              setToLocalStorage(TWO_WAY_FROM_LOCATION, location)
+              setValue("from_location", location)
+              clearErrors("from_location")
+              calcPrice()
+              calcDistance()
+            }}
+            defaultLocation={getValues("from_location")}
+            control={control}
+            name="from_location"
+          />
+        </div>
+
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputLocation
+            prevProvinceId={getValues("from_location.province_id")}
+            isError={!!errors?.to_location}
+            type="from"
+            defaultValue={getValues("to_location")?.address}
+            placeholder="Điểm đến"
+            onChange={(location) => {
+              setToLocalStorage(TWO_WAY_TO_LOCATION, location)
+              setValue("to_location", location)
+              clearErrors("to_location")
+              calcPrice()
+              calcDistance()
+            }}
+            defaultLocation={getValues("to_location")}
+            control={control}
+            name="to_location"
+          />
+
+          {durationDistance?.[0] ? (
+            <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
+              {durationDistance?.[0] ? (
+                <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+              ) : null}
+              {durationDistance?.[1] ? (
+                <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+              ) : null}
+              {durationDistance?.[2] ? (
+                <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <InputSelect
+          isSearchable={false}
+          control={control}
+          name={"car_id"}
+          defaultValue={getValues("car_id") || defaultValues?.car_id}
+          isError={!!errors?.car_id}
+          placeholder="Loại xe"
+          onChange={(option) => {
+            if (!option) return
+            setToLocalStorage(TWO_WAY_CAR_ID, option)
+            setValue("car_id", option)
+            clearErrors("car_id")
+            calcPrice()
+          }}
+          options={vehicleTypeOptions}
+        />
+      </div>
+
+      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <InputDateTime
+          name="expected_going_on_date"
+          control={control}
+          placeholder="Ngày đi"
+          defaultValue={getValues("expected_going_on_date")}
+          isError={!!errors?.expected_going_on_date}
+          onChange={(val) => {
+            setToLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, val)
+            setValue("expected_going_on_date", val)
+            clearErrors("expected_going_on_date")
+          }}
+        />
+      </div>
+
+      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <div className="flex items-center mb-[8px]">
+          <div className="mr-[24px] cursor-default flex items-center">
+            <InputCheckbox
+              type="circle"
+              size={20}
+              onCheck={() => {
+                handleToggleStatus(true)
               }}
-              defaultLocation={getValues("from_location")}
-              control={control}
-              name="from_location"
+              isChecked={!!getValues("is_a_day_tour")}
             />
+            <span className="ml-[12px]" onClick={() => handleToggleStatus(true)}>
+              Trong ngày
+            </span>
           </div>
 
-          <div className="form-item">
-            <InputLocation
-              prevProvinceId={getValues("from_location.province_id")}
-              isError={!!errors?.to_location}
-              type="from"
-              defaultValue={getValues("to_location")?.address}
-              placeholder="Điểm đến"
-              onChange={(location) => {
-                setToLocalStorage(TWO_WAY_TO_LOCATION, location)
-                setValue("to_location", location)
-                clearErrors("to_location")
-                calcPrice()
-                calcDistance()
+          <div className="cursor-default flex items-center">
+            <InputCheckbox
+              type="circle"
+              size={18}
+              onCheck={() => {
+                handleToggleStatus(false)
               }}
-              defaultLocation={getValues("to_location")}
-              control={control}
-              name="to_location"
+              isChecked={!getValues("is_a_day_tour")}
             />
-
-            {durationDistance?.[0] ? (
-              <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
-                {durationDistance?.[0] ? (
-                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
-                ) : null}
-                {durationDistance?.[1] ? (
-                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
-                ) : null}
-                {durationDistance?.[2] ? (
-                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
-                ) : null}
-              </div>
-            ) : null}
+            <span className="ml-[12px]" onClick={() => handleToggleStatus(false)}>
+              Khác ngày
+            </span>
           </div>
         </div>
 
-        <div className="form-item">
+        {getValues("is_a_day_tour") ? (
           <InputSelect
             isSearchable={false}
             control={control}
-            name={"car_id"}
-            defaultValue={getValues("car_id") || defaultValues?.car_id}
-            isError={!!errors?.car_id}
-            placeholder="Loại xe"
-            onChange={(option) => {
-              if (!option) return
-              setToLocalStorage(TWO_WAY_CAR_ID, option)
-              setValue("car_id", option)
-              clearErrors("car_id")
-              calcPrice()
-            }}
-            options={vehicleTypeOptions}
-          />
-        </div>
-
-        <div className="form-item">
-          <InputDateTime
-            name="expected_going_on_date"
-            control={control}
-            placeholder="Ngày đi"
-            defaultValue={getValues("expected_going_on_date")}
-            isError={!!errors?.expected_going_on_date}
+            name={"hour_of_wait_time"}
+            defaultValue={getValues("hour_of_wait_time")}
+            isError={!!errors?.hour_of_wait_time}
+            placeholder="Số giờ"
             onChange={(val) => {
-              setToLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, val)
-              setValue("expected_going_on_date", val)
-              clearErrors("expected_going_on_date")
+              if (!val?.value) return
+              setValue("hour_of_wait_time", val)
+              clearErrors("hour_of_wait_time")
+              setToLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME, val)
+              if (!getValues("expected_picking_up_date")) {
+                setValue("expected_picking_up_date", DEFAULT_DATE_TIME_VALUE)
+              }
+            }}
+            options={hoursBackList}
+            showLabel={false}
+          />
+        ) : (
+          <InputDateTime
+            name="expected_picking_up_date"
+            control={control}
+            placeholder="Ngày đến"
+            showLabel={false}
+            defaultValue={getValues("expected_picking_up_date")}
+            isError={!!errors?.expected_picking_up_date}
+            onChange={(val) => {
+              setToLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, val)
+              if (!getValues("hour_of_wait_time")) {
+                setValue("hour_of_wait_time", DEFAULT_HOUR_BACK_VALUE)
+                clearErrors("hour_of_wait_time")
+              }
             }}
           />
-        </div>
-
-        <div className="form-item">
-          <div className="flex items-center mb-[8px]">
-            <div className="mr-[24px] cursor-default flex items-center">
-              <InputCheckbox
-                type="circle"
-                size={20}
-                onCheck={() => {
-                  handleToggleStatus(true)
-                }}
-                isChecked={!!getValues("is_a_day_tour")}
-              />
-              <span className="ml-[12px]" onClick={() => handleToggleStatus(true)}>
-                Trong ngày
-              </span>
-            </div>
-
-            <div className="cursor-default flex items-center">
-              <InputCheckbox
-                type="circle"
-                size={18}
-                onCheck={() => {
-                  handleToggleStatus(false)
-                }}
-                isChecked={!getValues("is_a_day_tour")}
-              />
-              <span className="ml-[12px]" onClick={() => handleToggleStatus(false)}>
-                Khác ngày
-              </span>
-            </div>
-          </div>
-
-          {getValues("is_a_day_tour") ? (
-            <InputSelect
-              isSearchable={false}
-              control={control}
-              name={"hour_of_wait_time"}
-              defaultValue={getValues("hour_of_wait_time")}
-              isError={!!errors?.hour_of_wait_time}
-              placeholder="Số giờ"
-              onChange={(val) => {
-                if (!val?.value) return
-                setValue("hour_of_wait_time", val)
-                clearErrors("hour_of_wait_time")
-                setToLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME, val)
-                if (!getValues("expected_picking_up_date")) {
-                  setValue("expected_picking_up_date", DEFAULT_DATE_TIME_VALUE)
-                }
-              }}
-              options={hoursBackList}
-              showLabel={false}
-            />
-          ) : (
-            <InputDateTime
-              name="expected_picking_up_date"
-              control={control}
-              placeholder="Ngày đến"
-              showLabel={false}
-              defaultValue={getValues("expected_picking_up_date")}
-              isError={!!errors?.expected_picking_up_date}
-              onChange={(val) => {
-                setToLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, val)
-                if (!getValues("hour_of_wait_time")) {
-                  setValue("hour_of_wait_time", DEFAULT_HOUR_BACK_VALUE)
-                  clearErrors("hour_of_wait_time")
-                }
-              }}
-            />
-          )}
-        </div>
-
-        <div className="form-item">
-          <label htmlFor="note" className="form-label">
-            Ghi chú cho chuyến đi
-          </label>
-
-          <textarea
-            {...register}
-            className="form-textarea form-input"
-            name="note"
-            id="note"
-            cols={10}
-            placeholder="Ghi chú thêm cho chuyến đi..."
-            defaultValue={defaultValues?.note}
-            onChange={(e) => {
-              setValue("note", e.target.value)
-              setToLocalStorage(TWO_WAY_NOTE, e.target.value)
-            }}
-          ></textarea>
-        </div>
-
-        {mode === "create" ? (
-          <div className="form-item mb-[40px]">
-            <Controller
-              control={control}
-              name={"is_checked_policy"}
-              render={({ field: { onChange, onBlur } }) => (
-                <InputPolicy
-                  onChange={() => onChange(handleTogglePolicy())}
-                  isError={!!errors?.is_checked_policy}
-                  onBlur={onBlur}
-                  value={getValues("is_checked_policy")}
-                />
-              )}
-              rules={{ required: true }}
-            />
-          </div>
-        ) : null}
-
-        {view === "modal" ? <div className="mt-24"></div> : null}
+        )}
       </div>
+
+      <div className="form-item">
+        <label htmlFor="note" className="form-label">
+          Ghi chú cho chuyến đi
+        </label>
+
+        <textarea
+          readOnly={disabled}
+          {...register}
+          className="form-textarea form-input"
+          name="note"
+          id="note"
+          cols={10}
+          placeholder="Ghi chú thêm cho chuyến đi..."
+          defaultValue={defaultValues?.note}
+          onChange={(e) => {
+            setValue("note", e.target.value)
+            setToLocalStorage(TWO_WAY_NOTE, e.target.value)
+          }}
+        ></textarea>
+      </div>
+
+      {mode === "create" && !disabled ? (
+        <div className="form-item mb-[40px]">
+          <Controller
+            control={control}
+            name={"is_checked_policy"}
+            render={({ field: { onChange, onBlur } }) => (
+              <InputPolicy
+                onChange={() => onChange(handleTogglePolicy())}
+                isError={!!errors?.is_checked_policy}
+                onBlur={onBlur}
+                value={getValues("is_checked_policy")}
+              />
+            )}
+            rules={{ required: true }}
+          />
+        </div>
+      ) : null}
+
+      {view === "modal" ? <div className="mt-24"></div> : null}
 
       {onSubmit ? (
         <ButtonSubmit

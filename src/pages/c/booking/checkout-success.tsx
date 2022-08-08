@@ -1,4 +1,4 @@
-import { RideCustomerBill, RidesProgress, RidesSummaryLoading, Spinner } from "@/components"
+import { RideCustomerBill, RideProgress, Spinner } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -38,7 +38,7 @@ const CheckoutSuccess = () => {
           <div className="">
             <div className="block-element pt-24">
               <div className="pl-12 md:px12 mb-24">
-                <RidesProgress state={compoundingCarCustomer?.state} />
+                <RideProgress state={compoundingCarCustomer?.state} />
               </div>
               {compoundingCarCustomer?.compounding_car_customer_id ? (
                 <RideCustomerBill data={compoundingCarCustomer} />

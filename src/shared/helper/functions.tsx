@@ -29,8 +29,9 @@ export const onScrollBottom = (callBack: Function) => {
 }
 
 export const getHoursName = (hours: number): string => {
-  if (hours < 1) return `${hours * 6}`
-  return `${hours | 0} Giờ ${((hours % 1) * 10 * 6).toFixed(0)} Phút`
+  const hoursVal = ((hours % 1) * 10 * 6).toFixed(0)
+  if (hours < 1) return `${hoursVal} Phút`
+  return `${hours | 0} Giờ ${hoursVal} Phút`
 }
 
 export const formatTimeType = (time: TimeType): string => {
@@ -88,12 +89,12 @@ export const formatNumberDec = (nStr: string, decSeparate: string, groupSeparate
 }
 // hàm định dạng tiền việt nam
 
-export function formatMoneyVND(num: number | string) {
+export function formatMoneyVND(num: number | string, format = "đ") {
   if (typeof num == "number") {
     num = Math.floor(num)
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} đ`
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
   } else if (typeof num == "string") {
-    return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} đ`
+    return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
   }
 }
 

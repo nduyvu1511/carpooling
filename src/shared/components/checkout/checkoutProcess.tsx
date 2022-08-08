@@ -38,7 +38,16 @@ const CheckoutProcess = ({
         : ridesApi.customerConfirmPayFullCompoundingCar)({ compounding_car_customer_id })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {
           setValidating(false)
-          if (res.result.data.state === "deposit") {
+          if (
+            fetcher_type === "confirmDepositForDriver" ||
+            fetcher_type === "confirmDepositCompoundingCarCustomer"
+          ) {
+            if (res.result.data.state === "deposit") {
+              window.close()
+            }
+            return
+          }
+          if (res.result.data.state === "confirm_paid") {
             window.close()
           }
         })
@@ -95,3 +104,4 @@ const CheckoutProcess = ({
   )
 }
 export { CheckoutProcess }
+

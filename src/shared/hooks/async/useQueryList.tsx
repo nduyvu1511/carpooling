@@ -1,38 +1,58 @@
+import { ListQuery, UseQueryListRes } from "@/models"
 import { AxiosPromise, AxiosResponse } from "axios"
 import { useState } from "react"
+import useSWR from "swr"
+import { PublicConfiguration } from "swr/dist/types"
 
-interface Res<T> {
-  isLoading: boolean
-  hasMore: boolean
-  filter: (fetcher: AxiosPromise, cb?: Function, err?: Function) => void
-  fetchMore: (fetcher: AxiosPromise, cb?: Function, err?: Function) => void
-  isInitialLoading: boolean
-  isFetchingMore: boolean
-  offset: number
-  data: T[] | undefined
-}
-
-interface Props {
-  fetcher: AxiosPromise<any>
+interface Props<T> {
   limit?: number
+  key: string
+  initialData: T[] | undefined
+  hasMore?: boolean
+  fetcher?: (params?: any) => Promise<AxiosResponse<any, any>>
+  params?: ListQuery & any
+  config?: Partial<PublicConfiguration<any, any, (args_0: string) => any>>
 }
 
-export const useQueryList = <T,>({ fetcher, limit = 12 }: Props): Res<T> => {
+export const useQueryList = <T,>({
+  limit = 12,
+  key,
+  initialData,
+  hasMore: hasMoreProps = true,
+  fetcher,
+  params,
+  config,
+}: Props<T>): UseQueryListRes<T> => {
   const [offset, setOffset] = useState<number>(0)
-  const [hasMore, setHasMore] = useState<boolean>(true)
+  const [hasMore, setHasMore] = useState<boolean>(hasMoreProps)
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isFetchingMore, setFetchingMore] = useState<boolean>(false)
-  const [data, setData] = useState<T[]>()
-  const [error, setError] = useState()
+  const { isValidating, mutate, data, error } = useSWR(
+    key,
+    fetcher
+      ? () =>
+          fetcher(params)
+            .then((res) => {
+              const list: T[] = res?.result?.data || []
+              setHasMore(list.length >= limit)
+              return list as any
+            })
+            .catch((err) => console.log(err))
+      : null,
+    {
+      ...config,
+      fallbackData: initialData,
+    }
+  )
 
-  const filter = async (fetcher: AxiosPromise, cb?: Function, err?: Function) => {
+  const filterList = async (fetcher: AxiosPromise, cb?: Function, err?: Function) => {
     try {
       setLoading(true)
       const res: AxiosResponse<T[]> = await fetcher
       setLoading(false)
       setOffset(0)
       const list = res?.result?.data || []
-      setData(list)
+      mutate(list, false)
       setHasMore(list.length >= limit)
       cb?.(list)
     } catch (error) {
@@ -42,7 +62,7 @@ export const useQueryList = <T,>({ fetcher, limit = 12 }: Props): Res<T> => {
     }
   }
 
-  const fetchMore = async (fetcher: AxiosPromise, cb?: Function, err?: Function) => {
+  const fetchMoreItem = async (fetcher: AxiosPromise, cb?: Function, err?: Function) => {
     try {
       setFetchingMore(true)
       const res: AxiosResponse<T[]> = await fetcher
@@ -50,8 +70,8 @@ export const useQueryList = <T,>({ fetcher, limit = 12 }: Props): Res<T> => {
       setOffset(offset + limit)
       const list = res?.result?.data || []
       setHasMore(list.length >= limit)
-      setData([...(data || []), ...list])
-      cb?.()
+      mutate([...(data || []), ...list], false)
+      cb?.(list)
     } catch (error) {
       err?.()
       setFetchingMore(false)
@@ -61,12 +81,12 @@ export const useQueryList = <T,>({ fetcher, limit = 12 }: Props): Res<T> => {
 
   return {
     data,
-    isLoading: isLoading,
+    isValidating: isValidating || isLoading,
     hasMore,
-    fetchMore,
-    filter,
-    isInitialLoading: data === undefined && error === undefined,
+    fetchMoreItem,
+    filterList,
     isFetchingMore,
     offset,
+    error,
   }
 }

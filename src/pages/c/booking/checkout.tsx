@@ -1,9 +1,9 @@
 import {
   CheckoutLoading,
   Payment,
-  RidesProgress,
-  RidesSummaryMobile,
+  RideProgress,
   RideSummary,
+  RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
 import {
@@ -23,6 +23,8 @@ const Checkout = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
+  const { createPayment } = useCustomerCheckout()
+  const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
   const {
     data: compoundingCar,
     isInitialLoading,
@@ -32,8 +34,6 @@ const Checkout = () => {
     type: "autoFocus",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
-  const { createPayment } = useCustomerCheckout()
-  const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
 
   const handleConfirmTransaction = (acquirer_id: number) => {
     const { compounding_car_customer_id } = compoundingCar || {}
@@ -82,15 +82,15 @@ const Checkout = () => {
     <CustomerBookingLayout
       reverse={true}
       showLoading={isInitialLoading}
-      topNode={<RidesProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress state={compoundingCar?.state} />}
       rightNode={
         compoundingCar ? (
           <>
             <div className="hidden lg:block">
               <RideSummary data={compoundingCar} />
             </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
+            <div className="lg:hidden mx-12 mb-0 md:mx-24 rounded-[5px] overflow-hidden">
+              <RideSummaryMobile rides={compoundingCar} />
             </div>
           </>
         ) : null
@@ -115,7 +115,7 @@ const Checkout = () => {
             percentage={compoundingCar.customer_deposit_percentage}
             amount_due={compoundingCar?.amount_due}
             down_payment={compoundingCar?.down_payment}
-            amount_total={compoundingCar.amount_total}
+            amount_total={compoundingCar?.price_unit?.price_unit}
             secondsRemains={compoundingCar.second_remains}
             onCheckout={(id) => handleConfirmTransaction(id)}
             onCancelCheckout={handleCancelCompoundingCarCustomer}

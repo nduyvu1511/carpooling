@@ -19,7 +19,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
             onClose?.()
           }}
         >
-          <LogoIcon className="h-[40px] w-[72px]" />
+          <LogoIcon />
         </button>
         <button onClick={() => onClose?.()}>
           <CloseIcon className="w-[26px] h-[26px]" />

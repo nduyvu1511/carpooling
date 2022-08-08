@@ -1,4 +1,4 @@
-import { RidesCanceled, RidesSummary } from "@/components"
+import { RideCanceled, RideSummary } from "@/components"
 import { useCompoundingCarDriver, useEffectOnce } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CompoundingCarDriverRes } from "@/models"
@@ -27,14 +27,9 @@ const RideCanceledPage = () => {
     <DriverBookingLayout
       showLoading={isInitialLoading}
       title="Thông tin hủy chuyến đi"
-      rightNode={
-        <RidesSummary
-          rides={compoundingCar as CompoundingCarDriverRes}
-          car_account_type="car_driver"
-        />
-      }
+      rightNode={<RideSummary data={compoundingCar as CompoundingCarDriverRes} />}
     >
-      <RidesCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+      <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
     </DriverBookingLayout>
   )
 }

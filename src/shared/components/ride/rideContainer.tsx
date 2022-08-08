@@ -2,11 +2,11 @@ import { FilterIcon } from "@/assets"
 import {
   CompoundingFilter,
   Drawer,
+  FilterNotFound,
   Modal,
-  RidesItem,
+  RideItem,
   Spinner,
   Tabs,
-  FilterNotFound,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter } from "@/hooks"
@@ -36,7 +36,7 @@ const itemStyle =
   "rounded-[8px] md:rounded-[20px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
 const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[18px] lg:gap-24"
 
-const RidesContainer = ({
+const RideContainer = ({
   isValidating,
   list,
   hasMore,
@@ -67,6 +67,7 @@ const RidesContainer = ({
       toggleBodyOverflow("unset")
     }
   }
+  console.log({ list })
 
   return (
     <>
@@ -119,7 +120,7 @@ const RidesContainer = ({
               <ul className={gridStyle}>
                 {Array.from({ length: 9 }).map((_, index) => (
                   <li key={index} className={itemStyle}>
-                    <RidesItem rides={null} />
+                    <RideItem rides={null} />
                   </li>
                 ))}
               </ul>
@@ -137,7 +138,7 @@ const RidesContainer = ({
                     {list?.length > 0 &&
                       list.map((item, index) => (
                         <li className={itemStyle} key={index}>
-                          <RidesItem
+                          <RideItem
                             onClick={() => onClickRideItem?.(item.compounding_car_id)}
                             rides={item}
                           />
@@ -204,4 +205,4 @@ const RidesContainer = ({
   )
 }
 
-export { RidesContainer }
+export { RideContainer }

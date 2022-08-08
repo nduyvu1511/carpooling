@@ -2,20 +2,23 @@ import {
   Alert,
   DriverInfoSummary,
   ItemSelect,
-  RidesProgress,
-  RidesSummary,
-  RidesSummaryMobile,
-  RideSummaryModal,
+  RideProgress,
+  RideSummary,
+  RideSummaryMobile,
+  RideSummaryModal
 } from "@/components"
-import { formatMoneyVND } from "@/helper"
-import { useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
+import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { useBackRouter, useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
+import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 
 const CheckoutOptions = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { fetcherHandler } = useFetcher()
@@ -35,7 +38,14 @@ const CheckoutOptions = () => {
   useEffectOnce(() => {
     return () => {
       mutateCompoundingCar(undefined, false)
+      dispatch(setShowSummaryDetail(false))
     }
+  })
+
+  useBackRouter({
+    cb: () => {
+      toggleBodyOverflow("unset")
+    },
   })
 
   // Check deposit status
@@ -71,16 +81,16 @@ const CheckoutOptions = () => {
     <>
       <CustomerBookingLayout
         reverse
-        topNode={<RidesProgress state={compoundingCar?.state} />}
+        topNode={<RideProgress state={compoundingCar?.state} />}
         showLoading={isInitialLoading}
         rightNode={
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RidesSummary rides={compoundingCar} car_account_type="customer" />
+                <RideSummary data={compoundingCar} />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
-                <RidesSummaryMobile rides={compoundingCar} />
+                <RideSummaryMobile rides={compoundingCar} />
               </div>
             </>
           ) : null
@@ -89,7 +99,7 @@ const CheckoutOptions = () => {
       >
         <div className="flex-1 bg-white-color">
           <div className="">
-            <div className="px-12 md:px-24 pt-12 lg:pt-0">
+            <div className="px-12 md:px-24 pt-12">
               <div className="mb-24">
                 {isInitialLoading ? (
                   <>
@@ -98,19 +108,18 @@ const CheckoutOptions = () => {
                   </>
                 ) : compoundingCar?.compounding_car_customer_id ? (
                   <ul>
-                    <li className="flex items-start mb-12">
-                      <p className="text-xs leading-[26px] w-[120px] xs:w-[200px] mr-[24px]">
-                        Tổng giá trị chuyến đi
-                      </p>
-                      <p className="flex-1 text-sm whitespace-nowrap">
-                        {formatMoneyVND(compoundingCar?.amount_total || 0)}
+                    <p className="text-base uppercase font-semibold mb-24">
+                      Tổng giá trị chuyến đi
+                    </p>
+                    <li className="flex justify-between items-start mb-12">
+                      <p className="text-xs leading-[26px] mr-[24px]">Tổng giá trị chuyến đi</p>
+                      <p className="flex-1 text-sm whitespace-nowrap text-right"> 
+                        {formatMoneyVND(compoundingCar?.price_unit?.price_unit || 0)}
                       </p>
                     </li>
                     <li className="flex items-start">
-                      <p className="text-xs leading-[26px] w-[120px] xs:w-[200px] mr-[24px]">
-                        Đã đặt cọc
-                      </p>
-                      <p className="flex-1 text-sm whitespace-nowrap">
+                      <p className="text-xs leading-[26px] mr-[24px]">Đã đặt cọc</p>
+                      <p className="flex-1 text-sm whitespace-nowrap text-right">
                         {formatMoneyVND(compoundingCar?.down_payment || 0)}
                       </p>
                     </li>
@@ -135,9 +144,7 @@ const CheckoutOptions = () => {
               </div>
 
               <div className=" mb-[40px]">
-                <p className="text-base uppercase md:normal-case font-semibold md:font-medium mb-24">
-                  Chọn hình thức thanh toán
-                </p>
+                <p className="text-base uppercase font-semibold mb-24">Chọn hình thức thanh toán</p>
                 <ul className="md:mb-[40px]">
                   {[
                     ["Thanh toán cho tài xế", "cash"],
@@ -179,10 +186,12 @@ const CheckoutOptions = () => {
         onClose={() => setShowAlert(false)}
         onConfirm={() => {
           setShowAlert(false)
-          router.push("/c")
+          router.push(
+            `/c/ride-sharing/checkout-success?compounding_car_customer_id=${compoundingCar?.compounding_car_customer_id}`
+          )
         }}
         showLeftBtn={false}
-        desc="Chọn hình thức thanh toán thành công, vui lòng nhắc tài xế xác nhận để hoàn tất chuyến đi đặt hàng"
+        desc="Chọn hình thức thanh toán thành công, vui lòng thanh toán số tiền còn lại cho tài xế và hoàn tất chuyến đi"
       />
     </>
   )

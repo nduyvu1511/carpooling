@@ -1,16 +1,16 @@
 import { FilterIcon } from "@/assets"
 import {
   Alert,
+  FilterNotFound,
   JournalFilter,
   Modal,
   Spinner,
   TransactionDetail,
   TransactionItem,
   WithdrawForm,
-  FilterNotFound,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useJournal } from "@/hooks"
+import { useEffectOnce, useJournal } from "@/hooks"
 import { CarAccountType, JournalFilterDate } from "@/models"
 import { useState } from "react"
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
@@ -78,6 +78,12 @@ const Journal = ({ type }: JournalProps) => {
       },
     })
   }
+
+  useEffectOnce(() => {
+    return () => {
+      toggleBodyOverflow("unset")
+    }
+  })
 
   return (
     <>
@@ -236,7 +242,7 @@ const Journal = ({ type }: JournalProps) => {
         heading="Chi tiết giao dịch"
         className=""
       >
-        <div className="p-12 md:p-24">
+        <div className="p-12 py-24 md:p-24">
           {currentPaymentId ? <TransactionDetail payment_id={currentPaymentId} /> : null}
         </div>
       </Modal>

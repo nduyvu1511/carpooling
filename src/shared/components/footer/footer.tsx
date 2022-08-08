@@ -16,7 +16,7 @@ const Footer = () => {
         <div className="grid grid-col-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[40px]">
           <div className="">
             <Link passHref href="/">
-              <LogoIcon className="mb-[24px] cursor-pointer h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
+              <LogoIcon className="mb-[24px] cursor-pointer" />
             </Link>
             <div className="">
               <p className="text-14 sm:text-16 font-bold mb-[16px]">Kết nối với chúng tôi</p>

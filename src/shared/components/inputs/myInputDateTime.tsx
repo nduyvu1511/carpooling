@@ -1,4 +1,4 @@
-import { getTimes } from "@/helper"
+import { getTimes, LIMIT_HOUR_OF_WAITING_TIME } from "@/helper"
 import { OptionModel } from "@/models"
 import moment from "moment"
 import { useEffect, useMemo, useState } from "react"
@@ -16,6 +16,7 @@ interface MyInputDateTimeProps {
   maxMenuHeight?: number
   isSelectSearchable?: boolean
   maxHour?: string
+  minHour?: string
 }
 
 const MyInputDateTime = ({
@@ -39,11 +40,12 @@ const MyInputDateTime = ({
   }
 
   const times: OptionModel[] = useMemo(() => {
-    const times = getTimes()
+    const times = [...getTimes()]
     if (maxHour) {
+      const index = times.findIndex((item) => item.value >= maxHour)
       return times.slice(
-        0,
-        times.findIndex((item) => item.value > maxHour)
+        index - LIMIT_HOUR_OF_WAITING_TIME > 0 ? index - LIMIT_HOUR_OF_WAITING_TIME : 0,
+        index
       )
     }
     return times
@@ -64,7 +66,7 @@ const MyInputDateTime = ({
         }`}
       >
         <Datetime
-          input={true}
+          // input={true}
           closeOnSelect
           dateFormat="DD/MM/YYYY"
           locale="vi"
@@ -76,6 +78,9 @@ const MyInputDateTime = ({
           inputProps={{ placeholder: "Chọn ngày" }}
           value={date ? new Date(date) : ""}
           className={`${disableDate ? "pointer-events-none opacity-60" : ""} `}
+          renderInput={(props) => (
+            <input {...props} readOnly placeholder="Chọn ngày" value={date ? props.value : ""} />
+          )}
         />
         {/* <button
           onClick={() => {

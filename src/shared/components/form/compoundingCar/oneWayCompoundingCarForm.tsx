@@ -134,134 +134,133 @@ export const OneWayCompoundingForm = ({
       className="rides__form"
     >
       <div className="">
-        <div className={`${disabled ? "pointer-events-none" : ""}`}>
-          <div className="form-item">
-            <InputLocation
-              prevProvinceId={getValues("to_location.province_id")}
-              isError={!!errors?.from_location}
-              type="from"
-              defaultValue={getValues("from_location")?.address || ""}
-              placeholder="Điểm đi"
-              onChange={(location) => {
-                setValue("from_location", location)
-                clearErrors("from_location")
-                setToLocalStorage(ONE_WAY_FROM_LOCATION, location)
-                calcDistance()
-                calcPrice()
-              }}
-              defaultLocation={getValues("from_location")}
-              control={control}
-              name="from_location"
-            />
-          </div>
-
-          <div className="form-item">
-            <InputLocation
-              prevProvinceId={getValues("from_location.province_id")}
-              isError={!!errors?.to_location}
-              type="to"
-              defaultValue={getValues("to_location")?.address || ""}
-              placeholder="Điểm đến"
-              onChange={(location) => {
-                setValue("to_location", location)
-                clearErrors("to_location")
-                setToLocalStorage(ONE_WAY_TO_LOCATION, location)
-                calcDistance()
-                calcPrice()
-              }}
-              defaultLocation={getValues("to_location")}
-              control={control}
-              name="to_location"
-            />
-            {durationDistance?.[0] ? (
-              <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
-                {durationDistance?.[0] ? (
-                  <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
-                ) : null}
-                {durationDistance?.[1] ? (
-                  <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
-                ) : null}
-                {durationDistance?.[2] ? (
-                  <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="form-item">
-          <InputSelect
-            isSearchable={false}
-            control={control}
-            name={"car_id"}
-            defaultValue={getValues("car_id") || defaultValues?.car_id}
-            isError={!!errors?.car_id}
-            placeholder="Loại xe"
-            onChange={(option) => {
-              if (!option) return
-              setToLocalStorage(ONE_WAY_CAR_ID, option)
-              setValue("car_id", option)
-              clearErrors("car_id")
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputLocation
+            prevProvinceId={getValues("to_location.province_id")}
+            isError={!!errors?.from_location}
+            type="from"
+            defaultValue={getValues("from_location")?.address || ""}
+            placeholder="Điểm đi"
+            onChange={(location) => {
+              setValue("from_location", location)
+              clearErrors("from_location")
+              setToLocalStorage(ONE_WAY_FROM_LOCATION, location)
+              calcDistance()
               calcPrice()
             }}
-            options={vehicleTypeOptions}
-          />
-        </div>
-        <div className="form-item">
-          <InputDateTime
+            defaultLocation={getValues("from_location")}
             control={control}
-            name="expected_going_on_date"
-            placeholder="Thời gian đi"
-            defaultValue={defaultValues?.expected_going_on_date || ""}
-            onChange={(val) => {
-              setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
-              clearErrors("expected_going_on_date")
-            }}
-            isError={!!errors?.expected_going_on_date}
+            name="from_location"
           />
         </div>
 
-        <div className="form-item">
-          <label htmlFor="note" className="form-label">
-            Ghi chú cho chuyến đi
-          </label>
-
-          <textarea
-            {...register}
-            className="form-textarea"
-            name="note"
-            id="note"
-            cols={10}
-            placeholder="Ghi chú thêm cho chuyến đi..."
-            defaultValue={defaultValues?.note}
-            onChange={(e) => {
-              setToLocalStorage(ONE_WAY_NOTE, e.target.value)
-              setValue("note", e.target.value)
+        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+          <InputLocation
+            prevProvinceId={getValues("from_location.province_id")}
+            isError={!!errors?.to_location}
+            type="to"
+            defaultValue={getValues("to_location")?.address || ""}
+            placeholder="Điểm đến"
+            onChange={(location) => {
+              setValue("to_location", location)
+              clearErrors("to_location")
+              setToLocalStorage(ONE_WAY_TO_LOCATION, location)
+              calcDistance()
               calcPrice()
             }}
-          ></textarea>
+            defaultLocation={getValues("to_location")}
+            control={control}
+            name="to_location"
+          />
+          {durationDistance?.[0] ? (
+            <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
+              {durationDistance?.[0] ? (
+                <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+              ) : null}
+              {durationDistance?.[1] ? (
+                <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+              ) : null}
+              {durationDistance?.[2] ? (
+                <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
+              ) : null}
+            </div>
+          ) : null}
         </div>
-
-        {mode === "create" ? (
-          <div className="">
-            <Controller
-              control={control}
-              name={"is_checked_policy"}
-              render={({ field: { onChange, onBlur } }) => (
-                <InputPolicy
-                  onChange={() => onChange(handleTogglePolicy())}
-                  isError={!!errors?.is_checked_policy}
-                  onBlur={onBlur}
-                  value={getValues("is_checked_policy")}
-                />
-              )}
-              rules={{ required: true }}
-            />
-          </div>
-        ) : null}
-
-        <div className={`${view === "modal" ? "mt-24" : "md:mt-[40px]"}`}></div>
       </div>
+
+      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <InputSelect
+          isSearchable={false}
+          control={control}
+          name={"car_id"}
+          defaultValue={getValues("car_id") || defaultValues?.car_id}
+          isError={!!errors?.car_id}
+          placeholder="Loại xe"
+          onChange={(option) => {
+            if (!option) return
+            setToLocalStorage(ONE_WAY_CAR_ID, option)
+            setValue("car_id", option)
+            clearErrors("car_id")
+            calcPrice()
+          }}
+          options={vehicleTypeOptions}
+        />
+      </div>
+      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <InputDateTime
+          control={control}
+          name="expected_going_on_date"
+          placeholder="Thời gian đi"
+          defaultValue={defaultValues?.expected_going_on_date || ""}
+          onChange={(val) => {
+            setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
+            clearErrors("expected_going_on_date")
+          }}
+          isError={!!errors?.expected_going_on_date}
+        />
+      </div>
+
+      <div className={`form-item`}>
+        <label htmlFor="note" className="form-label">
+          Ghi chú cho chuyến đi
+        </label>
+
+        <textarea
+          readOnly={disabled}
+          {...register}
+          className="form-textarea"
+          name="note"
+          id="note"
+          cols={10}
+          placeholder="Ghi chú thêm cho chuyến đi..."
+          defaultValue={defaultValues?.note}
+          onChange={(e) => {
+            setToLocalStorage(ONE_WAY_NOTE, e.target.value)
+            setValue("note", e.target.value)
+            calcPrice()
+          }}
+        ></textarea>
+      </div>
+
+      {mode === "create" && !disabled ? (
+        <div className="">
+          <Controller
+            control={control}
+            name={"is_checked_policy"}
+            render={({ field: { onChange, onBlur } }) => (
+              <InputPolicy
+                onChange={() => onChange(handleTogglePolicy())}
+                isError={!!errors?.is_checked_policy}
+                onBlur={onBlur}
+                value={getValues("is_checked_policy")}
+              />
+            )}
+            rules={{ required: true }}
+          />
+        </div>
+      ) : null}
+
+      <div className={`${view === "modal" ? "mt-24" : "md:mt-[40px]"}`}></div>
 
       {onSubmit ? (
         <ButtonSubmit

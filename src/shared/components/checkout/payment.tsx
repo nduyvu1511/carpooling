@@ -17,6 +17,7 @@ interface CheckoutProps {
   onCancelCheckout?: Function
   showCountdown?: boolean
   type?: "deposit" | "checkout"
+  descRideTooltip?: string
 }
 
 const Payment = ({
@@ -29,6 +30,7 @@ const Payment = ({
   amount_due,
   down_payment,
   percentage,
+  descRideTooltip = "Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi.",
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -61,9 +63,9 @@ const Payment = ({
           <div className="p-12 md:p-24 lg:pt-0">
             {percentage ? (
               <RideToolTip
-                className="mb-[40px]"
+                className="mb-24 md:mb-[40px]"
                 percentage={percentage}
-                desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
+                desc={descRideTooltip}
               />
             ) : null}
 
@@ -95,7 +97,7 @@ const Payment = ({
               ) : null}
             </ul>
             <div className="my-[16px] border-b border-border-color border-solid"></div>
-            <div className="flex items-stretch mb-[40px]">
+            <div className="flex items-stretch mb-24 md:mb-[40px]">
               <div className="flex-1 mr-24">
                 <p className="text-xs mb-[12px]">
                   {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
@@ -122,7 +124,7 @@ const Payment = ({
               ) : null}
             </div>
 
-            <div className="mb-[40px]">
+            <div className="mb-24 md:mb-[40px]">
               <p className="mb-24 text-base uppercase font-semibold">Chọn phương thức thanh toán</p>
 
               {isPaymentLoading ? (

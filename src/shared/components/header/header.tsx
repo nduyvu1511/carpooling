@@ -27,6 +27,15 @@ export const Header = () => {
     },
   })
 
+  const toggleShowDrawer = (status: boolean) => {
+    setShowDrawer(status)
+    if (status) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
+
   return (
     <>
       <HeaderWrapper>
@@ -36,7 +45,7 @@ export const Header = () => {
               <div className="my-auto">
                 <Link href="/" passHref>
                   <a className="cursor-pointer">
-                    <LogoIcon className="h-[40px] w-[72px] lg:h-[50px] lg:w-[90px]" />
+                    <LogoIcon />
                   </a>
                 </Link>
               </div>
@@ -99,13 +108,7 @@ export const Header = () => {
                   ) : null}
                 </div>
 
-                <button
-                  onClick={() => {
-                    toggleBodyOverflow("hidden")
-                    setShowDrawer(true)
-                  }}
-                  className="ml-24 block sm:hidden"
-                >
+                <button onClick={() => toggleShowDrawer(true)} className="ml-24 block sm:hidden">
                   <MenuIcon />
                 </button>
 
@@ -137,25 +140,19 @@ export const Header = () => {
       <Drawer
         width={400}
         showCloseBtn={false}
-        onClose={() => {
-          setShowDrawer(false)
-          toggleBodyOverflow("hidden")
-        }}
+        onClose={() => toggleShowDrawer(false)}
         isShow={showDrawer}
       >
         <Menu
           onClickLogin={() => {
             dispatch(setAuthModalType("login"))
-            setShowDrawer(false)
+            toggleShowDrawer(false)
           }}
           onClickRegister={() => {
             dispatch(setAuthModalType("register"))
-            setShowDrawer(false)
+            toggleShowDrawer(false)
           }}
-          onClose={() => {
-            toggleBodyOverflow("unset")
-            setShowDrawer(false)
-          }}
+          onClose={() => toggleShowDrawer(false)}
         />
       </Drawer>
     </>

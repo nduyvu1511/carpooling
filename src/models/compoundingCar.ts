@@ -160,6 +160,8 @@ export interface CompoundingCarRes extends DriverActivityRes {
   rating_ids: RatingRes[]
   rating_state: RatingState
   car_driver_deposit_percentage: number
+  cancel_reason?: CancelReason
+  amount_return?: number
 }
 export interface CompoundingCarDriverRes
   extends Omit<CompoundingCarRes, "state" | "rating" | "partner"> {
@@ -177,6 +179,10 @@ export type RatingState =
   | "rated" // đã đánh giá, có quyên chỉnh sửa
   | "un_rating" // không có quyền sửa tạo
 
+export interface CancelReason {
+  cancel_reason_id: number
+  reason: string
+}
 export interface CompoundingCarCustomer {
   compounding_car_id: number
   compounding_car_customer_id: number
@@ -219,6 +225,8 @@ export interface CompoundingCarCustomer {
   rating?: RatingRes
   second_waiting_remains: number
   customer_deposit_percentage: number
+  cancel_reason?: CancelReason
+  amount_return?: number
 }
 export interface PartnerCompoundingCar {
   partner_id: number
@@ -462,6 +470,9 @@ export interface DepositCompoundingCarDriverRes {
     compounding_car_name: string
   }
   second_remains: number
+  amount_total: number
+  down_payment: number
+  amount_due: number
 }
 export interface DepositCompoundingCarDriverFailureRes {
   message: string

@@ -9,18 +9,20 @@ import {
 import {
   Alert,
   ProgressBarMultiple,
+  RidePassengerItem,
+  RideProgress,
   RidesDetailLoading,
-  RidesPassengerItem,
-  RidesProgress,
-  RidesSummaryMobile,
+  RideSummaryMobile,
   RideSummaryModal,
   ScheduleSummary,
 } from "@/components"
-import { useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
+import { toggleBodyOverflow } from "@/helper"
+import { useBackRouter, useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { setShowSummaryDetail } from "@/modules"
+import moment from "moment"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 import { LatLng } from "use-places-autocomplete"
@@ -56,6 +58,12 @@ const ScheduleCompounding = () => {
     }
   })
 
+  useBackRouter({
+    cb: () => {
+      toggleBodyOverflow("unset")
+    },
+  })
+
   const handleGenerateGoogleMapUrl = (params: LatLng) => {
     getCurrentLocation(({ lat, lng }) =>
       window.open(
@@ -76,13 +84,80 @@ const ScheduleCompounding = () => {
     })
   }
 
+  const statusList = useMemo(() => {
+    return [
+      [
+        "Chưa đón",
+        "#f0f0f0",
+        getNumberOfNotPickedUp,
+        <LocationIcon2 className="w-[11px] sm:w-[13px] text-gray-color-3" key={1} />,
+      ],
+      [
+        "Đã đón",
+        "#DAE2FD",
+        getNumberOfPassengersPickedUp,
+        <LocationIcon3 className="w-[11px] sm:w-[13px] text-primary" key={2} />,
+      ],
+      [
+        "Đã trả",
+        "#FFE9CD",
+        getNumberOfPassengersDone,
+        <LocationIcon4 className="w-[11px] sm:w-[13px] text-warning" key={3} />,
+      ],
+      [
+        "Đã thanh toán",
+        "#DBFFEA",
+        getNumberOfPassengersPaid,
+        <CheckIcon stroke="#10B981" className="w-[11px] sm:w-[13px]" key={4} />,
+      ],
+      [
+        "Đã hủy",
+        "#FFD8D6",
+        getNumberOfPassengersCanceled,
+        <CloseIcon className="w-[11px] sm:w-[13px] text-error" key={5} />,
+      ],
+    ]
+  }, [
+    getNumberOfNotPickedUp,
+    getNumberOfPassengersCanceled,
+    getNumberOfPassengersDone,
+    getNumberOfPassengersPaid,
+    getNumberOfPassengersPickedUp,
+  ])
+
+  const progressList = useMemo(() => {
+    return [
+      {
+        order: 4,
+        key: "paid",
+        color: "#DBFFEA",
+        number: getNumberOfPassengersPaid,
+        label: "Đã thanh toán",
+      },
+      {
+        order: 3,
+        key: "done",
+        color: "#FFE9CD",
+        number: getNumberOfPassengersDone,
+        label: "Đã trả khách",
+      },
+      {
+        order: 2,
+        key: "pickedUp",
+        color: "#DAE2FD",
+        number: getNumberOfPassengersPickedUp,
+        label: "Đã đón khách",
+      },
+    ]
+  }, [getNumberOfPassengersDone, getNumberOfPassengersPaid, getNumberOfPassengersPickedUp])
+
   return (
     <>
       <BookingLayout
         showLoading={isInitialLoading}
         topNode={
           <div className="lg:px-12 xl:px-0">
-            <RidesProgress state={compoundingCar?.state} />
+            <RideProgress state={compoundingCar?.state} />
           </div>
         }
         title="Thông tin chuyến đi"
@@ -97,7 +172,9 @@ const ScheduleCompounding = () => {
                   distance={compoundingCar.distance}
                   duration={compoundingCar.duration || 0}
                   expected_going_on_date={compoundingCar.expected_going_on_date}
-                  expected_picking_up_date={compoundingCar.expected_picking_up_date}
+                  expected_picking_up_date={moment(compoundingCar.expected_going_on_date)
+                    .add(compoundingCar?.duration || 0, "hours")
+                    .toString()}
                   from_province_name={compoundingCar.from_province.province_brief_name}
                   compounding_type={compoundingCar.compounding_type}
                   to_province_name={compoundingCar.to_province.province_brief_name}
@@ -148,66 +225,12 @@ const ScheduleCompounding = () => {
               <ProgressBarMultiple
                 height={3}
                 type="dashed"
-                progressList={[
-                  {
-                    order: 4,
-                    key: "paid",
-                    color: "#DBFFEA",
-                    number: getNumberOfPassengersPaid,
-                    label: "Đã thanh toán",
-                  },
-                  {
-                    order: 3,
-                    key: "done",
-                    color: "#FFE9CD",
-                    number: getNumberOfPassengersDone,
-                    label: "Đã trả khách",
-                  },
-                  {
-                    order: 2,
-                    key: "pickedUp",
-                    color: "#DAE2FD",
-                    number: getNumberOfPassengersPickedUp,
-                    label: "Đã đón khách",
-                  },
-                ]}
+                progressList={progressList}
                 totalNumber={compoundingCar?.compounding_car_customers?.length || 0}
               />
 
               <ul className="flex items-center flex-wrap mt-12 md:mt-[16px]">
-                {[
-                  [
-                    "Chưa đón",
-                    "#f0f0f0",
-                    getNumberOfNotPickedUp,
-                    <LocationIcon2 className="w-[11px] sm:w-[13px] text-gray-color-3" key={1} />,
-                  ],
-                  [
-                    "Đã đón",
-                    "#DAE2FD",
-                    getNumberOfPassengersPickedUp,
-                    <LocationIcon3 className="w-[11px] sm:w-[13px] text-primary" key={2} />,
-                  ],
-                  [
-                    "Đã trả",
-                    "#FFE9CD",
-                    getNumberOfPassengersDone,
-                    <LocationIcon4 className="w-[11px] sm:w-[13px] text-warning" key={3} />,
-                  ],
-                  [
-                    "Đã thanh toán",
-                    "#DBFFEA",
-                    getNumberOfPassengersPaid,
-                    <CheckIcon stroke="#10B981" className="w-[11px] sm:w-[13px]" key={4} />,
-                  ],
-                  [
-                    "Đã hủy",
-                    "#FFD8D6",
-                    getNumberOfPassengersCanceled,
-                    <CloseIcon className="w-[11px] sm:w-[13px] text-error" key={5} />,
-                  ],
-                  // ["Tổng số khách", "", compoundingCar.compounding_car_customers?.length || 0],
-                ].map(
+                {statusList.map(
                   ([label, backgroundColor, number, icon]) =>
                     number > 0 && (
                       <li
@@ -232,8 +255,8 @@ const ScheduleCompounding = () => {
 
             <div className="border-b border-solid border-border-color mx-12 md:mx-24 mb-24 lg:mb-0"></div>
 
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-              <RidesSummaryMobile rides={compoundingCar} />
+            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
+              <RideSummaryMobile rides={compoundingCar} />
             </div>
 
             <div className="px-12 md:px-24 lg:py-24 pt-0 ">
@@ -252,7 +275,7 @@ const ScheduleCompounding = () => {
                       </button>
                     </div>
                   ) : compoundingCar.state === "confirm_deposit" ? (
-                    <div className="flex-center p-12 fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
+                    <div className="flex-center p-12 lg:pb-[36px] fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
                       <button
                         onClick={() =>
                           startRunningCompoundingCar(compoundingCar.compounding_car_id)
@@ -268,7 +291,7 @@ const ScheduleCompounding = () => {
 
               <div className="lg:hidden my-24 border-b lg:mx-12 border-solid border-border-color"></div>
 
-              <div className="">
+              <div className="mb-0 md:mb-[64px] lg:mb-0">
                 <p className="text-base font-semibold uppercase md:normal-case mb-12">
                   Danh sách hành khách
                 </p>
@@ -286,7 +309,7 @@ const ScheduleCompounding = () => {
                         key={index}
                         className="border-b border-solid border-border-color py-24 last:mb-0 last:border-none"
                       >
-                        <RidesPassengerItem
+                        <RidePassengerItem
                           onClickViewMap={() =>
                             item.state === "in_process"
                               ? handleGenerateGoogleMapUrl({

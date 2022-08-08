@@ -165,6 +165,14 @@ export const Map = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleSelectSearchValue = useCallback((address: FromLocation) => {
+    mapRef.current?.panTo({
+      lat: address.lat,
+      lng: address.lng,
+    })
+    getAddressFromLngLat(address)
+  }, [])
+
   return (
     <>
       {isLoaded ? (
@@ -202,14 +210,8 @@ export const Map = ({
               <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
                 {mapRef?.current ? (
                   <MapSearch
-                    onSelect={(address) => {
-                      console.log(address)
-                      mapRef.current?.panTo({
-                        lat: address.lat,
-                        lng: address.lng,
-                      })
-                      getAddressFromLngLat(address)
-                    }}
+                    onSelect={handleSelectSearchValue}
+                    // onSelect={(address) => handleSelectSearchValue(address)}
                   />
                 ) : null}
               </div>
@@ -236,8 +238,8 @@ export const Map = ({
             {!viewOnly ? (
               <>
                 <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
-                  <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12">
-                    <LocationIcon2 className="mr-[24px] fill-error" />
+                  <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
+                    <LocationIcon2 className="mr-12" />
                     <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
                       {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
                     </span>
@@ -257,7 +259,7 @@ export const Map = ({
           </div>
         </div>
       ) : (
-        <Spinner className="py-[40px]" />
+        <Spinner size={40} className="py-[60px]" />
       )}
     </>
   )

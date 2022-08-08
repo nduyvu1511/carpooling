@@ -1,13 +1,15 @@
 import {
   CarpoolingCompoundingForm,
+  RideProgress,
   RidesDetailLoading,
-  RidesProgress,
-  RidesSummaryMobile,
-  RideSummaryModal,
   RideSummary,
+  RideSummaryMobile,
+  RideSummaryModal,
   RideToolTip,
 } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import {
+  useBackRouter,
   useCompoundingCar,
   useCompoundingCarActions,
   useCompoundingForm,
@@ -29,7 +31,7 @@ const RidesDetailCustomer = () => {
   const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
   const {
     data: compoundingCar,
-    isValidating,
+    isInitialLoading,
     mutate,
   } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
@@ -74,11 +76,17 @@ const RidesDetailCustomer = () => {
     }
   })
 
+  useBackRouter({
+    cb: () => {
+      toggleBodyOverflow("unset")
+    },
+  })
+
   return (
     <>
       <CustomerBookingLayout
-        showLoading={isValidating}
-        topNode={<RidesProgress state={compoundingCar?.state} />}
+        showLoading={isInitialLoading}
+        topNode={<RideProgress state={compoundingCar?.state} />}
         rightNode={
           compoundingCar ? (
             <>
@@ -88,8 +96,8 @@ const RidesDetailCustomer = () => {
                   data={compoundingCarCustomer || compoundingCar}
                 />
               </div>
-              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-                <RidesSummaryMobile rides={compoundingCar} />
+              <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden mt-12">
+                <RideSummaryMobile rides={compoundingCar} />
               </div>
             </>
           ) : null
@@ -97,9 +105,9 @@ const RidesDetailCustomer = () => {
         title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Tạo chuyến đi ghép"}
       >
         <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
-          {isValidating ? (
+          {isInitialLoading ? (
             <RidesDetailLoading />
-          ) : !compoundingCar?.compounding_car_id ? (
+          ) : compoundingCar === undefined ? (
             <div className="py-[40px] text-center">
               <p className="text-base">Không tìm thấy chuyến đi này</p>
             </div>

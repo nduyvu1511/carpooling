@@ -92,7 +92,10 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
             </li>
           ))}
           <li className="flex items-center mt-24">
-            <button onClick={() => logout()} className="btn-primary-outline mx-auto rounded-[5px]">
+            <button
+              onClick={() => logout()}
+              className="btn-primary-outline mx-auto rounded-[5px] h-[40px]"
+            >
               Đăng xuất
             </button>
           </li>

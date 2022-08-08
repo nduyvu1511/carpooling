@@ -1,8 +1,7 @@
 import { CompoundingCarDriverState, DriverActivityRes } from "@/models"
 import { ridesApi } from "@/services"
-import { AxiosResponse } from "axios"
 import { useState } from "react"
-import useSWR from "swr"
+import { useQueryList } from "../async"
 
 const LIMIT_ACTIVITIES_LENGTH = 12
 
@@ -14,82 +13,54 @@ interface Res {
   fetchMoreActivities: () => void
   activityStates: CompoundingCarDriverState[]
   setActivityStates: (params: CompoundingCarDriverState[]) => void
+  isFetchingMore?: boolean
 }
 
 export const useDriverActivities = (): Res => {
-  const { data, isValidating, mutate } = useSWR<DriverActivityRes[]>(
-    "compounding_driver_activities",
-    () =>
-      ridesApi
-        .getHistoryCompoundingCarDriver({
-          limit: LIMIT_ACTIVITIES_LENGTH,
-        })
-        .then((res: AxiosResponse<any>) => {
-          const list: DriverActivityRes[] = res?.result?.data || []
-          setHasMore(list.length >= LIMIT_ACTIVITIES_LENGTH)
-          return list as any
-        })
-        .catch((err) => console.log(err)),
-    {
-      dedupingInterval: 10000,
-    }
-  )
-  const [offset, setOffset] = useState<number>(0)
-  const [hasMore, setHasMore] = useState<boolean>(true)
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
+    useQueryList<DriverActivityRes>({
+      initialData: undefined,
+      key: "query_activity_for_driver",
+      limit: 12,
+      fetcher: ridesApi.getHistoryCompoundingCarDriver,
+      params: { limit: LIMIT_ACTIVITIES_LENGTH, offset: 0 },
+    })
+
   const [activityStates, setActivityStates] = useState<CompoundingCarDriverState[]>([])
 
   const filterCompoundingActivities = async (
     compounding_car_state: CompoundingCarDriverState[]
   ) => {
-    try {
-      if (compounding_car_state === activityStates) return
-      setLoading(true)
-      setActivityStates(compounding_car_state)
-      const res: AxiosResponse<DriverActivityRes[]> = await ridesApi.getHistoryCompoundingCarDriver(
-        {
-          compounding_car_state,
-          limit: LIMIT_ACTIVITIES_LENGTH,
-          offset: 0,
-        }
-      )
-      setLoading(false)
-      setOffset(0)
-      const list: DriverActivityRes[] = res?.result?.data || []
-      setHasMore(list.length >= LIMIT_ACTIVITIES_LENGTH)
-      mutate(list, false)
-    } catch (error) {
-      setLoading(false)
-      console.log(error)
-    }
+    if (compounding_car_state === activityStates) return
+    setActivityStates(compounding_car_state)
+    filterList(
+      ridesApi.getHistoryCompoundingCarDriver({
+        compounding_car_state,
+        limit: LIMIT_ACTIVITIES_LENGTH,
+        offset: 0,
+      })
+    )
   }
 
   const fetchMoreActivities = async () => {
-    try {
-      const newOffset = offset + LIMIT_ACTIVITIES_LENGTH
-      const res: AxiosResponse<DriverActivityRes[]> = await ridesApi.getHistoryCompoundingCarDriver(
-        {
-          compounding_car_state: activityStates,
-          limit: LIMIT_ACTIVITIES_LENGTH,
-          offset: newOffset,
-        }
-      )
-      setOffset(newOffset)
-      const list: DriverActivityRes[] = res?.result?.data || []
-      setHasMore(list.length >= LIMIT_ACTIVITIES_LENGTH)
-      mutate([...(data || []), ...list], false)
-    } catch (error) {
-      console.log(error)
-    }
+    const newOffset = offset + LIMIT_ACTIVITIES_LENGTH
+    fetchMoreItem(
+      ridesApi.getHistoryCompoundingCarDriver({
+        compounding_car_state: activityStates,
+        limit: LIMIT_ACTIVITIES_LENGTH,
+        offset: newOffset,
+      })
+    )
   }
 
   return {
     data: data || [],
-    isLoading: isValidating || isLoading,
+    isLoading: isValidating,
     fetchMoreActivities,
     filterCompoundingActivities,
     hasMore,
     activityStates,
     setActivityStates,
+    isFetchingMore,
   }
 }
