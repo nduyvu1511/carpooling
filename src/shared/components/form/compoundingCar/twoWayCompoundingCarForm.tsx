@@ -375,7 +375,7 @@ export const TwoWayCompoundingForm = ({
       </div>
 
       {mode === "create" && !disabled ? (
-        <div className="form-item mb-[40px]">
+        <div className="form-item mb-[24px]">
           <Controller
             control={control}
             name={"is_checked_policy"}
@@ -392,7 +392,7 @@ export const TwoWayCompoundingForm = ({
         </div>
       ) : null}
 
-      {view === "modal" ? <div className="mt-24"></div> : null}
+      {view === "page" ? <div className="md:mt-[40px]"></div> : null}
 
       {onSubmit ? (
         <ButtonSubmit

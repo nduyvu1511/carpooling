@@ -8,6 +8,7 @@ import Geocode from "react-geocode"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
+import { Alert } from "../modal"
 import { MapSearch } from "./mapSearch"
 
 type MapOptions = google.maps.MapOptions
@@ -34,7 +35,7 @@ export const Map = ({
 }: MapProps) => {
   const dispatch = useDispatch()
   const mapRef = useRef<GoogleMap>()
-  const { getCurrentLocation } = useCurrentLocation({})
+  const { getCurrentLocation } = useCurrentLocation()
   const options = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -64,29 +65,31 @@ export const Map = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  const [libraries] = useState(["places", "geometry"])
+  const [libraries] = useState<any>(["places", "geometry"])
   const { getProvinceIdByGooglePlace } = useAddress()
   const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>()
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
+  const [showAlert, setShowAlert] = useState<boolean>(false)
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
-    libraries: libraries as any,
+    language: "vi",
+    libraries,
   })
 
   const getAddressFromLngLat = ({ lng, lat }: { lng: number; lat: number }) => {
     try {
       setCenterMapLoading(true)
-      Geocode.fromLatLng(lat + "", lng + "", process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY).then(
+      Geocode.fromLatLng(lat + "", lng + "").then(
         (response) => {
           setCenterMapLoading(false)
           const address = response.results[0].formatted_address
           setCurrentAddress({ address, lat, lng })
         },
-        (error) => {
+        () => {
           setCenterMapLoading(false)
         }
       )
@@ -103,16 +106,24 @@ export const Map = ({
       return
     }
 
-    getCurrentLocation(({ lat, lng }) => {
-      setCurrenLocation({ lat, lng })
-      getAddressFromLngLat({ lat, lng })
+    getCurrentLocation({
+      params: { showMsg: false },
+      onSuccess: ({ lat, lng }) => {
+        setCurrenLocation({ lat, lng })
+        getAddressFromLngLat({ lat, lng })
+      },
+      onError: () => {
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 1000)
+      },
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultLocation])
 
   const pantoCurrentLocation = () => {
     if (!currentLocation) {
-      dispatch(notify("Không tìm thấy vị trí của bạn", "info"))
+      dispatch(notify("Không tìm thấy vị trí của bạn", "warning"))
       return
     }
     mapRef.current?.panTo(currentLocation)
@@ -208,12 +219,7 @@ export const Map = ({
 
             {!viewOnly ? (
               <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
-                {mapRef?.current ? (
-                  <MapSearch
-                    onSelect={handleSelectSearchValue}
-                    // onSelect={(address) => handleSelectSearchValue(address)}
-                  />
-                ) : null}
+                <MapSearch onSelect={handleSelectSearchValue} />
               </div>
             ) : null}
 
@@ -261,6 +267,16 @@ export const Map = ({
       ) : (
         <Spinner size={40} className="py-[60px]" />
       )}
+
+      <Alert
+        show={showAlert}
+        desc="Vui lòng cấp quyền vị trí trền trình duyệt của bạn để lấy vị trí hiện tại"
+        onConfirm={() => {
+          setShowAlert(false)
+        }}
+        showLeftBtn={false}
+        type="info"
+      />
     </>
   )
 }

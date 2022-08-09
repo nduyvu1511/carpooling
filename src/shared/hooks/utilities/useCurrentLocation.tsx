@@ -1,30 +1,39 @@
+import { UseParams } from "@/models"
 import { setScreenLoading } from "@/modules"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 import { LatLng } from "use-places-autocomplete"
 
 interface Res {
-  getCurrentLocation: (params: (params: LatLng) => void) => void
+  getCurrentLocation: (_params: UseParams<GetCurrentLocationParams, LatLng>) => void
 }
 
-interface Props {
+interface GetCurrentLocationParams {
+  showMsg?: boolean
   showLoading?: boolean
 }
 
-const useCurrentLocation = ({ showLoading = false }: Props): Res => {
+const useCurrentLocation = (): Res => {
   const dispatch = useDispatch()
 
-  const getCurrentLocation = (cb: (params: LatLng) => void) => {
+  const getCurrentLocation = (_params: UseParams<GetCurrentLocationParams, LatLng>) => {
+    const {
+      onSuccess,
+      params: { showLoading, showMsg = true },
+      onError,
+    } = _params
     showLoading && dispatch(setScreenLoading({ show: true }))
     if (!navigator?.geolocation) return
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         showLoading && dispatch(setScreenLoading({ show: false }))
-        cb({ lat: latitude, lng: longitude })
+        onSuccess({ lat: latitude, lng: longitude })
       },
       () => {
+        onError?.()
         showLoading && dispatch(setScreenLoading({ show: false }))
-        dispatch(notify("Không thể lấy vị trí hiện tại, vui lòng cấp quyền để tiếp tục", "error"))
+        showMsg &&
+          dispatch(notify("Không thể lấy vị trí hiện tại, vui lòng cấp quyền để tiếp tục", "error"))
       }
     )
   }

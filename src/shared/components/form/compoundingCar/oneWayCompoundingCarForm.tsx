@@ -54,7 +54,6 @@ export const OneWayCompoundingForm = ({
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, calcPriceFromProvinceIds } = useCompoundingForm()
   const durationDistance = watch(["distance", "duration", "price"])
-  console.log({ errors })
 
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
@@ -237,13 +236,12 @@ export const OneWayCompoundingForm = ({
           onChange={(e) => {
             setToLocalStorage(ONE_WAY_NOTE, e.target.value)
             setValue("note", e.target.value)
-            calcPrice()
           }}
         ></textarea>
       </div>
 
       {mode === "create" && !disabled ? (
-        <div className="">
+        <div className="mb-[24px]">
           <Controller
             control={control}
             name={"is_checked_policy"}
@@ -260,7 +258,7 @@ export const OneWayCompoundingForm = ({
         </div>
       ) : null}
 
-      <div className={`${view === "modal" ? "mt-24" : "md:mt-[40px]"}`}></div>
+      {view === "page" ? <div className="md:mt-[40px]"></div> : null}
 
       {onSubmit ? (
         <ButtonSubmit

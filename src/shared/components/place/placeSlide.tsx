@@ -33,8 +33,6 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
           slidesPerView: 4,
         },
       }}
-      onSlideChange={() => {}}
-      onSwiper={(swiper) => {}}
       modules={[Navigation, Autoplay]}
       navigation={true}
       autoplay={{ delay: 4000 }}
@@ -48,7 +46,7 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
                 date: item.expected_going_on_date,
                 from_province: item.from_province.province_short_name,
                 to_province: item.to_province.province_short_name,
-                image: item.from_province.image_url.url,
+                image: item.to_province.image_url.url,
               }}
             />
           </SwiperSlide>

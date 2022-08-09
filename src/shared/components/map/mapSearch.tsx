@@ -15,10 +15,11 @@ interface MapSearchProps {
 }
 
 const requestOptions = {
-  componentRestrictions: { country: ["vi"] },
-  types: ["country"],
+  componentRestrictions: { country: "vn" },
 }
+
 const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
+  const ref = useRef<HTMLInputElement>(null)
   const { getProvinceIdByGooglePlace } = useAddress()
   const dispatch = useDispatch()
   const { searchHistoryList } = useSelector((state: RootState) => state.locationHistory)
@@ -33,12 +34,21 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
+  useClickOutside([ref.current], () => {
+    clearSuggestions()
+  })
+
   useClickOutside([searchRef], () => {
     setShowSearchResult(false)
   })
 
-  const getLocationFromSearchResult = (location: google.maps.places.AutocompletePrediction) => {
-    getGeocode({ address: location.description }).then((results) => {
+  const getLocationFromSearchResult = async (
+    location: google.maps.places.AutocompletePrediction
+  ) => {
+    setValue(location.description)
+    clearSuggestions()
+    try {
+      const results = await getGeocode({ address: location.description })
       const { lat, lng } = getLatLng(results?.[0])
       const province_id = getProvinceIdByGooglePlace(location.description)
       if (!province_id) return
@@ -51,15 +61,18 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
       }
 
       dispatch(addLocationSearchHistory({ ...newLocation, id: location.place_id }))
-      onSelect && onSelect(newLocation)
+      onSelect?.(newLocation)
       setShowSearchResult(false)
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <div ref={searchRef} className="">
       <div className="relative">
         <input
+          ref={ref}
           type="text"
           value={searchValues}
           onChange={(e) => {
@@ -84,47 +97,47 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
       </div>
 
       {showSearchResult ? (
-        <div className="block-element max-h-[300px] flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
+        <div className="block-element max-h-[300px] overflow-y-auto scrollbar-hide flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
           {searchValues ? (
             <div className="flex-1 flex flex-col">
               {loading ? (
                 <Spinner className="py-80px" size={40} />
               ) : (
                 <>
-                  <ul className="overflow-y-auto py-8">
-                    {status === "OK" ? (
-                      locations?.map((item, index) => (
+                  {status === "OK" ? (
+                    <ul className={`overflow-y-auto py-8`}>
+                      {locations?.map((item, index) => (
                         <li key={index} className="">
                           <LocationItem
                             location={item}
                             onSelect={(val) => getLocationFromSearchResult(val)}
                           />
                         </li>
-                      ))
-                    ) : (
-                      <div className="px-12 py-[24px] flex-1 flex-col flex-center">
-                        <p className="flex-center mb-[12px] text-sm text-gray-color-3">
-                          <MdOutlineLocationOff className="mr-[8px] text-base text-gray-color-3" />
-                          Không tìm được vị trí
-                        </p>
-                        <p className="text-sm text-gray-color-3 leading-[20px]">
-                          Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
-                          bạn
-                        </p>
-                      </div>
-                    )}
-                  </ul>
+                      ))}
+                    </ul>
+                  ) : status === "ZERO_RESULTS" ? (
+                    <div className="px-12 py-[24px] flex-1 flex-col flex-center">
+                      <p className="flex-center mb-[12px] text-sm text-gray-color-3">
+                        <MdOutlineLocationOff className="mr-[8px] text-base text-gray-color-3" />
+                        Không tìm được vị trí
+                      </p>
+                      <p className="text-sm text-gray-color-3 leading-[20px]">
+                        Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
+                        bạn
+                      </p>
+                    </div>
+                  ) : null}
                 </>
               )}
             </div>
           ) : searchHistoryList?.length > 0 ? (
-            <ul className="overflow-y-auto flex-1 py-8 scrollbar-hide border border-solid border-border-color">
+            <ul className="overflow-y-auto flex-1 py-8 scrollbar-hide border border-solid border-border-color border-t-0">
               {searchHistoryList.map((item, index) => (
                 <li key={index}>
                   <LocationHistoryItem
                     location={item}
                     onSelect={(location) => {
-                      onSelect && onSelect(location)
+                      onSelect?.(location)
                       setShowSearchResult(false)
                     }}
                   />

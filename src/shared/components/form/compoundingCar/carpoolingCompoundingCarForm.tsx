@@ -358,7 +358,7 @@ export const CarpoolingCompoundingForm = ({
         </div>
 
         {mode === "create" && !disabled ? (
-          <div className={`mb-[40px] ${disabled ? "pointer-events-none" : ""}`}>
+          <div className={`form-item mb-[24px] ${disabled ? "pointer-events-none" : ""}`}>
             <Controller
               control={control}
               name={"is_checked_policy"}
@@ -375,7 +375,7 @@ export const CarpoolingCompoundingForm = ({
           </div>
         ) : null}
 
-        {view === "modal" ? <div className="mt-24"></div> : null}
+        {view === "page" ? <div className="md:mt-[40px]"></div> : null}
 
         {onSubmit && showButon ? (
           <ButtonSubmit

@@ -26,7 +26,7 @@ const Footer = () => {
                   className="mr-[20px]"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.facebook.com/satavancom"
+                  href="https://www.facebook.com/exxevnvn?gidzl=071XJTkMGmG1QcLFseX20GPjOKt5taC56pjY6P3RGrmPEp54bzaHM4e-O4IJtqSBIZLXHM7jqXTztvD41G"
                 >
                   <FacebookIcon className="" />
                 </a>
@@ -34,7 +34,7 @@ const Footer = () => {
                   className="mr-[20px]"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
+                  href="https://www.youtube.com/channel/UCXLtYXa0ZHOEqH2XWVAUT5Q"
                 >
                   <YoutubeIcon />
                 </a>
@@ -42,7 +42,7 @@ const Footer = () => {
                   className="mr-[20px]"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
+                  href="https://www.tiktok.com/@exxe_vn"
                 >
                   <TiktokIcon />
                 </a>

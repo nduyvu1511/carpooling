@@ -5,7 +5,7 @@ import {
   LocationIcon2,
   LocationIcon3,
   LocationIcon4,
-  MultiUserIcon
+  MultiUserIcon,
 } from "@/assets"
 import {
   Alert,
@@ -15,7 +15,7 @@ import {
   RidesDetailLoading,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal
+  RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
@@ -31,7 +31,7 @@ const ScheduleCompounding = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const { getCurrentLocation } = useCurrentLocation({ showLoading: true })
+  const { getCurrentLocation } = useCurrentLocation()
   const {
     confirmDoneCompoundingCar,
     confirmStateCompoundingCarCustomer,
@@ -65,12 +65,14 @@ const ScheduleCompounding = () => {
   })
 
   const handleGenerateGoogleMapUrl = (params: LatLng) => {
-    getCurrentLocation(({ lat, lng }) =>
-      window.open(
-        `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${params.lat},${params.lng}`,
-        "_blank"
-      )
-    )
+    getCurrentLocation({
+      params: { showLoading: true },
+      onSuccess: ({ lat, lng }) =>
+        window.open(
+          `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${params.lat},${params.lng}`,
+          "_blank"
+        ),
+    })
   }
 
   const handleConfirmDoneCompoundingCar = () => {
