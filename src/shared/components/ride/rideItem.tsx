@@ -54,7 +54,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
         <p className="flex items-center mr-[16px]">
           <CompoundingCarICon compounding_type={rides.compounding_type} />
           <span
-            style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
+            // style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
             className="text-[10px] sm:text-xs lg:text-sm ml-[5px] lg:ml-[8px]"
           >
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}

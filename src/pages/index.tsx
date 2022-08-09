@@ -1,13 +1,4 @@
-import {
-  feature1,
-  feature2,
-  feature3,
-  feature4,
-  feature5,
-  feature6,
-  feature7,
-  feature8,
-} from "@/assets"
+import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide } from "@/components"
 import { RootState } from "@/core/store"
 import { GuestLayout } from "@/layout"
@@ -60,10 +51,8 @@ const HomeGuest = () => {
                 feature3,
                 feature4,
                 feature5,
-                feature5,
                 feature6,
                 feature7,
-                feature8,
               ]}
             />
           </div>

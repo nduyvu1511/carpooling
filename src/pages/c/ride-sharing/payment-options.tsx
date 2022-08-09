@@ -23,12 +23,8 @@ const CheckoutOptions = () => {
   const { compounding_car_customer_id } = router.query
   const { fetcherHandler } = useFetcher()
 
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate: mutateCompoundingCar,
-  } = useCompoundingCarCustomer({
-    key: "get_compounding_car_customer_to_check_full",
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+    key: `get_compounding_car_customer_to_check_full_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
@@ -37,7 +33,6 @@ const CheckoutOptions = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutateCompoundingCar(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

@@ -1,5 +1,4 @@
 import { formatMoneyVND, PAYMENT_PURPOSE_NAME } from "@/helper"
-import { useEffectOnce } from "@/hooks"
 import { JournalDetailCompoundingCarCustomerRes, JournalDetailRes } from "@/models"
 import { userApi } from "@/services"
 import moment from "moment"
@@ -15,7 +14,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
   const { isValidating, mutate, data } = useSWR<
     JournalDetailRes | JournalDetailCompoundingCarCustomerRes
   >(
-    payment_id ? "get_transaction_detail" : null,
+    payment_id ? `get_transaction_detail_${payment_id}` : null,
     () =>
       userApi
         .getDetailTransaction({ payment_id })
@@ -25,10 +24,6 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
       dedupingInterval: 1000,
     }
   )
-
-  useEffectOnce(() => {
-    return () => mutate(undefined, false)
-  })
 
   return (
     <>

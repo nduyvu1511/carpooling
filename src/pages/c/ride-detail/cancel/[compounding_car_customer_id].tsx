@@ -1,25 +1,15 @@
-import { RideCanceled, RideProgress, RideSummaryMobile, RideSummary } from "@/components"
-import { useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
+import { RideCanceled, RideProgress, RideSummary, RideSummaryMobile } from "@/components"
+import { useCompoundingCarCustomer } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
 
 const RideCanceledPage = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate: mutateCompoundingCar,
-  } = useCompoundingCarCustomer({
-    key: "get_canceled_ride_driver",
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+    key: `get_canceled_ride_driver_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
-  })
-
-  useEffectOnce(() => {
-    return () => {
-      mutateCompoundingCar(undefined, false)
-    }
   })
 
   return (

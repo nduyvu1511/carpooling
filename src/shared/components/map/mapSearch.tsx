@@ -58,31 +58,29 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
 
   return (
     <div ref={searchRef} className="">
-      <div className="mb-[1px]">
-        <div className="relative">
-          <input
-            type="text"
-            value={searchValues}
-            onChange={(e) => {
-              setValue(e.target.value)
-              clearSuggestions()
-            }}
-            onFocus={() => setShowSearchResult(true)}
-            className={`form-input h-[40px] pr-[40px] ${
-              !showSearchResult
-                ? "rounded-[10px]"
-                : "rounded-tl-[10px] rounded-tr-[10px] rounded-none"
-            } border border-solid border-border-color shadow-shadow-1`}
-            placeholder="Tìm kiếm vị trí..."
-            disabled={!ready}
-          />
+      <div className="relative">
+        <input
+          type="text"
+          value={searchValues}
+          onChange={(e) => {
+            setValue(e.target.value)
+            clearSuggestions()
+          }}
+          onFocus={() => setShowSearchResult(true)}
+          className={`form-input h-[40px] pr-[40px] ${
+            !showSearchResult
+              ? "sm:rounded-[10px]"
+              : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none"
+          } border border-solid border-border-color shadow-shadow-1`}
+          placeholder="Tìm kiếm vị trí..."
+          disabled={!ready}
+        />
 
-          {searchValues ? (
-            <button onClick={() => setValue("", false)} className="absolute-vertical right-[10px]">
-              <CloseIcon className="w-[18px]" />
-            </button>
-          ) : null}
-        </div>
+        {searchValues ? (
+          <button onClick={() => setValue("", false)} className="absolute-vertical right-[10px]">
+            <CloseIcon className="w-[18px]" />
+          </button>
+        ) : null}
       </div>
 
       {showSearchResult ? (
@@ -94,30 +92,28 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
               ) : (
                 <>
                   <ul className="overflow-y-auto py-8">
-                    {status === "OK" &&
-                      locations?.length > 0 &&
-                      locations.map((item, index) => (
+                    {status === "OK" ? (
+                      locations?.map((item, index) => (
                         <li key={index} className="">
                           <LocationItem
                             location={item}
                             onSelect={(val) => getLocationFromSearchResult(val)}
                           />
                         </li>
-                      ))}
+                      ))
+                    ) : (
+                      <div className="px-12 py-[24px] flex-1 flex-col flex-center">
+                        <p className="flex-center mb-[12px] text-sm text-gray-color-3">
+                          <MdOutlineLocationOff className="mr-[8px] text-base text-gray-color-3" />
+                          Không tìm được vị trí
+                        </p>
+                        <p className="text-sm text-gray-color-3 leading-[20px]">
+                          Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
+                          bạn
+                        </p>
+                      </div>
+                    )}
                   </ul>
-
-                  {status && status !== "OK" ? (
-                    <div className="px-12 py-[24px] flex-1 flex-col flex-center">
-                      <p className="flex-center mb-[12px] text-sm">
-                        <MdOutlineLocationOff className="mr-[8px] text-base" />
-                        Không tìm được vị trí
-                      </p>
-                      <p className="text-sm leading-[20px]">
-                        Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
-                        bạn
-                      </p>
-                    </div>
-                  ) : null}
                 </>
               )}
             </div>

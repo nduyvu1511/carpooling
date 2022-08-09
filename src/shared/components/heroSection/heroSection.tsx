@@ -29,7 +29,7 @@ export const HeroSection = () => {
           <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
         <div className="absolute inset-0 p-24">
-          <div className="absolute w-[50%] xs:w-[52%] sm:w-[40%] md:w-[35%] lg:w-[50%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+          <div className="absolute w-[80%] xs:w-[55%] sm:w-[40%] md:w-[35%] lg:w-[40%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
             <Swiper
               className="w-full"
               slidesPerView={1}
@@ -44,14 +44,14 @@ export const HeroSection = () => {
                 ["Minh bạch về giá cả", "Lợi ích rõ ràng, chi tiết cho hành khách và đối tác"],
               ].map(([title, desc], index) => (
                 <SwiperSlide key={index}>
-                  <div className="flex items-baseline flex-col">
+                  <div className="flex items-start flex-col">
                     <Fade bottom delay={100}>
-                      <h1 className="h2 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+                      <h1 className="text-[20px] sm:text-24 md:text-[30px] xl:text-[40px] text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
                         {title}
                       </h1>
                     </Fade>
                     <Fade bottom delay={100}>
-                      <p className="text-text-color text-xs xs:text-sm leading-[22px] sm:text-base lg:text-xl font-medium">
+                      <p className="text-text-color text-xs xs:text-14 leading-[22px] md:text-[16px] lg:text-[20px] lg:leading-[26px] xl:text-24 xl:leading-[28px]">
                         {desc}
                       </p>
                     </Fade>

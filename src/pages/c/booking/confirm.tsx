@@ -27,13 +27,9 @@ const ConfirmBookingCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate: mutateCompoundingCar,
-  } = useCompoundingCarCustomer({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
-    key: "confirm_booking_compounding_car_customer",
+    key: `confirm_booking_compounding_car_customer_${compounding_car_customer_id}`,
     type: "once",
   })
   const {
@@ -56,7 +52,6 @@ const ConfirmBookingCustomer = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutateCompoundingCar(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

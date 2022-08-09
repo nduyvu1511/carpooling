@@ -1,18 +1,17 @@
 import { HeaderMobile, RideDriverSummary, RideSummaryLoading } from "@/components"
-import { useEffectOnce } from "@/hooks"
+import { useBackRouter } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import { ridesApi } from "@/services"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 import useSWR from "swr"
 
 const RideDone = () => {
   const router = useRouter()
   const { compounding_car_id = "" } = router.query
   const { data, mutate, error, isValidating } = useSWR<DriverCompoundingCarInvoiceRes | undefined>(
-    compounding_car_id ? "get_driver_compounding_car_invoice" : null,
+    compounding_car_id ? `get_driver_compounding_car_invoice_${compounding_car_id}` : null,
     () =>
       ridesApi
         .getDriverCompoundingCarInvoice({ compounding_car_id: Number(compounding_car_id) })
@@ -20,23 +19,12 @@ const RideDone = () => {
         .catch((err) => console.log(err))
   )
 
-  useEffect(() => {
-    router.beforePopState(({ as }) => {
+  useBackRouter({
+    cb: (as) => {
       if (as.includes(`/d/ride-detail/in-process`)) {
         router.push("/d")
       }
-      return true
-    })
-
-    return () => {
-      router.beforePopState(() => true)
-    }
-  }, [router])
-
-  useEffectOnce(() => {
-    return () => {
-      mutate(undefined, false)
-    }
+    },
   })
 
   return (

@@ -5,7 +5,7 @@ import {
   LocationIcon2,
   LocationIcon3,
   LocationIcon4,
-  MultiUserIcon,
+  MultiUserIcon
 } from "@/assets"
 import {
   Alert,
@@ -15,14 +15,12 @@ import {
   RidesDetailLoading,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal,
-  ScheduleSummary,
+  RideSummaryModal
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { setShowSummaryDetail } from "@/modules"
-import moment from "moment"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
 import { useDispatch } from "react-redux"

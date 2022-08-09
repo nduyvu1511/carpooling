@@ -25,12 +25,8 @@ const Checkout = () => {
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate: mutateCompoundingCar,
-  } = useCompoundingCarCustomer({
-    key: "booking_checkout_customer",
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+    key: `booking_checkout_customer_${compounding_car_customer_id}`,
     type: "autoFocus",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
@@ -62,7 +58,6 @@ const Checkout = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutateCompoundingCar(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

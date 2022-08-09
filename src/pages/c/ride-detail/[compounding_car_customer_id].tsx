@@ -43,7 +43,7 @@ const RidesDetail = () => {
     mutate,
   } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
-    key: "get_compounding_car_customer",
+    key: `get_compounding_car_customer_${compounding_car_customer_id}`,
     type: "once",
   })
   const { compoundingCarCustomerResToCarpoolingForm } = useCompoundingForm()
@@ -55,7 +55,6 @@ const RidesDetail = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

@@ -35,7 +35,7 @@ const RidesDetailCustomer = () => {
     mutate,
   } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
-    key: "confirm_booking_compounding_car_customer",
+    key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
     type: "once",
   })
   const [compoundingCarCustomer, setCompoundingCarCustomer] = useState<
@@ -71,7 +71,6 @@ const RidesDetailCustomer = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

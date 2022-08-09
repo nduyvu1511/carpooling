@@ -5,6 +5,7 @@ import moment from "moment"
 import { ReactNode, useState } from "react"
 import { AccordionItem } from "../accordion"
 import { Map } from "../map"
+import { CompoundingCarICon } from "../utilities"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryRules } from "./rideSummaryRules"
 
@@ -39,9 +40,15 @@ const RideSummary = ({
 
   return (
     <div className={`${view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-12" : ""}`}>
-      <div className="bg-bg-primary rounded-[5px]">
+      <div className="bg-bg-primary rounded-[5px] p-12 md:p-24">
+        <p className="flex items-center mb-[16px]">
+          <CompoundingCarICon compounding_type={data.compounding_type} />
+          <span className="text-sm ml-8 flex-1">
+            {COMPOUNDING_TYPE_NAME[data.compounding_type]}
+          </span>
+        </p>
         {showMap ? (
-          <div className="h-[200px]">
+          <div className="h-[200px] mb-24">
             <Map
               direction={{
                 destination: {
@@ -57,7 +64,7 @@ const RideSummary = ({
             />
           </div>
         ) : null}
-        <div className="p-12 md:p-24 bg-bg-primary rounded-[5px] flex items-center mb-12 md:mb-24">
+        <div className="flex items-center">
           <div className="flex-1">
             <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {data?.from_province.province_brief_name}

@@ -6,7 +6,7 @@ import {
   RideSummaryPassengerItem,
 } from "@/components"
 import { formatMoneyVND } from "@/helper"
-import { useBackRouter, useCompoundingCarDriver, useEffectOnce } from "@/hooks"
+import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -19,7 +19,7 @@ const CheckoutSuccess = () => {
     isValidating,
     mutate,
   } = useCompoundingCarDriver({
-    key: "get_compounding_car_customer_detail_checkout",
+    key: `get_compounding_car_customer_detail_checkout_${compounding_car_id}`,
     type: "once",
     compounding_car_id: Number(compounding_car_id),
   })
@@ -28,12 +28,6 @@ const CheckoutSuccess = () => {
     cb: () => {
       router.push("/d")
     },
-  })
-
-  useEffectOnce(() => {
-    return () => {
-      mutate(undefined, false)
-    }
   })
 
   return (

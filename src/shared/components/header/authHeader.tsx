@@ -79,7 +79,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
                   )
                 }
-                className="hidden sm:flex h-[40px] btn text-[14px] leading-[22px] bg-[#DAE2FD] font-medium text-primary rounded-[10px] p-[10px] w-fit md:hidden mr-24"
+                className="hidden sm:flex h-[40px] btn text-[14px] leading-[22px] bg-[#DAE2FD] font-medium text-primary rounded-[8px] p-[10px] w-fit md:hidden mr-24"
               >
                 <AddIcon2 className="mr-[10px]" />
                 Đặt chuyến mới
@@ -120,28 +120,23 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       onClick={() => {
                         toggleBookingModal(value as CompoundingType)
                       }}
-                      className="flex-center mr-[16px] p-[8px] h-[40px] w-[144px] rounded-[8px] last:mr-0 cursor-pointer flex items-center"
+                      className="flex-center bg-[#EEEBFF] mr-[16px] p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
                       key={index}
                     >
                       {icon}
-                      <span
-                        style={{ color: COMPOUNDING_TYPE_COLOR[value as CompoundingType] }}
-                        className="ml-8 text-14 font-semibold"
-                      >
-                        {label}
-                      </span>
+                      <span className="ml-8 text-xs">{label}</span>
                     </li>
                   ))
                 ) : (
-                  <li
+                  <button
                     onClick={() => {
                       toggleBookingModal("convenient")
                     }}
-                    className="text-16 font-semibold mr-[40px] last:mr-0 cursor-pointer flex items-center"
+                    className="flex-center py-12 px-[10px] rounded-[8px] bg-bg-blue"
                   >
-                    <ConvenientIcon />
-                    <span className="ml-12">Tiện chuyến</span>
-                  </li>
+                    <AddIcon2 className="mr-[10px] w-[20px] h-[20px] text-blue-7" />
+                    <span className="text-blue-7 text-sm">Đặt chuyến mới</span>
+                  </button>
                 )}
               </ul>
 

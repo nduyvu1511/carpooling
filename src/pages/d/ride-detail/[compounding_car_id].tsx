@@ -45,7 +45,7 @@ const ConfirmBookingCustomer = () => {
     mutate,
   } = useCompoundingCarDriver({
     compounding_car_id: Number(compounding_car_id),
-    key: "confirm_booking_compounding_car_customer",
+    key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
     type: "once",
   })
   const { reportRating } = useRatingActions()
@@ -84,7 +84,6 @@ const ConfirmBookingCustomer = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

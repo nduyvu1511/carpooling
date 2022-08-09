@@ -1,5 +1,5 @@
 import { RideCustomerBill, RideProgress, Spinner } from "@/components"
-import { useBackRouter, useCompoundingCarCustomer, useEffectOnce } from "@/hooks"
+import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -12,15 +12,9 @@ const CheckoutSuccess = () => {
     isValidating,
     mutate: mutateCompoundingCar,
   } = useCompoundingCarCustomer({
-    key: "get_compounding_car_customer_detail_checkout",
+    key: `get_compounding_car_customer_detail_checkout_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
-  })
-
-  useEffectOnce(() => {
-    return () => {
-      mutateCompoundingCar(undefined, false)
-    }
   })
 
   useBackRouter({

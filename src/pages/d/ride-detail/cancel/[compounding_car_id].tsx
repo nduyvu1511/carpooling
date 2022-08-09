@@ -1,5 +1,5 @@
 import { RideCanceled, RideProgress, RideSummary } from "@/components"
-import { useCompoundingCarDriver, useEffectOnce } from "@/hooks"
+import { useCompoundingCarDriver } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CompoundingCarDriverRes } from "@/models"
 import { useRouter } from "next/router"
@@ -12,15 +12,9 @@ const RideCanceledPage = () => {
     isInitialLoading,
     mutate,
   } = useCompoundingCarDriver({
-    key: "get_canceled_ride_driver",
+    key: `get_canceled_ride_driver_${compounding_car_id}`,
     type: "once",
     compounding_car_id: Number(compounding_car_id),
-  })
-
-  useEffectOnce(() => {
-    return () => {
-      mutate(undefined, false)
-    }
   })
 
   return (

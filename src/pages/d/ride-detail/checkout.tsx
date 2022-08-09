@@ -24,7 +24,7 @@ const Checkout = () => {
     isInitialLoading,
     mutate,
   } = useCompoundingCarDriver({
-    key: "compounding_car_driver_deposit_customer",
+    key: `compounding_car_driver_deposit_customer_${compounding_car_id}`,
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),
   })
@@ -60,7 +60,7 @@ const Checkout = () => {
 
   useEffectOnce(() => {
     return () => {
-      mutate(undefined, false)
+      // mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })
