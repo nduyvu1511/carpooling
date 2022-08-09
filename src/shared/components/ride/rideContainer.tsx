@@ -67,7 +67,6 @@ const RideContainer = ({
       toggleBodyOverflow("unset")
     }
   }
-  console.log({ list })
 
   return (
     <>

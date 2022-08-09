@@ -52,12 +52,12 @@ const RideSummary = ({
             <Map
               direction={{
                 destination: {
-                  lat: Number(data.to_latitude),
-                  lng: Number(data.to_longitude),
+                  lat: Number(data.from_province.latitude),
+                  lng: Number(data.from_province.longitude),
                 },
                 origin: {
-                  lat: Number(data.from_latitude),
-                  lng: Number(data.from_longitude),
+                  lat: Number(data.from_province.latitude),
+                  lng: Number(data.from_province.longitude),
                 },
               }}
               viewOnly
