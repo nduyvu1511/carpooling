@@ -58,6 +58,7 @@ export const OTP = ({
         `+84${phoneNumber.slice(1)}`,
         verify
       )
+      console.log({ confirmationResult })
       dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
       setPhone(phoneNumber)
       window.confirmationResult = confirmationResult

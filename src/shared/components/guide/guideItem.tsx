@@ -3,7 +3,7 @@ import Image from "next/image"
 interface GuideItemProps {
   icon: string
   label: string
-  desc: string
+  desc: string[]
   reverse?: boolean
   index: number
 }
@@ -27,7 +27,11 @@ export const GuideItem = ({ icon, desc, label, reverse = false, index }: GuideIt
         <h2 className="h2 text-primary mb-[16px] md:mb-[16px] lg:mb-[32px]">
           {index}. {label}
         </h2>
-        <p className="text-sm leading-[22px] md:text-base">{desc}</p>
+        {desc.map((text, index) => (
+          <p key={index} className="text-sm leading-[22px] md:text-base mb-12 md:mb-24 last:mb-0">
+            {text}
+          </p>
+        ))}
       </div>
     </div>
   )

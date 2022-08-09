@@ -12,7 +12,7 @@ export const Switch = ({ onChange, list, value }: SwitchProps) => {
       <span
         className={`absolute transition-all duration-300 h-[90%] ${
           value === list[0].value ? "left-[3px] lg:left-[4px]" : "left-[117px] lg:left-[136px]"
-        } top-1/2 transform -translate-y-1/2 w-[50%] bg-gray-color-4 rounded-[30px]`}
+        } top-1/2 transform -translate-y-1/2 w-[50%] bg-blue-8 rounded-[30px]`}
       ></span>
       {list.map((item) => (
         <span

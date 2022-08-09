@@ -1,4 +1,4 @@
-import { driverImage, guide1, guide2, guide3, guide4, guide5 } from "@/assets"
+import { guide1, guide2, guide3, guide4, guide5 } from "@/assets"
 import Fade from "react-reveal"
 import { GuideItem } from "./guideItem"
 
@@ -9,31 +9,42 @@ export const CustomerGuide = () => {
         {
           icon: guide1,
           label: "Đăng ký tài khoản",
-          desc: `Hành khách tải ứng dụng ngay về điện thoại, kích hoạt ứng dụng. Tạo mới ( nếu chưa có ) hoặc đăng nhập vào tài khoản.`,
+          desc: [
+            "Hành khách truy cập vào website Exxe.vn chọn đăng kí để đăng kí tài khoản",
+            "Vui lòng cung cấp chính xác số điện thoại để EXXE gửi mã OTP xác nhận",
+            "Số điện thoại sẽ là tài khoản của quý khách. Mỗi số điện thoại chỉ đăng kí được một tài khoản",
+          ],
           reverse: false,
         },
         {
           icon: guide2,
           label: "Chọn chuyến xe",
-          desc: `Hành khách chọn hình thức di chuyển phù hợp với nhu cầu nhất, Exxe sẽ yêu cầu hành khách nhập các thông tin của chuyến đi như điểm đón, điểm đến, loại xe,thời gian, yêu cầu...`,
+          desc: [
+            "Hành khách chọn hình thức di chuyển theo mong muốn : 1 chiều, 2 chiều, ghép chuyến.",
+            "Điền đầy đủ thông tin chuyến đi theo form yêu cầu",
+          ],
           reverse: true,
         },
         {
           icon: guide3,
           label: "Kiểm tra và xác nhận",
-          desc: `Hành khách kiểm tra lại thông tin chuyến đi và xác nhận đồng ý với các điều khoản của Exxe.`,
+          desc: [
+            "Quý khách vui lòng kiểm tra lại thông tin chuyến đi lại một lần trước khi đến bước tiếp theo",
+          ],
           reverse: false,
         },
         {
           icon: guide4,
           label: "Chọn phương thức thanh toán",
-          desc: `Hành khách chọn phương thức thanh toán & số tiền sẽ đặt cọc giữ chỗ.`,
+          desc: ["Hành khách chọn loại hình thanh toán mong muốn và tiến hành đặt cọc chuyến đi"],
           reverse: true,
         },
         {
-          icon: driverImage,
+          icon: guide5,
           label: "Hoàn tất đặt chuyến và trải nghiệm",
-          desc: "Exxe sẽ kết nối với tài xế, hành khách trải nghiệm dịch vụ tuyệt vời cùng Exxe.",
+          desc: [
+            "Hãy đảm bảo rằng quý khách sẽ luôn sẵn sàng điện thoại để tài xế có thể sẽ liện lạc được",
+          ],
           reverse: false,
         },
       ].map((item, index) => (
