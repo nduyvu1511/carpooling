@@ -1,6 +1,7 @@
 import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide } from "@/components"
 import { RootState } from "@/core/store"
+import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
 import { ridesApi } from "@/services"
@@ -21,6 +22,7 @@ const HomeGuest = () => {
         .catch((err) => console.log(err)),
     { dedupingInterval: 100000 }
   )
+  const { data: news, isValidating: isLoading } = useNews()
 
   useEffect(() => {
     if (!userInfo) return
@@ -45,15 +47,7 @@ const HomeGuest = () => {
 
           <div className="container mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
             <Banner
-              images={[
-                feature1,
-                feature2,
-                feature3,
-                feature4,
-                feature5,
-                feature6,
-                feature7,
-              ]}
+              images={[feature1, feature2, feature3, feature4, feature5, feature6, feature7]}
             />
           </div>
         </div>
@@ -86,7 +80,7 @@ const HomeGuest = () => {
 
           <div className="">
             <div className="custom-swiper">
-              <NewsSlide />
+              <NewsSlide data={news} isLoading={isLoading} />
             </div>
 
             <div className="mt-[32px] md:mt-[40px] lg:mt-[80px] flex justify-center">

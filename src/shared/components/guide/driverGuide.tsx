@@ -1,4 +1,4 @@
-import { driverImage, guide1, guide2, guide3, guide4, guide5 } from "@/assets"
+import { driverImage, guide1, guide2, guide3, guide4 } from "@/assets"
 import Fade from "react-reveal"
 import { GuideItem } from "./guideItem"
 
@@ -10,7 +10,8 @@ export const DriverGuide = () => {
           icon: guide1,
           label: "Đăng ký",
           desc: [
-            `Đối tác tải ứng dụng về thiết bị, kích hoạt ứng dụng và chọn đăng kí tài khoản. Đối tác tài xế cung cấp đầy đủ giấy tờ pháp lý để hoàn thành đăng kí tài khoản`,
+            "Đối tác vui lòng truy cập vào website Exxe.vn chọn đăng kí để đăng kí tài khoản",
+            "Vui lòng cung cấp đầy đủ thông tin giấy tờ theo yêu cầu, bộ phận nhân sự của EXXE sẽ xác minh và khi đó tài khoản của bạn sẽ hoạt động",
           ],
           reverse: false,
         },
@@ -18,28 +19,30 @@ export const DriverGuide = () => {
           icon: guide2,
           label: "Đặt chuyến",
           desc: [
-            `Đối tác lựa chọn chuyến xe có sẵn hoặc tạo chuyến mới, tài xế cung cấp đầy đủ thông tin của chuyến đi.`,
+            "Tài xế có thể chọn những chuyến xe có sẵn hoặc tự tạo cuốc tiện chuyến",
+            "Nếu đặt cuốc tiện chuyến, hãy điền đầy đủ thông tin như yêu cầu",
           ],
           reverse: true,
         },
         {
           icon: guide3,
           label: "Kiểm tra và xác nhận",
-          desc: [`Đối tác kiểm tra lại thông tin chuyến đi`],
+          desc: [
+            `Vui lòng kiểm tra lại thông tin chuyến đi lại một lần trước khi đến bước tiếp theo`,
+          ],
           reverse: false,
         },
         {
           icon: guide4,
           label: "Chọn phương thức thanh toán",
-          desc: [`Đối tác lựa chọn phương thức thanh toán mong muốn.`],
+          desc: [`Đối tác chọn loại hình thanh toán mong muốn và đặt cọc chuyến đi`],
           reverse: true,
         },
         {
           icon: driverImage,
           label: "Hoàn thành",
           desc: [
-            `Đăng nhập vào Exxe qua Facebook, Google, số điện thoại hoặc email của bạn. Chúng
-          tôi cần bạn xác thực số điện thoại trước khi đặt xe.`,
+            `EXXE sẽ thông báo đến bạn thông tin hành khách, đối tác vui lòng liên hệ với khách hàng trong thời gian sớm nhất để thống nhất về chuyến đi`,
           ],
           reverse: false,
         },

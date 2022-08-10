@@ -724,3 +724,44 @@
   -o-animation: flickerAnimation 0.5s infinite;
   animation: flickerAnimation 0.5s infinite;
 }
+
+.news__page {
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-weight: 600;
+    font-size: 1.8rem;
+  }
+
+  h4 {
+    font-weight: 600;
+    font-size: 1.7rem;
+  }
+
+  h5 {
+    font-weight: 600;
+    font-size: 1.6rem;
+  }
+
+  p {
+    font-weight: 500;
+    font-size: 1.6rem;
+  }
+
+  img {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto;
+  }
+}

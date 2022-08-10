@@ -30,7 +30,7 @@ export const CompoundingFilter = ({
 }: CompoundingFilterFormProps) => {
   const { provinceOptions } = useAddress()
   const { vehicleTypeOptions, seats } = useCompoundingForm()
-  const { getCurrentLocation } = useCurrentLocation({ showLoading: true })
+  const { getCurrentLocation } = useCurrentLocation()
   const [numberSeatOptions, setNumberSeatOptions] = useState<OptionModel[]>(seats(16))
   const [compoundingFormValues, setCompoundingFormValues] = useState<
     CompoundingFilterParams | undefined
@@ -196,17 +196,20 @@ export const CompoundingFilter = ({
                     isActive={compoundingFormValues?.order_by == value}
                     onChange={() => {
                       if (value === "sort_by_distance") {
-                        getCurrentLocation(({ lng, lat }) => {
-                          const val = {
-                            order_by: "sort_by_distance",
-                            current_latitude: lat + "",
-                            current_longitude: lng + "",
-                          }
-                          setCompoundingFormValues({
-                            ...compoundingFormValues,
-                            ...val,
-                          } as CompoundingFilterParams)
-                          handleChange(val as CompoundingFilterParams)
+                        getCurrentLocation({
+                          params: { showLoading: true },
+                          onSuccess: ({ lng, lat }) => {
+                            const val = {
+                              order_by: "sort_by_distance",
+                              current_latitude: lat + "",
+                              current_longitude: lng + "",
+                            }
+                            setCompoundingFormValues({
+                              ...compoundingFormValues,
+                              ...val,
+                            } as CompoundingFilterParams)
+                            handleChange(val as CompoundingFilterParams)
+                          },
                         })
                       } else {
                         setCompoundingFormValues({

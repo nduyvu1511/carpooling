@@ -1,0 +1,49 @@
+import { PostRes } from "@/models"
+import { newsApi } from "@/services"
+import { useState } from "react"
+import { useQueryList } from "../async"
+
+interface Res {
+  data: PostRes[]
+  isValidating: boolean
+  isInitialLoading: boolean
+  fetchMoreNews: Function
+  filterNews: (categoryId: string) => void
+  categoryId: string
+  hasMore: boolean
+}
+
+const LIMIT = 12
+
+const useNews = (): Res => {
+  const [categoryId, setCategoryId] = useState<string>("")
+  const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
+    useQueryList<PostRes>({
+      fetcher: newsApi.getPosts,
+      initialData: undefined,
+      key: "get_news_list",
+      params: { limit: LIMIT, offset: 0 },
+    })
+
+  const fetchMoreNews = () => {
+    const newOffset = offset + LIMIT
+    fetchMoreItem(newsApi.getPosts({ categoryId, offset: newOffset }))
+  }
+
+  const filterNews = (categoryId: string) => {
+    setCategoryId(categoryId)
+    filterList(newsApi.getPosts({ categoryId, offset: 0, limit: LIMIT }))
+  }
+
+  return {
+    data: data || [],
+    isInitialLoading: error === undefined && data === undefined,
+    isValidating,
+    fetchMoreNews,
+    filterNews,
+    categoryId,
+    hasMore,
+  }
+}
+
+export { useNews }

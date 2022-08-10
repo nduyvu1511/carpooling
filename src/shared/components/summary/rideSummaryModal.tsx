@@ -28,7 +28,7 @@ const RideSummaryModal = ({
       onClose={() => toggleShowDetail(false)}
     >
       <div className="overflow-y-scroll flex-1 relative flex flex-col">
-        <div className="flex items-center h-[56px] justify-between px-12 border-b border-solid border-border-color">
+        <div className="flex items-center h-[56px] justify-between px-12 md:px-24 border-b border-solid border-border-color">
           <button onClick={() => toggleShowDetail(false)} className="">
             <CloseIcon />
           </button>

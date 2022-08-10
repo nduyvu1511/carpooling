@@ -1,11 +1,4 @@
-import {
-  FacebookIcon,
-  LogoIcon,
-  paymentMehods,
-  TiktokIcon,
-  TwitterIcon,
-  YoutubeIcon,
-} from "@/assets"
+import { FacebookIcon, LogoIcon, paymentMehods, TiktokIcon, YoutubeIcon, ZaloIcon } from "@/assets"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -51,7 +44,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
                 >
-                  <TwitterIcon className="w-[23px]" />
+                  <ZaloIcon className="w-[23px]" />
                 </a>
               </p>
             </div>

@@ -1,3 +1,3 @@
 export * from "./newsItem"
-export * from "./newsList"
+export * from "./news"
 export * from "./newsSlide"

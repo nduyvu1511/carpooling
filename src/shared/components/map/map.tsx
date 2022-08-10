@@ -198,14 +198,14 @@ export const Map = ({
           >
             {directionRes ? (
               <DirectionsRenderer
-                // options={{
-                //   directions: directionRes,
-                //   polylineOptions: {
-                //     zIndex: 500,
-                //     strokeColor: "#1976D2",
-                //     strokeWeight: 5,
-                //   },
-                // }}
+                options={{
+                  directions: directionRes,
+                  polylineOptions: {
+                    zIndex: 500,
+                    strokeColor: "#1976D2",
+                    strokeWeight: 5,
+                  },
+                }}
                 directions={directionRes}
               />
             ) : null}

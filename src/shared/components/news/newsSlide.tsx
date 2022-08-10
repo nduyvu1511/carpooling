@@ -1,17 +1,26 @@
+import { PostRes } from "@/models"
 import { Autoplay, Navigation } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { NewsItem } from "./newsItem"
 
-const NewsSlide = () => {
+const NewsSlide = ({ data, isLoading }: { data: PostRes[]; isLoading: boolean }) => {
+  if (isLoading)
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-[16px] lg:grid-cols-4 md:gap-24 lg:gap-[24px]">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <NewsItem key={index} data={null} />
+        ))}
+      </div>
+    )
   return (
     <Swiper
       className="swiper-hover"
       spaceBetween={12}
-      slidesPerView={"auto"}
+      slidesPerView={2}
       breakpoints={{
-        768: {
+        640: {
           slidesPerView: 3,
         },
         1024: {
@@ -25,21 +34,11 @@ const NewsSlide = () => {
       navigation={true}
       autoplay={{ delay: 5000 }}
     >
-      <SwiperSlide className="relative aspect-[3/2]">
-        <NewsItem />
-      </SwiperSlide>
-      <SwiperSlide className="relative aspect-[3/2]">
-        <NewsItem />
-      </SwiperSlide>
-      <SwiperSlide className="relative aspect-[3/2]">
-        <NewsItem />
-      </SwiperSlide>
-      <SwiperSlide className="relative aspect-[3/2]">
-        <NewsItem />
-      </SwiperSlide>
-      <SwiperSlide className="relative aspect-[3/2]">
-        <NewsItem />
-      </SwiperSlide>
+      {data?.map((item) => (
+        <SwiperSlide key={item.postId} className="relative aspect-[3/2]">
+          <NewsItem data={item} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   )
 }

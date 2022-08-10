@@ -7,7 +7,11 @@ module.exports = withImages({
   reactStrictMode: true,
   images: {
     disableStaticImages: true,
-    domains: ["quanly.exxe.vn", process.env.NEXT_PUBLIC_IMAGE_URL],
+    domains: [
+      "quanly.exxe.vn",
+      process.env.NEXT_PUBLIC_IMAGE_URL,
+      process.env.NEXT_PUBLIC_NEWS_IMAGE,
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,
