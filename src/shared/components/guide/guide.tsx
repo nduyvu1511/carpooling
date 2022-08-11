@@ -5,8 +5,12 @@ import { DriverGuide } from "./driverGuide"
 
 type SwitchType = "customer" | "driver"
 
-const Guide = () => {
-  const [type, setType] = useState<SwitchType>("customer")
+interface GuideProps {
+  type?: SwitchType
+}
+
+const Guide = ({ type: typeProps = "customer" }: GuideProps) => {
+  const [type, setType] = useState<SwitchType>(typeProps)
 
   return (
     <div>

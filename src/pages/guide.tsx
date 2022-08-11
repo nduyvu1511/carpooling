@@ -1,7 +1,9 @@
 import { Guide as GuideCom, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
+import { useRouter } from "next/router"
 
 const Guide = () => {
+  const router = useRouter()
   return (
     <StaticLayout subHeading="Hướng dẫn" heading="Trải nghiệm các dịch vụ của chúng tôi">
       <Seo
@@ -10,7 +12,7 @@ const Guide = () => {
         title="Hướng dẫn đặt xe"
         url="https://exxe.vn/guide"
       />
-      <GuideCom />
+      <GuideCom type={router.query?.type + "" || ("customer" as any)} />
     </StaticLayout>
   )
 }

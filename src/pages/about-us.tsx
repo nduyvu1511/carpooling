@@ -1,5 +1,5 @@
 import { bg2 } from "@/assets"
-import { Map } from "@/components"
+import { Map, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import Image from "next/image"
 
@@ -10,6 +10,12 @@ const AboutUs = () => {
       heading="Ứng dụng giải pháp đặt xe chuyên nghiệp"
       subHeading="Về chúng tôi"
     >
+      <Seo
+        description="Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn hoạt động trên nền tảng ứng dụng cho thuê xe có tài xế 4-7-16 chỗ, theo mô hình kinh tế chia sẻ trực tuyến. Ra đời vào cuối năm 2022, Exxe mong muốn cung cấp dịch vụ Di chuyển đường dài và các hình thức đa dạng nhằm mang đến những trải nghiệm tốt nhất cho cả khách hàng và cả đối tác của Exxe. Sứ mệnh"
+        thumbnailUrl=""
+        title="Về chúng tôi"
+        url="https://exxe.vn/news"
+      />
       <div className="mb-[40px]">
         <p className="text-sm md:text-base">
           Vì sao chúng ta không thể có những lựa chọn di chuyển an toàn hơn?”

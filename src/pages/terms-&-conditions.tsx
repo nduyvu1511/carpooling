@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import { AccordionItem } from "@/components"
-import { GuestLayout, StaticLayout } from "@/layout"
+import { AccordionItem, Seo } from "@/components"
+import { StaticLayout } from "@/layout"
 import { useState } from "react"
 
 const Conditions = () => {
@@ -12,18 +12,12 @@ const Conditions = () => {
       subHeading="Điều lệ & Điều khoản"
       sticky
     >
-      <div className="mb-[80px]">
-        <p className="text-sm md:text-base">
-          Vì sao chúng ta không thể có những lựa chọn di chuyển an toàn hơn?”
-        </p>
-        <p className="text-sm md:text-base">
-          “Liệu chúng ta có thể giúp các bác tài có điều kiện làm việc tốt hơn không?”
-        </p>
-        <p className="text-sm md:text-base">
-          “Nếu như chúng ta có khả năng giúp cuộc sống này trở nên dễ dàng hơn một chút thì sao?”
-        </p>
-      </div>
-
+      <Seo
+        description="Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn hoạt động trên nền tảng ứng dụng cho thuê xe có tài xế 4-7-16 chỗ, theo mô hình kinh tế chia sẻ trực tuyến. Ra đời vào cuối năm 2022, Exxe mong muốn cung cấp dịch vụ Di chuyển đường dài và các hình thức đa dạng nhằm mang đến những trải nghiệm tốt nhất cho cả khách hàng và cả đối tác của Exxe. Sứ mệnh"
+        thumbnailUrl=""
+        title="Về chúng tôi"
+        url="https://exxe.vn/news"
+      />
       <div className="">
         <AccordionItem
           onClick={() => setTabActive(tabActive === 1 ? undefined : 1)}

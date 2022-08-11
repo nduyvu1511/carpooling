@@ -1,6 +1,5 @@
 import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
-import { RootState } from "@/core/store"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
@@ -9,6 +8,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import useSWR from "swr"
+import { RootState } from "../core"
 
 const HomeGuest = () => {
   const router = useRouter()
@@ -46,6 +46,10 @@ const HomeGuest = () => {
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
+
+      {/* <div className="mt-[64px] md:mt-[100px] lg:mt-[160px] max-w-[500px] mx-auto">
+        <InputDate2 />
+      </div> */}
 
       <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
         <div className="">

@@ -12,7 +12,7 @@ const Footer = () => {
               <LogoIcon className="mb-[24px] cursor-pointer" />
             </Link>
             <div className="">
-              <p className="text-14 sm:text-16 font-bold mb-[16px]">Kết nối với chúng tôi</p>
+              <p className="text-14 font-bold mb-[16px]">Kết nối với chúng tôi</p>
 
               <p className="flex items-center">
                 <a
@@ -54,9 +54,9 @@ const Footer = () => {
             {
               heading: "Về chúng tôi",
               child: [
-                { label: "Hướng dẫn", path: "/guide" },
-                { label: "Chính sách & quy định", path: "/terms-&-conditions " },
+                { label: "Giới thiệu về Exxe", path: "/about-us" },
                 { label: "Quy chế hoạt động", path: "/regulations" },
+                { label: "Chính sách & quy định", path: "/terms-&-conditions " },
                 { label: "Tin tức", path: "/news" },
               ],
             },
@@ -64,48 +64,34 @@ const Footer = () => {
               heading: "Khách hàng",
               child: [
                 { label: "Tải ứng dụng Customer", path: "/" },
-                { label: "Thông tin mới nhất", path: "/" },
-                { label: "Vận chuyển", path: "/" },
-                { label: "Câu hỏi thường gặp", path: "/q&a " },
+                { label: "Hướng dẫn đăng kí Khách hàng", path: "/guide?type=customer" },
+                { label: "Hướng dẫn đặt xe", path: "/guide?type=customer" },
+                { label: "Hướng dẫn thanh toán", path: "/guide?type=customer" },
+                { label: "Câu hỏi thường gặp", path: "/q&a" },
               ],
             },
             {
               heading: "Tài xế",
               child: [
-                { label: "Tải ứng dụng Driver", path: "/" },
-                { label: "Chương trình thưởng", path: "/guide" },
-                { label: "Chương trình đặc biệt", path: "/" },
-                { label: "Câu hỏi thường gặp", path: "/q&a " },
+                { label: "Tải ứng dụng Exxe Driver", path: "/" },
+                { label: "Hướng dẫn đăng kí Tài xế ", path: "/guide?type=driver" },
+                { label: "Hướng dẫn sử dụng tài khoản", path: "/guide?type=driver" },
+                { label: "Các chương trình thưởng", path: "" },
               ],
             },
           ].map((item, index) => (
             <div key={index} className="">
               <p
-                className={`mb-[16px] md:mb-[24px] leading-[26px] text- font-bold ${
-                  item.heading === "Về chúng tôi" ? "text-primary" : "text-blue-8"
-                }`}
+                className={`mb-[16px] md:mb-[24px] leading-[26px] text-base font-bold text-blue-8`}
               >
                 {item.heading}
               </p>
 
               <ul>
                 {item.child.map((_item, index) => (
-                  <li
-                    className={`${
-                      item.heading === "Về chúng tôi" ? "mb-[12px] lg:mb-24" : "mb-8 lg:mb-[12px]"
-                    } last:mb-0`}
-                    key={index}
-                  >
+                  <li className={`mb-8 lg:mb-[12px] last:mb-0`} key={index}>
                     <Link href={_item.path}>
-                      <a
-                        className={`leading-[26px] text-14 ${
-                          item.heading === "Về chúng tôi"
-                            ? "text-primary font-semibold text-14 sm:text-16 leading-[20px]"
-                            : "text-blue-8 font-[400]"
-                        }`}
-                      >
-                        {_item.label}
-                      </a>
+                      <a className={`leading-[26px] text-14 text-blue-8`}>{_item.label}</a>
                     </Link>
                   </li>
                 ))}
@@ -126,7 +112,7 @@ const Footer = () => {
           <div className="flex items-center flex-col md:flex-row mb-[40px]">
             <div className="flex-[2] mb-[16px] md:mb-0">
               <div className="">
-                <p className="text-sm">
+                <p className="text-sm font-normal">
                   Địa chỉ: Số 2 đường Hoàng Thế Thiện, Phường An Lợi Đông, Thành phố Thủ Đức, Thành
                   phố Hồ Chí Minh, Việt Nam. Số đăng ký kinh doanh: 0317412411. Ngày cấp:
                   01/08/2022. Nơi cấp: Sở Kế hoạch và đầu tư Thành phố Hồ Chí Minh
@@ -143,7 +129,7 @@ const Footer = () => {
 
           <div className="flex md:items-center md:justify-between flex-col md:flex-row">
             <div className="">
-              <p className="text-12 sm:text-14 text-border-color-2 mb-24 md:mb-0">
+              <p className="text-12 sm:text-14 text-gray-color-5 mb-24 md:mb-0">
                 © 2022 Công ty Cổ Phần Exxe.Vn
               </p>
             </div>

@@ -2,6 +2,7 @@ import { useNews } from "@/hooks"
 import { CategoryRes } from "@/models"
 import { newsApi } from "@/services"
 import useSWR from "swr"
+import { Spinner } from "../loading"
 import { Tabs } from "../tabs"
 import { NewsItem } from "./newsItem"
 
@@ -13,6 +14,7 @@ const News = () => {
     filterNews,
     isValidating: isValidatingNews,
     hasMore,
+    isFetchingMore,
   } = useNews()
 
   const { data: categories } = useSWR<CategoryRes[]>("get_category_list", () =>
@@ -41,6 +43,8 @@ const News = () => {
           ? Array.from({ length: 4 }).map((_, index) => <NewsItem key={index} data={null} />)
           : news?.map((item) => <NewsItem data={item} key={item.postId} />)}
       </div>
+
+      {isFetchingMore ? <Spinner /> : null}
 
       {hasMore ? (
         <button

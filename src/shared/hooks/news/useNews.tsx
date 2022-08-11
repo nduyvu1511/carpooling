@@ -11,6 +11,7 @@ interface Res {
   filterNews: (categoryId: string) => void
   categoryId: string
   hasMore: boolean
+  isFetchingMore: boolean
 }
 
 const LIMIT = 12
@@ -27,7 +28,9 @@ const useNews = (): Res => {
 
   const fetchMoreNews = () => {
     const newOffset = offset + LIMIT
-    fetchMoreItem(newsApi.getPosts({ categoryId, offset: newOffset }))
+    fetchMoreItem(
+      newsApi.getPosts({ categoryId: categoryId === "all" ? "" : categoryId, offset: newOffset })
+    )
   }
 
   const filterNews = (categoryId: string) => {
@@ -49,6 +52,7 @@ const useNews = (): Res => {
     filterNews,
     categoryId,
     hasMore,
+    isFetchingMore,
   }
 }
 
