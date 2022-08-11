@@ -44,6 +44,14 @@ export const inspectionCertificateSchema = Yup.object().shape({
     .required("Vui lòng nhập ngày hết hạn"),
 })
 
+export const contactSchema = Yup.object().shape({
+  name: Yup.string().required("Vui lòng nhập trường này"),
+  phone: Yup.string().required("Vui lòng nhập trường này"),
+  email: Yup.string().nullable(),
+  message: Yup.string().nullable(),
+  isReceived: Yup.boolean().nullable(),
+})
+
 export const changePasswordSchema = Yup.object().shape({
   old_password: Yup.string()
     .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")

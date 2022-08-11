@@ -170,3 +170,13 @@ export interface UseQueryListRes<T> {
   data: T[] | undefined
   error: any
 }
+
+export interface ContactParams {
+  name: string
+  phone: string
+  email?: string
+  message?: string
+  isReceived?: boolean
+}
+
+export type ContactFormKey = keyof ContactParams

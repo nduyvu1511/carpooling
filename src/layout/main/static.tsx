@@ -8,6 +8,7 @@ interface StaticLayoutProps {
   subHeading?: string
   sticky?: boolean
   showLoading?: boolean
+  bg?: "handShake" | "contact"
 }
 
 export const StaticLayout = ({
@@ -16,12 +17,17 @@ export const StaticLayout = ({
   subHeading,
   sticky = false,
   showLoading = false,
+  bg = "handShake",
 }: StaticLayoutProps) => {
   return (
     <>
       <Header />
       <main>
-        <div className="relative w-full aspect-[3/1] max-h-[500px] bg-hand-shake-bg"></div>
+        <div
+          className={`relative w-full aspect-[3/1] max-h-[500px] ${
+            bg === "handShake" ? "bg-hand-shake-bg" : "bg-contact-bg"
+          }`}
+        ></div>
         {showLoading ? (
           <Spinner className="py-[120px]" size={80} />
         ) : (
@@ -32,16 +38,20 @@ export const StaticLayout = ({
                 : "container px-[16px] md:px-24"
             } w-full mx-auto px-[16px] md:px-[40px] lg:px-[120px] py-[64px] xl:py-[120px]`}
           >
-            <div className="flex-col flex-center mb-[40px] md:mb-[64px] lg:mb-[80px]">
-              {subHeading ? (
-                <p className="font-normal text-14 md:text-16 lg:text-[24px] leading-[26px] mb-24">
-                  {subHeading}
-                </p>
-              ) : null}
-              <h1 className="h1 text-primary text-center font-semibold lg:font-medium">
-                {heading}
-              </h1>
-            </div>
+            {heading || subHeading ? (
+              <div className="flex-col flex-center mb-[40px] md:mb-[64px] lg:mb-[80px]">
+                {subHeading ? (
+                  <p className="font-normal text-14 md:text-16 lg:text-[24px] leading-[26px] mb-24">
+                    {subHeading}
+                  </p>
+                ) : null}
+                {heading ? (
+                  <h1 className="h1 text-primary text-center font-semibold lg:font-medium">
+                    {heading}
+                  </h1>
+                ) : null}
+              </div>
+            ) : null}
             {children}
           </div>
         )}

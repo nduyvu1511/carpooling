@@ -6,6 +6,7 @@ import {
   CompoundingCarFilterKey,
   CompoundingOrderField,
   CompoundingType,
+  ContactFormKey,
   DriverFormKey,
   DrivingLicenseClassType,
   DrivingLicenseFormKey,
@@ -544,6 +545,18 @@ export const certificatesRegistrationFormFields: {
     isRequired: true,
     label: "Ngày Hết Hạn",
   },
+]
+
+export const contactFormFields: {
+  name: ContactFormKey
+  label: string
+  isRequired?: boolean
+  type: "text" | "textarea" | "checkbox"
+}[] = [
+  { label: "Họ và tên", name: "name", isRequired: true, type: "text" },
+  { label: "Điện thoại", name: "phone", isRequired: true, type: "text" },
+  { label: "Email", name: "email", isRequired: false, type: "text" },
+  { label: "Thông điệp gửi đến chúng tôi ", name: "message", isRequired: false, type: "textarea" },
 ]
 
 export const compoundingTypeFilters: {

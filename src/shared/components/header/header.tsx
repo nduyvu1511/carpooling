@@ -57,6 +57,7 @@ export const Header = () => {
                     ["Về chúng tôi", "/about-us"],
                     ["Hướng dẫn", "/guide"],
                     ["Tin tức", "/news"],
+                    ["Liên hệ", "/contact"],
                   ].map(([label, path]) => (
                     <li
                       className={`mr-[40px] last:mr-0 ${path === "/" ? "hidden lg:block" : ""} ${

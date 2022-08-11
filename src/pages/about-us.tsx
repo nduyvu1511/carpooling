@@ -1,5 +1,5 @@
 import { bg2 } from "@/assets"
-import { Map, Seo } from "@/components"
+import { Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import Image from "next/image"
 
