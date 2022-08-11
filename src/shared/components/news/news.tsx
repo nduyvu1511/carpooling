@@ -14,26 +14,21 @@ const News = () => {
     isValidating: isValidatingNews,
     hasMore,
   } = useNews()
-  const {
-    data: categories,
-    isValidating,
-    error,
-    mutate,
-  } = useSWR<CategoryRes[]>("get_category_list", () =>
+
+  const { data: categories } = useSWR<CategoryRes[]>("get_category_list", () =>
     newsApi
       .getCategories()
       .then((res: any) => res.data.data)
       .catch((err) => console.log(err))
   )
 
-  console.log({ categories })
-
   return (
     <div className="">
       <div className="mb-[40px] flex-center">
         <Tabs
+          className="flex-nowrap overflow-auto scrollbar-hide"
           list={[
-            { label: "Tất cả", value: "" },
+            { label: "Tất cả", value: "all" },
             ...(categories || [])?.map((item) => ({ label: item.name, value: item.categoryId })),
           ]}
           tabActive={categoryId}

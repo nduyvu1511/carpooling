@@ -22,19 +22,19 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
           ["Tài khoản tài xế", DriverIcon, "car_driver"],
         ].map(([label, Icon, value], index) =>
           value === "separate" ? (
-            <div className="sm:mx-[32px] w-[1px] my-[16px] sm:my-[50px] bg-border-color"></div>
+            <div className="sm:mx-[32px] my-[16px] sm:my-[50px] border-r border-solid border-border-color"></div>
           ) : (
             <div
               key={index}
               onClick={() => handleChooseAccountType(value as CarAccountType)}
-              className={`relative flex-1 flex-center flex-col p-24 border border-solid block-element rounded-[20px] cursor-pointer mx-auto max-w-[250px] w-full ${
-                accountType === value ? "bg-bg-1 border-primary" : "border-border-color"
+              className={`relative flex-1 flex-center flex-col p-24 border border-solid block-element shadow-shadow-1 overflow-hidden rounded-[10px] cursor-pointer mx-auto max-w-[250px] w-full ${
+                accountType === value ? "bg-bg-primary border-primary" : "border-border-color"
               }`}
             >
-              <Icon className="w-[80%]" />
+              <Icon className="w-full" />
               <span
                 className={`text-base font-semibold mt-[40px] ${
-                  accountType === value ? "text-error" : "text-primary"
+                  accountType === value ? "text-primary" : ""
                 }`}
               >
                 {label as string}

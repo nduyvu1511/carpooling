@@ -158,6 +158,6 @@ export interface StationId {
 }
 
 export interface DirectionLngLat {
-  origin: LatLng
-  destination: LatLng
+  origin: google.maps.LatLngLiteral
+  destination: google.maps.LatLngLiteral
 }

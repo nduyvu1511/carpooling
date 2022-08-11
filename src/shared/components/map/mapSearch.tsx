@@ -1,10 +1,9 @@
-import { CloseIcon } from "@/assets"
+import { CloseIcon, LocationOff } from "@/assets"
 import { RootState } from "@/core/store"
 import { useAddress, useClickOutside } from "@/hooks"
 import { FromLocation } from "@/models"
 import { addLocationSearchHistory } from "@/modules"
 import { memo, useRef, useState } from "react"
-import { MdOutlineLocationOff } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
 import { Spinner } from "../loading"
@@ -118,7 +117,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
                   ) : status === "ZERO_RESULTS" ? (
                     <div className="px-12 py-[24px] flex-1 flex-col flex-center">
                       <p className="flex-center mb-[12px] text-sm text-gray-color-3">
-                        <MdOutlineLocationOff className="mr-[8px] text-base text-gray-color-3" />
+                        <LocationOff className="mr-[8px] text-lg text-gray-color-3" />
                         Không tìm được vị trí
                       </p>
                       <p className="text-sm text-gray-color-3 leading-[20px]">

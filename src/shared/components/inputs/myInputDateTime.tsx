@@ -82,16 +82,6 @@ const MyInputDateTime = ({
             <input {...props} readOnly placeholder="Chọn ngày" value={date ? props.value : ""} />
           )}
         />
-        {/* <button
-          onClick={() => {
-            setTime("")
-            setDate("")
-            onChange("")
-          }}
-          className="absolute-vertical right-[10px]"
-        >
-          <CloseIcon className="w-[13px] h-[13px]" />
-        </button> */}
       </div>
       <div className="mx-[6px] md:mx-[12px]"></div>
       <div className={`form-select w-[60%] sm:w-1/2 h-full ${isError ? "form-select-error" : ""}`}>

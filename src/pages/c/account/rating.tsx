@@ -1,4 +1,4 @@
-import { EmptyPocketIcon } from "@/assets"
+import { RatingEmptyIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCustomerRating, useRatingActions } from "@/hooks"
@@ -100,7 +100,7 @@ const Rating = () => {
                 </InfiniteScroll>
               ) : (
                 <div className="flex-center flex-col py-[30px]">
-                  <EmptyPocketIcon className="w-[80%] mb-[24px]" />
+                  <RatingEmptyIcon className="w-[80%] mb-[24px]" />
                   <span className="text-lg font-medium">Bạn chưa có đánh giá nào</span>
                 </div>
               )}

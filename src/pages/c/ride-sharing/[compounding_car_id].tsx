@@ -114,7 +114,7 @@ const RidesDetailCustomer = () => {
             <>
               <RideToolTip
                 className="mb-24"
-                percentage={compoundingCar.car_driver_deposit_percentage}
+                percentage={compoundingCar?.car_driver_deposit_percentage}
                 desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
               />
               <CarpoolingCompoundingForm

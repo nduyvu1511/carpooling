@@ -44,7 +44,6 @@ export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) =>
             name="input-name"
             className="form-input"
             placeholder="VNĐ"
-            defaultValue={1000}
             decimalsLimit={4}
             suffix=" VNĐ"
             onValueChange={(value, name) => value && setValue(value)}

@@ -2,7 +2,13 @@ import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
 import { DirectionLngLat, FromLocation, LatlngAddress } from "@/models"
-import { DirectionsRenderer, GoogleMap, useLoadScript } from "@react-google-maps/api"
+import {
+  DirectionsRenderer,
+  GoogleMap,
+  useLoadScript,
+  DirectionsService,
+  DirectionsServiceProps,
+} from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
 import { useDispatch } from "react-redux"
@@ -23,14 +29,14 @@ interface MapProps {
   onChooseLocation?: (params: FromLocation) => void
   defaultLocation?: FromLocation
   viewOnly?: boolean
-  direction?: DirectionLngLat
+  directions?: DirectionLngLat
   prevProvinceId?: number
 }
 export const Map = ({
   onChooseLocation,
   defaultLocation,
   viewOnly = false,
-  direction,
+  directions,
   prevProvinceId,
 }: MapProps) => {
   const dispatch = useDispatch()
@@ -41,6 +47,7 @@ export const Map = ({
       disableDefaultUI: true,
       clickableIcons: false,
       gestureHandling: viewOnly ? "none" : "auto",
+      mapId: "e88398b6847e7064",
       styles: [
         // {
         //   featureType: "all",
@@ -67,7 +74,10 @@ export const Map = ({
   )
   const [libraries] = useState<any>(["places", "geometry"])
   const { getProvinceIdByGooglePlace } = useAddress()
-  const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>()
+  const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>({
+    lng: 10.7553411,
+    lat: 106.4150303,
+  })
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
@@ -154,11 +164,10 @@ export const Map = ({
   }
 
   useEffect(() => {
-    if (!direction || !window?.google?.maps?.DirectionsService) return
+    if (!directions || !window?.google?.maps?.DirectionsService) return
 
-    const { destination, origin } = direction
-    const directionsService = new google.maps.DirectionsService()
-    directionsService.route(
+    const { destination, origin } = directions
+    new google.maps.DirectionsService().route(
       {
         origin,
         destination,
@@ -172,7 +181,7 @@ export const Map = ({
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction])
+  }, [directions])
 
   const handleSelectSearchValue = useCallback((address: FromLocation) => {
     mapRef.current?.panTo({
@@ -182,6 +191,30 @@ export const Map = ({
     getAddressFromLngLat(address)
   }, [])
 
+  if (viewOnly)
+    return (
+      <GoogleMap
+        zoom={16}
+        center={currentLocation}
+        options={options}
+        mapContainerClassName="w-full h-full"
+        onLoad={onLoad}
+      >
+        {directionRes ? (
+          <DirectionsRenderer
+            directions={directionRes}
+            options={{
+              polylineOptions: {
+                zIndex: 50,
+                strokeColor: "#1976D2",
+                strokeWeight: 5,
+                visible: true,
+              },
+            }}
+          />
+        ) : null}
+      </GoogleMap>
+    )
   return (
     <>
       {isLoaded ? (
@@ -191,70 +224,57 @@ export const Map = ({
             center={currentLocation}
             options={options}
             mapContainerClassName="flex-1 relative"
-            onDragEnd={() => {
-              !viewOnly && handleDragEnd()
-            }}
+            onDragEnd={handleDragEnd}
             onLoad={onLoad}
           >
             {directionRes ? (
               <DirectionsRenderer
+                directions={directionRes}
                 options={{
-                  directions: directionRes,
                   polylineOptions: {
-                    zIndex: 500,
+                    zIndex: 50,
                     strokeColor: "#1976D2",
                     strokeWeight: 5,
+                    visible: true,
                   },
                 }}
-                directions={directionRes}
               />
             ) : null}
 
-            {!viewOnly ? (
-              <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
-                <MapSearch onSelect={handleSelectSearchValue} />
-              </div>
-            ) : null}
+            <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
+              <MapSearch onSelect={handleSelectSearchValue} />
+            </div>
 
-            {/* Icon center */}
-            {!viewOnly ? (
-              <span className="z-10">
-                <LocationIcon className="absolute-center w-[30px] h-[30px] text-error" />
-              </span>
-            ) : null}
+            <span className="z-10">
+              <LocationIcon className="absolute-center w-[30px] h-[30px] text-error" />
+            </span>
 
-            {!viewOnly ? (
-              <span
-                onClick={pantoCurrentLocation}
-                className="absolute right-[20px] bottom-[20px] z-[10] w-[30px] flex-center h-[30px] bg-white-color rounded-[50%] block-element border border-solid border-border-color"
-              >
-                <LocationIcon3 className="w-[24px] h-[24px] text-gray-color-3" />
-              </span>
-            ) : null}
+            <span
+              onClick={pantoCurrentLocation}
+              className="absolute right-[20px] bottom-[20px] z-[10] w-[30px] flex-center h-[30px] bg-white-color rounded-[50%] block-element border border-solid border-border-color"
+            >
+              <LocationIcon3 className="w-[24px] h-[24px] text-gray-color-3" />
+            </span>
           </GoogleMap>
 
           <div className="">
-            {!viewOnly ? (
-              <>
-                <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
-                  <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
-                    <LocationIcon2 className="mr-12" />
-                    <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
-                      {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
-                    </span>
-                  </div>
+            <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
+              <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
+                <LocationIcon2 className="mr-12" />
+                <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
+                  {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
+                </span>
+              </div>
 
-                  <span
-                    onClick={handleConfirmLocation}
-                    className={`btn-primary mx-auto ${
-                      !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
-                    }`}
-                  >
-                    Xác nhận
-                  </span>
-                </div>
-              </>
-            ) : null}
+              <span
+                onClick={handleConfirmLocation}
+                className={`btn-primary mx-auto ${
+                  !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
+                }`}
+              >
+                Xác nhận
+              </span>
+            </div>
           </div>
         </div>
       ) : (

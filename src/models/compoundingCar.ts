@@ -228,6 +228,8 @@ export interface CompoundingCarCustomer {
   second_waiting_remains: number
   customer_deposit_percentage: number
   cancel_reason?: CancelReason
+  date_paid?: string
+  cancel_date?: string
   amount_return?: number
 }
 export interface PartnerCompoundingCar {

@@ -14,7 +14,7 @@ const RideCanceledPage = () => {
 
   return (
     <CustomerBookingLayout
-      className="pb- min-h-[calc(100vh-56px)] h-full"
+      className="pmin-h-[calc(100vh-56px)] h-full pb-0"
       reverse
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}

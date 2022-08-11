@@ -96,15 +96,15 @@ export const STATE_BG_COLOR = {
 }
 export const COMPOUNDING_TYPE_COLOR = {
   one_way: "#2F19BB",
-  two_way: "#EE542F",
-  compounding: "#1BB5C8",
-  convenient: "#2F19BB",
+  two_way: "#1BB5C8 ",
+  compounding: "#EE542F ",
+  convenient: "#FBB500 ",
 }
 export const COMPOUNDING_TYPE_BG = {
-  one_way: "#DAE2FD",
-  two_way: "#FADFBE",
-  compounding: "#D9EFF5",
-  convenient: "#EEEBFF",
+  one_way: "#EEEBFF",
+  two_way: "#F0FCFF",
+  compounding: "#FEE9CE",
+  convenient: "#FBB500",
 }
 export const COMPOUNDING_STATE_NAME = {
   cancel: "Đã hủy",

@@ -52,17 +52,17 @@ const RideSummary = ({
         {showMap ? (
           <div className="h-[200px] mb-24">
             <Map
-              direction={{
+              viewOnly
+              directions={{
                 destination: {
                   lat: Number(data.from_province.latitude),
                   lng: Number(data.from_province.longitude),
                 },
                 origin: {
-                  lat: Number(data.from_province.latitude),
-                  lng: Number(data.from_province.longitude),
+                  lat: Number(data.to_province.latitude),
+                  lng: Number(data.to_province.longitude),
                 },
               }}
-              viewOnly
             />
           </div>
         ) : null}

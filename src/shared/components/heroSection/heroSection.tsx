@@ -1,27 +1,17 @@
 /* eslint-disable react/jsx-key */
 import { CarpoolingIcon, ConvenientIcon, mapbanner, OneWayIcon, TwoWayIcon } from "@/assets"
 import { toggleBodyOverflow } from "@/helper"
-import { useBackRouter } from "@/hooks"
-import { CompoundingType } from "@/models"
+import { setAuthModalType } from "@/modules"
 import Image from "next/image"
-import { useState } from "react"
+import { useDispatch } from "react-redux"
+import Fade from "react-reveal"
 import { Autoplay } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { BookingModal } from "../form"
-import Fade from "react-reveal"
 
 export const HeroSection = () => {
-  const [modalType, setModalType] = useState<CompoundingType | undefined>()
-
-  useBackRouter({
-    cb: () => {
-      setModalType(undefined)
-      toggleBodyOverflow("unset")
-    },
-  })
-
+  const dispatch = useDispatch()
   return (
     <>
       <div className="relative h-full w-full">
@@ -60,15 +50,6 @@ export const HeroSection = () => {
               ))}
             </Swiper>
           </div>
-
-          {/* <div className="absolute w-1/2 top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
-            <h1 className="h1 text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
-              Đặt xe đường dài
-            </h1>
-            <p className="text-text-color text-sm leading-[22px] sm:text-base lg:text-xl">
-              Ứng dụng gọi xe đường dài số 1 Việt Nam
-            </p>
-          </div> */}
         </div>
 
         <div className="absolute bottom-24 xl:bottom-[80px] left-1/2 transform -translate-x-1/2 container hidden md:block">
@@ -81,10 +62,10 @@ export const HeroSection = () => {
                 ["Một chiều", "one_way", <OneWayIcon />],
                 ["Ghép chuyến", "compounding", <CarpoolingIcon />],
                 ["Tiện chuyến", "convenient", <ConvenientIcon />],
-              ].map(([label, value, icon], index) => (
+              ].map(([label, _, icon], index) => (
                 <li
                   onClick={() => {
-                    setModalType(value as CompoundingType)
+                    dispatch(setAuthModalType("login"))
                     toggleBodyOverflow("hidden")
                   }}
                   className="cursor-pointer flex-center flex-col p-[16px] rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color"
@@ -98,15 +79,6 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
-
-      <BookingModal
-        show={modalType}
-        formType={modalType as CompoundingType}
-        onClose={() => {
-          setModalType(undefined)
-          toggleBodyOverflow("unset")
-        }}
-      />
     </>
   )
 }

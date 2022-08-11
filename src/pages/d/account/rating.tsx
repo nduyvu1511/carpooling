@@ -1,4 +1,4 @@
-import { EmptyPocketIcon } from "@/assets"
+import { RatingEmptyIcon } from "@/assets"
 import { Modal, RatingItem, RatingReport, Spinner } from "@/components"
 import { useDriverRating, useRatingActions } from "@/hooks"
 import { AccountLayout, DriverLayout } from "@/layout"
@@ -64,7 +64,7 @@ const Rating = () => {
             </InfiniteScroll>
           ) : (
             <div className="flex-center flex-col py-[30px]">
-              <EmptyPocketIcon className="w-[80%] mb-[24px]" />
+              <RatingEmptyIcon className="w-[80%] mb-[24px]" />
               <span className="text-lg font-medium">Bạn chưa có đánh giá nào</span>
             </div>
           )}

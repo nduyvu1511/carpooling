@@ -68,7 +68,14 @@ const BookingLayout = ({
                 stickyRight ? "" : ""
               }`}
             >
-              {showLoading ? <RideSummaryLoading /> : rightNode}
+              {showLoading ? (
+                <div className="">
+                  <div className="skeleton h-[200px] mb-24 rounded-[5px]"></div>
+                  <RideSummaryLoading />
+                </div>
+              ) : (
+                rightNode
+              )}
             </div>
           </div>
         </div>

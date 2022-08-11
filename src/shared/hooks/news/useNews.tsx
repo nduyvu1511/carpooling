@@ -16,7 +16,7 @@ interface Res {
 const LIMIT = 12
 
 const useNews = (): Res => {
-  const [categoryId, setCategoryId] = useState<string>("")
+  const [categoryId, setCategoryId] = useState<string>("all")
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
     useQueryList<PostRes>({
       fetcher: newsApi.getPosts,
@@ -32,7 +32,13 @@ const useNews = (): Res => {
 
   const filterNews = (categoryId: string) => {
     setCategoryId(categoryId)
-    filterList(newsApi.getPosts({ categoryId, offset: 0, limit: LIMIT }))
+    filterList(
+      newsApi.getPosts({
+        categoryId: categoryId === "all" ? "" : categoryId,
+        offset: 0,
+        limit: LIMIT,
+      })
+    )
   }
 
   return {

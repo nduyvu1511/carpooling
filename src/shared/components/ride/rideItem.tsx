@@ -1,5 +1,6 @@
 import { CalendarDoneIcon, CalendarIcon, CarIcon, MultiUserIcon, PaymentIcon } from "@/assets"
 import {
+  COMPOUNDING_TYPE_BG,
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
   formatMoneyVND,
@@ -35,7 +36,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
             <div className="w-[40%] h-[16px] skeleton rounded-[4px]"></div>
           </div>
 
-          <div className="mx-auto h-[40px] skeleton rounded-[4px] mb-[12px]"></div>
+          <div className="mx-auto h-[60px] skeleton rounded-[4px] mb-[12px]"></div>
         </div>
         <div className="flex items-center justify-between">
           <div className="w-[30px] h-[12px] skeleton rounded-[4px]"></div>
@@ -51,17 +52,29 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
       className="p-[12px] sm:p-[16px] lg:p-[18px] flex flex-col h-full justify-between relative overflow-hidden cursor-pointer"
     >
       <div className="flex items-center justify-between">
-        <p className="flex items-center mr-[16px]">
-          <CompoundingCarICon compounding_type={rides.compounding_type} />
+        <p
+          style={{
+            background: COMPOUNDING_TYPE_BG[rides.compounding_type],
+          }}
+          className="flex items-center mr-[16px] px-8 py-2 md:py-4 rounded-[5px]"
+        >
+          <CompoundingCarICon
+            className="hidden md:block mr-8"
+            compounding_type={rides.compounding_type}
+          />
           <span
-            // style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
-            className="text-[10px] sm:text-xs lg:text-sm ml-[5px] lg:ml-[8px]"
+            style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
+            className="text-[10px] sm:text-xs leading-[18px]"
           >
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}
           </span>
         </p>
-        <span className="sm:hidden text-[10px] text-primary">Chi tiết</span>
-        <span className="text-xs hidden sm:block text-xs text-primary">Xem chi tiết</span>
+        <p className="items-center flex">
+          <MultiUserIcon className="w-[12px] sm:w-[16px]" />
+          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
+            {rides.number_available_seat}/{rides.number_seat_in_car}
+          </span>
+        </p>
       </div>
 
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
@@ -106,12 +119,6 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
       <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
 
       <div className="flex items-center justify-between">
-        <p className="items-center flex">
-          <MultiUserIcon className="w-[12px] sm:w-[16px]" />
-          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
-            {rides.number_available_seat}/{rides.number_seat_in_car}
-          </span>
-        </p>
         <p className="flex items-center">
           <PaymentIcon className="w-[12px] sm:w-[16px]" />
           <span className="text-[12px] sm:text-[14px] font-semibold text-error ml-[4px] xs:ml-[8px]">

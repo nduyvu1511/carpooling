@@ -6,9 +6,10 @@ interface TabsProps {
   tabActive: string | string[]
   onChange?: (params: string | string[]) => void
   type?: "fit" | "full"
+  className?: string
 }
 
-const Tabs = ({ tabActive, list, onChange, type = "fit" }: TabsProps) => {
+const Tabs = ({ tabActive, list, onChange, type = "fit", className = "" }: TabsProps) => {
   const lineRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
@@ -29,17 +30,15 @@ const Tabs = ({ tabActive, list, onChange, type = "fit" }: TabsProps) => {
     <ul
       className={`relative flex items-center flex-wrap border-b border-solid border-border-color ${
         type === "full" ? "" : "md:border-none"
-      }`}
+      } ${className}`}
     >
       {list.map(({ label, value }, index) => (
         <li
-          className={`select-none text-sm font-semibold relative py-[8px] cursor-pointer tabs-item-${index} hover:text-primary
-          before:absolute before:bg-primary before:h-[2px] before:content-[''] before:rounded-[2px] before:w-full before:top-[calc(100%-2px)] before:hidden ${
-            tabActive == value ? "" : ""
-          } ${
+          className={`select-none whitespace-nowrap text-sm font-semibold relative py-[8px] cursor-pointer tabs-item-${index} hover:text-primary
+          before:absolute before:bg-primary before:h-[1px] before:content-[''] before:rounded-[1px] before:w-full before:top-[calc(100%-1px)] before:hidden ${
             getActiveStringOrListString(value, tabActive) ? "text-primary" : "text-gray-color-5"
           } flex-1 text-center ${type === "full" ? "" : "sm:flex-none sm:text-left"} ${
-            index < list.length - 1 ? "mr-[8px] sm:mr-[24px]" : "mr-0"
+            index < list.length - 1 ? "mr-[16px] sm:mr-[24px]" : "mr-0"
           }`}
           key={index}
           onClick={() => {
@@ -53,7 +52,7 @@ const Tabs = ({ tabActive, list, onChange, type = "fit" }: TabsProps) => {
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-0 h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-0 h-[1px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

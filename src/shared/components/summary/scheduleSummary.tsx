@@ -41,7 +41,7 @@ const ScheduleSummary = ({
       <div className="bg-bg-primary">
         <div className=" h-[200px] relative">
           <Map
-            direction={{
+            directions={{
               destination: direction.destination,
               origin: direction.origin,
             }}

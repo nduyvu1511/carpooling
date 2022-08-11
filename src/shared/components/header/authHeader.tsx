@@ -132,7 +132,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     onClick={() => {
                       toggleBookingModal("convenient")
                     }}
-                    className="flex-center py-12 px-[10px] rounded-[8px] bg-bg-blue"
+                    className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue"
                   >
                     <AddIcon2 className="mr-[10px] w-[20px] h-[20px] text-blue-7" />
                     <span className="text-blue-7 text-sm">Đặt chuyến mới</span>

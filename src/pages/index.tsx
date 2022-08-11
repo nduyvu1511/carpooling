@@ -1,5 +1,5 @@
 import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
-import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide } from "@/components"
+import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
 import { RootState } from "@/core/store"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
@@ -37,6 +37,12 @@ const HomeGuest = () => {
 
   return (
     <section className="">
+      <Seo
+        description="Ứng dụng gọi xe đường dài số 1 Việt Nam"
+        thumbnailUrl=""
+        title="Ứng dụng đặt xe Exxe"
+        url="https://exxe.vn"
+      />
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>

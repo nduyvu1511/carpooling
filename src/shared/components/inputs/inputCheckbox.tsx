@@ -24,7 +24,7 @@ export const InputCheckbox = ({
       }}
       className={`border border-solid cursor-pointer ${
         type === "square" ? "rounded-[4px]" : "rounded-[50%]"
-      } flex-center border-gray-color-4 ${isChecked ? `bg-gray-color-4` : ""} ${className}`}
+      } flex-center border-gray-color-4 ${isChecked ? `bg-primary` : ""} ${className}`}
     >
       {isChecked ? <CheckIcon className="w-[12px] h-[8px]" /> : null}
     </span>

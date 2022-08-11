@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { AccordionItem } from "@/components"
+import { AccordionItem, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { useState } from "react"
 
@@ -9,6 +9,13 @@ const FrequentlyAskedQuestions = () => {
 
   return (
     <StaticLayout>
+      <Seo
+        description="Câu hỏi thường gặp"
+        thumbnailUrl=""
+        title="Câu hỏi thường gặp"
+        url="https://exxe.vn/q&a"
+      />
+
       <div className="">
         <div className="grid lg:grid-cols-grid-330 gap-24">
           <div className="h-fit">

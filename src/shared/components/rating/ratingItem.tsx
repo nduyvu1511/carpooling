@@ -1,10 +1,9 @@
-import { EditIcon, TrashIcon } from "@/assets"
+import { EditIcon, NoteIcon, TrashIcon } from "@/assets"
 import { Star } from "@/components/star"
 import { formatTimeType, toImageUrl } from "@/helper"
 import { RatingRes } from "@/models"
 import Image from "next/image"
 import Link from "next/link"
-import { VscReport } from "react-icons/vsc"
 import { TagItem } from "../tag"
 import { Tooltip } from "../tooltip"
 
@@ -93,7 +92,7 @@ export const RatingItem = ({
                   title="Báo cáo đánh giá"
                   className="hidden lg:group-hover:block transform-none -left-[120px]"
                 />
-                <VscReport className="w-[18px] md:w-[24px] text-blue-8" />
+                <NoteIcon className="w-[18px] md:w-[24px] text-blue-8" />
               </button>
             )}
           </div>

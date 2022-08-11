@@ -6,7 +6,6 @@ import {
   Modal,
   RatingForm,
   RatingItem,
-  RideCancelForm,
   RideProgress,
   RidesDetailLoading,
   RideSummary,
@@ -19,13 +18,11 @@ import {
   useCompoundingCarCustomer,
   useCompoundingForm,
   useEffectOnce,
-  useFetcher,
   useRatingActions,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
+import { CreateRatingFormParams, RatingRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
-import { ridesApi } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -35,7 +32,6 @@ import { notify } from "reapop"
 const RidesDetail = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { fetcherHandler } = useFetcher()
   const { compounding_car_customer_id } = router.query
   const {
     data: compoundingCar,
@@ -51,7 +47,6 @@ const RidesDetail = () => {
   const [currentRatingUpdate, setCurrentRatingUpdate] = useState<RatingRes>()
   const { addRating, updateRating, deleteRating } = useRatingActions()
   const [currentDeleteRating, setCurrentDeleteRating] = useState<number | undefined>()
-  const [showCancelModal, setShowCancelModal] = useState<boolean | undefined>()
 
   useEffectOnce(() => {
     return () => {
@@ -61,7 +56,6 @@ const RidesDetail = () => {
 
   useBackRouter({
     cb: () => {
-      setShowCancelModal(undefined)
       setCurrentRatingUpdate(undefined)
       setCurrentDeleteRating(undefined)
       toggleBodyOverflow("unset")
@@ -125,20 +119,6 @@ const RidesDetail = () => {
     } else {
       toggleBodyOverflow("unset")
     }
-  }
-
-  const handleCancelCompoundingCar = (params: CancelCompoundingFormParams) => {
-    if (!compoundingCar?.compounding_car_customer_id) return
-    fetcherHandler({
-      fetcher: ridesApi.cancelCompoundingCar({
-        ...params,
-        compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-      }),
-      onSuccess: () => {
-        setShowCancelModal(false)
-        router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
-      },
-    })
   }
 
   return (
@@ -218,15 +198,7 @@ const RidesDetail = () => {
                   !compoundingCar?.rating?.compounding_car_customer_id ? (
                     <ButtonSubmit title="Thêm đánh giá" onClick={() => toggleRatingModal(true)} />
                   ) : null
-                ) : compoundingCar.state === "done" ||
-                  compoundingCar.state === "cancel" ||
-                  compoundingCar.state === "draft" ? null : (
-                  <ButtonSubmit
-                    className="bg-error hover:bg-error"
-                    title="Hủy chuyến đi"
-                    onClick={() => setShowCancelModal(true)}
-                  />
-                )}
+                ) : null}
               </div>
             </>
           )}
@@ -257,20 +229,6 @@ const RidesDetail = () => {
                 onSubmit={(data) => handleUpdateRating(data)}
               />
             </div>
-          </Modal>
-
-          <Modal
-            show={!!showCancelModal}
-            onClose={() => setShowCancelModal(undefined)}
-            heading="Hủy chuyến đi"
-          >
-            <RideCancelForm
-              params={{
-                compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-                compounding_car_customer_state: compoundingCar.state,
-              }}
-              onSubmit={(data) => handleCancelCompoundingCar(data)}
-            />
           </Modal>
 
           <Alert
