@@ -3,6 +3,7 @@ import {
   Auth,
   CertificateInspectionParams,
   ChangePasswordParams,
+  ContactParams,
   CreateNewPasswordParams,
   CreateUserFormParams,
   DrivingLicenseParams,
@@ -243,6 +244,12 @@ const userApi = {
 
   MakeWithdrawingRequest: (params: MakeWithdrawingRequestParams) => {
     return axiosClient.post("/api/car_driver_wallet_controller/make_withdrawing_money_request", {
+      params,
+    })
+  },
+
+  createContact: (params: ContactParams) => {
+    return axiosClient.post("/api/api/v3.0/crm/create_crm_lead", {
       params,
     })
   },

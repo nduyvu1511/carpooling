@@ -1,15 +1,19 @@
 import { InputCheckbox } from "@/components/inputs"
 import { contactSchema } from "@/core/schema"
 import { contactFormFields } from "@/helper"
-import { ContactParams } from "@/models"
+import { ContactParams, OnForwaredResetForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { forwardRef, useImperativeHandle } from "react"
 import { useForm } from "react-hook-form"
 
 interface ContactFormProps {
   onSubmit?: (params: ContactParams) => void
 }
 
-export const ContactForm = ({ onSubmit }: ContactFormProps) => {
+export const ContactForm = forwardRef(function ContactChild(
+  { onSubmit }: ContactFormProps,
+  ref: OnForwaredResetForm
+) {
   const {
     register,
     handleSubmit,
@@ -22,12 +26,17 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
     resolver: yupResolver(contactSchema),
     mode: "all",
   })
+  const receive_news = watch("receive_news")
+
+  useImperativeHandle(ref, () => ({
+    onReset() {
+      reset()
+    },
+  }))
 
   const onSubmitHandler = (data: ContactParams) => {
-    console.log({ data })
     onSubmit?.(data)
   }
-  const isReceived = watch("isReceived")
 
   return (
     <form className="form-control" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -71,14 +80,14 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
 
       <div className="flex items-start">
         <InputCheckbox
-          isChecked={!!isReceived}
+          isChecked={!!receive_news}
           onCheck={() => {
-            setValue("isReceived", !getValues("isReceived"))
+            setValue("receive_news", !getValues("receive_news"))
           }}
           type="circle"
         />
         <p
-          onClick={() => setValue("isReceived", !getValues("isReceived"))}
+          onClick={() => setValue("receive_news", !getValues("receive_news"))}
           className="cursor-default flex-1 ml-[14px] text-xs leading-[18px]"
         >
           Tôi đồng ý nhận bản tin từ Exxe.vn về các chương trình khuyến mãi sắp tới, ưu đãi độc
@@ -96,4 +105,4 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
       </div>
     </form>
   )
-}
+})

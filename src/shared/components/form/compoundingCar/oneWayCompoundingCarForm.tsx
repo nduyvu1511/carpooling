@@ -67,6 +67,9 @@ export const OneWayCompoundingForm = ({
         destination: { lat: +toLocation.lat, lng: +toLocation.lng },
       },
       onSuccess: ({ distance, duration }) => {
+        if (errors?.distance) {
+          clearErrors("distance")
+        }
         setValue("distance", distance)
         setValue("duration", duration)
         setToLocalStorage(ONE_WAY_DISTANCE, distance)

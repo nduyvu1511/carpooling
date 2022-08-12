@@ -1,8 +1,32 @@
 import { ContactForm, Map, Seo } from "@/components"
 import { ADDRESS, EMAIL, PHONE } from "@/helper"
+import { useFetcher } from "@/hooks"
 import { StaticLayout } from "@/layout"
+import { ContactParams } from "@/models"
+import { userApi } from "@/services"
+import { useRef } from "react"
+import { useDispatch } from "react-redux"
+import { notify } from "reapop"
+
+type OnResetParams = {
+  onReset: () => void
+}
 
 const Contact = () => {
+  const childRef = useRef<OnResetParams>(null)
+  const dispatch = useDispatch()
+  const { fetcherHandler } = useFetcher()
+
+  const handleSendContact = (params: ContactParams) => {
+    fetcherHandler({
+      fetcher: userApi.createContact(params),
+      onSuccess: () => {
+        childRef.current?.onReset?.()
+        dispatch(notify("Gửi liên hệ thành công, cảm ơn bạn đã liên hệ với ExxeVn", "success"))
+      },
+    })
+  }
+
   return (
     <StaticLayout bg="contact">
       <Seo
@@ -36,7 +60,7 @@ const Contact = () => {
           </p>
         </div>
         <div className="flex-1">
-          <ContactForm />
+          <ContactForm ref={childRef} onSubmit={handleSendContact} />
         </div>
       </div>
 

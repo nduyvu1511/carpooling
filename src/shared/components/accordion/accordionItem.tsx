@@ -9,6 +9,7 @@ interface AccordionItemProps {
   maxHeight?: number
   titleClassName?: string
   className?: string
+  allowTransition?: boolean
 }
 
 const AccordionItem = ({
@@ -19,6 +20,7 @@ const AccordionItem = ({
   maxHeight = 10000,
   titleClassName = "",
   className = "",
+  allowTransition,
 }: AccordionItemProps) => {
   return (
     <div>
@@ -38,19 +40,23 @@ const AccordionItem = ({
           {title}
         </h3>
         <span
-          className={`tranform transition-all duration-300 ${isActive ? "rotate-[180deg]" : ""}`}
+          className={`tranform ${allowTransition ? "transition-all duration-300" : ""} ${
+            isActive ? "rotate-[180deg]" : ""
+          }`}
         >
           <ArrowDownIcon className="w-[10px] sm:w-[20px]" />
         </span>
       </div>
       <div
-        className={`overflow-hidden transition-all duration-300 ${
+        className={`overflow-hidden ${allowTransition ? "transition-all duration-300" : ""} ${
           isActive ? "my-12 md:my-24" : "m0"
         }`}
       >
         <div
           style={{ maxHeight: isActive ? maxHeight : 0 }}
-          className={`transition-all duration-300 px-12 md:px-24 overflow-hidden`}
+          className={`${
+            allowTransition ? "transition-all duration-300" : ""
+          } px-12 md:px-24 overflow-hidden`}
         >
           {children}
         </div>

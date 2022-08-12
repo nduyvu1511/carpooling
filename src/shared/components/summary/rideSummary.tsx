@@ -17,9 +17,8 @@ interface RideSummaryProps {
   children?: ReactNode
 }
 
-const item =
-  "flex-1 flex justify-end ml-24 text-14 text-right md:text-16 font-medium leading-26 text-blue-8"
-const titleClassName = "text-12 font-normal leading-[18px] w-[90px]"
+const item = "flex-1 ml-24 text-14 text-right md:text-16 font-medium leading-26 text-blue-8"
+const titleClassName = "text-12 font-normal leading-[18px]"
 
 const RideSummary = ({
   data,
@@ -45,7 +44,7 @@ const RideSummary = ({
       <div className="bg-bg-primary rounded-[5px] p-12 md:p-24">
         <div className="flex items-center mb-[16px]">
           <div className="flex-1">
-            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
               {data?.from_province.province_brief_name}
             </p>
             <p className="text-12 md:text-14 font-medium leading-26">
@@ -57,7 +56,7 @@ const RideSummary = ({
             {/* <p className="text-xs">{COMPOUNDING_TYPE_NAME[data.compounding_type]}</p> */}
           </div>
           <div className="flex-1 flex items-end flex-col">
-            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
               {data?.to_province.province_brief_name}
             </p>
             <p className="text-12 md:text-14 font-medium leading-26">
@@ -110,15 +109,36 @@ const RideSummary = ({
         <>
           <div className="lg:px-24 my-24">
             <div className="flex items-center justify-between mb-[16px]">
-              <p className={titleClassName}>Thuế phí:</p>
+              <p className={titleClassName}>Thuế phí</p>
               <p className={item}>Đã bao gồm</p>
             </div>
 
             {data?.price_unit ? (
               <div className="flex items-baseline justify-between">
-                <p className={titleClassName}>Giá vé/khách:</p>
+                <p className={titleClassName}>Giá vé</p>
                 <p className={`font-medium text-orange-50 text-22 xl:text-28 leading-[36px]`}>
                   {formatMoneyVND(data?.price_unit?.price_unit)}
+                </p>
+              </div>
+            ) : null}
+
+            {(data as CompoundingCarCustomer)?.down_payment?.total ? (
+              <div className="flex items-center justify-between my-[16px]">
+                <p className="font-semibold uppercase">
+                  CẦN ĐẶT CỌC ({((data as CompoundingCarCustomer)?.down_payment.percent || 0) * 100}
+                  %)
+                </p>
+                <p className={`${item} text-error font-semibold md:font-semibold`}>
+                  {formatMoneyVND((data as CompoundingCarCustomer)?.down_payment?.total)}
+                </p>
+              </div>
+            ) : null}
+
+            {(data as CompoundingCarCustomer)?.amount_due ? (
+              <div className="flex items-center justify-between mb-[16px]">
+                <p className={titleClassName}>Số tiền thanh toán sau</p>
+                <p className={item}>
+                  {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
                 </p>
               </div>
             ) : null}
@@ -142,6 +162,7 @@ const RideSummary = ({
 
           <div className="hidden lg:block">
             <AccordionItem
+              allowTransition={false}
               onClick={() => handleToggleTabsActive(1)}
               className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
@@ -153,6 +174,7 @@ const RideSummary = ({
           </div>
           <div className="hidden lg:block">
             <AccordionItem
+              allowTransition={false}
               onClick={() => handleToggleTabsActive(3)}
               title="Điều khoản sử dụng"
               isActive={tabsActive.includes(3)}

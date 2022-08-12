@@ -9,7 +9,7 @@ import {
   InputSelect,
   InputStation,
   Map,
-  Modal,
+  Modal
 } from "@/components"
 import { carpoolingCompoundingCarSchema } from "@/core/schema"
 import {
@@ -28,13 +28,13 @@ import {
   getHoursName,
   isObjectHasValue,
   setToLocalStorage,
-  subtractDateTimeToNumberOfHour,
+  subtractDateTimeToNumberOfHour
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import {
   CreateCarpoolingCompoundingCar,
   CreateCarpoolingCompoundingForm,
-  NumberSeatOptionModel,
+  NumberSeatOptionModel
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
@@ -102,6 +102,9 @@ export const CarpoolingCompoundingForm = ({
         destination: { lat: +toStation.lat, lng: +toStation.lng },
       },
       onSuccess: ({ distance, duration }) => {
+        if (errors?.distance) {
+          clearErrors("distance")
+        }
         setToLocalStorage(CARPOOLING_DISTANCE, distance)
         setToLocalStorage(CARPOOLING_DURATION, duration)
         setValue("distance", distance)
@@ -211,9 +214,9 @@ export const CarpoolingCompoundingForm = ({
                   if (!station) return
                   setValue("from_station", station)
                   clearErrors("from_station")
-                  calcPrice()
                   setToLocalStorage(CARPOOLING_FROM_STATION, station)
                   calcDistance()
+                  calcPrice()
                 }}
                 placeholder="Điểm đi"
                 isError={!!errors?.from_station}

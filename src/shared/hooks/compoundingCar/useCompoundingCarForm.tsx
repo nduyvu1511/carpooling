@@ -210,8 +210,8 @@ export const useCompoundingForm = (): Res => {
         station_name: compoundingCar.to_pick_up_station.station_name,
       },
       number_seat: {
-        label: `${compoundingCar.number_available_seat} ghế`,
-        value: compoundingCar.number_available_seat,
+        label: `${compoundingCar.number_seat} ghế`,
+        value: compoundingCar.number_seat,
       },
       duration: compoundingCar.duration,
     }

@@ -74,7 +74,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
   return (
     <div ref={searchRef} className="w-full h-full">
       <div className="relative w-full">
-        <SearchIcon className="absolute-vertical left-10 text-gray-color-5" />
+        <SearchIcon className="absolute-vertical left-[16px] text-gray-color-5" />
         <input
           ref={ref}
           type="text"
@@ -84,7 +84,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
             clearSuggestions()
           }}
           onFocus={() => toggleShowSearchResult(true)}
-          className={`form-input h-[42px] px-[40px] ${
+          className={`form-input h-[42px] pl-[44px] pr-[40px] rounded-none ${
             !showSearchResult
               ? "sm:rounded-[10px]"
               : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none border-b-[transparent]"
