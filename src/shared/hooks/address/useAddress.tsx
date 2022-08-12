@@ -70,19 +70,30 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
 
   const getProvinceIdByGooglePlace = (addressListProps: string): number | undefined => {
     const arr = addressListProps.split(",")
-    const listAddress = arr.map((item) =>
-      convertViToEn(item)
-        .replace("city", "")
-        .replace(/\W/g, "")
-        .replace(/[0-9]/g, "")
-        .replace("thanhpho", "")
-        .replace("tp", "")
-    )
+    const listAddress = arr
+      .reverse()
+      .map((item) =>
+        convertViToEn(item)
+          .replace("city", "")
+          .replace(/\W/g, "")
+          .replace(/[0-9]/g, "")
+          .replace("thanhpho", "")
+          .replace("tp", "")
+      )
 
-    const provinceId = provinces.find((item) =>
-      listAddress.includes(item.province_vietnamese_name)
-    )?.province_id
+    let provinceId = undefined
+    let shouldBreak = false
 
+    listAddress.forEach((val) => {
+      if (shouldBreak) return
+      provinces.forEach((item) => {
+        if (val === item.province_vietnamese_name) {
+          shouldBreak = true
+          provinceId = item.province_id
+          return
+        }
+      })
+    })
     return provinceId
   }
 

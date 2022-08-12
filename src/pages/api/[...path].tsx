@@ -34,7 +34,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
     }
     // don't send cookies to API server
     req.url = `${process.env.NEXT_PUBLIC_API_URL}${req.url?.replace("/api", "")}`
-    console.log(req.url)
     proxy.once("proxyRes", () => {
       resolve(true)
     })

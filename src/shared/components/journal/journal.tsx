@@ -48,7 +48,7 @@ const Journal = ({ type }: JournalProps) => {
   }: {
     type: ModalType
     status: boolean | number | undefined
-  }) => {
+}) => {
     if (type === "filter") {
       setShowFilter(status as boolean)
     } else if (type === "message") {
@@ -102,8 +102,8 @@ const Journal = ({ type }: JournalProps) => {
         </div>
 
         <div className="py-12 md:py-24">
-          <div className="grid xl:grid-cols-wallet-grid gap-24">
-            <div className="">
+          <div className="grid xl:grid-cols-wallet-grid gap-[40px]">
+            <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
               {isInitialLoading ? (
                 <>
                   <div className="flex items-center">
@@ -123,7 +123,7 @@ const Journal = ({ type }: JournalProps) => {
               ) : (
                 <>
                   <div className="flex items-center justify-between mb-24 md:mb-[40px]">
-                    <p className="text-base font-semibold">Tổng ví</p>
+                    <p className="text-base font-semibold lg:text-xl">Tổng ví</p>
 
                     <button
                       onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
@@ -136,7 +136,7 @@ const Journal = ({ type }: JournalProps) => {
                     <div className="flex-row flex items-stretch">
                       <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
                         <CircularProgressbar
-                          styles={buildStyles({ pathColor: "#10B981", trailColor: "#f0f0f0" })}
+                          styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#f0f0f0" })}
                           value={
                             ((transactions?.journal[1]?.remains_amount || 0) / getTotalMoney) * 100
                           }
@@ -162,10 +162,10 @@ const Journal = ({ type }: JournalProps) => {
                         {transactions?.journal?.[1] ? (
                           <div className="mt-24 md:mt-[40px]">
                             <p className="flex items-center mb-8">
-                              <span className="w-[10px] h-[10px] rounded-[50%] bg-success mr-8"></span>
+                              <span className="w-[10px] h-[10px] rounded-[50%] bg-primary mr-8"></span>
                               <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
                             </p>
-                            <p className="text-base font-semibold text-success">
+                            <p className="text-base font-semibold text-primary">
                               {formatMoneyVND(transactions.journal[1].remains_amount)}
                             </p>
                           </div>

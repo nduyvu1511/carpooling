@@ -70,7 +70,7 @@ const BookingLayout = ({
             >
               {showLoading ? (
                 <div className="">
-                  <div className="skeleton h-[200px] mb-24 rounded-[5px]"></div>
+                  <div className="skeleton h-[200px] mb-24 rounded-[5px] mx-12 md:mx-24 lg:mx-0"></div>
                   <RideSummaryLoading />
                 </div>
               ) : (

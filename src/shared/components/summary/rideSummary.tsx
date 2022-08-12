@@ -39,7 +39,9 @@ const RideSummary = ({
 
   return (
     <div
-      className={`${view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-12 md:px-24" : ""}`}
+      className={`${
+        view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-12 md:px-24 pb-[56px]" : ""
+      }`}
     >
       <div className="bg-bg-primary rounded-[5px] p-12 md:p-24">
         <div className="flex items-center mb-[16px]">

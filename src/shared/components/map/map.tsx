@@ -213,7 +213,7 @@ export const Map = ({
   return (
     <>
       <div className="flex flex-col flex-1 w-full h-full relative">
-        <div className="absolute z-[1000] sm:max-w-[400px] w-full top-0 md:top-[4px] left-0 md:left-[4px]">
+        <div className="absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px]">
           <MapSearch onSelect={handleSelectSearchValue} />
         </div>
 
