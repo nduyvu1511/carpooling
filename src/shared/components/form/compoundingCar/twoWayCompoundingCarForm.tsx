@@ -285,6 +285,7 @@ export const TwoWayCompoundingForm = ({
 
       <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
         <div className="flex items-center mb-[8px]">
+          <label className="form-label mb-0 mr-24">Thời gian về(*)</label>
           <div className="mr-[24px] cursor-default flex items-center">
             <InputCheckbox
               type="circle"
@@ -294,7 +295,7 @@ export const TwoWayCompoundingForm = ({
               }}
               isChecked={!!getValues("is_a_day_tour")}
             />
-            <span className="ml-[12px]" onClick={() => handleToggleStatus(true)}>
+            <span className="ml-8" onClick={() => handleToggleStatus(true)}>
               Trong ngày
             </span>
           </div>
@@ -308,7 +309,7 @@ export const TwoWayCompoundingForm = ({
               }}
               isChecked={!getValues("is_a_day_tour")}
             />
-            <span className="ml-[12px]" onClick={() => handleToggleStatus(false)}>
+            <span className="ml-8" onClick={() => handleToggleStatus(false)}>
               Khác ngày
             </span>
           </div>

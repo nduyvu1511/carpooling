@@ -52,6 +52,7 @@ const BioDetail = () => {
             <InputLoading />
             <InputLoading />
             <InputLoading />
+            <InputLoading />
             <TextareaLoading />
           </>
         )}

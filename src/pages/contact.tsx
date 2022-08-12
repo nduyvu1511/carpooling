@@ -1,4 +1,5 @@
 import { ContactForm, Map, Seo } from "@/components"
+import { ADDRESS, EMAIL, PHONE } from "@/helper"
 import { StaticLayout } from "@/layout"
 
 const Contact = () => {
@@ -17,22 +18,20 @@ const Contact = () => {
           </h4>
           <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">Địa chỉ: </span>
-            <span className="text-sm md:text-base text-center md:text-left">
-              Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM
-            </span>
+            <span className="text-sm md:text-base text-center md:text-left">{ADDRESS}</span>
           </p>
           <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">
               Điện thoại:{" "}
             </span>
-            <a href="tel:1900998880" className="text-sm md:text-base">
-              1900998880
+            <a href={`tel:${PHONE}`} className="text-sm md:text-base">
+              {PHONE}
             </a>
           </p>
           <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">Email: </span>
             <a href="mailto:exxevn2022@gmail.com" className="text-sm md:text-base text-primary">
-              exxevn2022@gmail.com
+              {EMAIL}
             </a>
           </p>
         </div>
@@ -43,7 +42,7 @@ const Contact = () => {
 
       <div className="">
         <div className="h-[400px]">
-          <Map viewOnly />
+          <Map />
         </div>
       </div>
     </StaticLayout>

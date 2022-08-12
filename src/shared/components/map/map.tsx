@@ -209,14 +209,19 @@ export const Map = ({
         ) : null}
       </GoogleMap>
     )
+
   return (
     <>
-      <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col flex-1 relative">
+        <div className="absolute z-[1000] sm:max-w-[400px] w-full top-0 md:top-[4px] left-0 md:left-[4px]">
+          <MapSearch onSelect={handleSelectSearchValue} />
+        </div>
+
         <GoogleMap
           zoom={16}
           center={currentLocation}
           options={options}
-          mapContainerClassName="flex-1 relative"
+          mapContainerClassName="h-full w-full"
           onDragEnd={handleDragEnd}
           onLoad={onLoad}
         >
@@ -234,10 +239,6 @@ export const Map = ({
             />
           ) : null}
 
-          <div className="absolute max-w-[400px] w-full top-[0] sm:top-[4px] left-0 sm:left-[4px] z-[100]">
-            <MapSearch onSelect={handleSelectSearchValue} />
-          </div>
-
           <span className="z-10">
             <LocationIcon className="absolute-center w-[30px] h-[30px] text-error" />
           </span>
@@ -250,30 +251,28 @@ export const Map = ({
           </span>
         </GoogleMap>
 
-        <div className="">
-          <div className="left-[0] right-[0] bottom-[0] p-12 md:p-24 bg-white-color">
-            <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
-              <LocationIcon2 className="mr-12" />
-              <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
-                {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
-              </span>
-            </div>
-
-            <span
-              onClick={handleConfirmLocation}
-              className={`btn-primary mx-auto ${
-                !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
-              }`}
-            >
-              Xác nhận
+        <div className="p-12 md:p-24 bg-white-color">
+          <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
+            <LocationIcon2 className="mr-12" />
+            <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
+              {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
             </span>
           </div>
+
+          <span
+            onClick={handleConfirmLocation}
+            className={`btn-primary mx-auto ${
+              !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
+            }`}
+          >
+            Xác nhận
+          </span>
         </div>
       </div>
 
       <Alert
         show={showAlert}
-        desc="Vui lòng cấp quyền vị trí trền trình duyệt của bạn để lấy vị trí hiện tại"
+        desc="Vui lòng cấp quyền vị trí trên trình duyệt của bạn để lấy vị trí hiện tại"
         onConfirm={() => {
           setShowAlert(false)
         }}

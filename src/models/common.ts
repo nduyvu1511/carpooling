@@ -175,8 +175,8 @@ export interface ContactParams {
   name: string
   phone: string
   email?: string
-  message?: string
-  isReceived?: boolean
+  description?: string
+  receive_news?: boolean
 }
 
 export type ContactFormKey = keyof ContactParams

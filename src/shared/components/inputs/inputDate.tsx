@@ -29,6 +29,7 @@ const InputDate = ({
   return (
     <div className="relative h-full">
       <Datetime
+        
         closeOnSelect
         dateFormat="DD/MM/YYYY"
         locale="vi"

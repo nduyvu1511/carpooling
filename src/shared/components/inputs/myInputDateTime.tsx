@@ -66,7 +66,6 @@ const MyInputDateTime = ({
         }`}
       >
         <Datetime
-          // input={true}
           closeOnSelect
           dateFormat="DD/MM/YYYY"
           locale="vi"
@@ -89,13 +88,14 @@ const MyInputDateTime = ({
           menuShouldScrollIntoView={false}
           options={times}
           value={
-            times?.find((item) => item.value === time) || {
-              label: `${time.slice(0, 5)}`,
-              value: time,
-            } ||
-            undefined
+            time
+              ? times?.find((item) => item.value === time) || {
+                  label: `${time.slice(0, 5)}`,
+                  value: time,
+                }
+              : undefined
           }
-          placeholder={<div>Type to search</div>}
+          placeholder={<p className="font-medium">Chọn giờ</p>}
           onChange={(val) => setTime(val?.value + "")}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
           maxMenuHeight={maxMenuHeight}

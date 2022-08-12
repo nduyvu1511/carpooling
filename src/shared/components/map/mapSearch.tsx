@@ -1,4 +1,4 @@
-import { CloseIcon, LocationOff } from "@/assets"
+import { CloseIcon, LocationOff, SearchIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { useAddress, useClickOutside } from "@/hooks"
 import { FromLocation } from "@/models"
@@ -37,8 +37,12 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
     clearSuggestions()
   })
 
+  const toggleShowSearchResult = (show: boolean) => {
+    setShowSearchResult(show)
+  }
+
   useClickOutside([searchRef], () => {
-    setShowSearchResult(false)
+    toggleShowSearchResult(false)
   })
 
   const getLocationFromSearchResult = async (
@@ -61,15 +65,16 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
 
       dispatch(addLocationSearchHistory({ ...newLocation, id: location.place_id }))
       onSelect?.(newLocation)
-      setShowSearchResult(false)
+      toggleShowSearchResult(false)
     } catch (error) {
       console.log(error)
     }
   }
 
   return (
-    <div ref={searchRef} className="">
-      <div className="relative">
+    <div ref={searchRef} className="w-full h-full">
+      <div className="relative w-full">
+        <SearchIcon className="absolute-vertical left-10 text-gray-color-5" />
         <input
           ref={ref}
           type="text"
@@ -78,25 +83,31 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
             setValue(e.target.value)
             clearSuggestions()
           }}
-          onFocus={() => setShowSearchResult(true)}
-          className={`form-input h-[40px] pr-[40px] ${
+          onFocus={() => toggleShowSearchResult(true)}
+          className={`form-input h-[42px] px-[40px] ${
             !showSearchResult
               ? "sm:rounded-[10px]"
-              : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none"
-          } border border-solid border-border-color shadow-shadow-1`}
+              : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none border-b-0"
+          } border border-solid border-t-0 md:border-t border-border-color shadow-shadow-1`}
           placeholder="Tìm kiếm vị trí..."
           disabled={!ready}
         />
 
-        {searchValues ? (
-          <button onClick={() => setValue("", false)} className="absolute-vertical right-[10px]">
+        {showSearchResult ? (
+          <button
+            onClick={() => {
+              setValue("", false)
+              toggleShowSearchResult(false)
+            }}
+            className="absolute-vertical right-[10px]"
+          >
             <CloseIcon className="w-[18px]" />
           </button>
         ) : null}
       </div>
 
       {showSearchResult ? (
-        <div className="block-element max-h-[300px] overflow-y-auto scrollbar-hide flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
+        <div className="block-element max-h-[500px] h-full overflow-y-auto scrollbar-hide flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
           {searchValues ? (
             <div className="flex-1 flex flex-col">
               {loading ? (
@@ -137,7 +148,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
                     location={item}
                     onSelect={(location) => {
                       onSelect?.(location)
-                      setShowSearchResult(false)
+                      toggleShowSearchResult(false)
                     }}
                   />
                 </li>
@@ -146,6 +157,8 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
           ) : null}
         </div>
       ) : null}
+
+      {showSearchResult ? <div className="bg-black-60 z-[900] inset-0"></div> : null}
     </div>
   )
 })

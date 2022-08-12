@@ -1,5 +1,5 @@
 import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
-import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
+import { Banner, BookingModal, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
@@ -104,6 +104,8 @@ const HomeGuest = () => {
           </div>
         </div>
       </div>
+
+      {/* <BookingModal onClose={() => {}} formType="one_way" show={"one_way"} /> */}
     </section>
   )
 }

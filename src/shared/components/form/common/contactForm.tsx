@@ -33,13 +33,9 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
     <form className="form-control" onSubmit={handleSubmit(onSubmitHandler)}>
       {contactFormFields.map((field) => (
         <div key={field.name} className="form-item mb-[16px]">
-          <label htmlFor={field.name} className="form-label">
-            {field.label} {field?.isRequired ? "(*)" : ""}
-          </label>
-
           {field.type === "text" ? (
             <input
-              className={`form-input h-[50px] border-none bg-bg-primary pr-[50px] ${
+              className={`form-input h-[50px] border-[transparent] bg-bg-primary ${
                 errors?.[field.name] ? "form-input-err" : ""
               }`}
               {...register(field.name, {
@@ -54,7 +50,7 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
 
           {field.type === "textarea" ? (
             <textarea
-              className={`form-textarea mb-24 bg-bg-primary border-none pr-[50px] ${
+              className={`form-textarea mb-24 bg-bg-primary border-none ${
                 errors?.[field.name] ? "form-input-err" : ""
               }`}
               {...register(field.name, {
@@ -91,7 +87,10 @@ export const ContactForm = ({ onSubmit }: ContactFormProps) => {
       </div>
 
       <div className="mt-[40px]">
-        <button type="submit" className={`ml-auto btn-primary  ${isValid ? "" : "btn-disabled"}`}>
+        <button
+          type="submit"
+          className={`ml-auto btn-primary  ${isValid ? "" : "btn-disabled-clickable"}`}
+        >
           Gửi ngay
         </button>
       </div>

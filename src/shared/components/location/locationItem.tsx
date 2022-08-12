@@ -19,7 +19,7 @@ const LocationItem = ({ location, onSelect }: LocationItemProps) => {
       className="flex items-center px-12 py-8 hover:bg-bg cursor-pointer"
     >
       <LocationIcon4 className="mr-[16px]" />
-      <p className="flex-1 text-sm">{location.description}</p>
+      <p className="flex-1 text-sm line-clamp-2">{location.description}</p>
 
       {/* <span className="btn-reset location__item-icon">{arrowRightIcon()}</span> */}
     </div>

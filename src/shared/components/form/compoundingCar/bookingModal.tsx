@@ -8,6 +8,7 @@ import {
   CreateCompoundingCarParams,
   CreateTwoWayCompoundingCar,
 } from "@/models"
+import moment from "moment"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { CarpoolingCompoundingForm } from "./carpoolingCompoundingCarForm"
@@ -52,9 +53,23 @@ const BookingModal = ({
       compounding_type: compoundingType,
       expected_going_on_date: subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7),
     }
-    if ((data as CreateTwoWayCompoundingCar).is_a_day_tour) {
-      ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date =
-        subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7)
+    if (data.compounding_type === "two_way") {
+      if ((data as CreateTwoWayCompoundingCar).is_a_day_tour) {
+        ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date = moment(
+          data.expected_going_on_date
+        )
+          .add(
+            Number(((data as CreateTwoWayCompoundingCar).hour_of_wait_time as string).slice(0, 2)),
+            "hours"
+          )
+          .format("YYYY-MM-DD HH:mm:ss")
+      } else {
+        ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date =
+          subtractDateTimeToNumberOfHour(
+            (data as CreateTwoWayCompoundingCar).expected_picking_up_date + "",
+            7
+          )
+      }
     }
 
     createCompoundingCar({

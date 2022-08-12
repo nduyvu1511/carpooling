@@ -1,11 +1,11 @@
 import React from "react"
 
-const SpinnerIcon = ({ className = "" }) => {
+const SpinnerIcon = ({ className = "", size = 21 }) => {
   return (
     <svg
       className={className}
-      width="21"
-      height="21"
+      width={size}
+      height={size}
       viewBox="0 0 21 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

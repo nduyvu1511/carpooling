@@ -46,10 +46,12 @@ export const inspectionCertificateSchema = Yup.object().shape({
 
 export const contactSchema = Yup.object().shape({
   name: Yup.string().required("Vui lòng nhập trường này"),
-  phone: Yup.string().required("Vui lòng nhập trường này"),
+  phone: Yup.string()
+    .matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ")
+    .required("Vui lòng nhập số điện thoại"),
   email: Yup.string().nullable(),
-  message: Yup.string().nullable(),
-  isReceived: Yup.boolean().nullable(),
+  description: Yup.string().nullable(),
+  receive_news: Yup.boolean().nullable(),
 })
 
 export const changePasswordSchema = Yup.object().shape({

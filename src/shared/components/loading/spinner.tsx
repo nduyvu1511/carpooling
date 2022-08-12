@@ -9,7 +9,7 @@ interface SpinnerProps {
 const Spinner = ({ className = "", size = 24 }: SpinnerProps) => {
   return (
     <div className={`flex-center py-[20px] ${className}`}>
-      <SpinnerIcon className={`animate-spin w-${size} h-${size} text-gray-color-3`} />
+      <SpinnerIcon size={size} className={`animate-spin text-gray-color-3`} />
     </div>
   )
 }

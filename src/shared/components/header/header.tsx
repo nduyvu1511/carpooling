@@ -1,6 +1,6 @@
 import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
 import { Drawer, HeaderWrapper } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
+import { PHONE, toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useClickOutside } from "@/hooks"
 import { setAuthModalType } from "@/modules"
 import Link from "next/link"
@@ -115,7 +115,7 @@ export const Header = () => {
 
                 <div className="mr-[16px] items-center hidden xl:flex">
                   <PhoneIcon className="mr-8 w-[15px]" />
-                  <a className="text-base font-semibold text-primary" href="tel:1900998880">
+                  <a className="text-base font-semibold text-primary" href={`tel:${PHONE}`}>
                     1900 998 880
                   </a>
                 </div>

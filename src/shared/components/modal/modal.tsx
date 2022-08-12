@@ -48,7 +48,7 @@ const Modal = ({
             </span>
 
             <div className="flex-1">
-              <p className="text-16 font-semibold leading-20 text-center text-blue-8 line-clamp-1">
+              <p className="text-16 font-semibold leading-20 text-center text-blue-8 line-clamp-1 mr-[20px]">
                 {heading}
               </p>
             </div>

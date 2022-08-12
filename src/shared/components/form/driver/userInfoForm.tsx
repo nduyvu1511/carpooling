@@ -322,6 +322,10 @@ export const UserInfoForm = ({
                     onChange={(e) => {
                       onChange(e.target.value)
                     }}
+                    placeholder="dd-mm-yyyy"
+                    // max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
+                    min="1997-01-01"
+                    max="2030-12-31"
                   />
                 )}
                 rules={{ required: true }}

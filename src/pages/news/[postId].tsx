@@ -1,4 +1,4 @@
-import { NewsSlide } from "@/components"
+import { NewsSlide, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { PostDetailRes, PostRes } from "@/models"
 import { newsApi } from "@/services"
@@ -29,6 +29,13 @@ const PostDetail = () => {
 
   return (
     <StaticLayout showLoading={isValidating} sticky heading={data?.title} subHeading="Tin tức">
+      <Seo
+        description={data?.shortContent || data?.title || ""}
+        thumbnailUrl=""
+        title={data?.title || "Tin tức"}
+        url={`https://exxe.vn/news/${data?.postId}`}
+      />
+
       <div className="news__page" dangerouslySetInnerHTML={{ __html: data?.content + "" }}></div>
 
       <div className="my-[40px] lg:my-[80px] border-b border-solid border-border-color "></div>
