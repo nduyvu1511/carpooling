@@ -1,5 +1,5 @@
 import { ArrowLineRightIcon } from "@/assets"
-import { COMPOUNDING_TYPE_NAME, formatMoneyVND } from "@/helper"
+import { COMPOUNDING_TYPE_NAME, formatMoneyVND, getHoursName } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
 import { ReactNode, useState } from "react"
@@ -43,30 +43,7 @@ const RideSummary = ({
       className={`${view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-12 md:px-24" : ""}`}
     >
       <div className="bg-bg-primary rounded-[5px] p-12 md:p-24">
-        <p className="flex items-center mb-[16px]">
-          <CompoundingCarICon compounding_type={data.compounding_type} />
-          <span className="text-sm ml-8 flex-1">
-            {COMPOUNDING_TYPE_NAME[data.compounding_type]}
-          </span>
-        </p>
-        {showMap ? (
-          <div className="h-[200px] mb-24">
-            <Map
-              viewOnly
-              directions={{
-                destination: {
-                  lat: Number(data.from_province.latitude),
-                  lng: Number(data.from_province.longitude),
-                },
-                origin: {
-                  lat: Number(data.to_province.latitude),
-                  lng: Number(data.to_province.longitude),
-                },
-              }}
-            />
-          </div>
-        ) : null}
-        <div className="flex items-center">
+        <div className="flex items-center mb-[16px]">
           <div className="flex-1">
             <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-8 line-clamp-1">
               {data?.from_province.province_brief_name}
@@ -90,6 +67,42 @@ const RideSummary = ({
             </p>
           </div>
         </div>
+
+        {showMap ? (
+          <div className="h-[200px] mb-[16px]">
+            <Map
+              viewOnly
+              directions={{
+                destination: {
+                  lat: Number(data.from_province.latitude),
+                  lng: Number(data.from_province.longitude),
+                },
+                origin: {
+                  lat: Number(data.to_province.latitude),
+                  lng: Number(data.to_province.longitude),
+                },
+              }}
+            />
+          </div>
+        ) : null}
+        <ul>
+          <li className="flex items-center justify-between mb-12">
+            <p className="text-xs">Loại chuyến</p>
+            <p className="ml-[16px] flex-1 text-right text-sm md:text-base">
+              {COMPOUNDING_TYPE_NAME[data.compounding_type]}
+            </p>
+          </li>
+          <li className="flex items-center justify-between mb-12">
+            <p className="text-xs">Thời gian dự kiến</p>
+            <p className="ml-[16px] flex-1 text-right text-sm md:text-base">
+              {getHoursName(data.duration || 0)}
+            </p>
+          </li>
+          <li className="flex items-center justify-between">
+            <p className="text-xs">Lộ trình ước tính</p>
+            <p className="ml-[16px] flex-1 text-right text-sm md:text-base">{data.distance} Km</p>
+          </li>
+        </ul>
       </div>
 
       {/* Price */}

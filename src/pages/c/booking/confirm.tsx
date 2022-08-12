@@ -3,8 +3,8 @@ import {
   OneWayCompoundingForm,
   RideProgress,
   RidesDetailLoading,
-  RideSummaryMobile,
   RideSummary,
+  RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
   TwoWayCompoundingForm,
@@ -33,9 +33,6 @@ const ConfirmBookingCustomer = () => {
     type: "once",
   })
   const {
-    clearCarpoolingWayCompoundingCar,
-    clearOneWayCompoundingCar,
-    clearTwoWayCompoundingCar,
     compoundingCarCustomerResToOneWayForm,
     compoundingCarCustomerResToTwoWayForm,
     compoundingCarCustomerResToCarpoolingForm,
@@ -76,14 +73,6 @@ const ConfirmBookingCustomer = () => {
             router.push(
               `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
             )
-            // Clear form from localstorage
-            if (compoundingCar?.compounding_type === "compounding") {
-              clearCarpoolingWayCompoundingCar()
-            } else if (compoundingCar?.compounding_type === "one_way") {
-              clearOneWayCompoundingCar()
-            } else {
-              clearTwoWayCompoundingCar()
-            }
           },
         })
       },
@@ -108,7 +97,7 @@ const ConfirmBookingCustomer = () => {
       }
       title="Xác nhận chuyến đi"
     >
-      <div className="p-12 md:p-24 pt-0 md:pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+      <div className="p-12 md:p-24 pt-0 md:pt-0 bg-white-color rounded-[5px] h-fit">
         {isInitialLoading ? (
           <RidesDetailLoading />
         ) : (

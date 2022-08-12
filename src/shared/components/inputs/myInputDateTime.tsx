@@ -1,7 +1,7 @@
 import { getTimes, LIMIT_HOUR_OF_WAITING_TIME } from "@/helper"
 import { OptionModel } from "@/models"
 import moment from "moment"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import Datetime from "react-datetime"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
@@ -52,11 +52,10 @@ const MyInputDateTime = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
+  const handleChange = ({ date, time }: { date: string | undefined; time: string | undefined }) => {
     if (!date || !time) return
     onChange(`${date} ${time}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, time])
+  }
 
   return (
     <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
@@ -71,7 +70,9 @@ const MyInputDateTime = ({
           locale="vi"
           isValidDate={disablePassDay ? disablePastDt : undefined}
           onChange={(e: any) => {
-            setDate(moment(e._d).format("YYYY-MM-DD"))
+            const date = moment(e._d).format("YYYY-MM-DD")
+            handleChange({ date, time })
+            setDate(date)
           }}
           timeFormat={false}
           inputProps={{ placeholder: "Chọn ngày" }}
@@ -96,7 +97,11 @@ const MyInputDateTime = ({
               : undefined
           }
           placeholder={<p className="font-medium">Chọn giờ</p>}
-          onChange={(val) => setTime(val?.value + "")}
+          onChange={(val) => {
+            if (!val) return
+            handleChange({ date, time: val?.value + "" })
+            setTime(val?.value + "")
+          }}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
           maxMenuHeight={maxMenuHeight}
           isSearchable={isSelectSearchable}

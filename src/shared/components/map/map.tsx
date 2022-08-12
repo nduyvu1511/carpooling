@@ -40,7 +40,7 @@ export const Map = ({
     () => ({
       disableDefaultUI: true,
       clickableIcons: false,
-      gestureHandling: viewOnly ? "none" : "auto",
+      gestureHandling: "auto",
       styles: [
         // {
         //   featureType: "all",

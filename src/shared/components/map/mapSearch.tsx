@@ -87,7 +87,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
           className={`form-input h-[42px] px-[40px] ${
             !showSearchResult
               ? "sm:rounded-[10px]"
-              : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none border-b-0"
+              : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none border-b-[transparent]"
           } border border-solid border-t-0 md:border-t border-border-color shadow-shadow-1`}
           placeholder="Tìm kiếm vị trí..."
           disabled={!ready}

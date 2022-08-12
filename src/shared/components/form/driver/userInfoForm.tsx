@@ -274,10 +274,6 @@ export const UserInfoForm = ({
                   )}
                   rules={{ required: true }}
                 />
-
-                {errors?.[field.name] ? (
-                  <p className="form-err-msg">Vui lòng nhập giới tính</p>
-                ) : null}
               </div>
             ) : null}
 

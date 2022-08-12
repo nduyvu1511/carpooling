@@ -15,6 +15,7 @@ import {
   ONE_WAY_PRICE,
   ONE_WAY_TO_LOCATION,
   setToLocalStorage,
+  subtractDateTimeToNumberOfHour,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import { CreateOneWayCompoundingCar, CreateOneWayCompoundingCarForm } from "@/models"
@@ -98,7 +99,7 @@ export const OneWayCompoundingForm = ({
       car_id: Number(data.car_id.value),
       compounding_type: "one_way",
       distance: data.distance,
-      expected_going_on_date: data.expected_going_on_date,
+      expected_going_on_date: subtractDateTimeToNumberOfHour(data.expected_going_on_date, 7),
       from_address: data.from_location.address,
       from_latitude: data.from_location.lat + "",
       from_longitude: data.from_location.lng + "",

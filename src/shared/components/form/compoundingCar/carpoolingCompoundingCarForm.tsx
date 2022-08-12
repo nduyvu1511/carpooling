@@ -28,6 +28,7 @@ import {
   getHoursName,
   isObjectHasValue,
   setToLocalStorage,
+  subtractDateTimeToNumberOfHour,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import {
@@ -143,7 +144,7 @@ export const CarpoolingCompoundingForm = ({
       car_id: Number(data.car_id.value),
       compounding_type: "compounding",
       distance: data.distance,
-      expected_going_on_date: data.expected_going_on_date,
+      expected_going_on_date: subtractDateTimeToNumberOfHour(data.expected_going_on_date, 7),
       from_address: data.from_station.address,
       from_latitude: data.from_station.lat + "",
       from_longitude: data.from_station.lng + "",

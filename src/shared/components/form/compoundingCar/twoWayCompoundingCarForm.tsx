@@ -9,6 +9,7 @@ import {
   hoursBackList,
   isObjectHasValue,
   setToLocalStorage,
+  subtractDateTimeToNumberOfHour,
   TWO_WAY_CAR_ID,
   TWO_WAY_DISTANCE,
   TWO_WAY_DURATION,
@@ -152,11 +153,12 @@ export const TwoWayCompoundingForm = ({
 
   const onSubmitHandler = (data: CreateTwoWayCompoundingCarForm) => {
     const { is_a_day_tour } = data
+
     const params: CreateTwoWayCompoundingCar = {
       car_id: Number(data.car_id.value),
       compounding_type: "two_way",
       distance: data.distance,
-      expected_going_on_date: data.expected_going_on_date,
+      expected_going_on_date: subtractDateTimeToNumberOfHour(data.expected_going_on_date, 7),
       from_address: data.from_location.address,
       from_latitude: data.from_location.lat + "",
       from_longitude: data.from_location.lng + "",
@@ -167,7 +169,15 @@ export const TwoWayCompoundingForm = ({
       to_province_id: data.to_location.province_id,
       note: data?.note || "",
       is_a_day_tour,
-      expected_picking_up_date: !is_a_day_tour ? data.expected_picking_up_date : false,
+      expected_picking_up_date: is_a_day_tour
+        ? subtractDateTimeToNumberOfHour(
+            subtractDateTimeToNumberOfHour(
+              data.expected_going_on_date,
+              -Number((data.hour_of_wait_time?.value + "").slice(0, 2))
+            ),
+            7
+          )
+        : data.expected_picking_up_date,
       hour_of_wait_time: is_a_day_tour
         ? (data.hour_of_wait_time?.value as HourWaitTimeType)
         : false,
@@ -284,8 +294,9 @@ export const TwoWayCompoundingForm = ({
       </div>
 
       <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
+        <label className="form-label">Thời gian về(*)</label>
+
         <div className="flex items-center mb-[8px]">
-          <label className="form-label mb-0 mr-24">Thời gian về(*)</label>
           <div className="mr-[24px] cursor-default flex items-center">
             <InputCheckbox
               type="circle"

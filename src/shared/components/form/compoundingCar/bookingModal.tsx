@@ -1,14 +1,7 @@
 import { Modal } from "@/components/modal"
 import { Tabs } from "@/components/tabs"
-import { subtractDateTimeToNumberOfHour } from "@/helper"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
-import {
-  CarAccountType,
-  CompoundingType,
-  CreateCompoundingCarParams,
-  CreateTwoWayCompoundingCar,
-} from "@/models"
-import moment from "moment"
+import { CarAccountType, CompoundingType, CreateCompoundingCarParams } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { CarpoolingCompoundingForm } from "./carpoolingCompoundingCarForm"
@@ -34,6 +27,9 @@ const BookingModal = ({
 }: BookingModalProps) => {
   const router = useRouter()
   const {
+    clearCarpoolingWayCompoundingCar,
+    clearOneWayCompoundingCar,
+    clearTwoWayCompoundingCar,
     oneWayCompoundingCarFormFromLocalStorage,
     twoWayCompoundingCarFormFromLocalStorage,
     carpoolingCompoundingFormFromLocalStorage,
@@ -48,36 +44,21 @@ const BookingModal = ({
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     if (!compoundingType) return
 
-    let data = {
-      ...params,
-      compounding_type: compoundingType,
-      expected_going_on_date: subtractDateTimeToNumberOfHour(params.expected_going_on_date, 7),
-    }
-    if (data.compounding_type === "two_way") {
-      if ((data as CreateTwoWayCompoundingCar).is_a_day_tour) {
-        ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date = moment(
-          data.expected_going_on_date
-        )
-          .add(
-            Number(((data as CreateTwoWayCompoundingCar).hour_of_wait_time as string).slice(0, 2)),
-            "hours"
-          )
-          .format("YYYY-MM-DD HH:mm:ss")
-      } else {
-        ;(data as CreateTwoWayCompoundingCar).expected_picking_up_date =
-          subtractDateTimeToNumberOfHour(
-            (data as CreateTwoWayCompoundingCar).expected_picking_up_date + "",
-            7
-          )
-      }
-    }
-
     createCompoundingCar({
-      params: data,
+      params,
       onSuccess: (data) => {
         onClose()
+
+        // Clear form from localstorage
+        if (data?.compounding_type === "compounding") {
+          clearCarpoolingWayCompoundingCar()
+        } else if (data?.compounding_type === "one_way") {
+          clearOneWayCompoundingCar()
+        } else {
+          clearTwoWayCompoundingCar()
+        }
+
         if (data.compounding_type === "convenient") {
-          console.log(data)
           router.push(`/d/booking/confirm/${data.compounding_car_customer_id}`)
         } else {
           router.push({
