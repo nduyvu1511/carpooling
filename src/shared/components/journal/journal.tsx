@@ -16,6 +16,7 @@ import { useState } from "react"
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
 import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { JournalGuide } from "./journalGuide"
 
 interface JournalProps {
   type?: CarAccountType
@@ -48,7 +49,7 @@ const Journal = ({ type }: JournalProps) => {
   }: {
     type: ModalType
     status: boolean | number | undefined
-}) => {
+  }) => {
     if (type === "filter") {
       setShowFilter(status as boolean)
     } else if (type === "message") {
@@ -103,88 +104,96 @@ const Journal = ({ type }: JournalProps) => {
 
         <div className="py-12 md:py-24">
           <div className="grid xl:grid-cols-wallet-grid gap-[40px]">
-            <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
-              {isInitialLoading ? (
-                <>
-                  <div className="flex items-center">
-                    <div className="skeleton w-[160px] h-[160px] rounded-[50%] mb-24 md:mb-0 mr-24 md:mr-[40px]"></div>
-                    <div className="flex-1 mb-24 md:mb-0">
-                      <div className="mb-24">
-                        <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
-                        <div className="skeleton w-[160px] h-[16px] rounded-[5px]"></div>
-                      </div>
-                      <div className="">
-                        <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
-                        <div className="skeleton w-[180px] h-[16px] rounded-[5px]"></div>
+            <div className="">
+              <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
+                {isInitialLoading ? (
+                  <>
+                    <div className="flex items-center">
+                      <div className="skeleton w-[160px] h-[160px] rounded-[50%] mb-24 md:mb-0 mr-24 md:mr-[40px]"></div>
+                      <div className="flex-1 mb-24 md:mb-0">
+                        <div className="mb-24">
+                          <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
+                          <div className="skeleton w-[160px] h-[16px] rounded-[5px]"></div>
+                        </div>
+                        <div className="">
+                          <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
+                          <div className="skeleton w-[180px] h-[16px] rounded-[5px]"></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="flex items-center justify-between mb-24 md:mb-[40px]">
-                    <p className="text-base font-semibold lg:text-xl">Tổng ví</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-24 md:mb-[40px]">
+                      <p className="text-base font-semibold lg:text-xl">Tổng ví</p>
 
-                    <button
-                      onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
-                      className="btn-primary w-fit sm:hidden"
-                    >
-                      Rút tiền
-                    </button>
-                  </div>
-                  {transactions && transactions?.journal?.length > 0 ? (
-                    <div className="flex-row flex items-stretch">
-                      <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
-                        <CircularProgressbar
-                          styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#f0f0f0" })}
-                          value={
-                            ((transactions?.journal[1]?.remains_amount || 0) / getTotalMoney) * 100
-                          }
-                          strokeWidth={5}
-                        />
-                        <div className="absolute z-10 flex-col flex-center">
-                          <p className="text-xs mb-4">Tổng</p>
-                          <p className="text-sm font-semibold">{formatMoneyVND(getTotalMoney)}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex-1 lg:flex-auto my-auto">
-                        <div className="">
-                          <p className="flex items-center mb-8">
-                            <span className="w-[10px] h-[10px] rounded-[50%] bg-gray-color-1 mr-8"></span>
-                            <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
-                          </p>
-                          <p className="text-base font-semibold">
-                            {formatMoneyVND(transactions.journal[0].remains_amount)}
-                          </p>
+                      <button
+                        onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
+                        className="btn-primary w-fit sm:hidden"
+                      >
+                        Rút tiền
+                      </button>
+                    </div>
+                    {transactions && transactions?.journal?.length > 0 ? (
+                      <div className="flex-row flex items-stretch">
+                        <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
+                          <CircularProgressbar
+                            styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#f0f0f0" })}
+                            value={
+                              ((transactions?.journal[1]?.remains_amount || 0) / getTotalMoney) *
+                              100
+                            }
+                            strokeWidth={5}
+                          />
+                          <div className="absolute z-10 flex-col flex-center">
+                            <p className="text-xs mb-4">Tổng</p>
+                            <p className="text-sm font-semibold">{formatMoneyVND(getTotalMoney)}</p>
+                          </div>
                         </div>
 
-                        {transactions?.journal?.[1] ? (
-                          <div className="mt-24 md:mt-[40px]">
+                        <div className="flex-1 lg:flex-auto my-auto">
+                          <div className="">
                             <p className="flex items-center mb-8">
-                              <span className="w-[10px] h-[10px] rounded-[50%] bg-primary mr-8"></span>
-                              <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
+                              <span className="w-[10px] h-[10px] rounded-[50%] bg-gray-color-1 mr-8"></span>
+                              <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
                             </p>
-                            <p className="text-base font-semibold text-primary">
-                              {formatMoneyVND(transactions.journal[1].remains_amount)}
+                            <p className="text-base font-semibold">
+                              {formatMoneyVND(transactions.journal[0].remains_amount)}
                             </p>
+                          </div>
+
+                          {transactions?.journal?.[1] ? (
+                            <div className="mt-24 md:mt-[40px]">
+                              <p className="flex items-center mb-8">
+                                <span className="w-[10px] h-[10px] rounded-[50%] bg-primary mr-8"></span>
+                                <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
+                              </p>
+                              <p className="text-base font-semibold text-primary">
+                                {formatMoneyVND(transactions.journal[1].remains_amount)}
+                              </p>
+                            </div>
+                          ) : null}
+                        </div>
+                        {type === "car_driver" ? (
+                          <div className="hidden sm:flex lg:hidden flex-start">
+                            <button
+                              onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
+                              className="btn-primary h-fit w-fit"
+                            >
+                              Rút tiền
+                            </button>
                           </div>
                         ) : null}
                       </div>
-                      {type === "car_driver" ? (
-                        <div className="hidden sm:flex lg:hidden flex-start">
-                          <button
-                            onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
-                            className="btn-primary h-fit w-fit"
-                          >
-                            Rút tiền
-                          </button>
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </>
-              )}
+                    ) : null}
+                  </>
+                )}
+              </div>
+
+              {/* <div className="mt-[40px]">
+                <p className="text-base lg:text-xl mb-24">FAQ</p>
+                <JournalGuide />
+              </div> */}
             </div>
             <div className="">
               <div className="flex items-center justify-between mb-[16px] ">

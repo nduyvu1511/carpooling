@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { handShakeBg } from "@/assets"
 import { ButtonCall, Footer, Header, Spinner } from "@/components"
 import { ReactNode } from "react"
 
@@ -8,7 +9,7 @@ interface StaticLayoutProps {
   subHeading?: string
   sticky?: boolean
   showLoading?: boolean
-  bg?: "handShake" | "contact"
+  bg?: string
 }
 
 export const StaticLayout = ({
@@ -17,16 +18,15 @@ export const StaticLayout = ({
   subHeading,
   sticky = false,
   showLoading = false,
-  bg = "handShake",
+  bg = handShakeBg,
 }: StaticLayoutProps) => {
   return (
     <>
       <Header />
       <main>
         <div
-          className={`relative w-full aspect-[3/1] max-h-[500px] ${
-            bg === "handShake" ? "bg-hand-shake-bg" : "bg-contact-bg"
-          }`}
+          style={{ backgroundImage: `url(${bg})` }}
+          className="relative w-full aspect-[3/1] max-h-[500px] bg-center bg-no-repeat bg-cover"
         ></div>
         {showLoading ? (
           <Spinner className="py-[120px]" size={80} />

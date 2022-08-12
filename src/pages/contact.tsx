@@ -1,3 +1,4 @@
+import { contactBg } from "@/assets"
 import { ContactForm, Map, Seo } from "@/components"
 import { ADDRESS, EMAIL, PHONE } from "@/helper"
 import { useFetcher } from "@/hooks"
@@ -28,7 +29,7 @@ const Contact = () => {
   }
 
   return (
-    <StaticLayout bg="contact">
+    <StaticLayout bg={contactBg}>
       <Seo
         description="Liên hệ với chúng tôi"
         thumbnailUrl=""
@@ -66,7 +67,11 @@ const Contact = () => {
 
       <div className="">
         <div className="h-[400px]">
-          <Map />
+          <Map
+            viewOnly
+            defaultCenter={{ lat: 10.806993, lng: 106.7279698 }}
+            markerLocation={{ lat: 10.806993, lng: 106.7279698 }}
+          />
         </div>
       </div>
     </StaticLayout>

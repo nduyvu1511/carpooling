@@ -1,8 +1,8 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
-import { DirectionLngLat, FromLocation, LatlngAddress } from "@/models"
-import { DirectionsRenderer, GoogleMap, useLoadScript } from "@react-google-maps/api"
+import { DirectionLngLat, FromLocation, LatLng, LatlngAddress } from "@/models"
+import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
 import { useDispatch } from "react-redux"
@@ -25,6 +25,8 @@ interface MapProps {
   viewOnly?: boolean
   directions?: DirectionLngLat
   prevProvinceId?: number
+  markerLocation?: LatLng
+  defaultCenter?: LatLng
 }
 export const Map = ({
   onChooseLocation,
@@ -32,6 +34,8 @@ export const Map = ({
   viewOnly = false,
   directions,
   prevProvinceId,
+  markerLocation: markerLocationProps,
+  defaultCenter,
 }: MapProps) => {
   const dispatch = useDispatch()
   const mapRef = useRef<GoogleMap>()
@@ -67,12 +71,16 @@ export const Map = ({
   )
   const [libraries] = useState<any>(["places", "geometry"])
   const { getProvinceIdByGooglePlace } = useAddress()
-  const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>({
-    lng: 10.7553411,
-    lat: 106.4150303,
-  })
+  const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>(
+    defaultCenter || {
+      lng: 10.7553411,
+      lat: 106.4150303,
+    }
+  )
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
   const [directionRes, setDirectionRes] = useState<DirectionsResult>()
+  const [markerLocation, setMarkerLocation] = useState<LatLng | undefined>(markerLocationProps)
+
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
@@ -188,12 +196,19 @@ export const Map = ({
   if (viewOnly)
     return (
       <GoogleMap
-        // zoom={7}
+        zoom={16}
         center={currentLocation}
         options={options}
         mapContainerClassName="w-full h-full"
         onLoad={onLoad}
       >
+        {markerLocation ? (
+          <Marker
+            position={{ lng: markerLocation.lng, lat: markerLocation.lat }}
+            icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+          />
+        ) : null}
+
         {directionRes ? (
           <DirectionsRenderer
             directions={directionRes}
@@ -225,6 +240,9 @@ export const Map = ({
           onDragEnd={handleDragEnd}
           onLoad={onLoad}
         >
+          {markerLocation ? (
+            <Marker position={{ lng: markerLocation.lng, lat: markerLocation.lat }} />
+          ) : null}
           {directionRes ? (
             <DirectionsRenderer
               directions={directionRes}

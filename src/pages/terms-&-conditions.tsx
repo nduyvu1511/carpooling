@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { conditionPageBg } from "@/assets"
 import { AccordionItem, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { useState } from "react"
@@ -8,6 +9,7 @@ const Conditions = () => {
 
   return (
     <StaticLayout
+      bg={conditionPageBg}
       heading="Bảo mật thuộc quyền sở hữu của Công ty EXXE.VN"
       subHeading="Điều lệ & Điều khoản"
       sticky

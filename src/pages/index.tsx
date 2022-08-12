@@ -1,5 +1,5 @@
 import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
-import { Banner, BookingModal, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
+import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
@@ -47,10 +47,6 @@ const HomeGuest = () => {
         <HeroSection />
       </div>
 
-      {/* <div className="mt-[64px] md:mt-[100px] lg:mt-[160px] max-w-[500px] mx-auto">
-        <InputDate2 />
-      </div> */}
-
       <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
         <div className="">
           <h1 className="h1 text-primary text-center font-semibold">Tính năng nổi bật</h1>
@@ -63,15 +59,17 @@ const HomeGuest = () => {
         </div>
       </div>
 
-      <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
-        <div className="">
-          <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
+      {data?.length ? (
+        <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
+          <div className="">
+            <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
 
-          <div className="container px-0 pl-12 md:pl-[16px] mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-            <PlaceSlide showLoading={isValidating} places={data || []} />
+            <div className="container px-0 pl-12 md:pl-[16px] mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
+              <PlaceSlide showLoading={isValidating} places={data || []} />
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="container mt-[64px] md:mt-[100px] lg:mt-[160px]">
         <div className="">

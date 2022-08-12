@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { questionBg } from "@/assets"
 import { AccordionItem, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { useState } from "react"
@@ -8,7 +9,7 @@ const FrequentlyAskedQuestions = () => {
   const [accordionActive, setAccordionActive] = useState<number | undefined>(undefined)
 
   return (
-    <StaticLayout>
+    <StaticLayout bg={questionBg}>
       <Seo
         description="Câu hỏi thường gặp"
         thumbnailUrl=""

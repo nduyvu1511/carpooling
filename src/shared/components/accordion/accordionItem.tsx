@@ -17,10 +17,10 @@ const AccordionItem = ({
   children,
   onClick,
   title,
-  maxHeight = 10000,
+  maxHeight = 5000,
   titleClassName = "",
   className = "",
-  allowTransition,
+  allowTransition = true,
 }: AccordionItemProps) => {
   return (
     <div>
