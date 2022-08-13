@@ -170,6 +170,7 @@ const RideContainer = ({
       </section>
 
       <Modal
+        key="modal-filter-mobile"
         fullScreen
         show={showFilterMobile}
         onClose={() => toggleShowFilter({ status: false, type: "mobile" })}

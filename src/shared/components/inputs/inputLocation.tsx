@@ -65,6 +65,7 @@ export const InputLocation = ({
       </>
 
       <Modal
+        key='location-modal'
         show={showMap}
         iconType="back"
         heading={type === "from" ? "Chọn điểm đến" : "Chọn điểm đi"}

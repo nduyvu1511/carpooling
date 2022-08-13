@@ -51,7 +51,7 @@ export const ContactForm = forwardRef(function ContactChild(
                 required: true,
               })}
               id={field.name}
-              type={"text"}
+              type={field.name === "email" ? "email" : "text"}
               name={field.name}
               placeholder={field.label}
             />

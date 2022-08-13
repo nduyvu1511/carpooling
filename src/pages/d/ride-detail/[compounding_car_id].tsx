@@ -242,6 +242,7 @@ const ConfirmBookingCustomer = () => {
       />
 
       <Modal
+        key='alert-compounding-car-modal'
         show={showModal && !!depositFailure}
         onClose={() => {
           setShowModal(false)
@@ -287,6 +288,7 @@ const ConfirmBookingCustomer = () => {
       </Modal>
 
       <Modal
+        key="report-compounding-car-modal"
         show={!!currentReportRatingId}
         className="h-auto"
         onClose={() => setCurrentReportRatingId(undefined)}

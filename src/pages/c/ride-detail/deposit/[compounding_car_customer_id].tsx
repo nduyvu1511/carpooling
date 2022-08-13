@@ -157,6 +157,7 @@ const CompoundingDepositDetail = () => {
 
       {compoundingCar ? (
         <Modal
+          key="cancel-compounding-car-modal"
           show={!!showCancelModal}
           onClose={() => toggleCancelModal(false)}
           heading="Hủy chuyến đi"

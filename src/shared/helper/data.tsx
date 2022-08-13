@@ -556,7 +556,12 @@ export const contactFormFields: {
   { label: "Họ và tên", name: "name", isRequired: true, type: "text" },
   { label: "Điện thoại", name: "phone", isRequired: true, type: "text" },
   { label: "Email", name: "email", isRequired: false, type: "text" },
-  { label: "Thông điệp gửi đến chúng tôi ", name: "message", isRequired: false, type: "textarea" },
+  {
+    label: "Thông điệp gửi đến chúng tôi ",
+    name: "description",
+    isRequired: false,
+    type: "textarea",
+  },
 ]
 
 export const compoundingTypeFilters: {

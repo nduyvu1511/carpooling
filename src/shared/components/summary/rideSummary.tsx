@@ -55,7 +55,7 @@ const RideSummary = ({
           </div>
           <div className="mx-8 flex-center flex-col">
             <ArrowLineRightIcon className="w-[14px] mb-12" />
-            {/* <p className="text-xs">{COMPOUNDING_TYPE_NAME[data.compounding_type]}</p> */}
+            {/* <p className="text-xs">{COMPOUNDING_TYPE_NAME[data.compounding_type]}</p>*/}
           </div>
           <div className="flex-1 flex items-end flex-col">
             <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">

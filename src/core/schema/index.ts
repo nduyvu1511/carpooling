@@ -1,4 +1,11 @@
-import { DATE_REGEX, DATE_SCHEMA, PASSWORD_SCHEMA, PHONE_SCHEMA, YEAR_SCHEMA } from "@/helper"
+import {
+  DATE_REGEX,
+  DATE_SCHEMA,
+  EMAIL_REGEX,
+  PASSWORD_SCHEMA,
+  PHONE_SCHEMA,
+  YEAR_SCHEMA,
+} from "@/helper"
 import * as Yup from "yup"
 
 export const phoneNumberSchema = Yup.object().shape({
@@ -44,15 +51,16 @@ export const inspectionCertificateSchema = Yup.object().shape({
     .required("Vui lòng nhập ngày hết hạn"),
 })
 
-export const contactSchema = Yup.object().shape({
-  name: Yup.string().required("Vui lòng nhập trường này"),
-  phone: Yup.string()
-    .matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ")
-    .required("Vui lòng nhập số điện thoại"),
-  email: Yup.string().nullable(),
-  description: Yup.string().nullable(),
-  receive_news: Yup.boolean().nullable(),
-})
+export const contactSchema = Yup.object().shape(
+  {
+    name: Yup.string().required("Vui lòng nhập trường này"),
+    phone: Yup.string().matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ"),
+    email: Yup.string().nullable(),
+    description: Yup.string().nullable(),
+    receive_news: Yup.boolean().nullable(),
+  },
+  [["email", "email"]]
+)
 
 export const changePasswordSchema = Yup.object().shape({
   old_password: Yup.string()

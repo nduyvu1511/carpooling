@@ -78,6 +78,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
 
   return (
     <Modal
+      key="auth-modal"
       show={!!show}
       heading={getModalHeading()}
       onClose={() => dispatch(setAuthModalType(undefined))}

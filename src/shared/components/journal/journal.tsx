@@ -246,6 +246,7 @@ const Journal = ({ type }: JournalProps) => {
       </div>
 
       <Modal
+        key='transaction-detail-modal'
         show={!!currentPaymentId}
         onClose={() => handleToggleModal({ status: undefined, type: "payment" })}
         heading="Chi tiết giao dịch"
@@ -265,6 +266,7 @@ const Journal = ({ type }: JournalProps) => {
       />
 
       <Modal
+        key='withdraw-modal'
         show={showWithdrawModal}
         onClose={() => handleToggleModal({ status: false, type: "withdraw" })}
         className="lg:h-auto"
@@ -279,6 +281,7 @@ const Journal = ({ type }: JournalProps) => {
       </Modal>
 
       <Modal
+        key='filter-modal'
         show={showFilter}
         onClose={() => handleToggleModal({ status: false, type: "filter" })}
         className=""

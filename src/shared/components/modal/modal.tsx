@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, CloseIcon } from "@/assets"
 import { TransitionDirection } from "@/models"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 import { CSSTransition } from "react-transition-group"
 
 interface ModalProps {

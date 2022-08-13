@@ -110,6 +110,7 @@ const Rating = () => {
       </CustomerAccountLayout>
 
       <Modal
+        key="rating-modal"
         show={!!currentEditRating}
         heading="Chỉnh sửa đánh giá"
         onClose={() => {

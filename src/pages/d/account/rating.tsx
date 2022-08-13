@@ -72,6 +72,7 @@ const Rating = () => {
       </AccountLayout>
 
       <Modal
+        key='report-rating-modal'
         show={!!currentReportRatingId}
         className="h-auto"
         onClose={() => setCurrentReportRatingId(undefined)}

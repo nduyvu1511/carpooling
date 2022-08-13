@@ -95,7 +95,7 @@ const RideCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
             (reasonId || value) &&
             onSubmit?.({ cancel_reason_id: reasonId, cancel_reason_other: value })
           }
-          className={`btn bg-error ${reasonId || value ? "" : "pointer-events-none bg-bg-error"}`}
+          className={`btn ${reasonId || value ? "bg-error" : "pointer-events-none bg-bg-error"}`}
         >
           Hủy chuyến
         </button>

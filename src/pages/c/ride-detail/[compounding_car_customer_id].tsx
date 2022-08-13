@@ -209,6 +209,7 @@ const RidesDetail = () => {
       {compoundingCar?.compounding_car_id ? (
         <>
           <Modal
+            key="rating-compounding-car-modal"
             show={showRatingModal}
             onClose={() => toggleRatingModal(false)}
             heading="Thêm đánh giá"
@@ -219,6 +220,7 @@ const RidesDetail = () => {
           </Modal>
 
           <Modal
+            key="rating-modify-compounding-car-modal"
             show={!!currentRatingUpdate}
             onClose={() => setCurrentRatingUpdate(undefined)}
             heading="Chỉnh sửa đánh giá"

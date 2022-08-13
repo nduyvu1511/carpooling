@@ -369,6 +369,7 @@ export const UserInfoForm = ({
       </form>
 
       <Modal
+        key='address-modal'
         show={showAddressModal}
         onClose={() => toggleShowAddressModal(false)}
         heading="Chọn địa chỉ cụ thể"
@@ -393,6 +394,7 @@ export const UserInfoForm = ({
       </Modal>
 
       <Modal
+        key="identity-modal"
         show={showIdentityCardForm}
         onClose={() => toggleShowIdentityCardForm(false)}
         heading="Điền thông tin CCCD"

@@ -77,6 +77,7 @@ export const InputStation = ({
       </div>
 
       <Modal
+        key='modal-station-input'
         show={showStation}
         onClose={() => {
           handleSetShowStation(false)

@@ -1,11 +1,13 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
+import { RootState } from "@/core/store"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation } from "@/hooks"
 import { DirectionLngLat, FromLocation, LatLng, LatlngAddress } from "@/models"
+import { setDirectionLatLng, setDirectionsResult } from "@/modules"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
 import { Alert } from "../modal"
@@ -13,7 +15,7 @@ import { MapSearch } from "./mapSearch"
 
 type MapOptions = google.maps.MapOptions
 type DirectionsResult = google.maps.DirectionsResult
-type LatLngLiteral = google.maps.LatLngLiteral
+export type LatLngLiteral = google.maps.LatLngLiteral
 
 Geocode.setApiKey(GOOGLE_MAP_API_KEY)
 Geocode.setLanguage("vi")
@@ -34,7 +36,7 @@ export const Map = ({
   viewOnly = false,
   directions,
   prevProvinceId,
-  markerLocation: markerLocationProps,
+  markerLocation,
   defaultCenter,
 }: MapProps) => {
   const dispatch = useDispatch()
@@ -78,8 +80,8 @@ export const Map = ({
     }
   )
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
-  const [directionRes, setDirectionRes] = useState<DirectionsResult>()
-  const [markerLocation, setMarkerLocation] = useState<LatLng | undefined>(markerLocationProps)
+  const directionRes = useSelector((state: RootState) => state.mapDirection.directionsResult)
+  const directionLatlng = useSelector((state: RootState) => state.mapDirection.latLng)
 
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
@@ -165,8 +167,19 @@ export const Map = ({
   }
 
   useEffect(() => {
-    if (!directions || !window?.google?.maps?.DirectionsService) return
+    if (!directions || !window?.google) return
 
+    if (
+      directionLatlng?.origin.lat === directions.origin.lat &&
+      directionLatlng?.origin.lng === directions.origin.lng &&
+      directionLatlng?.destination.lat === directions.destination.lat &&
+      directionLatlng?.destination.lng === directions.destination.lng
+    ) {
+      console.log("prevent fetch more directions, niceeeeeeee")
+      return
+    }
+
+    console.log("will fetch directions at first hopefully")
     const { destination, origin } = directions
     new google.maps.DirectionsService().route(
       {
@@ -176,13 +189,14 @@ export const Map = ({
       },
       (result, status) => {
         if (status === "OK" && result) {
-          setDirectionRes(result)
+          dispatch(setDirectionsResult(result))
+          dispatch(setDirectionLatLng(directions))
+          // setDirectionRes(result)
         }
       }
     )
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [directions])
+  console.log({ directionRes })
 
   const handleSelectSearchValue = useCallback((address: FromLocation) => {
     mapRef.current?.panTo({
@@ -196,17 +210,13 @@ export const Map = ({
   if (viewOnly)
     return (
       <GoogleMap
-        zoom={16}
+        zoom={14}
         center={currentLocation}
         options={options}
         mapContainerClassName="w-full h-full"
-        onLoad={onLoad}
       >
         {markerLocation ? (
-          <Marker
-            position={{ lng: markerLocation.lng, lat: markerLocation.lat }}
-            icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-          />
+          <Marker position={{ lng: markerLocation.lng, lat: markerLocation.lat }} />
         ) : null}
 
         {directionRes ? (

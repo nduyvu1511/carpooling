@@ -405,6 +405,7 @@ export const CarpoolingCompoundingForm = ({
       />
 
       <Modal
+        key='station-modal'
         show={showMap}
         iconType="back"
         onClose={() => setShowMap(false)}

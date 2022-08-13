@@ -75,6 +75,7 @@ const BookingModal = ({
 
   return (
     <Modal
+      key='booking-modal'
       show={!!show}
       heading={
         compoundingType === "compounding"
