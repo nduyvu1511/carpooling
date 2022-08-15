@@ -1,35 +1,38 @@
-import { DirectionLngLat, LocationSearchHistory } from "@/models"
+import { DirectionRes } from "@/models"
 import { createSlice } from "@reduxjs/toolkit"
 
-export interface LocationHistorySlice {
-  searchHistoryList: LocationSearchHistory[]
-}
-
-type DirectionsResult = google.maps.DirectionsResult
-
 interface MapDirectionSlice {
-  directionsResult: DirectionsResult | undefined
-  latLng: DirectionLngLat | undefined
+  directionsResultList: DirectionRes[] | undefined
+  directionsResult: DirectionRes | undefined
 }
 
 const initialState: MapDirectionSlice = {
+  directionsResultList: undefined,
   directionsResult: undefined,
-  latLng: undefined,
 }
 
 const mapDirectionSlice = createSlice({
   name: "map_direction_slice",
   initialState,
   reducers: {
-    setDirectionsResult: (state, { payload }: { payload: DirectionsResult | undefined }) => {
+    setDirectionsResult: (state, { payload }: { payload: DirectionRes | undefined }) => {
       state.directionsResult = payload
     },
 
-    setDirectionLatLng: (state, { payload }: { payload: DirectionLngLat | undefined }) => {
-      state.latLng = payload
+    clearDirectionsResultList: (state) => {
+      state.directionsResultList = []
+    },
+
+    addToDirectionsResultList: (state, { payload }: { payload: DirectionRes }) => {
+      if (!state?.directionsResultList?.length) {
+        state.directionsResultList = [payload]
+        return
+      }
+      state.directionsResultList.push(payload)
     },
   },
 })
 
 export default mapDirectionSlice.reducer
-export const { setDirectionsResult, setDirectionLatLng } = mapDirectionSlice.actions
+export const { addToDirectionsResultList, setDirectionsResult, clearDirectionsResultList } =
+  mapDirectionSlice.actions

@@ -1,20 +1,17 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
-import { RootState } from "@/core/store"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
-import { useAddress, useCurrentLocation } from "@/hooks"
-import { DirectionLngLat, FromLocation, LatLng, LatlngAddress } from "@/models"
-import { setDirectionLatLng, setDirectionsResult } from "@/modules"
+import { useAddress, useCurrentLocation, useDirections, useEffectOnce } from "@/hooks"
+import { DirectionLngLat, DirectionsResult, FromLocation, LatLng, LatlngAddress } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
 import { Alert } from "../modal"
 import { MapSearch } from "./mapSearch"
 
 type MapOptions = google.maps.MapOptions
-type DirectionsResult = google.maps.DirectionsResult
 export type LatLngLiteral = google.maps.LatLngLiteral
 
 Geocode.setApiKey(GOOGLE_MAP_API_KEY)
@@ -28,7 +25,6 @@ interface MapProps {
   directions?: DirectionLngLat
   prevProvinceId?: number
   markerLocation?: LatLng
-  defaultCenter?: LatLng
 }
 export const Map = ({
   onChooseLocation,
@@ -37,11 +33,12 @@ export const Map = ({
   directions,
   prevProvinceId,
   markerLocation,
-  defaultCenter,
 }: MapProps) => {
   const dispatch = useDispatch()
   const mapRef = useRef<GoogleMap>()
   const { getCurrentLocation } = useCurrentLocation()
+  const { getProvinceIdByGooglePlace } = useAddress()
+  const { getDirections } = useDirections()
   const options = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
@@ -72,19 +69,15 @@ export const Map = ({
     []
   )
   const [libraries] = useState<any>(["places", "geometry"])
-  const { getProvinceIdByGooglePlace } = useAddress()
-  const [currentLocation, setCurrenLocation] = useState<LatLngLiteral>(
-    defaultCenter || {
-      lng: 10.7553411,
-      lat: 106.4150303,
-    }
-  )
+  const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>({
+    lng: 10.7553411,
+    lat: 106.4150303,
+  })
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
-  const directionRes = useSelector((state: RootState) => state.mapDirection.directionsResult)
-  const directionLatlng = useSelector((state: RootState) => state.mapDirection.latLng)
-
   const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [directionsResult, setDirectionsResult] = useState<DirectionsResult | undefined>()
+
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
 
   const { isLoaded } = useLoadScript({
@@ -93,18 +86,31 @@ export const Map = ({
     libraries,
   })
 
+  // Get Directions result
+  useEffectOnce(() => {
+    if (!directions) return // addToDirections(directions)
+
+    getDirections({
+      params: directions,
+      onSuccess: (data) => {
+        setDirectionsResult(data)
+      },
+    })
+  })
+
+  // get current location
   useEffect(() => {
     if (viewOnly) return
     if (defaultLocation?.province_id && defaultLocation?.lat) {
       setCurrentAddress(defaultLocation)
-      setCurrenLocation(defaultLocation)
+      setCurrentLocation(defaultLocation)
       return
     }
 
     getCurrentLocation({
       params: { showMsg: false },
       onSuccess: ({ lat, lng }) => {
-        setCurrenLocation({ lat, lng })
+        setCurrentLocation({ lat, lng })
         getAddressFromLngLat({ lat, lng })
       },
       onError: () => {
@@ -166,38 +172,6 @@ export const Map = ({
     onChooseLocation && onChooseLocation({ ...currentAddress, province_id })
   }
 
-  useEffect(() => {
-    if (!directions || !window?.google) return
-
-    if (
-      directionLatlng?.origin.lat === directions.origin.lat &&
-      directionLatlng?.origin.lng === directions.origin.lng &&
-      directionLatlng?.destination.lat === directions.destination.lat &&
-      directionLatlng?.destination.lng === directions.destination.lng
-    ) {
-      console.log("prevent fetch more directions, niceeeeeeee")
-      return
-    }
-
-    console.log("will fetch directions at first hopefully")
-    const { destination, origin } = directions
-    new google.maps.DirectionsService().route(
-      {
-        origin,
-        destination,
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === "OK" && result) {
-          dispatch(setDirectionsResult(result))
-          dispatch(setDirectionLatLng(directions))
-          // setDirectionRes(result)
-        }
-      }
-    )
-  }, [directions])
-  console.log({ directionRes })
-
   const handleSelectSearchValue = useCallback((address: FromLocation) => {
     mapRef.current?.panTo({
       lat: address.lat,
@@ -219,9 +193,9 @@ export const Map = ({
           <Marker position={{ lng: markerLocation.lng, lat: markerLocation.lat }} />
         ) : null}
 
-        {directionRes ? (
+        {directionsResult && directions ? (
           <DirectionsRenderer
-            directions={directionRes}
+            directions={directionsResult}
             options={{
               polylineOptions: {
                 zIndex: 50,
@@ -234,7 +208,6 @@ export const Map = ({
         ) : null}
       </GoogleMap>
     )
-
   return (
     <>
       <div className="flex flex-col flex-1 w-full h-full relative">
@@ -244,29 +217,12 @@ export const Map = ({
 
         <GoogleMap
           zoom={16}
-          center={currentLocation}
+          center={{ lat: 10.7553411, lng: 106.4150303 }}
           options={options}
           mapContainerClassName="h-full w-full"
           onDragEnd={handleDragEnd}
           onLoad={onLoad}
         >
-          {markerLocation ? (
-            <Marker position={{ lng: markerLocation.lng, lat: markerLocation.lat }} />
-          ) : null}
-          {directionRes ? (
-            <DirectionsRenderer
-              directions={directionRes}
-              options={{
-                polylineOptions: {
-                  zIndex: 50,
-                  strokeColor: "#1976D2",
-                  strokeWeight: 5,
-                  visible: true,
-                },
-              }}
-            />
-          ) : null}
-
           <span className="z-10">
             <LocationIcon className="absolute-center w-[30px] h-[30px] text-error" />
           </span>

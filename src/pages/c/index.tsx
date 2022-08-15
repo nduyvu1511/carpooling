@@ -3,10 +3,13 @@ import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { CompoundingFilterParams } from "@/models"
+import { clearDirectionsResultList } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 const HomeCustomer = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
@@ -39,6 +42,10 @@ const HomeCustomer = () => {
     }
   }
 
+  // useEffect(() => {
+  //   dispatch(clearDirectionsResultList())
+  // }, [])
+
   return (
     <RideContainer
       hasMore={hasMore}
@@ -49,7 +56,7 @@ const HomeCustomer = () => {
       defaultParams={router.query}
       onClickRideItem={(compounding_car_id) => router.push(`/c/ride-sharing/${compounding_car_id}`)}
       onFetchMore={() => fetchMoreRides(router.query)}
-      onFilterRides={(data) => handleFilterRides(data)}
+      onFilterRide={(data) => handleFilterRides(data)}
       key="customer"
     />
   )

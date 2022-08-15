@@ -161,3 +161,22 @@ export interface DirectionLngLat {
   origin: google.maps.LatLngLiteral
   destination: google.maps.LatLngLiteral
 }
+
+export interface DirectionRes extends google.maps.DirectionsResult {
+  request: {
+    origin: {
+      location: LatLng
+    }
+    destination: {
+      location: LatLng
+    }
+  }
+}
+
+export type DirectionsRerender = google.maps.DirectionsRenderer
+export type DirectionsResult = google.maps.DirectionsResult
+
+// export interface DirectionsResult {
+//   directions: DirectionRes
+//   lngLat: DirectionLngLat
+// }

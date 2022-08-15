@@ -107,7 +107,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
       </div>
 
       {showSearchResult ? (
-        <div className="block-element max-h-[500px] h-full overflow-y-auto scrollbar-hide flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
+        <div className="block-element max-h-[350px] h-full overflow-y-auto scrollbar-hide flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px]">
           {searchValues ? (
             <div className="flex-1 flex flex-col">
               {loading ? (

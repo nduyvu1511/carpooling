@@ -23,7 +23,7 @@ import InfiniteScroll from "react-infinite-scroll-component"
 interface listProps {
   list: CompoundingCarRes[]
   isValidating: boolean
-  onFilterRides?: (params: CompoundingFilterParams | undefined) => void
+  onFilterRide?: (params: CompoundingFilterParams | undefined) => void
   hasMore: boolean
   defaultParams?: CompoundingFilterParams | undefined
   onFetchMore?: () => void
@@ -40,7 +40,7 @@ const RideContainer = ({
   isValidating,
   list,
   hasMore,
-  onFilterRides,
+  onFilterRide,
   defaultParams,
   onFetchMore,
   isFetchingMore,
@@ -78,7 +78,7 @@ const RideContainer = ({
                 <CompoundingFilter
                   type={carAccountType}
                   defaultValues={defaultParams as any}
-                  onChange={(data) => onFilterRides?.(data)}
+                  onChange={(data) => onFilterRide?.(data)}
                 />
               </div>
             ) : null}
@@ -111,7 +111,7 @@ const RideContainer = ({
                       ]
                 }
                 tabActive={defaultParams?.compounding_type || ""}
-                onChange={(val) => onFilterRides?.({ compounding_type: val as CompoundingType })}
+                onChange={(val) => onFilterRide?.({ compounding_type: val as CompoundingType })}
               />
             </div>
 
@@ -180,7 +180,7 @@ const RideContainer = ({
           showInModal
           touchableDevice
           type={carAccountType}
-          onChange={(val) => onFilterRides?.(val)}
+          onChange={(val) => onFilterRide?.(val)}
           onCloseFilter={() => toggleShowFilter({ status: false, type: "mobile" })}
           defaultValues={defaultParams}
         />
@@ -196,7 +196,7 @@ const RideContainer = ({
           showInModal
           touchableDevice
           type={carAccountType}
-          onChange={(val) => onFilterRides?.(val)}
+          onChange={(val) => onFilterRide?.(val)}
           onCloseFilter={() => toggleShowFilter({ status: false, type: "tablet" })}
           defaultValues={defaultParams}
         />

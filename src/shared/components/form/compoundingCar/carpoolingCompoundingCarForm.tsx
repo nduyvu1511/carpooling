@@ -9,7 +9,7 @@ import {
   InputSelect,
   InputStation,
   Map,
-  Modal
+  Modal,
 } from "@/components"
 import { carpoolingCompoundingCarSchema } from "@/core/schema"
 import {
@@ -28,13 +28,13 @@ import {
   getHoursName,
   isObjectHasValue,
   setToLocalStorage,
-  subtractDateTimeToNumberOfHour
+  subtractDateTimeToNumberOfHour,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import {
   CreateCarpoolingCompoundingCar,
   CreateCarpoolingCompoundingForm,
-  NumberSeatOptionModel
+  NumberSeatOptionModel,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
@@ -52,6 +52,7 @@ interface CarpoolingCompoundingFormProps {
   showButon?: boolean
   view?: "page" | "modal"
   btnLabel?: string
+  showNote?: boolean
 }
 
 export const CarpoolingCompoundingForm = ({
@@ -64,6 +65,7 @@ export const CarpoolingCompoundingForm = ({
   showButon = true,
   view,
   btnLabel,
+  showNote = true,
 }: CarpoolingCompoundingFormProps) => {
   const dispatch = useDispatch()
   const {
@@ -339,27 +341,29 @@ export const CarpoolingCompoundingForm = ({
           />
         </div>
 
-        <div className="form-item">
-          <label htmlFor="note" className="form-label">
-            Ghi chú cho chuyến đi
-          </label>
+        {showNote ? (
+          <div className="form-item">
+            <label htmlFor="note" className="form-label">
+              Ghi chú cho chuyến đi
+            </label>
 
-          <textarea
-            readOnly={disabled}
-            {...register}
-            className="form-textarea form-input"
-            name="note"
-            id="note"
-            cols={10}
-            rows={3}
-            placeholder="Ghi chú thêm cho chuyến đi..."
-            defaultValue={getValues("note")}
-            onChange={(e) => {
-              setValue("note", e.target.value)
-              setToLocalStorage(CARPOOLING_NOTE, e.target.value)
-            }}
-          ></textarea>
-        </div>
+            <textarea
+              readOnly={disabled}
+              {...register}
+              className="form-textarea form-input"
+              name="note"
+              id="note"
+              cols={10}
+              rows={3}
+              placeholder="Ghi chú thêm cho chuyến đi..."
+              defaultValue={getValues("note")}
+              onChange={(e) => {
+                setValue("note", e.target.value)
+                setToLocalStorage(CARPOOLING_NOTE, e.target.value)
+              }}
+            ></textarea>
+          </div>
+        ) : null}
 
         {mode === "create" && !disabled ? (
           <div className={`form-item mb-[24px] ${disabled ? "pointer-events-none" : ""}`}>
@@ -405,7 +409,7 @@ export const CarpoolingCompoundingForm = ({
       />
 
       <Modal
-        key='station-modal'
+        key="station-modal"
         show={showMap}
         iconType="back"
         onClose={() => setShowMap(false)}

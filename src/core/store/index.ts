@@ -8,7 +8,7 @@ import rootReducer from "../../modules"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["userInfo", "locationHistory"],
+  whitelist: ["userInfo", "locationHistory", "mapDirection"],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -5,7 +5,6 @@ import moment from "moment"
 import { ReactNode, useState } from "react"
 import { AccordionItem } from "../accordion"
 import { Map } from "../map"
-import { CompoundingCarICon } from "../utilities"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryRules } from "./rideSummaryRules"
 

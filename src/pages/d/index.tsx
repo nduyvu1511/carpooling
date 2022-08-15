@@ -27,6 +27,7 @@ const HomeDriver = () => {
   }, [router.query])
 
   const handleFilterRides = (params: CompoundingFilterParams | undefined) => {
+    console.log(params)
     if (isObjectHasValue(params)) {
       router.push({
         query: {
@@ -52,7 +53,7 @@ const HomeDriver = () => {
           router.push(`/d/ride-detail/${compounding_car_id}`)
         }
         onFetchMore={() => fetchMoreRides(router.query)}
-        onFilterRides={(data) => handleFilterRides(data)}
+        onFilterRide={(data) => handleFilterRides(data)}
         key="car_driver"
       />
     </DriverLayout>

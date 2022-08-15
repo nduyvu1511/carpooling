@@ -2,11 +2,11 @@ import { EditIcon, SpinnerIcon } from "@/assets"
 import { InputLoading, RatingTag, TextareaLoading, UserInfoForm } from "@/components"
 import { removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
-import { CarAccountType, UpdateUserInfoParams, UserInfo } from "@/models"
+import { CarAccountType, UpdateUserInfoParams } from "@/models"
 import { setProfile } from "@/modules"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
@@ -26,7 +26,6 @@ const Profile = ({ type }: ProfileProps) => {
 
   const { getBase64Images } = useAttachment({ limit: 1, useState: false })
   const { uploadImages, isUploading } = useUploadAttachment()
-  const [userInfoValue, setUserInfoValue] = useState<UserInfo | undefined>(userInfo)
 
   const handleUpdateUserInfo = (params: UpdateUserInfoParams, type = "update") => {
     updateUserInfo({
@@ -36,7 +35,6 @@ const Profile = ({ type }: ProfileProps) => {
           type === "avatar" ? params.avatar_attachment_id : userInfo?.avatar_url.image_id,
       },
       onSuccess: (userInfo) => {
-        setUserInfoValue(userInfo)
         dispatch(setProfile(userInfo))
         dispatch(
           notify(
@@ -77,6 +75,8 @@ const Profile = ({ type }: ProfileProps) => {
         </div>
 
         <div className="">
+          <InputLoading />
+          <InputLoading />
           <InputLoading />
           <InputLoading />
           <InputLoading />
@@ -152,7 +152,7 @@ const Profile = ({ type }: ProfileProps) => {
           type={type}
           mode="update"
           showAvatar={false}
-          defaultValues={userInfoValue}
+          defaultValues={userInfo}
           onSubmit={(data) => handleUpdateUserInfo(data)}
           view="page"
           btnLabel="Lưu"

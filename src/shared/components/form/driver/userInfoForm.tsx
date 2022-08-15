@@ -18,6 +18,7 @@ import {
   UserInfoFormSubmit,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
+import moment from "moment"
 import { useState } from "react"
 import { Controller, FieldError, useForm } from "react-hook-form"
 import Select from "react-select"
@@ -319,9 +320,8 @@ export const UserInfoForm = ({
                       onChange(e.target.value)
                     }}
                     placeholder="dd-mm-yyyy"
-                    // max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
-                    min="1997-01-01"
-                    max="2030-12-31"
+                    max={moment(new Date()).format("YYYY-MM-DD")}
+                    min={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
                   />
                 )}
                 rules={{ required: true }}
@@ -369,7 +369,7 @@ export const UserInfoForm = ({
       </form>
 
       <Modal
-        key='address-modal'
+        key="address-modal"
         show={showAddressModal}
         onClose={() => toggleShowAddressModal(false)}
         heading="Chọn địa chỉ cụ thể"

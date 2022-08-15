@@ -117,21 +117,23 @@ const RidesDetailCustomer = () => {
                 percentage={compoundingCar?.car_driver_deposit_percentage}
                 desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
               />
-              <CarpoolingCompoundingForm
-                defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
-                onSubmit={(data) => {
-                  if (compoundingCarCustomer) {
-                    handleConfirmCompoundingCar()
-                  } else {
-                    handleCreateExistedCompoundingCar(data)
-                  }
-                }}
-                type="existed"
-                limitNumberSeat={compoundingCar?.number_available_seat}
-                view="page"
-                mode="confirm"
-                btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
-              />
+              {compoundingCar ? (
+                <CarpoolingCompoundingForm
+                  defaultValues={{ ...compoundingCarResToCarpoolingForm(compoundingCar), note: "" }}
+                  onSubmit={(data) => {
+                    if (compoundingCarCustomer) {
+                      handleConfirmCompoundingCar()
+                    } else {
+                      handleCreateExistedCompoundingCar(data)
+                    }
+                  }}
+                  type="existed"
+                  limitNumberSeat={compoundingCar?.number_available_seat}
+                  view="page"
+                  mode="confirm"
+                  btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
+                />
+              ) : null}
             </>
           )}
         </div>
