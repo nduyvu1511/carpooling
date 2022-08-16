@@ -1,4 +1,4 @@
-import { feature1, feature2, feature3, feature4, feature5, feature6, feature7 } from "@/assets"
+import { feature1, feature2, feature3, feature4, feature5, feature6, feature7, ogImage } from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
@@ -39,7 +39,7 @@ const HomeGuest = () => {
     <section className="">
       <Seo
         description="Ứng dụng gọi xe đường dài số 1 Việt Nam"
-        thumbnailUrl=""
+        thumbnailUrl={ogImage}
         title="Ứng dụng đặt xe Exxe"
         url="https://exxe.vn"
       />
@@ -108,7 +108,7 @@ const HomeGuest = () => {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {},
   }

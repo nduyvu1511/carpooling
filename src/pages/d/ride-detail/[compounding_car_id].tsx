@@ -13,7 +13,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  TwoWayCompoundingForm
+  TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -23,7 +23,7 @@ import {
   useCompoundingForm,
   useDriverCheckout,
   useEffectOnce,
-  useRatingActions
+  useRatingActions,
 } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
@@ -207,7 +207,7 @@ const ConfirmBookingCustomer = () => {
               ) : null}
 
               {compoundingCar.state === "waiting_deposit" || compoundingCar.state === "waiting" ? (
-                <div className="fixed left-0 right-0 bottom-0 p-12 bg-white-color md:static md:bg-[transparent]">
+                <div className="fixed left-0 right-0 bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent]">
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
                     className={`btn-primary mx-auto md:mx-[unset] ${
