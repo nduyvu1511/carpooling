@@ -33,7 +33,7 @@ const CommningSoon = () => {
                 className="flex-1 mb-12 md:mb-0 h-full form-input md:rounded-tr-none md:rounded-br-none text-base"
                 id="input"
               />
-              <button className="btn-primary mx-auto md:rounded-tl-none md:rounded-bl-none h-full px-[64px]">
+              <button className="btn-primary mx-auto sm:rounded-[12px] md:rounded-tl-none md:rounded-bl-none h-full px-[64px]">
                 Gửi
               </button>
             </div>

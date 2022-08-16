@@ -10,11 +10,11 @@ const port = 3000
 const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
-serviceWorkers.forEach(({ filename, path }) => {
-  server.get(`/${filename}`, (req, res) => {
-    app.serveStatic(req, res, path)
-  })
-})
+// serviceWorkers.forEach(({ filename, path }) => {
+//   server.get(`/${filename}`, (req, res) => {
+//     app.serveStatic(req, res, path)
+//   })
+// })
 
 app.prepare().then(() => {
   createServer(async (req, res) => {

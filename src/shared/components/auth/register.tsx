@@ -10,9 +10,10 @@ import { AuthBg } from "./authBg"
 
 interface RegisterModalProps {
   onSuccess: Function
+  onRedirectToLogin?: Function
 }
 
-export const Register = ({ onSuccess }: RegisterModalProps) => {
+export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { getTokenFromFirebaseAccessToken, register, setToken: setTokenToCookie } = useAuth()
@@ -66,6 +67,7 @@ export const Register = ({ onSuccess }: RegisterModalProps) => {
               onVerifyOTP={(token) => {
                 handleGenerateToken(token)
               }}
+              onRedirectToLogin={onRedirectToLogin}
             >
               <div className="mb-[40px]">
                 <p className="text-12 leading-[15px]">

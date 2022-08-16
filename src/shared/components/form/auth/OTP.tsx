@@ -2,7 +2,7 @@ import { OtpForm, PhoneForm } from "@/components"
 import { authentication } from "@/core/config"
 import { useAuth } from "@/hooks"
 import { setScreenLoading } from "@/modules"
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
+import { ApplicationVerifier, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
 import { ReactNode, useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
@@ -21,6 +21,7 @@ interface LoginOtpProps {
   btnClassName?: string
   defaultPhoneNumber?: string
   view?: "modal" | "page"
+  onRedirectToLogin?: Function
 }
 
 export const OTP = ({
@@ -29,6 +30,7 @@ export const OTP = ({
   children,
   defaultPhoneNumber = "",
   view = "modal",
+  onRedirectToLogin,
 }: LoginOtpProps) => {
   const dispatch = useDispatch()
   const { OTPVerifier, checkPhoneExist } = useAuth()
@@ -40,6 +42,16 @@ export const OTP = ({
       "recaptcha-container",
       {
         size: "invisible",
+        callback: (response: any) => {
+          setExpandForm(true)
+          console.log("this is recaptcha call")
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+        },
+
+        "expired-callback": () => {
+          console.log("this is expired callback call")
+          // Response expired. Ask user to solve reCAPTCHA again.
+        },
       },
       authentication
     )
@@ -50,22 +62,21 @@ export const OTP = ({
     if (!phoneNumber) return
 
     dispatch(setScreenLoading({ show: true, toggleOverFlow: view === "page" }))
-    const verify = generateRecaptcha()
-
+    const verify: ApplicationVerifier = generateRecaptcha()
     try {
       const confirmationResult = await signInWithPhoneNumber(
         authentication,
         `+84${phoneNumber.slice(1)}`,
         verify
       )
-      console.log({ confirmationResult })
       dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
       setPhone(phoneNumber)
       window.confirmationResult = confirmationResult
       setExpandForm(true)
     } catch (error) {
       dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
-      generateRecaptcha()
+      generateRecaptcha().clear()
+      console.log("error goes here")
     }
   }
 
@@ -93,9 +104,12 @@ export const OTP = ({
         generateOTPCode(phone)
       },
       onError: () => {
-        type === "register"
-          ? dispatch(notify("SĐT đã tồn tại, vui lòng thử đăng nhập!", "warning"))
-          : dispatch(notify("Không tìm thấy SĐT, vui lòng thử lại", "warning"))
+        if (type === "register") {
+          dispatch(notify("SĐT đã tồn tại, vui lòng thử đăng nhập!", "warning"))
+          onRedirectToLogin?.()
+        } else if (type === "login") {
+          dispatch(notify("Không tìm thấy SĐT, vui lòng thử lại", "warning"))
+        }
       },
       config: { toggleOverFlow: view === "page" },
     })
@@ -110,7 +124,10 @@ export const OTP = ({
       ) : (
         <div className="otp__form">
           <OtpForm
-            reGenerateRecaptcha={() => generateOTPCode(phone || "")}
+            reGenerateRecaptcha={() => {
+              // setExpandForm(false)
+              generateRecaptcha().clear()
+            }}
             phoneNumber={phone || ""}
             onSubmit={(val) => handleVerifyOTP(val)}
           />

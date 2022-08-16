@@ -70,7 +70,7 @@ const ScheduleSummary = ({
             </span>
           </li> */}
           <li className="flex items-baseline justify-between py-8">
-            <span className="mr-8 text-xs">Điểm đi:</span>
+            <span className="mr-8 text-xs">Điểm đón:</span>
             <span className="text-sm md:text-base flex-1 ml-12 text-right">{from_address}</span>
           </li>
           <li className="flex items-baseline justify-between py-8">

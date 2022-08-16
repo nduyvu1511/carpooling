@@ -42,7 +42,7 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
           <SwiperSlide key={index}>
             <PlaceItem
               placeItem={{
-                car_type: item.car.name.slice(3),
+                car_type: item?.car?.name ? item.car?.name?.slice(3) : "",
                 date: item.expected_going_on_date,
                 from_province: item.from_province.province_short_name,
                 to_province: item.to_province.province_short_name,

@@ -1,3 +1,4 @@
+import { CloseIcon } from "@/assets"
 import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -76,12 +77,31 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     toggleBodyOverflow("unset")
   })
 
+  const handleRedirectModal = () => {
+    if (authModalType === "login") {
+      dispatch(setAuthModalType(undefined))
+    } else {
+      dispatch(setAuthModalType("login"))
+    }
+  }
+
   return (
     <Modal
+      iconType={authModalType === "login" ? "close" : "back"}
       key="auth-modal"
       show={!!show}
       heading={getModalHeading()}
-      onClose={() => dispatch(setAuthModalType(undefined))}
+      onClose={handleRedirectModal}
+      rightHeaderNode={
+        authModalType !== "login" ? (
+          <span
+            onClick={() => dispatch(setAuthModalType(undefined))}
+            className="w-[30px] cursor-pointer"
+          >
+            <CloseIcon className="text-blue-8 w-[26px] h-[26px]" />
+          </span>
+        ) : null
+      }
     >
       <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
         <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] ">

@@ -101,7 +101,7 @@ const RidesDetailCustomer = () => {
             </>
           ) : null
         }
-        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Tạo chuyến đi ghép"}
+        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Thông tin chuyến đi"}
       >
         <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
           {isInitialLoading ? (

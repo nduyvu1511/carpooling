@@ -195,7 +195,7 @@ export const CarpoolingCompoundingForm = ({
                 isError={!!errors?.from_location}
                 type="from"
                 defaultValue={getValues("from_location")?.address || ""}
-                placeholder="Điểm đi"
+                placeholder="Điểm đón"
                 onChange={(location) => {
                   setValue("from_location", location)
                   clearErrors("from_location")
@@ -220,7 +220,7 @@ export const CarpoolingCompoundingForm = ({
                   calcDistance()
                   calcPrice()
                 }}
-                placeholder="Điểm đi"
+                placeholder="Điểm đón"
                 isError={!!errors?.from_station}
                 defaultValue={getValues("from_station")}
                 type="from"

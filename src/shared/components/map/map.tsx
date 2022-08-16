@@ -1,6 +1,6 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
-import { useAddress, useCurrentLocation, useDirections, useEffectOnce } from "@/hooks"
+import { useAddress, useCurrentLocation, useDirections } from "@/hooks"
 import { DirectionLngLat, DirectionsResult, FromLocation, LatLng, LatlngAddress } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -69,12 +69,14 @@ export const Map = ({
     []
   )
   const [libraries] = useState<any>(["places", "geometry"])
-  const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>({
-    lng: 10.7553411,
-    lat: 106.4150303,
-  })
+  const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>(
+    markerLocation || {
+      lng: 10.7553411,
+      lat: 106.4150303,
+    }
+  )
   const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
-  const [centerMapLoading, setCenterMapLoading] = useState<boolean>(false)
+  const [mapLoading, setMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [directionsResult, setDirectionsResult] = useState<DirectionsResult | undefined>()
 
@@ -87,8 +89,8 @@ export const Map = ({
   })
 
   // Get Directions result
-  useEffectOnce(() => {
-    if (!directions) return // addToDirections(directions)
+  useEffect(() => {
+    if (!directions || !isLoaded) return // addToDirections(directions)
 
     getDirections({
       params: directions,
@@ -96,7 +98,8 @@ export const Map = ({
         setDirectionsResult(data)
       },
     })
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [directions, isLoaded])
 
   // get current location
   useEffect(() => {
@@ -124,19 +127,19 @@ export const Map = ({
 
   const getAddressFromLngLat = ({ lng, lat }: { lng: number; lat: number }) => {
     try {
-      setCenterMapLoading(true)
+      setMapLoading(true)
       Geocode.fromLatLng(lat + "", lng + "").then(
         (response) => {
-          setCenterMapLoading(false)
+          setMapLoading(false)
           const address = response.results[0].formatted_address
           setCurrentAddress({ address, lat, lng })
         },
         () => {
-          setCenterMapLoading(false)
+          setMapLoading(false)
         }
       )
     } catch (error) {
-      setCenterMapLoading(false)
+      setMapLoading(false)
     }
   }
 
@@ -239,14 +242,14 @@ export const Map = ({
           <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
             <LocationIcon2 className="mr-12" />
             <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">
-              {centerMapLoading ? "Đang tải..." : currentAddress?.address || ""}
+              {mapLoading ? "Đang tải..." : currentAddress?.address || ""}
             </span>
           </div>
 
           <span
             onClick={handleConfirmLocation}
             className={`btn-primary mx-auto ${
-              !currentAddress?.lat || centerMapLoading ? "btn-disabled" : ""
+              !currentAddress?.lat || mapLoading ? "btn-disabled" : ""
             }`}
           >
             Xác nhận

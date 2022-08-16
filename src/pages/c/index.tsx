@@ -3,13 +3,10 @@ import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { CompoundingFilterParams } from "@/models"
-import { clearDirectionsResultList } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 const HomeCustomer = () => {
-  const dispatch = useDispatch()
   const router = useRouter()
   const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
@@ -41,10 +38,6 @@ const HomeCustomer = () => {
       router.push({})
     }
   }
-
-  // useEffect(() => {
-  //   dispatch(clearDirectionsResultList())
-  // }, [])
 
   return (
     <RideContainer

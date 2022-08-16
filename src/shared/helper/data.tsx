@@ -603,7 +603,7 @@ export const CompoundingFilterFormFields: {
 }[] = [
   { label: "Ngày đi", name: "from_expected_going_on_date", type: "date" },
   { label: "Ngày đến", name: "to_expected_going_on_date", type: "date" },
-  { label: "Điểm đi", name: "from_province_id", type: "select" },
+  { label: "Điểm đón", name: "from_province_id", type: "select" },
   { label: "Điểm đến", name: "to_province_id", type: "select" },
   { label: "Loại xe", name: "car_id", type: "select" },
   { label: "Số khách", name: "number_seat", type: "select" },

@@ -25,7 +25,7 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
         </a>
       </li>
       <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">Điểm đi</p>
+        <p className="text-xs mr-12 min-w-[100px]">điểm đón</p>
         <p className="text-sm md:text-base text-right">{data.from_address}</p>
       </li>
       <li className="flex items-start justify-between mb-12">

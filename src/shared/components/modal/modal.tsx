@@ -15,6 +15,7 @@ interface ModalProps {
   headerNode?: ReactNode
   overFlowAuto?: boolean
   fullScreen?: boolean
+  rightHeaderNode?: ReactNode
 }
 
 const Modal = ({
@@ -29,6 +30,7 @@ const Modal = ({
   headerNode = null,
   overFlowAuto = true,
   fullScreen = false,
+  rightHeaderNode = null,
 }: ModalProps) => {
   return (
     <>
@@ -52,6 +54,8 @@ const Modal = ({
                 {heading}
               </p>
             </div>
+
+            {rightHeaderNode}
           </div>
           {headerNode}
           <div className={`flex-1 flex flex-col ${overFlowAuto ? "overflow-y-auto" : ""}`}>

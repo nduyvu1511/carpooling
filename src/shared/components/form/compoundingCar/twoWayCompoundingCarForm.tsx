@@ -213,7 +213,7 @@ export const TwoWayCompoundingForm = ({
             isError={!!errors?.from_location}
             type="from"
             defaultValue={getValues("from_location")?.address}
-            placeholder="Điểm đi"
+            placeholder="Điểm đón"
             onChange={(location) => {
               setToLocalStorage(TWO_WAY_FROM_LOCATION, location)
               setValue("from_location", location)

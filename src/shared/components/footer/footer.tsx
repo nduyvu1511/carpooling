@@ -41,8 +41,8 @@ const Footer = () => {
                 </a>
                 <a
                   target="_blank"
+                  href="https://zalo.me/3801559271739080296?gidzl=93_XPbUrZZqb9ULaLgk9E2ScvcHCheuoEYVWEnx_t6Di9Rvj7lZJEc9rlp55_jnlC2InD655lbflKx29F0"
                   rel="noopener noreferrer"
-                  href="https://www.youtube.com/channel/UCiiDiJ6Zmuwdhvej9XFvEFA"
                 >
                   <ZaloIcon className="w-[23px]" />
                 </a>

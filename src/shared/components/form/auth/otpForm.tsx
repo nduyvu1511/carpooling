@@ -38,7 +38,7 @@ export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFor
       </div>
 
       <div className="mb-[40px]">
-        <OtpSecondsRemains />
+        <OtpSecondsRemains onChange={reGenerateRecaptcha} />
       </div>
 
       <button

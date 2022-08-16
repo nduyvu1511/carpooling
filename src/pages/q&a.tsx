@@ -205,9 +205,9 @@ const FrequentlyAskedQuestions = () => {
                     target="_blank"
                     rel="noreferrer noopener"
                     className="text-primary"
-                    href="http://www.Exxe.vn"
+                    href="http://www.exxe.vn"
                   >
-                    http://www.Exxe.vn
+                    http://www.exxe.vn
                   </a>
                 </p>
               </AccordionItem>
@@ -252,7 +252,7 @@ const FrequentlyAskedQuestions = () => {
                     rel="noreferrer noopener"
                     href="http://www.exxe.vn"
                   >
-                    http://www.Exxe.vn
+                    http://www.exxe.vn
                   </a>{" "}
                   hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href="tel:0847878788">0847878788</a>
                 </p>
@@ -334,7 +334,7 @@ const FrequentlyAskedQuestions = () => {
                     rel="noreferrer noopener"
                     href="http://www.exxe.vn"
                   >
-                    http://www.Exxe.vn
+                    http://www.exxe.vn
                   </a>{" "}
                   hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href="tel:0847878788">0847878788</a>
                 </p>

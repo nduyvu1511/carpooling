@@ -111,7 +111,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           <CarIcon className="sm:hidden w-[12px]" />
           <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Loại xe:</p>
           <p className="flex-1 ml-[8px] sm:ml-0 text-[11px] sm:text-14 font-medium">
-            {toFirstUpperCase(rides.car.name)}
+            {rides.car.name ? toFirstUpperCase(rides.car.name) : ""}
           </p>
         </div>
       </div>

@@ -17,8 +17,8 @@ const Conditions = () => {
       <Seo
         description="Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn hoạt động trên nền tảng ứng dụng cho thuê xe có tài xế 4-7-16 chỗ, theo mô hình kinh tế chia sẻ trực tuyến. Ra đời vào cuối năm 2022, Exxe mong muốn cung cấp dịch vụ Di chuyển đường dài và các hình thức đa dạng nhằm mang đến những trải nghiệm tốt nhất cho cả khách hàng và cả đối tác của Exxe. Sứ mệnh"
         thumbnailUrl=""
-        title="Về chúng tôi"
-        url="https://exxe.vn/news"
+        title="Điều lệ & Điều khoản"
+        url="https://exxe.vn/terms-&-conditions"
       />
       <div className="">
         <AccordionItem
@@ -40,9 +40,11 @@ const Conditions = () => {
         </AccordionItem>
 
         <AccordionItem
+          allowTransition={false}
           onClick={() => setTabActive(tabActive === 2 ? undefined : 2)}
           title="2. Quy chế dịch vụ vận tải hành khách"
           isActive={tabActive === 2}
+          maxHeight={10000000}
         >
           <div className="">
             <p className="text-sm md:text-base mb-24">
@@ -140,10 +142,436 @@ const Conditions = () => {
               ký kinh doanh và đã có đủ điều kiện kinh doanh theo quy định của pháp luật hiện hành
               có liên quan trong từng thời kỳ.
             </p>
+
+            <h5 className="text-sm md:text-base mb-24 font-semibold">II. QUY TRÌNH GIAO DỊCH</h5>
+            <p className="text-sm md:text-base mb-24">1. Quy trình giao dịch dành cho Khách hàng</p>
+            <p className="text-sm md:text-base mb-24">a) Quy trình đặt, sử dụng dịch vụ</p>
+            <p className="text-sm md:text-base mb-24">
+              Để thực hiện giao dịch, Khách hàng cần truy cập vào ứng dụng Exxe (dành cho Khách
+              hảng) trên thiết bị di động, tại màn hình giao diện ứng dụng, Khách hàng chọn các dịch
+              vụ tương ứng (1 chiều, 2 chiều, ghép chuyến, ...) và thực hiện giao dịch theo quy định
+              như sau:
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              <span className="font-semibold">Bước 1.</span> Nhập điểm đi/ điểm đến Khách hàng chọn
+              vị trí cần đón (điểm đi): vị trí điểm đón mặc định tự động là vị trí hiện tại của quý
+              khách đang đứng có được nhờ vào hệ thống định vị GPS của điện thoại mà quý khách hàng
+              đang sử dụng. Nếu muốn chọn điểm đón khác, Khách hàng nhập thông tin địa điểm khác vào
+              ô điểm đón. Khách hàng tiếp tục nhập thông tin điểm đến vào mục “Nhập điểm đến".
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 2. Chọn dịch vụ</p>
+            <p className="text-sm md:text-base mb-24">
+              - Khách hàng loại hình dịch vụ vận chuyển hành khách tùy theo nhu cầu của mình: 1
+              chiều, 2 chiều, ghép chuyến, ...được hiển thị trên màn hình ứng dụng.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Sau khi người mua nhập chọn đầy đủ các thông tin trên hệ thống sẽ tự động hiển thông
+              tin giá ước tính của chuyến đi. Mỗi loại hình dịch vụ vận chuyển số có giá cước khác
+              nhau.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Khách hàng chọn “Đặt chuyến” để xác nhận đặt chuyến xe. Nếu Khách hàng có mã khuyến
+              mại, Khách hàng nhập/chọn mã ưu đãi trước khi thực hiện đặt chuyến để nhận ưu đãi.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Hệ thống sẽ kết nối Khách hàng với Tài xế phủ hợp. Nếu kết nối thành công, Khách hàng
+              có thể thấy được thông tin ước lượng khoảng thời gian chở, thông tin về xe, Lái xe (họ
+              tên, số điện thoại, vị trí hiện tại). Khách hàng có thể chủ động liên hệ nhà cung cấp
+              bằng tin nhắn hoàn toàn miễn phí ngay trên ứng dụng Exxe.
+            </p>
+
+            <p className="text-sm md:text-base mb-24">
+              Hệ thống sẽ kết nối Khách hàng với Tài xế phủ hợp. Nếu kết nối thành công, Khách hàng
+              có thể thấy được thông tin ước lượng khoảng thời gian chở, thông tin về xe, Lái xe (họ
+              tên, số điện thoại, vị trí hiện tại). Khách hàng có thể chủ động liên hệ nhà cung cấp
+              bằng tin nhắn hoàn toàn miễn phí ngay trên ứng dụng Exxe.
+            </p>
+
+            <p className="text-sm md:text-base mb-24">
+              Nếu kết nối giữa Khách hàng và Tài xế không thành công, hệ thống sẽ thông báo cho
+              Khách hàng được biết. Khách hàng tiến hành đặt lại chuyến để hệ thống tiếp tục tìm
+              kiếm, kết nối lại với Tài xế.
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 3: Đặt cọc chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">
+              Khách hàng đặt cọc 20% chuyến đi để giữ chỗ, số tiền này sẽ được chuyển cho tài xế
+              ngay sau khi tài xế bấm “chuyến đi hoàn thành”.
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 4. Bắt đầu chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">
+              - Tài xế sẽ có mặt tại điểm đón để Hành khách lên xe và bắt đầu vận chuyển, Trước khi
+              bắt đầu chuyến đi, Tài xế chọn “Bắt đầu chuyến đi” trên ứng dụng Exxe của Tài xế, khi
+              đó giao diện ứng dụng Exxe của Khách hàng lúc này sẽ chuyển sang trạng thái “Trong
+              chuyến đi”.
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 5. Kết thúc chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">
+              - Tài xế vận chuyển Hành khách đến đúng điểm đến mà Khách hàng đã đặt và chọn “Kết
+              thúc chuyển đi” trên ứng dụng Exxe dành cho Tài xế. Khi đó, màn hình ứng dụng Exxe của
+              Khách hàng đồng thời sẽ hiển thị lại thông tin chuyến đi, cước dịch vụ Khách hàng cần
+              thanh toán, ... và giao diện để Khách hàng đánh giá (chấm sao) Tài xế cung cấp dịch
+              vụ.
+            </p>
+            <p className="text-sm md:text-base mb-24">b) Hủy chuyến</p>
+            <p className="text-sm md:text-base mb-24">
+              Khách hàng có thể hủy chuyến xe đã có Tài xế chấp nhận bằng tính hủy hủy chuyến trên
+              ứng dụng Exxe. Khách hàng chỉ có thể hủy chuyến trước khi chuyến đi bắt đầu.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Khi hủy chuyến, Khách hàng chọn nhanh lý do hủy chuyến theo danh mục sẵn có hoặc
+              nhập nội dung để gửi về hệ thống.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Trường hợp Khách hàng hủy chuyến làm phát sinh các khoản phí, chi phí hoặc gây thiệt
+              hại cho các bên liên quan, Khách hàng phải thanh toán bồi thường giá trị tương ứng cho
+              bên liên quan đó.
+            </p>
+
+            <h5 className="text-sm md:text-base font-bold text-primary mb-24">
+              3. Phạm vi cung cấp dịch vụ:
+            </h5>
+
+            <p className="text-sm md:text-base mb-24">a) Quy trình tiếp nhận, cung cấp dịch vụ</p>
+            <p className="text-sm md:text-base mb-24">
+              Để thực hiện giao dịch, Tài xế cần truy cập vào ứng dụng Exxe (dành cho Tải xế) trên
+              thiết bị di động.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Tùy vào từng loại hình dịch vụ (1 chiều, 2 chiều, ghép chuyến, ...) mà Tài xế đăng ký
+              sẽ nhận được các yêu cầu cung cấp dịch vụ tương ứng (1 chiều, 2 chiều, ghép chuyến,
+              ...) của Khách hàng. Quy trình thực hiện giao dịch như sau:
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 1: Tiếp nhận yêu cầu Dịch vụ</p>
+            <p className="text-sm md:text-base mb-24">
+              - Truy cập ứng dụng ExxeDriver (dành cho Tài xế), Tài xế chọn đăng nhập, sau đó chọn
+              chuyến phù hợp có sẵn hoặc tạo cuốc tiện chuyến.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Yêu cầu đặt xe của Khách hàng được hệ thống tự động ghi nhận, Tài xế chọn "Đồng ý nhận
+              chuyển” để tiếp nhận yêu cầu chuyến đi của Khách hàng. Hệ thống sẽ gửi thông tin khách
+              hàng khi tài xế hoàn thành các bước tiếp theo
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 2: Đặt cọc chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">Tài xế đặt cọc 20% cho chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">Bước 2. Bắt đầu chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">
+              - Tài xế di chuyển đến điểm đón mà Khách hàng đã đặt, được hiển thị trên ứng dụng Exxe
+              để đón Hành khách.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Sau khi Hành khách lên xe, Tài xế chọn “Bắt đầu chuyến đi” hiển thị trên ứng dụng Exxe
+              của Tài xế.
+            </p>
+            <p className="text-sm md:text-base mb-24">Bước 3: Kết thúc chuyến đi</p>
+            <p className="text-sm md:text-base mb-24">
+              - Tài xế theo lộ trình hướng dẫn trên ứng dụng Exxe, vận chuyển hành khách đến đúng
+              điểm đón. thúc
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Sau khi Hành khách xuống xe, hoàn thành thanh toán cước phi, Tài xế chọn “Kết chuyến
+              đi” để hoàn thành chuyến xe.
+            </p>
+            <p className="text-sm md:text-base mb-24">b) Hủy chuyến</p>
+            <p className="text-sm md:text-base mb-24">
+              - Tài xế có thể hủy chuyến đi bằng tinh hủy hủy chuyến xe đã nhận trên ứng dụng Exxe
+              dành cho Tài xế. Tài xế chỉ có thể hủy chuyến trước khi chuyển đi bắt đầu.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Khi hủy chuyến, Tài xế chọn nhanh lý do hủy chuyển theo danh mục sẵn có hoặc nhập
+              nội dung để gửi về hệ thống.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Trường hợp Tải xể hủy chuyến làm phát sinh các khoản phi, chi phi hoặc gây thiệt hại
+              cho các bên liên quan, Tài xế phải thanh toán bồi thường giá trị tương ứng cho bênliên
+              quan đó.
+            </p>
+
+            <p className="text-sm md:text-base mb-24 font-semibold">
+              III. GIÁ (PHÍ), THANH TOÁN VÀ HÓA ĐƠN
+            </p>
+
+            <p className="text-sm md:text-base mb-24">1. Các loại giá (phí) dịch vụ liên quan</p>
+            <p className="text-sm md:text-base mb-24">
+              Cước (phí) vận chuyển tính dựa theo đơn giá cho từng ki lô mét của quãng đường vận
+              chuyển và sẽ được hệ thống tự động tính toán, hiển thị trên ứng dụng Exxe khi Khách
+              hàng đặt dịch vụ. Trừ khi có quy định khác đi, Cước vận chuyển đã bao gồm thuế giá trị
+              gia tăng, chi phí thuê xe, tiền nhiên liệu, tiền công Tài xế cho việc vận chuyển và
+              các chi phi cần thiết khác để cung cấp dịch vụ. Đơn giá cước vận chuyển cụ thể sẽ được
+              gửi thông báo tới khách hảng, tùy từng thời điểm.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Phí sử dụng nền tảng do Exxe ấn định, thu theo quyết định của Exxe từng thời điểm Các
+              khoản giả (phí) khác có thể được áp dụng tùy từng thời điểm khi được thông báo đầy đủ,
+              kịp thời cho các bên liên quan.
+            </p>
+            <p className="text-sm md:text-base mb-24">2. Thanh toán</p>
+            <p className="text-sm md:text-base mb-24">
+              Khách hàng có thể lựa chọn phương thức thanh toán bằng tiền mặt hoặc không dùng tiền
+              mặt cho Đơn hàng (Thẻ Ngân hàng, Thẻ tín dụng, Ví điện tử, ...).
+            </p>
+            <p className="text-sm md:text-base mb-24">3. Hóa đơn</p>
+            <p className="text-sm md:text-base mb-24">
+              Hóa đơn cho dịch vụ vận chuyển, phí sử dụng nền tảng được Exxe đại diện các bên liên
+              quan xuất, cung cấp cho Khách hàng. Exxe sẽ xuất hóa đơn với tên người mua là “Người
+              mua không lấy hóa đơn” theo quy định pháp luật hiện hành nếu Khách hàng không yêu cầu
+              xuất hóa đơn cho các loại chi phí này. Hóa đơn do Exxe xuất là hóa đơn điện tử.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Để nhận hóa đơn, chứng từ liên quan đến cuốc xe, Khách hàng phải chọn nhập thông tin
+              yêu cầu hóa đơn qua ứng dụng Exxe khi đặt dịch vụ để hệ thống ghi nhận. Nếu Khách hàng
+              không chọn nhập thông tin yêu cầu hóa đơn qua ứng dụng Exxe, thời gian tối đa Exxe hỗ
+              trợ xuất hóa đơn cho Khách hàng là 7 (bảy) ngày.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              4. Thanh toán giữa Exxe với Tài xế Đơn vị vận tải
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Việc thanh toán, xuất hóa đơn (nếu có) giữa Exxe Group với Tài xế/Đơn vị vận tải được
+              thực hiện theo thỏa thuận giữa Exxe Group với Tài xế Đơn vị vận tải tùy từng thời
+              điểm.
+            </p>
+
+            <p className="text-sm md:text-base mb-24 font-semibold">
+              IV. QUY ĐỊNH VẺ VẬN CHUYỂN HÀNH KHÁCH
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              1. Khách hàng, Tài xế, Hành khách và các bên liên quan phải tuân thủ và thực hiện
+              đúng, đủ các điều khoản và điều kiện quy định của Quy chế hoạt động sàn vận tải điện
+              tử Exxe được Exxe công bố.{" "}
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              2. Tài xế, Khách hàng và/hoặc Hành khách trên xe khi thực hiện chuyển xe phải có ý
+              thức tự giác, nghiêm chỉnh chấp hành quy tắc giao thông, giữ gìn an toàn cho mình và
+              cho người khác.{" "}
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              3. Tài xế là chủ phương tiện/người điều khiển phương tiện phải chịu trách nhiệm trước
+              pháp luật về việc bảo đảm an toàn của phương tiện khi cung cấp dịch vụ vận tải hành
+              khách.{" "}
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              4. Tài xế phải tuân thủ các quy định về đi đúng chiều đi của mình, đi đúng làn đường,
+              phần đưởng quy định; chấp hành hệ thống báo hiệu đường bộ; tốc độ xe chạy và giữ
+              khoảng cách an toàn, ... khi cung cấp dịch vụ vận tải hành khách.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              5. Mỗi Hành khách được miễn cước hành lý mang theo với kích thước một kiện/túi/ gói/va
+              li/đồ vật không có bất cứ chiều nào quá 50 cm (Năm mươi centimet) và cân nặng không
+              quá 10 kg (Mười kilogam) hoặc hành lý có kích thước phủ hợp với quy định của pháp
+              luật, đồng thời thỏa mãn các điều kiện không gian để hành lý của phương tiện (khoang
+              chứa đồ) có thể chứa, không quá tải trọng xe cho phép và không vi phạm quy định của
+              pháp luật về giao thông đối với xe chở khách, đảm bảo nguyên tắc an toàn giao thông.
+              Phụ phí đối với hành lý mang theo quá khổ và hoặc quá tải có thể được áp dụng. Hành
+              khách có trách nhiệm tự bảo quản hành lý, tài sản mang theo. Exxe và Tài xế không
+              trách nhiệm về sự mất mát, hư hỏng, thiếu hụt hành lý tài sản Hành khác mang theo
+              trước/trong/sau hành trình vận chuyển.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              6. Hành khách cam kết, hành lý, tải sản mang theo không thuộc danh mục hàng hóa cấm
+              lưu thông, hàng hóa không được phép vận chuyển trên xe chở khách theo quy định của
+              pháp luật. Để hiểu rõ, mọi hành vi vi phạm của Hành khách liên quan tới hành lý/tài
+              sản mang theo sẽ do Khách hàng Hành khách chịu hoàn toàn trách nhiệm. Trong trường hợp
+              Khách hàng Hành khách vi phạm các quy định về hành lý mang theo, Khách hàng/Hành khách
+              cam kết sẽ chịu trách nhiệm bồi thưởng mọi thiệt hại phát sinh cho Exxe và/hoặc Tài xế
+              phải gánh chịu.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              7. Exxe Group và/hoặc Lái xe có quyền yêu cầu kiểm tra hành lý mang theo của Hành
+              khách nếu nghi ngờ hành lý mang theo đó quá khổ quá tải hoặc thuộc danh mục hàng hóa
+              cấm lưu thông, hàng hóa không được phép vận chuyển trên xe chở khách theo quy định của
+              pháp luật. Để tránh hiểu nhầm, việc yêu cầu và/hoặc thực hiện việc kiểm tra hành lý
+              mang theo của Hành khách không đồng nghĩa với việc Exxe Group và/hoặc Tài xế phải chịu
+              trách nhiệm đối với hành lý mang theo của Khách hàng, trong mọi trường hợp, Khách hàng
+              Hành khách vẫn phải chịu trách nhiệm hoàn toàn đối với hành lý mang theo quy định tại
+              Mục IV này.
+            </p>
+
+            <p className="text-sm md:text-base mb-24 font-semibold">
+              V. QUYỀN VÀ NGHĨA VỤ CỦA CÁC BÊN
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              1. Quyền và nghĩa vụ của Khách hàng, Hành khách
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              a) Được cung cấp thông tin trung thực về dịch vụ.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              b) Được cung cấp thông tin chính xác, đầy đủ về Đơn vị vận tải, Tài xế. c) Không được
+              từ chối nhận cuốc xe mà Tài xế đã đến đúng điểm đón theo yêu cầu của Khách hàng.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              d) Cam kết tuân thủ đúng, đầy đủ các Điều khoản và điều kiện được quy định tại Quy chế
+              này.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              e) Trường hợp Khách hàng hủy đặt xe (đã đặt thành công) không đúng quy định của quy
+              chế nảy, quy định của Sản VẬN TẢI ĐIỆN TỬ Exxe, Khách hàng phải bồi thưởng toàn bộ
+              thiệt hại thực tế theo giá trị cuốc xe hủy không đúng quy định cho các bên liên quan.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              f) Có nghĩa vụ tuân thủ đầy đủ các quy định, hướng dẫn về an toàn vận chuyển của Tài
+              xế (nếu có).
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              g) Cỏ trách nhiệm hợp tác đẩy đủ, phối hợp kịp thời với Exxe Group, cán bộ, nhân viên,
+              người đại diện của Exxe Group trong quá trình điều tra, xử lý, giải quyết vụ việc liên
+              quan đến nguy cơ xảy ra sự cố và/hoặc sự cố đã xảy ra về an toàn vận chuyển.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              h) Tuân thủ quy định của pháp luật liên quan và các quy định khác của Exxe Group (nếu
+              có) trong từng thời kỳ. tải
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              2. Quyền và nghĩa vụ của Tài xế, Đơn vị vận tải
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              a) Đơn vị vận tải, Tài xế phải ký/chấp thuận thỏa thuận hợp tác/hợp đồng dịch vụ liên
+              quan theo yêu cầu Exxe Group và thực hiện đầy đủ các cam kết trong thỏa thuận; thanh
+              toán chỉ phi hoặc phân chia kết quả kinh doanh thu được thanh toán phí dịch vụ cho
+              Exxe khi tham gia cung cấp dịch vụ vận chuyển được kết nối với khách hàng qua ứng dụng
+              Exxe.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              b) Đơn vị vận tải tham gia xây dựng và cung cấp cho Exxe các căn cứ tính cước cho
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              dịch vụ khi có yêu cầu của Exxe Group và/hoặc của cơ quan nhà nước có thẩm quyền liên
+            </p>
+            <p className="text-sm md:text-base mb-24">quan theo quy định của pháp luật.</p>
+            <p className="text-sm md:text-base mb-24">
+              c) Đơn vị vận tải, Tài xế phải phối hợp với Exxe Group để tải, cải đặt ứng dụng Exxe
+              kết nối vào thiết bị di động cho Tài xế; tổ chức tập huấn cho Tài xế về cách thức sử
+              dụng ứng dụng Exxe, điều kiện và tiêu chuẩn cung cấp dịch vụ, phương thức thanh toán
+              và các nội dung khác nhằm nâng cao chất lượng đội ngũ Tài xế.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              d) Đơn vị vận tải và Tài xế phải đảm bảo Tài xế phương tiện tham gia kinh doanh vận
+              tải tuân thủ các quy định pháp luật có liên quan, đồng thời cung cấp cho Exxe Group
+              đầy đủ giấy tờ để chứng minh việc tuân thủ pháp luật này.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              e) Đơn vị vận tải, Tài xế theo yêu cầu của Exxe Group phải phối hợp, xử lý các vấn đề
+              liên quan đến Tải xế, Phương tiện, các vấn đề liên quan khác mả Đơn vị vận tải quản
+              lý.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              f) Đơn vị vận tải, Tài xế phải thực hiện đầy đủ quyền và nghĩa vụ theo quy định của
+              pháp luật đối với loại hình kinh doanh vận tải theo quy định của pháp luật hiện hành,
+              bao gồm bảo đảm an toản, quyền và lợi ích hợp pháp cho hành khách, chất lượng xe, biển
+              hiệu xe, chất lượng lái xe, chất lượng dịch vụ... theo quy định của pháp luật hiện
+              hành.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              g) Tài xế điều khiển phương tiện tinh tiền thông qua phần mềm, trong quá trình vận
+              chuyển hành khách phải có thiết bị truy cập để thể hiện các thông tin của chuyến đi
+              (thông tin xe, thông tin lái xe, hành trình di chuyển, giá cước, ...).
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              h) Đơn vị vận tải /Tài xế thực hiện cung cấp dịch vụ vận tải hành khách phải đảm bảo
+              công bằng cho tất cả Khách hàng, không phân biệt việc có hay không sử dụng mã khuyến
+              mại, mã cước phi được cung cấp bởi Exxe Group; không phân biệt thanh toán bằng tiền
+              mặt, thể thanh toán, trả trước hoặc trả sau; không phân biệt khách hàng đi quãng đường
+              ngắn hay quãng đường dài; các hình thức phân biệt đối xử khác gây tổn hại đến Sản VẬN
+              TẢI ĐIỆN TỬ Exxe và gây phản cảm cho xã hội.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              i) Tài xế không được: điều khiển phương tiện tham gia cung cấp dịch vụ mà trong cơ thể
+              có chất ma túy hoặc trong máu hoặc hơi thở có nồng độ cồn; điều khiển phương tiện
+              không có giấy phép lái xe theo quy định; Đe dọa, xúc phạm, tranh giành, lôi kéo hành
+              khách, bắt ép hành khách sử dụng dịch vụ ngoài ý muốn, chuyển tải, xuống khách hoặc
+              các hành vi khác nhằm trốn tránh phát hiện xe chở quá tải, quá số người quy định; Hành
+              vi vi phạm quy tắc giao thông đường bộ, hành vi khác gây nguy hiểm cho người và phương
+              tiện tham gia giao thông đường bộ.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              j) Trách nhiệm, nghĩa vụ của Đơn vị vận tải đối với dịch vụ vận chuyển hành khách bằng
+              xe ô tô dưới 9 chỗ ngồi:
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Phải tổ chức tập huấn nghiệp vụ vận tải và an toàn giao thông và tổ chức khám sức khỏe
+              cho Tải xế, đồng thời tuân thủ các quy định của pháp luật đối với hoạt động vận tải
+              cho Tài xế.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Phải bảo đảm sự tuân thủ các quy định của pháp luật về lao động, pháp luật giao
+              thông đường bộ về thời giờ làm việc, thời gian làm việc của lái xe trong ngày, thời
+              gian lái xe liên tục.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Phương tiện phải thuộc quyền sở hữu hoặc quyền sử dụng hợp pháp theo hợp đồng thuê
+              phương tiện bằng văn bản của đơn vị kinh doanh vận tải hành khách bằng xe ô tỏ với tổ
+              chức, cá nhân hoặc hợp đồng hợp tác kinh doanh theo quy định của pháp luật, trường hợp
+              xe đăng ký thuộc sở hữu của thành viên hợp tác xã phải có hợp đồng dịch vụ giữa thành
+              viên với hợp tác xã, trong đó quy định hợp tác xã có quyền, trách nhiệm và nghĩa vụ
+              quản lý, sử dụng, điều hành xe ô tô thuộc sở hữu của thành viên hợp tác xã.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Xe ô tô có sức chưa dưới 9 chỗ ngồi, niên hạn sử dụng không quá 12 năm hoặc ngắn hơn
+              theo thông báo của Exxe để đảm bảo cam kết chất lượng dịch vụ.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Phương tiện phải có phủ hiệu phù hợp với loại hình kinh doanh vận tải theo quy định
+              của pháp luật được dân cố định phía bên phải mặt trong kính trước của xe.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              Ký hợp đồng lao động, đóng các loại bảo hiểm, tổ chức khám sức khỏe định kỳ và thực
+              hiện đầy đủ các quyền lợi của người lao động (lái xe) theo quy định của pháp luật về
+              lao động, bao hiểm hiện hành. - Xây dựng, thực hiện kế hoạch bảo dưỡng và sửa chữa
+              phương tiện; lập, cập nhật
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              đầy đủ quá trình hoạt động của phương tiện vào lý lịch phương tiện hoặc phần mềm quản
+              lý phương tiện của đơn vị với các thông tin tối thiểu theo quy định pháp luật. - Lập,
+              cập nhật đầy đủ quá trình hoạt động của lái xe vào lý lịch hành nghề người lái xe hoặc
+              phần mềm quản lý lái xe với các thông tin tối thiểu theo quy định pháp luật. - Lưu trữ
+              hồ sơ, tài liệu có liên quan trong quá trình quản lý, điều hành hoạt động vận tải của
+              đơn vị để phục vụ công tác thanh tra, kiểm tra; thời gian lưu trữ tối thiểu 03 năm.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              - Tuân thủ đầy đủ các quy định về kinh doanh, điều kiện kinh doanh khác theo quy định
+              của pháp luật (nếu có).
+            </p>
+
+            <p className="text-sm md:text-base mb-24 font-semibold">VI. ĐIỀU KHOẢN HIỆU LỰC</p>
+            <p className="text-sm md:text-base mb-24"></p>
+            <p className="text-sm md:text-base mb-24">
+              1. Quy chế Vận tải Hành khách này là phần không tách rời của Quy chế hoạt động Sản VẬN
+              TẢI ĐIỆN TỬ Exxe. Quy chế Vận tải Hành khách này có hiệu lực sau khi được công bố, cập
+              nhật trên trang thông tin điện tử www.Exxe.com.vn và ứng dụng Exxe.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              2. Những nội dung được quy định cụ thể trong Quy chế này sẽ được ưu tiên áp dụng so
+              với Quy chế hoạt động Sản VẬN TẢI ĐIỆN TỬ Exxe. Những nội dung liên quan chưa được quy
+              định trong Quy chế này sẽ áp dụng theo Quy chế hoạt động Sản VẬN TẢI ĐIỆN TỬ Exxe.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              3. Trưởng hợp có bất kỳ xung đột hay mâu thuẫn nào về củng một vấn đề giữa các điều
+              khoản của Quy chế này, điều khoản của Quy chế hoạt động Sản VẬN TẢI ĐIỆN TỬ Exxe,
+              và/hoặc Hợp đồng giữa Exxe Group và Đơn vị Vận tải/ Tài xế, bao gồm các phiên bản được
+              sửa đổi, bổ sung của các tài liệu này, thứ tự ưu tiên áp dụng các quy định để điều
+              chỉnh các giao dịch liên quan đến hoặc phát sinh từ sản phẩm, dịch vụ giữa các Bên nếu
+              trong Quy chế này như sau:
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              (i) Các điều khoản & điều kiện liên quan của Hợp đồng giữa Exxe Group và Đơn vị Vận
+              tại/Tài xế.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              (ii) Các điều khoản liên quan của Quy chế này.
+            </p>
+            <p className="text-sm md:text-base mb-24">
+              (iii) Các điều khoản liên quan của Quy chế hoạt động Sản VẬN TẢI ĐIỆN TỬ Exxe.
+            </p>
+            <p className="text-sm md:text-base">
+              4. Exxe Group bảo lưu quyền sửa đổi, bổ sung, chấm dứt Quy chế này và công bố qua
+              trang thông tin điện tử www.Exxe.vn và ứng dụng Exxe trước khi áp dụng. Người Mua,
+              Người Bán và Tài xế cần phải thường xuyên theo dõi và cập nhật những thay đổi của Quy
+              chế nảy để hiểu và thực hiện các quy định tại từng thời điểm.
+            </p>
           </div>
         </AccordionItem>
 
-        <AccordionItem
+        {/* <AccordionItem
           isActive={tabActive === 3}
           onClick={() => setTabActive(tabActive === 3 ? undefined : 3)}
           title="3. Quy chế hoạt động"
@@ -245,13 +673,14 @@ const Conditions = () => {
               mục nào trong những mục trên.
             </p>
           </div>
-        </AccordionItem>
+        </AccordionItem> */}
 
         <AccordionItem
+          allowTransition={false}
           maxHeight={1000000}
           isActive={tabActive === 4}
           onClick={() => setTabActive(tabActive === 4 ? undefined : 4)}
-          title="4. Điều khoản sử dụng:"
+          title="3. Điều khoản sử dụng"
         >
           <div className="">
             <p className="text-sm md:text-base mb-24">
@@ -268,12 +697,12 @@ const Conditions = () => {
             </p>
             <p className="text-sm md:text-base mb-24">
               Ứng dụng Exxe là ứng dụng trên thiết bị di động cung cấp dịch vụ thương mại điện tử
-              (sau đây gọi tắt là: “Sàn TMĐT Exxe“) trong ngành giao thông vận tải được thiết lập,
-              quản lý và vận hành bởi Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn . Công ty
-              Cổ phần Đầu Tư Công nghệ và Vận Tải ExxeVn(sau đây gọi là “Công ty” hoặc “EXXE ”) hoạt
-              động theo Giấy chứng nhận đăng ký doanh nghiệp số …………… do Sở Kế hoạch & Đầu tư thành
-              phố Hồ chí Minh cấp lần đầu ngày ………………., các thay đổi sau đó do Sở Kế hoạch & Đầu tư
-              thành phố Hồ Chí Minh cấp.
+              (sau đây gọi tắt là: “Sàn VẬN TẢI ĐIỆN TỬ Exxe“) trong ngành giao thông vận tải được
+              thiết lập, quản lý và vận hành bởi Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
+              . Công ty Cổ phần Đầu Tư Công nghệ và Vận Tải ExxeVn(sau đây gọi là “Công ty” hoặc
+              “EXXE ”) hoạt động theo Giấy chứng nhận đăng ký doanh nghiệp số 0317412411 do Sở Kế
+              hoạch & Đầu tư thành phố Hồ chí Minh cấp lần đầu ngày 01/08/2022 các thay đổi sau đó
+              do Sở Kế hoạch & Đầu tư thành phố Hồ Chí Minh cấp.
             </p>
             <p className="text-sm md:text-base mb-24">
               Quý Khách hàng vui lòng đọc kỹ Điều khoản và Điều kiện sử dụng ứng dụng Exxe (“Điều
@@ -772,524 +1201,12 @@ const Conditions = () => {
               sử dụng này thì áp dụng theo quy định pháp luật hiện hành của Nước Cộng hòa Xã hội Chủ
               nghĩa Việt Nam.
             </p>
-            <p className="text-sm md:text-base mb-24">
+            <p className="text-sm md:text-base">
               Khách hàng chấp thuận rằng Công ty có quyền (nhưng không có nghĩa vụ) chấm dứt cung
               cấp Dịch vụ ngay lập tức trong trường hợp Khách hàng bị phát hiện đã vi phạm bất kỳ
               nội dung nào của Điều khoản sử dụng này. Công ty sẽ không phải bồi thường, bồi hoàn
               hoặc chi trả bất kỳ phí tổn nào mà Khách hàng phải chịu do việc chấm dứt cung cấp Dịch
               vụ này.
-            </p>
-            <p className="text-sm md:text-base mb-24">5/. Các câu hỏi thường gặp:</p>
-            <p className="text-center underline mb-12">• Tôi không thể sử dụng mã khuyến mãi?</p>
-            <p className="text-sm md:text-base mb-12">
-              Mã khuyến mãi hợp lệ sẽ được tự động áp dụng trên ứng dụng Exxe khi bạn đặt xe. Bấm
-              vào phần “Khuyến mãi” để xem danh sách các khuyến mãi hiện có từ Exxe. Giá trị của mã
-              khuyến mãi chỉ áp dụng cho cước phí của một chuyến đi và số tiền còn thừa sẽ không còn
-              giá trị.
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              Nếu mã khuyến mãi đã được nhập thành công, bạn sẽ thấy dấu xác nhận màu xanh lá hiện
-              ra ngay bên cạnh mã khuyến mãi và giá cước được thể hiện đã giảm giá.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Nếu mã khuyến mãi vẫn không sử dụng được, hãy gửi màn hình thông báo lỗi đến chúng tôi
-              để được hỗ trợ kiểm tra.
-            </p>
-            <p className="text-center underline mb-12">• Làm thế nào để tạo tài khoản Exxe?</p>
-            <p className="text-sm md:text-base mb-12">
-              Bạn cần có địa chỉ email và số điện thoại hợp lệ để tạo tài khoản Exxe. Sau khi nhập
-              số điện thoại, hệ thống sẽ gửi đến bạn một mã OTP thông qua tin nhắn SMS với số điện
-              thoại mà bạn vừa nhập.
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              Nhập mã OTP và điền họ tên, email của bạn để hoàn tất đăng ký tài khoản với Exxe. Sau
-              khi điền đầy đủ thông tin, bạn đã có thể sử dụng ứng dụng Exxe để yêu cầu xe.
-            </p>
-            <p className="text-center underline mb-12">
-              • Tôi muốn thêm/ thay đổi phương thức thanh toán?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Quý khách có thể thanh toán cho chuyến đi bằng tiền mặt cũng như thêm các phương thức
-              thanh toán khác. Hiện tại, Exxe hỗ trợ các khách hàng cá nhân thanh toán bằng 2 hình
-              thức: Tiền mặt và Thẻ.
-            </p>
-
-            <p className="text-center underline mb-12">
-              • Tôi muốn thêm/ thay đổi phương thức thanh toán?
-            </p>
-            <p className="text-sm md:text-base mb-12">Chọn "Thanh toán" từ menu ứng dụng.</p>
-            <p className="text-sm md:text-base mb-12">Nhấn Thêm thanh toán.</p>
-            <p className="text-sm md:text-base mb-24">
-              Thêm phương thức thanh toán bằng cách nhập thủ công thông tin thẻ hoặc thêm một loại
-              thanh toán thay thế.
-            </p>
-
-            <p className="text-center underline mb-12">
-              • Làm thế nào để gửi hỗ trợ cho chuyến đi của tôi?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              {" "}
-              Quý khách vui lòng nhấp vào mục Trợ Giúp từ menu chính bên phía trái màn hình ứng dụng
-              để tìm giải pháp cho vấn đề gặp phải hoặc gửi yêu cầu hỗ trợ đến đội ngũ hỗ trợ của
-              Exxe. Để Exxe có thể hỗ trợ nhanh chóng, xin lưu ý một số điều khi gửi yêu cầu hỗ trợ:
-              Kiểm tra biên nhận chuyến xe để xác nhận lại cước phí. Chọn đúng chuyến xe từ Lịch sử
-              chuyến đi nếu cần hỗ trợ các vấn đề liên quan đến chuyến xe. Exxe có thể yêu cầu thêm
-              thông tin và hình ảnh sự cố hoặc hình ảnh báo lỗi trên màn hình ứng dụng, hãy đảm bảo
-              cung cấp hình ảnh liên quan. Mô tả vấn đề gặp phải cụ thể và rõ ràng.
-            </p>
-
-            <p className="text-center underline mb-12">
-              • Cước phí chuyến đi sau khi đổi điểm đến được tính như thế nào?
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              Cước phí mới của chuyến đi sẽ được tính dựa trên:
-            </p>
-            <p className="text-sm md:text-base mb-12">- Quãng đường bạn đã đi</p>
-            <p className="text-sm md:text-base mb-12">
-              - Khoảng cách từ vị trí bạn chọn đổi điếm đến tới điểm đến mới
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              - Phụ phí cao điểm (nếu có) tại thời điểm bạn đặt xe
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              - Phí dịch vụ khi đổi điểm đến (nếu có). Hiện tại, Exxe không thu phụ phí này.
-            </p>
-
-            <p className="text-center underline mb-12">
-              • Khuyến mãi có được áp dụng cho chuyến đi đổi điểm đến?
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              Khuyến mãi vẫn được áp dụng cho chuyến đi đổi điểm đến. Nếu lộ trình ban đầu của bạn
-              đã được áp dụng khuyến mãi và lộ trình mới sau khi đổi điểm đến cũng thoả điều kiện để
-              áp dụng cùng khuyến mãi đó, Exxe sẽ giữ khuyến mãi này cho bạn. Nếu không, Exxe sẽ tự
-              động áp dụng cho bạn khuyến mãi phù hợp với lộ trình mới (nếu có), kể cả khi lộ trình
-              ban đầu không được áp dụng khuyến mãi.
-            </p>
-
-            <p className="text-center underline mb-12">• Tại sao tôi không đổi điểm đến được?</p>
-            <p className="text-sm md:text-base mb-12">Các trường hợp không được đổi điểm đến:</p>
-            <p className="text-sm md:text-base mb-12">
-              - Lộ trình mới của bạn ngoài phạm vi của chuyến đi nội thành.
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              - Phương thức thanh toán đang áp dụng cho chuyến đi của bạn không được hỗ trợ đổi điểm
-              đến. (Hiện tại, các phương thức thanh toán được hỗ trợ là Tiền mặt, Thẻ, Tài khoản
-              Doanh nghiệp)
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              - Cước phí chuyến đi đổi điểm đến vượt quá giới hạn thanh toán bằng thẻ. (Hiện tại,
-              giới hạn này là 500.000đ)
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              - Số dư trong tài khoản đang sử dụng để thanh toán cho chuyến đi không đủ để trả cước
-              phí chuyến đi sau khi đổi điểm đến.
-            </p>
-
-            <p className="text-sm md:text-base mb-12 underline text-center">
-              • Tôi cần xuất hóa đơn giá trị gia tăng đối với các chuyến xe Exxe tôi phải làm thế
-              nào?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Khi có nhu cầu xuất Hóa đơn giá trị gia tăng (GTGT) cho các chuyến xe Exxe, Quý Khách
-              có thể lựa chọn Tôi cần xuất hóa đơn ở phần Tùy chọn thêm của mỗi chuyến xe. Hóa đơn
-              được xuất khi có yêu cầu của khách hàng cho các dịch vụ với tất cả các hình thức thanh
-              toán (trừ thanh toán bằng tài khoản Công ty sẽ nhận hóa đơn GTGT vào cuối tháng). Hóa
-              đơn GTGT được xuất từ Exxe là hoá đơn điện tử đã đăng ký sử dụng và được chấp thuận
-              bởi cơ quan thuế. Exxe gửi hóa đơn GTGT theo mẫu 01/GTKT cho giá trị chuyến xe, được
-              thể hiện trên một hóa đơn duy nhất qua địa chỉ email đã được đăng ký. Để biết thêm
-              thông tin và một số lưu ý khi xuất hóa đơn giá trị gia tăng, vui lòng xem thêm tại{" "}
-              <a
-                href="http://www.exxe.vn"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="text-primary"
-              >
-                http://www.exxe.vn
-              </a>
-            </p>
-
-            <p className="text-sm md:text-base mb-12">
-              KHÁCH HÀNG DOANH NGHIỆP ( note: cần 1 cái tên cho ứng dụng doanh nghiệp Ex: Exxe
-              Corporate )
-            </p>
-            <p className="text-sm md:text-base mb-12">• Exxe Corporate là gì?</p>
-            <p className="text-sm md:text-base mb-12">
-              EXXE Corporate là gói sản phẩm dành riêng cho các doanh nghiệp tùy theo nhu cầu sử
-              dụng và quản trị việc đi lại, công tác của nhân viên doanh nghiệp.
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              • Sử dụng Exxe Corporate có tính phí không?
-            </p>
-            <p className="text-sm md:text-base mb-12">
-              Khi hợp tác với Exxe doanh nghiệp không cần chi trả thêm khoản chi phí phát sinh nào
-              mà ngược lại, doanh nghiệp có thể được hưởng chiết khấu trên giá cước căn cứ vào giá
-              trị sử dụng hàng tháng của doanh nghiệp.
-            </p>
-            <p className="text-sm md:text-base mb-24">• Tôi muốn đăng ký Exxe Corporate</p>
-
-            <p className="mb-12 text-sm md:text-base">
-              Quý khách hàng Doanh nghiệp có thể đăng ký tại http://www.exxe.vn hoặc liên hệ tổng
-              đài hỗ trợ của EXXE : <a href="tel:0847878788">0847878788</a>
-            </p>
-            <p className="mb-12 text-sm md:text-base">• Cách quản lý tài khoản của nhân viên?</p>
-            <p className="mb-12 text-sm md:text-base">
-              Khi ký hợp đồng với Exxe Corporate, người phụ trách của doanh nghiệp sẽ được cấp một
-              tài khoản truy cập vào Cổng quản lý Doanh nghiệp của Exxe, trong đó có thể cài đặt các
-              tài khoản của nhân viên theo yêu cầu (hạn mức, thời gian, bán kính sử dụng cho phép),
-              và sau đó quản lý lịch sử các chuyến đi. Trên Cổng quản lý, người phụ trách của Doanh
-              Nghiệp có thể truy xuất các báo cáo sử dụng theo phòng ban, theo nhóm hoặc theo từng
-              nhân viên.
-            </p>
-            <p className="mb-12 text-sm md:text-base">
-              Exxe Loyalty ( cần 1 tên chương trình khác là chương trình khách hàng thân thiết )
-            </p>
-            <p className="mb-12 text-sm md:text-base">• Chương trình Exxe Loyalty là gì?</p>
-            <p className="mb-12 text-sm md:text-base">
-              Exxe Loyalty là chương trình khách hàng thân thiết áp dụng cho tất cả khách hàng sử
-              dụng dịch vụ trên ứng dụng Exxe. Tôi cần làm gì để tham gia chương trình EXXE Loyalty?
-            </p>
-            <p className="mb-12 text-sm md:text-base">
-              Bạn sẽ tự động trở thành thành viên của chương trình EXXE Loyalty khi sử dụng một
-              trong các dịch vụ. Có 5 hạng thành viên (bao gồm Thành Viên, Bạc, Vàng, Bạch Kim và
-              Kim Cương). Bạn có thể đạt được các hạng thành viên khi tích lũy đủ số điểm thưởng
-              EXXE Point theo quy định của từng hạng. ( có thể sắp xếp lại số lượng và tên các thứ
-              hạng của thành viên )
-            </p>
-            <p className="mb-12 text-sm md:text-base">• Điểm thưởng Exxe Point là gì?</p>
-            <p className="mb-12 text-sm md:text-base">
-              Điểm thưởng Exxe Point là đơn vị tích lũy được khi bạn sử dụng dịch vụ trên ứng dụng
-              Exxe .
-            </p>
-            <p className="mb-12 text-sm md:text-base">
-              • Điểm thưởng Exxe Point có hết hạn không? ( có thể quy định lại )
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Số điểm thưởng bạn tích lũy được trong thời gian 3 tháng – ví dụ từ ngày 01/07 đến
-              30/09 – có thời hạn sử dụng đến hết 3 tháng tiếp theo. Theo đó, điểm thưởng có hạn sử
-              dụng lên đến 6 tháng. VD: 5,000 điểm của bạn được tích luỹ trong kì xếp hạng 1/7-
-              30/9/2021, sẽ hết hạn vào 23:59’ ngày 31/12/2021
-            </p>
-
-            <p className="text-sm md:text-base mb-24">
-              • Ưu đãi của từng hạng thành viên khác nhau như thế nào?cước phí nào?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Với các hạng thành viên cao hơn, bạn sẽ nhận nhiều ưu đãi và đặc quyền hơn.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Các ưu đãi có thể bao gồm tỷ lệ tích lũy điểm thưởng, giảm giá dịch vụ trên ứng dụng
-              Exxe, dịch vụ ưu tiên và ưu đãi từ các Đối tác của Exxe
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Tôi có được xét nâng hạng thành viên không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Một năm có 04 kỳ xếp hạng, mỗi kỳ kéo dài 03 tháng:
-            </p>
-            <p className="text-sm md:text-base mb-12">· Kỳ 1: Từ 1/1 đến 31/3</p>
-            <p className="text-sm md:text-base mb-12">· Kỳ 2: Từ 1/3 đến 30/6</p>
-            <p className="text-sm md:text-base mb-12">· Kỳ 3: Từ 1/7 đến 30/9</p>
-            <p className="text-sm md:text-base mb-24">· Kỳ 4: Từ 1/10 đến 31/12</p>
-            <p className="text-sm md:text-base mb-24">
-              Khách hàng tích lũy đủ điểm của mỗi hạng thành viên trong kỳ xếp hạng hiện tại sẽ được
-              duy trì hạng thành viên trong 03 tháng tiếp theo.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Hạng thành viên Exxe Loyalty của tôi có thể bị giảm không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Miễn là bạn tích lũy đủ số điểm thưởng theo quy định của từng hạng thành viên Exxe
-              Loyalty trong giai đoạn 6 tháng đầu tiên – ví dụ giai đoạn từ ngày 01/01 đến 30/06
-              hoặc giai đoạn từ ngày 01/07 đến 31/12 – bạn sẽ được duy trì hạng thành viên của mình
-              trong giai đoạn 6 tháng tiếp theo.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Nếu tôi bị giảm hạng thành viên thì những ưu đãi của tôi sẽ bị ảnh hưởng như thế
-              nào?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Nếu bạn bị giảm hạng thành viên, bạn sẽ không còn được tận hưởng các ưu đãi dành riêng
-              cho hạng thành viên Exxe Loyalty cao hơn trước đó của bạn.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Hãy sử dụng dịch vụ Exxe nhiều hơn và tích lũy thật nhiều điểm thưởng EXXE Point đủ
-              duy trì và nâng hạng thành viên của bạn.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Tôi sẽ sử dụng điểm thưởng Exxe Point như thế nào?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Exxe Point được dùng để đổi các voucher ưu đãi từ Exxe và các Đối tác của Exxe.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Tại mục Exxe Loyalty trong ứng dụng Exxe, phần “Ưu đãi của tôi” sẽ thể hiện các
-              voucher bạn có thể đổi được bằng điểm Exxe Point. Ngoài ra bạn cũng có thể xem các
-              voucher mình đã đổi được tại mục "Khuyến Mại” trong ứng dụng.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Tôi có thể xem lại các giao dịch đổi điểm Exxe Point ở đâu?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Bạn có thể xem chi tiết các giao dịch đổi điểm tại phần “Lịch sử giao dịch” trong mục
-              Exxe Loyalty của ứng dụng Exxe.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Ưu đãi và quy chế tích điểm EXXE Point có bị thay đổi không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Có. Exxe có thể thay đổi các ưu đãi và tỷ lệ tích lũy điểm Exxe Point đối với hình
-              thức thanh toán bằng tiền mặt hoặc thẻ tín dụng / thẻ ghi nợ trên ứng dụng Exxe mà
-              không cần thông báo trước. Để biết chi tiết về Quy chế dịch vụ EXXE Loyalty, vui lòng
-              xem tại đây
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Thời gian chờ đợi tối đa mà Khách hàng có thể yêu cầu là bao nhiêu? Và cách tính
-              thời gian chờ ra sao?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Thời gian chờ đợi tối đa trên ứng dụng hiện tại là 03 ngày. Thời gian chờ sẽ được tự
-              động tính bằng khoảng chênh lệch giữa thời điểm Tài xế kết thúc chuyến xe chiều đi và
-              bắt đầu chuyến xe chiều về. Thời gian chờ sẽ được tính cước phí chờ theo bảng giá
-              chuẩn của Exxe đề ra và tổng phí chờ sẽ được cộng dồn vào cước phí chuyến đi hiển thị
-              trên ứng dụng. Vui lòng tham khảo chi tiết tại: LINK WEBSITE
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Các loại phí cầu đường, phí đỗ xe và các chi phí phát sinh khác sẽ do ai chịu?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Cước phí hiện tại của 1 chuyến Exxe chưa bao gồm phụ phí cầu đường, phí bến bãi, phí
-              đỗ xe cũng như các phí phát sinh khác. Vì vậy nếu có phát sinh các chi phí này trong
-              chuyến đi, Khách hàng sẽ phải thanh toán thêm cho Tài xế. Tài xế và Khách hàng nên
-              trao đổi kỹ về các loại phụ phí này với nhau trước khi bắt đầu chuyến đi.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Tại sao cước phí hiển thị trên ứng dụng lúc bắt đầu đặt xe và sau khi kết thúc
-              chuyến đi lại khác nhau? Khách hàng sẽ thanh toán theo cước phí nào?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Cước phí hiển thị sau khi chuyến đi đã kết thúc có thể khác với cước phí khi bắt đầu
-              chuyến đi do ứng dụng đã tính toán lại thời gian chờ đợi thực tế, quãng đường thực tế,
-              thời gian di chuyển thực tế của chuyến đi. Khách hàng sẽ phải thanh toán theo cước phí
-              hiển thị sau khi chuyến đi đã kết thúc.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Ứng dụng có tự động phát chuyến “Exxe đi tỉnh” cho tài xế nếu tài xế chọn chế độ “Tự
-              động nhận chuyến” không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Không. Nếu Tài xế lựa chọn bật chế độ cung cấp dịch vụ “Exxe đi tỉnh”, mỗi khi có yêu
-              cầu phù hợp, ứng dụng sẽ thông báo với Quý Tài xế chi tiết yêu cầu: điểm đón, điểm
-              đến, chuyến 1 chiều hay 2 chiều, loại xe, thời gian chờ mà khách hàng yêu cầu… Dựa vào
-              đây, Quý Tài xế sẽ quyết định có muốn nhận yêu cầu hay không.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Thời gian tài xế có thể đưa ra quyết định nhận yêu cầu cho chuyến "Exxe đi tỉnh" là
-              bao lâu?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Thời gian Tài xế có để đưa ra quyết định có nhận yêu cầu chuyến "Exxe đi tỉnh" hay
-              không là trong vòng 15 giây kể từ khi ứng dụng bắt đầu phát chuyến.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Các chuyến "Exxe đi tỉnh" có được tính cho các chương trình thưởng tài xế hiện tại
-              không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Có. Các chuyến "Exxe đi tỉnh" đều được tính đầy đủ cho các chương trình thưởng tài xế
-              EXXE Car hiện tại, bao gồm chương trình theo ngày, chương trình theo tuần và chương
-              trình tháng.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Tài xế có thể bật/ tắt dịch vụ “Exxe đi tỉnh” theo ý muốn không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Có. Quý Tài xế được quyền quyết định có cung cấp dịch vụ “Exxe đi tỉnh” hay không.
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              • Trong trường hợp đối với các chuyến đi với phương thức thanh toán bằng tiền mặt, nếu
-              Tài xế gặp vấn đề về việc thu tiền từ khách hàng (do không liên lạc được khách hàng
-              hoặc khách hàng từ chối thanh toán) thì EXXE có chịu trách nhiệm hỗ trợ lại cho tài xế
-              không?
-            </p>
-            <p className="text-sm md:text-base mb-24">
-              Exxe rất tiếc với vấn đề đã xảy ra với Quý Tài xế trong quá trình đồng hành cùng Exxe.
-              Đối với các chuyến đi có phụ phí hoặc cước phí thanh toán bằng tiền mặt, Quý Tài xế
-              cần thu đúng, đủ số tiền với hành khách khi kết thúc chuyến xe. Trường hợp Quý Tài xế
-              gặp vấn đề với việc thu tiền từ hành khách, Exxe rất tiếc sẽ chưa thể hỗ trợ lại số
-              tiền này, tuy nhiên, Quý Tài xế có thể gửi yêu cầu hỗ trợ trên ứng dụng, hoặc tổng đài
-              Số Điện Thoại để Exxe ghi nhận trường hợp này của Hành khách.
-            </p>
-
-            <div className="text-sm md:text-base font-bold mb-24"></div>
-            <p className="mb-24 text-sm md:text-base">
-              • Trường hợp nhận được tin nhắn thông báo gian lận từ Exxe tôi nên làm gì?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Khi nhận được tin nhắn thông báo gian lận từ Exxe anh/chị vui lòng gửi thông tin giải
-              trình về email .com.vn trong vòng 7 ngày kể từ khi nhận được tin nhắn. Chúng tôi sẽ
-              xem xét và phản hồi lại kết quả trong thời gian sớm nhất.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Chuyện gì sẽ xảy ra với thu nhập của tôi khi tôi nhận được tin nhắn thông báo rằng
-              tôi gian lận?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Khi nhận được tin nhắn phát hiện gian lận, những bước sau sẽ được hệ thống Exxe thực
-              hiện:
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Tạm giữ yêu cầu rút tiền và gửi trả lại tiền vào tài khoản tài xế của anh/chị trong kỳ
-              thanh toán anh/chị bị phát hiện gian lận.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Hủy bỏ kết quả tiền thưởng tài xế của đợt thanh toán anh/chị bị phát hiện gian lận.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Hủy bỏ tiền khuyến mãi cho khách hàng cho tất cả những chuyến đi của anh/chị bị phát
-              hiện gian lận.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Hoàn trả lại phần trăm tiền thuế VAT, thuế Thu nhập cá nhân và tiền hoa hồng trên phần
-              tiền khuyến mãi mà Exxe đã cấn trừ của anh/chị.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Chuyện gì sẽ xảy ra nếu tôi bị phát hiện có các hành vi gian lận?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Tùy thuộc vào mức độ và tần suất gian lận, các hành vi gian lận sẽ bị xử lý như sau:
-            </p>
-            <p className="mb-24 text-sm md:text-base">Đối với Tài khoản đối tác:</p>
-            <p className="mb-24 text-sm md:text-base">
-              Mức độ 1: Cảnh cáo lần 1. Exxe sẽ nhắc nhở đối tác điều chỉnh hành vi, tránh lặp lại
-              vi phạm trong tương lai. Áp dụng cho các trường hợp vi phạm mức độ nhẹ, vi phạm lần
-              đầu.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Mức độ 2: Khoá tài khoản tạm thời. Tài khoản đối tác sẽ tạm thời vô hiệu hoá trong
-              vòng 7 ngày chờ giải trình, đối tác sẽ tạm dừng hợp tác kinh doanh cũng như tham gia
-              các chương trình và nhận các lợi ích từ Exxe. Áp dụng cho các hành vi vi phạm từ lần 2
-              trở lên hoặc vi phạm lần đầu nhưng ở mức độ nghiêm trọng và gây ảnh hưởng đến hình ảnh
-              của Exxe.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Mức độ 3: Ngừng hợp tác vĩnh viễn. Tài khoản đối tác sẽ không thể tiếp tục tham gia
-              Exxe. Áp dụng cho các hành vi vi phạm từ lần 3 trở lên.
-            </p>
-            <p className="mb-24 text-sm md:text-base">Đối với các khoản thanh toán:</p>
-            <p className="mb-24 text-sm md:text-base">
-              Toàn bộ kết quả thưởng trong kỳ phát hiện gian lận sẽ bị hủy bỏ. Đồng thời, các khoản
-              khuyến mãi từ chuyến đi gian lận sẽ không được thanh toán. Exxe sẽ hoàn trả phần trăm
-              tiền thuế VAT, thuế Thu nhập cá nhân và hoa hồng của phần tiền khuyến mãi bị trừ.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Thời gian thanh toán mới của Exxe như thế nào, khi nào tôi nhận được thưởng và tiền?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              - Thời gian chuyển tiền thưởng vào tài khoản tài xế:
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              + Chuyển vào thứ 6 hằng tuần cho các chương trình thưởng bắt đầu từ 00:00 sáng thứ 2
-              đến 23:59:59 thứ 4.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              + Chuyển vào thứ 3 hằng tuần cho các chương trình thưởng bắt đầu từ 00:00 sáng thứ 5
-              đến 23:59:59 chủ nhật tuần tiếp theo.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              - Thời gian rút tiền: Từ ngày 25/03/2020, Exxe thực hiện điều chỉnh thời gian thanh
-              toán cho các yêu cầu rút tiền từ Tài khoản Tài xế về Tài khoản ngân hàng của Quý Tài
-              xế, chi tiết như sau:
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              + Tất cả các yêu cầu rút tiền sẽ được thanh toán vào Thứ 4 hàng tuần.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              + Các yêu cầu rút tiền thực hiện trong thời gian từ 0h00 ngày Thứ 4 đến 23h59 ngày Thứ
-              3 (tuần tiếp theo), được thanh toán vào ngày Thứ 4 (tuần tiếp theo).
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tôi không thể trượt thanh bắt đầu chuyến đi/ thanh bắt đầu chuyến đi không hiển thị,
-              tôi nên làm gì?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Anh/ Chị vui lòng thoát ứng dụng, cập nhật phiên bản mới nhất và thử lại. Xin lưu ý:
-              Thao tác này chỉ có thể thực hiện được trong phạm vi bán kính 600 mét tính từ điểm
-              đón. Nếu vẫn không thực hiện được, Anh/ Chị vui lòng liên hệ tổng đài Số điện thoại để
-              được hỗ trợ.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tôi đã gia nhập và đang chạy Exxe, làm sao tôi biết tôi có tôi có nằm trong chương
-              trình thưởng dành cho tài xế mới/ chương trình thưởng cho tài xế đang hoạt động?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Mỗi chương trình thưởng của Exxe đều có thể lệ và thời gian cụ thể. Sau khi chương
-              trình kết thúc (đối với chương trình có thời gian có hạn) hoặc sau khi chốt số lượng
-              (đối với chương trình giới hạn số lượng), Exxe sẽ gửi tin nhắn SMS đến số điện thoại
-              tài xế hoặc gửi thông báo trên ứng dụng Exxe Driver đến tài xế đủ điều kiện nhận
-              thưởng, sau đó Exxe sẽ tiến hành chuyển tiền vào kỳ thanh toán liền kề.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Ứng dụng luôn hiện thông báo yêu cầu bổ sung giấy tờ, tôi phải làm gì?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Tính năng thông báo giấy tờ để nhắc nhở các đối tác cần bổ sung đầy đủ giấy tờ để đảm
-              bảo tài khoản không bị gián đoạn. Nếu Anh/Chị đã bổ sung đầy đủ, Anh/Chị có thể thao
-              tác tắt màn hình thông báo và trực tuyến như bình thường.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tại sao tôi đăng ký xe 7 chỗ nhưng lại hiển thị xe 4 chỗ?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Đối với các Anh/Chị đăng ký xe 7 chỗ sẽ có thể chọn đồng thời loại 4 chỗ và 7 chỗ theo
-              hướng dẫn sau:
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Bấm vào biểu tượng Menu góc trên cùng bên trái ứng dụng.
-            </p>
-            <p className="mb-24 text-sm md:text-base">• Chọn “Thông tin cá nhân”.</p>
-            <p className="mb-24 text-sm md:text-base">
-              • Chọn “Cài đặt” - “Loại dịch vụ” - Chọn vào ô 4 chỗ, 7 chỗ hoặc chọn cả 2 loại hình.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tôi đã hoàn thành thủ tục đăng ký tại Trung tâm Hỗ trợ Đối tác EXXE Hub, khi nào tài
-              khoản của tôi được kích hoạt?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Trong vòng 24h kể từ lúc hoàn tất quy trình đăng ký (đã nhận đồng phục đối với xe máy/
-              tem đối với xe 4 bánh) Anh/Chị sẽ được nạp tiền vào tài khoản tài xế và kích hoạt tài
-              khoản đồng thời nhận được tin nhắn thông báo kích hoạt tài khoản thành công từ Exxe
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tôi đi đón khách xa nhưng chưa tới điểm đón khách thì khách hàng đã hủy chuyến. Tôi
-              có được hỗ trợ chi phí đón khách?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Hiện nay Exxe không còn hỗ trợ phí hủy chuyến nữa, mong Quý tài xế thông cảm.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Tài xế đến điểm đón và chờ đợi nhưng khách không xuất hiện, tài xế cũng không liên
-              lạc được với khách. Tài xế hủy chuyến trong trường hợp này thì có bị tính vào tỷ lệ
-              hủy hay không?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Có. Việc tài xế hủy chuyến vẫn ảnh hưởng trực tiếp đến tỷ lệ hủy chuyến của tài xế.
-              Tài xế cần hoàn thành thêm nhiều chuyến xe để cải thiện tỷ lệ.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Ứng dụng đo quãng đường từ A đến B sai, dẫn đến số tiền không đúng thực tế. Tôi có
-              được hoàn tiền?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Tài xế thu đúng số tiền hiện thị trên ứng dụng. Gởi yêu cầu hỗ trợ để được hỗ trợ tính
-              lại số tiền thực tế.
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              • Khi trên ứng dụng của tài xế và khách hàng hiển thị số tiền phải thanh toán khác
-              nhau. Tài xế sẽ thu tiền như thế nào?
-            </p>
-            <p className="mb-24 text-sm md:text-base">
-              Tài xế vui lòng thu tiền theo số tiền hiển thị trên ứng dụng của Hành khách, sau đó
-              tài xế cần liên hệ tổng đài SỐ ĐIỆN THOẠI để thông báo và được hỗ trợ.
             </p>
           </div>
         </AccordionItem>

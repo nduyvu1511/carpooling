@@ -216,7 +216,7 @@ export const createCompoundingCarSchema = Yup.object().shape({
     .required("Vuilòng chọn loại chuyến đi"),
 
   from_province_id: Yup.string().required("Vui lòng nhập tỉnh đi"),
-  from_pick_up_station_id: Yup.string().required("Vui lòng nhập điểm đi"),
+  from_pick_up_station_id: Yup.string().required("Vui lòng nhập điểm đón"),
   to_pick_up_station_id: Yup.string().required("Vui lòng nhập điểm đến"),
   to_province_id: Yup.string().required("Vui lòng nhập tỉnh đến"),
   expected_going_on_date: Yup.string()

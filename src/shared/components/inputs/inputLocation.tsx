@@ -65,10 +65,10 @@ export const InputLocation = ({
       </>
 
       <Modal
-        key='location-modal'
+        key="location-modal"
         show={showMap}
         iconType="back"
-        heading={type === "from" ? "Chọn điểm đến" : "Chọn điểm đi"}
+        heading={type === "to" ? "Chọn điểm đến" : "Chọn điểm đón"}
         onClose={() => setShowMap(false)}
         transitionType="up"
       >

@@ -143,7 +143,7 @@ export const OneWayCompoundingForm = ({
             isError={!!errors?.from_location}
             type="from"
             defaultValue={getValues("from_location")?.address || ""}
-            placeholder="Điểm đi"
+            placeholder="Điểm đón"
             onChange={(location) => {
               setValue("from_location", location)
               clearErrors("from_location")

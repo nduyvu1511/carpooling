@@ -320,8 +320,7 @@ export const UserInfoForm = ({
                       onChange(e.target.value)
                     }}
                     placeholder="dd-mm-yyyy"
-                    max={moment(new Date()).format("YYYY-MM-DD")}
-                    min={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
+                    max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
                   />
                 )}
                 rules={{ required: true }}
