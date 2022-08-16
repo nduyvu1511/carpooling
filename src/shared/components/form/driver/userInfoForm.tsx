@@ -320,7 +320,7 @@ export const UserInfoForm = ({
                       onChange(e.target.value)
                     }}
                     placeholder="dd-mm-yyyy"
-                    max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
+                    // max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
                   />
                 )}
                 rules={{ required: true }}
@@ -373,8 +373,9 @@ export const UserInfoForm = ({
         onClose={() => toggleShowAddressModal(false)}
         heading="Chọn địa chỉ cụ thể"
       >
-        <div className="p-12 md:p-24">
+        <div className="p-12 flex flex-col md:p-24 flex-1">
           <AddressForm
+            className="flex-1"
             defaultValues={{
               district_id: getValues("district_id.value") ? getValues("district_id") : undefined,
               province_id: getValues("province_id.value") ? getValues("province_id") : undefined,

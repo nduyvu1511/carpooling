@@ -64,7 +64,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
           ) : (
             <>
               <div className="flex-1 bg-bg-warning text-white-color text-xs flex items-center p-[8px] mb-[8px] rounded-[5px]">
-                <WarningIcon className="w-[16px] h-[16px] mr-[8px]" />
+              <WarningIcon className="w-[16px] h-[16px] mr-[8px]" />
                 Tài khoản chưa kích hoạt
               </div>
 
@@ -86,7 +86,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
                 activePath === path ? "bg-primary text-white-color rounded-[5px]" : "text-primary"
               }`}
             >
-              <span className="text-">{icon}</span>
+              <span className="mt-[2px]">{icon}</span>
               <span className="mx-[10px] flex-1">{label}</span>
               <ArrowRightIcon className="text-white w-[8px] h-[13px]" />
             </li>

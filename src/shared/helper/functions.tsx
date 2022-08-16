@@ -1,11 +1,4 @@
-import {
-  CompoundingType,
-  DirectionLngLat,
-  DirectionRes,
-  OptionModel,
-  TimeType,
-  UseParams,
-} from "@/models"
+import { CompoundingType, OptionModel, TimeType } from "@/models"
 import _ from "lodash"
 import moment from "moment"
 import { LatLng } from "use-places-autocomplete"
@@ -282,30 +275,30 @@ export const toggleBodyOverflow = (status: "hidden" | "unset") => {
 
 export const getTimes = (): OptionModel[] => {
   let times = [],
-    periods = ["Sáng", "Chiều"],
-    hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    prop = null,
+    // periods = ["Sáng", "Chiều"],
+    hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+    // prop = null,
     hour = null,
     min = null
 
-  for (prop in periods) {
-    for (hour in hours) {
-      for (min = 0; min < 60; min += 30) {
-        const timeStr = ("0" + hours[hour]).slice(-2) + ":" + ("0" + min).slice(-2)
-
-        times.push({
-          label: timeStr + " " + periods[prop],
-          value:
-            periods[prop] === "Sáng"
-              ? timeStr + ":00"
-              : `0${Number(timeStr.slice(0, 2)) + 12}`.slice(-2) +
-                ":" +
-                timeStr.slice(3, 5) +
-                ":00",
-        })
-      }
+  // for (prop in periods) {
+  for (hour in hours) {
+    for (min = 0; min < 60; min += 30) {
+      const timeStr = ("0" + hours[hour]).slice(-2) + ":" + ("0" + min).slice(-2)
+      // + " " + periods[prop]
+      times.push({
+        label: timeStr,
+        value: timeStr + ":00",
+        // periods[prop] === "Sáng"
+        //   ? timeStr + ":00"
+        //   : `0${Number(timeStr.slice(0, 2)) + 12}`.slice(-2) +
+        //     ":" +
+        //     timeStr.slice(3, 5) +
+        //     ":00",
+      })
     }
   }
+  // }
 
   return times
 }

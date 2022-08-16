@@ -13,7 +13,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  TwoWayCompoundingForm,
+  TwoWayCompoundingForm
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -23,11 +23,12 @@ import {
   useCompoundingForm,
   useDriverCheckout,
   useEffectOnce,
-  useRatingActions,
+  useRatingActions
 } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
+import moment from "moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -101,7 +102,7 @@ const ConfirmBookingCustomer = () => {
     }
 
     fetchDepositCompoundingCarDriver({
-      compounding_car_id, 
+      compounding_car_id,
       onSuccess: () => {
         router.push(`/d/ride-detail/checkout?compounding_car_id=${compounding_car_id}`)
       },
@@ -209,7 +210,11 @@ const ConfirmBookingCustomer = () => {
                 <div className="fixed left-0 right-0 bottom-0 p-12 bg-white-color md:static md:bg-[transparent]">
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
-                    className="btn-primary mx-auto md:mx-[unset]"
+                    className={`btn-primary mx-auto md:mx-[unset] ${
+                      moment(compoundingCar?.expected_going_on_date).isBefore(moment(new Date()))
+                        ? "btn-disabled"
+                        : ""
+                    }`}
                   >
                     Nhận chuyến đi
                   </button>
@@ -242,7 +247,7 @@ const ConfirmBookingCustomer = () => {
       />
 
       <Modal
-        key='alert-compounding-car-modal'
+        key="alert-compounding-car-modal"
         show={showModal && !!depositFailure}
         onClose={() => {
           setShowModal(false)
