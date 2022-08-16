@@ -108,5 +108,11 @@ const HomeGuest = () => {
   )
 }
 
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}
+
 HomeGuest.Layout = GuestLayout
 export default HomeGuest

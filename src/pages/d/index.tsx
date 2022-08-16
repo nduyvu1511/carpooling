@@ -1,4 +1,4 @@
-import { RideContainer } from "@/components"
+import { RideContainer, Seo } from "@/components"
 import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams } from "@/hooks"
 import { DriverLayout } from "@/layout"
@@ -42,6 +42,12 @@ const HomeDriver = () => {
 
   return (
     <DriverLayout showHeaderOnMobile>
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="Các chuyến đi chưa có tài xế"
+        url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/d"}
+      />
       <RideContainer
         hasMore={hasMore}
         isFetchingMore={isFetchingMore}

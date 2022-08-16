@@ -1,4 +1,4 @@
-import { RideContainer } from "@/components"
+import { RideContainer, Seo } from "@/components"
 import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
 import { CustomerLayout } from "@/layout"
@@ -40,18 +40,28 @@ const HomeCustomer = () => {
   }
 
   return (
-    <RideContainer
-      hasMore={hasMore}
-      isFetchingMore={isFetchingMore}
-      isValidating={isInitialLoading || isValidating}
-      list={rideList}
-      carAccountType="customer"
-      defaultParams={router.query}
-      onClickRideItem={(compounding_car_id) => router.push(`/c/ride-sharing/${compounding_car_id}`)}
-      onFetchMore={() => fetchMoreRides(router.query)}
-      onFilterRide={(data) => handleFilterRides(data)}
-      key="customer"
-    />
+    <>
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="Các chuyến đi hiện có"
+        url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/c"}
+      />
+      <RideContainer
+        hasMore={hasMore}
+        isFetchingMore={isFetchingMore}
+        isValidating={isInitialLoading || isValidating}
+        list={rideList}
+        carAccountType="customer"
+        defaultParams={router.query}
+        onClickRideItem={(compounding_car_id) =>
+          router.push(`/c/ride-sharing/${compounding_car_id}`)
+        }
+        onFetchMore={() => fetchMoreRides(router.query)}
+        onFilterRide={(data) => handleFilterRides(data)}
+        key="customer"
+      />
+    </>
   )
 }
 
