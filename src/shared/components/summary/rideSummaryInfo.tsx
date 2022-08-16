@@ -19,11 +19,15 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
       </li>
       <li className="flex items-start justify-between mb-[16px]">
         <p className="text-xs">Điểm đón</p>
-        <p className="text-sm md:text-base ml-24 flex-1 text-right">{data.from_address}</p>
+        <p className="text-sm md:text-base ml-24 flex-1 text-right">
+          {data?.from_address || data.from_province?.province_name}
+        </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
         <p className="text-xs">Điểm đến</p>
-        <p className="text-sm md:text-base ml-24 flex-1 text-right">{data.to_address}</p>
+        <p className="text-sm md:text-base ml-24 flex-1 text-right">
+          {data?.to_address || data.to_province?.province_name}
+        </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
         <p className="text-xs">Ngày đi</p>

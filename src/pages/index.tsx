@@ -103,7 +103,7 @@ const HomeGuest = () => {
         </div>
       </div>
 
-      {/* <BookingModal onClose={() => {}} formType="one_way" show={"one_way"} /> */}
+      {/* <BookingModal onClose={() =>f  {}} formType="one_way" show={"one_way"} /> */}
     </section>
   )
 }

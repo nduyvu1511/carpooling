@@ -346,13 +346,13 @@ export const useCompoundingForm = (): Res => {
       note,
       distance,
       from_location: {
-        address: from_province.province_name,
+        address: from_address || from_province.province_name,
         lat: Number(from_latitude) || 0,
         lng: Number(from_longitude) || 0,
         province_id: from_province.province_id,
       },
       to_location: {
-        address: to_province.province_name,
+        address: to_address || to_province.province_name,
         lat: Number(to_latitude) || 0,
         lng: Number(to_longitude) || 0,
         province_id: to_province.province_id,
@@ -390,13 +390,13 @@ export const useCompoundingForm = (): Res => {
       note,
       distance,
       from_location: {
-        address: from_address,
+        address: from_address || from_province?.province_name,
         lat: Number(from_latitude) || 0,
         lng: Number(from_longitude) || 0,
         province_id: from_province.province_id,
       },
       to_location: {
-        address: to_address,
+        address: to_address || to_province?.province_name,
         lat: Number(to_latitude) || 0,
         lng: Number(to_longitude) || 0,
         province_id: to_province.province_id,
