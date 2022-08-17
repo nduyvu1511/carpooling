@@ -82,9 +82,8 @@ export const CarpoolingCompoundingForm = ({
     control,
   } = useForm<CreateCarpoolingCompoundingForm>({
     resolver: yupResolver(carpoolingCompoundingCarSchema),
-    mode: "onChange",
+    mode: "all",
     defaultValues,
-    reValidateMode: "onBlur",
   })
   const { calculateDistanceBetweenTwoCoordinates } = useCalcDistance()
   const { vehicleTypeOptions, seats, calcPriceFromProvinceIds } = useCompoundingForm()

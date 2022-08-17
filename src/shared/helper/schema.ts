@@ -1,4 +1,11 @@
-import { DATE_REGEX, DATE_SCHEMA, PASSWORD_SCHEMA, PHONE_SCHEMA, YEAR_SCHEMA } from "@/helper"
+import {
+  DATE_REGEX,
+  DATE_SCHEMA,
+  EMAIL_REGEX,
+  PASSWORD_SCHEMA,
+  PHONE_SCHEMA,
+  YEAR_SCHEMA,
+} from "@/helper"
 import * as Yup from "yup"
 
 export const phoneNumberSchema = Yup.object().shape({
@@ -44,16 +51,13 @@ export const inspectionCertificateSchema = Yup.object().shape({
     .required("Vui lòng nhập ngày hết hạn"),
 })
 
-export const contactSchema = Yup.object().shape(
-  {
-    name: Yup.string().required("Vui lòng nhập trường này"),
-    phone: Yup.string().matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ"),
-    email: Yup.string().nullable(),
-    description: Yup.string().nullable(),
-    receive_news: Yup.boolean().nullable(),
-  },
-  [["email", "email"]]
-)
+export const contactSchema = Yup.object().shape({
+  name: Yup.string().required("Vui lòng nhập trường này"),
+  phone: Yup.string().matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ"),
+  email: Yup.string().nullable(),
+  description: Yup.string().nullable(),
+  receive_news: Yup.boolean().nullable(),
+})
 
 export const changePasswordSchema = Yup.object().shape({
   old_password: Yup.string()
@@ -83,31 +87,37 @@ export const loginSchema = Yup.object().shape({
     .required("Vui lòng nhập mật khẩu"),
 })
 
-export const userFormSchema = Yup.object().shape({
-  avatar_attachment_id: Yup.string().required("Vui lòng chọn ảnh đại diện"),
-  date_of_birth: Yup.string()
-    .matches(DATE_SCHEMA, "Vui lòng nhập ngày sinh hợp lệ")
-    .required("Vui lòng nhập ngày sinh"),
-  name: Yup.string().required("Vui lòng nhập tên"),
-  gender: Yup.string()
-    .oneOf(["male", "female", "no_info"], "Vui lòng chọn giới tính")
-    .required("Vui lòng chọn giới tính"),
-  description: Yup.string(),
-  province_id: Yup.object({
-    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
-    label: Yup.string(),
-  }).nullable(),
-  district_id: Yup.object({
-    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
-    label: Yup.string(),
-  }).nullable(),
-  ward_id: Yup.object({
-    value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
-    label: Yup.string(),
-  }).nullable(),
-  street: Yup.string().nullable(),
-  identity_number: Yup.string().nullable(),
-})
+export const userFormSchema = Yup.object().shape(
+  {
+    avatar_attachment_id: Yup.string().required("Vui lòng chọn ảnh đại diện"),
+    date_of_birth: Yup.string()
+      .matches(DATE_SCHEMA, "Vui lòng nhập ngày sinh hợp lệ")
+      .required("Vui lòng nhập ngày sinh"),
+    name: Yup.string().required("Vui lòng nhập tên"),
+    gender: Yup.string()
+      .oneOf(["male", "female", "no_info"], "Vui lòng chọn giới tính")
+      .required("Vui lòng chọn giới tính"),
+    email: Yup.string().when("email", (val) =>
+      val ? Yup.string().matches(EMAIL_REGEX, "Vui lòng nhập đúng định dạng email") : Yup.string()
+    ),
+    description: Yup.string(),
+    province_id: Yup.object({
+      value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+      label: Yup.string(),
+    }).nullable(),
+    district_id: Yup.object({
+      value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+      label: Yup.string(),
+    }).nullable(),
+    ward_id: Yup.object({
+      value: Yup.number().typeError("Vui lòng nhập đúng định dạng số"),
+      label: Yup.string(),
+    }).nullable(),
+    street: Yup.string().nullable(),
+    identity_number: Yup.string().nullable(),
+  },
+  [["email", "email"]]
+)
 
 export const userFormAddressSchema = Yup.object().shape({
   province_id: Yup.object().shape({
@@ -135,8 +145,8 @@ export const identityCardSchema = Yup.object().shape({
   front_identity_card_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
   back_identity_card_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
   identity_number: Yup.string()
-    .min(8, "Phải có ít nhất 8 đến 12 ký tự")
-    .max(13, "Phải có ít nhất 8 đến 12 ký tự")
+    .min(7, "Phải có ít nhất 7 đến 12 ký tự")
+    .max(12, "Phải có ít nhất 7 đến 12 ký tự")
     .required("Vui lòng nhập trường này"),
   date_of_issue: Yup.string()
     .matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ")

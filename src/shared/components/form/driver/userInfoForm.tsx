@@ -113,6 +113,7 @@ export const UserInfoForm = ({
       gender: params.gender,
       name: params.name,
       description: params?.description,
+      email: params?.email || "",
     }
     if (street) {
       data.street = street
@@ -254,7 +255,13 @@ export const UserInfoForm = ({
                     className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
                     id={field.name}
                     type="text"
-                    defaultValue={defaultValues?.partner_name}
+                    defaultValue={
+                      field.name === "name"
+                        ? defaultValues?.partner_name
+                        : field.name === "email"
+                        ? defaultValues?.email
+                        : undefined
+                    }
                     placeholder={field.placeholder}
                     {...register(field.name, {
                       required: true,

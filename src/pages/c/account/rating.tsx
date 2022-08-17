@@ -92,7 +92,7 @@ const Rating = () => {
                             }}
                             car_account_type="customer"
                             rating={item}
-                            showLink
+                            showDetail
                           />
                         </li>
                       ))}

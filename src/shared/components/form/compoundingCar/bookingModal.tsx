@@ -45,7 +45,7 @@ const BookingModal = ({
     if (!compoundingType) return
 
     createCompoundingCar({
-      params,
+      params: { ...params, compounding_type: compoundingType },
       onSuccess: (data) => {
         onClose()
 

@@ -3,7 +3,7 @@ import {
   RideProgress,
   RidesDetailLoading,
   RidesSummaryHeader,
-  RideSummaryPassengerItem
+  RideSummaryPassengerItem,
 } from "@/components"
 import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
@@ -74,7 +74,9 @@ const CheckoutSuccess = () => {
                   </li>
                 ))}
               </ul>
-            ) : null}
+            ) : (
+              <p className="text-sm md:text-base">Chưa có hành khách nào</p>
+            )}
           </>
         )}
       </div>

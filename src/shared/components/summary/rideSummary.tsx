@@ -24,6 +24,7 @@ const RideSummary = ({
   showFull = true,
   showMap = true,
   children = null,
+  showDeposit = true,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
 
@@ -60,25 +61,30 @@ const RideSummary = ({
               </div>
             ) : null}
 
-            {(data as CompoundingCarCustomer)?.down_payment?.total ? (
-              <div className="flex items-center justify-between my-[16px]">
-                <p className="font-semibold uppercase">
-                  CẦN ĐẶT CỌC ({((data as CompoundingCarCustomer)?.down_payment.percent || 0) * 100}
-                  %)
-                </p>
-                <p className={`${item} text-error font-semibold md:font-semibold`}>
-                  {formatMoneyVND((data as CompoundingCarCustomer)?.down_payment?.total)}
-                </p>
-              </div>
-            ) : null}
+            {showDeposit ? (
+              <>
+                {(data as CompoundingCarCustomer)?.down_payment?.total ? (
+                  <div className="flex items-center justify-between my-[16px]">
+                    <p className="font-semibold uppercase">
+                      CẦN ĐẶT CỌC (
+                      {((data as CompoundingCarCustomer)?.down_payment.percent || 0) * 100}
+                      %)
+                    </p>
+                    <p className={`${item} text-error font-semibold md:font-semibold`}>
+                      {formatMoneyVND((data as CompoundingCarCustomer)?.down_payment?.total)}
+                    </p>
+                  </div>
+                ) : null}
 
-            {(data as CompoundingCarCustomer)?.amount_due ? (
-              <div className="flex items-center justify-between mb-[16px]">
-                <p className={titleClassName}>Số tiền thanh toán sau</p>
-                <p className={item}>
-                  {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
-                </p>
-              </div>
+                {(data as CompoundingCarCustomer)?.amount_due ? (
+                  <div className="flex items-center justify-between mb-[16px]">
+                    <p className={titleClassName}>Số tiền thanh toán sau</p>
+                    <p className={item}>
+                      {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
+                    </p>
+                  </div>
+                ) : null}
+              </>
             ) : null}
           </div>
 

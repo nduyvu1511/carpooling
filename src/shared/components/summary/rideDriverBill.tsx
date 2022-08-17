@@ -50,21 +50,23 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
       </div>
 
       <div className="hidden lg:block mt-[16px]">
-        <AccordionItem
-          allowTransition={false}
-          onClick={() => handleToggleTabsActive(2)}
-          className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
-          titleClassName="text-base font-semibold text-blue-7 uppercase"
-          title="Thông tin đặt cọc"
-          isActive={tabsActive.includes(2)}
-        >
-          {data?.down_payment ? (
-            <DriverDepositInfo
-              amount_total={data?.amount_total || data?.price_unit?.price_unit}
-              down_payment={data.down_payment}
-            />
-          ) : null}
-        </AccordionItem>
+        {data?.down_payment ? (
+          <AccordionItem
+            allowTransition={false}
+            onClick={() => handleToggleTabsActive(2)}
+            className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+            titleClassName="text-base font-semibold text-blue-7 uppercase"
+            title="Thông tin đặt cọc"
+            isActive={tabsActive.includes(2)}
+          >
+            {data?.down_payment ? (
+              <DriverDepositInfo
+                amount_total={data?.amount_total || data?.price_unit?.price_unit}
+                down_payment={data.down_payment}
+              />
+            ) : null}
+          </AccordionItem>
+        ) : null}
         <AccordionItem
           allowTransition={false}
           onClick={() => handleToggleTabsActive(1)}

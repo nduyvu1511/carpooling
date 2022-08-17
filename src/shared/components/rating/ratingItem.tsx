@@ -1,19 +1,27 @@
-import { EditIcon, NoteIcon, TrashIcon } from "@/assets"
+import { EditIcon, NoteIcon, ReportIcon, ThreeDotsIcon, TrashIcon } from "@/assets"
 import { Star } from "@/components/star"
 import { formatTimeType, toImageUrl } from "@/helper"
+import { useClickOutside } from "@/hooks"
 import { RatingRes } from "@/models"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/router"
+import { useMemo, useRef, useState } from "react"
 import { TagItem } from "../tag"
-import { Tooltip } from "../tooltip"
 
 interface RatingItemProps {
   rating: RatingRes | null
   onDelete?: (id: number) => void
   onUpdate?: (params: RatingRes) => void
-  onReport?: Function
+  onReport?: (id: number) => void
   car_account_type?: "car_driver" | "customer"
-  showLink?: boolean
+  showDetail?: boolean
+}
+
+interface RatingActions {
+  Icon: any
+  label: string
+  onClick: Function
+  name: "edit" | "delete" | "report" | "detail"
 }
 
 export const RatingItem = ({
@@ -22,8 +30,60 @@ export const RatingItem = ({
   onUpdate,
   onReport,
   car_account_type = "customer",
-  showLink = false,
+  showDetail = false,
 }: RatingItemProps) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  useClickOutside([ref], () => {
+    setShowMenu(false)
+  })
+
+  const ratingActions = useMemo(() => {
+    if (!rating) return []
+    const initData = showDetail
+      ? [
+          {
+            name: "detail",
+            Icon: NoteIcon,
+            label: "Xem chuyến đi",
+            onClick: () =>
+              router.push(`
+        /${car_account_type === "car_driver" ? "d" : "c"}/ride-detail/${
+                car_account_type === "car_driver"
+                  ? rating?.compounding_car_id
+                  : rating?.compounding_car_customer_id
+              }
+        `),
+          },
+        ]
+      : []
+
+    if (car_account_type === "customer")
+      return [
+        { name: "edit", Icon: EditIcon, label: "Sửa đánh giá", onClick: () => onUpdate?.(rating) },
+        {
+          name: "delete",
+          Icon: TrashIcon,
+          label: "Xóa đánh giá",
+          onClick: () => onDelete?.(rating.rating_id),
+        },
+        ...initData,
+      ]
+
+    return [
+      {
+        name: "report",
+        Icon: ReportIcon,
+        label: "Báo cáo xấu",
+        onClick: () => onReport?.(rating.rating_id),
+      },
+      ...initData,
+    ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (rating === null)
     return (
       <div className="p-12 lg:p-24">
@@ -54,47 +114,38 @@ export const RatingItem = ({
       </div>
 
       <div className="flex-1">
-        <div className="mb-[4px] flex items-center justify-between">
+        <div className="mb-[4px] flex items-center justify-between relative">
           <span className="flex-1 mr-[12px] text-xs">{rating?.partner_id.partner_name || ""}</span>
-          <div className="flex items-center">
-            {car_account_type === "customer" ? (
-              <>
-                <button
-                  onClick={() => onUpdate && onUpdate(rating)}
-                  className={`mr-[16px] relative group ${
-                    rating.rating_editable === false
-                      ? "pointer-events-none opacity-40 cursor-default"
-                      : ""
-                  }`}
-                >
-                  <Tooltip title="Sửa đánh giá" className="hidden lg:group-hover:block left-0" />
-                  <EditIcon className="w-[18px] md:w-[24px]" />
-                </button>
-                <button
-                  className="relative group"
-                  onClick={() => onDelete && onDelete(rating?.rating_id)}
-                >
-                  <Tooltip
-                    title="Xóa đánh giá"
-                    className="hidden lg:group-hover:block -left-[30px]"
-                  />
-                  <TrashIcon className="w-[18px] md:w-[24px]" />
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => onReport && onReport(rating?.rating_id)}
-                className={`btn-reset relative group ${
-                  rating.rating_reported ? "pointer-events-none opacity-40" : ""
-                }`}
-              >
-                <Tooltip
-                  title="Báo cáo đánh giá"
-                  className="hidden lg:group-hover:block transform-none -left-[120px]"
-                />
-                <NoteIcon className="w-[18px] md:w-[24px] text-blue-8" />
-              </button>
-            )}
+          <div ref={ref} className="">
+            <button
+              onClick={() => setShowMenu(!showMenu)}
+              className="w-[44px] h-[44px] bg-gray-color-1 rounded-[8px] flex-center"
+            >
+              <ThreeDotsIcon className="h-[14px]" />
+            </button>
+
+            {showMenu ? (
+              <ul className="bg-white-color p-8 w-[180px] border border-solid border-border-color block-element rounded-[8px] absolute z-[100] top-[calc(100%+5px)] right-0">
+                {ratingActions.map(({ Icon, label, onClick, name }, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setShowMenu(false)
+                      onClick()
+                    }}
+                    className={`relative cursor-pointer px-8 py-4 mb-8 hover:bg-bg rounded-[5px] flex items-center text-sm last:mb-0 ${
+                      (name === "edit" && rating.rating_editable === false) ||
+                      (name === "report" && rating.rating_reported)
+                        ? "pointer-events-none opacity-40 cursor-default"
+                        : ""
+                    }`}
+                  >
+                    <Icon className="w-[16px] h-[16px]" />
+                    <span className="text-sm ml-[10px] leading-[26px]">{label}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
         </div>
 
@@ -108,17 +159,6 @@ export const RatingItem = ({
           <p className="text-sm text-gray-color-2 mr-8">{`${
             rating?.duration.time_value
           } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
-          {showLink ? (
-            <Link
-              href={`/${car_account_type === "car_driver" ? "d" : "c"}/ride-detail/${
-                car_account_type === "car_driver"
-                  ? rating.compounding_car_id
-                  : rating.compounding_car_customer_id
-              }`}
-            >
-              <a className="text-xs font-medium underline text-primary">Xem chuyến đi</a>
-            </Link>
-          ) : null}
         </div>
 
         {rating.rating_tag_ids?.length > 0 ? (

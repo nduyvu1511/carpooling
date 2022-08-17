@@ -81,7 +81,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
               <span className="text-14 text-gray-color-3 font-medium">Không tìm thấy trạm nào</span>
             </div>
           ) : stations?.length > 0 ? (
-            <ul className="py-12 flex-1 overflow-y-auto scrollbar-hide">
+            <ul className="py-12 flex-1 overflow-y-auto">
               {stations.map((item, index) => (
                 <li className="mb-[16px] last:mb-0" key={index}>
                   <StationItem

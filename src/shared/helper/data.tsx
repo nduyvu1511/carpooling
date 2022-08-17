@@ -102,50 +102,6 @@ export const hoursBackList: { label: string; value: HourWaitTimeType }[] = [
   },
 ]
 
-export const userFormFields: {
-  name: UserInfoFormKey
-  label: string
-  placeholder: string
-  type: "text" | "date" | "select" | "textarea"
-  isRequired: boolean
-}[] = [
-  {
-    name: "name",
-    label: "Họ tên",
-    placeholder: "Họ tên",
-    type: "text",
-    isRequired: true,
-  },
-  {
-    name: "avatar_attachment_id",
-    label: "Ảnh đại diện",
-    placeholder: "Ảnh đại diện",
-    type: "text",
-    isRequired: true,
-  },
-  {
-    name: "gender",
-    label: "Giới tính",
-    placeholder: "Giới tính",
-    type: "select",
-    isRequired: true,
-  },
-  {
-    name: "date_of_birth",
-    label: "Ngày sinh",
-    placeholder: "DD/MM/YYYY",
-    type: "date",
-    isRequired: true,
-  },
-  {
-    name: "description",
-    label: "Giới thiệu",
-    placeholder: "Giới thiệu",
-    type: "textarea",
-    isRequired: false,
-  },
-]
-
 export const drivingClassList: {
   label: string
   value: DrivingLicenseClassType
@@ -491,6 +447,12 @@ export const userInfoFormfields: {
     isRequired: true,
     placeholder: "Giới tính",
     type: "radio",
+  },
+  {
+    name: "email",
+    isRequired: false,
+    placeholder: "Email",
+    type: "text",
   },
   {
     name: "street",

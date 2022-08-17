@@ -53,7 +53,7 @@ const Rating = () => {
                 {ratings.map((item) => (
                   <li className="border-b border-solid border-border-color" key={item.rating_id}>
                     <RatingItem
-                      showLink
+                      showDetail
                       car_account_type="car_driver"
                       onReport={() => setCurrentReportRatingId(item.rating_id)}
                       rating={item}
@@ -72,13 +72,12 @@ const Rating = () => {
       </AccountLayout>
 
       <Modal
-        key='report-rating-modal'
+        key="report-rating-modal"
         show={!!currentReportRatingId}
-        className="h-auto"
         onClose={() => setCurrentReportRatingId(undefined)}
         heading="Báo cáo đánh giá"
       >
-        <div className="p-24">
+        <div className="p-24 pb-0 flex-1 flex flex-col">
           <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
           <RatingReport
             list={[{ id: 1, label: "Người dùng spam" }]}

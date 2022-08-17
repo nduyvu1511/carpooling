@@ -105,7 +105,7 @@ const RidesDetailCustomer = () => {
         <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
           {isInitialLoading ? (
             <RidesDetailLoading />
-          ) : compoundingCar === undefined ? (
+          ) : !compoundingCar ? (
             <div className="py-[40px] text-center">
               <p className="text-base">Không tìm thấy chuyến đi này</p>
             </div>

@@ -27,11 +27,7 @@ const CompoundingCarDriver = () => {
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
   const { compoundingCarCustomerResToCarpoolingForm, clearCarpoolingWayCompoundingCar } =
     useCompoundingForm()
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCarCustomer({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
     key: `confirm_booking_compounding_car_customer_driver_${compounding_car_customer_id}`,
     type: "once",
@@ -87,7 +83,7 @@ const CompoundingCarDriver = () => {
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RideSummary data={compoundingCar} />
+                <RideSummary showDeposit={false} data={compoundingCar} />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden mt-12">
                 <RideSummaryMobile rides={compoundingCar} />
@@ -100,13 +96,14 @@ const CompoundingCarDriver = () => {
         <div className="p-12 md:p-24 md:pt-0 pt-0 h-fit">
           {isInitialLoading ? (
             <RidesDetailLoading />
-          ) : compoundingCar === undefined ? (
+          ) : !compoundingCar ? (
             <div className="py-[40px] text-center">
               <p className="text-base">Không tìm thấy chuyến đi này</p>
             </div>
           ) : (
             <>
               <CarpoolingCompoundingForm
+                compoundingType="convenient"
                 defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
                 onSubmit={(data) => handleConfirmCompoundingCar(data)}
                 view="page"
@@ -117,7 +114,7 @@ const CompoundingCarDriver = () => {
           )}
         </div>
 
-        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal showDeposit={false} rides={compoundingCar} /> : null}
       </DriverBookingLayout>
     </>
   )

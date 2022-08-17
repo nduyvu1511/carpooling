@@ -115,9 +115,12 @@ const Profile = ({ type }: ProfileProps) => {
               id="avatar"
             />
 
-            <span className="w-24 h-24 md:w-[32px] md:h-[32px] rounded-[50%] bg-primary flex-center absolute bottom-[8px] right-[8px]">
+            <label
+              htmlFor="avatar"
+              className="w-24 h-24 md:w-[32px] md:h-[32px] cursor-pointer rounded-[50%] bg-primary flex-center absolute bottom-[8px] right-[8px]"
+            >
               <EditIcon className="w-[12px] text-white-color" />
-            </span>
+            </label>
           </div>
 
           {/* <label htmlFor="avatar" className="flex-center cursor-pointer">

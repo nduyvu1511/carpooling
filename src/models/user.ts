@@ -17,6 +17,7 @@ export interface UserInfo {
     image_id: number
     image_url: string
   }
+  email: string
   gender: GenderType
   date_of_birth: string
   car_account_type: CarAccountType
@@ -146,6 +147,7 @@ export interface UserInfoFormParams {
   description?: string
   avatar_attachment_id: number
   name: string
+  email?: string
   gender: GenderType
   country_id?: OptionModel
   province_id?: OptionModel
@@ -163,6 +165,7 @@ export type UserInfoFormSubmit = Pick<
   | "avatar_attachment_id"
   | "name"
   | "gender"
+  | "email"
 > & {
   country_id?: number
   province_id?: number

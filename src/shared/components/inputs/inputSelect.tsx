@@ -52,7 +52,7 @@ const InputSelect = ({
         <Controller
           control={control}
           name={name}
-          render={({ field: { onChange, onBlur } }) => (
+          render={({ field: { onChange, onBlur }, formState: { errors } }) => (
             <Select
               isSearchable={isSearchable}
               autoFocus={false}
@@ -76,6 +76,7 @@ const InputSelect = ({
           rules={{ required: true }}
         />
       </div>
+      {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
     </>
   )
 }
