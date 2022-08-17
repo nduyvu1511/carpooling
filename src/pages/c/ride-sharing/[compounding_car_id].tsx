@@ -29,11 +29,7 @@ const RidesDetailCustomer = () => {
   const { compounding_car_id } = router.query
   const { confirmCompoundingCar, createExistingCompoundingCar } = useCompoundingCarActions()
   const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCar({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
     key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
     type: "once",
@@ -96,7 +92,10 @@ const RidesDetailCustomer = () => {
                 />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-                <RideSummaryMobile rides={compoundingCar} />
+                <RideSummaryMobile
+                  showDetailBtn={!!compoundingCarCustomer}
+                  rides={compoundingCar}
+                />
               </div>
             </>
           ) : null
@@ -119,7 +118,11 @@ const RidesDetailCustomer = () => {
               />
               {compoundingCar ? (
                 <CarpoolingCompoundingForm
-                  defaultValues={{ ...compoundingCarResToCarpoolingForm(compoundingCar), note: "" }}
+                  defaultValues={{
+                    ...compoundingCarResToCarpoolingForm(compoundingCar),
+                    note: "",
+                    number_seat: { label: "1 ghế", value: 1 },
+                  }}
                   onSubmit={(data) => {
                     if (compoundingCarCustomer) {
                       handleConfirmCompoundingCar()

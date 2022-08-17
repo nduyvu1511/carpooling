@@ -64,7 +64,7 @@ const Modal = ({
         </div>
       </CSSTransition>
 
-      <CSSTransition classNames="fade" unmountOnExit timeout={300} in={show}>
+      <CSSTransition classNames="fade" unmountOnExit timeout={500} in={show}>
         <div
           onClick={() => overLayClose && onClose()}
           className={`fixed z-[2999] inset-[0] bg-black-60 ${overLayClose ? "cursor-pointer" : ""}`}

@@ -1,3 +1,4 @@
+import { EMAIL, PHONE } from "@/helper"
 import { StaticLayout } from "@/layout"
 
 export const Regulations = () => {
@@ -39,7 +40,7 @@ export const Regulations = () => {
           <p className="text-sm md:text-base ml-12 mb-12 font-semibold">
             + Tên đăng kí, số điện thoại
           </p>
-          <p className="text-sm md:text-base ml-12 font-semibold">+ Email, mật khẩu</p>
+          <p className="text-sm md:text-base ml-12 font-semibold">+ Email</p>
         </ul>
         <p className="text-lg text-primary mb-24">2. Phạm vi sử dụng thông tin</p>
         <ul className="list-disc mb-24">
@@ -89,8 +90,8 @@ export const Regulations = () => {
             Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, TP. Thủ Đức, Tp. Hồ Chí Minh,
             Việt Nam.
           </li>
-          <li className="text-sm md:text-base mb-12">Số điện thoại: 1900 998880</li>
-          <li className="text-sm md:text-base">Email: exxevn2022@gmail.com</li>
+          <li className="text-sm md:text-base mb-12">Số điện thoại: {PHONE}</li>
+          <li className="text-sm md:text-base">Email: {EMAIL}</li>
         </ul>
         <p className="text-base md:text-xl font-semibold text-center my-[40px]">
           CHÍNH SÁCH BẢO VỆ THÔNG TIN CÁ NHÂN CỦA NGƯỜI SỬ DỤNG DỊCH VỤ SÀN GIAO DỊCH THƯƠNG MẠI
@@ -171,8 +172,8 @@ export const Regulations = () => {
         <p className="text-sm md:text-base mb-12">
           - Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp. Thủ Đức, Tp.HCM.
         </p>
-        <p className="text-sm md:text-base mb-12">- Số điện thoại: 0847878788</p>
-        <p className="text-sm md:text-base mb-12">- Email: exxevn2022@gmail.com</p>
+        <p className="text-sm md:text-base mb-12">- Số điện thoại: {PHONE}</p>
+        <p className="text-sm md:text-base mb-12">- Email: {EMAIL}</p>
 
         <h3 className="text-base md:text-xl font-semibold text-center my-[40px]">
           CƠ CHẾ GIẢI QUYẾT KHIẾU NẠI, TRANH CHẤP GIỮA CÁC BÊN LIÊN QUAN ĐẾN GIAO DỊCH TIẾN HÀNH
@@ -195,10 +196,10 @@ export const Regulations = () => {
         <ul>
           <li className="text-sm md:text-base mb-24">
             •<span className="font-semibold">Bước 1:</span> Khách hàng khiếu nại về dịch vụ qua số
-            điện thoại <span className="font-semibold">1900998880 - 0847878788</span> hoặc gửi email
-            cho Bộ phận Chăm sóc Khách hàng tại địa chỉ Email:{" "}
-            <span className="font-semibold">exxevn2022@gmail.com</span>. Thời gian để Công ty tiếp
-            nhận khiếu nại là 2 ngày kể từ ngày sử dụng dịch vụ hoặc từ ngày phát sinh sự việc.
+            điện thoại <span className="font-semibold">{PHONE}</span> hoặc gửi email cho Bộ phận
+            Chăm sóc Khách hàng tại địa chỉ Email: <span className="font-semibold">{EMAIL}</span>.
+            Thời gian để Công ty tiếp nhận khiếu nại là 2 ngày kể từ ngày sử dụng dịch vụ hoặc từ
+            ngày phát sinh sự việc.
           </li>
           <li className="text-sm md:text-base mb-24">
             •<span className="font-semibold">Bước 2:</span> Trong thời hạn hai (2) ngày làm việc kể

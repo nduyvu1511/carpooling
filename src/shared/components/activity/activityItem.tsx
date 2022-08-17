@@ -1,4 +1,4 @@
-import { CalendarIcon, CarIcon, MultiUserIcon, OneWayIcon, PaymentIcon } from "@/assets"
+import { CalendarIcon, CarIcon, MultiUserIcon, PaymentIcon } from "@/assets"
 import {
   COMPOUNDING_STATE_NAME,
   COMPOUNDING_TYPE_NAME,
@@ -94,7 +94,9 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               ) : (
                 <>
                   <CarIcon className="w-[14px] h-[14px] mr-[5px]" />
-                  <span className="text-sm text-gray-color-5">{car.name}</span>
+                  <span className="text-sm text-gray-color-5">
+                    {car.name && toFirstUpperCase(car.name)}
+                  </span>
                 </>
               )}
             </p>
@@ -162,7 +164,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               <>
                 <CarIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
                 <span className="text-12 xs:text-14 xs:font-medium">
-                  {toFirstUpperCase(car.name)}
+                  {car.name && toFirstUpperCase(car.name)}
                 </span>
               </>
             )}

@@ -32,6 +32,12 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
         <p className="text-xs mr-12 min-w-[100px]">Điếm đến</p>
         <p className="text-sm md:text-base text-right">{data.to_address}</p>
       </li>
+      {data?.note ? (
+        <li className="flex items-start justify-between mb-12">
+          <p className="text-xs mr-12 min-w-[100px]">Ghi chú</p>
+          <p className="whitespace-nowrap text-sm md:text-base text-right">{data.note}</p>
+        </li>
+      ) : null}
       <li className="flex items-start justify-between mb-12">
         <p className="text-xs mr-12 min-w-[100px]">Ngày đi</p>
         <p className="whitespace-nowrap text-sm md:text-base text-right">
@@ -39,7 +45,7 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
         </p>
       </li>
       {(data as CustomerInvoice)?.payment_amount ? (
-        <li className="flex items-start justify-between mb-12">
+        <li className="flex items-start justify-between">
           <p className="text-xs mr-12 min-w-[100px]">Số tiền đã trả</p>
           <p className="whitespace-nowrap text-sm md:text-base text-right">
             {formatMoneyVND((data as CustomerInvoice).payment_amount)}

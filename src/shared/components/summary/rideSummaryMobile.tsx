@@ -6,9 +6,10 @@ import { useDispatch } from "react-redux"
 
 interface RideSummaryMobileProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
+  showDetailBtn?: boolean
 }
 
-export const RideSummaryMobile = ({ rides }: RideSummaryMobileProps) => {
+export const RideSummaryMobile = ({ rides, showDetailBtn = true }: RideSummaryMobileProps) => {
   const dispatch = useDispatch()
 
   return (
@@ -24,7 +25,7 @@ export const RideSummaryMobile = ({ rides }: RideSummaryMobileProps) => {
           <p className="flex-1 text-sm ml-[10px]">{rides.to_address} </p>
         </div>
       ) : null}
-      <div className="flex xs:items-center flex-col xs:flex-row mb-12">
+      <div className="flex xs:items-center flex-col xs:flex-row">
         <div className="flex items-start">
           <CalendarIcon className="mt-4" />
           <p className="flex-1 text-sm ml-[10px]">
@@ -40,13 +41,15 @@ export const RideSummaryMobile = ({ rides }: RideSummaryMobileProps) => {
           </div>
         ) : null}
       </div>
-      <button
-        onClick={() => dispatch(setShowSummaryDetail(true))}
-        className="mt-[24px] flex items-center text-primary text-xs font-medium"
-      >
-        <ZoomInIcon className="text-primary" />
-        <span className="ml-[10px]">Xem chi tiết</span>
-      </button>
+      {showDetailBtn ? (
+        <button
+          onClick={() => dispatch(setShowSummaryDetail(true))}
+          className="mt-[24px] flex items-center text-primary text-xs font-medium"
+        >
+          <ZoomInIcon className="text-primary" />
+          <span className="ml-[10px]">Xem chi tiết</span>
+        </button>
+      ) : null}
     </div>
   )
 }

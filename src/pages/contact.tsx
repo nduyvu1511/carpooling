@@ -55,7 +55,7 @@ const Contact = () => {
           </p>
           <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">Email: </span>
-            <a href="mailto:exxevn2022@gmail.com" className="text-sm md:text-base text-primary">
+            <a href={`mailto:${EMAIL}`} className="text-sm md:text-base text-primary">
               {EMAIL}
             </a>
           </p>
@@ -67,11 +67,7 @@ const Contact = () => {
 
       <div className="">
         <div className="h-[400px]">
-          <Map
-            viewOnly
-            defaultCenter={{ lat: 10.806993, lng: 106.7279698 }}
-            markerLocation={{ lat: 10.806993, lng: 106.7279698 }}
-          />
+          <Map viewOnly markerLocation={{ lat: 10.806993, lng: 106.7279698 }} />
         </div>
       </div>
     </StaticLayout>

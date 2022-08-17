@@ -448,6 +448,8 @@ export interface JournalUserRes {
   }
 }
 
+export type PaymentType = "inbound" | "outbound"
+
 export interface JournalId {
   journal_id: number
   journal_name: string
@@ -467,7 +469,7 @@ export interface TransactionRes {
   state: string
   payment_code: string
   is_make_withdrawing_request: boolean
-  payment_type: "inbound" | "outbound"
+  payment_type: PaymentType
   partner_type: CarAccountType
   payment_purpose: PaymentPurpose
   compounding_car: {
@@ -485,7 +487,7 @@ export interface JournalPaymentRes {
   ref: string
   state: string
   is_make_withdrawing_request: boolean
-  payment_type: "outbound" | "inbound"
+  payment_type: PaymentType
   partner_type: CarAccountType
   payment_purpose: PaymentPurpose
   compounding_car: {

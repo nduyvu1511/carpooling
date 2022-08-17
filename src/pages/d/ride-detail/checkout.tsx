@@ -19,11 +19,7 @@ const Checkout = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCarDriver({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarDriver({
     key: `compounding_car_driver_deposit_customer_${compounding_car_id}`,
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),

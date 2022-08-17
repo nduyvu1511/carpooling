@@ -197,6 +197,6 @@ export const PAYMENT_PURPOSE_COLOR = {
 }
 
 export const LIMIT_HOUR_OF_WAITING_TIME = 4
-export const PHONE = 1900998880
+export const PHONE = "0847878788"
 export const ADDRESS = "Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM"
 export const EMAIL = "exxevn2022@gmail.com"

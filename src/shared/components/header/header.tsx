@@ -116,7 +116,7 @@ export const Header = () => {
                 <div className="mr-[16px] items-center hidden xl:flex">
                   <PhoneIcon className="mr-8 w-[15px] h-[15px]" />
                   <a className="text-base font-semibold text-primary" href={`tel:${PHONE}`}>
-                    1900 998 880
+                    0847 878 788
                   </a>
                 </div>
 

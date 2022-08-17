@@ -22,6 +22,7 @@ const Conditions = () => {
       />
       <div className="">
         <AccordionItem
+          allowTransition={false}
           onClick={() => setTabActive(tabActive === 1 ? undefined : 1)}
           title="1. Nguyên tắc cộng đồng"
           isActive={tabActive === 1}

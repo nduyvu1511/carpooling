@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { questionBg } from "@/assets"
 import { AccordionItem, Seo } from "@/components"
+import { PHONE } from "@/helper"
 import { StaticLayout } from "@/layout"
 import { useState } from "react"
 
@@ -254,7 +255,7 @@ const FrequentlyAskedQuestions = () => {
                   >
                     http://www.exxe.vn
                   </a>{" "}
-                  hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href="tel:0847878788">0847878788</a>
+                  hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href={`tel:${PHONE}`}>{PHONE}</a>
                 </p>
               </AccordionItem>
               <AccordionItem
@@ -336,7 +337,7 @@ const FrequentlyAskedQuestions = () => {
                   >
                     http://www.exxe.vn
                   </a>{" "}
-                  hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href="tel:0847878788">0847878788</a>
+                  hoặc liên hệ tổng đài hỗ trợ của EXXE : <a href={`tel:${PHONE}`}>{PHONE}</a>
                 </p>
               </AccordionItem>
               <AccordionItem

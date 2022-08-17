@@ -13,11 +13,11 @@ const RidesSummaryHeader = ({ desc, title }: RidesSummaryHeaderProps) => {
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   return (
-    <div className="flex items-center flex-col sm:flex-row lg:flex-col">
-      <div className="sm:mr-[40px] mb-24 sm:mb-0 lg:mb-24 lg:mr-0">
+    <div className="flex items-center flex-col sm:flex-row lg:flex-col xl:flex-row">
+      <div className="sm:mr-[40px] mb-24 sm:mb-0 lg:mb-24 lg:mr-0 xl:mr-[40px]">
         <CheckCircleIcon className="w-[80px] h-[80px]" />
       </div>
-      <div className="flex-1 text-center sm:text-left lg:text-center">
+      <div className="flex-1 text-center sm:text-left lg:text-center xl:text-left">
         <h3 className="text-[22px] leading-[30px] sm:text-[28px] sm:leading-[36px] font-medium text-primary">
           {title || "Đặt chuyến thành công"}
         </h3>

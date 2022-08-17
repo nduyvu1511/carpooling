@@ -1,4 +1,5 @@
 import { CloseIcon, LogoIcon, MailIcon, PhoneIcon } from "@/assets"
+import { EMAIL } from "@/helper"
 import { useRouter } from "next/router"
 
 interface MenuProps {
@@ -71,7 +72,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
         </p>
         <p className="flex items-center">
           <MailIcon className="text-[14px] mr-[10px]" />
-          <a href="mailto:exxevn2022@gmail.com">exxevn2022@gmail.com</a>
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </p>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const RESEND_OTP_TIMEOUT = 10
+const RESEND_OTP_TIMEOUT = 60
 
 interface Props {
   onChange?: Function

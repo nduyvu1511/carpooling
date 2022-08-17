@@ -124,6 +124,7 @@ export interface BookingLayoutProps {
   reverse?: boolean
   className?: string
   showHeaderOnMobile?: boolean
+  showHeaderDesktop?: boolean
 }
 
 declare module "axios" {

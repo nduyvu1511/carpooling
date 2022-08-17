@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { Drawer } from "../drawer"
 import { RideSummary } from "./rideSummary"
 
-const RideSummaryModal = ({
-  rides,
-}: {
+interface RideSummaryModalProps {
   rides: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
-}) => {
+}
+
+const RideSummaryModal = ({ rides }: RideSummaryModalProps) => {
   const dispatch = useDispatch()
   const isShowSummaryDetail = useSelector((state: RootState) => state.common.isShowSummaryDetail)
 

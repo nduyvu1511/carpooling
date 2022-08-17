@@ -1,11 +1,10 @@
 import {
+  RideDriverBill,
   RideProgress,
   RidesDetailLoading,
   RidesSummaryHeader,
-  RideSummary,
-  RideSummaryPassengerItem,
+  RideSummaryPassengerItem
 } from "@/components"
-import { formatMoneyVND } from "@/helper"
 import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
@@ -14,11 +13,7 @@ import { useRouter } from "next/router"
 const CheckoutSuccess = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const {
-    data: compoundingCar,
-    isValidating,
-    mutate,
-  } = useCompoundingCarDriver({
+  const { data: compoundingCar, isValidating } = useCompoundingCarDriver({
     key: `get_compounding_car_customer_detail_checkout_${compounding_car_id}`,
     type: "once",
     compounding_car_id: Number(compounding_car_id),
@@ -33,37 +28,20 @@ const CheckoutSuccess = () => {
   return (
     <BookingLayout
       className="md:pb-[64px]"
-      topNode={<RideProgress state={compoundingCar?.state} />}
+      topNode={<RideProgress className="mb-12 md:mb-24" state={compoundingCar?.state} />}
       showLoading={isValidating}
       reverse
       rightNode={
         compoundingCar ? (
           <div className="px-12 md:px-24 lg:px-0">
-            <RideSummary data={compoundingCar as any}>
-              <ul className="lg:px-24 my-[40px]">
-                <p className="text-base font-semibold mb-24">Chi tiết hoá đơn</p>
-                <li className="flex items-center justify-between mb-12">
-                  <p className="text-xs">Giá tạm tính</p>
-                  <p className="text-sm md:text-base ml-12 flex-1 text-right">
-                    {compoundingCar?.amount_total}
-                  </p>
-                </li>
-                <li className="flex items-center justify-between mb-12">
-                  <p className="text-xs">
-                    Đã đặt cọc({(compoundingCar?.down_payment?.percent || 0) * 100}%)
-                  </p>
-                  <p className="text-sm md:text-base ml-12 flex-1 text-right">
-                    {formatMoneyVND(compoundingCar?.down_payment?.total || 0)}
-                  </p>
-                </li>
-              </ul>
-            </RideSummary>
+            <RideDriverBill data={compoundingCar} />
           </div>
         ) : null
       }
       title="Đặt cọc thành công"
+      showHeaderDesktop={false}
     >
-      <div className="bg-white-color block-element pt-24 px-12 md:px-24">
+      <div className="pt-24 px-12 md:px-24">
         {isValidating ? (
           <RidesDetailLoading className="mb-[40px]" />
         ) : (
@@ -82,7 +60,9 @@ const CheckoutSuccess = () => {
                 title="Chuyến đi đã được khởi tạo"
               />
             </div>
-            <h3 className="text-base uppercase font-semibold mb-24">Danh sách hành khách</h3>
+            <h3 className="text-base uppercase font-semibold mb-24 text-blue-7">
+              Danh sách hành khách
+            </h3>
 
             {compoundingCar?.state === "confirm_deposit" &&
             compoundingCar.compounding_car_customers?.length > 0 ? (
@@ -99,7 +79,7 @@ const CheckoutSuccess = () => {
         )}
       </div>
 
-      {isValidating ? (
+      {!isValidating ? (
         <div className="max-w-[1280px] fixed bottom-0 right-0 left-0 bg-white-color xl:mx-auto md:mx-24 z-10 p-12">
           <Link href="/d">
             <a className="btn-primary-outline mx-auto">Về trang chủ</a>

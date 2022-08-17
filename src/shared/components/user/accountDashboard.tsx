@@ -64,7 +64,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
           ) : (
             <>
               <div className="flex-1 bg-bg-warning text-white-color text-xs flex items-center p-[8px] mb-[8px] rounded-[5px]">
-              <WarningIcon className="w-[16px] h-[16px] mr-[8px]" />
+                <WarningIcon className="w-[16px] h-[16px] mr-[8px]" />
                 Tài khoản chưa kích hoạt
               </div>
 
@@ -93,7 +93,11 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
           ))}
           <li className="flex items-center mt-24">
             <button
-              onClick={() => logout()}
+              onClick={() =>
+                logout(() => {
+                  router.push("/")
+                })
+              }
               className="btn-primary-outline mx-auto rounded-[5px] h-[40px]"
             >
               Đăng xuất

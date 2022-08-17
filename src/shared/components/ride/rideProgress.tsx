@@ -7,9 +7,10 @@ import { useSelector } from "react-redux"
 
 interface RideProgressProps {
   state: CompoundingCarCustomerState | CompoundingCarDriverState | undefined
+  className?: string
 }
 
-const RideProgress = ({ state }: RideProgressProps) => {
+const RideProgress = ({ state, className }: RideProgressProps) => {
   const ulRef = useRef<HTMLUListElement>(null)
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const stateList = useMemo(() => {
@@ -42,7 +43,7 @@ const RideProgress = ({ state }: RideProgressProps) => {
       </div>
     )
   return (
-    <ul ref={ulRef} className="flex items-center overflow-x-auto scrollbar-hide">
+    <ul ref={ulRef} className={`flex items-center overflow-x-auto scrollbar-hide ${className}`}>
       {stateList.map((val, index) => (
         <li className="flex items-center md:items-start mr-12 xs:mr-24 md:mr-0" key={val[0]}>
           <div

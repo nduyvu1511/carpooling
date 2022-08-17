@@ -61,14 +61,13 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
           {toFirstUpperCase(data.car.name)}
         </p>
       </li>
-      {(data as CompoundingCarCustomer)?.number_seat ? (
-        <li className="flex items-start justify-between mb-[16px]">
-          <p className="text-xs">Số hành khách</p>
-          <p className="text-sm md:text-base ml-24 flex-1 text-right">
-            {(data as CompoundingCarCustomer).number_seat}
-          </p>
-        </li>
-      ) : null}
+      <li className="flex items-start justify-between mb-[16px]">
+        <p className="text-xs">Số hành khách</p>
+        <p className="text-sm md:text-base ml-24 flex-1 text-right">
+          {(data as CompoundingCarCustomer)?.number_seat ||
+            (data as CompoundingCarRes)?.number_seat_in_car - data?.number_available_seat}
+        </p>
+      </li>
     </ul>
   )
 }

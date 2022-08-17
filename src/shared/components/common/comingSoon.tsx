@@ -7,6 +7,7 @@ import {
   TiktokIcon,
   YoutubeIcon,
 } from "@/assets"
+import { EMAIL, PHONE } from "@/helper"
 import Image from "next/image"
 
 export const ComingSoon = () => {
@@ -65,8 +66,8 @@ export const ComingSoon = () => {
           <div className="flex flex-1 flex-col md:flex-row items-center justify-center">
             <p className="flex items-center justify-center mb-12 md:mb-0">
               <PhoneIcon className="mr-8" />
-              <a className="text-sm md:text-base font-semibold" href="tel:1900 998 880">
-                1900 998 880
+              <a className="text-sm md:text-base font-semibold" href={`tel:${PHONE}`}>
+                0847 878 788
               </a>
             </p>
 
@@ -74,8 +75,8 @@ export const ComingSoon = () => {
 
             <p className="flex items-center justify-center">
               <MailIcon className="mr-8" />
-              <a className="text-sm md:text-base font-semibold" href="mailto:exxevn2022@gmail.com">
-                exxevn2022@gmail.com
+              <a className="text-sm md:text-base font-semibold" href={`mailto:${EMAIL}`}>
+                {EMAIL}
               </a>
             </p>
           </div>

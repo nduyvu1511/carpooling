@@ -46,7 +46,9 @@ export interface VehicleTypeParams {
   name: string
   number_seat: number
 }
+
 export interface CarId extends VehicleTypeParams {}
+
 export interface VehicleBrandRes {
   icon: {
     icon_id: number
@@ -55,23 +57,27 @@ export interface VehicleBrandRes {
   brand_id: number
   brand_name: string
 }
+
 export interface ActivityCarId extends CarId {
   icon: {
     icon_id: string
     icon_url: string
   }
 }
+
 export interface GetPriceUnitParams {
   from_province_id: number
   to_province_id: number
   car_id: number
   quality_car?: QualityCarType
 }
+
 export interface CarIdType {
   label: string
   value: number
   number_seat: number
 }
+
 export interface CreateCommonCompoundingForm {
   from_location: FromLocation
   to_location: FromLocation
@@ -82,9 +88,11 @@ export interface CreateCommonCompoundingForm {
   duration?: number
   is_checked_policy: boolean
 }
+
 export interface CreateOneWayCompoundingCarForm extends CreateCommonCompoundingForm {
   price?: number
 }
+
 export interface CreateCommonCompoundingForm {
   from_location: FromLocation
   to_location: FromLocation
@@ -95,6 +103,7 @@ export interface CreateCommonCompoundingForm {
   is_checked_policy: boolean
   price?: number
 }
+
 export interface DriverActivityRes {
   compounding_car_id: number
   compounding_car_code: string
@@ -116,6 +125,7 @@ export interface DriverActivityRes {
   is_a_day_tour: boolean
   hour_of_wait_time: HourWaitTimeType
 }
+
 export interface CustomerActivityRes {
   compounding_car_id: number
   compounding_car_name: string
@@ -141,11 +151,17 @@ export interface CustomerActivityRes {
   distance: number
   number_seat: number
   amount_total: number
-  down_payment: { percent: number; total: number }
+  down_payment: DownPayment
   amount_due: number
   state: CompoundingCarCustomerState
   second_remains: number
 }
+
+export interface DownPayment {
+  total: number
+  percent: number
+}
+
 export interface CompoundingCarRes extends DriverActivityRes {
   from_pick_up_station: StationParams
   from_address: string
@@ -162,7 +178,10 @@ export interface CompoundingCarRes extends DriverActivityRes {
   car_driver_deposit_percentage: number
   cancel_reason?: CancelReason
   amount_return?: number
+  down_payment?: DownPayment
+  amount_total?: number
 }
+
 export interface CompoundingCarDriverRes
   extends Omit<CompoundingCarRes, "state" | "rating" | "partner"> {
   compounding_car_customers: CompoundingCarCustomer[]
@@ -170,12 +189,14 @@ export interface CompoundingCarDriverRes
   rating_ids: RatingRes[]
   car_driver_deposit_percentage: number
   amount_total?: number
-  down_payment?: { total: number; percent: number }
+  down_payment?: DownPayment
 }
+
 export interface PriceUnit {
   name: string
   price_unit: number
 }
+
 export type RatingState =
   | "no_rating" //chua danh gia co quyền đánh giá
   | "rated" // đã đánh giá, có quyên chỉnh sửa
@@ -185,6 +206,7 @@ export interface CancelReason {
   cancel_reason_id: number
   reason: string
 }
+
 export interface CompoundingCarCustomer {
   compounding_car_id: number
   compounding_car_customer_id: number
@@ -206,7 +228,7 @@ export interface CompoundingCarCustomer {
   promotion: string
   sale_order_id: SaleOrderCompoundingCar
   amount_total: number
-  down_payment: { percent: number; total: number }
+  down_payment: DownPayment
   payment_method: "cash" | "transfer" | false
   amount_due: number
   state: CompoundingCarCustomerState
@@ -232,6 +254,7 @@ export interface CompoundingCarCustomer {
   cancel_date?: string
   amount_return?: number
 }
+
 export interface PartnerCompoundingCar {
   partner_id: number
   partner_name: string
@@ -245,12 +268,14 @@ export interface PartnerCompoundingCar {
   date_of_birth: string
   description: string
 }
+
 export interface OrderLineProductCompounding {
   product_id: number
   product_name: string
   representation_image: { image_id: string; image_url: string }
   image_urls: string[]
 }
+
 export interface SaleOrderCompoundingCar {
   sale_id: number
   sale_name: string
@@ -258,6 +283,7 @@ export interface SaleOrderCompoundingCar {
   order_line: CompoundingOrderLine[]
   amount_total: number
 }
+
 export interface CompoundingOrderLine {
   line_id: number
   line_name: string
@@ -268,6 +294,7 @@ export interface CompoundingOrderLine {
   }
   line_product_qty: number
 }
+
 export interface CreateCommonCompounding {
   compounding_type: CompoundingType
   from_province_id: number
@@ -284,21 +311,26 @@ export interface CreateCommonCompounding {
   distance: number
   duration?: number
 }
+
 export interface CreateOneWayCompoundingCar extends CreateCommonCompounding {}
+
 export interface FormModeType {
   mode: "update" | "create"
 }
+
 export interface CreateTwoWayCompoundingCarForm extends CreateCommonCompoundingForm {
   is_a_day_tour: boolean
   hour_of_wait_time?: OptionModel
   expected_picking_up_date?: string
   price?: number
 }
+
 export interface CreateTwoWayCompoundingCar extends CreateCommonCompounding {
   is_a_day_tour: boolean
   hour_of_wait_time?: HourWaitTimeType | false
   expected_picking_up_date?: string | false
 }
+
 export interface CreateCarpoolingCompoundingCar extends CreateCommonCompounding {
   from_pick_up_station_id: number
   to_pick_up_station_id: number
@@ -307,6 +339,7 @@ export interface CreateCarpoolingCompoundingCar extends CreateCommonCompounding 
   price_per_passenger?: number
   compounding_car_id?: number
 }
+
 export interface CreateCarpoolingCompoundingForm {
   car_id: OptionModel & { number_seat: number }
   price_per_passenger?: number
@@ -320,6 +353,7 @@ export interface CreateCarpoolingCompoundingForm {
   is_checked_policy: boolean
   duration: number
 }
+
 export type CreateCompoundingCarParams =
   | CreateCarpoolingCompoundingCar
   | CreateTwoWayCompoundingCar
@@ -328,9 +362,11 @@ export type CreateCompoundingCarParams =
 export interface ConfirmCompoundingCar {
   compounding_car_customer_id: number
 }
+
 export interface ConfirmTransactionParams {
   sale_order_id: number
 }
+
 export interface CreateCompoundingCarDriver {
   compounding_type: CompoundingType
   from_province_id: number
@@ -343,30 +379,37 @@ export interface CreateCompoundingCarDriver {
   to_longitude: string
   to_latitude: string
 }
+
 export interface UpdateOneWayCompoundingCar extends CreateOneWayCompoundingCar {
   compounding_car_customer_id: number
 }
+
 export interface UpdateTwoWayCompoundingCar extends CreateTwoWayCompoundingCar {
   compounding_car_customer_id: number
 }
+
 export interface UpdateCarpoolingCompoundingCar extends CreateCarpoolingCompoundingCar {
   compounding_car_customer_id: number
 }
+
 export type UpdateCompoundingCar = (
   | UpdateOneWayCompoundingCar
   | UpdateTwoWayCompoundingCar
   | UpdateCarpoolingCompoundingCar
 ) & { compounding_car_customer_id: number }
+
 export interface CreatePaymentDriverParams {
   acquirer_id: number
   compounding_car_id: number
   returned_url: string
   payment_id: number
 }
+
 export interface DriverConfirmCompoundingCarCustomerParams {
   compounding_car_customer_id: number
   customer_id: number
 }
+
 export interface CompoundingListDriverParams {
   from_province_id?: number
   to_province_id?: number
@@ -382,41 +425,51 @@ export interface CompoundingListDriverParams {
   current_latitude?: string
   current_longitude?: string
 }
+
 export interface GetCompoundingCarCustomerList extends CompoundingListDriverParams {
   number_seat?: number
 }
+
 export interface GetCompoundingCarCustomerStateParams {
   compounding_car_state?: CompoundingCarCustomerState[]
   limit?: number
   offset?: number
   rating_state?: [RatingState]
 }
+
 export interface GetCompoundingCarDriverStateParams {
   compounding_car_state?: CompoundingCarDriverState[]
   limit?: number
   offset?: number
 }
+
 export interface CreatePaymentParams {
   acquirer_id: number
   compounding_car_customer_id: number
   returned_url: string
 }
+
 export interface CreatePaymentMethodParams {
   compounding_car_customer_id: number
   payment_method: "cash" | "transfer"
 }
+
 export interface GetDetailCompoundingCustomer {
   compounding_car_customer_id: number
 }
+
 export interface GetDetailCompounding {
   compounding_car_id: number
 }
+
 export interface UpdateCompoundingCarCustomer {
   compounding_car_customer_id: number
 }
+
 export interface UpdateCompoundingCarDriver extends CreateCompoundingCarDriver {
   compounding_car_id: number
 }
+
 export type CompoundingOrderField =
   | "sort_by_lowest_price"
   | "sort_by_highest_price"
@@ -437,6 +490,7 @@ export interface DefaultCompoundingCarFilterFormParams {
   current_longitude?: string
   number_seat?: OptionModel
 }
+
 export type DefaultCompoundingCarFilterKey = keyof DefaultCompoundingCarFilterFormParams
 
 export type CreateCompoundingCar =
@@ -455,9 +509,11 @@ export interface CompoundingCarFilterParams {
   current_latitude?: string
   current_longitude?: string
 }
+
 export interface CompoundingCarCustomerFilterParams extends CompoundingCarFilterParams {
   number_seat?: number
 }
+
 export type CompoundingFilterParams = CompoundingCarCustomerFilterParams &
   CompoundingCarFilterParams
 
@@ -475,13 +531,15 @@ export interface DepositCompoundingCarDriverRes {
   }
   second_remains: number
   amount_total: number
-  down_payment: { percent: number; total: number }
+  down_payment: DownPayment
   amount_due: number
 }
+
 export interface DepositCompoundingCarDriverFailureRes {
   message: string
   data: DepositCompoundingCarDriverRes[]
 }
+
 export type CompoundingCarCustomerWithState = Pick<
   CompoundingCarCustomer,
   "compounding_car_customer_id" | "state"
@@ -492,6 +550,7 @@ export interface CancelCompoundingCarParams {
   cancel_reason_id?: number
   cancel_reason_other?: string
 }
+
 export type CancelCompoundingFormParams = Pick<
   CancelCompoundingCarParams,
   "cancel_reason_other" | "cancel_reason_id"
@@ -507,6 +566,7 @@ export interface ReasonCancelCompoundingCarRes {
   reason: string
   compounding_car_customer_state: string
 }
+
 export interface CompoundingCancelCar extends CompoundingCarCustomer {
   amount_total: number
   amount_due: number
@@ -514,11 +574,13 @@ export interface CompoundingCancelCar extends CompoundingCarCustomer {
   cancel_date: string
   paid_date: string
 }
+
 export interface CustomerInvoice extends CompoundingCarCustomer {
   amount_total: number
   payment_amount: number
   paid_date: string
 }
+
 export interface DriverCompoundingCarInvoiceRes {
   compounding_car_id: number
   compounding_car_code: string
@@ -550,7 +612,7 @@ export interface DriverCompoundingCarInvoiceRes {
     percent: number
     total: number
   }
-  down_payment: { percent: number; total: number }
+  down_payment: DownPayment
   cash: number
   amount_due: number
 }

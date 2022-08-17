@@ -13,6 +13,7 @@ const BookingLayout = ({
   onBackBtnClick,
   reverse = false,
   className = "",
+  showHeaderDesktop = true,
 }: BookingLayoutProps) => {
   const router = useRouter()
 
@@ -50,7 +51,7 @@ const BookingLayout = ({
                   <div className="skeleton w-[30px] h-[20px] rounded-[5px] mr-[32px]"></div>
                   <div className="skeleton max-w-[350px] w-full h-[20px] flex-1 rounded-[5px]"></div>
                 </div>
-              ) : (
+              ) : showHeaderDesktop ? (
                 <div className="hidden lg:flex p-12 md:p-24 items-center">
                   <button onClick={() => router.back()}>
                     <ArrowLeftIcon />
@@ -58,7 +59,7 @@ const BookingLayout = ({
 
                   <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-32">{title}</h3>
                 </div>
-              )}
+              ) : null}
 
               {children}
             </div>

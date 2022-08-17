@@ -137,10 +137,10 @@ const ConfirmBookingCustomer = () => {
           compoundingCar ? (
             <>
               <div className="hidden lg:block">
-                <RideSummary data={compoundingCar} />
+                <RideSummary showFull={false} data={compoundingCar} />
               </div>
               <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-                <RideSummaryMobile rides={compoundingCar} />
+                <RideSummaryMobile showDetailBtn={false} rides={compoundingCar} />
               </div>
             </>
           ) : null
@@ -173,24 +173,23 @@ const ConfirmBookingCustomer = () => {
                   <>
                     {compoundingCar.compounding_type === "one_way" ? (
                       <OneWayCompoundingForm
-                        defaultValues={compoundingCarResToOneWayForm(compoundingCar as any)}
+                        defaultValues={compoundingCarResToOneWayForm(compoundingCar)}
                         disabled
                       />
                     ) : compoundingCar.compounding_type === "two_way" ? (
                       <TwoWayCompoundingForm
-                        defaultValues={compoundingCarResToTwoWayForm(compoundingCar as any)}
+                        defaultValues={compoundingCarResToTwoWayForm(compoundingCar)}
                         disabled
                       />
                     ) : (
                       <CarpoolingCompoundingForm
-                        defaultValues={compoundingCarResToCarpoolingForm(compoundingCar as any)}
+                        defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
                         disabled
                       />
                     )}
                   </>
                 ) : null}
               </div>
-
               {compoundingCar.rating_ids?.length > 0 ? (
                 <ul className="mt-[40px] border-t border-solid border-border-color pt-24">
                   <p className="text-base mb-[12px]">Đánh giá của khách hàng: </p>
@@ -207,14 +206,13 @@ const ConfirmBookingCustomer = () => {
               ) : null}
 
               {compoundingCar.state === "waiting_deposit" || compoundingCar.state === "waiting" ? (
-                <div className="fixed left-0 right-0 bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent]">
+                <div className="fixed left-0 right-0 bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
+                  {/* ${moment(compoundingCar?.expected_going_on_date).isBefore(moment(new Date()))
+                ? "btn-disabled"
+                : ""} */}
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
-                    className={`btn-primary mx-auto md:mx-[unset] ${
-                      moment(compoundingCar?.expected_going_on_date).isBefore(moment(new Date()))
-                        ? "btn-disabled"
-                        : ""
-                    }`}
+                    className={`btn-primary mx-auto md:mx-[unset]`}
                   >
                     Nhận chuyến đi
                   </button>

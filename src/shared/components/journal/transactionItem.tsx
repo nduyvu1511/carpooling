@@ -1,6 +1,6 @@
 import { PlusIcon } from "@/assets"
 import { formatMoneyVND, PAYMENT_PURPOSE_COLOR, PAYMENT_PURPOSE_NAME } from "@/helper"
-import { TransactionRes } from "@/models"
+import { JournalDetailCompoundingCarCustomerRes, TransactionRes } from "@/models"
 import moment from "moment"
 
 interface TransactionItemProps {
@@ -32,13 +32,13 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
       }`}
     >
       <div className="mr-24">
-        <p className="mb-12 text-sm">ID: 089IUIUHIB980</p>
+        <p className="mb-12 text-sm">ID: {transaction.payment_code}</p>
         <p className="text-xs">{moment(transaction.date).format("HH:mm DD/MM/YYYY")}</p>
       </div>
 
       <div className="mr-24 flex-1 flex flex-col items-center">
         <p
-          className={`text-sm md:text-base font-semibold whitespace-nowrap mb-8 ${
+          className={`text-14 md:text-16 font-semibold whitespace-nowrap mb-8 ${
             transaction.payment_type === "inbound" ? "text-success" : "text-error"
           }`}
         >

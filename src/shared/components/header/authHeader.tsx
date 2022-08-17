@@ -119,7 +119,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       key={index}
                     >
                       {icon}
-                      <span className="ml-8 text-xs">{label}</span>
+                      <span className="ml-8 text-xs font-medium">{label}</span>
                     </li>
                   ))
                 ) : (

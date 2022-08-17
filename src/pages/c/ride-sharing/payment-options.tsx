@@ -5,7 +5,7 @@ import {
   RideProgress,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal,
+  RideSummaryModal
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
@@ -13,7 +13,6 @@ import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
-import moment from "moment"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"

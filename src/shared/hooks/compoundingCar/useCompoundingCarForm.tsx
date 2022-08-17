@@ -291,8 +291,8 @@ export const useCompoundingForm = (): Res => {
         station_name: compoundingCar.from_pick_up_station?.station_name,
       },
       number_seat: {
-        label: `1 ghế`,
-        value: 1,
+        label: `${compoundingCar.number_seat_in_car - compoundingCar.number_available_seat} ghế`,
+        value: compoundingCar.number_seat_in_car - compoundingCar.number_available_seat,
       },
       price_per_passenger: compoundingCar.price_unit.price_unit,
       car_id: {
