@@ -43,7 +43,7 @@ const BookingModal = ({
 
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     if (!compoundingType) return
-    
+
     createCompoundingCar({
       params,
       onSuccess: (data) => {
@@ -75,7 +75,7 @@ const BookingModal = ({
 
   return (
     <Modal
-      key='booking-modal'
+      key="booking-modal"
       show={!!show}
       heading={
         compoundingType === "compounding"
@@ -123,6 +123,7 @@ const BookingModal = ({
           />
         ) : (
           <CarpoolingCompoundingForm
+            compoundingType={compoundingType}
             defaultValues={carpoolingCompoundingFormFromLocalStorage()}
             onSubmit={(params) => {
               handleCreateCompoundingCar({ params })

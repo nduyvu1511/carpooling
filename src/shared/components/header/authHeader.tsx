@@ -3,20 +3,14 @@ import {
   AddIcon2,
   blankAvatar,
   CarpoolingIcon,
-  ConvenientIcon,
   LogoIcon,
   OneWayIcon,
   QuestionIcon,
   TwoWayIcon,
 } from "@/assets"
-import { BookingModal, HeaderWrapper, UserNavs } from "@/components"
+import { BookingModal, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
-import {
-  COMPOUNDING_TYPE_BG,
-  COMPOUNDING_TYPE_COLOR,
-  toggleBodyOverflow,
-  toImageUrl,
-} from "@/helper"
+import { COMPOUNDING_TYPE_BG, toggleBodyOverflow, toImageUrl } from "@/helper"
 import { useBackRouter } from "@/hooks"
 import { CarAccountType, CompoundingType } from "@/models"
 import Image from "next/image"
@@ -24,6 +18,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { AccountMenu } from "../menu"
 
 interface AuthHeaderProps {
   className?: string
@@ -187,7 +182,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
 
                   {/* hover */}
                   <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-[100%] right-0 hidden lg:group-hover:block z-10">
-                    <UserNavs type={userInfo?.car_account_type as CarAccountType} />
+                    <AccountMenu type={userInfo?.car_account_type as CarAccountType} />
                   </div>
                 </div>
               </div>

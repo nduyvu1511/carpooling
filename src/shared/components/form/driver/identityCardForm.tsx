@@ -1,6 +1,5 @@
 import { ButtonSubmit, InputImage } from "@/components"
-import { identityCardSchema } from "@/core/schema"
-import { idCardFormFields } from "@/helper"
+import { idCardFormFields, identityCardSchema } from "@/helper"
 import { useAddress } from "@/hooks"
 import { IdCardName, IdCardParams, IdentityCardRes, OptionModel } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"

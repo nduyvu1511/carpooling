@@ -156,7 +156,7 @@ module.exports = {
               "&::after": {
                 clear: "left",
                 content: '""',
-                display: "block",
+                display: " lock",
               },
             },
           }),

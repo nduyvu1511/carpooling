@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ButtonSubmit } from "@/components"
-import { twoWayCompoundingCarSchema } from "@/core/schema"
 import {
   DEFAULT_DATE_TIME_VALUE,
   DEFAULT_HOUR_BACK_VALUE,
@@ -10,6 +9,7 @@ import {
   isObjectHasValue,
   setToLocalStorage,
   subtractDateTimeToNumberOfHour,
+  twoWayCompoundingCarSchema,
   TWO_WAY_CAR_ID,
   TWO_WAY_DISTANCE,
   TWO_WAY_DURATION,

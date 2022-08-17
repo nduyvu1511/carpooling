@@ -1,5 +1,4 @@
-import { userFormAddressSchema } from "@/core/schema"
-import { userInfoAddressData } from "@/helper"
+import { userFormAddressSchema, userInfoAddressData } from "@/helper"
 import { useAddress } from "@/hooks"
 import { OptionModel, UserInfoFormAddress, UserInfoFormAddressOptional } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"

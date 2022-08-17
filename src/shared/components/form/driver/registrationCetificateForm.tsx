@@ -1,12 +1,11 @@
 import { InputImage } from "@/components"
 
-import { inspectionCertificateSchema } from "@/core/schema"
-import { certificatesRegistrationFormFields } from "@/helper"
+import { ButtonSubmit } from "@/components"
+import { certificatesRegistrationFormFields, inspectionCertificateSchema } from "@/helper"
 import { CertificateInspectionParams, CertificateInspectionRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { ButtonSubmit } from "@/components"
 
 interface RegistrationCetificateFormProps {
   defaultValues?: CertificateInspectionRes

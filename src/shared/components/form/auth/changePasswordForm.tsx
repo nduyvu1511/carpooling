@@ -1,6 +1,5 @@
 import { EyeHideIcon, EyeShowIcon } from "@/assets"
-import { changePasswordSchema } from "@/core/schema"
-import { changePasswordFormFields } from "@/helper"
+import { changePasswordFormFields, changePasswordSchema } from "@/helper"
 import { ChangePasswordFormParams, OnForwaredResetForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useRouter } from "next/router"

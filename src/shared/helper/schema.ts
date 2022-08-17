@@ -1,11 +1,4 @@
-import {
-  DATE_REGEX,
-  DATE_SCHEMA,
-  EMAIL_REGEX,
-  PASSWORD_SCHEMA,
-  PHONE_SCHEMA,
-  YEAR_SCHEMA,
-} from "@/helper"
+import { DATE_REGEX, DATE_SCHEMA, PASSWORD_SCHEMA, PHONE_SCHEMA, YEAR_SCHEMA } from "@/helper"
 import * as Yup from "yup"
 
 export const phoneNumberSchema = Yup.object().shape({

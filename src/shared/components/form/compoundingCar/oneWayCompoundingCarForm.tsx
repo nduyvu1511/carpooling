@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ButtonSubmit } from "@/components"
-import { oneWayCompoundingCarSchema } from "@/core/schema"
 import {
   formatMoneyVND,
   getHoursName,
   isObjectHasValue,
+  oneWayCompoundingCarSchema,
   ONE_WAY_CAR_ID,
   ONE_WAY_DISTANCE,
   ONE_WAY_DURATION,

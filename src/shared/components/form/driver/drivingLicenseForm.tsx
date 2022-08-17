@@ -1,6 +1,5 @@
 import { ButtonSubmit, InputImage } from "@/components"
-import { drivingLicenseSchema } from "@/core/schema"
-import { drivingClassList, drivingLicenseFormFields } from "@/helper"
+import { drivingClassList, drivingLicenseFormFields, drivingLicenseSchema } from "@/helper"
 import { DrivingLicenseFormParams, DrivingLicenseRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"

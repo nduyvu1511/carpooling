@@ -1,6 +1,5 @@
 import { EyeHideIcon, EyeShowIcon } from "@/assets"
-import { loginSchema } from "@/core/schema"
-import { FORM_LOGIN_KEY, getFromLocalStorage, setToLocalStorage } from "@/helper"
+import { FORM_LOGIN_KEY, getFromLocalStorage, loginSchema, setToLocalStorage } from "@/helper"
 import { LoginFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"

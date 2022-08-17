@@ -11,8 +11,8 @@ import {
   Map,
   Modal,
 } from "@/components"
-import { carpoolingCompoundingCarSchema } from "@/core/schema"
 import {
+  carpoolingCompoundingCarSchema,
   CARPOOLING_CAR_ID,
   CARPOOLING_DISTANCE,
   CARPOOLING_DURATION,
@@ -32,6 +32,7 @@ import {
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import {
+  CompoundingType,
   CreateCarpoolingCompoundingCar,
   CreateCarpoolingCompoundingForm,
   NumberSeatOptionModel,
@@ -53,6 +54,7 @@ interface CarpoolingCompoundingFormProps {
   view?: "page" | "modal"
   btnLabel?: string
   showNote?: boolean
+  compoundingType?: CompoundingType
 }
 
 export const CarpoolingCompoundingForm = ({
@@ -66,6 +68,7 @@ export const CarpoolingCompoundingForm = ({
   view,
   btnLabel,
   showNote = true,
+  compoundingType = "compounding",
 }: CarpoolingCompoundingFormProps) => {
   const dispatch = useDispatch()
   const {
@@ -228,7 +231,8 @@ export const CarpoolingCompoundingForm = ({
             )}
           </div>
 
-          {getValues("from_station.province_id") || getValues("from_location.province_id") ? (
+          {(getValues("from_station.province_id") || getValues("from_location.province_id")) &&
+          compoundingType === "compounding" ? (
             <div className="flex items-center">
               <InputCheckbox
                 type="circle"

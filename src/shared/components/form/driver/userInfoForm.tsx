@@ -6,8 +6,13 @@ import {
   InputImage,
   Modal,
 } from "@/components"
-import { userFormSchema } from "@/core/schema"
-import { genderList, isObjectHasValue, toggleBodyOverflow, userInfoFormfields } from "@/helper"
+import {
+  genderList,
+  isObjectHasValue,
+  toggleBodyOverflow,
+  userFormSchema,
+  userInfoFormfields,
+} from "@/helper"
 import { useBackRouter, useIdentityCard } from "@/hooks"
 import {
   CarAccountType,
@@ -18,7 +23,6 @@ import {
   UserInfoFormSubmit,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import moment from "moment"
 import { useState } from "react"
 import { Controller, FieldError, useForm } from "react-hook-form"
 import Select from "react-select"

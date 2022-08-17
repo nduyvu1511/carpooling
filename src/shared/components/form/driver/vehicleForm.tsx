@@ -1,6 +1,5 @@
-import { InputImage, ButtonSubmit } from "@/components"
-import { vehicleDetailSchema } from "@/core/schema"
-import { vehicleDetailFormFields } from "@/helper"
+import { ButtonSubmit, InputImage } from "@/components"
+import { vehicleDetailFormFields, vehicleDetailSchema } from "@/helper"
 import { useCompoundingForm, useFetchCarBrand } from "@/hooks"
 import { RegistrationCertificateRes, VehicleDetailFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"

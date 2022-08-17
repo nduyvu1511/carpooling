@@ -1,6 +1,5 @@
 import { EyeHideIcon, EyeShowIcon } from "@/assets"
-import { createPasswordSchema } from "@/core/schema"
-import { createNewPasswordFormFields } from "@/helper"
+import { createNewPasswordFormFields, createPasswordSchema } from "@/helper"
 import { CreatePasswordFormParams, OnForwaredResetForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react"

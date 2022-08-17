@@ -1,6 +1,5 @@
-import { InputImage, ButtonSubmit } from "@/components"
-import { insuranceShema } from "@/core/schema"
-import { vehicleInsuranceForm } from "@/helper"
+import { ButtonSubmit, InputImage } from "@/components"
+import { insuranceShema, vehicleInsuranceForm } from "@/helper"
 import { VehicleInsuranceParams, VehicleInsuranceRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"

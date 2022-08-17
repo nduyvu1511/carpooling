@@ -1,6 +1,5 @@
 import { InputCheckbox } from "@/components/inputs"
-import { contactSchema } from "@/core/schema"
-import { contactFormFields } from "@/helper"
+import { contactFormFields, contactSchema } from "@/helper"
 import { ContactParams, OnForwaredResetForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { forwardRef, useImperativeHandle } from "react"

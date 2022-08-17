@@ -1,4 +1,4 @@
-import { phoneNumberSchema } from "@/core/schema"
+import { phoneNumberSchema } from "@/helper"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ReactNode, useEffect } from "react"
 import { useForm } from "react-hook-form"

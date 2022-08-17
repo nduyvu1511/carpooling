@@ -3,11 +3,11 @@ import { CarAccountType } from "@/models"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-interface UserNavsProps {
+interface AccountMenuProps {
   type: CarAccountType
 }
 
-const UserNavs = ({ type }: UserNavsProps) => {
+const AccountMenu = ({ type }: AccountMenuProps) => {
   const { logout } = useAuth()
   const router = useRouter()
   const { accountNavList } = useAccountNavList()
@@ -54,4 +54,4 @@ const UserNavs = ({ type }: UserNavsProps) => {
   )
 }
 
-export { UserNavs }
+export { AccountMenu }
