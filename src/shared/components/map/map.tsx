@@ -259,7 +259,7 @@ export const Map = ({
 
       <Alert
         show={showAlert}
-        desc="Vui lòng cấp quyền vị trí trên trình duyệt của bạn để lấy vị trí hiện tại"
+        title="Vui lòng cấp quyền vị trí trên trình duyệt của bạn để lấy vị trí hiện tại"
         onConfirm={() => {
           setShowAlert(false)
         }}

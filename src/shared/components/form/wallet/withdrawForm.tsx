@@ -1,10 +1,7 @@
-import { QuestionIcon } from "@/assets"
 import { Alert } from "@/components/modal"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useState } from "react"
-import CurrencyInput from "react-currency-input-field"
-import { useDispatch } from "react-redux"
-import { notify } from "reapop"
+import { TransactionForm } from "./transactionForm"
 
 interface WithdrawFormProps {
   onSubmit?: (_: number) => void
@@ -12,7 +9,6 @@ interface WithdrawFormProps {
 }
 
 export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) => {
-  const dispatch = useDispatch()
   const [value, setValue] = useState<string>("")
   const [showConfirmWithdraw, setShowConfirmWithdraw] = useState<boolean>(false)
 
@@ -27,14 +23,20 @@ export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) =>
 
   return (
     <>
-      <div>
-        <ul className="mb-24">
+      <div className="flex-1 flex-col flex">
+        <TransactionForm
+          onSubmit={(data) => console.log(data)}
+          accountBalance={accountBalance}
+          label="Số tiền muốn rút"
+        />
+
+        {/* <ul className="mb-24">
           <li className="flex items-center mb-[16px]">
             <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư hiện có</p>
             <p className="text-base font-semibold text-primary">{formatMoneyVND(accountBalance)}</p>
           </li>
-        </ul>
-
+        </ul> */}
+        {/* 
         <div className="mb-24">
           <label htmlFor="input" className="form-label">
             Số tiền muốn rút
@@ -43,14 +45,17 @@ export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) =>
             id="input-example"
             name="input-name"
             className="form-input"
-            placeholder="VNĐ"
+            placeholder="đ"
             decimalsLimit={4}
-            suffix=" VNĐ"
-            onValueChange={(value, name) => value && setValue(value)}
+            suffix="đ"
+            onValueChange={(value, name) => {
+              console.log(Number(value))
+              setValue(value)
+            }}
             value={value}
           />
-        </div>
-
+        </div> */}
+        {/* 
         <ul className="mb-24">
           <li className="flex items-center mb-[16px]">
             <p className="text-xs w-[200px] mr-24">Phí rút tiền</p>
@@ -60,13 +65,13 @@ export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) =>
             <p className="text-xs w-[200px] mr-24">Thời gian xử lý</p>
             <p className="text-sm md:text-base">24 giờ </p>
           </li>
-        </ul>
+        </ul> */}
 
-        <div className="flex items-center mb-[40px]">
+        {/* <div className="flex items-center mb-[40px]">
           <QuestionIcon className="mr-8 w-[16px] text-primary" />
           <p className="text-xs text-blue-7">Xem hướng dẫn Rút tiền tại đây.</p>
-        </div>
-
+        </div> */}
+        {/* 
         <div className="absolute lg:static bottom-0 left-0 right-0 p-12 bg-white-color">
           <button
             onClick={() => {
@@ -85,11 +90,11 @@ export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) =>
           >
             Xác nhận
           </button>
-        </div>
+        </div> */}
       </div>
 
       <Alert
-        desc={`Xác nhận rút ${formatMoneyVND(value)}`}
+        title={`Xác nhận rút ${formatMoneyVND(value)}`}
         onConfirm={() => {
           toggleBodyOverflow("hidden")
           onSubmit?.(+value)

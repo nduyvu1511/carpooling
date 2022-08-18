@@ -51,7 +51,7 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
           </li>
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">
-              Đã đặt cọc(({ride.down_payment.percent * 100}%))
+              Đã đặt cọc({ride.down_payment.percent * 100}%)
             </p>
             <p className="whitespace-nowrap text-sm md:text-base text-right">
               {formatMoneyVND(ride.down_payment.total)}

@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { RatingTag } from "../rating"
+import { AccountTag } from "./accountTag"
 
 interface AccountDashboardProps {
   activePath?: string
@@ -43,7 +44,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
         </div>
 
         <div className="flex items-center flex-col">
-          <div className="flex items-center flex-1 mb-8">
+          <div className="flex items-center flex-1 mb-12">
             <p className="mr-[16px] h3 text-primary font-semibold flex-1">
               {userInfo?.partner_name}
             </p>
@@ -54,25 +55,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
               />
             ) : null}
           </div>
-          {userInfo?.car_account_type === "customer" ||
-          (userInfo?.car_account_type === "car_driver" &&
-            userInfo.verified_car_driver_account === "active_acount") ? (
-            <div className="flex-1 bg-bg-success text-success text-xs flex items-center p-[8px] rounded-[5px]">
-              <CheckIcon className="mr-[8px] w-[16px] h-[16px]" stroke="#10B981" />
-              Tài khoản {userInfo?.car_account_type === "customer" ? "khách hàng" : "tài xế"}
-            </div>
-          ) : (
-            <>
-              <div className="flex-1 bg-bg-warning text-white-color text-xs flex items-center p-[8px] mb-[8px] rounded-[5px]">
-                <WarningIcon className="w-[16px] h-[16px] mr-[8px]" />
-                Tài khoản chưa kích hoạt
-              </div>
-
-              <Link passHref href="/d/register">
-                <a className="text-primary text-sm underline">Bổ sung thông tin tài xế</a>
-              </Link>
-            </>
-          )}
+          <AccountTag userInfo={userInfo} />
         </div>
       </div>
 
@@ -82,7 +65,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
             <li
               onClick={() => router.push(path)}
               key={index}
-              className={`cursor-pointer flex items-start text-sm font-semibold px-[18px] py-[14px] border-b border-solid border-border-color ${
+              className={`cursor-pointer flex items-start text-sm font-semibold px-12 py-[14px] border-b border-solid border-border-color ${
                 activePath === path ? "bg-primary text-white-color rounded-[5px]" : "text-primary"
               }`}
             >

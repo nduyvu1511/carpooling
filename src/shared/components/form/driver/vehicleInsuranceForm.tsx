@@ -1,4 +1,4 @@
-import { ButtonSubmit, InputImage } from "@/components"
+import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { insuranceShema, vehicleInsuranceForm } from "@/helper"
 import { VehicleInsuranceParams, VehicleInsuranceRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -20,6 +20,7 @@ export const VehicleInsuranceForm = ({
     handleSubmit,
     formState: { errors, dirtyFields, isValid },
     control,
+    getValues,
     register,
   } = useForm<VehicleInsuranceParams>({
     resolver: yupResolver(insuranceShema),
@@ -86,22 +87,23 @@ export const VehicleInsuranceForm = ({
               control={control}
               name={field.name}
               render={({ field: { onChange, onBlur } }) => (
-                <input
-                  className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                  defaultValue={
-                    field.name === "date_of_expiry"
-                      ? defaultValues?.date_of_expiry
-                      : field.name === "date_of_issue"
-                      ? defaultValues?.date_of_issue
-                      : undefined
-                  }
-                  id={field.name}
-                  type="date"
+                <div
                   onBlur={onBlur}
-                  onChange={(e) => {
-                    onChange(e.target.value)
-                  }}
-                />
+                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                >
+                  <InputDate
+                    value={
+                      field.name === "date_of_expiry"
+                        ? getValues("date_of_expiry")
+                        : field.name === "date_of_issue"
+                        ? getValues("date_of_issue")
+                        : undefined
+                    }
+                    placeholder={field.placeholder}
+                    onChange={(val) => onChange(val)}
+                    disablePassDay={false}
+                  />
+                </div>
               )}
               rules={{ required: true }}
             />

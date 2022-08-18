@@ -1,4 +1,4 @@
-import { ButtonSubmit, InputImage } from "@/components"
+import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { idCardFormFields, identityCardSchema } from "@/helper"
 import { useAddress } from "@/hooks"
 import { IdCardName, IdCardParams, IdentityCardRes, OptionModel } from "@/models"
@@ -111,17 +111,17 @@ export const IdentityCardForm = ({
           ) : null}
 
           {field.type === "select" ? (
-            <div className="form-select">
-              <Controller
-                control={control}
-                name={field.name}
-                render={({ field: { onChange, onBlur } }) => (
+            <Controller
+              control={control}
+              name={field.name}
+              render={({ field: { onChange, onBlur } }) => (
+                <div onBlur={onBlur} className="form-select">
                   <Select
-                    defaultValue={
-                      field.name === "place_of_issue" && defaultValues?.place_of_issue
+                    value={
+                      field.name === "place_of_issue" && getValues("place_of_issue")
                         ? {
-                            value: defaultValues?.place_of_issue,
-                            label: defaultValues?.place_of_issue,
+                            value: getValues("place_of_issue"),
+                            label: getValues("place_of_issue"),
                           }
                         : undefined
                     }
@@ -134,10 +134,10 @@ export const IdentityCardForm = ({
                     id={field.name}
                     options={getOptionsSelect(field.name) as []}
                   />
-                )}
-                rules={{ required: true }}
-              />
-            </div>
+                </div>
+              )}
+              rules={{ required: true }}
+            />
           ) : null}
 
           {field.type === "date" ? (
@@ -145,16 +145,17 @@ export const IdentityCardForm = ({
               control={control}
               name={field.name}
               render={({ field: { onChange, onBlur } }) => (
-                <input
-                  className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                  defaultValue={getValues([field.name]) + ""}
-                  id={field.name}
-                  type="date"
+                <div
                   onBlur={onBlur}
-                  onChange={(e) => {
-                    onChange(e.target.value)
-                  }}
-                />
+                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                >
+                  <InputDate
+                    value={getValues([field.name]) + ""}
+                    placeholder={field.placeholder}
+                    onChange={(val) => onChange(val)}
+                    disablePassDay={false}
+                  />
+                </div>
               )}
               rules={{ required: true }}
             />

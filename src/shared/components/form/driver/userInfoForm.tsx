@@ -2,17 +2,12 @@ import {
   AddressForm,
   ButtonSubmit,
   IdentityCardForm,
+  InputDate,
   InputGender,
   InputImage,
   Modal,
 } from "@/components"
-import {
-  genderList,
-  isObjectHasValue,
-  toggleBodyOverflow,
-  userFormSchema,
-  userInfoFormfields,
-} from "@/helper"
+import { isObjectHasValue, toggleBodyOverflow, userFormSchema, userInfoFormfields } from "@/helper"
 import { useBackRouter, useIdentityCard } from "@/hooks"
 import {
   CarAccountType,
@@ -25,7 +20,6 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
 import { Controller, FieldError, useForm } from "react-hook-form"
-import Select from "react-select"
 
 interface UserInfoProps {
   defaultValues?: UserInfo
@@ -289,50 +283,22 @@ export const UserInfoForm = ({
               </div>
             ) : null}
 
-            {field.type === "select" ? (
-              <div className="form-select">
-                <Controller
-                  control={control}
-                  name={field.name}
-                  render={({ field: { onChange, onBlur } }) => (
-                    <Select
-                      defaultValue={
-                        defaultValues?.gender
-                          ? defaultValues.gender === "male"
-                            ? { label: "Nam", value: "male" }
-                            : { label: "Nữ", value: "female" }
-                          : undefined
-                      }
-                      className={`${errors?.[field.name] ? "form-select-error" : ""}`}
-                      placeholder={field.placeholder}
-                      options={genderList}
-                      onChange={(val) => val?.value && onChange(val.value)}
-                      onBlur={onBlur}
-                      id={field.name}
-                    />
-                  )}
-                  rules={{ required: true }}
-                />
-              </div>
-            ) : null}
-
             {field.type === "date" ? (
               <Controller
                 control={control}
                 name={field.name}
                 render={({ field: { onChange, onBlur } }) => (
-                  <input
-                    className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                    defaultValue={defaultValues?.date_of_birth}
-                    id={field.name}
-                    type="date"
+                  <div
                     onBlur={onBlur}
-                    onChange={(e) => {
-                      onChange(e.target.value)
-                    }}
-                    placeholder="dd-mm-yyyy"
-                    // max={moment(new Date()).subtract(18, "years").format("YYYY-MM-DD")}
-                  />
+                    className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                  >
+                    <InputDate
+                      value={getValues("date_of_birth")}
+                      placeholder="Ngày sinh"
+                      onChange={(val) => onChange(val)}
+                      disablePassDay={false}
+                    />
+                  </div>
                 )}
                 rules={{ required: true }}
               />

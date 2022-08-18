@@ -41,6 +41,7 @@ export const InputDateTime = ({
         name={name}
         render={({ field: { onChange, onBlur } }) => (
           <MyInputDateTime
+            onBlur={onBlur}
             maxHour={maxHour}
             disableHour={disableHour}
             disableDate={disableDate}

@@ -7,9 +7,17 @@ interface TabsProps {
   onChange?: (params: string | string[]) => void
   type?: "fit" | "full"
   className?: string
+  labelClassName?: string
 }
 
-const Tabs = ({ tabActive, list, onChange, type = "fit", className = "" }: TabsProps) => {
+const Tabs = ({
+  tabActive,
+  list,
+  onChange,
+  type = "fit",
+  className = "",
+  labelClassName = "",
+}: TabsProps) => {
   const lineRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
@@ -39,7 +47,7 @@ const Tabs = ({ tabActive, list, onChange, type = "fit", className = "" }: TabsP
             getActiveStringOrListString(value, tabActive) ? "text-primary" : "text-gray-color-5"
           } flex-1 text-center ${type === "full" ? "" : "sm:flex-none sm:text-left"} ${
             index < list.length - 1 ? "mr-[16px] sm:mr-[24px]" : "mr-0"
-          }`}
+          } ${labelClassName}`}
           key={index}
           onClick={() => {
             onChange?.(value)
@@ -52,7 +60,7 @@ const Tabs = ({ tabActive, list, onChange, type = "fit", className = "" }: TabsP
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-0 h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-[-1px] h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

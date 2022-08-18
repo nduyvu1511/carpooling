@@ -119,6 +119,14 @@ export const userFormSchema = Yup.object().shape(
   [["email", "email"]]
 )
 
+export const transactionMoneySchema = Yup.object().shape({
+  money: Yup.number()
+    .typeError("Vui lòng nhập định dạng số")
+    .min(50000, "Số tiền tối thiểu là 50.000đ")
+    .max(5000000, "Số tiền tối đa là 5.000.000đ")
+    .required("Vui lòng nhập trường này"),
+})
+
 export const userFormAddressSchema = Yup.object().shape({
   province_id: Yup.object().shape({
     value: Yup.number()

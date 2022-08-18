@@ -415,7 +415,7 @@ export const genderList: {
 export const userInfoFormfields: {
   name: UserInfoFormKey
   placeholder: string
-  type: "file" | "text" | "select" | "date" | "textarea" | "radio" | "address"
+  type: "file" | "text" | "date" | "textarea" | "radio" | "address"
   isRequired: boolean
 }[] = [
   {

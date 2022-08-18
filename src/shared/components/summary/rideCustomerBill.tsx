@@ -27,13 +27,15 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
               </p>
             </li>
             <li className="flex items-start justify-between mb-[16px]">
-              <p className="text-xs">Đã đặt cọc({data.down_payment.percent * 100}%)</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-base font-semibold uppercase">
+                Đã đặt cọc({data.down_payment.percent * 100}%)
+              </p>
+              <p className="text-14 md:text-16 ml-[16px] whitespace-nowrap flex-1 text-right font-semibold text-error">
                 {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
             <li className="flex items-start justify-between">
-              <p className="text-xs">Số tiền còn lại cần thanh toán</p>
+              <p className="text-xs">Số tiền thanh toán sau</p>
               <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
                 {formatMoneyVND(data.amount_due)}
               </p>

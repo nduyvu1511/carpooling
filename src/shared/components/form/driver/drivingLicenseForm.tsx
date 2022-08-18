@@ -1,4 +1,4 @@
-import { ButtonSubmit, InputImage } from "@/components"
+import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { drivingClassList, drivingLicenseFormFields, drivingLicenseSchema } from "@/helper"
 import { DrivingLicenseFormParams, DrivingLicenseRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -20,6 +20,8 @@ const DrivingLicenseForm = ({
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors, dirtyFields, isValid },
     control,
   } = useForm<DrivingLicenseFormParams>({
@@ -60,9 +62,10 @@ const DrivingLicenseForm = ({
             <Controller
               control={control}
               name={field.name}
-              render={({ field: { onChange } }) => (
-                <div className="driver-bio__form-input">
+              render={({ field: { onChange, onBlur } }) => (
+                <div onBlur={onBlur} className="driver-bio__form-input">
                   <InputImage
+                    onBlur={onBlur}
                     id={field.name}
                     image={
                       field.name === "front_license_image_url"
@@ -99,11 +102,11 @@ const DrivingLicenseForm = ({
           ) : null}
 
           {field.type === "select" ? (
-            <div className="form-select">
-              <Controller
-                control={control}
-                name={field.name}
-                render={({ field: { onChange, onBlur } }) => (
+            <Controller
+              control={control}
+              name={field.name}
+              render={({ field: { onChange, onBlur } }) => (
+                <div onBlur={onBlur} className="form-select">
                   <Select
                     defaultValue={
                       field.name === "license_class"
@@ -119,10 +122,10 @@ const DrivingLicenseForm = ({
                     onBlur={onBlur}
                     id={field.name}
                   />
-                )}
-                rules={{ required: true }}
-              />
-            </div>
+                </div>
+              )}
+              rules={{ required: true }}
+            />
           ) : null}
 
           {field.type === "date" ? (
@@ -130,22 +133,17 @@ const DrivingLicenseForm = ({
               control={control}
               name={field.name}
               render={({ field: { onChange, onBlur } }) => (
-                <input
-                  className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                  defaultValue={
-                    field.name === "date_of_expiry"
-                      ? defaultValues?.date_of_expiry
-                      : field.name === "date_of_issue"
-                      ? defaultValues?.date_of_issue
-                      : undefined
-                  }
-                  id={field.name}
-                  type="date"
+                <div
                   onBlur={onBlur}
-                  onChange={(e) => {
-                    onChange(e.target.value)
-                  }}
-                />
+                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                >
+                  <InputDate
+                    value={getValues(field.name) + ""}
+                    placeholder="Ngày sinh"
+                    onChange={(val) => onChange(val)}
+                    disablePassDay={false}
+                  />
+                </div>
               )}
               rules={{ required: true }}
             />

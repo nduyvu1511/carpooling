@@ -47,7 +47,10 @@ export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSum
         </div>
       ) : (
         <div>
-          <p className="text-sm md:text-base">Chưa có tài xế</p>
+          <p className="text-sm md:text-base">
+            Chưa có tài xế nhận chuyến, chúng tôi sẽ thông báo đến bạn sau khi có tài xế nhận
+            chuyến.
+          </p>
         </div>
       )}
     </div>

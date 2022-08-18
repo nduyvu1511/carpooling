@@ -188,7 +188,7 @@ const CheckoutOptions = () => {
           )
         }}
         showLeftBtn={false}
-        desc="Chọn hình thức thanh toán thành công, vui lòng thanh toán số tiền còn lại cho tài xế và hoàn tất chuyến đi"
+        title="Chọn hình thức thanh toán thành công, vui lòng thanh toán số tiền còn lại cho tài xế và hoàn tất chuyến đi"
       />
     </>
   )

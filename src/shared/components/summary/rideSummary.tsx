@@ -1,6 +1,8 @@
+import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { ReactNode, useState } from "react"
+import { useSelector } from "react-redux"
 import { AccordionItem } from "../accordion"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"
@@ -27,6 +29,7 @@ const RideSummary = ({
   showDeposit = true,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   const handleToggleTabsActive = (id: number) => {
     if (tabsActive.includes(id)) {
@@ -52,14 +55,16 @@ const RideSummary = ({
               <p className={item}>Đã bao gồm</p>
             </div>
 
-            {data?.price_unit ? (
-              <div className="flex items-baseline justify-between">
-                <p className={titleClassName}>Giá vé</p>
-                <p className={`font-medium text-orange-50 text-22 xl:text-28 leading-[36px]`}>
-                  {formatMoneyVND(data?.price_unit?.price_unit)}
-                </p>
-              </div>
-            ) : null}
+            <div className="flex items-baseline justify-between">
+              <p className={titleClassName}>Giá vé</p>
+              <p className={`font-medium text-orange-50 text-22 xl:text-28 leading-[36px]`}>
+                {formatMoneyVND(
+                  userInfo?.car_account_type === "car_driver"
+                    ? data?.price_unit?.price_unit || data?.amount_total || 0
+                    : data?.amount_total || data?.price_unit?.price_unit || 0
+                )}
+              </p>
+            </div>
 
             {showDeposit ? (
               <>

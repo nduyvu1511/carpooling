@@ -357,7 +357,7 @@ const ScheduleCompounding = () => {
 
       <Alert
         show={!!confirmDoneCompoundingCarModal}
-        desc="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
+        title="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
         onClose={() => setConfirmDoneCompoundingCarModal(false)}
         onConfirm={() => handleConfirmDoneCompoundingCar()}
         type="info"

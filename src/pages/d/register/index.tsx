@@ -127,7 +127,7 @@ const DriverInfo = () => {
       </div>
       <Alert
         show={openAlert}
-        desc="Hồ sơ của bạn đang được xét duyệt, bộ phận Nhân Sự của Exxe sẽ liên hệ với bạn sớm nhất"
+        title="Hồ sơ của bạn đang được xét duyệt, bộ phận Nhân Sự của Exxe sẽ liên hệ với bạn sớm nhất"
         onClose={() => {}}
         onConfirm={() => router.push("/d")}
         showLeftBtn={false}

@@ -80,7 +80,7 @@ export type CertificateInspectionFormKey =
   | "identity_number"
   | "date_of_expiry"
 export type GenderType = "male" | "female" | "no_info"
-export type DriverAccountStatus = "inactive_account" | "active_acount" | "blocked_account"
+export type DriverAccountStatus = "inactive_account" | "active_account" | "blocked_account"
 export type DrivingLicenseClassType = "b1" | "b2" | "c" | "d" | "e" | "f"
 
 // Interfaces

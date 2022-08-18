@@ -159,7 +159,7 @@ const Payment = ({
                     setShowAlert(true)
                     toggleBodyOverflow("hidden")
                   }}
-                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-24"
+                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-[16px]"
                 >
                   <span className="hidden sm:block"> Hủy giao dịch</span>
                   <span className="sm:hidden"> Hủy</span>
@@ -188,7 +188,7 @@ const Payment = ({
       {isExpiredCountdown && showCountdown ? (
         <Alert
           show={true}
-          desc="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
+          title="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
           onConfirm={() =>
             router.push(`${userInfo?.car_account_type === "car_driver" ? "/d" : "/c"}`)
           }
@@ -199,7 +199,7 @@ const Payment = ({
 
       <Alert
         show={showAlert}
-        desc="Bạn có chắc chắc muốn hủy giao dịch này?"
+        title="Bạn có chắc chắc muốn hủy giao dịch này?"
         onClose={() => {
           setShowAlert(false)
           toggleBodyOverflow("unset")
@@ -212,4 +212,3 @@ const Payment = ({
 }
 
 export { Payment }
-

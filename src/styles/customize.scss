@@ -786,3 +786,13 @@
 .button-call-linear-gradient {
   background: linear-gradient(173.32deg, #00ffb7 1.19%, #26b0e4 39.26%, #5a31ff 94.75%);
 }
+
+.journal-filter-inputs {
+  & svg {
+    right: 0;
+  }
+
+  .form-date {
+    padding-inline: 12px;
+  }
+}

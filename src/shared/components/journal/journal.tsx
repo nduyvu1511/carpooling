@@ -7,7 +7,7 @@ import {
   Spinner,
   TransactionDetail,
   TransactionItem,
-  WithdrawForm,
+  TransactionModal,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useEffectOnce, useJournal } from "@/hooks"
@@ -16,7 +16,6 @@ import { useState } from "react"
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
 import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { JournalGuide } from "./journalGuide"
 
 interface JournalProps {
   type?: CarAccountType
@@ -138,7 +137,7 @@ const Journal = ({ type }: JournalProps) => {
                       <div className="flex-row flex items-stretch">
                         <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
                           <CircularProgressbar
-                            styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#f0f0f0" })}
+                            styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#D7D7D7" })}
                             value={
                               ((transactions?.journal[1]?.remains_amount || 0) / getTotalMoney) *
                               100
@@ -154,7 +153,7 @@ const Journal = ({ type }: JournalProps) => {
                         <div className="flex-1 lg:flex-auto my-auto">
                           <div className="">
                             <p className="flex items-center mb-8">
-                              <span className="w-[10px] h-[10px] rounded-[50%] bg-gray-color-1 mr-8"></span>
+                              <span className="w-[10px] h-[10px] rounded-[50%] bg-border-color-2 mr-8"></span>
                               <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
                             </p>
                             <p className="text-base font-semibold">
@@ -196,8 +195,8 @@ const Journal = ({ type }: JournalProps) => {
               </div> */}
             </div>
             <div className="">
-              <div className="flex items-center justify-between mb-[16px] ">
-                <p className="text-base font-semibold">Lịch sử giao dịch</p>
+              <div className="flex items-center justify-between mb-[40px]">
+                <p className="text-base font-semibold lg:text-xl">Lịch sử giao dịch</p>
 
                 <button
                   onClick={() => setShowFilter(true)}
@@ -246,7 +245,7 @@ const Journal = ({ type }: JournalProps) => {
       </div>
 
       <Modal
-        key='transaction-detail-modal'
+        key="transaction-detail-modal"
         show={!!currentPaymentId}
         onClose={() => handleToggleModal({ status: undefined, type: "payment" })}
         heading="Chi tiết giao dịch"
@@ -258,30 +257,23 @@ const Journal = ({ type }: JournalProps) => {
       </Modal>
 
       <Alert
-        desc="Rút tiền thành công, vui lòng chờ trong khoảng 24h để giao dịch được thực thi"
+        title="Giao dịch thành công!"
+        desc="Giao dịch rút tiền đã thành công, cảm ơn bạn đã sử dụng dịch vụ của ExxeVn"
         onConfirm={() => handleToggleModal({ status: false, type: "message" })}
-        showLeftBtn={false}
         show={showMsg}
+        leftBtnLabel="Đóng"
+        rightBtnLabel="Chi tiết"
         onClose={() => handleToggleModal({ status: false, type: "message" })}
       />
 
-      <Modal
-        key='withdraw-modal'
+      <TransactionModal
         show={showWithdrawModal}
         onClose={() => handleToggleModal({ status: false, type: "withdraw" })}
-        className="lg:h-auto"
-        heading="Phiếu rút tiền"
-      >
-        <div className="flex-1 flex-col p-12 md:p-24">
-          <WithdrawForm
-            accountBalance={transactions?.journal?.[1]?.remains_amount || 0}
-            onSubmit={(val) => handleMakeWithdrawRequest(val)}
-          />
-        </div>
-      </Modal>
+        accountBalance={transactions?.journal?.[1]?.remains_amount || 0}
+      />
 
       <Modal
-        key='filter-modal'
+        key="filter-modal"
         show={showFilter}
         onClose={() => handleToggleModal({ status: false, type: "filter" })}
         className=""

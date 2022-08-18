@@ -235,7 +235,7 @@ const RidesDetail = () => {
 
           <Alert
             show={!!currentDeleteRating}
-            desc="Bạn có chắc chắn muốn xóa đánh giá này"
+            title="Bạn có chắc chắn muốn xóa đánh giá này"
             onClose={() => setCurrentDeleteRating(undefined)}
             onConfirm={() => currentDeleteRating && handleDeleteRating(currentDeleteRating)}
             type="warning"

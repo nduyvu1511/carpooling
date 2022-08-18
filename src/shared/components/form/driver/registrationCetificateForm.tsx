@@ -1,6 +1,6 @@
 import { InputImage } from "@/components"
 
-import { ButtonSubmit } from "@/components"
+import { ButtonSubmit, InputDate } from "@/components"
 import { certificatesRegistrationFormFields, inspectionCertificateSchema } from "@/helper"
 import { CertificateInspectionParams, CertificateInspectionRes } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -20,6 +20,7 @@ export const RegistrationCetificateForm = ({
 }: RegistrationCetificateFormProps) => {
   const {
     register,
+    getValues,
     handleSubmit,
     formState: { errors, dirtyFields, isValid },
     control,
@@ -87,18 +88,19 @@ export const RegistrationCetificateForm = ({
               control={control}
               name={field.name}
               render={({ field: { onChange, onBlur } }) => (
-                <input
-                  className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                  defaultValue={
-                    field.name === "date_of_expiry" ? defaultValues?.date_of_expiry : undefined
-                  }
-                  id={field.name}
-                  type="date"
+                <div
                   onBlur={onBlur}
-                  onChange={(e) => {
-                    onChange(e.target.value)
-                  }}
-                />
+                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                >
+                  <InputDate
+                    value={
+                      field.name === "date_of_expiry" ? getValues("date_of_expiry") : undefined
+                    }
+                    placeholder="Ngày hết hạn"
+                    onChange={(val) => onChange(val)}
+                    disablePassDay={false}
+                  />
+                </div>
               )}
               rules={{ required: true }}
             />

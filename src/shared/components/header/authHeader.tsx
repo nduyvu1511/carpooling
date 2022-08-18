@@ -12,7 +12,7 @@ import { BookingModal, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
 import { COMPOUNDING_TYPE_BG, toggleBodyOverflow, toImageUrl } from "@/helper"
 import { useBackRouter } from "@/hooks"
-import { CarAccountType, CompoundingType } from "@/models"
+import { CompoundingType } from "@/models"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -144,14 +144,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                   </Link>
                 </div>
 
-                <div
-                  onClick={() =>
-                    router.push(
-                      `/${userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"}`
-                    )
-                  }
-                  className="flex items-center max-w-[150px] w-full relative group cursor-pointer"
-                >
+                <div className="flex items-center max-w-[150px] w-full relative group cursor-pointer">
                   <div
                     onClick={() =>
                       router.push(
@@ -181,8 +174,8 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                   </div>
 
                   {/* hover */}
-                  <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-[100%] right-0 hidden lg:group-hover:block z-10">
-                    <AccountMenu type={userInfo?.car_account_type as CarAccountType} />
+                  <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-full right-0 hidden lg:group-hover:block z-10">
+                    <AccountMenu />
                   </div>
                 </div>
               </div>

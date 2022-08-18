@@ -17,6 +17,7 @@ interface MyInputDateTimeProps {
   isSelectSearchable?: boolean
   maxHour?: string
   minHour?: string
+  onBlur?: Function
 }
 
 const MyInputDateTime = ({
@@ -29,6 +30,7 @@ const MyInputDateTime = ({
   maxMenuHeight,
   isSelectSearchable,
   maxHour,
+  onBlur,
 }: MyInputDateTimeProps) => {
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
@@ -58,7 +60,10 @@ const MyInputDateTime = ({
   }
 
   return (
-    <div className="my-input-datetime flex items-center h-[44px] md:h-[52px]">
+    <div
+      onBlur={() => onBlur?.()}
+      className="my-input-datetime flex items-center h-[44px] md:h-[52px]"
+    >
       <div
         className={`relative form-date w-[40%] sm:w-1/2 h-full borer border-solid bg-white-color rounded-[5px] md:rounded-[10px] ${
           isError ? "border border-solid border-error" : "border-black-10 md:border-border-color-2"

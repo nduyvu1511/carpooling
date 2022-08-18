@@ -33,7 +33,7 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
     >
       <div className="mr-24">
         <p className="mb-12 text-sm">ID: {transaction.payment_code}</p>
-        <p className="text-xs">{moment(transaction.date).format("HH:mm DD/MM/YYYY")}</p>
+        <p className="text-xs">{moment(transaction.date).format("DD/MM/YYYY")}</p>
       </div>
 
       <div className="mr-24 flex-1 flex flex-col items-center">

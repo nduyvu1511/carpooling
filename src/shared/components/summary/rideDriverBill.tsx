@@ -32,6 +32,7 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
               Thông tin chuyến đi
             </p>
             <DriverDepositInfo
+              deposit_date={data?.deposit_date}
               amount_total={data?.amount_total || data?.price_unit?.price_unit}
               down_payment={data.down_payment}
             />
@@ -63,6 +64,7 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
               <DriverDepositInfo
                 amount_total={data?.amount_total || data?.price_unit?.price_unit}
                 down_payment={data.down_payment}
+                deposit_date={data.deposit_date}
               />
             ) : null}
           </AccordionItem>

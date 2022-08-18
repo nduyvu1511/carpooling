@@ -129,7 +129,7 @@ const Rating = () => {
       <Alert
         show={!!currentDeleteRatingId}
         type="warning"
-        desc="Bạn có chắc chắn muốn xóa đi đánh giá này "
+        title="Bạn có chắc chắn muốn xóa đi đánh giá này "
         onClose={() => {
           toggleBodyOverflow("unset")
           setCurrentDeleteRatingId(undefined)

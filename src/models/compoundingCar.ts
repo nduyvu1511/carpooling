@@ -180,6 +180,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   amount_return?: number
   down_payment?: DownPayment
   amount_total?: number
+  deposit_date?: string
 }
 
 export interface CompoundingCarDriverRes

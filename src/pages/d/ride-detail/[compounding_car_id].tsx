@@ -227,7 +227,7 @@ const ConfirmBookingCustomer = () => {
       <Alert
         show={!!(showAlert && compoundingCar?.compounding_car_id)}
         type="warning"
-        desc="Bạn có chắc chắn muốn hủy giao dịch này?"
+        title="Bạn có chắc chắn muốn hủy giao dịch này?"
         onClose={() => setShowAlert(undefined)}
         onConfirm={() =>
           compoundingCar?.compounding_car_id &&
@@ -313,7 +313,7 @@ const ConfirmBookingCustomer = () => {
           setShowAlertAccount(false)
           router.push("/d/register")
         }}
-        desc="Tài khoản của bạn chưa được kích hoạt, vui lòng nhập đầy đủ thông tin đăng ký tài xế để Exxe xét duyệt hồ sơ"
+        title="Tài khoản của bạn chưa được kích hoạt, vui lòng nhập đầy đủ thông tin đăng ký tài xế để Exxe xét duyệt hồ sơ"
         type="warning"
       />
     </>

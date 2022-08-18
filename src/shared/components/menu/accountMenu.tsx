@@ -1,13 +1,8 @@
 import { useAccountNavList, useAuth } from "@/hooks"
-import { CarAccountType } from "@/models"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-interface AccountMenuProps {
-  type: CarAccountType
-}
-
-const AccountMenu = ({ type }: AccountMenuProps) => {
+const AccountMenu = () => {
   const { logout } = useAuth()
   const router = useRouter()
   const { accountNavList } = useAccountNavList()
@@ -32,14 +27,6 @@ const AccountMenu = ({ type }: AccountMenuProps) => {
                   {label}
                 </a>
               </div>
-            ) : path.includes("/account/schedules") ? (
-              type === "car_driver" ? (
-                <Link href={path}>
-                  <a className="text-14 font-medium text-blue-8 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">
-                    {label}
-                  </a>
-                </Link>
-              ) : null
             ) : (
               <Link href={path}>
                 <a className="text-14 font-medium text-blue-8 leading-26 py-[4px] px-[16px] block hover:bg-bg rounded-[5px] transition-all duration-100">

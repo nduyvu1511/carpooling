@@ -1,5 +1,5 @@
 import { EditIcon, SpinnerIcon } from "@/assets"
-import { InputLoading, RatingTag, TextareaLoading, UserInfoForm } from "@/components"
+import { InputLoading, RatingTag, TextareaLoading, UserInfoForm, AccountTag } from "@/components"
 import { removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
 import { CarAccountType, UpdateUserInfoParams } from "@/models"
@@ -68,9 +68,10 @@ const Profile = ({ type }: ProfileProps) => {
       <div className="">
         <div className="flex items-center mb-24">
           <div className="w-[80px] h-[80px] md:w-[160px] md:h-[160px] rounded-[50%] skeleton mr-[24px]"></div>
-          <div>
+          <div className="flex-1">
             <div className="skeleton h-[20px] w-[140px] rounded-[5px] mb-[16px]"></div>
-            <div className="skeleton h-[8px] w-[100px] rounded-[5px]"></div>
+            <div className="skeleton h-[16px] w-[200px] rounded-[5px] mb-[16px]"></div>
+            <div className="skeleton h-[8px] max-w-[300px] w-full rounded-[5px]"></div>
           </div>
         </div>
 
@@ -106,6 +107,7 @@ const Profile = ({ type }: ProfileProps) => {
                 </div>
               </label>
             )}
+
             <input
               type="file"
               name="avatar"
@@ -131,9 +133,10 @@ const Profile = ({ type }: ProfileProps) => {
         <div className="flex-1 md:ml-[48px]">
           <div className="flex-col flex-center md:items-start">
             <div className="flex items-center mb-[8px] md:mb-[16px]">
-              <p className="h3 line-clamp-1 word-wrap-anywhere flex-1 mr-[16px]">
+              <p className="h3 line-clamp-1 word-wrap-anywhere font-semibold md:font-medium flex-1 mr-[16px] text-blue-7">
                 {userInfo.partner_name}
               </p>
+
               {userInfo?.rating_number ? (
                 <RatingTag
                   onClick={() => router.push("/d/account/rating")}
@@ -142,9 +145,19 @@ const Profile = ({ type }: ProfileProps) => {
               ) : null}
             </div>
 
-            <p className="text-xs md:text-sm text-gray-color-5 line-clamp-1 word-wrap-anywhere">
-              {userInfo.phone}
-            </p>
+            <div className="mb-[16px] flex flex-col items-center md:items-start">
+              <AccountTag userInfo={userInfo} />
+            </div>
+
+            <div className="flex items-center">
+              <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.phone}</p>
+              {userInfo?.email ? (
+                <>
+                  <p className="mx-12 border-r h-[12px] border-solid border-border-color"></p>
+                  <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.email}</p>
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

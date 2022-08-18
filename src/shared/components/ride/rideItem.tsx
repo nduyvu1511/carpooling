@@ -72,7 +72,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
         <p className="items-center flex">
           <MultiUserIcon className="w-[12px] sm:w-[16px]" />
           <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
-            {rides.number_available_seat}/{rides.number_seat_in_car}
+            {rides.number_seat_in_car - rides.number_available_seat}/{rides.number_seat_in_car}
           </span>
         </p>
       </div>
