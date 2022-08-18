@@ -45,7 +45,7 @@ const InputDate = ({
           <input {...props} readOnly placeholder={placeholder} value={value ? props.value : ""} />
         )}
       />
-      <CalendarIcon className="absolute-vertical right-[10px] text-gray-color-5 pointer-events-none" />
+      <CalendarIcon className="absolute-vertical right-0 text-gray-color-5 pointer-events-none" />
     </div>
   )
 }

@@ -121,6 +121,7 @@ const DrivingLicenseForm = ({
                     options={field.name === "license_class" ? drivingClassList : []}
                     onBlur={onBlur}
                     id={field.name}
+                    isSearchable={false}
                   />
                 </div>
               )}
@@ -139,7 +140,7 @@ const DrivingLicenseForm = ({
                 >
                   <InputDate
                     value={getValues(field.name) + ""}
-                    placeholder="Ngày sinh"
+                    placeholder={field.placeholder}
                     onChange={(val) => onChange(val)}
                     disablePassDay={false}
                   />

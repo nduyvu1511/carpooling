@@ -418,6 +418,12 @@
       // border-bottom: 1px solid #bfbfbf;
     }
   }
+
+  & .form-date {
+    & svg {
+      right: 10px;
+    }
+  }
 }
 
 .my-input-datetime {
