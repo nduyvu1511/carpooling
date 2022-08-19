@@ -5,6 +5,7 @@ import compoundingCarDataSlice from "./compoundingCarDataSlice"
 import locationHistorySlice from "./locationHistorySlice"
 import mapDirectionSlice from "./mapDirectionSlice"
 import profileSlice from "./profileSlice"
+import checkoutSlice from "./checkoutSlice"
 
 const rootReducer = combineReducers({
   notifications: notificationsReducer(),
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   compoundingCarData: compoundingCarDataSlice,
   locationHistory: locationHistorySlice,
   mapDirection: mapDirectionSlice,
+  checkout: checkoutSlice,
 })
 
 export default rootReducer
@@ -21,3 +23,4 @@ export * from "./compoundingCarDataSlice"
 export * from "./locationHistorySlice"
 export * from "./mapDirectionSlice"
 export * from "./profileSlice"
+export * from "./checkoutSlice"

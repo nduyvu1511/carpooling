@@ -26,6 +26,7 @@ interface MapProps {
   prevProvinceId?: number
   markerLocation?: LatLng
 }
+
 export const Map = ({
   onChooseLocation,
   defaultLocation,
@@ -75,7 +76,11 @@ export const Map = ({
       lat: 106.4150303,
     }
   )
-  const [currentAddress, setCurrentAddress] = useState<LatlngAddress>()
+  const [currentAddress, setCurrentAddress] = useState<LatlngAddress>({
+    address: "Đang tải...",
+    lat: 0,
+    lng: 0,
+  })
   const [mapLoading, setMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [directionsResult, setDirectionsResult] = useState<DirectionsResult | undefined>()
@@ -214,13 +219,17 @@ export const Map = ({
   return (
     <>
       <div className="flex flex-col flex-1 w-full h-full relative">
-        <div className="absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px]">
+        <div
+          className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px] ${
+            !isLoaded ? "pointer-events-none" : ""
+          }`}
+        >
           <MapSearch onSelect={handleSelectSearchValue} />
         </div>
 
         <GoogleMap
           zoom={16}
-          center={{ lat: 10.7553411, lng: 106.4150303 }}
+          center={currentLocation}
           options={options}
           mapContainerClassName="h-full w-full"
           onDragEnd={handleDragEnd}

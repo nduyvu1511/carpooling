@@ -1,4 +1,4 @@
-import { Alert, Countdown, RideToolTip } from "@/components"
+import { Alert, Countdown, RideToolTip, Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
@@ -20,6 +20,8 @@ interface CheckoutProps {
   descRideTooltip?: string
 }
 
+type AlertModalType = "confirm" | "cancel"
+
 const Payment = ({
   secondsRemains,
   amount_total,
@@ -40,17 +42,27 @@ const Payment = ({
     setCurrentSelectPayment,
   } = usePayment()
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
-  const [showAlert, setShowAlert] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
+  const [showAlertModal, setShowAlertModal] = useState<AlertModalType | undefined>(undefined)
+  const [acquirerId, setAcquirerId] = useState<number | undefined>()
 
   useEffect(() => {
     return () => {
-      if (showAlert) {
+      if (showAlertModal) {
         toggleBodyOverflow("unset")
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const toggleAlertModal = (type: "confirm" | "cancel" | undefined) => {
+    setShowAlertModal(type)
+    if (type) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
 
   return (
     <>
@@ -124,16 +136,13 @@ const Payment = ({
               <p className="mb-24 text-base uppercase font-semibold">Chọn phương thức thanh toán</p>
 
               {isPaymentLoading ? (
-                <div className="mb-[16px]">
-                  <div className="rounded-[5px] h-[42px] skeleton mb-[16px]"></div>
-                  <div className="rounded-[5px] h-[42px] skeleton"></div>
-                </div>
+                <Spinner className="my-[40px]" size={30} />
               ) : (
-                <ul className="mb-[16px]">
+                <ul className="mb-[16px] flex flex-wrap">
                   {paymentList.map((item) => (
                     <li
                       onClick={() => setCurrentSelectPayment(item)}
-                      className="mb-[16px]"
+                      className="mr-[16px] mb-[16px]"
                       key={item.acquirer_id}
                     >
                       <PaymentItem
@@ -155,10 +164,7 @@ const Payment = ({
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
                 <button
-                  onClick={() => {
-                    setShowAlert(true)
-                    toggleBodyOverflow("hidden")
-                  }}
+                  onClick={() => toggleAlertModal("cancel")}
                   className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-[16px]"
                 >
                   <span className="hidden sm:block"> Hủy giao dịch</span>
@@ -167,10 +173,11 @@ const Payment = ({
               ) : null}
 
               <button
-                onClick={() =>
-                  currentSelectPayment?.acquirer_id &&
-                  onCheckout?.(currentSelectPayment.acquirer_id)
-                }
+                onClick={() => {
+                  if (!currentSelectPayment?.acquirer_id) return
+                  setShowAlertModal("confirm")
+                  setAcquirerId(currentSelectPayment?.acquirer_id)
+                }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
                 }`}
@@ -197,16 +204,33 @@ const Payment = ({
         />
       ) : null}
 
-      <Alert
-        show={showAlert}
-        title="Bạn có chắc chắc muốn hủy giao dịch này?"
-        onClose={() => {
-          setShowAlert(false)
-          toggleBodyOverflow("unset")
-        }}
-        onConfirm={() => onCancelCheckout?.()}
-        type="warning"
-      />
+      {showAlertModal ? (
+        <Alert
+          show={!!showAlertModal}
+          title={
+            showAlertModal === "cancel"
+              ? "Bạn có chắc chắc muốn hủy giao dịch này?"
+              : "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
+          }
+          onClose={() => toggleAlertModal(undefined)}
+          onConfirm={() => {
+            if (showAlertModal === "cancel") {
+              onCancelCheckout?.()
+            } else {
+              if (!acquirerId) return
+              onCheckout?.(acquirerId)
+              toggleAlertModal(undefined)
+            }
+          }}
+          type={
+            showAlertModal === "cancel"
+              ? "warning"
+              : showAlertModal === "confirm"
+              ? "info"
+              : "error"
+          }
+        />
+      ) : null}
     </>
   )
 }

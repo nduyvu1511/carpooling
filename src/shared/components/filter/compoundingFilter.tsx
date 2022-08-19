@@ -114,6 +114,7 @@ export const CompoundingFilter = ({
               handleChange({ from_province_id: +val.value })
             }}
             placeholder="Đi từ"
+            menuShouldScrollIntoView={false}
           />
         </div>
 
@@ -135,6 +136,7 @@ export const CompoundingFilter = ({
               setCompoundingFormValues({ ...compoundingFormValues, to_province_id: +val.value })
             }}
             placeholder="Đến tại"
+            menuShouldScrollIntoView={false}
           />
         </div>
 
@@ -155,6 +157,7 @@ export const CompoundingFilter = ({
               setNumberSeatOptions(seats(Number(val.number_seat)))
             }}
             placeholder="Loại xe"
+            menuShouldScrollIntoView={false}
           />
         </div>
 
@@ -180,6 +183,7 @@ export const CompoundingFilter = ({
                 setCompoundingFormValues({ ...compoundingFormValues, number_seat: +val.value })
               }}
               placeholder="Số hành khách"
+              menuShouldScrollIntoView={false}
             />
           </div>
         ) : null}

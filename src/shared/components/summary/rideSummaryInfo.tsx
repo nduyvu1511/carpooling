@@ -18,54 +18,53 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
         <p className={item}>{getCompoundingCarName(data.compounding_type)}</p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Điểm đón</p>
+        <p className="text-xs leading-[20px]">Điểm đón</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
           {data?.from_address || data.from_province?.province_name}
         </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Điểm đến</p>
+        <p className="text-xs leading-[20px]">Điểm đến</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
           {data?.to_address || data.to_province?.province_name}
         </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Ngày đi</p>
+        <p className="text-xs leading-[20px]">Ngày đi</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
           {moment(data.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
         </p>
       </li>
       {data.expected_picking_up_date ? (
         <li className="flex items-start justify-between mb-[16px]">
-          <p className="text-xs">Ngày về</p>
+          <p className="text-xs leading-[20px]">Ngày về</p>
           <p className="text-sm md:text-base ml-24 flex-1 text-right">
             {moment(data.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
           </p>
         </li>
       ) : null}
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Tổng lộ trình ước tính</p>
+        <p className="text-xs leading-[20px]">Tổng lộ trình ước tính</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">{data.distance} Km</p>
       </li>
       {data.duration ? (
         <li className="flex items-start justify-between mb-[16px]">
-          <p className="text-xs">Thời gian ước tính</p>
+          <p className="text-xs leading-[20px]">Thời gian ước tính</p>
           <p className="text-sm md:text-base ml-24 flex-1 text-right">
             {getHoursName(data.duration)}
           </p>
         </li>
       ) : null}
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Loại xe</p>
+        <p className="text-xs leading-[20px]">Loại xe</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
           {toFirstUpperCase(data.car.name)}
         </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">
-        <p className="text-xs">Số hành khách</p>
+        <p className="text-xs leading-[20px]">Số hành khách</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
-          {(data as CompoundingCarCustomer)?.number_seat ||
-            (data as CompoundingCarRes)?.number_seat_in_car - data?.number_available_seat}
+          {(data as CompoundingCarRes)?.number_seat_in_car - data?.number_available_seat}
         </p>
       </li>
     </ul>

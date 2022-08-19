@@ -84,7 +84,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
             clearSuggestions()
           }}
           onFocus={() => toggleShowSearchResult(true)}
-          className={`form-input h-[42px] pl-[44px] pr-[40px] rounded-none ${
+          className={`form-input h-[42px] pl-[44px] pr-[40px] rounded-none text-sm ${
             !showSearchResult
               ? "sm:rounded-[10px]"
               : "sm:rounded-tl-[10px] sm:rounded-tr-[10px] rounded-none border-b-[transparent]"

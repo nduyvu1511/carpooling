@@ -22,7 +22,7 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
             <p className="text-base font-semibold text-blue-7 uppercase mb-24">Thông tin đặt cọc</p>
             <li className="flex items-start justify-between mb-[16px]">
               <p className="text-xs">Giá tạm tính</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-sm md:text-base ml-[16px] flex-1 text-right">
                 {formatMoneyVND(data?.price_unit?.price_unit)}
               </p>
             </li>
@@ -30,13 +30,13 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
               <p className="text-base font-semibold uppercase">
                 Đã đặt cọc({data.down_payment.percent * 100}%)
               </p>
-              <p className="text-14 md:text-16 ml-[16px] whitespace-nowrap flex-1 text-right font-semibold text-error">
+              <p className="text-14 md:text-16 ml-[16px] flex-1 text-right font-semibold text-error">
                 {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
             <li className="flex items-start justify-between">
               <p className="text-xs">Số tiền thanh toán sau</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-sm md:text-base ml-[16px] flex-1 text-right">
                 {formatMoneyVND(data.amount_due)}
               </p>
             </li>
@@ -48,26 +48,26 @@ const RideCustomerBill = ({ data, desc, title, type = "deposit" }: RideCustomerB
             </p>
             <li className="flex items-start justify-between mb-[16px]">
               <p className="text-xs">Giá tạm tính</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-sm md:text-base ml-[16px] flex-1 text-right">
                 {formatMoneyVND(data?.price_unit?.price_unit)}
               </p>
             </li>
             <li className="flex items-start justify-between mb-[16px]">
               <p className="text-xs">Đã đặt cọc</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-sm md:text-base ml-[16px] flex-1 text-right">
                 {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
             <li className="flex items-start">
               <p className="text-xs">Đã thanh toán</p>
-              <p className="text-sm md:text-base ml-[16px] whitespace-nowrap flex-1 text-right">
+              <p className="text-sm md:text-base ml-[16px] flex-1 text-right">
                 {formatMoneyVND(data.amount_due)}
               </p>
             </li>
             <div className="my-12 border-b border-solid border-border-color"></div>
             <li className="flex items-start">
               <p className="text-14 leading-[26px] uppercase font-semibold">TỔNG GIÁ TRỊ</p>
-              <p className="text-base font-semibold text-error flex-1 text-right ml-[16px] whitespace-nowrap">
+              <p className="text-base font-semibold text-error flex-1 text-right ml-[16px]">
                 {formatMoneyVND(data.amount_due + data.down_payment.total)}
               </p>
             </li>

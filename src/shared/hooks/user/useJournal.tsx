@@ -1,4 +1,7 @@
 import {
+  ConfirmRechargeRequestParams,
+  CreateRechargeMoneyRes,
+  CreateRechargeRequestParams,
   JournalFilterDate,
   JournalRes,
   MakeWithdrawingRequestParams,
@@ -7,11 +10,12 @@ import {
 } from "@/models"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useMemo, useState } from "react"
-import useSWR from "swr"
+import { useState } from "react"
+import useSWR, { KeyedMutator } from "swr"
 import { useFetcher } from "../async"
 
 interface useJournalProps {
+  mutate: KeyedMutator<Journal>
   isValidating: boolean
   isInitialLoading: boolean
   data: Journal | undefined
@@ -20,12 +24,21 @@ interface useJournalProps {
   fetchMoreTransactions: () => void
   filterTransactions: (params: JournalFilterDate) => void
   isFetchingMore: boolean
-  getTotalMoney: number
   addWithdrawRequest: ({
     onSuccess,
     params,
     onError,
-  }: UseParams<MakeWithdrawingRequestParams, any>) => void
+  }: UseParams<MakeWithdrawingRequestParams, TransactionRes>) => void
+  createRechargeRequest: ({
+    onSuccess,
+    params,
+    onError,
+  }: UseParams<CreateRechargeRequestParams, CreateRechargeMoneyRes>) => void
+  confirmRechargeRequest: ({
+    onSuccess,
+    params,
+    onError,
+  }: UseParams<ConfirmRechargeRequestParams, any>) => void
 }
 
 type Journal = {
@@ -98,9 +111,37 @@ const useJournal = (): useJournalProps => {
     onSuccess,
     params,
     onError,
-  }: UseParams<MakeWithdrawingRequestParams, any>) => {
+  }: UseParams<MakeWithdrawingRequestParams, TransactionRes>) => {
     fetcherHandler({
       fetcher: userApi.MakeWithdrawingRequest(params),
+      onSuccess: (data) => {
+        onSuccess?.(data)
+      },
+      onError: onError?.(),
+    })
+  }
+
+  const createRechargeRequest = async ({
+    onSuccess,
+    params,
+    onError,
+  }: UseParams<CreateRechargeRequestParams, CreateRechargeMoneyRes>) => {
+    fetcherHandler({
+      fetcher: userApi.createRechargeRequest(params),
+      onSuccess: (data) => {
+        onSuccess?.(data)
+      },
+      onError: onError?.(),
+    })
+  }
+
+  const confirmRechargeRequest = async ({
+    onSuccess,
+    params,
+    onError,
+  }: UseParams<ConfirmRechargeRequestParams, any>) => {
+    fetcherHandler({
+      fetcher: userApi.confirmRechargeRequest(params),
       onSuccess: (data) => {
         mutate()
         onSuccess?.(data)
@@ -108,11 +149,6 @@ const useJournal = (): useJournalProps => {
       onError: onError?.(),
     })
   }
-
-  const getTotalMoney: number = useMemo(() => {
-    return data?.journal?.reduce((a, b) => a + b.remains_amount, 0) || 0
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.journal])
 
   return {
     data,
@@ -122,9 +158,11 @@ const useJournal = (): useJournalProps => {
     filterTransactions,
     hasMore,
     isFetchingMore,
-    getTotalMoney,
     addWithdrawRequest,
     journalFilter: date,
+    createRechargeRequest,
+    confirmRechargeRequest,
+    mutate,
   }
 }
 

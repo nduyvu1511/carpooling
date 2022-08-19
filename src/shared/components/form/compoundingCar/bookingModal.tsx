@@ -104,7 +104,7 @@ const BookingModal = ({
         ) : null
       }
     >
-      <div className="flex-1 w-full px-[16px] overflow-auto md:px-24 py-12 mb-[64px] md:mb-[40px]">
+      <div className="flex-1 w-full px-[16px] overflow-auto md:px-24 py-12 pb-[64px]">
         {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}

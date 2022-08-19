@@ -1,5 +1,5 @@
 import { EmptyPocketIcon } from "@/assets"
-import { ActivityItem, Spinner, Tabs, TagActivityItem } from "@/components"
+import { ActivityItem, Seo, Spinner, Tabs, TagActivityItem } from "@/components"
 import {
   customerActivityFilters,
   getActiveStringOrListString,
@@ -48,6 +48,12 @@ const Activities = () => {
 
   return (
     <CustomerAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
+      <Seo
+        description="Quản lý hoạt động của bạn"
+        thumbnailUrl=""
+        title="Hoạt động"
+        url="https://exxe.vn/c/account/activities"
+      />
       <div className="px-12 md:px-24">
         <div className="mb-24">
           <div className="flex items-center relative">

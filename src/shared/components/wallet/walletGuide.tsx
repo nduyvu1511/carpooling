@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { AccordionItem } from "../accordion"
 
-export const JournalGuide = () => {
+export const WalletGuide = () => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
 
   const handleToggleTabsActive = (id: number) => {

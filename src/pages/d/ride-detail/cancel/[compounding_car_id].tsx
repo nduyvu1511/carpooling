@@ -1,5 +1,5 @@
 import { RideCanceled, RideProgress, RideSummary } from "@/components"
-import { useCompoundingCarDriver } from "@/hooks"
+import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CompoundingCarDriverRes } from "@/models"
 import { useRouter } from "next/router"
@@ -7,14 +7,18 @@ import { useRouter } from "next/router"
 const RideCanceledPage = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCarDriver({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarDriver({
     key: `get_canceled_ride_driver_${compounding_car_id}`,
     type: "once",
     compounding_car_id: Number(compounding_car_id),
+  })
+
+  useBackRouter({
+    cb: (as) => {
+      if (as.includes("c/ride-detail/deposit")) {
+        router.push("/c")
+      }
+    },
   })
 
   return (

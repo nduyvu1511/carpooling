@@ -66,7 +66,8 @@ const RideSummary = ({
               </p>
             </div>
 
-            {showDeposit ? (
+            {showDeposit &&
+            (data?.state === "confirm" || data?.state === "deposit" || data?.state === "draft") ? (
               <>
                 {(data as CompoundingCarCustomer)?.down_payment?.total ? (
                   <div className="flex items-center justify-between my-[16px]">

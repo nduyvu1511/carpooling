@@ -114,46 +114,52 @@ export const RatingItem = ({
       </div>
 
       <div className="flex-1">
-        <div className="mb-[4px] flex items-center justify-between relative">
-          <span className="flex-1 mr-[12px] text-xs">{rating?.partner_id.partner_name || ""}</span>
-          <div ref={ref} className="">
-            <button
-              onClick={() => setShowMenu(!showMenu)}
-              className="w-[44px] h-[44px] bg-gray-color-1 rounded-[8px] flex-center"
-            >
-              <ThreeDotsIcon className="h-[14px]" />
-            </button>
+        <div className="flex items-start justify-between">
+          <div className="flex-1 mr-12 mb-12">
+            <span className="flex-1 mb-2 text-sm line-clamp-1 word-wrap-anywhere">
+              {rating?.partner_id.partner_name || ""}
+            </span>
+            <p className="mb-[12px] flex items-center">
+              <Star readonly ratingValue={rating?.rating_number * 20} size={14} allowHalfIcon />
+            </p>
+          </div>
 
-            {showMenu ? (
-              <ul className="bg-white-color p-8 w-[180px] border border-solid border-border-color block-element rounded-[8px] absolute z-[100] top-[calc(100%+5px)] right-0">
-                {ratingActions.map(({ Icon, label, onClick, name }, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setShowMenu(false)
-                      onClick()
-                    }}
-                    className={`relative cursor-pointer px-8 py-4 mb-8 hover:bg-bg rounded-[5px] flex items-center text-sm last:mb-0 ${
-                      (name === "edit" && rating.rating_editable === false) ||
-                      (name === "report" && rating.rating_reported)
-                        ? "pointer-events-none opacity-40 cursor-default"
-                        : ""
-                    }`}
-                  >
-                    <Icon className="w-[16px] h-[16px]" />
-                    <span className="text-sm ml-[10px] leading-[26px]">{label}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+          <div className="mb-[4px] relative">
+            <div ref={ref} className="">
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className="w-[44px] h-[44px] bg-gray-color-1 rounded-[8px] flex-center"
+              >
+                <ThreeDotsIcon className="h-[14px]" />
+              </button>
+
+              {showMenu ? (
+                <ul className="bg-white-color p-8 w-[180px] border border-solid border-border-color block-element rounded-[8px] absolute z-[100] top-[calc(100%+5px)] right-0">
+                  {ratingActions.map(({ Icon, label, onClick, name }, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setShowMenu(false)
+                        onClick()
+                      }}
+                      className={`relative cursor-pointer px-8 py-4 mb-8 hover:bg-bg rounded-[5px] flex items-center text-sm last:mb-0 ${
+                        (name === "edit" && rating.rating_editable === false) ||
+                        (name === "report" && rating.rating_reported)
+                          ? "pointer-events-none opacity-40 cursor-default"
+                          : ""
+                      }`}
+                    >
+                      <Icon className="w-[16px] h-[16px]" />
+                      <span className="text-sm ml-[10px] leading-[26px]">{label}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           </div>
         </div>
 
-        <p className="mb-[12px]">
-          <Star readonly ratingValue={rating?.rating_number * 20} size={14} allowHalfIcon />
-        </p>
-
-        <p className="text-sm leading-[24px] mb-[12px]">{rating?.rating_content}</p>
+        <p className="text-base leading-[22px] mb-[12px]">{rating?.rating_content}</p>
 
         <div className="flex items-center justify-between flex-wrap">
           <p className="text-sm text-gray-color-2 mr-8">{`${

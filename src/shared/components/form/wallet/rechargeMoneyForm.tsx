@@ -1,6 +1,6 @@
 import { TrustIcon, WarningIcon } from "@/assets"
 import { PaymentItem, Spinner } from "@/components"
-import { formatMoneyVND, rechargeMoneySchema, toggleBodyOverflow } from "@/helper"
+import { rechargeMoneySchema, toggleBodyOverflow } from "@/helper"
 import { usePaymentMethodRechargeMoney } from "@/hooks"
 import { RechargeRequestFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -8,19 +8,12 @@ import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import NumberFormat from "react-number-format"
 
-interface TransactionFormProps {
-  accountBalance: number
-  label: string
+interface ReChargeMoneyFormProps {
   onSubmit: (_: RechargeRequestFormParams) => void
   view?: "page" | "modal"
 }
 
-export const TransactionForm = ({
-  accountBalance,
-  label,
-  onSubmit,
-  view = "modal",
-}: TransactionFormProps) => {
+export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFormProps) => {
   const { data: paymentList, isValidating: isPaymentLoading } = usePaymentMethodRechargeMoney()
   const {
     handleSubmit,
@@ -59,15 +52,8 @@ export const TransactionForm = ({
     <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-1 flex-col">
       <div className={`flex-1 overflow-y-auto ${view === "modal" ? "pb-[64px]" : ""}`}>
         <div className="mb-24">
-          <div className="flex items-center mb-[16px] justify-between">
-            <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư khả dụng</p>
-            <p className="text-24 font-medium text-primary">{formatMoneyVND(accountBalance)}</p>
-          </div>
-        </div>
-
-        <div className="mb-24">
           <label htmlFor="input" className="form-label">
-            {label}
+            Số tiền muốn nạp
           </label>
 
           <div className="relative">
@@ -120,9 +106,9 @@ export const TransactionForm = ({
           )}
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-start p-8 bg-[#F4FDF7] rounded[8px]">
           <TrustIcon className="mr-8" />
-          <p className="text-xs">
+          <p className="text-xs text-success">
             Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
           </p>
         </div>
@@ -135,7 +121,9 @@ export const TransactionForm = ({
       >
         <button
           onClick={() => handleSubmit(onSubmitHandler)}
-          className={`btn-primary ${!isValid ? "btn-disabled" : ""}`}
+          className={`btn-primary ${
+            !getValues("amount") || !getValues("acquirer_id") ? "btn-disabled" : ""
+          }`}
         >
           Xác nhận
         </button>

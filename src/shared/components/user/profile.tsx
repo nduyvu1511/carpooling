@@ -1,6 +1,6 @@
 import { EditIcon, SpinnerIcon } from "@/assets"
-import { InputLoading, RatingTag, TextareaLoading, UserInfoForm, AccountTag } from "@/components"
-import { removeBase64Reader, toImageUrl } from "@/helper"
+import { InputLoading, RatingTag, TextareaLoading, UserInfoForm } from "@/components"
+import { EMAIL_REGEX, removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
 import { CarAccountType, UpdateUserInfoParams } from "@/models"
 import { setProfile } from "@/modules"
@@ -9,6 +9,7 @@ import { useRouter } from "next/router"
 import { ChangeEvent } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
+import { AccountTag } from "./accountTag"
 
 interface ProfileProps {
   type?: CarAccountType
@@ -151,7 +152,7 @@ const Profile = ({ type }: ProfileProps) => {
 
             <div className="flex items-center">
               <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.phone}</p>
-              {userInfo?.email ? (
+              {userInfo?.email && EMAIL_REGEX.test(userInfo.email) ? (
                 <>
                   <p className="mx-12 border-r h-[12px] border-solid border-border-color"></p>
                   <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.email}</p>

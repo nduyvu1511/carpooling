@@ -1,4 +1,3 @@
-import { Map } from "@/components"
 import { App, EmptyLayout } from "@/layout"
 import { AppPropsWithLayout } from "@/models"
 import { persistor, store } from "core"

@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 
-const  CustomerEmptyLayout = ({ children }: LayoutProps) => {
+const CustomerEmptyLayout = ({ children }: LayoutProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 

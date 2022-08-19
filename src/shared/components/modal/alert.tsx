@@ -15,6 +15,7 @@ interface AlertProps {
   children?: ReactNode
   disabledBtn?: boolean
   show: boolean | undefined
+  showRightBtn?: boolean
 }
 
 const Alert = ({
@@ -26,6 +27,7 @@ const Alert = ({
   leftBtnLabel = "Quay lại",
   rightBtnLabel = "Xác nhận",
   showLeftBtn = true,
+  showRightBtn = true,
   children,
   disabledBtn = false,
   show,
@@ -69,20 +71,22 @@ const Alert = ({
                 {leftBtnLabel}
               </button>
             ) : null}
-            <button
-              onClick={() => onConfirm()}
-              className={`btn px-[26px] py-[8px] text-white-color ${
-                type === "success"
-                  ? "bg-success"
-                  : type === "warning"
-                  ? "bg-warning"
-                  : type === "info"
-                  ? "bg-info"
-                  : "bg-error"
-              } ${disabledBtn ? "btn-disabled" : ""}`}
-            >
-              {rightBtnLabel}
-            </button>
+            {showRightBtn ? (
+              <button
+                onClick={() => onConfirm()}
+                className={`btn px-[26px] py-[8px] text-white-color ${
+                  type === "success"
+                    ? "bg-success"
+                    : type === "warning"
+                    ? "bg-warning"
+                    : type === "info"
+                    ? "bg-info"
+                    : "bg-error"
+                } ${disabledBtn ? "btn-disabled" : ""}`}
+              >
+                {rightBtnLabel}
+              </button>
+            ) : null}
           </div>
         </div>
       </CSSTransition>

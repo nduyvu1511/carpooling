@@ -107,7 +107,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
             !station?.station_id ? "pointer-events-none btn-disabled" : ""
           }`}
         >
-          Xác nhận Điểm đến
+          Xác nhận điểm đến
         </span>
       </div>
     </div>

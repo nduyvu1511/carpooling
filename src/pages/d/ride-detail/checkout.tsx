@@ -56,7 +56,6 @@ const Checkout = () => {
 
   useEffectOnce(() => {
     return () => {
-      // mutate(undefined, false)
       dispatch(setShowSummaryDetail(false))
     }
   })

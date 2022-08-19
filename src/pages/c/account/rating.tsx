@@ -1,5 +1,5 @@
 import { RatingEmptyIcon } from "@/assets"
-import { Alert, Modal, RatingForm, RatingItem, Spinner } from "@/components"
+import { Alert, Modal, RatingForm, RatingItem, Seo, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCustomerRating, useRatingActions } from "@/hooks"
 import { CustomerAccountLayout } from "@/layout"
@@ -58,6 +58,12 @@ const Rating = () => {
   return (
     <>
       <CustomerAccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
+        <Seo
+          description="Đánh giá"
+          thumbnailUrl=""
+          title="Đánh giá"
+          url="https://exxe.vn/c/rating"
+        />
         <div className="px-12 md:px-24 pt-0">
           {isValidating ? (
             <div>

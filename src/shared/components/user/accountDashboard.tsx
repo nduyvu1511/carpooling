@@ -1,9 +1,8 @@
-import { ArrowRightIcon, CheckIcon, EditIcon, WarningIcon } from "@/assets"
+import { ArrowRightIcon, EditIcon } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { useAccountNavList, useAuth } from "@/hooks"
 import { UserInfo } from "@/models"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { RatingTag } from "../rating"
 import { AccountTag } from "./accountTag"
@@ -45,14 +44,16 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
 
         <div className="flex items-center flex-col">
           <div className="flex items-center flex-1 mb-12">
-            <p className="mr-[16px] h3 text-primary font-semibold flex-1">
+            <p className="h3 text-primary font-semibold flex-1 line-clamp-1 word-wrap-anywhere">
               {userInfo?.partner_name}
             </p>
             {userInfo?.rating_number ? (
-              <RatingTag
-                onClick={() => router.push("/d/account/rating")}
-                value={userInfo.rating_number}
-              />
+              <div className="ml-[16px]">
+                <RatingTag
+                  onClick={() => router.push("/d/account/rating")}
+                  value={userInfo.rating_number}
+                />
+              </div>
             ) : null}
           </div>
           <AccountTag userInfo={userInfo} />

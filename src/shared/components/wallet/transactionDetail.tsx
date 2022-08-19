@@ -56,7 +56,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
             <li className="flex items-start mb-[16px]">
               <p className="text-xs w-[200px] mr-[16px]">Ngày giao dịch</p>
               <p className="text-sm md:text-base flex-1 text-right">
-                {moment(data?.payment_id?.date)?.format("HH:mm DD/MM/YYYY")}
+                {moment(data?.payment_id?.date)?.format("DD/MM/YYYY")}
               </p>
             </li>
             {/* <li className="flex items-start">

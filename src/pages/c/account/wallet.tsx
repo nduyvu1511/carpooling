@@ -1,11 +1,17 @@
-import { HeaderMobile, Journal } from "@/components"
+import { HeaderMobile, Wallet, Seo } from "@/components"
 import { CustomerAccountLayout } from "@/layout"
 
 const WalletCustomer = () => {
   return (
     <CustomerAccountLayout showHeaderMobile={false}>
-    <HeaderMobile title="Ví cá nhân" className="lg:hidden" />
-      <Journal />
+      <Seo
+        description="Ví cá nhân"
+        thumbnailUrl=""
+        title="Ví cá nhân"
+        url="https://exxe.vn/c/wallet"
+      />
+      <HeaderMobile title="Ví cá nhân" className="lg:hidden" />
+      <Wallet />
     </CustomerAccountLayout>
   )
 }

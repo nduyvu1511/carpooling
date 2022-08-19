@@ -13,7 +13,7 @@ const PaymentItem = ({ payment, onChange, isActive }: PaymentItemProps) => {
     <div
       onClick={() => onChange?.(payment)}
       className={`flex items-center text-sm block-element p-12 shadow-shadow-1 border border-solid border-border-color rounded-[5px] last:mb-0 ${
-        isActive ? "border-[1px] border-primary" : ""
+        isActive ? "border-[1px] border-primary bg-bg-primary" : ""
       } transition-all duration-150 cursor-pointer`}
     >
       {payment?.image_url?.url ? (

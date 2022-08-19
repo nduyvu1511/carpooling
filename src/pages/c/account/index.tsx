@@ -1,4 +1,4 @@
-import { AccountDashboard } from "@/components"
+import { AccountDashboard, Seo } from "@/components"
 import { RootState } from "@/core/store"
 import { CustomerLayout } from "@/layout"
 import { useSelector } from "react-redux"
@@ -8,6 +8,12 @@ const Account = () => {
 
   return (
     <div className="lg:max-w-content-container-width mx-auto w-full block-element lg:mt-24 flex-1 md:flex-none bg-white-color">
+      <Seo
+        description="Tài khoản"
+        thumbnailUrl=""
+        title="Tài khoản"
+        url="https://exxe.vn/c/account"
+      />
       {userInfo ? <AccountDashboard userInfo={userInfo} /> : null}
     </div>
   )

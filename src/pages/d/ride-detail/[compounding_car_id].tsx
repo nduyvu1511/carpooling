@@ -28,7 +28,6 @@ import {
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
-import moment from "moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"

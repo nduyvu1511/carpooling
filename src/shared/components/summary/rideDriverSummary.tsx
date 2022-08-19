@@ -31,13 +31,13 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
         <ul className="">
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">Tổng giá trị chuyến đi</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {formatMoneyVND(ride.amount_total)}
             </p>
           </li>
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">Thuế VAT ({ride.vat.percent * 100}%)</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {formatMoneyVND(ride.vat.total)}
             </p>
           </li>
@@ -45,7 +45,7 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
             <p className="text-xs mr-12 min-w-[100px]">
               Phí sử dụng dịch vụ ({ride.service_charge.percent * 100}%)
             </p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {formatMoneyVND(ride.service_charge.total)}
             </p>
           </li>
@@ -53,7 +53,7 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
             <p className="text-xs mr-12 min-w-[100px]">
               Đã đặt cọc({ride.down_payment.percent * 100}%)
             </p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {formatMoneyVND(ride.down_payment.total)}
             </p>
           </li>
@@ -61,22 +61,20 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
             <p className="text-xs mr-12 min-w-[100px]">
               Phí thu nhập cá nhân({ride.pit.percent * 100}%)
             </p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {formatMoneyVND(ride.pit.total)}
             </p>
           </li>
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">Số tiền tài xế nhận từ khách</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
-              {formatMoneyVND(ride.cash)}
-            </p>
+            <p className="flex-1 text-sm md:text-base text-right">{formatMoneyVND(ride.cash)}</p>
           </li>
           <div className="mb-12 border-b border-solid border-border-color"></div>
           <li className="flex items-start justify-between">
             <p className="text-xs mr-12 min-w-[100px] text-sm uppercase font-semibold">
               Số tiền thực nhận
             </p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right font-semibold text-error">
+            <p className="flex-1 text-sm md:text-base text-right font-semibold text-error">
               {formatMoneyVND(ride.amount_due)}
             </p>
           </li>
@@ -98,27 +96,25 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
           </li>
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">Ngày đi</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
+            <p className="flex-1 text-sm md:text-base text-right">
               {moment(ride.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </li>
           {ride.expected_picking_up_date ? (
             <li className="flex items-start justify-between mb-12">
               <p className="text-xs mr-12 min-w-[100px]">Ngày về</p>
-              <p className="whitespace-nowrap text-sm md:text-base text-right">
+              <p className="flex-1 text-sm md:text-base text-right">
                 {moment(ride.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
               </p>
             </li>
           ) : null}
           <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px]">Tổng lộ trình</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">{ride.distance} Km</p>
+            <p className="flex-1 text-sm md:text-base text-right">{ride.distance} Km</p>
           </li>
           <li className="flex items-start justify-between">
             <p className="text-xs mr-12 min-w-[100px]">Thời gian đi</p>
-            <p className="whitespace-nowrap text-sm md:text-base text-right">
-              {getHoursName(ride.duration)}
-            </p>
+            <p className="flex-1 text-sm md:text-base text-right">{getHoursName(ride.duration)}</p>
           </li>
         </ul>
       </div>

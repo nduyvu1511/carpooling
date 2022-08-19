@@ -7,15 +7,28 @@ import {
   Spinner,
   TransactionDetail,
   TransactionItem,
-  TransactionModal,
+  TransactionSuccess,
+  WalletLoading,
 } from "@/components"
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { RootState } from "@/core/store"
+import { isObjectHasValue, toggleBodyOverflow } from "@/helper"
 import { useEffectOnce, useJournal } from "@/hooks"
-import { CarAccountType, JournalFilterDate } from "@/models"
-import { useState } from "react"
-import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
+import {
+  CarAccountType,
+  JournalDetailRes,
+  JournalFilterDate,
+  RechargeRequestFormParams,
+  WithdrawFormParams,
+} from "@/models"
+import { setCheckoutPaymentId } from "@/modules"
+import { userApi } from "@/services"
+import { useEffect, useState } from "react"
 import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { useDispatch, useSelector } from "react-redux"
+import useSWR from "swr"
+import { Transaction } from "./transaction"
+import { WalletInfo } from "./walletInfo"
 
 interface JournalProps {
   type?: CarAccountType
@@ -23,8 +36,11 @@ interface JournalProps {
 
 type ModalType = "message" | "withdraw" | "payment" | "filter"
 
-const Journal = ({ type }: JournalProps) => {
+const Wallet = ({ type }: JournalProps) => {
+  const dispatch = useDispatch()
+  const paymentId = useSelector((state: RootState) => state.checkout.currentPaymentId)
   const {
+    mutate: mutateJournal,
     data: transactions,
     isInitialLoading,
     isValidating,
@@ -32,15 +48,26 @@ const Journal = ({ type }: JournalProps) => {
     fetchMoreTransactions,
     filterTransactions,
     isFetchingMore,
-    getTotalMoney,
     addWithdrawRequest,
     journalFilter,
+    createRechargeRequest,
   } = useJournal()
 
   const [showMsg, setShowMsg] = useState<boolean>(false)
   const [showWithdrawModal, setShowWithdrawModal] = useState<boolean>(false)
   const [currentPaymentId, setCurrentPaymentId] = useState<number | undefined>(undefined)
   const [showFilter, setShowFilter] = useState<boolean>(false)
+
+  const { data: transaction, mutate } = useSWR<JournalDetailRes>(
+    paymentId ? `get_transaction_status_${paymentId}` : null,
+    () =>
+      userApi.getDetailTransaction({ payment_id: paymentId || 0 }).then((res) => res.result.data),
+    { dedupingInterval: 0, revalidateOnFocus: true }
+  )
+
+  useEffect(() => {
+    if (!isObjectHasValue(transaction)) return
+  }, [transaction])
 
   const handleToggleModal = ({
     type,
@@ -65,16 +92,35 @@ const Journal = ({ type }: JournalProps) => {
     }
   }
 
-  const handleMakeWithdrawRequest = (amount: number) => {
-    const journal_id = transactions?.journal.find(
-      (item) => item.journal_type === "cash"
-    )?.journal_id
-    if (!journal_id) return
+  const getJournalId = (): number | undefined =>
+    transactions?.journal.find((item) => item.journal_type === "cash")?.journal_id
+
+  const handleMakeWithdrawRequest = ({ amount }: WithdrawFormParams) => {
+    const journal_id = getJournalId()
+    if (!journal_id || !amount || typeof amount !== "number") return
+
     addWithdrawRequest({
       params: { amount, journal_id },
-      onSuccess: () => {
-        handleToggleModal({ status: false, type: "withdraw" })
-        handleToggleModal({ status: true, type: "message" })
+      onSuccess: (data) => {
+        dispatch(setCheckoutPaymentId(data.payment_id))
+      },
+    })
+  }
+
+  const handleCreateRechargeRequest = (params: RechargeRequestFormParams) => {
+    const journal_id = getJournalId()
+    if (!journal_id) return
+
+    createRechargeRequest({
+      params: {
+        ...params,
+        journal_id,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/checking-recharge-money-status`,
+      },
+      onSuccess: (data) => {
+        dispatch(setCheckoutPaymentId(data.payment_id))
+        window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+        // confirmRechargeRequest({})
       },
     })
   }
@@ -82,6 +128,7 @@ const Journal = ({ type }: JournalProps) => {
   useEffectOnce(() => {
     return () => {
       toggleBodyOverflow("unset")
+      dispatch(setCheckoutPaymentId(undefined))
     }
   })
 
@@ -106,21 +153,7 @@ const Journal = ({ type }: JournalProps) => {
             <div className="">
               <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
                 {isInitialLoading ? (
-                  <>
-                    <div className="flex items-center">
-                      <div className="skeleton w-[160px] h-[160px] rounded-[50%] mb-24 md:mb-0 mr-24 md:mr-[40px]"></div>
-                      <div className="flex-1 mb-24 md:mb-0">
-                        <div className="mb-24">
-                          <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
-                          <div className="skeleton w-[160px] h-[16px] rounded-[5px]"></div>
-                        </div>
-                        <div className="">
-                          <div className="skeleton w-[120px] h-[12px] mb-12 rounded-[5px]"></div>
-                          <div className="skeleton w-[180px] h-[16px] rounded-[5px]"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  <WalletLoading />
                 ) : (
                   <>
                     <div className="flex items-center justify-between mb-24 md:mb-[40px]">
@@ -135,44 +168,7 @@ const Journal = ({ type }: JournalProps) => {
                     </div>
                     {transactions && transactions?.journal?.length > 0 ? (
                       <div className="flex-row flex items-stretch">
-                        <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
-                          <CircularProgressbar
-                            styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#D7D7D7" })}
-                            value={
-                              ((transactions?.journal[1]?.remains_amount || 0) / getTotalMoney) *
-                              100
-                            }
-                            strokeWidth={5}
-                          />
-                          <div className="absolute z-10 flex-col flex-center">
-                            <p className="text-xs mb-4">Tổng</p>
-                            <p className="text-sm font-semibold">{formatMoneyVND(getTotalMoney)}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 lg:flex-auto my-auto">
-                          <div className="">
-                            <p className="flex items-center mb-8">
-                              <span className="w-[10px] h-[10px] rounded-[50%] bg-border-color-2 mr-8"></span>
-                              <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
-                            </p>
-                            <p className="text-base font-semibold">
-                              {formatMoneyVND(transactions.journal[0].remains_amount)}
-                            </p>
-                          </div>
-
-                          {transactions?.journal?.[1] ? (
-                            <div className="mt-24 md:mt-[40px]">
-                              <p className="flex items-center mb-8">
-                                <span className="w-[10px] h-[10px] rounded-[50%] bg-primary mr-8"></span>
-                                <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
-                              </p>
-                              <p className="text-base font-semibold text-primary">
-                                {formatMoneyVND(transactions.journal[1].remains_amount)}
-                              </p>
-                            </div>
-                          ) : null}
-                        </div>
+                        <WalletInfo data={transactions.journal} />
                         {type === "car_driver" ? (
                           <div className="hidden sm:flex lg:hidden flex-start">
                             <button
@@ -188,12 +184,8 @@ const Journal = ({ type }: JournalProps) => {
                   </>
                 )}
               </div>
-
-              {/* <div className="mt-[40px]">
-                <p className="text-base lg:text-xl mb-24">FAQ</p>
-                <JournalGuide />
-              </div> */}
             </div>
+
             <div className="">
               <div className="flex items-center justify-between mb-[40px]">
                 <p className="text-base font-semibold lg:text-xl">Lịch sử giao dịch</p>
@@ -205,10 +197,12 @@ const Journal = ({ type }: JournalProps) => {
                   <FilterIcon />
                 </button>
               </div>
+
               <div className="mb-24 hidden sm:block">
                 <JournalFilter onChange={(val) => filterTransactions(val as JournalFilterDate)} />
               </div>
 
+              {/* Transaction item */}
               <div className="">
                 {isValidating ? (
                   <div>
@@ -256,6 +250,7 @@ const Journal = ({ type }: JournalProps) => {
         </div>
       </Modal>
 
+      {/* Message modal */}
       <Alert
         title="Giao dịch thành công!"
         desc="Giao dịch rút tiền đã thành công, cảm ơn bạn đã sử dụng dịch vụ của ExxeVn"
@@ -266,12 +261,40 @@ const Journal = ({ type }: JournalProps) => {
         onClose={() => handleToggleModal({ status: false, type: "message" })}
       />
 
-      <TransactionModal
-        show={showWithdrawModal}
-        onClose={() => handleToggleModal({ status: false, type: "withdraw" })}
-        accountBalance={transactions?.journal?.[1]?.remains_amount || 0}
-      />
+      {/* Transaction modal */}
+      {paymentId && transaction?.payment_id?.state === "posted" ? (
+        <Alert
+          show={true}
+          onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}
+          onClose={() => {
+            dispatch(setCheckoutPaymentId(undefined))
+            handleToggleModal({ status: false, type: "withdraw" })
+            mutate(undefined, false)
+            mutateJournal()
+          }}
+          title="Giao dịch thành công"
+          desc={`ID: ${transaction.payment_id.payment_code}`}
+          showRightBtn={false}
+          leftBtnLabel="Đóng"
+        >
+          <TransactionSuccess transaction={transaction} />
+        </Alert>
+      ) : (
+        <Modal
+          key="withdraw-modal"
+          show={showWithdrawModal}
+          onClose={() => handleToggleModal({ status: false, type: "withdraw" })}
+          heading="Giao dịch"
+        >
+          <Transaction
+            onRechargeFormSubmit={(data) => handleCreateRechargeRequest(data)}
+            onWithdrawFormSubmit={(data) => handleMakeWithdrawRequest(data)}
+            accountBalance={transactions?.journal?.[1]?.remains_amount || 0}
+          />
+        </Modal>
+      )}
 
+      {/* Filter Modal */}
       <Modal
         key="filter-modal"
         show={showFilter}
@@ -293,4 +316,4 @@ const Journal = ({ type }: JournalProps) => {
   )
 }
 
-export { Journal }
+export { Wallet }

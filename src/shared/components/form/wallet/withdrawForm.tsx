@@ -1,111 +1,93 @@
-import { Alert } from "@/components/modal"
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useState } from "react"
-import { TransactionForm } from "./transactionForm"
+import { TrustIcon, WarningIcon } from "@/assets"
+import { withdrawSchema } from "@/helper"
+import { WithdrawFormParams } from "@/models"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import NumberFormat from "react-number-format"
 
 interface WithdrawFormProps {
-  onSubmit?: (_: number) => void
-  accountBalance: number
+  onSubmit?: (_: WithdrawFormParams) => void
+  view?: "page" | "modal"
 }
 
-export const WithdrawForm = ({ onSubmit, accountBalance }: WithdrawFormProps) => {
-  const [value, setValue] = useState<string>("")
-  const [showConfirmWithdraw, setShowConfirmWithdraw] = useState<boolean>(false)
+export const WithdrawForm = ({ onSubmit, view = "modal" }: WithdrawFormProps) => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    getValues,
+  } = useForm<WithdrawFormParams>({
+    resolver: yupResolver(withdrawSchema),
+    mode: "all",
+  })
 
-  const toggleShowConfirmWithdraw = (status: boolean) => {
-    setShowConfirmWithdraw(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
+  useEffect(() => {
+    ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
+  }, [])
+
+  const onSubmitHandler = (params: WithdrawFormParams) => {
+    onSubmit?.(params)
   }
 
   return (
-    <>
-      <div className="flex-1 flex-col flex">
-        <TransactionForm
-          onSubmit={(data) => console.log(data)}
-          accountBalance={accountBalance}
-          label="Số tiền muốn rút"
-        />
-
-        {/* <ul className="mb-24">
-          <li className="flex items-center mb-[16px]">
-            <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư hiện có</p>
-            <p className="text-base font-semibold text-primary">{formatMoneyVND(accountBalance)}</p>
-          </li>
-        </ul> */}
-        {/* 
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="flex-1 flex-col flex">
+      <div className="flex-1">
         <div className="mb-24">
           <label htmlFor="input" className="form-label">
             Số tiền muốn rút
           </label>
-          <CurrencyInput
-            id="input-example"
-            name="input-name"
-            className="form-input"
-            placeholder="đ"
-            decimalsLimit={4}
-            suffix="đ"
-            onValueChange={(value, name) => {
-              console.log(Number(value))
-              setValue(value)
-            }}
-            value={value}
-          />
-        </div> */}
-        {/* 
-        <ul className="mb-24">
-          <li className="flex items-center mb-[16px]">
-            <p className="text-xs w-[200px] mr-24">Phí rút tiền</p>
-            <p className="text-sm md:text-base">Miễn phí</p>
-          </li>
-          <li className="flex items-center">
-            <p className="text-xs w-[200px] mr-24">Thời gian xử lý</p>
-            <p className="text-sm md:text-base">24 giờ </p>
-          </li>
-        </ul> */}
 
-        {/* <div className="flex items-center mb-[40px]">
-          <QuestionIcon className="mr-8 w-[16px] text-primary" />
-          <p className="text-xs text-blue-7">Xem hướng dẫn Rút tiền tại đây.</p>
-        </div> */}
-        {/* 
-        <div className="absolute lg:static bottom-0 left-0 right-0 p-12 bg-white-color">
-          <button
-            onClick={() => {
-              if (!value) return
-              if (+value < 10000) {
-                dispatch(notify("Số tiền cần rút phải lớn hơn 10,000 VNĐ!", "error"))
-                return
-              }
-              if (+value > accountBalance) {
-                dispatch(notify("Số tiền cần rút phải nhỏ hơn hoặc bằng số dư!", "error"))
-                return
-              }
-              toggleShowConfirmWithdraw(true)
-            }}
-            className={`btn-primary mx-auto ${!value ? "btn-disabled" : ""}`}
-          >
-            Xác nhận
-          </button>
-        </div> */}
+          <div className="relative">
+            <Controller
+              name="amount"
+              control={control}
+              render={({ field: { onChange, onBlur } }) => (
+                <NumberFormat
+                  onBlur={onBlur}
+                  onValueChange={(val) => {
+                    onChange(val.floatValue)
+                  }}
+                  placeholder="0 đ"
+                  value={getValues("amount")}
+                  className={`form-input ${errors?.amount ? "form-input-err" : ""}`}
+                  suffix=" đ"
+                  thousandSeparator={true}
+                  allowNegative={false}
+                />
+              )}
+              rules={{ required: true }}
+            />
+          </div>
+
+          {errors?.amount ? (
+            <p className="form-err-msg flex items-center mt-[6px]">
+              <WarningIcon color="#FF3B30" className="mr-[10px] w-[20px] h-[20px]" />
+              <span>{errors.amount?.message}</span>
+            </p>
+          ) : null}
+        </div>
+
+        <div className="flex items-start p-8 bg-[#F4FDF7] rounded[8px]">
+          <TrustIcon className="mr-8" />
+          <p className="text-xs text-success">
+            Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
+          </p>
+        </div>
       </div>
 
-      <Alert
-        title={`Xác nhận rút ${formatMoneyVND(value)}`}
-        onConfirm={() => {
-          toggleBodyOverflow("hidden")
-          onSubmit?.(+value)
-        }}
-        type="info"
-        show={showConfirmWithdraw}
-        onClose={() => {
-          toggleShowConfirmWithdraw(false)
-          toggleBodyOverflow("hidden")
-        }}
-      />
-    </>
+      <div
+        className={`flex-center ${
+          view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-[16px]" : ""
+        }`}
+      >
+        <button
+          onClick={() => handleSubmit(onSubmitHandler)}
+          className={`btn-primary ${!getValues("amount") ? "btn-disabled" : ""}`}
+        >
+          Xác nhận
+        </button>
+      </div>
+    </form>
   )
 }

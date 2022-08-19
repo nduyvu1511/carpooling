@@ -38,7 +38,7 @@ export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSum
               <p className="text-xs w-[150px]">Số điện thoại</p>
               <a
                 href={`tel:${driver.phone}`}
-                className="text-14 md:text-16 font-medium whitespace-nowrap ml-auto text-primary underline"
+                className="text-14 md:text-16 font-medium ml-auto text-primary underline"
               >
                 {driver.phone}
               </a>

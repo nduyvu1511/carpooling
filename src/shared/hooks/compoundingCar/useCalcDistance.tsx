@@ -54,7 +54,6 @@ export const useCalcDistance = (): Res => {
         }
       )
     } catch (error) {
-      console.log("calculated failed distance")
       const distance = lngLatToKms({
         from: origin,
         to: destination,

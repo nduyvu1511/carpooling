@@ -1,11 +1,11 @@
-import { HeaderMobile, Journal } from "@/components"
+import { HeaderMobile, Wallet } from "@/components"
 import { DriverAccountLayout } from "@/layout"
 
 const WalletDriver = () => {
   return (
     <DriverAccountLayout showHeaderMobile={false}>
       <HeaderMobile title="Ví cá nhân" className="lg:hidden" />
-      <Journal type="car_driver" />
+      <Wallet type="car_driver" />
     </DriverAccountLayout>
   )
 }

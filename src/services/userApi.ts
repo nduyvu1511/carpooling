@@ -3,8 +3,10 @@ import {
   Auth,
   CertificateInspectionParams,
   ChangePasswordParams,
+  ConfirmRechargeRequestParams,
   ContactParams,
   CreateNewPasswordParams,
+  CreateRechargeRequestParams,
   CreateUserFormParams,
   DrivingLicenseParams,
   GetDetailTransactionParams,
@@ -243,13 +245,29 @@ const userApi = {
   },
 
   MakeWithdrawingRequest: (params: MakeWithdrawingRequestParams) => {
-    return axiosClient.post("/api/car_driver_wallet_controller/make_withdrawing_money_request", {
+    return axiosClient.post("/api/wallet_controller/make_money_withdrawing_request", {
       params,
     })
   },
 
   createContact: (params: ContactParams) => {
     return axiosClient.post("/api/api/v3.0/crm/create_crm_lead", {
+      params,
+    })
+  },
+
+  getPaymentMethodListForRechargeMoney: () => {
+    return axiosClient.post("/api/payment_controller/get_payment_method_for_money_recharge", {})
+  },
+
+  createRechargeRequest: (params: CreateRechargeRequestParams) => {
+    return axiosClient.post("/api/wallet_controller/create_wallet_recharge_request", {
+      params,
+    })
+  },
+
+  confirmRechargeRequest: (params: ConfirmRechargeRequestParams) => {
+    return axiosClient.post("/api/wallet_controller/confirm_wallet_recharge_request", {
       params,
     })
   },

@@ -69,6 +69,7 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
             ) : null}
           </AccordionItem>
         ) : null}
+        
         <AccordionItem
           allowTransition={false}
           onClick={() => handleToggleTabsActive(1)}

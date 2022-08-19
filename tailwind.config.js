@@ -29,6 +29,7 @@ module.exports = {
       "gray-color-4": "#373737",
       "gray-color-5": "#858585",
       "gray-color-7": "#767676",
+      "gray-color-8": "#4E4E4E",
       "gray-90": "#595959",
       "border-color-1": "#C8C8C8",
       "border-color-2": "#D7D7D7",

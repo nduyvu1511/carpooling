@@ -1,4 +1,4 @@
-import { RideCustomerBill, RideProgress, Spinner } from "@/components"
+import { RideCustomerBill, RideProgress, Seo, Spinner } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"

@@ -2,10 +2,16 @@ import { ErrorCircleIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
 import { useEffectOnce } from "@/hooks"
-import { CompoundingCarCustomer, CompoundingCarDriverRes, VnpayStatus } from "@/models"
-import { ridesApi } from "@/services"
+import {
+  CompoundingCarCustomer,
+  CompoundingCarDriverRes,
+  TransactionRes,
+  VnpayStatus,
+} from "@/models"
+import { ridesApi, userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 
 interface CheckoutProcessProps {
   vnp_ResponseCode: VnpayStatus
@@ -13,8 +19,10 @@ interface CheckoutProcessProps {
     | "customerConfirmPayFullCompoundingCar"
     | "confirmDepositForDriver"
     | "confirmDepositCompoundingCarCustomer"
+    | "confirmRechargeRequest"
   compounding_car_customer_id?: number
   compounding_car_id?: number
+  payment_id?: number
 }
 
 const CheckoutProcess = ({
@@ -22,9 +30,11 @@ const CheckoutProcess = ({
   fetcher_type,
   compounding_car_customer_id,
   compounding_car_id,
+  payment_id,
 }: CheckoutProcessProps) => {
+  const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState<number | undefined>(30)
+  const [countdown, setCountdown] = useState<number | undefined>(30000)
 
   useEffectOnce(() => {
     if (vnp_ResponseCode !== "00") return
@@ -50,15 +60,24 @@ const CheckoutProcess = ({
           }
         })
         .catch(() => setValidating(false))
-      return
-    }
-    if (compounding_car_id) {
+    } else if (compounding_car_id) {
       setValidating(true)
       ridesApi
         .confirmDepositForDriver({ compounding_car_id })
         .then((res: AxiosResponse<CompoundingCarDriverRes>) => {
           setValidating(false)
           if (res.result.data.state === "confirm_deposit") {
+            window.close()
+          }
+        })
+        .catch(() => setValidating(false))
+    } else if (payment_id) {
+      setValidating(true)
+      userApi
+        .confirmRechargeRequest({ payment_id })
+        .then((res: AxiosResponse<TransactionRes>) => {
+          setValidating(false)
+          if (res.result.data?.state === "posted") {
             window.close()
           }
         })

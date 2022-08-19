@@ -1,15 +1,14 @@
 import { PlusIcon } from "@/assets"
 import { formatMoneyVND, PAYMENT_PURPOSE_COLOR, PAYMENT_PURPOSE_NAME } from "@/helper"
-import { JournalDetailCompoundingCarCustomerRes, TransactionRes } from "@/models"
+import { TransactionRes } from "@/models"
 import moment from "moment"
 
 interface TransactionItemProps {
   transaction: TransactionRes | null
-  isActive?: boolean
   onChange?: (id: number) => void
 }
 
-export const TransactionItem = ({ transaction, isActive, onChange }: TransactionItemProps) => {
+export const TransactionItem = ({ transaction, onChange }: TransactionItemProps) => {
   if (transaction === null)
     return (
       <div className="flex p-[16px]">
@@ -27,9 +26,7 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
   return (
     <div
       onClick={() => onChange?.(transaction.payment_id)}
-      className={`p-[16px] block-element rounded-[8px] border border-border-color border-solid flex justify-between items-center cursor-pointer transition-all duration-100 ${
-        isActive ? "bg-bg-primary" : ""
-      }`}
+      className={`p-[16px] block-element rounded-[8px] border border-border-color border-solid flex justify-between items-center cursor-pointer transition-all duration-100`}
     >
       <div className="mr-24">
         <p className="mb-12 text-sm">ID: {transaction.payment_code}</p>
@@ -49,8 +46,8 @@ export const TransactionItem = ({ transaction, isActive, onChange }: Transaction
 
         <span
           style={{
-            color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].color,
-            backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].bg,
+            color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.color,
+            backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.bg,
           }}
           className="text-xs rounded-[5px] py-[4px] px-8"
         >
