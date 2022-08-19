@@ -1,10 +1,9 @@
 import { TrustIcon, WarningIcon } from "@/assets"
 import { PaymentItem, Spinner } from "@/components"
-import { rechargeMoneySchema, toggleBodyOverflow } from "@/helper"
+import { rechargeMoneySchema } from "@/helper"
 import { usePaymentMethodRechargeMoney } from "@/hooks"
 import { RechargeRequestFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import NumberFormat from "react-number-format"
 
@@ -28,20 +27,10 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
   })
 
   const currentAcquirerId = watch("acquirer_id")
-  const [showConfirmWithdraw, setShowConfirmWithdraw] = useState<boolean>(false)
 
-  const toggleShowConfirmWithdraw = (status: boolean) => {
-    setShowConfirmWithdraw(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
-  }
-
-  useEffect(() => {
-    ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
-  }, [])
+  // useEffect(() => {
+  //   ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
+  // }, [])
 
   const onSubmitHandler = (params: RechargeRequestFormParams) => {
     if (!params.amount || typeof params.amount !== "number") return

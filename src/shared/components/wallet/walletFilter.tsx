@@ -7,7 +7,7 @@ interface JournalFilterProps {
   defaultValues?: JournalFilterDate
 }
 
-const JournalFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
+const WalletFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
   const [data, setData] = useState<JournalFilterDateOptional | undefined>(defaultValues)
 
   return (
@@ -63,4 +63,4 @@ const JournalFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
   )
 }
 
-export { JournalFilter }
+export { WalletFilter }

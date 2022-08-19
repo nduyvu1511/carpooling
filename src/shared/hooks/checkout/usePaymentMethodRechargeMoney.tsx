@@ -15,7 +15,10 @@ export const usePaymentMethodRechargeMoney = (): Res => {
       userApi
         .getPaymentMethodListForRechargeMoney()
         .then((res) => res?.result?.data)
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err)),
+    {
+      dedupingInterval: 1000 * 10,
+    }
   )
   return {
     data: data || [],

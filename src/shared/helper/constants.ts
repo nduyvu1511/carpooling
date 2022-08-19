@@ -196,6 +196,14 @@ export const PAYMENT_PURPOSE_COLOR = {
     color: "#FF3B30",
     bg: "#FFEBEA",
   },
+  car_driver_wallet_recharge: {
+    color: "",
+    bg: "",
+  },
+  passenger_wallet_recharge: {
+    color: "",
+    bg: "",
+  },
 }
 
 export const LIMIT_HOUR_OF_WAITING_TIME = 4

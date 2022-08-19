@@ -403,3 +403,7 @@ export interface CheckPhoneExistParams {
   phone: string
   type: "login" | "register" | "resetPassword"
 }
+
+export interface PhoneParams {
+  phone: string
+}

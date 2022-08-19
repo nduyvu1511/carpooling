@@ -125,7 +125,7 @@ export const OTP = ({
         <div className="otp__form">
           <OtpForm
             reGenerateRecaptcha={() => {
-              // setExpandForm(false)
+              setExpandForm(false)
               generateRecaptcha().clear()
             }}
             phoneNumber={phone || ""}

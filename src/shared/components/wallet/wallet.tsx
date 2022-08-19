@@ -2,12 +2,12 @@ import { FilterIcon } from "@/assets"
 import {
   Alert,
   FilterNotFound,
-  JournalFilter,
   Modal,
   Spinner,
   TransactionDetail,
   TransactionItem,
   TransactionSuccess,
+  WalletFilter,
   WalletLoading,
 } from "@/components"
 import { RootState } from "@/core/store"
@@ -34,7 +34,7 @@ interface JournalProps {
   type?: CarAccountType
 }
 
-type ModalType = "message" | "withdraw" | "payment" | "filter"
+type ModalType = "transaction" | "payment" | "filter"
 
 const Wallet = ({ type }: JournalProps) => {
   const dispatch = useDispatch()
@@ -53,7 +53,6 @@ const Wallet = ({ type }: JournalProps) => {
     createRechargeRequest,
   } = useJournal()
 
-  const [showMsg, setShowMsg] = useState<boolean>(false)
   const [showWithdrawModal, setShowWithdrawModal] = useState<boolean>(false)
   const [currentPaymentId, setCurrentPaymentId] = useState<number | undefined>(undefined)
   const [showFilter, setShowFilter] = useState<boolean>(false)
@@ -78,8 +77,6 @@ const Wallet = ({ type }: JournalProps) => {
   }) => {
     if (type === "filter") {
       setShowFilter(status as boolean)
-    } else if (type === "message") {
-      setShowMsg(status as boolean)
     } else if (type === "payment") {
       setCurrentPaymentId(status as number)
     } else {
@@ -140,7 +137,7 @@ const Wallet = ({ type }: JournalProps) => {
 
           {type === "car_driver" ? (
             <button
-              onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
+              onClick={() => handleToggleModal({ status: true, type: "transaction" })}
               className="btn-primary w-fit"
             >
               Rút tiền
@@ -150,7 +147,7 @@ const Wallet = ({ type }: JournalProps) => {
 
         <div className="py-12 md:py-24">
           <div className="grid xl:grid-cols-wallet-grid gap-[40px]">
-            <div className="">
+            <div className="h-fit sticky top-[80px]">
               <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
                 {isInitialLoading ? (
                   <WalletLoading />
@@ -160,7 +157,7 @@ const Wallet = ({ type }: JournalProps) => {
                       <p className="text-base font-semibold lg:text-xl">Tổng ví</p>
 
                       <button
-                        onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
+                        onClick={() => handleToggleModal({ status: true, type: "transaction" })}
                         className="btn-primary w-fit sm:hidden"
                       >
                         Rút tiền
@@ -172,7 +169,9 @@ const Wallet = ({ type }: JournalProps) => {
                         {type === "car_driver" ? (
                           <div className="hidden sm:flex lg:hidden flex-start">
                             <button
-                              onClick={() => handleToggleModal({ status: true, type: "withdraw" })}
+                              onClick={() =>
+                                handleToggleModal({ status: true, type: "transaction" })
+                              }
                               className="btn-primary h-fit w-fit"
                             >
                               Rút tiền
@@ -187,7 +186,7 @@ const Wallet = ({ type }: JournalProps) => {
             </div>
 
             <div className="">
-              <div className="flex items-center justify-between mb-[40px]">
+              <div className="flex items-center justify-between mb-[16px]">
                 <p className="text-base font-semibold lg:text-xl">Lịch sử giao dịch</p>
 
                 <button
@@ -198,8 +197,8 @@ const Wallet = ({ type }: JournalProps) => {
                 </button>
               </div>
 
-              <div className="mb-24 hidden sm:block">
-                <JournalFilter onChange={(val) => filterTransactions(val as JournalFilterDate)} />
+              <div className="py-24 hidden sm:block sticky top-[80px] bg-white-color">
+                <WalletFilter onChange={(val) => filterTransactions(val as JournalFilterDate)} />
               </div>
 
               {/* Transaction item */}
@@ -212,7 +211,6 @@ const Wallet = ({ type }: JournalProps) => {
                   </div>
                 ) : transactions && transactions?.transaction?.length > 0 ? (
                   <InfiniteScroll
-                    className="scrollbar-w xl:max-h-[50vh]"
                     dataLength={transactions?.transaction?.length || 0}
                     hasMore={hasMore}
                     loader={isFetchingMore ? <Spinner className="py-[30px]" size={30} /> : null}
@@ -237,7 +235,6 @@ const Wallet = ({ type }: JournalProps) => {
           </div>
         </div>
       </div>
-
       <Modal
         key="transaction-detail-modal"
         show={!!currentPaymentId}
@@ -250,17 +247,6 @@ const Wallet = ({ type }: JournalProps) => {
         </div>
       </Modal>
 
-      {/* Message modal */}
-      <Alert
-        title="Giao dịch thành công!"
-        desc="Giao dịch rút tiền đã thành công, cảm ơn bạn đã sử dụng dịch vụ của ExxeVn"
-        onConfirm={() => handleToggleModal({ status: false, type: "message" })}
-        show={showMsg}
-        leftBtnLabel="Đóng"
-        rightBtnLabel="Chi tiết"
-        onClose={() => handleToggleModal({ status: false, type: "message" })}
-      />
-
       {/* Transaction modal */}
       {paymentId && transaction?.payment_id?.state === "posted" ? (
         <Alert
@@ -268,7 +254,7 @@ const Wallet = ({ type }: JournalProps) => {
           onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}
           onClose={() => {
             dispatch(setCheckoutPaymentId(undefined))
-            handleToggleModal({ status: false, type: "withdraw" })
+            handleToggleModal({ status: false, type: "transaction" })
             mutate(undefined, false)
             mutateJournal()
           }}
@@ -283,7 +269,7 @@ const Wallet = ({ type }: JournalProps) => {
         <Modal
           key="withdraw-modal"
           show={showWithdrawModal}
-          onClose={() => handleToggleModal({ status: false, type: "withdraw" })}
+          onClose={() => handleToggleModal({ status: false, type: "transaction" })}
           heading="Giao dịch"
         >
           <Transaction
@@ -303,7 +289,7 @@ const Wallet = ({ type }: JournalProps) => {
         heading="Bộ lọc"
       >
         <div className="flex-1 flex-col p-12 md:p-24">
-          <JournalFilter
+          <WalletFilter
             defaultValues={journalFilter}
             onChange={(val) => {
               filterTransactions(val as JournalFilterDate)

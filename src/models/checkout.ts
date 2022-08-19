@@ -78,6 +78,8 @@ export type PaymentPurpose =
   | "return_passenger_deposit"
   | "car_driver_invoice"
   | "car_driver_withdrawing"
+  | "car_driver_wallet_recharge"
+  | "passenger_wallet_recharge"
 
 export interface JournalUserRes {
   partner_id: number

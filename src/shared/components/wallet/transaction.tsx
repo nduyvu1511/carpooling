@@ -2,6 +2,7 @@ import { formatMoneyVND } from "@/helper"
 import { RechargeRequestFormParams, WithdrawFormParams } from "@/models"
 import { useState } from "react"
 import { ReChargeMoneyForm, WithdrawForm } from "../form"
+import { Alert } from "../modal"
 
 import { Tabs } from "../tabs"
 
@@ -19,6 +20,32 @@ export const Transaction = ({
   onWithdrawFormSubmit,
 }: TransactionProps) => {
   const [type, setType] = useState<Type>("deposit")
+  const [rechargeData, setRechargeData] = useState<RechargeRequestFormParams | undefined>()
+  const [withdrawData, setWithdrawData] = useState<WithdrawFormParams | undefined>()
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false)
+
+  // const handleVerifyOTP = (otpInput: string) => {
+  //   OTPVerifier({
+  //     otpInput,
+  //     handleSuccess: () => {
+  //       if (rechargeData) {
+  //         onRechargeFormSubmit?.(rechargeData)
+  //       } else if (withdrawData) {
+  //         onWithdrawFormSubmit?.(withdrawData)
+  //       }
+  //     },
+  //   })
+  // }
+
+  // const handleGenerateOTP = () => {
+  //   if (!userInfo?.phone) return
+  //   generateOTPCode({
+  //     params: { phone: userInfo?.phone },
+  //     onSuccess: () => {
+  //       setShowOTP(true)
+  //     },
+  //   })
+  // }
 
   return (
     <>
@@ -45,12 +72,42 @@ export const Transaction = ({
           </div>
 
           {type === "deposit" ? (
-            <ReChargeMoneyForm onSubmit={(data) => onRechargeFormSubmit?.(data)} />
+            <ReChargeMoneyForm
+              onSubmit={(data) => {
+                setRechargeData(data)
+                setShowConfirmModal(true)
+                // handleGenerateOTP()
+              }}
+            />
           ) : (
-            <WithdrawForm onSubmit={(data) => onWithdrawFormSubmit?.(data)} />
+            <WithdrawForm
+              onSubmit={(data) => {
+                setWithdrawData(data)
+                setShowConfirmModal(true)
+                // handleGenerateOTP()
+              }}
+            />
           )}
         </div>
       </div>
+
+      {showConfirmModal && (rechargeData || withdrawData) ? (
+        <Alert
+          title={`Xác nhận ${type === "withdraw" ? "rút" : "nạp"} số tiền ${formatMoneyVND(
+            rechargeData?.amount || withdrawData?.amount || 0
+          )}`}
+          show={true}
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={() => {
+            setShowConfirmModal(false)
+            if (rechargeData) {
+              onRechargeFormSubmit?.(rechargeData)
+            } else if (withdrawData) {
+              onWithdrawFormSubmit?.(withdrawData)
+            }
+          }}
+        />
+      ) : null}
     </>
   )
 }
