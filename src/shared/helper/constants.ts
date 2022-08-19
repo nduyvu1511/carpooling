@@ -197,12 +197,12 @@ export const PAYMENT_PURPOSE_COLOR = {
     bg: "#FFEBEA",
   },
   car_driver_wallet_recharge: {
-    color: "",
-    bg: "",
+    color: "#008F5D",
+    bg: "#F4FDF7",
   },
   passenger_wallet_recharge: {
-    color: "",
-    bg: "",
+    color: "#008F5D",
+    bg: "#F4FDF7",
   },
 }
 

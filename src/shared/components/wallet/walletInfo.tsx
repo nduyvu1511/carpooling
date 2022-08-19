@@ -1,3 +1,4 @@
+import { PaymentIcon, WalletIcon } from "@/assets"
 import { formatMoneyVND } from "@/helper"
 import { JournalRes } from "@/models"
 import { useMemo } from "react"
@@ -30,8 +31,10 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
 
       <div className="flex-1 lg:flex-auto my-auto">
         <div className="">
-          <p className="flex items-center mb-8">
-            <span className="w-[10px] h-[10px] rounded-[50%] bg-border-color-2 mr-8"></span>
+          <p className="flex items-center mb-4">
+            <span className=" mr-8">
+              <WalletIcon className="w-[16px]" />
+            </span>
             <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
           </p>
           <p className="text-base font-semibold">{formatMoneyVND(data[0].remains_amount)}</p>
@@ -39,8 +42,10 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
 
         {data?.[1] ? (
           <div className="mt-24 md:mt-[40px]">
-            <p className="flex items-center mb-8">
-              <span className="w-[10px] h-[10px] rounded-[50%] bg-primary mr-8"></span>
+            <p className="flex items-center mb-4">
+              <span className="mr-8">
+                <PaymentIcon className="w-[16px]" />
+              </span>
               <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
             </p>
             <p className="text-base font-semibold text-primary">

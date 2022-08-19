@@ -1,4 +1,5 @@
 import { CheckoutProcess } from "@/components"
+import { CheckoutLayout } from "@/layout"
 import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
 import { useSelector } from "react-redux"
@@ -22,4 +23,5 @@ const CheckingRechargeStatus = () => {
   )
 }
 
+CheckingRechargeStatus.Layout = CheckoutLayout
 export default CheckingRechargeStatus

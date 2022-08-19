@@ -1,4 +1,4 @@
-import { ErrorCircleIcon } from "@/assets"
+import { ErrorCircleIcon, WarningIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
 import { useEffectOnce } from "@/hooks"
@@ -11,7 +11,6 @@ import {
 import { ridesApi, userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
-import { useDispatch } from "react-redux"
 
 interface CheckoutProcessProps {
   vnp_ResponseCode: VnpayStatus
@@ -32,7 +31,6 @@ const CheckoutProcess = ({
   compounding_car_id,
   payment_id,
 }: CheckoutProcessProps) => {
-  const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number | undefined>(30000)
 
@@ -86,37 +84,47 @@ const CheckoutProcess = ({
   })
 
   return (
-    <div className="container flex-1 bg-white-color md:mt-24 block-element border border-solid border-border-color">
-      {isValidating ? (
+    <div className="container flex-1 bg-white-color md:mt-24">
+      {!isValidating ? (
         <div className="flex flex-col items-center">
-          <div className="py-[80px]">
-            <p className="text-16 font-medium">Đang xử lý giao dịch...</p>
+          <div className=" flex-center flex-col">
             <Spinner size={40} className="py-[20px]" />
+
+            <p className="text-sm md:text-base">Đang xử lý giao dịch...</p>
           </div>
         </div>
-      ) : (
-        <div className="py-[40px] flex-center flex-col">
-          <div className=" mb-[40px] p-12 md:p-[24px] bg-bg-error flex items-center rounded-[5px]">
-            <ErrorCircleIcon className="w-[24px] h-[24px]" />
+      ) : vnp_ResponseCode !== "00" ? (
+        <div className="">
+          <div className="p-[32px] flex-center flex-col bg-[#FDF3F3] mb-24 rounded-[8px]">
+            <ErrorCircleIcon className="w-[66px] h-[66px] mb-24" />
+
+            <p className="text-[22px] text-error font-semibold">Giao dịch không thành công</p>
+
+            <div className="my-[16px] border-b border-[#F2A0A0] border-solid w-full"></div>
+
             <p className="text-sm ml-12 leading-[22px] flex-1">
               {VNPAY_STATUS_NAME[vnp_ResponseCode]}
             </p>
           </div>
-          <button onClick={() => window.close()} className="btn-primary mb-[40px]">
-            Trở về trang chủ
-          </button>
-          {countdown ? (
-            <p className="text-sm">
-              Tự động chuyển hướng sau{" "}
-              <Countdown
-                className="w-[50px] inline-block"
-                onExpiredCoundown={() => window.close()}
-                secondsRemains={countdown}
-              />
-            </p>
-          ) : null}
+
+          <div className="flex-center flex-col">
+            <button onClick={() => window.close()} className="btn-primary mb-24">
+              Trở về trang chủ
+            </button>
+
+            {countdown ? (
+              <p className="text-sm">
+                <span className="font-normal">Tự động chuyển hướng sau </span>
+                <Countdown
+                  className="w-[50px] inline-block font-semibold text-primary"
+                  onExpiredCoundown={() => window.close()}
+                  secondsRemains={countdown}
+                />
+              </p>
+            ) : null}
+          </div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

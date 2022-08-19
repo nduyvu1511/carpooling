@@ -11,7 +11,7 @@ import {
   WalletLoading,
 } from "@/components"
 import { RootState } from "@/core/store"
-import { isObjectHasValue, toggleBodyOverflow } from "@/helper"
+import { toggleBodyOverflow } from "@/helper"
 import { useEffectOnce, useJournal } from "@/hooks"
 import {
   CarAccountType,
@@ -22,7 +22,8 @@ import {
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
 import { userApi } from "@/services"
-import { useEffect, useState } from "react"
+import { AxiosResponse } from "axios"
+import { useState } from "react"
 import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useDispatch, useSelector } from "react-redux"
@@ -60,13 +61,11 @@ const Wallet = ({ type }: JournalProps) => {
   const { data: transaction, mutate } = useSWR<JournalDetailRes>(
     paymentId ? `get_transaction_status_${paymentId}` : null,
     () =>
-      userApi.getDetailTransaction({ payment_id: paymentId || 0 }).then((res) => res.result.data),
+      userApi
+        .getDetailTransaction({ payment_id: paymentId || 0 })
+        .then((res: AxiosResponse<JournalDetailRes>) => res?.result?.data),
     { dedupingInterval: 0, revalidateOnFocus: true }
   )
-
-  useEffect(() => {
-    if (!isObjectHasValue(transaction)) return
-  }, [transaction])
 
   const handleToggleModal = ({
     type,
@@ -125,7 +124,9 @@ const Wallet = ({ type }: JournalProps) => {
   useEffectOnce(() => {
     return () => {
       toggleBodyOverflow("unset")
-      dispatch(setCheckoutPaymentId(undefined))
+      if (paymentId) {
+        dispatch(setCheckoutPaymentId(undefined))
+      }
     }
   })
 
@@ -140,15 +141,15 @@ const Wallet = ({ type }: JournalProps) => {
               onClick={() => handleToggleModal({ status: true, type: "transaction" })}
               className="btn-primary w-fit"
             >
-              Rút tiền
+              Nạp/Rút
             </button>
           ) : null}
         </div>
 
-        <div className="py-12 md:py-24">
+        <div className="pb-12 md:pb-24 lg:py-24">
           <div className="grid xl:grid-cols-wallet-grid gap-[40px]">
-            <div className="h-fit sticky top-[80px]">
-              <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px]">
+            <div className="h-fit xl:sticky top-[104px]">
+              <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px] relative">
                 {isInitialLoading ? (
                   <WalletLoading />
                 ) : (
@@ -158,26 +159,23 @@ const Wallet = ({ type }: JournalProps) => {
 
                       <button
                         onClick={() => handleToggleModal({ status: true, type: "transaction" })}
-                        className="btn-primary w-fit sm:hidden"
+                        className="btn-primary rounded-[30px]  w-fit sm:hidden"
                       >
-                        Rút tiền
+                        Nạp/Rút
                       </button>
                     </div>
                     {transactions && transactions?.journal?.length > 0 ? (
                       <div className="flex-row flex items-stretch">
                         <WalletInfo data={transactions.journal} />
-                        {type === "car_driver" ? (
-                          <div className="hidden sm:flex lg:hidden flex-start">
-                            <button
-                              onClick={() =>
-                                handleToggleModal({ status: true, type: "transaction" })
-                              }
-                              className="btn-primary h-fit w-fit"
-                            >
-                              Rút tiền
-                            </button>
-                          </div>
-                        ) : null}
+
+                        <div className="hidden sm:flex lg:hidden absolute right-[24px] top-[24px]">
+                          <button
+                            onClick={() => handleToggleModal({ status: true, type: "transaction" })}
+                            className="btn-primary rounded-[30px] h-fit w-fit"
+                          >
+                            Nạp/Rút
+                          </button>
+                        </div>
                       </div>
                     ) : null}
                   </>
@@ -197,7 +195,7 @@ const Wallet = ({ type }: JournalProps) => {
                 </button>
               </div>
 
-              <div className="py-24 hidden sm:block sticky top-[80px] bg-white-color">
+              <div className="py-24 hidden sm:block xl:sticky top-[80px] bg-white-color">
                 <WalletFilter onChange={(val) => filterTransactions(val as JournalFilterDate)} />
               </div>
 
@@ -218,7 +216,7 @@ const Wallet = ({ type }: JournalProps) => {
                   >
                     <ul className="">
                       {transactions?.transaction?.map((item, index) => (
-                        <li className="mb-[16px] last:mb-0" key={index}>
+                        <li className="mb-12 md:mb-[16px] last:mb-0" key={index}>
                           <TransactionItem
                             onChange={(id) => handleToggleModal({ status: id, type: "payment" })}
                             transaction={item}
@@ -248,7 +246,7 @@ const Wallet = ({ type }: JournalProps) => {
       </Modal>
 
       {/* Transaction modal */}
-      {paymentId && transaction?.payment_id?.state === "posted" ? (
+      {transaction?.payment_id?.state === "posted" ? (
         <Alert
           show={true}
           onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}

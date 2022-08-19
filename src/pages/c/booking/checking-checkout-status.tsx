@@ -1,5 +1,5 @@
 import { CheckoutProcess } from "@/components"
-import { CustomerLayout } from "@/layout"
+import { CheckoutLayout, CustomerLayout } from "@/layout"
 import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
 
@@ -20,5 +20,5 @@ const ConfirmedCheckout = () => {
   )
 }
 
-ConfirmedCheckout.Layout = CustomerLayout
+ConfirmedCheckout.Layout = CheckoutLayout
 export default ConfirmedCheckout

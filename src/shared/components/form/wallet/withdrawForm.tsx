@@ -51,6 +51,7 @@ export const WithdrawForm = ({ onSubmit, view = "modal" }: WithdrawFormProps) =>
                   value={getValues("amount")}
                   className={`form-input ${errors?.amount ? "form-input-err" : ""}`}
                   suffix=" đ"
+                  id="input"
                   thousandSeparator={true}
                   allowNegative={false}
                 />
@@ -69,7 +70,7 @@ export const WithdrawForm = ({ onSubmit, view = "modal" }: WithdrawFormProps) =>
 
         <div className="flex items-start p-8 bg-[#F4FDF7] rounded[8px]">
           <TrustIcon className="mr-8" />
-          <p className="text-xs text-success">
+          <p className="text-xs text-success flex-1">
             Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
           </p>
         </div>

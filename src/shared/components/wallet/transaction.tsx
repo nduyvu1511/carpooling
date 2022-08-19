@@ -58,7 +58,15 @@ export const Transaction = ({
             ]}
             tabActive={type}
             type="full"
-            onChange={(val) => setType(val as Type)}
+            onChange={(val) => {
+              setType(val as Type)
+              if (withdrawData) {
+                setWithdrawData(undefined)
+              }
+              if (rechargeData) {
+                setRechargeData(undefined)
+              }
+            }}
             labelClassName="font-semibold md:font-semibold py-12 md:py-12"
           />
         </div>
@@ -67,7 +75,9 @@ export const Transaction = ({
           <div className="mb-24">
             <div className="flex items-center justify-between">
               <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư khả dụng</p>
-              <p className="text-24 font-medium text-primary">{formatMoneyVND(accountBalance)}</p>
+              <p className="text-16 md:text-24 whitespace-nowrap font-semibold md:font-medium text-primary">
+                {formatMoneyVND(accountBalance)}
+              </p>
             </div>
           </div>
 

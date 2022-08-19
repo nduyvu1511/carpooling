@@ -59,6 +59,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
                   value={getValues("amount")}
                   className={`form-input ${errors?.amount ? "form-input-err" : ""}`}
                   suffix=" đ"
+                  id="input"
                   thousandSeparator={true}
                   allowNegative={false}
                 />
