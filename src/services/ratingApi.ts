@@ -3,6 +3,7 @@ import {
   DeleteRatingParams,
   ListQuery,
   RatingRangePost,
+  ReportRatingParams,
   UpdateRatingParams,
 } from "@/models"
 import axiosClient from "."
@@ -46,10 +47,14 @@ const ratingApi = {
     })
   },
 
-  reportRating: (params: DeleteRatingParams) => {
+  reportRating: (params: ReportRatingParams) => {
     return axiosClient.post("/api/rating_controller/report_rating", {
       params,
     })
+  },
+
+  getRatingReportReasonList: () => {
+    return axiosClient.post("/api/rating_controller/get_list_quick_reported_reason", {})
   },
 }
 export { ratingApi }

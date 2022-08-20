@@ -1,5 +1,5 @@
 import { CheckoutProcess } from "@/components"
-import { CheckoutLayout, CustomerLayout } from "@/layout"
+import { CheckoutLayout } from "@/layout"
 import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
 

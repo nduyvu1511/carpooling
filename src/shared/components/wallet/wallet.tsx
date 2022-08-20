@@ -136,14 +136,12 @@ const Wallet = ({ type }: JournalProps) => {
         <div className="items-stretch justify-between hidden lg:flex pb-12 md:py-24 border-b border-solid border-border-color">
           <h4 className="h4 text-primary">Ví cá nhân</h4>
 
-          {type === "car_driver" ? (
-            <button
-              onClick={() => handleToggleModal({ status: true, type: "transaction" })}
-              className="btn-primary w-fit"
-            >
-              Nạp/Rút
-            </button>
-          ) : null}
+          <button
+            onClick={() => handleToggleModal({ status: true, type: "transaction" })}
+            className="btn-primary w-fit"
+          >
+            Nạp/Rút
+          </button>
         </div>
 
         <div className="pb-12 md:pb-24 lg:py-24">
@@ -164,6 +162,7 @@ const Wallet = ({ type }: JournalProps) => {
                         Nạp/Rút
                       </button>
                     </div>
+
                     {transactions && transactions?.journal?.length > 0 ? (
                       <div className="flex-row flex items-stretch">
                         <WalletInfo data={transactions.journal} />
@@ -181,6 +180,10 @@ const Wallet = ({ type }: JournalProps) => {
                   </>
                 )}
               </div>
+
+              {/* <div className="mt-[40px]">
+                <WalletGuide />
+              </div> */}
             </div>
 
             <div className="">

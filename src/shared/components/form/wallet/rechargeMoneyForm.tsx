@@ -105,7 +105,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
       </div>
 
       <div
-        className={`flex-center ${
+        className={`flex-center bg-white-color ${
           view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-[16px]" : ""
         }`}
       >

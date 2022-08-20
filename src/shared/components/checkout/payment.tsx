@@ -2,6 +2,7 @@ import { Alert, Countdown, RideToolTip, Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
+import { PaymentRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -13,7 +14,7 @@ interface CheckoutProps {
   down_payment: number
   amount_due?: number
   percentage?: number
-  onCheckout?: (acquirer_id: number) => void
+  onCheckout?: (params: PaymentRes) => void
   onCancelCheckout?: Function
   showCountdown?: boolean
   type?: "deposit" | "checkout"
@@ -44,7 +45,7 @@ const Payment = ({
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [showAlertModal, setShowAlertModal] = useState<AlertModalType | undefined>(undefined)
-  const [acquirerId, setAcquirerId] = useState<number | undefined>()
+  const [acquirerId, setAcquirerId] = useState<PaymentRes | undefined>()
 
   useEffect(() => {
     return () => {
@@ -176,7 +177,7 @@ const Payment = ({
                 onClick={() => {
                   if (!currentSelectPayment?.acquirer_id) return
                   setShowAlertModal("confirm")
-                  setAcquirerId(currentSelectPayment?.acquirer_id)
+                  setAcquirerId(currentSelectPayment)
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"

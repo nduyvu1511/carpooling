@@ -26,7 +26,7 @@ import {
   useRatingActions,
 } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
-import { DepositCompoundingCarDriverFailureRes } from "@/models"
+import { DepositCompoundingCarDriverFailureRes, ReportRatingParams } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -64,9 +64,9 @@ const ConfirmBookingCustomer = () => {
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
 
-  const handleReportRating = (rating_id: number) => {
+  const handleReportRating = (params: ReportRatingParams) => {
     reportRating({
-      params: { rating_id },
+      params,
       onSuccess() {
         setCurrentReportRatingId(undefined)
         mutate()
@@ -193,7 +193,7 @@ const ConfirmBookingCustomer = () => {
                 <ul className="mt-[40px] border-t border-solid border-border-color pt-24">
                   <p className="text-base mb-[12px]">Đánh giá của khách hàng: </p>
                   {compoundingCar.rating_ids.map((item) => (
-                    <li key={item.rating_id}>
+                    <li key={item?.rating_id}>
                       <RatingItem
                         rating={item}
                         onReport={() => setCurrentReportRatingId(item.rating_id)}
@@ -299,8 +299,10 @@ const ConfirmBookingCustomer = () => {
         <div className="p-24">
           <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
           <RatingReport
-            list={[{ id: 1, label: "Người dùng spam" }]}
-            onSubmit={() => currentReportRatingId && handleReportRating(currentReportRatingId)}
+            onSubmit={(params) =>
+              currentReportRatingId &&
+              handleReportRating({ ...params, rating_id: currentReportRatingId })
+            }
           />
         </div>
       </Modal>

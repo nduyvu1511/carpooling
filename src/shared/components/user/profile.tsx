@@ -163,18 +163,19 @@ const Profile = ({ type }: ProfileProps) => {
         </div>
       </div>
 
-      <div className="pb-24 md:pb-0">
-        <UserInfoForm
-          onSubmitIdentityCard={(params) => updateUserInfoIdentityCard(params)}
-          type={type}
-          mode="update"
-          showAvatar={false}
-          defaultValues={userInfo}
-          onSubmit={(data) => handleUpdateUserInfo(data)}
-          view="page"
-          btnLabel="Lưu"
-        />
-      </div>
+      <UserInfoForm
+        onSubmitIdentityCard={(params) => updateUserInfoIdentityCard(params)}
+        type={type}
+        mode="update"
+        showAvatar={false}
+        defaultValues={{
+          ...userInfo,
+          email: EMAIL_REGEX.test(userInfo.email) ? userInfo.email : "",
+        }}
+        onSubmit={(data) => handleUpdateUserInfo(data)}
+        view="page"
+        btnLabel="Lưu"
+      />
     </>
   )
 }

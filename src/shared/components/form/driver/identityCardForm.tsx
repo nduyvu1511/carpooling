@@ -63,119 +63,119 @@ export const IdentityCardForm = ({
       className={`${view === "modal" ? "pb-[64px]" : ""}`}
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      {idCardFormFields.map((field) => (
-        <div key={field.name} className="form-item">
-          <label htmlFor={field.name} className="form-label">
-            {field.placeholder}{" "}
-            {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
-          </label>
+      <div className="modal-form-content">
+        {idCardFormFields.map((field) => (
+          <div key={field.name} className="form-item">
+            <label htmlFor={field.name} className="form-label">
+              {field.placeholder}{" "}
+              {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
+            </label>
 
-          {field.type === "file" ? (
-            <Controller
-              control={control}
-              name={field.name}
-              render={({ field: { onChange } }) => (
-                <div className="driver-bio__form-input">
-                  <InputImage
-                    id={field.name}
-                    image={
-                      (field.name === "front_identity_card_image_url"
-                        ? frontImage || defaultValues?.front_identity_card_image_url?.url
-                        : backImage || defaultValues?.back_identity_card_image_url?.url) || ""
-                    }
-                    isError={!!errors?.[field.name]?.message}
-                    getImage={(file) => {
-                      field.name === "front_identity_card_image_url" &&
-                        setFrontImage(file.attachment_url)
-                      field.name === "back_identity_card_image_url" &&
-                        setBackImage(file.attachment_url)
-                      onChange(file.attachment_id)
-                    }}
-                  />
-                </div>
-              )}
-              rules={{ required: true }}
-            />
-          ) : null}
+            {field.type === "file" ? (
+              <Controller
+                control={control}
+                name={field.name}
+                render={({ field: { onChange } }) => (
+                  <div className="driver-bio__form-input">
+                    <InputImage
+                      id={field.name}
+                      image={
+                        (field.name === "front_identity_card_image_url"
+                          ? frontImage || defaultValues?.front_identity_card_image_url?.url
+                          : backImage || defaultValues?.back_identity_card_image_url?.url) || ""
+                      }
+                      isError={!!errors?.[field.name]?.message}
+                      getImage={(file) => {
+                        field.name === "front_identity_card_image_url" &&
+                          setFrontImage(file.attachment_url)
+                        field.name === "back_identity_card_image_url" &&
+                          setBackImage(file.attachment_url)
+                        onChange(file.attachment_id)
+                      }}
+                    />
+                  </div>
+                )}
+                rules={{ required: true }}
+              />
+            ) : null}
 
-          {field.type === "text" ? (
-            <input
-              className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-              id={field.name}
-              type="text"
-              placeholder={field.placeholder}
-              {...register(field.name, {
-                required: true,
-              })}
-            />
-          ) : null}
+            {field.type === "text" ? (
+              <input
+                className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
+                id={field.name}
+                type="text"
+                placeholder={field.placeholder}
+                {...register(field.name, {
+                  required: true,
+                })}
+              />
+            ) : null}
 
-          {field.type === "select" ? (
-            <Controller
-              control={control}
-              name={field.name}
-              render={({ field: { onChange, onBlur } }) => (
-                <div onBlur={onBlur} className="form-select">
-                  <Select
-                    value={
-                      field.name === "place_of_issue" && getValues("place_of_issue")
-                        ? {
-                            value: getValues("place_of_issue"),
-                            label: getValues("place_of_issue"),
-                          }
-                        : undefined
-                    }
-                    className={`${errors?.[field.name] ? "form-select-error" : ""}`}
-                    placeholder={field.placeholder}
-                    onChange={(val) => {
-                      onChange(field.name === "place_of_issue" ? val?.label : val?.value)
-                    }}
+            {field.type === "select" ? (
+              <Controller
+                control={control}
+                name={field.name}
+                render={({ field: { onChange, onBlur } }) => (
+                  <div onBlur={onBlur} className="form-select">
+                    <Select
+                      value={
+                        field.name === "place_of_issue" && getValues("place_of_issue")
+                          ? {
+                              value: getValues("place_of_issue"),
+                              label: getValues("place_of_issue"),
+                            }
+                          : undefined
+                      }
+                      className={`${errors?.[field.name] ? "form-select-error" : ""}`}
+                      placeholder={field.placeholder}
+                      onChange={(val) => {
+                        onChange(field.name === "place_of_issue" ? val?.label : val?.value)
+                      }}
+                      onBlur={onBlur}
+                      id={field.name}
+                      options={getOptionsSelect(field.name) as []}
+                    />
+                  </div>
+                )}
+                rules={{ required: true }}
+              />
+            ) : null}
+
+            {field.type === "date" ? (
+              <Controller
+                control={control}
+                name={field.name}
+                render={({ field: { onChange, onBlur } }) => (
+                  <div
                     onBlur={onBlur}
-                    id={field.name}
-                    options={getOptionsSelect(field.name) as []}
-                  />
-                </div>
-              )}
-              rules={{ required: true }}
-            />
-          ) : null}
+                    className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                  >
+                    <InputDate
+                      value={getValues([field.name]) + ""}
+                      placeholder={field.placeholder}
+                      onChange={(val) => onChange(val)}
+                      disablePassDay={false}
+                    />
+                  </div>
+                )}
+                rules={{ required: true }}
+              />
+            ) : null}
 
-          {field.type === "date" ? (
-            <Controller
-              control={control}
-              name={field.name}
-              render={({ field: { onChange, onBlur } }) => (
-                <div
-                  onBlur={onBlur}
-                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
-                >
-                  <InputDate
-                    value={getValues([field.name]) + ""}
-                    placeholder={field.placeholder}
-                    onChange={(val) => onChange(val)}
-                    disablePassDay={false}
-                  />
-                </div>
-              )}
-              rules={{ required: true }}
-            />
-          ) : null}
-
-          {errors[field.name] || dirtyFields[field.name] ? (
-            <p className="form-err-msg">{errors[field.name]?.message}</p>
-          ) : null}
-        </div>
-      ))}
-
-      <div className="flex-center fixed bottom-[0] left-[0] right-[0] content-container">
-        <ButtonSubmit
-          className="form-upload-btn"
-          view={view}
-          isError={!isValid}
-          title="Tiếp tục"
-          onClick={() => handleSubmit(onSubmitHandler)}
-        />
+            {errors[field.name] || dirtyFields[field.name] ? (
+              <p className="form-err-msg">{errors[field.name]?.message}</p>
+            ) : null}
+          </div>
+        ))}
       </div>
+
+      <ButtonSubmit
+        className="form-upload-btn"
+        view={view}
+        isError={!isValid}
+        title="Tiếp tục"
+        onClick={() => handleSubmit(onSubmitHandler)}
+      />
     </form>
   )
 }

@@ -73,6 +73,7 @@ const CompoundingDepositDetail = () => {
       className="pb-24"
       topNode={<RideProgress state={compoundingCar?.state} />}
       title="Trạng thái chuyến đi"
+      showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
           <>

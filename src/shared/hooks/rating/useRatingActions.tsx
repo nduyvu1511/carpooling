@@ -2,6 +2,7 @@ import {
   CreateRatingParams,
   DeleteRatingParams,
   RatingRes,
+  ReportRatingParams,
   UpdateRatingParams,
   UseParams,
 } from "@/models"
@@ -12,7 +13,7 @@ interface Res {
   deleteRating: (_params: UseParams<DeleteRatingParams, RatingRes>) => void
   addRating: (_params: UseParams<CreateRatingParams, RatingRes>) => void
   updateRating: (_params: UseParams<UpdateRatingParams, RatingRes>) => void
-  reportRating: (_params: UseParams<DeleteRatingParams, any>) => void
+  reportRating: (_params: UseParams<ReportRatingParams, any>) => void
 }
 
 export const useRatingActions = (): Res => {
@@ -45,7 +46,7 @@ export const useRatingActions = (): Res => {
     })
   }
 
-  const reportRating = async (_params: UseParams<DeleteRatingParams, any>) => {
+  const reportRating = async (_params: UseParams<ReportRatingParams, any>) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler({
       fetcher: ratingApi.reportRating(params),

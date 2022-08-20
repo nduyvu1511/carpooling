@@ -60,7 +60,7 @@ const Activities = () => {
             <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
             <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
               {customerActivityFilters.map(({ label, value }, index) => (
-                <li className="mr-[12px] lg:mr-[16px] last:mr-0 lg:mb-[16px]" key={index}>
+                <li className="mr-[12px] lg:mr-[16px] lg:mb-[16px] last:mr-24" key={index}>
                   <TagActivityItem<CompoundingCarCustomerState[]>
                     bgColor={STATE_BG_COLOR[value?.[0] || ""]}
                     color={STATE_COLOR[value?.[0] || ""]}

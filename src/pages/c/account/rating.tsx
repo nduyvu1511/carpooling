@@ -67,7 +67,7 @@ const Rating = () => {
         <div className="px-12 md:px-24 pt-0">
           {isValidating ? (
             <div>
-              {Array.from({ length: 5 }).map((_, key) => (
+              {Array.from({ length: 4 }).map((_, key) => (
                 <RatingItem key={key} rating={null} />
               ))}
             </div>

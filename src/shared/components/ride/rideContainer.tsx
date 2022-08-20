@@ -70,7 +70,7 @@ const RideContainer = ({
 
   return (
     <>
-      <section className="container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:py-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
+      <section className="container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           <div className="hidden xl:block">
             {!showFilterMobile && !showFilterTablet && router.isReady ? (
@@ -152,7 +152,7 @@ const RideContainer = ({
 
         <button
           onClick={() => toggleShowFilter({ status: true, type: "tablet" })}
-          className="hidden md:flex xl:hidden fixed right-0 top-[200px] z-[1000] rounded-[5px] border border-solid border-border-color block-element flex-col flex-center p-[8px]"
+          className="hidden md:flex xl:hidden fixed right-0 top-[200px] z-[100] rounded-[5px] border border-solid border-border-color block-element flex-col flex-center p-[8px]"
         >
           <FilterIcon className="mb-[12px]" />
           <span className="text-base font-semibold">Bộ lọc</span>

@@ -21,7 +21,7 @@ const PaymentItem = ({ payment, onChange, isActive }: PaymentItemProps) => {
           <Image src={toImageUrl(payment.image_url.url)} alt="" objectFit="contain" layout="fill" />
         </div>
       ) : null}
-      <span className="flex-1 mx-12 text-sm">{payment.name}</span>
+      <span className="flex-1 mx-12 text-sm whitespace-nowrap">{payment.name}</span>
 
       {/* <InputRadio color="#2E4CB7" isChecked={!!isActive} onCheck={() => onChange?.(payment)} /> */}
     </div>

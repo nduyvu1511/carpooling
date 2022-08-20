@@ -64,7 +64,9 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
       <li className="flex items-start justify-between mb-[16px]">
         <p className="text-xs leading-[20px]">Số hành khách</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
-          {(data as CompoundingCarRes)?.number_seat_in_car - data?.number_available_seat}
+          {(data as CompoundingCarRes)?.number_seat_in_car
+            ? (data as CompoundingCarRes)?.number_seat_in_car - data?.number_available_seat
+            : (data as CompoundingCarCustomer).number_seat || data.number_available_seat}
         </p>
       </li>
     </ul>

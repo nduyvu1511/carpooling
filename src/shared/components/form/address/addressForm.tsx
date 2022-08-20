@@ -8,11 +8,10 @@ import Select from "react-select"
 interface AddressFormProps {
   defaultValues?: UserInfoFormAddressOptional
   onSubmit?: (params: UserInfoFormAddress) => void
-  view?: "modal" | "page"
   className?: string
 }
 
-const AddressForm = ({ defaultValues, onSubmit, view, className = "" }: AddressFormProps) => {
+const AddressForm = ({ defaultValues, onSubmit, className = "" }: AddressFormProps) => {
   const { provinceOptions, districtOptions, wardOptions, getDistricts, getWards } = useAddress(
     Number(defaultValues?.province_id?.value),
     Number(defaultValues?.district_id?.value)
@@ -36,8 +35,11 @@ const AddressForm = ({ defaultValues, onSubmit, view, className = "" }: AddressF
   }
 
   return (
-    <form className={`${className} flex-1 flex flex-col`} onSubmit={handleSubmit(onSubmitHandler)}>
-      <div className="flex-1 pb-[64px]">
+    <form
+      className={`${className} flex-1 flex flex-col modal-form`}
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <div className="flex-1 pb-[64px] modal-form-content">
         {userInfoAddressData.map(({ name, placeholder, type }) => (
           <div key={name} className="form-item">
             <label htmlFor={name} className="form-label">
@@ -115,7 +117,7 @@ const AddressForm = ({ defaultValues, onSubmit, view, className = "" }: AddressF
         ))}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-12 bg-white-color">
+      <div className="modal-form-btn">
         <button className={`btn-primary mx-auto ${isValid ? "" : "btn-disabled-clickable"}`}>
           Tiếp theo
         </button>

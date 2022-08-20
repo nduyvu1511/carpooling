@@ -162,7 +162,7 @@ const ScheduleCompounding = () => {
             <RideProgress state={compoundingCar?.state} />
           </div>
         }
-        title="Bắt đầu chuyến đi"
+        title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}
         stickyRight
         rightNode={
           compoundingCar ? (

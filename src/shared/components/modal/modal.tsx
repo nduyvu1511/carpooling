@@ -36,7 +36,7 @@ const Modal = ({
     <>
       <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={500} in={show}>
         <div
-          className={`flex flex-col w-screen h-full ${
+          className={`modal flex flex-col w-screen h-full ${
             fullScreen ? "" : "sm:max-w-[610px] sm:max-h-[650px] sm:rounded-[30px]"
           } fixed z-[3000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-white-color ${className}`}
         >
@@ -58,7 +58,9 @@ const Modal = ({
             {rightHeaderNode}
           </div>
           {headerNode}
-          <div className={`flex-1 flex flex-col ${overFlowAuto ? "overflow-y-auto" : ""}`}>
+          <div
+            className={`modal-body flex-1 flex flex-col ${overFlowAuto ? "overflow-y-auto" : ""}`}
+          >
             {children}
           </div>
         </div>

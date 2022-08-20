@@ -66,11 +66,11 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
             <li
               onClick={() => router.push(path)}
               key={index}
-              className={`cursor-pointer flex items-start text-sm font-semibold px-12 py-[14px] border-b border-solid border-border-color ${
+              className={`cursor-pointer flex items-center text-sm font-semibold px-12 py-[14px] border-b border-solid border-border-color ${
                 activePath === path ? "bg-primary text-white-color rounded-[5px]" : "text-primary"
               }`}
             >
-              <span className="mt-[2px]">{icon}</span>
+              <span className="">{icon}</span>
               <span className="mx-[10px] flex-1">{label}</span>
               <ArrowRightIcon className="text-white w-[8px] h-[13px]" />
             </li>

@@ -60,7 +60,7 @@ export const CARPOOLING_IS_PICKING_UP_FROM_START = "carpooling_is_picking_up_fro
 export const COMPOUNDING_VNPAY_CODE = "compounding_vnpay_code"
 export const LIMIT_COMPOUNDING_LIST = 12
 export const STATE_COLOR = {
-  draft: "#ff8800",
+  draft: "#858585",
   "": "#858585",
   confirm: "#2E41B6",
   confirm_deposit: "#2E41B6",
@@ -72,13 +72,13 @@ export const STATE_COLOR = {
   customer_pay: "#ED9526",
   confirm_paid: "#118A33",
   cancel: "#FF3B30",
-  waiting_deposit: "#ff8800",
+  waiting_deposit: "#858585",
   start_running: "#ED9526",
   stop_picking: "#ED9526",
   waiting_customer: "#2E41B6",
 }
 export const STATE_BG_COLOR = {
-  draft: "rgba(255, 59, 48, 0.2)",
+  draft: "#F8F9FA",
   confirm: "rgba(46, 76, 183, 0.2)",
   confirm_deposit: "rgba(46, 76, 183, 0.2)",
   waiting: "rgba(46, 76, 183, 0.2)",

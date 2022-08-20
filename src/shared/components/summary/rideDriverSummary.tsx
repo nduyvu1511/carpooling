@@ -70,14 +70,17 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
             <p className="flex-1 text-sm md:text-base text-right">{formatMoneyVND(ride.cash)}</p>
           </li>
           <div className="mb-12 border-b border-solid border-border-color"></div>
-          <li className="flex items-start justify-between">
+          <li className="flex items-start justify-between mb-12">
             <p className="text-xs mr-12 min-w-[100px] text-sm uppercase font-semibold">
-              Số tiền thực nhận
+              Tổng giá vé
             </p>
-            <p className="flex-1 text-sm md:text-base text-right font-semibold text-error">
+
+            <p className="flex-1 text-14 md:text-16 text-right font-semibold text-error">
               {formatMoneyVND(ride.amount_due)}
             </p>
           </li>
+
+          <p className="text-xs">(*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.</p>
         </ul>
       </div>
 

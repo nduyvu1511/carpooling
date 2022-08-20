@@ -11,13 +11,14 @@ import { LocationHistoryItem, LocationItem } from "../location"
 
 interface MapSearchProps {
   onSelect?: (val: FromLocation) => void
+  disabled?: boolean
 }
 
 const requestOptions = {
   componentRestrictions: { country: "vn" },
 }
 
-const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
+const MapSearch = memo(function MapSearchChild({ onSelect, disabled }: MapSearchProps) {
   const ref = useRef<HTMLInputElement>(null)
   const { getProvinceIdByGooglePlace } = useAddress()
   const dispatch = useDispatch()
@@ -73,7 +74,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
 
   return (
     <div ref={searchRef} className="w-full h-full">
-      <div className="relative w-full">
+      <div className={`relative w-full ${disabled ? "pointer-events-none" : ""}`}>
         <SearchIcon className="absolute-vertical left-[16px] text-gray-color-5" />
         <input
           ref={ref}
@@ -148,6 +149,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect }: MapSearchProps) {
                     location={item}
                     onSelect={(location) => {
                       onSelect?.(location)
+                      setValue(location.address)
                       toggleShowSearchResult(false)
                     }}
                   />

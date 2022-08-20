@@ -6,7 +6,7 @@ export interface PaymentRes {
   acquirer_id: number
   name: string
   provider: string
-  state: "enabled"
+  state: string
   image_url: {
     id: number
     url: string

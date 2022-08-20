@@ -24,6 +24,15 @@ export interface DeleteRatingParams {
   rating_id: number
 }
 
+export interface ReportRatingParams extends ReportRatingFormParams {
+  rating_id: number
+}
+
+export interface ReportRatingFormParams {
+  reported_reason_ids?: number[]
+  reported_reason_other?: string
+}
+
 export interface RatingTagRes {
   tag_id: number
   tag_content: string
@@ -51,4 +60,9 @@ export interface RatingRes {
   rating_content: string
   rating_reported: "waiting" | false | "reported"
   rating_editable: boolean
+}
+
+export interface RatingReportReasonRes {
+  reason_id: number
+  reason_content: string
 }

@@ -2,6 +2,7 @@ import { RatingEmptyIcon } from "@/assets"
 import { Modal, RatingItem, RatingReport, Spinner } from "@/components"
 import { useDriverRating, useRatingActions } from "@/hooks"
 import { AccountLayout, DriverLayout } from "@/layout"
+import { ReportRatingParams } from "@/models"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 
@@ -17,14 +18,14 @@ const Rating = () => {
   const { reportRating } = useRatingActions()
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
 
-  const handleReportRating = (rating_id: number) => {
+  const handleReportRating = (params: ReportRatingParams) => {
     reportRating({
-      params: { rating_id },
+      params,
       onSuccess() {
         setCurrentReportRatingId(undefined)
         mutate(
           [...ratings].map((item) =>
-            item.rating_id === rating_id ? { ...item, rating_reported: "waiting" } : item
+            item.rating_id === params.rating_id ? { ...item, rating_reported: "waiting" } : item
           ),
           false
         )
@@ -38,7 +39,7 @@ const Rating = () => {
         <div className="px-24">
           {isInitialLoading ? (
             <div>
-              {Array.from({ length: 8 }).map((_, index) => (
+              {Array.from({ length: 4 }).map((_, index) => (
                 <RatingItem rating={null} key={index} />
               ))}
             </div>
@@ -51,7 +52,7 @@ const Rating = () => {
             >
               <ul className="">
                 {ratings.map((item) => (
-                  <li className="border-b border-solid border-border-color" key={item.rating_id}>
+                  <li className="border-b border-solid border-border-color" key={item?.rating_id}>
                     <RatingItem
                       showDetail
                       car_account_type="car_driver"
@@ -77,11 +78,12 @@ const Rating = () => {
         onClose={() => setCurrentReportRatingId(undefined)}
         heading="Báo cáo đánh giá"
       >
-        <div className="p-24 pb-0 flex-1 flex flex-col">
-          <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
+        <div className="modal-form">
           <RatingReport
-            list={[{ id: 1, label: "Người dùng spam" }]}
-            onSubmit={() => currentReportRatingId && handleReportRating(currentReportRatingId)}
+            onSubmit={(params) =>
+              currentReportRatingId &&
+              handleReportRating({ ...params, rating_id: currentReportRatingId })
+            }
           />
         </div>
       </Modal>

@@ -84,7 +84,7 @@ export const RatingItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (rating === null)
+  if (!rating)
     return (
       <div className="p-12 lg:p-24">
         <div className="flex items-start">

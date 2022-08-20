@@ -35,7 +35,7 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
             <span className=" mr-8">
               <WalletIcon className="w-[16px]" />
             </span>
-            <span className="text-xs whitespace-nowrap">Tổng số tiền</span>
+            <span className="text-xs whitespace-nowrap">Tổng tiền hiện có</span>
           </p>
           <p className="text-base font-semibold">{formatMoneyVND(data[0].remains_amount)}</p>
         </div>
@@ -46,7 +46,7 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
               <span className="mr-8">
                 <PaymentIcon className="w-[16px]" />
               </span>
-              <span className="text-xs whitespace-nowrap">Số tiền khả dụng</span>
+              <span className="text-xs whitespace-nowrap">Số dư khả dụng</span>
             </p>
             <p className="text-base font-semibold text-primary">
               {formatMoneyVND(data[1].remains_amount)}

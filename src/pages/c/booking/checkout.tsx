@@ -13,6 +13,7 @@ import {
   useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
+import { PaymentRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -23,7 +24,7 @@ const Checkout = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
-  const { createPayment } = useCustomerCheckout()
+  const { createPayment, confirmDepositCompoundingCarCustomer } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     key: `booking_checkout_customer_${compounding_car_customer_id}`,
@@ -31,19 +32,26 @@ const Checkout = () => {
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
 
-  const handleConfirmTransaction = (acquirer_id: number) => {
+  const handleConfirmTransaction = (params: PaymentRes) => {
     const { compounding_car_customer_id } = compoundingCar || {}
     if (!compounding_car_customer_id) return
-    createPayment({
-      params: {
-        acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
-        compounding_car_customer_id,
-      },
-      onSuccess: (data) => {
-        window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-      },
-    })
+    console.log(params.provider)
+    if (params.provider === "exxe_wallet") {
+      confirmDepositCompoundingCarCustomer(compounding_car_customer_id, () => {
+        redirectToCheckoutSuccess()
+      })
+    } else {
+      createPayment({
+        params: {
+          acquirer_id: params.acquirer_id,
+          returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
+          compounding_car_customer_id,
+        },
+        onSuccess: (data) => {
+          window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+        },
+      })
+    }
   }
 
   const handleCancelCompoundingCarCustomer = () => {
@@ -62,13 +70,17 @@ const Checkout = () => {
     }
   })
 
+  const redirectToCheckoutSuccess = () => {
+    router.push(
+      `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
+    )
+  }
+
   useEffect(() => {
     if (compoundingCar === undefined) return
 
     if (compoundingCar?.state === "deposit") {
-      router.push(
-        `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
-      )
+      redirectToCheckoutSuccess()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
@@ -112,7 +124,7 @@ const Checkout = () => {
             down_payment={compoundingCar?.down_payment?.total}
             amount_total={compoundingCar?.price_unit?.price_unit}
             secondsRemains={compoundingCar.second_remains}
-            onCheckout={(id) => handleConfirmTransaction(id)}
+            onCheckout={(_) => handleConfirmTransaction(_)}
             onCancelCheckout={handleCancelCompoundingCarCustomer}
           />
         )

@@ -15,6 +15,7 @@ export const WalletGuide = () => {
   return (
     <div>
       <AccordionItem
+        allowTransition={false}
         isActive={tabsActive.includes(1)}
         onClick={() => handleToggleTabsActive(1)}
         className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
@@ -25,6 +26,7 @@ export const WalletGuide = () => {
       </AccordionItem>
 
       <AccordionItem
+        allowTransition={false}
         isActive={tabsActive.includes(2)}
         onClick={() => handleToggleTabsActive(2)}
         className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"

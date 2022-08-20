@@ -33,7 +33,9 @@ const RideDone = () => {
       <DriverLayout>
         <div className="content-container pt-[56px] lg:pt-0 block-element md:mt-24 px-12 sm:px-24 flex-1 bg-white-color pb-[64px]">
           {data === undefined && error === undefined ? (
-            <RideSummaryLoading view="lg" />
+            <div className="py-12 md:py-24">
+              <RideSummaryLoading view="lg" />
+            </div>
           ) : data ? (
             <div className="py-24">
               <RideDriverSummary ride={data} />

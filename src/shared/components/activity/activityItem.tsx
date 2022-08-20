@@ -112,7 +112,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 
         <div className="flex flex-col flex-center mr-[12px]">
           <p className="text-sm text-gray-color-5 mb-[4px]">Tổng giá phí</p>
-          <p className="md:text-lg lg:text-lg xl:text-xl">
+          <p className="text-14 md:text-16 lg:text-18 xl:text-24 font-semibold text-error">
             {formatMoneyVND(
               (activity as DriverActivityRes).number_seat_in_car
                 ? (activity as DriverActivityRes).price_unit.price_unit
@@ -178,7 +178,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
           </p>
           <p className="flex items-center">
             <PaymentIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
-            <span className="text-12 xs:text-14 font-medium text-error">
+            <span className="text-12 xs:text-14 font-semibold text-error">
               {formatMoneyVND(
                 (activity as DriverActivityRes).number_seat_in_car
                   ? (activity as DriverActivityRes).price_unit.price_unit

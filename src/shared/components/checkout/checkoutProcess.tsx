@@ -85,7 +85,7 @@ const CheckoutProcess = ({
 
   return (
     <div className="container flex-1 bg-white-color md:mt-24">
-      {!isValidating ? (
+      {isValidating ? (
         <div className="flex flex-col items-center">
           <div className=" flex-center flex-col">
             <Spinner size={40} className="py-[20px]" />

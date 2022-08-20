@@ -1,49 +1,100 @@
-import { ItemSelect } from "@/components"
+import { ArrowDownIcon } from "@/assets"
+import { ItemSelect, Spinner } from "@/components"
 import { isArrayHasValue } from "@/helper"
+import { useInputText } from "@/hooks"
+import { RatingReportReasonRes, ReportRatingFormParams } from "@/models"
+import { ratingApi } from "@/services"
 import { useState } from "react"
+import useSWR from "swr"
 
 interface RatingReportProps {
-  onSubmit?: Function
-  list: { id: number; label: string }[]
-  view?: "modal" | "page"
+  onSubmit?: (_: ReportRatingFormParams) => void
 }
 
-const RatingReport = ({ onSubmit, list, view }: RatingReportProps) => {
-  const [reports, setReports] = useState<number[]>([])
+const RatingReport = ({ onSubmit }: RatingReportProps) => {
+  const { onChange, value } = useInputText()
+  const { isValidating, data } = useSWR<RatingReportReasonRes[]>(
+    "get_rating_report_reason_list",
+    () =>
+      ratingApi
+        .getRatingReportReasonList()
+        .then((res) => res?.result?.data)
+        .catch((err) => console.log(err))
+  )
+  const [reportIds, setReportIds] = useState<number[]>([])
+  const [showAll, setShowAll] = useState<boolean>(false)
 
   const handleSetReports = (id: number) => {
-    if (reports?.includes(id)) {
-      setReports([...reports].filter((_id) => _id !== id))
+    if (reportIds?.includes(id)) {
+      setReportIds([...reportIds].filter((_id) => _id !== id))
     } else {
-      setReports([...reports, id])
+      setReportIds([...reportIds, id])
     }
   }
 
   return (
-    <div className="flex-1 flex flex-col">
-      <ul className="mb-[40px] flex-1">
-        {list.map(({ id, label }) => (
-          <li key={id} className="mb-[16px] last:mb-0">
-            <ItemSelect
-              onChange={() => {
-                handleSetReports(+id)
-              }}
-              title={label + ""}
-              isActive={reports?.includes(+id)}
-            />
-          </li>
-        ))}
-      </ul>
+    <>
+      <div className="flex-1 modal-form-content">
+        <ul className="mb-[40px]">
+          <p className="form-label mb-12">Chọn lý do để báo cáo:</p>
+          {isValidating ? (
+            <Spinner className="py-24" />
+          ) : (
+            (data || [])
+              .slice(0, showAll ? data?.length : 5)
+              ?.map(({ reason_content, reason_id }) => (
+                <li key={reason_id} className="mb-[16px] last:mb-0">
+                  <ItemSelect
+                    onChange={() => {
+                      handleSetReports(reason_id)
+                    }}
+                    title={reason_content}
+                    isActive={reportIds?.includes(+reason_id)}
+                  />
+                </li>
+              ))
+          )}
 
-      <div className="h-[64px] flex-center">
+          {(data || [])?.length > 5 ? (
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="text-sm font-semibold leading-[18px] text-primary flex items-center"
+            >
+              <span className="mr-4">{!showAll ? "Xem thêm" : "Ẩn bớt"}</span>
+              <ArrowDownIcon className={`transform ${showAll ? "rotate-[180deg]" : ""}`} />
+            </button>
+          ) : null}
+        </ul>
+
+        <div className="">
+          <label className="form-label" htmlFor="input">
+            Lý do khác
+          </label>
+          <textarea
+            placeholder="Nhập lý do khác..."
+            className="form-textarea"
+            id="input"
+            onChange={onChange}
+            value={value}
+          />
+        </div>
+      </div>
+
+      <div className="modal-form-btn">
         <button
-          onClick={() => isArrayHasValue(reports) && onSubmit?.()}
-          className={`btn-primary ${!isArrayHasValue(reports) ? "btn-disabled" : ""}`}
+          onClick={() =>
+            isArrayHasValue(reportIds) &&
+            onSubmit?.({
+              reported_reason_ids: reportIds,
+              reported_reason_other: value || undefined,
+            })
+          }
+          className={`btn-primary ${!isArrayHasValue(reportIds) && !value ? "btn-disabled" : ""}`}
         >
           Gửi
         </button>
       </div>
-    </div>
+    </>
   )
 }
 

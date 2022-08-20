@@ -350,24 +350,22 @@ export const UserInfoForm = ({
         onClose={() => toggleShowAddressModal(false)}
         heading="Chọn địa chỉ cụ thể"
       >
-        <div className="p-12 flex flex-col md:p-24 flex-1">
-          <AddressForm
-            className="flex-1"
-            defaultValues={{
-              district_id: getValues("district_id.value") ? getValues("district_id") : undefined,
-              province_id: getValues("province_id.value") ? getValues("province_id") : undefined,
-              ward_id: getValues("ward_id.value") ? getValues("ward_id") : undefined,
-              street: getValues("street") || undefined,
-            }}
-            onSubmit={(data) => {
-              setValue("district_id", data.district_id)
-              setValue("ward_id", data.ward_id)
-              setValue("province_id", data.province_id)
-              setValue("street", data.street)
-              toggleShowAddressModal(false)
-            }}
-          />
-        </div>
+        <AddressForm
+          className="flex-1"
+          defaultValues={{
+            district_id: getValues("district_id.value") ? getValues("district_id") : undefined,
+            province_id: getValues("province_id.value") ? getValues("province_id") : undefined,
+            ward_id: getValues("ward_id.value") ? getValues("ward_id") : undefined,
+            street: getValues("street") || undefined,
+          }}
+          onSubmit={(data) => {
+            setValue("district_id", data.district_id)
+            setValue("ward_id", data.ward_id)
+            setValue("province_id", data.province_id)
+            setValue("street", data.street)
+            toggleShowAddressModal(false)
+          }}
+        />
       </Modal>
 
       <Modal
@@ -376,7 +374,7 @@ export const UserInfoForm = ({
         onClose={() => toggleShowIdentityCardForm(false)}
         heading="Điền thông tin CCCD"
       >
-        <div className="p-12 md:p-24">
+        <div className="modal-form">
           <IdentityCardForm
             defaultValues={
               defaultValues?.identity_card_id?.identity_number
