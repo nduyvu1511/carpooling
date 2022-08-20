@@ -6,19 +6,12 @@ import {
   UseParams,
 } from "@/models"
 import { ridesApi } from "@/services"
-import { AxiosResponse } from "axios"
-import { useState } from "react"
 import { useFetcher } from "../async"
 
 interface UseCustomerCheckoutRes {
   createPayment: (props: UseParams<CreatePaymentParams, CreatePaymentRes>) => void
   confirmTransaction: (props: UseParams<ConfirmTransactionParams, any>) => void
-  confirmDepositCompoundingCarCustomer: (
-    compounding_car_customer_id: number,
-    cb?: Function,
-    onErr?: Function
-  ) => void
-  confirmDepositLoading: boolean
+  confirmDepositCompoundingCarCustomer: (_: UseParams<number, undefined>) => void
   confirmPayFullForCompoundingCarCustomer: (
     compounding_car_customer_id: number,
     cb: (params: CompoundingCarCustomer) => void,
@@ -27,7 +20,6 @@ interface UseCustomerCheckoutRes {
 }
 
 export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
-  const [confirmDepositLoading, setConfirmDepositLoading] = useState<boolean>(false)
   const { fetcherHandler } = useFetcher()
 
   const createPayment = async (props: UseParams<CreatePaymentParams, CreatePaymentRes>) => {
@@ -52,29 +44,22 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
     })
   }
 
-  const confirmDepositCompoundingCarCustomer = async (
-    compounding_car_customer_id: number,
-    cb?: Function,
-    onErr?: Function
-  ) => {
-    try {
-      setConfirmDepositLoading(true)
-      const res: AxiosResponse<CompoundingCarCustomer> =
-        await ridesApi.confirmDepositCompoundingCarCustomer({
-          compounding_car_customer_id: compounding_car_customer_id,
-        })
-      setConfirmDepositLoading(false)
-      const result: CompoundingCarCustomer = res?.result?.data
-      if (result?.state === "deposit") {
-        cb && cb()
-      } else {
-        onErr && onErr()
-      }
-    } catch (err) {
-      setConfirmDepositLoading(false)
-      onErr && onErr()
-      console.log(err)
-    }
+  const confirmDepositCompoundingCarCustomer = async (_: UseParams<number, undefined>) => {
+    const { params: compounding_car_customer_id, onSuccess, config, onError } = _
+    fetcherHandler<CompoundingCarCustomer>({
+      fetcher: ridesApi.confirmDepositCompoundingCarCustomer({
+        compounding_car_customer_id,
+      }),
+      onSuccess: (data) => {
+        if (data?.state === "deposit") {
+          onSuccess(undefined)
+        } else {
+          onError?.()
+        }
+      },
+      onError: () => onError?.(),
+      config,
+    })
   }
 
   const confirmPayFullForCompoundingCarCustomer = async (
@@ -82,31 +67,24 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
     cb: (params: CompoundingCarCustomer) => void,
     onErr?: Function
   ) => {
-    try {
-      setConfirmDepositLoading(true)
-      const res: AxiosResponse<CompoundingCarCustomer> =
-        await ridesApi.customerConfirmPayFullCompoundingCar({
-          compounding_car_customer_id,
-        })
-      setConfirmDepositLoading(false)
-      const result = res?.result?.data
-      if (result?.state === "confirm_paid") {
-        cb && cb(result)
-      } else {
-        onErr && onErr()
-      }
-    } catch (err) {
-      setConfirmDepositLoading(false)
-      onErr && onErr()
-      console.log(err)
-    }
+    fetcherHandler({
+      fetcher: ridesApi.customerConfirmPayFullCompoundingCar({
+        compounding_car_customer_id,
+      }),
+      onSuccess: (result) => {
+        if (result?.state === "confirm_paid") {
+          cb && cb(result)
+        } else {
+          onErr && onErr()
+        }
+      },
+    })
   }
 
   return {
     confirmTransaction,
     createPayment,
     confirmDepositCompoundingCarCustomer,
-    confirmDepositLoading,
     confirmPayFullForCompoundingCarCustomer,
   }
 }

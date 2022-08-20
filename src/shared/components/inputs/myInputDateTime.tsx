@@ -18,6 +18,7 @@ interface MyInputDateTimeProps {
   maxHour?: string
   minHour?: string
   onBlur?: Function
+  currentDay?: string
 }
 
 const MyInputDateTime = ({
@@ -31,14 +32,15 @@ const MyInputDateTime = ({
   isSelectSearchable,
   maxHour,
   onBlur,
+  currentDay,
 }: MyInputDateTimeProps) => {
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
     initialValue ? moment(initialValue.slice(0, 10)).format("YYYY-MM-DD") : ""
   )
-  const yesterday = moment().subtract(1, "day")
   const disablePastDt = (current: any) => {
-    return current.isAfter(yesterday)
+    const yesterday = moment().subtract(1, "day")
+    return current.isAfter(currentDay ? moment(currentDay) : yesterday)
   }
 
   const times: OptionModel[] = useMemo(() => {
@@ -58,7 +60,6 @@ const MyInputDateTime = ({
     if (!date || !time) return
     onChange(`${date} ${time}`)
   }
-
   return (
     <div
       onBlur={() => onBlur?.()}
@@ -117,3 +118,4 @@ const MyInputDateTime = ({
 }
 
 export { MyInputDateTime }
+

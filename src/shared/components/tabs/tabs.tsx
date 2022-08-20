@@ -1,4 +1,5 @@
 import { getActiveStringOrListString } from "@/helper"
+import { useBreakpoint } from "@/hooks"
 import { useEffect, useRef } from "react"
 
 interface TabsProps {
@@ -19,11 +20,12 @@ const Tabs = ({
   labelClassName = "",
 }: TabsProps) => {
   const lineRef = useRef<HTMLSpanElement>(null)
+  const width = useBreakpoint()
 
   useEffect(() => {
     getTabActive(list.findIndex((item) => getActiveStringOrListString(item.value, tabActive)))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabActive])
+  }, [tabActive, width])
 
   const getTabActive = (index: number) => {
     const tabItem: HTMLLIElement | null = document.querySelector(`.tabs-item-${index}`)

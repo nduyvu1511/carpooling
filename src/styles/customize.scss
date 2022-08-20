@@ -455,6 +455,10 @@
 .compounding__filter {
   .form-select-sm {
     margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -851,6 +855,9 @@
   }
 }
 
-a {
-  color: rgb(182, 182, 182);
+.ride-cancel-form {
+  & .alert-confirm-btn {
+    background-color: #f9d0d0;
+    color: #ff3b30;
+  }
 }

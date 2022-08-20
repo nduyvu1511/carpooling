@@ -35,7 +35,7 @@ const RatingReport = ({ onSubmit }: RatingReportProps) => {
   return (
     <>
       <div className="flex-1 modal-form-content">
-        <ul className="mb-[40px]">
+        <ul className="mb-24">
           <p className="form-label mb-12">Chọn lý do để báo cáo:</p>
           {isValidating ? (
             <Spinner className="py-24" />
@@ -43,7 +43,7 @@ const RatingReport = ({ onSubmit }: RatingReportProps) => {
             (data || [])
               .slice(0, showAll ? data?.length : 5)
               ?.map(({ reason_content, reason_id }) => (
-                <li key={reason_id} className="mb-[16px] last:mb-0">
+                <li key={reason_id} className="mb-12 last:mb-0">
                   <ItemSelect
                     onChange={() => {
                       handleSetReports(reason_id)

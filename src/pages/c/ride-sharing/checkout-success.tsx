@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 const RideDoneCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id = "" } = router.query
-  const { data, isInitialLoading, mutate } = useCompoundingCarCustomer({
+  const { data, isInitialLoading } = useCompoundingCarCustomer({
     key: `get_compounding_car_customer_invoice_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
@@ -27,7 +27,9 @@ const RideDoneCustomer = () => {
       <CustomerLayout showHeaderOnMobile={false}>
         <div className="pt-[56px] lg:pt-0 content-container block-element md:mt-24 md:px-12 lg:px-0 flex-1 bg-white-color pb-[64px]">
           {isInitialLoading ? (
-            <RideSummaryLoading view="lg" />
+            <div className="p-12 md:p-24">
+              <RideSummaryLoading view="lg" />
+            </div>
           ) : data ? (
             <div className="">
               <div className="p-12 md:pt-0 lg:py-24">

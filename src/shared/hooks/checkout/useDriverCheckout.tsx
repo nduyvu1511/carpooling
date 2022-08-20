@@ -1,4 +1,6 @@
 import {
+  CancelCompoundingCarDriverParams,
+  CompoundingCarDriverRes,
   CreatePaymentDriverParams,
   CreatePaymentRes,
   DepositCompoundingCarDriverFailureRes,
@@ -19,9 +21,12 @@ interface FetchDepositCompoundingCarDriver {
 }
 
 interface UseDriverCheckoutRes {
-  cancelDepositCompoundingCarDriver: (compounding_car_id: number, cb?: Function) => void
   createPaymentForDriver: (props: UseParams<CreatePaymentDriverParams, CreatePaymentRes>) => void
   fetchDepositCompoundingCarDriver: (params: FetchDepositCompoundingCarDriver) => void
+  confirmDepositForCarDriver: (
+    _: UseParams<{ compounding_car_id: number }, CompoundingCarDriverRes>
+  ) => void
+  cancelDepositCompoundingCarDriver: (_: UseParams<CancelCompoundingCarDriverParams, any>) => void
 }
 
 export const useDriverCheckout = (): UseDriverCheckoutRes => {
@@ -50,15 +55,35 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     }
   }
 
-  const cancelDepositCompoundingCarDriver = async (compounding_car_id: number, cb?: Function) => {
+  const cancelDepositCompoundingCarDriver = async (
+    _: UseParams<CancelCompoundingCarDriverParams, any>
+  ) => {
+    const { onSuccess, params, config, onError } = _
     fetcherHandler({
-      fetcher: ridesApi.cancelDepositForDriver({
-        compounding_car_id,
-      }),
-      onSuccess: () => {
-        cb?.()
+      fetcher: ridesApi.cancelDepositForDriver(params),
+      onSuccess: (data) => {
+        onSuccess?.(data)
       },
-      config: { successMsg: "Hủy giao dịch thành công" },
+      onError: onError?.(),
+      config,
+    })
+  }
+
+  const confirmDepositForCarDriver = async (
+    _: UseParams<{ compounding_car_id: number }, CompoundingCarDriverRes>
+  ) => {
+    const {
+      onSuccess,
+      params: { compounding_car_id },
+      config,
+      onError,
+    } = _
+
+    fetcherHandler({
+      fetcher: ridesApi.confirmDepositForDriver({ compounding_car_id }),
+      onSuccess: (data) => onSuccess?.(data),
+      onError: () => onError?.(),
+      config,
     })
   }
 
@@ -79,5 +104,6 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
     fetchDepositCompoundingCarDriver,
+    confirmDepositForCarDriver,
   }
 }

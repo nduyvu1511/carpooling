@@ -84,7 +84,7 @@ const Rating = () => {
                     {(ratingList?.length || 0) &&
                       ratingList.map((item) => (
                         <li
-                          className="border-b border-solid border-border-color last:border-0"
+                          className="border-b border-solid border-border-color last:border-0 last:border-none"
                           key={item.rating_id}
                         >
                           <RatingItem

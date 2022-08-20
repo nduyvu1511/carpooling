@@ -14,6 +14,7 @@ interface InputDateTimeProps {
   disableHour?: boolean
   disableDate?: boolean
   maxHour?: string
+  currentDay?: string
 }
 
 export const InputDateTime = ({
@@ -28,6 +29,7 @@ export const InputDateTime = ({
   disableHour = false,
   disableDate = false,
   maxHour,
+  currentDay,
 }: InputDateTimeProps) => {
   return (
     <>
@@ -41,6 +43,7 @@ export const InputDateTime = ({
         name={name}
         render={({ field: { onChange, onBlur } }) => (
           <MyInputDateTime
+            currentDay={currentDay}
             onBlur={onBlur}
             maxHour={maxHour}
             disableHour={disableHour}

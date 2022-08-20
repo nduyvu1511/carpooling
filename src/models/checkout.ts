@@ -5,7 +5,7 @@ import { CarAccountType } from "./user"
 export interface PaymentRes {
   acquirer_id: number
   name: string
-  provider: string
+  provider: "exxe_wallet" | "vnpay"
   state: string
   image_url: {
     id: number
@@ -176,4 +176,9 @@ export interface RechargeRequestParamsRes {}
 
 export interface WithdrawFormParams {
   amount: number
+}
+
+export type Journal = {
+  journal: JournalRes[]
+  transaction: TransactionRes[]
 }

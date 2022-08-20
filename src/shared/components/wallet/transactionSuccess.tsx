@@ -14,8 +14,8 @@ export const TransactionSuccess = ({ transaction }: TransactionSuccessProps) => 
           <p className="text-xs">Loại giao dịch</p>
           <span
             style={{
-              color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].color,
-              backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose].bg,
+              color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.color,
+              backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.bg,
             }}
             className="py-4 px-8 rounded-[5px] text-xs"
           >

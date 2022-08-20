@@ -1,4 +1,4 @@
-import { ArrowDownIcon } from "@/assets"
+import { RootState } from "@/core/store"
 import { isArrayHasValue } from "@/helper"
 import { useInputText } from "@/hooks"
 import {
@@ -8,99 +8,111 @@ import {
 } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
+import moment from "moment"
 import { useRef, useState } from "react"
+import { useSelector } from "react-redux"
+import Select from "react-select"
 import useSWR from "swr"
-import { ItemSelect } from "../inputs"
 import { Spinner } from "../loading"
+import { Alert } from "../modal"
 
 interface RidesCancelProps {
   params: ReasonsCancelCompoundingCarParams
   onSubmit?: (params: CancelCompoundingFormParams) => void
+  onClose: Function
+  expectedGoingOnDate?: string
 }
 
-const RideCancelForm = ({ params, onSubmit }: RidesCancelProps) => {
+const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: RidesCancelProps) => {
   const { onChange, value } = useInputText()
   const ref = useRef<HTMLTextAreaElement>(null)
-  const { data, error } = useSWR(
-    params?.compounding_car_customer_id ? "get_reson_to_cancel_ride" : null,
+  const selectRef = useRef<any>(null)
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
+
+  const { data, isValidating } = useSWR(
+    params?.compounding_car_customer_state || params?.compounding_car_state
+      ? "get_reson_to_cancel_ride"
+      : null,
     () =>
       ridesApi
-        .getReasonsToCancelCompoundingCar(params)
+        .getReasonsToCancelCompoundingCar({
+          ...params,
+          car_account_type: userInfo?.car_account_type,
+        })
         .then((res: AxiosResponse<ReasonCancelCompoundingCarRes[]>) => res.result.data),
     {
-      dedupingInterval: 1000000,
+      dedupingInterval: 10000,
     }
   )
   const [reasonId, setReasonId] = useState<number>()
-  const [showOther, setShowOther] = useState<boolean>(false)
 
-  const handleToggleResonIds = (id: number) => {
-    setReasonId(reasonId === id ? undefined : id)
-  }
-
-  if (data === undefined && error === undefined) return <Spinner size={40} className="py[40px]" />
-  if (!data || !isArrayHasValue(data)) return null
   return (
-    <div className="h-full flex-1 flex flex-col">
-      <div className="mb-[40px] p-24 pb-[80px]">
-        <ul className="mb-[24px] flex-1 overflow-y-auto select-none">
-          <p className="text-sm mb-24">Chọn lý do hủy chuyến đi:</p>
-          {data.map((item) => (
-            <li className="mb-[16px]" key={item.cancel_reason_id}>
-              <ItemSelect
-                onChange={() => handleToggleResonIds(item.cancel_reason_id)}
-                title={item.reason}
-                isActive={reasonId === item.cancel_reason_id}
-              />
-            </li>
-          ))}
-        </ul>
-
+    <Alert
+      show={true}
+      className="ride-cancel-form"
+      rightBtnLabel="Hủy chuyến"
+      onClose={onClose}
+      onConfirm={() =>
+        reasonId &&
+        onSubmit?.({ cancel_reason_id: reasonId, cancel_reason_other: value || undefined })
+      }
+      type="warning"
+      disabledBtn={!reasonId && !value}
+      title="Bạn có muốn huỷ chuyến?"
+      desc={
+        expectedGoingOnDate
+          ? moment().add(3, "hours").isAfter(moment(expectedGoingOnDate))
+            ? "Bạn sẽ không được hoàn trả phí đặt cọc trong khoảng thời gian này"
+            : undefined
+          : undefined
+      }
+    >
+      <div className="">
         <div className="">
-          <label
-            onClick={() => {
-              if (!showOther) {
-                setShowOther(true)
-                setTimeout(() => ref.current?.focus(), 0)
-              } else {
-                setShowOther(false)
-              }
-            }}
-            htmlFor="input"
-            className="text-sm mb-4 flex items-center cursor-pointer"
-          >
-            Lý do khác:{" "}
-            <ArrowDownIcon
-              className={`ml-[8px] mt-[2px] transform ${showOther ? "rotate-[180deg]" : ""}`}
-            />
-          </label>
-          {showOther ? (
-            <textarea
-              ref={ref}
-              value={value}
-              onChange={onChange}
-              name=""
-              id="input"
-              rows={2}
-              placeholder="Nhập lý do khác..."
-              className="form-textarea"
-            ></textarea>
+          {isValidating ? (
+            <Spinner size={40} className="py-[80px]" />
+          ) : data && isArrayHasValue(data) ? (
+            <>
+              <div className="mb-24">
+                <p onClick={() => selectRef?.current?.focus()} className="form-label">
+                  Chọn lý do hủy chuyến đi:
+                </p>
+
+                <div className="form-select">
+                  <Select
+                    openMenuOnFocus={true}
+                    ref={selectRef}
+                    onChange={(val) => setReasonId(val?.value)}
+                    maxMenuHeight={200}
+                    placeholder="Chọn lý do"
+                    options={(data || []).map((item) => ({
+                      label: item.reason,
+                      value: item.cancel_reason_id,
+                    }))}
+                  />
+                </div>
+              </div>
+
+              <div className="">
+                <label htmlFor="input" className="text-sm mb-4 flex items-center cursor-pointer">
+                  Lý do khác:{" "}
+                </label>
+                <textarea
+                  ref={ref}
+                  value={value}
+                  onChange={onChange}
+                  name=""
+                  id="input"
+                  rows={2}
+                  placeholder="Nhập lý do khác..."
+                  className="form-textarea"
+                ></textarea>
+              </div>
+            </>
           ) : null}
         </div>
       </div>
-
-      <div className="flex-center bg-white-color p-12 md:p-[12px] absolute bottom-0 right-0 left-0">
-        <button
-          onClick={() =>
-            (reasonId || value) &&
-            onSubmit?.({ cancel_reason_id: reasonId, cancel_reason_other: value })
-          }
-          className={`btn ${reasonId || value ? "bg-error" : "pointer-events-none bg-bg-error"}`}
-        >
-          Hủy chuyến
-        </button>
-      </div>
-    </div>
+    </Alert>
   )
 }
 

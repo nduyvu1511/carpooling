@@ -58,7 +58,7 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
       <li className="flex items-start justify-between mb-[16px]">
         <p className="text-xs leading-[20px]">Loại xe</p>
         <p className="text-sm md:text-base ml-24 flex-1 text-right">
-          {toFirstUpperCase(data.car.name)}
+          {data?.car?.name && toFirstUpperCase(data.car.name)}
         </p>
       </li>
       <li className="flex items-start justify-between mb-[16px]">

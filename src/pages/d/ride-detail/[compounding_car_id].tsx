@@ -1,12 +1,12 @@
-import { WarningIcon } from "@/assets"
 import {
   Alert,
   CarpoolingCompoundingForm,
-  CheckoutExistsItem,
   Modal,
   OneWayCompoundingForm,
   RatingItem,
   RatingReport,
+  RideCancelForm,
+  RideCheckoutPopup,
   RideProgress,
   RidesDetailLoading,
   RideSummary,
@@ -26,7 +26,11 @@ import {
   useRatingActions,
 } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
-import { DepositCompoundingCarDriverFailureRes, ReportRatingParams } from "@/models"
+import {
+  CancelCompoundingCarDriverParams,
+  DepositCompoundingCarDriverFailureRes,
+  ReportRatingParams,
+} from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -56,13 +60,26 @@ const ConfirmBookingCustomer = () => {
   } = useCompoundingForm()
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
-  const [showModal, setShowModal] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
   >()
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
+
+  useBackRouter({
+    cb: () => {
+      setShowAlert(undefined)
+      toggleBodyOverflow("unset")
+    },
+  })
+
+  useEffectOnce(() => {
+    return () => {
+      dispatch(setShowSummaryDetail(false))
+    }
+  })
 
   const handleReportRating = (params: ReportRatingParams) => {
     reportRating({
@@ -73,20 +90,6 @@ const ConfirmBookingCustomer = () => {
       },
     })
   }
-
-  useBackRouter({
-    cb: () => {
-      setShowAlert(undefined)
-      setShowModal(false)
-      toggleBodyOverflow("unset")
-    },
-  })
-
-  useEffectOnce(() => {
-    return () => {
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
     if (userInfo?.verified_car_driver_account === "blocked_account") {
@@ -107,7 +110,6 @@ const ConfirmBookingCustomer = () => {
       },
       onError: (data) => {
         setDepositFailure(data)
-        setShowModal(true)
         setTimeout(() => {
           toggleBodyOverflow("unset")
         }, 0)
@@ -203,25 +205,76 @@ const ConfirmBookingCustomer = () => {
                   ))}
                 </ul>
               ) : null}
+              <div className="fixed left-0 right-0 flex bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
+                {compoundingCar.state === "waiting_deposit" ||
+                compoundingCar.state === "confirm_deposit" ||
+                compoundingCar.state === "confirm" ? (
+                  <button
+                    onClick={() => {
+                      setShowCancelModal(true)
+                      toggleBodyOverflow("hidden")
+                    }}
+                    className={`btn bg-error mr-[16px]`}
+                  >
+                    Hủy chuyến
+                  </button>
+                ) : null}
 
-              {compoundingCar.state === "waiting_deposit" || compoundingCar.state === "waiting" ? (
-                <div className="fixed left-0 right-0 bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
-                  {/* ${moment(compoundingCar?.expected_going_on_date).isBefore(moment(new Date()))
-                ? "btn-disabled"
-                : ""} */}
+                {compoundingCar.state === "start_running" ||
+                compoundingCar.state === "stop_picking" ||
+                compoundingCar.state === "confirm_deposit" ? (
+                  <button
+                    onClick={() => {
+                      router.push(`/d/ride-detail/in-process/${compoundingCar.compounding_car_id}`)
+                    }}
+                    className={`btn-primary`}
+                  >
+                    Bắt đầu chuyến đi
+                  </button>
+                ) : null}
+
+                {compoundingCar.state === "waiting_deposit" ||
+                compoundingCar.state === "waiting" ? (
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
-                    className={`btn-primary mx-auto md:mx-[unset]`}
+                    className={`btn-primary`}
                   >
                     Nhận chuyến đi
                   </button>
-                </div>
-              ) : null}
+                ) : null}
+              </div>
             </>
           ) : null}
         </div>
         {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
       </DriverBookingLayout>
+
+      {showCancelModal && compoundingCar?.compounding_car_id ? (
+        <RideCancelForm
+          expectedGoingOnDate={compoundingCar.expected_going_on_date}
+          onSubmit={(data) =>
+            cancelDepositCompoundingCarDriver({
+              params: {
+                ...data,
+                compounding_car_id: compoundingCar.compounding_car_id,
+              },
+              onSuccess: () => {
+                setShowCancelModal(false)
+                toggleBodyOverflow("unset")
+                setDepositFailure(undefined)
+                router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
+              },
+            })
+          }
+          onClose={() => {
+            toggleBodyOverflow("unset")
+            setShowCancelModal(false)
+          }}
+          params={{
+            compounding_car_state: compoundingCar.state,
+          }}
+        />
+      ) : null}
 
       <Alert
         show={!!(showAlert && compoundingCar?.compounding_car_id)}
@@ -231,81 +284,52 @@ const ConfirmBookingCustomer = () => {
         onConfirm={() =>
           compoundingCar?.compounding_car_id &&
           showAlert &&
-          cancelDepositCompoundingCarDriver(showAlert, () => {
-            setShowAlert(undefined)
-            setShowModal(false)
-            toggleBodyOverflow("unset")
-            setDepositFailure(undefined)
-            router.push(
-              `/d/ride-detail/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`
-            )
+          cancelDepositCompoundingCarDriver({
+            params: { compounding_car_id: showAlert },
+            onSuccess: () => {
+              setShowAlert(undefined)
+              toggleBodyOverflow("unset")
+              setDepositFailure(undefined)
+              router.push(
+                `/d/ride-detail/checkout?compounding_car_id=${compoundingCar.compounding_car_id}`
+              )
+            },
           })
         }
       />
 
-      <Modal
-        key="alert-compounding-car-modal"
-        show={showModal && !!depositFailure}
-        onClose={() => {
-          setShowModal(false)
-          toggleBodyOverflow("unset")
-        }}
-        heading="Cảnh báo"
-      >
-        <div className="p-12 md:p-24 pb-0 w-full h-full overflow-y-auto">
-          <div className="mb-[40px] flex items-start">
-            <span>
-              <WarningIcon className="mb-auto w-[40px] h-[40px] mr-[24px]" />
-            </span>
-            <h3 className="text-base flex-1">{depositFailure?.message}</h3>
-          </div>
+      {depositFailure ? (
+        <RideCheckoutPopup
+          onCheckout={(id) => {
+            router.push(`/d/ride-detail/checkout?compounding_car_id=${id}`)
+            toggleBodyOverflow("unset")
+            setDepositFailure(undefined)
+          }}
+          onCancelRide={(id) => setShowAlert(id)}
+          data={depositFailure}
+          onClose={() => {
+            toggleBodyOverflow("unset")
+            setDepositFailure(undefined)
+          }}
+        />
+      ) : null}
 
-          {depositFailure && depositFailure.data?.length > 0 ? (
-            <ul className="">
-              {depositFailure?.data.map((item, index) => (
-                <li
-                  className="border-b border-solid border-border-color last:border-none mb-24"
-                  key={index}
-                >
-                  <CheckoutExistsItem
-                    amount={item.amount}
-                    compounding_car_name={item.compounding_car.compounding_car_name}
-                    date={item.date}
-                    second_remains={item.second_remains}
-                    onClickCancel={() => setShowAlert(item.compounding_car.compounding_car_id)}
-                    onClickCheckout={() => {
-                      router.push(
-                        `/d/ride-detail/checkout?compounding_car_id=${item.compounding_car.compounding_car_id}`
-                      )
-                      setShowModal(false)
-                      toggleBodyOverflow("unset")
-                      setDepositFailure(undefined)
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      </Modal>
-
-      <Modal
-        key="report-compounding-car-modal"
-        show={!!currentReportRatingId}
-        className="h-auto"
-        onClose={() => setCurrentReportRatingId(undefined)}
-        heading="Báo cáo đánh giá"
-      >
-        <div className="p-24">
-          <p className="text-sm mb-[24px]">Vui lòng chọn lý do để báo cáo:</p>
+      {currentReportRatingId ? (
+        <Modal
+          key="report-compounding-car-modal"
+          show={true}
+          className="h-auto"
+          onClose={() => setCurrentReportRatingId(undefined)}
+          heading="Báo cáo đánh giá"
+        >
           <RatingReport
             onSubmit={(params) =>
               currentReportRatingId &&
               handleReportRating({ ...params, rating_id: currentReportRatingId })
             }
           />
-        </div>
-      </Modal>
+        </Modal>
+      ) : null}
 
       <Alert
         show={showAlertAccount}

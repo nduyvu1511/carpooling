@@ -24,7 +24,6 @@ import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
 import { useDispatch } from "react-redux"
-import { notify } from "reapop"
 import { LatLng } from "use-places-autocomplete"
 
 const ScheduleCompounding = () => {
@@ -46,6 +45,7 @@ const ScheduleCompounding = () => {
     mutateCompoundingCar,
     getNumberOfNotPickedUp,
     getNumberOfPassengersCanceled,
+    getTotalPassenger,
   } = useCompoundingCarProcess(Number(compounding_car_id))
 
   const [confirmDoneCompoundingCarModal, setConfirmDoneCompoundingCarModal] =
@@ -79,10 +79,7 @@ const ScheduleCompounding = () => {
     if (!compoundingCar?.compounding_car_id) return
     confirmDoneCompoundingCar(compoundingCar.compounding_car_id, () => {
       setConfirmDoneCompoundingCarModal(false)
-      setTimeout(() => {
-        dispatch(notify("Hoàn thành chuyến đi thành công", "success"))
-        router.push(`/d/ride-detail/done/${compoundingCar.compounding_car_id}`)
-      }, 100)
+      router.push(`/d/ride-detail/done/${compoundingCar.compounding_car_id}`)
     })
   }
 
@@ -200,8 +197,7 @@ const ScheduleCompounding = () => {
                     <span className="ml-[4px] text-xs hidden sm:block">Tổng số khách:</span>{" "}
                   </span>
                   <span className="font-semibold">
-                    {compoundingCar?.compounding_car_customers.length}/
-                    {compoundingCar?.car.number_seat}
+                    {getTotalPassenger}/{compoundingCar?.car.number_seat}
                   </span>
                 </p>
               ) : null}
@@ -211,7 +207,7 @@ const ScheduleCompounding = () => {
                 height={3}
                 type="dashed"
                 progressList={progressList}
-                totalNumber={compoundingCar?.compounding_car_customers?.length || 0}
+                totalNumber={getTotalPassenger}
               />
 
               <ul className="flex items-center flex-wrap mt-12 md:mt-[16px]">
@@ -251,8 +247,7 @@ const ScheduleCompounding = () => {
               compoundingCar?.state === "confirm" ? (
                 <>
                   {getNumberOfPassengersPaid ===
-                  compoundingCar?.compounding_car_customers.length -
-                    getNumberOfPassengersCanceled ? (
+                  getTotalPassenger - getNumberOfPassengersCanceled ? (
                     <div className="border-b border-solid border-border-color flex-center p-12 lg:pt-0 lg:pb-24 fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
                       <button
                         onClick={() => setConfirmDoneCompoundingCarModal(true)}
@@ -291,7 +286,7 @@ const ScheduleCompounding = () => {
                       : ""
                   }`}
                 >
-                  {compoundingCar.compounding_car_customers?.length > 0 &&
+                  {getTotalPassenger > 0 &&
                     compoundingCar.compounding_car_customers.map((item, index) => (
                       <li
                         key={index}
@@ -325,15 +320,12 @@ const ScheduleCompounding = () => {
                           }
                           onClickPaid={() => {
                             confirmCustomerPayFullForCompoundingCar(
-                              item.compounding_car_customer_id,
-                              () => {
-                                if (
-                                  compoundingCar.compounding_car_customers?.length - 1 ===
-                                  getNumberOfPassengersPaid
-                                ) {
-                                  handleConfirmDoneCompoundingCar()
-                                }
-                              }
+                              item.compounding_car_customer_id
+                              // () => {
+                              //   if (getTotalPassenger - 1 === getNumberOfPassengersPaid) {
+                              //     handleConfirmDoneCompoundingCar()
+                              //   }
+                              // }
                             )
                           }}
                           onClickConfirm={() =>
@@ -357,7 +349,7 @@ const ScheduleCompounding = () => {
 
       <Alert
         show={!!confirmDoneCompoundingCarModal}
-        title="Hãy chắc chắn rằng bạn đã đưa khách đến tận nơi và khách hàng đã thanh toán tiền cho bạn!"
+        title="Hãy chắc chắn tất cả khách hàng đã thanh toán tiền cho bạn"
         onClose={() => setConfirmDoneCompoundingCarModal(false)}
         onConfirm={() => handleConfirmDoneCompoundingCar()}
         type="info"

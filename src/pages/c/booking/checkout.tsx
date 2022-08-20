@@ -35,10 +35,13 @@ const Checkout = () => {
   const handleConfirmTransaction = (params: PaymentRes) => {
     const { compounding_car_customer_id } = compoundingCar || {}
     if (!compounding_car_customer_id) return
-    console.log(params.provider)
+
     if (params.provider === "exxe_wallet") {
-      confirmDepositCompoundingCarCustomer(compounding_car_customer_id, () => {
-        redirectToCheckoutSuccess()
+      confirmDepositCompoundingCarCustomer({
+        params: compounding_car_customer_id,
+        onSuccess: () => {
+          redirectToCheckoutSuccess()
+        },
       })
     } else {
       createPayment({
@@ -122,10 +125,11 @@ const Checkout = () => {
             percentage={compoundingCar.customer_deposit_percentage}
             amount_due={compoundingCar?.amount_due}
             down_payment={compoundingCar?.down_payment?.total}
-            amount_total={compoundingCar?.price_unit?.price_unit}
+            amount_total={compoundingCar.amount_total || compoundingCar?.price_unit?.price_unit}
             secondsRemains={compoundingCar.second_remains}
             onCheckout={(_) => handleConfirmTransaction(_)}
             onCancelCheckout={handleCancelCompoundingCarCustomer}
+            state={compoundingCar.state}
           />
         )
       ) : null}

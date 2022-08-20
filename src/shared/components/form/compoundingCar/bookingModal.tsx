@@ -112,6 +112,7 @@ const BookingModal = ({
               handleCreateCompoundingCar({ params })
             }}
             view="modal"
+            mode="create"
           />
         ) : compoundingType === "two_way" ? (
           <TwoWayCompoundingForm
@@ -120,6 +121,7 @@ const BookingModal = ({
               handleCreateCompoundingCar({ params })
             }}
             view="modal"
+            mode="create"
           />
         ) : (
           <CarpoolingCompoundingForm
@@ -129,6 +131,7 @@ const BookingModal = ({
               handleCreateCompoundingCar({ params })
             }}
             view="modal"
+            mode="create"
           />
         )}
       </div>

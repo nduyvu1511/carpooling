@@ -222,7 +222,7 @@ export const Map = ({
         <div
           className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px]`}
         >
-          <MapSearch disabled={!isLoaded} onSelect={handleSelectSearchValue} />
+          <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} />
         </div>
 
         <GoogleMap

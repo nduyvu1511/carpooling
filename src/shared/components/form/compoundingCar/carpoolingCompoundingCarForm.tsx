@@ -60,7 +60,7 @@ interface CarpoolingCompoundingFormProps {
 export const CarpoolingCompoundingForm = ({
   onSubmit,
   defaultValues,
-  mode = "create",
+  mode,
   type = "new",
   limitNumberSeat,
   disabled = false,
@@ -269,7 +269,7 @@ export const CarpoolingCompoundingForm = ({
             type="from"
           />
 
-          {durationDistance?.[0] ? (
+          {mode === "create" && durationDistance?.[0] ? (
             <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
               {durationDistance?.[0] ? (
                 <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>

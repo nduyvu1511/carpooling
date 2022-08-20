@@ -24,7 +24,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
           </div>
         </div>
 
-        <div className="hidden sm:block w-full">
+        <div className="hidden sm:flex w-full">
           <div className="flex-1">
             <div className="skeleton h-[18px] rounded-[5px] mb-12"></div>
             <div className="w-[100px] skeleton h-[10px] rounded-[5px]"></div>

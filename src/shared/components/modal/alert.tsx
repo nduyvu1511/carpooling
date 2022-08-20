@@ -58,9 +58,7 @@ const Alert = ({
             ) : null}
           </div>
 
-          {children ? (
-            <div className="mb-[24px] overflow-auto scrollbar-hide">{children}</div>
-          ) : null}
+          {children ? <div className="mb-[24px]">{children}</div> : null}
 
           <div className="flex-center mb-24 sm:mb-24">
             {showLeftBtn ? (
@@ -75,14 +73,18 @@ const Alert = ({
               <button
                 onClick={() => onConfirm()}
                 className={`btn px-[26px] py-[8px] text-white-color ${
-                  type === "success"
-                    ? "bg-success"
-                    : type === "warning"
-                    ? "bg-warning"
-                    : type === "info"
-                    ? "bg-info"
-                    : "bg-error"
-                } ${disabledBtn ? "btn-disabled" : ""}`}
+                  disabledBtn
+                    ? "btn-disabled"
+                    : `${
+                        type === "success"
+                          ? "bg-success"
+                          : type === "warning"
+                          ? "bg-warning"
+                          : type === "info"
+                          ? "bg-info"
+                          : "bg-error"
+                      }`
+                }`}
               >
                 {rightBtnLabel}
               </button>

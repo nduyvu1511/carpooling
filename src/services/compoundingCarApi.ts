@@ -1,5 +1,6 @@
 import {
   CancelCompoundingCarParams,
+  CancelDepositDriverParams,
   CompoundingListDriverParams,
   ConfirmCompoundingCar,
   ConfirmTransactionParams,
@@ -174,13 +175,10 @@ const ridesApi = {
     )
   },
 
-  cancelDepositForDriver: (params: GetDetailCompounding) => {
-    return axiosClient.post(
-      "/api/compounding_car_controller/cancel_deposit_compounding_car_driver",
-      {
-        params,
-      }
-    )
+  cancelDepositForDriver: (params: CancelDepositDriverParams) => {
+    return axiosClient.post("/api/compounding_car_controller/cancel_compounding_car_driver", {
+      params,
+    })
   },
 
   getPendingDepositCompoundingList: () => {

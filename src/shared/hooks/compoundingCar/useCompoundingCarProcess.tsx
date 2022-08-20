@@ -40,6 +40,7 @@ interface Res {
   mutateCompoundingCar: KeyedMutator<CompoundingCarDriverRes>
   getNumberOfNotPickedUp: number
   getNumberOfPassengersCanceled: number
+  getTotalPassenger: number
 }
 
 const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res => {
@@ -214,6 +215,12 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     )
   }, [compoundingCar])
 
+  const getTotalPassenger: number = useMemo(() => {
+    if (getTotalPassenger > 0) return getTotalPassenger
+    if (!compoundingCar?.compounding_car_customers?.length) return 0
+    return compoundingCar?.compounding_car_customers?.length
+  }, [compoundingCar?.compounding_car_customers?.length])
+
   const getNumberOfNotPickedUp: number = useMemo(() => {
     if (!compoundingCar?.compounding_car_customers?.length) return 0
     const total =
@@ -243,6 +250,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     mutateCompoundingCar,
     getNumberOfPassengersCanceled,
     getNumberOfNotPickedUp,
+    getTotalPassenger,
   }
 }
 

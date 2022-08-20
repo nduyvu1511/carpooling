@@ -52,7 +52,10 @@ const Rating = () => {
             >
               <ul className="">
                 {ratings.map((item) => (
-                  <li className="border-b border-solid border-border-color" key={item?.rating_id}>
+                  <li
+                    className="border-b border-solid border-border-color last:border-none"
+                    key={item?.rating_id}
+                  >
                     <RatingItem
                       showDetail
                       car_account_type="car_driver"
@@ -72,21 +75,23 @@ const Rating = () => {
         </div>
       </AccountLayout>
 
-      <Modal
-        key="report-rating-modal"
-        show={!!currentReportRatingId}
-        onClose={() => setCurrentReportRatingId(undefined)}
-        heading="Báo cáo đánh giá"
-      >
-        <div className="modal-form">
-          <RatingReport
-            onSubmit={(params) =>
-              currentReportRatingId &&
-              handleReportRating({ ...params, rating_id: currentReportRatingId })
-            }
-          />
-        </div>
-      </Modal>
+      {currentReportRatingId ? (
+        <Modal
+          key="report-rating-modal"
+          show={true}
+          onClose={() => setCurrentReportRatingId(undefined)}
+          heading="Báo cáo đánh giá"
+        >
+          <div className="modal-form">
+            <RatingReport
+              onSubmit={(params) =>
+                currentReportRatingId &&
+                handleReportRating({ ...params, rating_id: currentReportRatingId })
+              }
+            />
+          </div>
+        </Modal>
+      ) : null}
     </DriverLayout>
   )
 }

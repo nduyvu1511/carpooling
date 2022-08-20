@@ -169,6 +169,7 @@ export const PAYMENT_PURPOSE_NAME = {
   car_driver_withdrawing: "Rút tiền",
   car_driver_wallet_recharge: "Nạp tiền",
   passenger_wallet_recharge: "Nạp tiền",
+  passenger_withdrawing: "Rút tiền",
 }
 
 export const PAYMENT_PURPOSE_COLOR = {
@@ -187,6 +188,10 @@ export const PAYMENT_PURPOSE_COLOR = {
   return_passenger_deposit: {
     color: "#10B981",
     bg: "#DCFDD9",
+  },
+  passenger_withdrawing: {
+    color: "#FF3B30",
+    bg: "#FFEBEA",
   },
   car_driver_invoice: {
     color: "#10B981",

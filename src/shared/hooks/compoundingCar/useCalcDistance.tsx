@@ -46,7 +46,6 @@ export const useCalcDistance = (): Res => {
         (data) => {
           const value = data?.rows?.[0]?.elements?.[0]
           if (!value?.duration) return
-          console.log("calculated distance")
           onSuccess({
             duration: value.duration.value / (60 * 60),
             distance: value.distance.value / 1000,

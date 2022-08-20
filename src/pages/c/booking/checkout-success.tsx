@@ -1,4 +1,4 @@
-import { RideCustomerBill, RideProgress, Seo, Spinner } from "@/components"
+import { RideCustomerBill, RideProgress, Spinner } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -7,11 +7,7 @@ import { useRouter } from "next/router"
 const CheckoutSuccess = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
-  const {
-    data: compoundingCarCustomer,
-    isValidating,
-    mutate: mutateCompoundingCar,
-  } = useCompoundingCarCustomer({
+  const { data: compoundingCarCustomer, isValidating } = useCompoundingCarCustomer({
     key: `get_compounding_car_customer_detail_checkout_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
@@ -19,6 +15,7 @@ const CheckoutSuccess = () => {
 
   useBackRouter({
     cb: () => {
+      console.log("route goes here")
       router.push("/c")
     },
   })
@@ -31,7 +28,7 @@ const CheckoutSuccess = () => {
         ) : (
           <div className="">
             <div className="block-element pt-24">
-              <div className="pl-12 md:px12 mb-24">
+              <div className="pl-12 md:px-12 mb-24">
                 <RideProgress state={compoundingCarCustomer?.state} />
               </div>
               {compoundingCarCustomer?.compounding_car_customer_id ? (

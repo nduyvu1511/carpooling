@@ -1,8 +1,8 @@
-import { Alert, Countdown, RideToolTip, Spinner } from "@/components"
+import { Alert, Countdown, RideCancelForm, RideToolTip, Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
-import { PaymentRes } from "@/models"
+import { CancelRideParams, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -15,13 +15,14 @@ interface CheckoutProps {
   amount_due?: number
   percentage?: number
   onCheckout?: (params: PaymentRes) => void
-  onCancelCheckout?: Function
+  onCancelCheckout?: (_: CancelRideParams) => void
   showCountdown?: boolean
   type?: "deposit" | "checkout"
   descRideTooltip?: string
+  state?: string
 }
 
-type AlertModalType = "confirm" | "cancel"
+type ModalType = "confirm" | "cancel"
 
 const Payment = ({
   secondsRemains,
@@ -34,6 +35,7 @@ const Payment = ({
   down_payment,
   percentage,
   descRideTooltip = "Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi.",
+  state,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -44,21 +46,24 @@ const Payment = ({
   } = usePayment()
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
-  const [showAlertModal, setShowAlertModal] = useState<AlertModalType | undefined>(undefined)
+  const [showAlertModal, setShowAlertModal] = useState<boolean>()
   const [acquirerId, setAcquirerId] = useState<PaymentRes | undefined>()
+  const [showCancelModal, setShowCancelModal] = useState<boolean>()
 
   useEffect(() => {
     return () => {
-      if (showAlertModal) {
-        toggleBodyOverflow("unset")
-      }
+      toggleBodyOverflow("unset")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const toggleAlertModal = (type: "confirm" | "cancel" | undefined) => {
-    setShowAlertModal(type)
-    if (type) {
+  const toggleModal = (type: ModalType, status: boolean) => {
+    if (type === "cancel") {
+      setShowCancelModal(status)
+    } else {
+      setShowAlertModal(status)
+    }
+    if (status) {
       toggleBodyOverflow("hidden")
     } else {
       toggleBodyOverflow("unset")
@@ -165,10 +170,10 @@ const Payment = ({
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
                 <button
-                  onClick={() => toggleAlertModal("cancel")}
+                  onClick={() => toggleModal("cancel", true)}
                   className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-[16px]"
                 >
-                  <span className="hidden sm:block"> Hủy giao dịch</span>
+                  <span className="hidden sm:block"> Hủy chuyến</span>
                   <span className="sm:hidden"> Hủy</span>
                 </button>
               ) : null}
@@ -176,8 +181,12 @@ const Payment = ({
               <button
                 onClick={() => {
                   if (!currentSelectPayment?.acquirer_id) return
-                  setShowAlertModal("confirm")
-                  setAcquirerId(currentSelectPayment)
+                  if (currentSelectPayment.provider === "exxe_wallet") {
+                    onCheckout?.(currentSelectPayment)
+                  } else {
+                    toggleModal("confirm", true)
+                    setAcquirerId(currentSelectPayment)
+                  }
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
@@ -209,27 +218,26 @@ const Payment = ({
         <Alert
           show={!!showAlertModal}
           title={
-            showAlertModal === "cancel"
-              ? "Bạn có chắc chắc muốn hủy giao dịch này?"
-              : "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
+            "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
           }
-          onClose={() => toggleAlertModal(undefined)}
+          onClose={() => toggleModal("confirm", false)}
           onConfirm={() => {
-            if (showAlertModal === "cancel") {
-              onCancelCheckout?.()
-            } else {
-              if (!acquirerId) return
-              onCheckout?.(acquirerId)
-              toggleAlertModal(undefined)
-            }
+            if (!acquirerId) return
+            onCheckout?.(acquirerId)
+            toggleModal("confirm", false)
           }}
-          type={
-            showAlertModal === "cancel"
-              ? "warning"
-              : showAlertModal === "confirm"
-              ? "info"
-              : "error"
-          }
+          type={"info"}
+        />
+      ) : null}
+
+      {state && showCancelModal ? (
+        <RideCancelForm
+          onSubmit={(data) => {
+            onCancelCheckout?.(data)
+            toggleModal("cancel", false)
+          }}
+          onClose={() => toggleModal("cancel", false)}
+          params={{ compounding_car_customer_state: state }}
         />
       ) : null}
     </>

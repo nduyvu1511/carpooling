@@ -1,4 +1,4 @@
-import { formatMoneyVND, PAYMENT_PURPOSE_NAME } from "@/helper"
+import { formatMoneyVND, PAYMENT_PURPOSE_COLOR, PAYMENT_PURPOSE_NAME } from "@/helper"
 import { JournalDetailCompoundingCarCustomerRes, JournalDetailRes } from "@/models"
 import { userApi } from "@/services"
 import moment from "moment"
@@ -46,11 +46,17 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
                 {formatMoneyVND(data?.payment_id?.amount)}
               </p>
             </li>
-            <li className="flex items-start mb-[16px]">
+            <li className="flex items-star justify-between mb-[16px]">
               <p className="text-xs w-[200px] mr-[16px]">Phương thức hoàn tiền</p>
-              <p className="text-sm md:text-base flex-1 text-right">
+              <span
+                style={{
+                  color: PAYMENT_PURPOSE_COLOR[data.payment_purpose]?.color,
+                  backgroundColor: PAYMENT_PURPOSE_COLOR[data.payment_purpose]?.bg,
+                }}
+                className="text-xs px-8 py-4 text-right"
+              >
                 {PAYMENT_PURPOSE_NAME[data?.payment_purpose]}
-              </p>
+              </span>
             </li>
 
             <li className="flex items-start mb-[16px]">

@@ -9,7 +9,7 @@ import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
 import { useEffect, useState } from "react"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
-import { InputDate, ItemSelect } from "../inputs"
+import { InputDate } from "../inputs"
 
 interface CompoundingFilterFormProps {
   type: CarAccountType
@@ -41,7 +41,8 @@ export const CompoundingFilter = ({
   }, [defaultValues])
 
   const handleChange = (params: CompoundingFilterParams) => {
-    !touchableDevice && onChangeProps({ ...compoundingFormValues, ...params })
+    if (touchableDevice) return
+    onChangeProps({ ...compoundingFormValues, ...params })
   }
 
   return (
@@ -188,49 +189,46 @@ export const CompoundingFilter = ({
           </div>
         ) : null}
 
-        <div className="mt-24">
-          <label htmlFor="" className="form-label mb-24">
-            Sắp xếp theo:
-          </label>
-          <ul>
-            {(type === "car_driver" ? compoundingOrderList : compoundingCustomerOrderList).map(
-              ({ label, value }, index) => (
-                <li key={index} className="mb-[16px] last:mb-0">
-                  <ItemSelect
-                    isActive={compoundingFormValues?.order_by == value}
-                    onChange={() => {
-                      if (value === "sort_by_distance") {
-                        getCurrentLocation({
-                          params: { showLoading: true },
-                          onSuccess: ({ lng, lat }) => {
-                            const val = {
-                              order_by: "sort_by_distance",
-                              current_latitude: lat + "",
-                              current_longitude: lng + "",
-                            }
-                            setCompoundingFormValues({
-                              ...compoundingFormValues,
-                              ...val,
-                            } as CompoundingFilterParams)
-                            handleChange(val as CompoundingFilterParams)
-                          },
-                        })
-                      } else {
-                        setCompoundingFormValues({
-                          ...compoundingFormValues,
-                          order_by: value,
-                          current_latitude: "",
-                          current_longitude: "",
-                        })
-                        handleChange({ order_by: value })
-                      }
-                    }}
-                    title={label}
-                  />
-                </li>
-              )
-            )}
-          </ul>
+        <div className="form-select form-select-sm mb-[-10px]">
+          <Select
+            placeholder="Sắp xếp theo"
+            value={
+              compoundingFormValues?.order_by
+                ? compoundingOrderList.find((item) => item.value === compoundingFormValues.order_by)
+                : null
+            }
+            options={type !== "car_driver" ? compoundingOrderList : compoundingCustomerOrderList}
+            onChange={(val) => {
+              if (!val?.value) return
+              if (val.value === "sort_by_distance") {
+                getCurrentLocation({
+                  params: { showLoading: true },
+                  onSuccess: ({ lng, lat }) => {
+                    const val = {
+                      order_by: "sort_by_distance",
+                      current_latitude: lat + "",
+                      current_longitude: lng + "",
+                    }
+                    setCompoundingFormValues({
+                      ...compoundingFormValues,
+                      ...val,
+                    } as CompoundingFilterParams)
+                    handleChange(val as CompoundingFilterParams)
+                  },
+                })
+              } else {
+                if (compoundingFormValues?.current_latitude) {
+                  delete compoundingFormValues.current_latitude
+                  delete compoundingFormValues.current_longitude
+                }
+                setCompoundingFormValues({
+                  ...compoundingFormValues,
+                  order_by: val.value,
+                })
+                handleChange({ order_by: val.value })
+              }
+            }}
+          />
         </div>
       </div>
 

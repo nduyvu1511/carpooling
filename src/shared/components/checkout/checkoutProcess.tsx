@@ -32,7 +32,7 @@ const CheckoutProcess = ({
   payment_id,
 }: CheckoutProcessProps) => {
   const [isValidating, setValidating] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState<number | undefined>(30000)
+  const [countdown, setCountdown] = useState<number | undefined>(30)
 
   useEffectOnce(() => {
     if (vnp_ResponseCode !== "00") return

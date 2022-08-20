@@ -21,8 +21,8 @@ const InputDate = ({
   value,
   placeholder,
 }: InputDateProps) => {
-  const yesterday = moment().subtract(1, "day")
   const disablePastDt = (current: any) => {
+    const yesterday = moment().subtract(1, "day")
     return current.isAfter(yesterday)
   }
 

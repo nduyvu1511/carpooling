@@ -2,6 +2,7 @@ import { RideCanceled, RideProgress, RideSummary } from "@/components"
 import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CompoundingCarDriverRes } from "@/models"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 const RideCanceledPage = () => {
@@ -15,14 +16,15 @@ const RideCanceledPage = () => {
 
   useBackRouter({
     cb: (as) => {
-      if (as.includes("c/ride-detail/deposit")) {
-        router.push("/c")
+      if (as.includes("d/ride-detail/deposit")) {
+        router.push("/d")
       }
     },
   })
 
   return (
     <DriverBookingLayout
+      className="mb-[40px]"
       reverse
       showLoading={isInitialLoading}
       title="Thông tin hủy chuyến đi"
@@ -33,8 +35,13 @@ const RideCanceledPage = () => {
         </div>
       }
     >
-      <div className="">
+      <div>
         <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+        <div className="container fixed lg:static bottom-0 right-0 left-0 bg-white-color z-10 p-12">
+          <Link href="/d">
+            <a className="btn-primary-outline mx-auto">Về trang chủ</a>
+          </Link>
+        </div>
       </div>
     </DriverBookingLayout>
   )

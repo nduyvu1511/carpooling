@@ -45,7 +45,7 @@ interface TwoWayCompoundingFormProps {
 export const TwoWayCompoundingForm = ({
   onSubmit,
   defaultValues,
-  mode = "create",
+  mode,
   disabled = false,
   view = "page",
 }: TwoWayCompoundingFormProps) => {
@@ -246,7 +246,7 @@ export const TwoWayCompoundingForm = ({
             name="to_location"
           />
 
-          {durationDistance?.[0] ? (
+          {mode === "create" && durationDistance?.[0] ? (
             <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
               {durationDistance?.[0] ? (
                 <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
@@ -351,6 +351,7 @@ export const TwoWayCompoundingForm = ({
           />
         ) : (
           <InputDateTime
+            currentDay={getValues("expected_going_on_date")}
             name="expected_picking_up_date"
             control={control}
             placeholder="Ngày đến"

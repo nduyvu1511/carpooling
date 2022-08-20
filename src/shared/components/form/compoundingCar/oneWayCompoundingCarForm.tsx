@@ -34,7 +34,7 @@ interface OneWayCompoundingFormProps {
 export const OneWayCompoundingForm = ({
   onSubmit,
   defaultValues,
-  mode = "create",
+  mode,
   disabled = false,
   view = "page",
 }: OneWayCompoundingFormProps) => {
@@ -175,7 +175,7 @@ export const OneWayCompoundingForm = ({
             control={control}
             name="to_location"
           />
-          {durationDistance?.[0] ? (
+          {mode === "create" && durationDistance?.[0] ? (
             <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
               {durationDistance?.[0] ? (
                 <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>

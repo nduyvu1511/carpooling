@@ -1,7 +1,7 @@
 import { ListQuery, OptionModel } from "./common"
 import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
 import { RatingRes } from "./rating"
-import { CarDriverId, GenderType, UserInfo } from "./user"
+import { CarAccountType, CarDriverId, GenderType, UserInfo } from "./user"
 
 export type HourWaitTimeType =
   | "01_hour"
@@ -21,7 +21,7 @@ export type CompoundingType = "one_way" | "two_way" | "compounding" | "convenien
 export type CompoundingCarDriverState =
   | "draft" //danh cho tien chuyen
   | "waiting_deposit" //cho dat coc
-  | "waiting" // duoc phep bat dau chuyen di, da dat coc cho chuyen di
+  | "waiting"
   | "confirm_deposit" //dat coc xong
   | "confirm" //xac nhan cho don tien chuyen
   | "start_running"
@@ -546,20 +546,25 @@ export type CompoundingCarCustomerWithState = Pick<
   "compounding_car_customer_id" | "state"
 >
 
-export interface CancelCompoundingCarParams {
-  compounding_car_customer_id: number
+export interface CancelRideParams {
   cancel_reason_id?: number
   cancel_reason_other?: string
 }
 
-export type CancelCompoundingFormParams = Pick<
-  CancelCompoundingCarParams,
-  "cancel_reason_other" | "cancel_reason_id"
->
+export interface CancelCompoundingCarParams extends CancelRideParams {
+  compounding_car_customer_id: number
+}
+
+export interface CancelCompoundingCarDriverParams extends CancelRideParams {
+  compounding_car_id: number
+}
+
+export interface CancelCompoundingFormParams extends CancelRideParams {}
 
 export type ReasonsCancelCompoundingCarParams = {
-  compounding_car_customer_id: number
   compounding_car_customer_state?: string
+  compounding_car_state?: string
+  car_account_type?: CarAccountType
 } & ListQuery
 
 export interface ReasonCancelCompoundingCarRes {

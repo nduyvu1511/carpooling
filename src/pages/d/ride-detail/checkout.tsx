@@ -9,7 +9,7 @@ import {
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useCompoundingCarDriver, useDriverCheckout, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
-import { DepositCompoundingCarDriverRes } from "@/models"
+import { DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -28,6 +28,7 @@ const Checkout = () => {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
     fetchDepositCompoundingCarDriver,
+    confirmDepositForCarDriver,
   } = useDriverCheckout()
   const [deposit, setDeposit] = useState<DepositCompoundingCarDriverRes>()
   const [depositLoading, setDepositLoading] = useState<boolean>(false)
@@ -60,29 +61,44 @@ const Checkout = () => {
     }
   })
 
+  const redirectToCheckoutSuccess = () => {
+    router.push(`/d/ride-detail/checkout-success?compounding_car_id=${compounding_car_id}`)
+  }
+
   useEffect(() => {
     if (!compoundingCar) return
     if (compoundingCar?.state === "confirm_deposit") {
-      router.push(`/d/ride-detail/checkout-success?compounding_car_id=${compounding_car_id}`)
+      redirectToCheckoutSuccess()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
 
-  const handleCreatePayment = (acquirer_id: number) => {
+  const handleCreatePayment = (params: PaymentRes) => {
     const { compounding_car_id } = compoundingCar || {}
     if (!compounding_car_id || !deposit?.payment_id) return
 
-    createPaymentForDriver({
-      params: {
-        acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
-        compounding_car_id,
-        payment_id: Number(deposit.payment_id),
-      },
-      onSuccess: (data) => {
-        window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-      },
-    })
+    if (params.provider === "exxe_wallet") {
+      confirmDepositForCarDriver({
+        params: { compounding_car_id },
+        onSuccess: (data) => {
+          if (data.state === "confirm_deposit") {
+            redirectToCheckoutSuccess()
+          }
+        },
+      })
+    } else {
+      createPaymentForDriver({
+        params: {
+          acquirer_id: params.acquirer_id,
+          returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
+          compounding_car_id,
+          payment_id: Number(deposit.payment_id),
+        },
+        onSuccess: (data) => {
+          window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+        },
+      })
+    }
   }
 
   return (
@@ -109,7 +125,6 @@ const Checkout = () => {
           <CheckoutLoading />
         ) : (
           <>
-            {/* <div className="mx-24 mb-24 border-b border-solid border-border-color "></div> */}
             {deposit ? (
               <Payment
                 descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
@@ -119,10 +134,14 @@ const Checkout = () => {
                 secondsRemains={+deposit.second_remains}
                 percentage={compoundingCar?.car_driver_deposit_percentage}
                 onCheckout={(id) => handleCreatePayment(id)}
-                onCancelCheckout={() => {
+                state={compoundingCar?.state}
+                onCancelCheckout={(data) => {
                   if (!compoundingCar?.compounding_car_id) return
-                  cancelDepositCompoundingCarDriver(compoundingCar.compounding_car_id, () => {
-                    router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
+                  cancelDepositCompoundingCarDriver({
+                    params: { compounding_car_id: compoundingCar.compounding_car_id, ...data },
+                    onSuccess: () => {
+                      router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
+                    },
                   })
                 }}
               />

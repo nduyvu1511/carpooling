@@ -1,6 +1,5 @@
 import {
   DriverInfoSummary,
-  Modal,
   RideCancelForm,
   RideProgress,
   RideSummary,
@@ -141,14 +140,20 @@ const CompoundingDepositDetail = () => {
                 </ul>
               </div>
 
-              <div className="flex items-center md:mb-24">
-                <button
-                  onClick={() => toggleCancelModal(true)}
-                  className="btn-primary-outline mr-12"
-                >
-                  Hủy chuyến
-                </button>
-              </div>
+              {compoundingCar?.state === "waiting" ||
+              compoundingCar?.state === "deposit" ||
+              compoundingCar?.state === "confirm" ||
+              compoundingCar?.state === "waiting_customer" ||
+              compoundingCar?.state === "assign" ? (
+                <div className="flex items-center md:mb-24">
+                  <button
+                    onClick={() => toggleCancelModal(true)}
+                    className="btn-primary-outline mr-12"
+                  >
+                    Hủy chuyến
+                  </button>
+                </div>
+              ) : null}
             </div>
           </>
         ) : null}
@@ -156,21 +161,15 @@ const CompoundingDepositDetail = () => {
 
       {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
 
-      {compoundingCar ? (
-        <Modal
-          key="cancel-compounding-car-modal"
-          show={!!showCancelModal}
+      {compoundingCar && showCancelModal ? (
+        <RideCancelForm
           onClose={() => toggleCancelModal(false)}
-          heading="Hủy chuyến đi"
-        >
-          <RideCancelForm
-            params={{
-              compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-              compounding_car_customer_state: compoundingCar.state,
-            }}
-            onSubmit={(data) => handleCancelCompoundingCar(data)}
-          />
-        </Modal>
+          params={{
+            compounding_car_customer_state: compoundingCar.state,
+          }}
+          expectedGoingOnDate={compoundingCar.expected_going_on_date}
+          onSubmit={(data) => handleCancelCompoundingCar(data)}
+        />
       ) : null}
     </CustomerBookingLayout>
   )

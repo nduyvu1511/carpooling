@@ -14,6 +14,7 @@ import {
   useEffectOnce,
 } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
+import { PaymentRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -23,7 +24,7 @@ const Checkout = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
-  const { createPayment } = useCustomerCheckout()
+  const { createPayment, confirmPayFullForCompoundingCarCustomer } = useCustomerCheckout()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     key: `get_compounding_car_customer_to_check_full_${compounding_car_customer_id}`,
     type: "autoFocus",
@@ -33,9 +34,7 @@ const Checkout = () => {
   // Check deposit status
   useEffect(() => {
     if (compoundingCar?.state === "confirm_paid") {
-      router.push(
-        `/c/ride-sharing/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
-      )
+      redirectToCheckoutSuccess()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
@@ -52,19 +51,31 @@ const Checkout = () => {
     },
   })
 
-  const handleCreatePayment = (acquirer_id: number) => {
-    if (!acquirer_id || !compoundingCar?.compounding_car_customer_id) return
+  const redirectToCheckoutSuccess = () => {
+    router.push(
+      `/c/ride-sharing/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
+    )
+  }
 
-    createPayment({
-      params: {
-        acquirer_id: acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/ride-sharing/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
-        compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
-      },
-      onSuccess: (data) => {
-        window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-      },
-    })
+  const handleCreatePayment = (params: PaymentRes) => {
+    if (!params?.acquirer_id || !compoundingCar?.compounding_car_customer_id) return
+
+    if (params?.provider === "exxe_wallet") {
+      confirmPayFullForCompoundingCarCustomer(compoundingCar.compounding_car_customer_id, () => {
+        redirectToCheckoutSuccess()
+      })
+    } else {
+      createPayment({
+        params: {
+          acquirer_id: params.acquirer_id,
+          returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/ride-sharing/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
+          compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
+        },
+        onSuccess: (data) => {
+          window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+        },
+      })
+    }
   }
 
   return (
@@ -96,7 +107,7 @@ const Checkout = () => {
           showCountdown={false}
           amount_total={+compoundingCar.amount_total}
           secondsRemains={+compoundingCar.second_remains}
-          onCheckout={(id) => handleCreatePayment(id)}
+          onCheckout={(params) => handleCreatePayment(params)}
         />
       ) : null}
 

@@ -2,6 +2,7 @@ import {
   ConfirmRechargeRequestParams,
   CreateRechargeMoneyRes,
   CreateRechargeRequestParams,
+  Journal,
   JournalFilterDate,
   JournalRes,
   MakeWithdrawingRequestParams,
@@ -39,11 +40,6 @@ interface useJournalProps {
     params,
     onError,
   }: UseParams<ConfirmRechargeRequestParams, any>) => void
-}
-
-type Journal = {
-  journal: JournalRes[]
-  transaction: TransactionRes[]
 }
 
 const LIMIT = 12
