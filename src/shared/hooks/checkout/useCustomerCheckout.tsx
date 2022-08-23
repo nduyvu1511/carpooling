@@ -1,5 +1,6 @@
 import {
   CompoundingCarCustomer,
+  ConfirmPayFullCustomerParams,
   ConfirmTransactionParams,
   CreatePaymentParams,
   CreatePaymentRes,
@@ -13,9 +14,7 @@ interface UseCustomerCheckoutRes {
   confirmTransaction: (props: UseParams<ConfirmTransactionParams, any>) => void
   confirmDepositCompoundingCarCustomer: (_: UseParams<number, undefined>) => void
   confirmPayFullForCompoundingCarCustomer: (
-    compounding_car_customer_id: number,
-    cb: (params: CompoundingCarCustomer) => void,
-    onErr?: Function
+    _: UseParams<ConfirmPayFullCustomerParams, CompoundingCarCustomer>
   ) => void
 }
 
@@ -63,19 +62,17 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
   }
 
   const confirmPayFullForCompoundingCarCustomer = async (
-    compounding_car_customer_id: number,
-    cb: (params: CompoundingCarCustomer) => void,
-    onErr?: Function
+    _: UseParams<ConfirmPayFullCustomerParams, CompoundingCarCustomer>
   ) => {
+    const { onSuccess, params, config, onError } = _
+
     fetcherHandler({
-      fetcher: ridesApi.customerConfirmPayFullCompoundingCar({
-        compounding_car_customer_id,
-      }),
+      fetcher: ridesApi.customerConfirmPayFullCompoundingCar(params),
       onSuccess: (result) => {
         if (result?.state === "confirm_paid") {
-          cb && cb(result)
+          onSuccess?.(result)
         } else {
-          onErr && onErr()
+          onError?.()
         }
       },
     })

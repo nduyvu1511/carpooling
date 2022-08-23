@@ -1,13 +1,13 @@
 import {
+  Checkout,
   CheckoutLoading,
-  Payment,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useBackRouter, useCompoundingCarDriver, useDriverCheckout, useEffectOnce } from "@/hooks"
+import { useCompoundingCarDriver, useDriverCheckout, useEffectOnce } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
@@ -15,7 +15,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 
-const Checkout = () => {
+const CheckoutDriver = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
@@ -49,15 +49,10 @@ const Checkout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compounding_car_id])
 
-  useBackRouter({
-    cb: () => {
-      toggleBodyOverflow("unset")
-    },
-  })
-
   useEffectOnce(() => {
     return () => {
       dispatch(setShowSummaryDetail(false))
+      toggleBodyOverflow("unset")
     }
   })
 
@@ -77,83 +72,65 @@ const Checkout = () => {
     const { compounding_car_id } = compoundingCar || {}
     if (!compounding_car_id || !deposit?.payment_id) return
 
-    if (params.provider === "exxe_wallet") {
-      confirmDepositForCarDriver({
-        params: { compounding_car_id },
-        onSuccess: (data) => {
-          if (data.state === "confirm_deposit") {
-            redirectToCheckoutSuccess()
-          }
-        },
-      })
-    } else {
-      createPaymentForDriver({
-        params: {
-          acquirer_id: params.acquirer_id,
-          returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
-          compounding_car_id,
-          payment_id: Number(deposit.payment_id),
-        },
-        onSuccess: (data) => {
-          window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-        },
-      })
-    }
+    createPaymentForDriver({
+      params: {
+        acquirer_id: params.acquirer_id,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`,
+        compounding_car_id,
+        payment_id: Number(deposit.payment_id),
+      },
+      onSuccess: (data) => {
+        if (params.provider === "exxe_wallet") {
+          redirectToCheckoutSuccess()
+        }
+        window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+      },
+    })
   }
 
   return (
     <BookingLayout
-      reverse
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
-      rightNode={
-        compoundingCar ? (
-          <>
-            <div className="hidden lg:block">
-              <RideSummary data={compoundingCar} />
-            </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
-              <RideSummaryMobile rides={compoundingCar} />
-            </div>
-          </>
-        ) : null
-      }
+      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Đặt cọc chuyến đi"
     >
-      <div className="bg-white-color block-element overflow-hidden">
-        {depositLoading ? (
-          <CheckoutLoading />
-        ) : (
-          <>
-            {deposit ? (
-              <Payment
-                descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
-                amount_due={deposit.amount_due}
-                amount_total={deposit.amount_total}
-                down_payment={+deposit.down_payment.total}
-                secondsRemains={+deposit.second_remains}
-                percentage={compoundingCar?.car_driver_deposit_percentage}
-                onCheckout={(id) => handleCreatePayment(id)}
-                state={compoundingCar?.state}
-                onCancelCheckout={(data) => {
-                  if (!compoundingCar?.compounding_car_id) return
-                  cancelDepositCompoundingCarDriver({
-                    params: { compounding_car_id: compoundingCar.compounding_car_id, ...data },
-                    onSuccess: () => {
-                      router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
-                    },
-                  })
-                }}
-              />
-            ) : null}
-          </>
-        )}
-      </div>
+      {depositLoading ? (
+        <CheckoutLoading />
+      ) : (
+        <>
+          {compoundingCar ? (
+            <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
+          ) : null}
 
-      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+          {deposit ? (
+            <Checkout
+              descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
+              amount_due={deposit.amount_due}
+              amount_total={deposit.amount_total}
+              down_payment={+deposit.down_payment.total}
+              secondsRemains={+deposit}
+              percentage={compoundingCar?.car_driver_deposit_percentage}
+              onCheckout={(id) => handleCreatePayment(id)}
+              state={compoundingCar?.state}
+              onCancelCheckout={(data) => {
+                if (!compoundingCar?.compounding_car_id) return
+                cancelDepositCompoundingCarDriver({
+                  params: { compounding_car_id: compoundingCar.compounding_car_id, ...data },
+                  onSuccess: () => {
+                    router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
+                  },
+                })
+              }}
+            />
+          ) : null}
+        </>
+      )}
+
+      {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
     </BookingLayout>
   )
 }
 
-Checkout.Layout = DriverLayout
-export default Checkout
+CheckoutDriver.Layout = DriverLayout
+export default CheckoutDriver

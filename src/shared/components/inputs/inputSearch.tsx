@@ -25,7 +25,7 @@ export const InputSearch = ({
     <div className="relative lg:w-[376px]">
       <SearchIcon className="absolute-vertical left-[13px] w-[14px] text-blue-8" />
       <input
-        className={`pl-[44px] pr-[20px] h-[32px] outline-none text-12 leading-[16px] font-normal placeholder:text-gray-color-2 text-blue-8 w-full rounded-[20px] border border-solid border-gray-color-2 ${className}`}
+        className={`pl-[44px] pr-[20px] h-[32px] outline-none text-12 leading-16 font-normal placeholder:text-gray-color-2 text-blue-8 w-full rounded-[20px] border border-solid border-gray-color-2 ${className}`}
         value={value}
         onChange={onChange}
         {...attributes.attributes}

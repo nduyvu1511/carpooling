@@ -12,7 +12,7 @@ const WalletFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
 
   return (
     <div className="flex-col sm:flex-row flex sm:h-[42px] journal-filter-inputs">
-      <div className="h-[42px] sm:h-full sm:max-w-[124px] mb-12 sm:mb-0 form-date w-full rounded-[5px] mr-[16px]">
+      <div className="h-[42px] sm:h-full sm:max-w-[124px] mb-12 sm:mb-0 form-date w-full rounded-[5px] mr-16">
         <InputDate
           value={data?.start_date}
           disablePassDay={false}
@@ -25,7 +25,7 @@ const WalletFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
           }
         />
       </div>
-      <div className="h-[42px] sm:h-full sm:max-w-[124px] mb-[40px] sm:mb-0 form-date w-full rounded-[5px] mr-[16px]">
+      <div className="h-[42px] sm:h-full sm:max-w-[124px] mb-[40px] sm:mb-0 form-date w-full rounded-[5px] mr-16">
         <InputDate
           placeholder="Đến ngày"
           value={data?.end_date}
@@ -53,7 +53,7 @@ const WalletFilter = ({ onChange, defaultValues }: JournalFilterProps) => {
               setData(undefined)
               onChange?.(undefined)
             }}
-            className="flex-1 rounded-[5px] border border-solid border-primary sm:border-none sm:flex-auto text-sm whitespace-nowrap ml-[16px] font-medium text-primary"
+            className="flex-1 rounded-[5px] border border-solid border-primary sm:border-none sm:flex-auto text-sm whitespace-nowrap ml-16 font-medium text-primary"
           >
             Đặt lại
           </button>

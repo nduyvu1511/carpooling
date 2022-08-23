@@ -1,4 +1,4 @@
-import { ArrowRightIcon, CheckCircleIcon } from "@/assets"
+import { ArrowRightIcon, CheckProgressIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { COMPOUNDING_STATE_NAME } from "@/helper"
 import { CompoundingCarCustomerState, CompoundingCarDriverState } from "@/models"
@@ -10,7 +10,7 @@ interface RideProgressProps {
   className?: string
 }
 
-const RideProgress = ({ state, className }: RideProgressProps) => {
+const RideProgress = ({ state, className = "" }: RideProgressProps) => {
   const ulRef = useRef<HTMLUListElement>(null)
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const stateList = useMemo(() => {
@@ -38,8 +38,8 @@ const RideProgress = ({ state, className }: RideProgressProps) => {
 
   if (!state)
     return (
-      <div className="flex items-center w-[80%] md:mx-[16px] lg:mx-24">
-        <div className="xs-hidden skeleton h-[16px] rounded-[3px] w-full"></div>
+      <div className="flex items-center w-[80%]">
+        <div className="xs-hidden skeleton h-16 rounded-[3px] w-full"></div>
       </div>
     )
   return (
@@ -56,21 +56,17 @@ const RideProgress = ({ state, className }: RideProgressProps) => {
             }`}
           >
             {stateIndex > index ? (
-              <CheckCircleIcon
-                fill="#2E4CB7"
-                stroke="#fff"
-                opacity={1}
-                className="w-[20px] h-[20px] md:w-[30px] shadow-shadow-1 md:h-[30px] text-white-color mr-8 md:mr-0 md:mb-8"
-              />
+              <CheckProgressIcon className="w-[20px] h-[20px] md:w-24 md:h-24 md:mb-8 mr-8 md:mr-0 " />
             ) : (
               <span
-                className={`w-[20px] h-[20px] md:w-[30px] md:h-[30px] text-[12px] md:text-14 font-semibold border border-solid border-border-color shadow-shadow-1 rounded-[50%] mr-8 md:mr-0 md:mb-8 flex-center text-primary`}
+                className={`w-[20px] h-[20px] md:w-[24px] md:h-[24px] text-[12px] md:text-14 font-semibold border border-solid border-border-color shadow-shadow-1 rounded-[50%] mr-8 md:mr-0 md:mb-8 flex-center text-primary`}
               >
                 {index + 1}
               </span>
             )}
+
             <span
-              className={`md:mx-[12px] xl:mx-[20px] text-xs font-medium whitespace-nowrap ${
+              className={`text-xs whitespace-nowrap ${
                 stateIndex === index || stateIndex > index ? "text-primary" : "opacity-60"
               }`}
             >
@@ -83,7 +79,7 @@ const RideProgress = ({ state, className }: RideProgressProps) => {
           </div>
 
           {index < stateList.length - 1 ? (
-            <span className={`hidden md:block mt-[8px] mx-[16px]`}>
+            <span className={`hidden md:block mt-[14px] mx-[22px]`}>
               <ArrowRightIcon className="w-[7px]" />
             </span>
           ) : null}

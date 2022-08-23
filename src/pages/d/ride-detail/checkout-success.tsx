@@ -33,7 +33,7 @@ const CheckoutSuccess = () => {
       reverse
       rightNode={
         compoundingCar ? (
-          <div className="px-12 md:px-24 lg:px-0">
+          <div className="px-custom lg:px-0">
             <RideDriverBill data={compoundingCar} />
           </div>
         ) : null
@@ -41,7 +41,7 @@ const CheckoutSuccess = () => {
       title="Đặt cọc thành công"
       showHeaderDesktop={false}
     >
-      <div className="pt-24 px-12 md:px-24">
+      <div className="pt-24 px-custom">
         {isValidating ? (
           <RidesDetailLoading className="mb-[40px]" />
         ) : (
@@ -60,7 +60,7 @@ const CheckoutSuccess = () => {
                 title="Chuyến đi đã được khởi tạo"
               />
             </div>
-            <h3 className="text-base uppercase font-semibold mb-24 text-blue-7">
+            <h3 className="text-base uppercase font-semibold mb-16 md:mb-24 text-blue-7">
               Danh sách hành khách
             </h3>
 

@@ -18,7 +18,7 @@ export const WalletGuide = () => {
         allowTransition={false}
         isActive={tabsActive.includes(1)}
         onClick={() => handleToggleTabsActive(1)}
-        className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+        className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
         titleClassName="text-base text-blue-7"
         title="How long does the withdrawal take?"
       >
@@ -29,7 +29,7 @@ export const WalletGuide = () => {
         allowTransition={false}
         isActive={tabsActive.includes(2)}
         onClick={() => handleToggleTabsActive(2)}
-        className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+        className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
         titleClassName="text-base text-blue-7"
         title="Do card withdrawals work for all cards?"
       >

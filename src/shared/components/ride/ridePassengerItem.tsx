@@ -43,7 +43,7 @@ const RidePassengerItem = ({
     >
       <div className="">
         <div className="flex items-center justify-between">
-          <div className="flex items-center mb-[16px] flex-1">
+          <div className="flex items-center mb-16 flex-1">
             <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden">
               <Image
                 src={
@@ -56,7 +56,7 @@ const RidePassengerItem = ({
                 alt={partner.partner_name}
               />
             </div>
-            <div className="text-sm md:text-base flex items-stretch flex-1 ml-[16px] w-full text-primary">
+            <div className="text-sm md:text-base flex items-stretch flex-1 ml-16 w-full text-primary">
               <span className="flex-1 my-auto">{partner.partner_name}</span>
               <span
                 className={`h-fit ml-12 whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] ${

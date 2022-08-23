@@ -7,7 +7,7 @@ const RideCanceledPage = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
-    key: `get_canceled_ride_driver_${compounding_car_customer_id}`,
+    key: `get_canceled_ride_customer_${compounding_car_customer_id}`,
     type: "once",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
@@ -15,26 +15,14 @@ const RideCanceledPage = () => {
   return (
     <CustomerBookingLayout
       className="pmin-h-[calc(100vh-56px)] h-full pb-0"
-      reverse
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
       title="Thông tin hủy chuyến đi"
-      rightNode={
-        compoundingCar ? (
-          <>
-            <div className="hidden lg:block">
-              <RideSummary data={compoundingCar} />
-            </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-              <RideSummaryMobile rides={compoundingCar} />
-            </div>
-          </>
-        ) : null
-      }
+      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
     >
-      <div className="mt-12 md:mt-0">
+      {compoundingCar ? (
         <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
-      </div>
+      ) : null}
     </CustomerBookingLayout>
   )
 }

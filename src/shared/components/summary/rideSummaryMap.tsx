@@ -12,8 +12,8 @@ interface RideSummaryMapProps {
 
 export const RideSummaryMap = ({ data, showMap = true, className = "" }: RideSummaryMapProps) => {
   return (
-    <div className={`bg-bg-primary rounded-[5px] p-12 md:p-24 ${className}`}>
-      <div className="flex items-center mb-[16px]">
+    <div className={`bg-bg-primary rounded-[5px] p-custom ${className}`}>
+      <div className="flex items-center mb-16">
         <div className="flex-1">
           <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
             {data?.from_province.province_brief_name}
@@ -38,7 +38,7 @@ export const RideSummaryMap = ({ data, showMap = true, className = "" }: RideSum
       </div>
 
       {showMap ? (
-        <div className="h-[200px] mb-[16px]">
+        <div className="h-[200px] mb-16">
           <Map
             viewOnly
             directions={{
@@ -58,19 +58,19 @@ export const RideSummaryMap = ({ data, showMap = true, className = "" }: RideSum
       <ul>
         <li className="flex items-center justify-between mb-12">
           <p className="text-xs">Loại chuyến</p>
-          <p className="ml-[16px] flex-1 text-right text-sm md:text-base">
+          <p className="ml-16 flex-1 text-right text-sm md:text-base">
             {COMPOUNDING_TYPE_NAME[data.compounding_type]}
           </p>
         </li>
         <li className="flex items-center justify-between mb-12">
           <p className="text-xs">Thời gian dự kiến</p>
-          <p className="ml-[16px] flex-1 text-right text-sm md:text-base">
+          <p className="ml-16 flex-1 text-right text-sm md:text-base">
             {getHoursName(data.duration || 0)}
           </p>
         </li>
         <li className="flex items-center justify-between">
           <p className="text-xs">Lộ trình ước tính</p>
-          <p className="ml-[16px] flex-1 text-right text-sm md:text-base">{data.distance} Km</p>
+          <p className="ml-16 flex-1 text-right text-sm md:text-base">{data.distance} Km</p>
         </li>
       </ul>
     </div>

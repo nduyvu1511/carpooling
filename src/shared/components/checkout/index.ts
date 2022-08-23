@@ -1,4 +1,5 @@
-export * from "./payment"
+export * from "./checkout"
 export * from "./checkoutExistsItem"
 export * from "./checkoutProcess"
 export * from "./paymentItem"
+export * from "./paymentMethodItem"

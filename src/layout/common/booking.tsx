@@ -1,5 +1,6 @@
 import { ArrowLeftIcon } from "@/assets"
 import { HeaderMobile, RideSummaryLoading } from "@/components"
+import { useBreakpoint } from "@/hooks"
 import { BookingLayoutProps } from "@/models"
 import { useRouter } from "next/router"
 
@@ -11,11 +12,11 @@ const BookingLayout = ({
   topNode,
   stickyRight = false,
   onBackBtnClick,
-  reverse = false,
   className = "",
   showHeaderDesktop = true,
 }: BookingLayoutProps) => {
   const router = useRouter()
+  const breakpoints = useBreakpoint()
 
   return (
     <>
@@ -24,35 +25,27 @@ const BookingLayout = ({
       ) : null}
 
       <section
-        className={`container px-0 md:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
+        className={`container px-0 md:p-16 lg:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
       >
         <div className="block-element h-full">
           {topNode ? (
-            <div className="lg:hidden pt-12 md:pt-24 lg:pt-0 lg:px-0 pl-12 pb-12 lg:pb-[24px] w-[calc(100vw)] sm:w-full relative rounded-tr-[5px] overflow-hidden">
+            <div className="lg:hidden p-custom pr-0 relative overflow-hidden rounded-tr-[5px]">
               <div className="absolute w-[200px] pointer-events-none top-0 h-[40px] right-0 linear-gradient-white"></div>
               {topNode}
             </div>
           ) : null}
 
-          <div
-            className={`flex ${
-              reverse ? "flex-col pb-12 md:pb-24" : "flex-col-reverse"
-            } lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid`}
-          >
-            <div className={`${topNode ? "lg:pt-24" : ""}`}>
-              {topNode ? (
-                <div className="hidden lg:block lg:px-12 lg:pl-0 pb-[24px] lg:pb-0 lg:w-full">
-                  {topNode}
-                </div>
-              ) : null}
+          <div className="lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid">
+            <div className="p-custom lg:pr-16">
+              {topNode ? <div className="hidden lg:block lg:w-full mb-24">{topNode}</div> : null}
 
               {showLoading ? (
-                <div className="hidden lg:flex m-12 md:m-24 items-center h-[20px] rounded-[5px]">
+                <div className="hidden lg:flex my-12 md:my-24 md:mb-[40px] items-center h-[20px] rounded-[5px]">
                   <div className="skeleton w-[30px] h-[20px] rounded-[5px] mr-[32px]"></div>
                   <div className="skeleton max-w-[350px] w-full h-[20px] flex-1 rounded-[5px]"></div>
                 </div>
               ) : showHeaderDesktop ? (
-                <div className="hidden lg:flex p-12 md:p-24 items-center">
+                <div className="hidden lg:flex pb-12 md:pb-24 items-center border-b border-border-color border-solid mb-24">
                   <button onClick={() => router.back()}>
                     <ArrowLeftIcon />
                   </button>
@@ -69,14 +62,7 @@ const BookingLayout = ({
                 stickyRight ? "" : ""
               }`}
             >
-              {showLoading ? (
-                <div className="">
-                  <div className="skeleton h-[200px] mb-24 rounded-[5px] mx-12 md:mx-24 lg:mx-0"></div>
-                  <RideSummaryLoading />
-                </div>
-              ) : (
-                rightNode
-              )}
+              {showLoading ? <RideSummaryLoading /> : breakpoints >= 1024 ? rightNode : null}
             </div>
           </div>
         </div>

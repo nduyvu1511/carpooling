@@ -88,23 +88,23 @@ export const RatingItem = ({
     return (
       <div className="p-12 lg:p-24">
         <div className="flex items-start">
-          <div className="w-[32px] h-[32px] rounded-[50%] skeleton mr-[16px]"></div>
-          <div className="mr-[16px] flex-1">
+          <div className="w-[32px] h-[32px] rounded-[50%] skeleton mr-16"></div>
+          <div className="mr-16 flex-1">
             <div className="skeleton w-[120px] h-[8px] skeleton rounded-[5px] mb-[12px]"></div>
             <div className="skeleton w-[140px] h-[14px] skeleton rounded-[5px] mb-[12px]"></div>
             <div className="skeleton w-[90%] h-[24px] skeleton rounded-[5px] mb-[12px]"></div>
             <div className="skeleton w-[140px] h-[12px] skeleton rounded-[5px]"></div>
           </div>
           <div className="flex">
-            <div className="skeleton w-[30px] h-[15px] rounded-[5px] mr-[16px]"></div>
+            <div className="skeleton w-[30px] h-[15px] rounded-[5px] mr-16"></div>
             <div className="skeleton w-[30px] h-[15px] rounded-[5px]"></div>
           </div>
         </div>
       </div>
     )
   return (
-    <div className="flex items-start py-[20px] md:py-[24px] w-full overflow-hidden">
-      <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden mr-[16px]">
+    <div className="flex items-start py-16 md:py-24 w-full overflow-hidden">
+      <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden mr-16 shrink-0">
         <Image
           src={toImageUrl(rating?.partner_id?.avatar_url.image_url || "")}
           layout="fill"
@@ -149,7 +149,7 @@ export const RatingItem = ({
                           : ""
                       }`}
                     >
-                      <Icon className="w-[16px] h-[16px]" />
+                      <Icon className="w-16 h-16" />
                       <span className="text-sm ml-[10px] leading-[26px]">{label}</span>
                     </li>
                   ))}
@@ -168,7 +168,7 @@ export const RatingItem = ({
         </div>
 
         {rating.rating_tag_ids?.length > 0 ? (
-          <ul className="flex flex-wrap mt-[12px]">
+          <ul className="flex flex-wrap mt-[12px] mb-[-12px]">
             {rating.rating_tag_ids.map((item, index) => (
               <li className="mr-[8px] mb-[12px]" key={index}>
                 <TagItem label={item.tag_content} />

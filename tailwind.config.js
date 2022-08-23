@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        "sidebar-grid": "236px 1fr",
+        "sidebar-grid": "220px 1fr",
         "grid-330": "330px 1fr",
         "booking-grid": "1fr 500px",
         "wallet-grid": "440px 1fr",
@@ -15,6 +15,8 @@ module.exports = {
       },
       boxShadow: {
         "shadow-1": "0px 1px 2px rgba(0, 0, 0, 0.05)",
+        "shadow-2": "0px 2px 8px rgba(31, 31, 221, 0.2)",
+        "shadow-3": "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
       },
     },
     colors: {
@@ -48,11 +50,13 @@ module.exports = {
       bg: "#f0f0f0",
       error: "#FF3B30",
       "bg-error": "rgba(255, 59, 48, 0.2)",
+      "bg-error-2": "#FDF3F3",
       warning: "#FF9500",
       active: "#1F6CB0",
       success: "#10B981",
       black: "#000000",
       "bg-blue": "#EEEBFF",
+      "blue-05": "#F7F8FF",
       "blue-1": "#4E4E6A",
       "blue-2": "#6B7EDF",
       "blue-3": "#2E4CB7",
@@ -93,6 +97,7 @@ module.exports = {
       24: "24px",
       26: "26px",
       28: "28px",
+      16: "16px",
     },
     spacing: {
       0: 0,
@@ -105,13 +110,15 @@ module.exports = {
       8: 8,
       24: 24,
       48: 48,
+      40: 40,
+      16: 16,
       32: 32,
       12: 12,
       8: 8,
       10: 10,
       "modal-width": 610,
-      "content-container-width": 640,
-      "sidebar-width": 236,
+      "content-container-width": 684,
+      "sidebar-width": 200,
     },
 
     screens: {
@@ -127,7 +134,7 @@ module.exports = {
     },
     maxWidth: {
       "modal-width": 610,
-      "content-container-width": 640,
+      "content-container-width": 684,
     },
   },
   corePlugins: {

@@ -35,8 +35,8 @@ export const StaticLayout = ({
             className={`relative top-0 ${
               sticky
                 ? "md:top-[-142px] border-border-color rounded-[10px] md:max-w-[628px] w-full lg:max-w-[956px] xl:max-w-[1156px] border border-solid block-element"
-                : "container px-[16px] md:px-24"
-            } w-full mx-auto px-[16px] md:px-[40px] lg:px-[120px] py-[64px] xl:py-[120px]`}
+                : "container px-16 md:px-24"
+            } w-full mx-auto px-16 md:px-[40px] lg:px-[120px] py-[64px] xl:py-[120px]`}
           >
             {heading || subHeading ? (
               <div className="flex-col flex-center mb-[40px] md:mb-[64px] lg:mb-[80px]">

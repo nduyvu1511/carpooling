@@ -1,13 +1,20 @@
-import { RideContainer, Seo } from "@/components"
+import { Modal, RideContainer, Seo, UserInfoForm } from "@/components"
+import { RootState } from "@/core/store"
 import { isObjectHasValue } from "@/helper"
-import { useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
+import { useProfile, useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
 import { CustomerLayout } from "@/layout"
-import { CompoundingFilterParams } from "@/models"
+import { CompoundingFilterParams, UpdateUserInfoParams, UserInfoFormSubmit } from "@/models"
+import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { notify } from "reapop"
 
 const HomeCustomer = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
+  const { updateUserInfo } = useProfile()
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
   const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
     data: rideList,
@@ -39,6 +46,18 @@ const HomeCustomer = () => {
     }
   }
 
+  const handleUpdateUserInfo = async (params: UserInfoFormSubmit) => {
+    updateUserInfo({
+      params: params as UpdateUserInfoParams,
+      onSuccess: (userInfo) => {
+        dispatch(setProfile(userInfo))
+        dispatch(notify("Cập nhật thông tin thành công!", "success"))
+        dispatch(setAuthModalType(undefined))
+        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+      },
+    })
+  }
+
   return (
     <>
       <Seo
@@ -61,6 +80,16 @@ const HomeCustomer = () => {
         onFilterRide={(data) => handleFilterRides(data)}
         key="customer"
       />
+
+      {authModalType === "updateProfile" ? (
+        <Modal
+          heading="Cập nhật hồ sơ"
+          show={true}
+          onClose={() => dispatch(setAuthModalType(undefined))}
+        >
+          <UserInfoForm onSubmit={handleUpdateUserInfo} />
+        </Modal>
+      ) : null}
     </>
   )
 }

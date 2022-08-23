@@ -89,7 +89,7 @@ const BookingModal = ({
       onClose={onClose}
       headerNode={
         carAccountType === "customer" ? (
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Tabs
               type="full"
               list={[
@@ -104,7 +104,7 @@ const BookingModal = ({
         ) : null
       }
     >
-      <div className="flex-1 w-full px-[16px] overflow-auto md:px-24 py-12 pb-[64px]">
+      <div className="flex-1 w-full px-16 overflow-auto md:px-24 py-12 pb-[64px]">
         {compoundingType === "one_way" ? (
           <OneWayCompoundingForm
             defaultValues={oneWayCompoundingCarFormFromLocalStorage()}

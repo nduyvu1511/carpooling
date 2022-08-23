@@ -1,8 +1,8 @@
-import { AuthModal, SpinnerLoading } from "@/components"
+import { SpinnerLoading } from "@/components"
 import { RootState } from "@/core"
 import { useAuth } from "@/hooks"
 import { useEffectOnce } from "@/hooks/utilities/useEffectOnce"
-import { AuthModalType, CarId, ProvinceId, VehicleTypeParams } from "@/models"
+import { CarId, ProvinceId, VehicleTypeParams } from "@/models"
 import { setProfile, setProvinces, setVehicleTypes } from "@/modules"
 import { addressApi, vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
@@ -16,7 +16,6 @@ const App = ({ children }: { children: ReactNode }) => {
   const notifications = useSelector((state: RootState) => state.notifications)
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
-  const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
   useEffectOnce(() => {
     getUserInfo((userInfo) => {
@@ -68,7 +67,6 @@ const App = ({ children }: { children: ReactNode }) => {
         dismissNotification={(id) => dispatch(dismissNotification(id))}
         theme={atalhoTheme}
       />
-      <AuthModal show={authModalType as AuthModalType} />
     </>
   )
 }

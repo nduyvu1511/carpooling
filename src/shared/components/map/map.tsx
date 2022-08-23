@@ -245,7 +245,7 @@ export const Map = ({
           </span>
         </GoogleMap>
 
-        <div className="p-12 md:p-24 bg-white-color">
+        <div className="p-custom bg-white-color">
           <div className="flex items-center h-[60px] bg-bg mb-12 md:mb-24 px-12 rounded-[5px]">
             <LocationIcon2 className="mr-12" />
             <span className="text-14 leading-[22px] font-medium line-clamp-2 flex-1">

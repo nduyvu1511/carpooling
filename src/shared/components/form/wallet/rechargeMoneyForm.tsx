@@ -84,7 +84,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
           ) : (
             <ul className="flex flex-wrap">
               {paymentList?.map((item) => (
-                <li className="mr-[16px] mb-[16px]" key={item.acquirer_id}>
+                <li className="mr-16 mb-16" key={item.acquirer_id}>
                   <PaymentItem
                     isActive={currentAcquirerId === item.acquirer_id}
                     onChange={(val) => setValue("acquirer_id", val.acquirer_id)}
@@ -106,7 +106,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
 
       <div
         className={`flex-center bg-white-color ${
-          view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-[16px]" : ""
+          view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-16" : ""
         }`}
       >
         <button

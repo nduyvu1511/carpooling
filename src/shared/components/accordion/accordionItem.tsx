@@ -26,7 +26,7 @@ const AccordionItem = ({
     <div>
       <div
         onClick={() => onClick?.()}
-        className={`flex items-center justify-between p-12 md:p-24 ${
+        className={`flex items-center justify-between p-custom ${
           isActive ? "bg-[#F1F5FF]" : "bg-white-color"
         } cursor-pointer border-b border-solid border-border-color ${className}`}
       >
@@ -56,7 +56,7 @@ const AccordionItem = ({
           style={{ maxHeight: isActive ? maxHeight : 0 }}
           className={`${
             allowTransition ? "transition-all duration-300" : ""
-          } px-12 md:px-24 overflow-hidden`}
+          } px-custom overflow-hidden`}
         >
           {children}
         </div>

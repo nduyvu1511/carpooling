@@ -40,7 +40,7 @@ export const ContactForm = forwardRef(function ContactChild(
   return (
     <form className="form-control" onSubmit={handleSubmit(onSubmitHandler)}>
       {contactFormFields.map((field) => (
-        <div key={field.name} className="form-item mb-[16px]">
+        <div key={field.name} className="form-item mb-16">
           {field.type === "text" ? (
             <input
               className={`form-input h-[50px] border-[transparent] bg-bg-primary ${

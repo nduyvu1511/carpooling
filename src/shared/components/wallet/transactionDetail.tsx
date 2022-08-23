@@ -35,19 +35,19 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
         <div>
           <ul className="mb-[40px]">
             <li className="flex items-start mb-12">
-              <p className="text-xs w-[200px] mr-[16px]">Mã giao dịch</p>
+              <p className="text-xs w-[200px] mr-16">Mã giao dịch</p>
               <p className="text-14 md:text-16 font-semibold text-primary xs:flex-1 text-right xs:whitespace-nowrap">
                 {(data as JournalDetailCompoundingCarCustomerRes)?.payment_id?.payment_code}
               </p>
             </li>
             <li className="flex items-start mb-12">
-              <p className="text-xs w-[200px] mr-[16px]">Số tiền giao dịch</p>
+              <p className="text-xs w-[200px] mr-16">Số tiền giao dịch</p>
               <p className="text-14 md:text-16 font-semibold text-error flex-1 text-right">
                 {formatMoneyVND(data?.payment_id?.amount)}
               </p>
             </li>
-            <li className="flex items-star justify-between mb-[16px]">
-              <p className="text-xs w-[200px] mr-[16px]">Phương thức hoàn tiền</p>
+            <li className="flex items-star justify-between mb-16">
+              <p className="text-xs w-[200px] mr-16">Phương thức hoàn tiền</p>
               <span
                 style={{
                   color: PAYMENT_PURPOSE_COLOR[data.payment_purpose]?.color,
@@ -59,14 +59,14 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
               </span>
             </li>
 
-            <li className="flex items-start mb-[16px]">
-              <p className="text-xs w-[200px] mr-[16px]">Ngày giao dịch</p>
+            <li className="flex items-start mb-16">
+              <p className="text-xs w-[200px] mr-16">Ngày giao dịch</p>
               <p className="text-sm md:text-base flex-1 text-right">
                 {moment(data?.payment_id?.date)?.format("DD/MM/YYYY")}
               </p>
             </li>
             {/* <li className="flex items-start">
-              <p className="text-xs w-[200px] mr-[16px]">Tình trạng</p>
+              <p className="text-xs w-[200px] mr-16">Tình trạng</p>
               <p className="text-sm md:text-base flex-1 text-right">Đã hoàn tiền</p>
             </li> */}
           </ul>

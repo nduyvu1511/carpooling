@@ -39,7 +39,7 @@ const Rating = () => {
         <div className="px-24">
           {isInitialLoading ? (
             <div>
-              {Array.from({ length: 4 }).map((_, index) => (
+              {Array.from({ length: 3 }).map((_, index) => (
                 <RatingItem rating={null} key={index} />
               ))}
             </div>

@@ -1,4 +1,4 @@
-import { RideCustomerBill, RideProgress, Spinner } from "@/components"
+import { HeaderMobile, RideCustomerBill, RideProgress, Seo, Spinner } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -14,27 +14,26 @@ const CheckoutSuccess = () => {
   })
 
   useBackRouter({
-    cb: () => {
-      console.log("route goes here")
-      router.push("/c")
+    cb: (as) => {
+      if (as.includes("/c/booking/checkout")) {
+        router.push("/c")
+      }
     },
   })
 
   return (
-    <>
-      <div className="content-container sm:py-24 pb-[64px]">
+    <CustomerLayout headerClassName="hidden md:flex" showHeaderOnMobile={false}>
+      <Seo description="" thumbnailUrl="" title="Đặt chuyến thành công" url="" />
+      <HeaderMobile className="md:hidden" title="Đặt chuyến thành công" />
+      <div className="content-container sm:py-16 pb-[70px] mt-[56px] md:mt-0">
         {isValidating ? (
           <Spinner className="py-[60px]" size={40} />
         ) : (
-          <div className="">
-            <div className="block-element pt-24">
-              <div className="pl-12 md:px-12 mb-24">
-                <RideProgress state={compoundingCarCustomer?.state} />
-              </div>
-              {compoundingCarCustomer?.compounding_car_customer_id ? (
-                <RideCustomerBill data={compoundingCarCustomer} />
-              ) : null}
-            </div>
+          <div className="block-element p-custom">
+            <RideProgress className="mb-24 md:mb-[40px]" state={compoundingCarCustomer?.state} />
+            {compoundingCarCustomer?.compounding_car_customer_id ? (
+              <RideCustomerBill type="deposit" data={compoundingCarCustomer} />
+            ) : null}
           </div>
         )}
       </div>
@@ -45,9 +44,8 @@ const CheckoutSuccess = () => {
           </Link>
         </div>
       ) : null}
-    </>
+    </CustomerLayout>
   )
 }
 
-CheckoutSuccess.Layout = CustomerLayout
 export default CheckoutSuccess

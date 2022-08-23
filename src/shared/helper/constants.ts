@@ -215,3 +215,10 @@ export const LIMIT_HOUR_OF_WAITING_TIME = 4
 export const PHONE = "0847878788"
 export const ADDRESS = "Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM"
 export const EMAIL = "exxevn2022@gmail.com"
+
+export const PAYMENT_METHOD_NAME = {
+  cash: "Tiền mặt",
+  exxe_wallet: "Ví Exxe",
+  transfer: "Chuyển khoản",
+  bank: "Chuyển khoản",
+}

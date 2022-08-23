@@ -208,6 +208,8 @@ export interface CancelReason {
   reason: string
 }
 
+export type PaymentMethod = "cash" | "transfer" | "exxe_wallet"
+
 export interface CompoundingCarCustomer {
   compounding_car_id: number
   compounding_car_customer_id: number
@@ -230,7 +232,7 @@ export interface CompoundingCarCustomer {
   sale_order_id: SaleOrderCompoundingCar
   amount_total: number
   down_payment: DownPayment
-  payment_method: "cash" | "transfer" | false
+  payment_method: PaymentMethod
   amount_due: number
   state: CompoundingCarCustomerState
   price_unit: PriceUnit
@@ -251,9 +253,12 @@ export interface CompoundingCarCustomer {
   second_waiting_remains: number
   customer_deposit_percentage: number
   cancel_reason?: CancelReason
-  date_paid?: string
+  paid_date?: string
   cancel_date?: string
   amount_return?: number
+  confirm_date?: string
+  payment_amount?: number
+  deposit_date?: string
 }
 
 export interface PartnerCompoundingCar {
@@ -452,11 +457,16 @@ export interface CreatePaymentParams {
 
 export interface CreatePaymentMethodParams {
   compounding_car_customer_id: number
-  payment_method: "cash" | "transfer"
+  payment_method: PaymentMethod
 }
 
 export interface GetDetailCompoundingCustomer {
   compounding_car_customer_id: number
+}
+
+export interface ConfirmPayFullCustomerParams {
+  compounding_car_customer_id: number
+  payment_method: PaymentMethod
 }
 
 export interface GetDetailCompounding {

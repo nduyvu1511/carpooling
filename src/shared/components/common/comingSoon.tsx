@@ -24,7 +24,7 @@ export const ComingSoon = () => {
           </h1>
 
           <form className="w-full flex flex-col items-center md:items-start">
-            <label htmlFor="input" className="text-sm text-gray-color-5 mb-[16px] inline-block">
+            <label htmlFor="input" className="text-sm text-gray-color-5 mb-16 inline-block">
               Đăng ký để nhận thông báo
             </label>
             <div className="flex flex-col md:flex-row md:h-[60px] lg:h-[70px] max-w-[470px] w-full">
@@ -49,12 +49,12 @@ export const ComingSoon = () => {
       <div className="py-[40px]">
         <div className="flex flex-col md:flex-row items-center">
           <div className="mb-12 md:mb-0">
-            <p className="text-sm text-gray-color-5 mb-[16px]">Theo dõi EXXE tại</p>
+            <p className="text-sm text-gray-color-5 mb-16">Theo dõi EXXE tại</p>
             <ul className="flex items-center">
-              <li className="mr-[16px]">
+              <li className="mr-16">
                 <FacebookIcon />
               </li>
-              <li className="mr-[16px]">
+              <li className="mr-16">
                 <YoutubeIcon />
               </li>
 

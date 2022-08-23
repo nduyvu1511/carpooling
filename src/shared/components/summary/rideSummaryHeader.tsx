@@ -21,7 +21,7 @@ const RidesSummaryHeader = ({ desc, title }: RidesSummaryHeaderProps) => {
         <h3 className="text-[22px] leading-[30px] sm:text-[28px] sm:leading-[36px] font-medium text-primary">
           {title || "Đặt chuyến thành công"}
         </h3>
-        <div className="text-14 sm:text-16 font-medium leading-26 mt-[16px]">
+        <div className="text-14 sm:text-16 font-medium leading-26 mt-16">
           {desc || (
             <span>
               Chuyến đi của bạn đã được đặt cọc thành công, vui lòng kiểm tra chi tiết hoá đơn qua

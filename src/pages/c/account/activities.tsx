@@ -30,13 +30,9 @@ const Activities = () => {
   const handleRedirect = (params: CustomerActivityRes) => {
     const { state, compounding_car_customer_id, expected_going_on_date } = params
     if (state === "done" || state === "in_process" || state === "customer_pay")
-      router.push(
-        `/c/ride-sharing/payment-options?compounding_car_customer_id=${compounding_car_customer_id}`
-      )
+      router.push(`/c/ride-detail/checkout/${compounding_car_customer_id}`)
     else if (state === "confirm")
       router.push(`/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`)
-    else if (state === "deposit" || state === "assign")
-      router.push(`/c/ride-detail/deposit/${compounding_car_customer_id}`)
     else if (state === "draft") {
       if (moment(expected_going_on_date).isAfter(Date.now()))
         router.push(`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`)
@@ -54,13 +50,13 @@ const Activities = () => {
         title="Hoạt động"
         url="https://exxe.vn/c/account/activities"
       />
-      <div className="px-12 md:px-24">
+      <div className="px-custom">
         <div className="mb-24">
           <div className="flex items-center relative">
             <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
             <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
               {customerActivityFilters.map(({ label, value }, index) => (
-                <li className="mr-[12px] lg:mr-[16px] lg:mb-[16px] last:mr-24" key={index}>
+                <li className="mr-[12px] lg:mr-16 lg:mb-16 last:mr-24" key={index}>
                   <TagActivityItem<CompoundingCarCustomerState[]>
                     bgColor={STATE_BG_COLOR[value?.[0] || ""]}
                     color={STATE_COLOR[value?.[0] || ""]}

@@ -35,7 +35,7 @@ const Drawer = ({
       >
         <div
           style={{ maxWidth: width === "full" ? "100%" : width, width: "100%" }}
-          className={`fixed flex flex-col z-[1001] bg-white-color ${
+          className={`drawer fixed flex flex-col z-[1001] bg-white-color ${
             direction === "right"
               ? "bottom-0 top-0 right-0"
               : direction === "left"
@@ -47,7 +47,7 @@ const Drawer = ({
         >
           {headerChild || showCloseBtn ? (
             <div className="flex items-center justify-between p-12">
-              <div className="flex-1 mr-[16px]">{headerChild}</div>
+              <div className="flex-1 mr-16">{headerChild}</div>
 
               {showCloseBtn ? (
                 <button onClick={() => onClose?.()} className="ml-auto right-0 top-0">

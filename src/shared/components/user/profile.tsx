@@ -70,8 +70,8 @@ const Profile = ({ type }: ProfileProps) => {
         <div className="flex items-center mb-24">
           <div className="w-[80px] h-[80px] md:w-[160px] md:h-[160px] rounded-[50%] skeleton mr-[24px]"></div>
           <div className="flex-1">
-            <div className="skeleton h-[20px] w-[140px] rounded-[5px] mb-[16px]"></div>
-            <div className="skeleton h-[16px] w-[200px] rounded-[5px] mb-[16px]"></div>
+            <div className="skeleton h-[20px] w-[140px] rounded-[5px] mb-16"></div>
+            <div className="skeleton h-16 w-[200px] rounded-[5px] mb-16"></div>
             <div className="skeleton h-[8px] max-w-[300px] w-full rounded-[5px]"></div>
           </div>
         </div>
@@ -90,7 +90,7 @@ const Profile = ({ type }: ProfileProps) => {
   return (
     <>
       <div className="flex-center flex-col md:flex-row md:items-center md:justify-center mb-24">
-        <div className="flex-col flex-center mb-[16px] md:mb-0">
+        <div className="flex-col flex-center mb-16 md:mb-0">
           <div className="relative w-[105px] h-[105px] md:w-[160px] md:h-[160px] flex-center border border-solid border-border-color-1 rounded-[50%]">
             {isUploading ? (
               <div className="w-full h-full rounded-[50%] flex-center bg-bg">
@@ -133,8 +133,8 @@ const Profile = ({ type }: ProfileProps) => {
         </div>
         <div className="flex-1 md:ml-[48px]">
           <div className="flex-col flex-center md:items-start">
-            <div className="flex items-center mb-[8px] md:mb-[16px]">
-              <p className="h3 line-clamp-1 word-wrap-anywhere font-semibold md:font-medium flex-1 mr-[16px] text-blue-7">
+            <div className="flex items-center mb-[8px] md:mb-16">
+              <p className="h3 line-clamp-1 word-wrap-anywhere font-semibold md:font-medium flex-1 mr-16 text-blue-7">
                 {userInfo.partner_name}
               </p>
 
@@ -146,7 +146,7 @@ const Profile = ({ type }: ProfileProps) => {
               ) : null}
             </div>
 
-            <div className="mb-[16px] flex flex-col items-center md:items-start">
+            <div className="mb-16 flex flex-col items-center md:items-start">
               <AccountTag userInfo={userInfo} />
             </div>
 

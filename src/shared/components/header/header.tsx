@@ -1,20 +1,24 @@
 import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
-import { Drawer, HeaderWrapper } from "@/components"
+import { Drawer, HeaderWrapper, AuthModal } from "@/components"
+import { RootState } from "@/core/store"
 import { PHONE, toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useClickOutside } from "@/hooks"
 import { setAuthModalType } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Menu } from "../menu"
 
 export const Header = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const menuRef = useRef<HTMLDivElement>(null)
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
+
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showDrawer, setShowDrawer] = useState<boolean>(false)
+
   useClickOutside([menuRef], () => {
     setShowMenu(false)
   })
@@ -67,7 +71,7 @@ export const Header = () => {
                     >
                       <Link href={path}>
                         <a
-                          className={`font-semibold text-[16px] leading-[20px] ${
+                          className={`font-semibold text-16 leading-[20px] ${
                             path === router.pathname ? "text-primary" : ""
                           }`}
                         >
@@ -113,7 +117,7 @@ export const Header = () => {
                   <MenuIcon />
                 </button>
 
-                <div className="mr-[16px] items-center hidden xl:flex">
+                <div className="mr-16 items-center hidden xl:flex">
                   <PhoneIcon className="mr-8 w-[15px] h-[15px]" />
                   <a className="text-base font-semibold text-primary" href={`tel:${PHONE}`}>
                     0847 878 788
@@ -122,7 +126,7 @@ export const Header = () => {
 
                 <button
                   onClick={() => dispatch(setAuthModalType("login"))}
-                  className="btn-primary mr-[16px] leading-[22px] px-[28px] py-[11px] hidden xl:block"
+                  className="btn-primary mr-16 leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng nhập
                 </button>
@@ -156,6 +160,8 @@ export const Header = () => {
           onClose={() => toggleShowDrawer(false)}
         />
       </Drawer>
+
+      <AuthModal show={authModalType} />
     </>
   )
 }

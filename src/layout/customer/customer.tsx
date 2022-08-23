@@ -7,9 +7,14 @@ import { RootState } from "../../core"
 interface CustomerLayoutProps {
   children: ReactNode
   showHeaderOnMobile?: boolean
+  headerClassName?: string
 }
 
-const CustomerLayout = ({ children, showHeaderOnMobile = true }: CustomerLayoutProps) => {
+const CustomerLayout = ({
+  children,
+  showHeaderOnMobile = true,
+  headerClassName = "",
+}: CustomerLayoutProps) => {
   const router = useRouter()
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
@@ -22,8 +27,8 @@ const CustomerLayout = ({ children, showHeaderOnMobile = true }: CustomerLayoutP
 
   return (
     <>
-      <AuthHeader className={`${showHeaderOnMobile ? "" : "hidden lg:flex"}`} />
-      <main className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">
+      <AuthHeader className={`${showHeaderOnMobile ? "" : "hidden lg:flex"} ${headerClassName}`} />
+      <main className="min-h-screen lg:min-h-[calc(100vh-80px)] flex flex-col h-full bg-bg">
         {children}
       </main>
     </>

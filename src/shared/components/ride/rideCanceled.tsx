@@ -1,12 +1,11 @@
 import { InfoIcon } from "@/assets"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useBackRouter } from "@/hooks"
 import { CompoundingCancelCar, CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import moment from "moment"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { RideSummaryModal } from "../summary"
+import { RideSummaryMobile, RideSummaryModal } from "../summary"
 
 interface RideCanceledProps {
   showLoading?: boolean
@@ -16,22 +15,16 @@ interface RideCanceledProps {
 const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
   const dispatch = useDispatch()
 
-  useBackRouter({
-    cb: () => {
-      toggleBodyOverflow("unset")
-    },
-  })
-
   useEffect(() => {
     return () => {
       dispatch(setShowSummaryDetail(false))
+      toggleBodyOverflow("unset")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // if (!(compoundingCar as CompoundingCancelCar)?.down_payment) return null
   return (
-    <div className="p-12 md:p-24 lg:pt-0 pt-0">
+    <>
       {showLoading ? (
         <div>
           <div className="skeleton h-[18px] rounded-[5px] mb-[40px]"></div>
@@ -63,6 +56,8 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
             </p>
           </div>
 
+          <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
+
           {compoundingCar?.cancel_reason?.cancel_reason_id ? (
             <div className="mb-24 pb-24 border-b border-border-color border-solid">
               <p className="text-base font-semibold mb-24 uppercase">Thông tin hủy chuyến</p>
@@ -73,36 +68,41 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
           ) : null}
 
           <ul>
-            <p className="text-base font-semibold mb-24 uppercase">Chi phí chuyến đi</p>
-            <li className="flex items-center mb-[16px]">
-              <span className="text-xs w-[150px] xs:w-[180px]">Ngày hủy chuyến:</span>
+            <p className="text-base font-semibold mb-16 md:mb-24 uppercase">Chi phí chuyến đi</p>
+
+            <li className="flex items-center mb-12">
+              <span className="text-xs">Giá vé</span>
+              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
+                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
+              </span>
+            </li>
+
+            <li
+              className={`flex items-center ${
+                !(compoundingCar as CompoundingCancelCar)?.paid_date ? "mb-12" : ""
+              }`}
+            >
+              <span className="text-xs">
+                Số tiền đặt cọc (
+                {(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)
+              </span>
+              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
+                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
+              </span>
+            </li>
+
+            <li className="flex items-center mb-12">
+              <span className="text-xs">Ngày hủy chuyến:</span>
               <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
                 {moment((compoundingCar as CompoundingCancelCar)?.cancel_date).format(
                   "HH:mm DD/MM/YYYY"
                 )}
               </span>
             </li>
-            <li className="flex items-center mb-[16px]">
-              <span className="text-xs w-[150px] xs:w-[180px]">Tổng giá trị chuyến đi</span>
-              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
-              </span>
-            </li>
-            <li
-              className={`flex items-center ${
-                !(compoundingCar as CompoundingCancelCar)?.paid_date ? "mb-[16px]" : ""
-              }`}
-            >
-              <span className="text-xs w-[150px] xs:w-[180px]">
-                Đã đặt cọc({(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)
-              </span>
-              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
-              </span>
-            </li>
+
             {(compoundingCar as CompoundingCancelCar)?.paid_date ? (
-              <li className="flex items-center justify-between mb-[16px]">
-                <span className="text-xs">Đã đặt cọc</span>
+              <li className="flex items-center justify-between mb-12">
+                <span className="text-xs">Thời gian đặt cọc</span>
                 <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
                   {moment((compoundingCar as CompoundingCancelCar)?.paid_date).format(
                     "HH:mm DD/MM/YYYY"
@@ -111,10 +111,8 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
               </li>
             ) : null}
 
-            <li className="flex items-center justify-between mb-[20px] pt-[20px] border-t border-solid border-border-color">
-              <span className="text-xs">
-                Số tiền được hoàn trả <span className="text-gray-color-2">(VND)</span>
-              </span>
+            <li className="flex items-center justify-between mb-12">
+              <span className="text-base font-semibold">Số tiền được hoàn trả</span>
               <span className="text-base text-error flex-1 text-right ml-12 font-semibold whitespace-nowrap">
                 {formatMoneyVND(
                   compoundingCar?.amount_return ||
@@ -122,12 +120,16 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
                 )}
               </span>
             </li>
+
+            <p className="text-xs">
+              (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
+            </p>
           </ul>
         </div>
       ) : null}
 
-      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
-    </div>
+      {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
+    </>
   )
 }
 

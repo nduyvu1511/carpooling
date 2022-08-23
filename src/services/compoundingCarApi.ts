@@ -1,8 +1,9 @@
 import {
+  CancelCompoundingCarDriverParams,
   CancelCompoundingCarParams,
-  CancelDepositDriverParams,
   CompoundingListDriverParams,
   ConfirmCompoundingCar,
+  ConfirmPayFullCustomerParams,
   ConfirmTransactionParams,
   CreateCarpoolingCompoundingCar,
   CreateCompoundingCarDriver,
@@ -127,7 +128,7 @@ const ridesApi = {
     })
   },
 
-  customerConfirmPayFullCompoundingCar: (params: GetDetailCompoundingCustomer) => {
+  customerConfirmPayFullCompoundingCar: (params: ConfirmPayFullCustomerParams) => {
     return axiosClient.post("/api/compounding_car_controller/confirm_payment_compounding_car", {
       params,
     })
@@ -175,7 +176,7 @@ const ridesApi = {
     )
   },
 
-  cancelDepositForDriver: (params: CancelDepositDriverParams) => {
+  cancelDepositForDriver: (params: CancelCompoundingCarDriverParams) => {
     return axiosClient.post("/api/compounding_car_controller/cancel_compounding_car_driver", {
       params,
     })
@@ -307,6 +308,10 @@ const ridesApi = {
         params,
       }
     )
+  },
+
+  getAmountBalanceInCashWallet: () => {
+    return axiosClient.post("/api/wallet_controller/get_available_money_in_cash_wallet", {})
   },
 }
 

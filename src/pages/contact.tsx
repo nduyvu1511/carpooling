@@ -41,11 +41,11 @@ const Contact = () => {
           <h4 className="h4 mb-[40px] text-blue-7 font-semibold md:font-medium">
             Công ty cổ phần EXXE.VN
           </h4>
-          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
+          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-16">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">Địa chỉ: </span>
             <span className="text-sm md:text-base text-center md:text-left">{ADDRESS}</span>
           </p>
-          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
+          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-16">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">
               Điện thoại:{" "}
             </span>
@@ -53,7 +53,7 @@ const Contact = () => {
               {PHONE}
             </a>
           </p>
-          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-[16px]">
+          <p className="flex md:block items-center sm:items-start flex-col sm:flex-row mb-12 md:mb-16">
             <span className="text-[10px] sm:text-base whitespace-nowrap mr-[3px]">Email: </span>
             <a href={`mailto:${EMAIL}`} className="text-sm md:text-base text-primary">
               {EMAIL}

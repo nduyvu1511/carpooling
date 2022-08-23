@@ -166,173 +166,175 @@ export const UserInfoForm = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmitHandler)}>
-        {userInfoFormfields.map((field) => (
-          <div key={field.name} className="form-item">
-            {field.name === "avatar_attachment_id" ? (
-              showAvatar ? (
+      <form className="user-info-form" onSubmit={handleSubmit(onSubmitHandler)}>
+        <div className="user-info-form-content">
+          {userInfoFormfields.map((field) => (
+            <div key={field.name} className="form-item">
+              {field.name === "avatar_attachment_id" ? (
+                showAvatar ? (
+                  <label htmlFor={field.name} className="form-label">
+                    {field.placeholder}{" "}
+                    {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
+                  </label>
+                ) : null
+              ) : field.name === "identity_number" ? (
+                type === "customer" ? (
+                  <label htmlFor={field.name} className="form-label">
+                    {field.placeholder}{" "}
+                    {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
+                  </label>
+                ) : null
+              ) : (
                 <label htmlFor={field.name} className="form-label">
                   {field.placeholder}{" "}
                   {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
                 </label>
-              ) : null
-            ) : field.name === "identity_number" ? (
-              type === "customer" ? (
-                <label htmlFor={field.name} className="form-label">
-                  {field.placeholder}{" "}
-                  {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
-                </label>
-              ) : null
-            ) : (
-              <label htmlFor={field.name} className="form-label">
-                {field.placeholder}{" "}
-                {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
-              </label>
-            )}
+              )}
 
-            {showAvatar ? (
-              field.type === "file" ? (
-                <Controller
-                  control={control}
+              {showAvatar ? (
+                field.type === "file" ? (
+                  <Controller
+                    control={control}
+                    name={field.name}
+                    render={({ field: { onChange } }) => (
+                      <div className="driver-bio__form-input">
+                        <InputImage
+                          type="avatar"
+                          id={field.name}
+                          image={image || defaultValues?.avatar_url?.image_url || ""}
+                          isError={!!errors?.[field.name]}
+                          getImage={(img) => {
+                            onChange(img.attachment_id)
+                            setImage(img.attachment_url)
+                          }}
+                        />
+                      </div>
+                    )}
+                    rules={{ required: true }}
+                  />
+                ) : null
+              ) : null}
+              {field.type === "textarea" ? (
+                <textarea
+                  {...register(field.name, {
+                    required: true,
+                  })}
+                  id={field.name}
+                  placeholder={field.placeholder}
+                  className={`form-textarea ${errors?.[field.name] ? "form-input-err" : ""}`}
                   name={field.name}
-                  render={({ field: { onChange } }) => (
-                    <div className="driver-bio__form-input">
-                      <InputImage
-                        type="avatar"
-                        id={field.name}
-                        image={image || defaultValues?.avatar_url?.image_url || ""}
-                        isError={!!errors?.[field.name]}
-                        getImage={(img) => {
-                          onChange(img.attachment_id)
-                          setImage(img.attachment_url)
-                        }}
-                      />
-                    </div>
-                  )}
-                  rules={{ required: true }}
-                />
-              ) : null
-            ) : null}
-            {field.type === "textarea" ? (
-              <textarea
-                {...register(field.name, {
-                  required: true,
-                })}
-                id={field.name}
-                placeholder={field.placeholder}
-                className={`form-textarea ${errors?.[field.name] ? "form-input-err" : ""}`}
-                name={field.name}
-                rows={2}
-                defaultValue={defaultValues?.description ? defaultValues.description : ""}
-              ></textarea>
-            ) : null}
+                  rows={2}
+                  defaultValue={defaultValues?.description ? defaultValues.description : ""}
+                ></textarea>
+              ) : null}
 
-            {field.type === "text" ? (
-              <>
-                {field.name === "identity_number" ? (
-                  type === "customer" ? (
+              {field.type === "text" ? (
+                <>
+                  {field.name === "identity_number" ? (
+                    type === "customer" ? (
+                      <input
+                        className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
+                        id={field.name}
+                        onClick={() => toggleShowIdentityCardForm(true)}
+                        type="text"
+                        readOnly={field.name === "identity_number"}
+                        value={getValues("identity_number") || undefined}
+                        placeholder={field.placeholder}
+                        {...register(field.name, {
+                          required: true,
+                        })}
+                      />
+                    ) : null
+                  ) : (
                     <input
                       className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
                       id={field.name}
-                      onClick={() => toggleShowIdentityCardForm(true)}
                       type="text"
-                      readOnly={field.name === "identity_number"}
-                      value={getValues("identity_number") || undefined}
+                      defaultValue={
+                        field.name === "name"
+                          ? defaultValues?.partner_name
+                          : field.name === "email"
+                          ? defaultValues?.email
+                          : undefined
+                      }
                       placeholder={field.placeholder}
                       {...register(field.name, {
                         required: true,
                       })}
                     />
-                  ) : null
-                ) : (
-                  <input
-                    className={`form-input ${errors?.[field.name] ? "form-input-err" : ""}`}
-                    id={field.name}
-                    type="text"
-                    defaultValue={
-                      field.name === "name"
-                        ? defaultValues?.partner_name
-                        : field.name === "email"
-                        ? defaultValues?.email
-                        : undefined
-                    }
-                    placeholder={field.placeholder}
-                    {...register(field.name, {
-                      required: true,
-                    })}
-                  />
-                )}
-              </>
-            ) : null}
+                  )}
+                </>
+              ) : null}
 
-            {field.type === "radio" ? (
-              <div className="form-item">
+              {field.type === "radio" ? (
+                <div className="form-item">
+                  <Controller
+                    control={control}
+                    name={field.name}
+                    render={({ field: { onChange, onBlur } }) => (
+                      <InputGender
+                        value={getValues("gender")}
+                        onChange={(gender) => {
+                          onChange(gender)
+                        }}
+                      />
+                    )}
+                    rules={{ required: true }}
+                  />
+                </div>
+              ) : null}
+
+              {field.type === "date" ? (
                 <Controller
                   control={control}
                   name={field.name}
                   render={({ field: { onChange, onBlur } }) => (
-                    <InputGender
-                      value={getValues("gender")}
-                      onChange={(gender) => {
-                        onChange(gender)
-                      }}
-                    />
+                    <div
+                      onBlur={onBlur}
+                      className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                    >
+                      <InputDate
+                        value={getValues("date_of_birth")}
+                        placeholder="Ngày sinh"
+                        onChange={(val) => onChange(val)}
+                        disablePassDay={false}
+                      />
+                    </div>
                   )}
                   rules={{ required: true }}
                 />
-              </div>
-            ) : null}
+              ) : null}
 
-            {field.type === "date" ? (
-              <Controller
-                control={control}
-                name={field.name}
-                render={({ field: { onChange, onBlur } }) => (
-                  <div
-                    onBlur={onBlur}
-                    className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
-                  >
-                    <InputDate
-                      value={getValues("date_of_birth")}
-                      placeholder="Ngày sinh"
-                      onChange={(val) => onChange(val)}
-                      disablePassDay={false}
-                    />
-                  </div>
-                )}
-                rules={{ required: true }}
-              />
-            ) : null}
+              {field.type === "address" ? (
+                <div className="form-item">
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Địa chỉ cụ thể"
+                    readOnly
+                    value={
+                      getValues("province_id.value")
+                        ? `${getValues("street") || ""}, ${getValues("ward_id.label") || ""}, ${
+                            getValues("district_id.label") || ""
+                          }, ${getValues("province_id.label") || ""}`
+                        : undefined
+                    }
+                    onClick={() => toggleShowAddressModal(true)}
+                  />
+                </div>
+              ) : null}
 
-            {field.type === "address" ? (
-              <div className="form-item">
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="Địa chỉ cụ thể"
-                  readOnly
-                  value={
-                    getValues("province_id.value")
-                      ? `${getValues("street") || ""}, ${getValues("ward_id.label") || ""}, ${
-                          getValues("district_id.label") || ""
-                        }, ${getValues("province_id.label") || ""}`
-                      : undefined
-                  }
-                  onClick={() => toggleShowAddressModal(true)}
-                />
-              </div>
-            ) : null}
+              {errors[field.name] || dirtyFields[field.name] ? (
+                <p className="form-err-msg">{(errors[field.name] as FieldError)?.message}</p>
+              ) : null}
+            </div>
+          ))}
 
-            {errors[field.name] || dirtyFields[field.name] ? (
-              <p className="form-err-msg">{(errors[field.name] as FieldError)?.message}</p>
-            ) : null}
-          </div>
-        ))}
-
-        {view === "page" ? <div className="mb-[40px]"></div> : null}
+          {view === "page" ? <div className="mb-[40px]"></div> : null}
+        </div>
 
         <ButtonSubmit
-          parentClassName={btnClassName}
+          parentClassName={`${btnClassName} user-info-form-btn`}
           showMargin={false}
           className="form-upload-btn"
           title={btnLabel}
@@ -374,20 +376,18 @@ export const UserInfoForm = ({
         onClose={() => toggleShowIdentityCardForm(false)}
         heading="Điền thông tin CCCD"
       >
-        <div className="modal-form">
-          <IdentityCardForm
-            defaultValues={
-              defaultValues?.identity_card_id?.identity_number
-                ? { ...defaultValues?.identity_card_id }
-                : undefined
-            }
-            onSubmit={(data) => {
-              handleAddIdentityCard(data)
-              setValue("identity_number", data.identity_number)
-            }}
-            view="modal"
-          />
-        </div>
+        <IdentityCardForm
+          defaultValues={
+            defaultValues?.identity_card_id?.identity_number
+              ? { ...defaultValues?.identity_card_id }
+              : undefined
+          }
+          onSubmit={(data) => {
+            handleAddIdentityCard(data)
+            setValue("identity_number", data.identity_number)
+          }}
+          view="modal"
+        />
       </Modal>
     </>
   )

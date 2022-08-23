@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 import { ListQuery } from "./common"
 import { CompoundingCarCustomer } from "./compoundingCar"
 import { CarAccountType } from "./user"
@@ -11,6 +12,9 @@ export interface PaymentRes {
     id: number
     url: string
   }
+  money_in_bank_wallet?: number
+  money_in_cash_wallet?: number
+  brief: string
 }
 
 export interface CreatePaymentRes {
@@ -181,4 +185,11 @@ export interface WithdrawFormParams {
 export type Journal = {
   journal: JournalRes[]
   transaction: TransactionRes[]
+}
+
+export interface PaymentMethodItem {
+  value: PaymentMethod
+  label: string
+  icon: ReactNode
+  brief: string
 }

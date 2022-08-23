@@ -134,42 +134,37 @@ const ConfirmBookingCustomer = () => {
             ) : null}
           </div>
         }
-        rightNode={
-          compoundingCar ? (
-            <>
-              <div className="hidden lg:block">
-                <RideSummary showFull={false} data={compoundingCar} />
-              </div>
-              <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-                <RideSummaryMobile showDetailBtn={false} rides={compoundingCar} />
-              </div>
-            </>
-          ) : null
-        }
+        rightNode={compoundingCar ? <RideSummary showFull={false} data={compoundingCar} /> : null}
         title="Chi tiết chuyến đi"
       >
         {compoundingCar?.car_driver_deposit_percentage && compoundingCar.state !== "done" ? (
           <RideToolTip
             percentage={Math.round(compoundingCar?.car_driver_deposit_percentage)}
-            className="hidden lg:flex mx-24"
+            className="hidden lg:flex mb-24"
             desc="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
           />
         ) : null}
 
         {compoundingCar?.state === "done" ? (
-          <div className="px-12 md:px-24 md:mt-12 lg:mt-0 mb-24 md:mb-0">
+          <div className="px-custom md:mt-12 lg:mt-0 mb-24 md:mb-0">
             <Link href={`/d/ride-detail/done/${compoundingCar.compounding_car_id}`} passHref>
               <a className="text-sm text-primary underline">Xem chi tiết trong hóa đơn</a>
             </Link>
           </div>
         ) : null}
 
-        <div className="p-12 md:p-24 pt-0 bg-white-color rounded-[5px] shadow-shadow-1 h-fit">
+        <>
           {isInitialLoading ? (
             <RidesDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
               <div className="">
+                <RideSummaryMobile
+                  className="mb-24 lg:hidden"
+                  showDetailBtn={false}
+                  rides={compoundingCar}
+                />
+
                 {compoundingCar?.compounding_type ? (
                   <>
                     {compoundingCar.compounding_type === "one_way" ? (
@@ -214,7 +209,7 @@ const ConfirmBookingCustomer = () => {
                       setShowCancelModal(true)
                       toggleBodyOverflow("hidden")
                     }}
-                    className={`btn bg-error mr-[16px]`}
+                    className={`btn bg-error mr-16`}
                   >
                     Hủy chuyến
                   </button>
@@ -245,8 +240,8 @@ const ConfirmBookingCustomer = () => {
               </div>
             </>
           ) : null}
-        </div>
-        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+        </>
+        {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
       </DriverBookingLayout>
 
       {showCancelModal && compoundingCar?.compounding_car_id ? (

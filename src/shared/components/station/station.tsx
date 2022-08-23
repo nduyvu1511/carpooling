@@ -48,7 +48,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
-      <div className="p-[16px] sm:p-24 pb-0 flex-1 flex flex-col h-[calc(100%-70px)]">
+      <div className="p-16 sm:p-24 pb-0 flex-1 flex flex-col h-[calc(100%-70px)]">
         <div className="form-select">
           <Select
             defaultValue={
@@ -83,7 +83,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
           ) : stations?.length > 0 ? (
             <ul className="py-12 flex-1 overflow-y-auto">
               {stations.map((item, index) => (
-                <li className="mb-[16px] last:mb-0" key={index}>
+                <li className="mb-16 last:mb-0" key={index}>
                   <StationItem
                     station={item}
                     onChange={(station) => {
@@ -103,7 +103,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
       <div className="h-[72px] flex-center">
         <span
           onClick={confirmStationLocation}
-          className={`btn-primary mx-12 md:mx-[16px] sm:mx-auto ${
+          className={`btn-primary mx-12 md:mx-16 sm:mx-auto ${
             !station?.station_id ? "pointer-events-none btn-disabled" : ""
           }`}
         >

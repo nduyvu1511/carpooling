@@ -43,7 +43,7 @@ const BioDetail = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="Thông tin người dùng"
     >
-      <div className="content-container px-[16px] sm:px-0">
+      <div className="content-container px-16 sm:px-0">
         {!isValidating ? (
           <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />
         ) : (

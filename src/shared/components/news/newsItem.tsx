@@ -15,7 +15,7 @@ const NewsItem = ({ data, onClick }: NewsItemProps) => {
   if (data === null)
     return (
       <div className="flex flex-col">
-        <div className="aspect-1 skeleton mb-[16px] rounded-[5px] lg:rounded-[10px]"></div>
+        <div className="aspect-1 skeleton mb-16 rounded-[5px] lg:rounded-[10px]"></div>
         <div className="rounded-[4px] mb-12 h-[18px] skeleton w-1/2"></div>
         <div className="rounded-[4px] h-[12px] skeleton mb-4"></div>
         <div className="rounded-[4px] h-[12px] skeleton w-[2/3]"></div>
@@ -26,7 +26,7 @@ const NewsItem = ({ data, onClick }: NewsItemProps) => {
       onClick={() => (onClick ? onClick?.(data.postId) : router.push(`/news/${data.postId}`))}
       className="cursor-pointer"
     >
-      <div className="mb-[8px] lg:mb-[16px]">
+      <div className="mb-[8px] lg:mb-16">
         <div className="relative aspect-1 overflow-hidden rounded-[5px] lg:rounded-[10px] group">
           <Image
             className="select-none transform group-hover:scale-110 transition-all duration-500"

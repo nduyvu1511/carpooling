@@ -105,7 +105,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
                   id="input"
                   rows={2}
                   placeholder="Nhập lý do khác..."
-                  className="form-textarea"
+                  className="form-textarea resize-none"
                 ></textarea>
               </div>
             </>

@@ -28,7 +28,7 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
       <div className="lg:hidden">
         {data?.down_payment ? (
           <>
-            <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
+            <p className="text-base uppercase font-semibold mb-16 md:mb-24 mt-[40px] text-blue-7">
               Thông tin chuyến đi
             </p>
             <DriverDepositInfo
@@ -39,23 +39,23 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
           </>
         ) : null}
 
-        <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
+        <p className="text-base uppercase font-semibold mb-16 md:mb-24 mt-[40px] text-blue-7">
           Thông tin chuyến đi
         </p>
         <RideSummaryInfo data={data} />
 
-        <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
+        <p className="text-base uppercase font-semibold mb-16 md:mb-24 mt-[40px] text-blue-7">
           Điều khoản sử dụng
         </p>
         <RideSummaryRules />
       </div>
 
-      <div className="hidden lg:block mt-[16px]">
+      <div className="hidden lg:block mt-16">
         {data?.down_payment ? (
           <AccordionItem
             allowTransition={false}
             onClick={() => handleToggleTabsActive(2)}
-            className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+            className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
             titleClassName="text-base font-semibold text-blue-7 uppercase"
             title="Thông tin đặt cọc"
             isActive={tabsActive.includes(2)}
@@ -69,11 +69,11 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
             ) : null}
           </AccordionItem>
         ) : null}
-        
+
         <AccordionItem
           allowTransition={false}
           onClick={() => handleToggleTabsActive(1)}
-          className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+          className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
           titleClassName="text-base font-semibold text-blue-7 uppercase"
           title="Thông tin lộ trình:"
           isActive={tabsActive.includes(1)}
@@ -86,7 +86,7 @@ const RideDriverBill = ({ data }: RideDriverBillProps) => {
           onClick={() => handleToggleTabsActive(3)}
           title="Điều khoản sử dụng"
           isActive={tabsActive.includes(3)}
-          className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px]"
+          className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px]"
           titleClassName="text-base font-semibold text-blue-7 uppercase"
         >
           <RideSummaryRules />

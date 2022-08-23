@@ -21,7 +21,7 @@ const Header = ({ onBackBtnClick, heading, rightHeaderElement, onRightBtnClick }
 
   return (
     <header
-      className={`flex items-center h-[60px] px-[16px] sm:px-0 sticky top-0 bg-white-color z-[100] ${
+      className={`flex items-center h-[60px] px-16 sm:px-0 sticky top-0 bg-white-color z-[100] ${
         height > 60 ? " border-b border-solid border-border-color" : ""
       }`}
     >

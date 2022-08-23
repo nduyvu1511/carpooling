@@ -4,39 +4,30 @@ import {
   RideProgress,
   RidesDetailLoading,
   RideSummary,
-  RideSummaryMobile,
-  RideSummaryModal,
   RideToolTip,
   TwoWayCompoundingForm,
 } from "@/components"
-import {
-  useCompoundingCarActions,
-  useCompoundingCarCustomer,
-  useCompoundingForm,
-  useEffectOnce,
-} from "@/hooks"
+import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCompoundingCar } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 const ConfirmBookingCustomer = () => {
-  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
+
+  const {
+    compoundingCarCustomerResToOneWayForm,
+    compoundingCarCustomerResToTwoWayForm,
+    compoundingCarCustomerResToCarpoolingForm,
+  } = useCompoundingForm()
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
     key: `confirm_booking_compounding_car_customer_${compounding_car_customer_id}`,
     type: "once",
   })
-  const {
-    compoundingCarCustomerResToOneWayForm,
-    compoundingCarCustomerResToTwoWayForm,
-    compoundingCarCustomerResToCarpoolingForm,
-  } = useCompoundingForm()
 
   useEffect(() => {
     if (compoundingCar?.state === "deposit") {
@@ -46,12 +37,6 @@ const ConfirmBookingCustomer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
-
-  useEffectOnce(() => {
-    return () => {
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
 
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
@@ -85,19 +70,14 @@ const ConfirmBookingCustomer = () => {
       showLoading={isInitialLoading}
       rightNode={
         compoundingCar ? (
-          <>
-            <div className="hidden lg:block">
-              <RideSummary data={compoundingCar} />
-            </div>
-            <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden">
-              <RideSummaryMobile rides={compoundingCar} />
-            </div>
-          </>
+          <div className="hidden lg:block">
+            <RideSummary data={compoundingCar} />
+          </div>
         ) : null
       }
       title="Xác nhận chuyến đi"
     >
-      <div className="p-12 md:p-24 pt-0 md:pt-0 bg-white-color rounded-[5px] h-fit">
+      <div className=" bg-white-color rounded-[5px] h-fit">
         {isInitialLoading ? (
           <RidesDetailLoading />
         ) : (
@@ -136,7 +116,6 @@ const ConfirmBookingCustomer = () => {
           </>
         )}
       </div>
-      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

@@ -8,7 +8,7 @@ const Maintance = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   return (
-    <div className="flex-center flex-col px-12 md:px-24">
+    <div className="flex-center flex-col px-custom">
       <div className="relative mb-24 min-h-[200px] lg:min-h-[400px] w-full">
         <Image src={mainTanceImage} alt="" layout="fill" objectFit="contain" />
       </div>

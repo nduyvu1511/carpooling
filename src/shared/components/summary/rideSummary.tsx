@@ -42,7 +42,7 @@ const RideSummary = ({
   return (
     <div
       className={`${
-        view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-12 md:px-24 pb-[56px]" : ""
+        view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-custom pb-[56px]" : ""
       }`}
     >
       <RideSummaryMap data={data} showMap={showMap} />
@@ -50,7 +50,7 @@ const RideSummary = ({
       {showFull ? (
         <>
           <div className="lg:px-24 my-24">
-            <div className="flex items-center justify-between mb-[16px]">
+            <div className="flex items-center justify-between mb-16">
               <p className={titleClassName}>Thuế phí</p>
               <p className={item}>Đã bao gồm</p>
             </div>
@@ -69,7 +69,7 @@ const RideSummary = ({
             {showDeposit && (data?.state === "confirm" || data?.state === "draft") ? (
               <>
                 {(data as CompoundingCarCustomer)?.down_payment?.total ? (
-                  <div className="flex items-center justify-between my-[16px]">
+                  <div className="flex items-center justify-between my-16">
                     <p className="font-semibold uppercase">
                       CẦN ĐẶT CỌC (
                       {((data as CompoundingCarCustomer)?.down_payment.percent || 0) * 100}
@@ -82,7 +82,7 @@ const RideSummary = ({
                 ) : null}
 
                 {(data as CompoundingCarCustomer)?.amount_due ? (
-                  <div className="flex items-center justify-between mb-[16px]">
+                  <div className="flex items-center justify-between mb-16">
                     <p className={titleClassName}>Số tiền thanh toán sau</p>
                     <p className={item}>
                       {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
@@ -96,14 +96,14 @@ const RideSummary = ({
           {children}
 
           <div className="lg:hidden">
-            <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
+            <p className="text-base uppercase font-semibold mb-16 md:mb-24 mt-[40px] text-blue-7">
               Thông tin chuyến đi
             </p>
             <RideSummaryInfo data={data} />
           </div>
 
           <div className="lg:hidden">
-            <p className="text-base uppercase font-semibold mb-24 mt-[40px] text-blue-7">
+            <p className="text-base uppercase font-semibold mb-16 md:mb-24 mt-[40px] text-blue-7">
               Điều khoản sử dụng
             </p>
             <RideSummaryRules />
@@ -113,7 +113,7 @@ const RideSummary = ({
             <AccordionItem
               allowTransition={false}
               onClick={() => handleToggleTabsActive(1)}
-              className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px] mb-[16px]"
+              className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
               title="Thông tin lộ trình:"
               isActive={tabsActive.includes(1)}
@@ -127,7 +127,7 @@ const RideSummary = ({
               onClick={() => handleToggleTabsActive(3)}
               title="Điều khoản sử dụng"
               isActive={tabsActive.includes(3)}
-              className="px-24 py-[16px] md:px-24 md:py-[16px] bg-bg-primary rounded-[5px]"
+              className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px]"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
             >
               <RideSummaryRules />

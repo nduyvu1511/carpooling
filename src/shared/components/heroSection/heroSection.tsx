@@ -19,7 +19,7 @@ export const HeroSection = () => {
           <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
         <div className="absolute inset-0 p-24">
-          <div className="absolute w-[80%] xs:w-[55%] sm:w-[40%] md:w-[35%] lg:w-[40%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-[16px] sm:right-24">
+          <div className="absolute w-[80%] xs:w-[55%] sm:w-[40%] md:w-[35%] lg:w-[40%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-16 sm:right-24">
             <Swiper
               className="w-full"
               slidesPerView={1}
@@ -41,7 +41,7 @@ export const HeroSection = () => {
                       </h1>
                     </Fade>
                     <Fade bottom delay={100}>
-                      <p className="text-text-color text-xs xs:text-14 leading-[22px] md:text-[16px] lg:text-[20px] lg:leading-[26px] xl:text-24 xl:leading-[28px]">
+                      <p className="text-text-color text-xs xs:text-14 leading-[22px] md:text-16 lg:text-[20px] lg:leading-[26px] xl:text-24 xl:leading-[28px]">
                         {desc}
                       </p>
                     </Fade>
@@ -54,9 +54,9 @@ export const HeroSection = () => {
 
         <div className="absolute bottom-24 xl:bottom-[80px] left-1/2 transform -translate-x-1/2 container hidden md:block">
           <div className="flex-center flex-col">
-            <p className="text-base mb-[16px] font-semibold">Bạn muốn đi đâu?</p>
+            <p className="text-base mb-16 font-semibold">Bạn muốn đi đâu?</p>
 
-            <ul className="grid grid-cols-4 gap-x-[16px]">
+            <ul className="grid grid-cols-4 gap-x-16">
               {[
                 ["Hai chiều", "two_way", <TwoWayIcon />],
                 ["Một chiều", "one_way", <OneWayIcon />],
@@ -68,7 +68,7 @@ export const HeroSection = () => {
                     dispatch(setAuthModalType("login"))
                     toggleBodyOverflow("hidden")
                   }}
-                  className="cursor-pointer flex-center flex-col p-[16px] rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color"
+                  className="cursor-pointer flex-center flex-col p-16 rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color"
                   key={index}
                 >
                   <span className="mb-8 flex-1 my-auto flex items-center">{icon}</span>

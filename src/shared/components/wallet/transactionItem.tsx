@@ -11,7 +11,7 @@ interface TransactionItemProps {
 export const TransactionItem = ({ transaction, onChange }: TransactionItemProps) => {
   if (transaction === null)
     return (
-      <div className="flex p-[16px] mb-12 md:mb-[16px] block-element border border-solid border-border-color rounded-[8px]">
+      <div className="flex p-16 mb-12 md:mb-16 block-element border border-solid border-border-color rounded-[8px]">
         <div className="sm:hidden w-full">
           <div className="flex items-center justify-between mb-12">
             <div className="skeleton h-[18px] skeleton rounded-[5px] flex-1 mr-24"></div>
@@ -30,7 +30,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
             <div className="w-[100px] skeleton h-[10px] rounded-[5px]"></div>
           </div>
           <div className="mx-[40px]">
-            <div className="w-[150px] skeleton h-[16px] rounded-[5px] mb-[12px]"></div>
+            <div className="w-[150px] skeleton h-16 rounded-[5px] mb-[12px]"></div>
             <div className="w-[200px] skeleton h-[10px] rounded-[5px]"></div>
           </div>
           <div className="w-[40px] skeleton h-[20px] rounded-[5px]"></div>
@@ -41,7 +41,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
   return (
     <div
       onClick={() => onChange?.(transaction.payment_id)}
-      className={`px-[10px] py-[12px] sm:p-[16px] block-element rounded-[8px] border border-border-color border-solid cursor-pointer transition-all duration-100`}
+      className={`px-[10px] py-[12px] sm:p-16 block-element rounded-[8px] border border-border-color border-solid cursor-pointer transition-all duration-100`}
     >
       <div className="sm:hidden w-full">
         <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
         <div className="flex justify-between">
           <div className="">
             <p className="flex items-center mb-4">
-              <PaymentIcon className="w-[16px] mr-8" />
+              <PaymentIcon className="w-16 mr-8" />
               <p
                 className={`text-14 font-semibold whitespace-nowrap ${
                   transaction.payment_type === "inbound" ? "text-success" : "text-error"

@@ -27,7 +27,7 @@ const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSideba
           <p className="text-14 font-medium leading-26 mb-[4px] line-clamp-1 word-wrap-anywhere mr-[50px] md:mr-0">
             {name}
           </p>
-          <p className="text-12 leading-[16px] line-clamp-1">{phone}</p>
+          <p className="text-12 leading-16 line-clamp-1">{phone}</p>
         </div>
       </div>
 

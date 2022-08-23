@@ -22,7 +22,7 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
           ["Tài khoản tài xế", DriverIcon, "car_driver"],
         ].map(([label, Icon, value], index) =>
           value === "separate" ? (
-            <div className="sm:mx-[32px] my-[16px] sm:my-[50px] border-r border-solid border-border-color"></div>
+            <div className="sm:mx-[32px] my-16 sm:my-[50px] border-r border-solid border-border-color"></div>
           ) : (
             <div
               key={index}
@@ -51,7 +51,7 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
         </p>
       </div>
 
-      <div className="mx-[16px] flex justify-center absolute left-0 right-0 bottom-0 py-[16px] bg-white-color">
+      <div className="mx-16 flex justify-center absolute left-0 right-0 bottom-0 py-16 bg-white-color">
         <button
           onClick={() => accountType && onSubmit(accountType)}
           className={`btn-primary ${!accountType ? "btn-disabled" : ""}`}

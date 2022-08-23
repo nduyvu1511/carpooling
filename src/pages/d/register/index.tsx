@@ -39,7 +39,7 @@ const DriverInfo = () => {
 
   if (isInitialLoading)
     return (
-      <div className="content-container px-12 md:px-24 py-24">
+      <div className="content-container px-custom py-24">
         <div className="skeleton h-[40px] w-[140px] mb-[24px] rounded-[4px]"></div>
         <div className="skeleton h-[30px] rounded-[4px] mb-[40px]"></div>
         <div className="flex justify-between mb-[4px]">
@@ -60,10 +60,10 @@ const DriverInfo = () => {
 
   return (
     <>
-      <div className="px-[16px] sm:px-0 min-h-screen flex flex-col">
+      <div className="px-16 sm:px-0 min-h-screen flex flex-col">
         <div className="content-container flex-1 relative py-24">
           <div className="">
-            <button className="mb-[16px]" onClick={() => router.push("/d")}>
+            <button className="mb-16" onClick={() => router.push("/d")}>
               <LogoIcon />
             </button>
             <p className="text-sm md:text-base">
@@ -101,9 +101,9 @@ const DriverInfo = () => {
                             ? "Bắt đầu ngay"
                             : "Không băt buộc"}
                           {data?.[child.name] ? (
-                            <CheckCircleIcon className="ml-[16px]" />
+                            <CheckCircleIcon className="ml-16" />
                           ) : (
-                            <ArrowRightIcon className="ml-[16px] w-[20] h-[20]" />
+                            <ArrowRightIcon className="ml-16 w-[20] h-[20]" />
                           )}
                         </p>
                       </li>
@@ -114,7 +114,7 @@ const DriverInfo = () => {
           </div>
 
           {userInfo?.verified_car_driver_account === "inactive_account" ? (
-            <div className="flex-center absolute left-0 right-0 bottom-0 py-[16px]">
+            <div className="flex-center absolute left-0 right-0 bottom-0 py-16">
               <button
                 onClick={handleCreateDriverForm}
                 className={`btn-primary ${!isFilledAllData ? "btn-not-allowed" : ""}`}

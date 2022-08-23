@@ -97,7 +97,13 @@ export interface ResponseType<T> {
   }
 }
 
-export type AuthModalType = "login" | "resetPassword" | "sms" | "register" | "updateProfile"
+export type AuthModalType =
+  | "login"
+  | "resetPassword"
+  | "sms"
+  | "register"
+  | "updateProfile"
+  | undefined
 export type OnForwaredResetForm = ForwardedRef<{ onReset: Function }>
 
 export interface ActivityItem<T> {
@@ -121,7 +127,6 @@ export interface BookingLayoutProps {
   topNode?: ReactNode
   stickyRight?: boolean
   onBackBtnClick?: Function
-  reverse?: boolean
   className?: string
   showHeaderOnMobile?: boolean
   showHeaderDesktop?: boolean

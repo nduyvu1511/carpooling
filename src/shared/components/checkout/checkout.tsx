@@ -24,7 +24,7 @@ interface CheckoutProps {
 
 type ModalType = "confirm" | "cancel"
 
-const Payment = ({
+const Checkout = ({
   secondsRemains,
   amount_total,
   onCheckout,
@@ -78,16 +78,31 @@ const Payment = ({
         </div>
       ) : (
         <div className={`${isPaymentLoading ? "cursor-default pointer-events-none" : ""}`}>
-          <div className="p-12 md:p-24 lg:pt-0">
+          <div className="">
             {percentage ? (
-              <RideToolTip className="mb-[40px]" percentage={percentage} desc={descRideTooltip} />
+              <RideToolTip className="mb-24" percentage={percentage} desc={descRideTooltip} />
             ) : null}
 
-            <ul className="">
-              <p className="text-base font-semibold mb-24 uppercase">Giá trị chuyến đi</p>
+            <ul className="mb-[40px]">
+              <div className="flex items-center mb-16 md:mb-24  justify-between">
+                <p className="text-base font-semibold uppercase">Giá trị chuyến đi</p>
+
+                {showCountdown ? (
+                  <div className="flex items-center">
+                    <span className="mr-8 text-sm text-error">Hết hạn trong</span>
+                    <Countdown
+                      className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] whitespace-nowrap w-[56px] py-4 h-[28px] px-8"
+                      onExpiredCoundown={() => {
+                        // setExpiredCountdown(true)
+                      }}
+                      secondsRemains={secondsRemains}
+                    />
+                  </div>
+                ) : null}
+              </div>
               {amount_total ? (
                 <li className="flex items-center justify-between mb-12">
-                  <span className="text-xs mr-[12px]">Tổng tiền</span>
+                  <span className="mr-[12px] text-xs">Giá vé</span>
                   <span className="text-sm md:text-base whitespace-nowrap">
                     {formatMoneyVND(amount_total)}
                   </span>
@@ -95,83 +110,62 @@ const Payment = ({
               ) : null}
               {down_payment ? (
                 <li className="flex items-center justify-between mb-12">
-                  <span className="text-xs mr-[12px]">Số tiền đặt cọc</span>
-                  <span className="text-sm md:text-base whitespace-nowrap">
+                  <span className="mr-[12px] text-base font-semibold">
+                    {type === "checkout"
+                      ? "Số tiền cần thanh toán"
+                      : `Số tiền đặt cọc (${Number(percentage)}%)`}
+                  </span>
+                  <span className="text-14 md:text-16 whitespace-nowrap font-semibold text-error">
                     {formatMoneyVND(down_payment)}
                   </span>
                 </li>
               ) : null}
               {amount_due ? (
-                <li className="flex items-center justify-between">
-                  <span className="text-xs mr-[12px]">Số tiền còn lại</span>
+                <li className="flex items-center justify-between mb-12">
+                  <span className="mr-[12px] text-xs">Số tiền thanh toán sau</span>
                   <span className="text-sm md:text-base whitespace-nowrap">
                     {formatMoneyVND(amount_due)}
                   </span>
                 </li>
               ) : null}
+
+              <p className="text-xs text-error">
+                (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
+              </p>
             </ul>
-            <div className="my-[16px] border-b border-border-color border-solid"></div>
-            <div className="flex items-stretch mb-[40px]">
-              <div className="flex-1 mr-24">
-                <p className="text-xs mb-[12px]">
-                  {type === "checkout" ? "Số tiền cần thanh toán" : "Số tiền cần cọc"}{" "}
-                  <span className="text-gray-color-2">(VND)</span>
-                </p>
 
-                <span className="text-18 sm:text-24 text-error font-medium">
-                  {formatMoneyVND(down_payment)}
-                </span>
-              </div>
-
-              {showCountdown ? (
-                <div className="px-[10px] flex items-center py-[8px] font-medium bg-bg-error whitespace-nowrap h-fit mt-auto text-12 text-error rounded-[5px]">
-                  <span className="mr-[4px]">Hết hạn trong</span>
-
-                  <Countdown
-                    className="w-[36px]"
-                    onExpiredCoundown={() => {
-                      setExpiredCountdown(true)
-                    }}
-                    secondsRemains={secondsRemains}
-                  />
-                </div>
-              ) : null}
-            </div>
-
-            <div className="mb-[40px]">
-              <p className="mb-24 text-base uppercase font-semibold">Chọn phương thức thanh toán</p>
+            <div className="mb-24">
+              <p className="mb-16 md:mb-24 text-base uppercase font-semibold">
+                Phương thức thanh toán
+              </p>
 
               {isPaymentLoading ? (
                 <Spinner className="my-[40px]" size={30} />
               ) : (
-                <ul className="mb-[16px] flex flex-wrap">
+                <div className="flex mr-[-16px] md:mr-0 md:flex-wrap overflow-x-auto scrollbar-hide">
                   {paymentList.map((item) => (
-                    <li
-                      onClick={() => setCurrentSelectPayment(item)}
-                      className="mr-[16px] mb-[16px]"
+                    <PaymentItem
                       key={item.acquirer_id}
-                    >
-                      <PaymentItem
-                        payment={item}
-                        onChange={(val) => setCurrentSelectPayment(val)}
-                        isActive={currentSelectPayment?.acquirer_id === item.acquirer_id}
-                      />
-                    </li>
+                      className="mr-12 md:mb-16 md:mr-16 w-[180px] shrink-0"
+                      payment={item}
+                      onChange={(val) => setCurrentSelectPayment(val)}
+                      isActive={currentSelectPayment?.acquirer_id === item.acquirer_id}
+                    />
                   ))}
-                </ul>
+                </div>
               )}
 
-              <p className="text-xs text-error">
+              {/* <p className="text-xs text-error">
                 *Số tiền cọc sẽ được hoàn trả về phương thức thanh toán ban đầu sau khi kết thúc
                 chuyến đi sau 24 ngày....
-              </p>
+              </p> */}
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
                 <button
                   onClick={() => toggleModal("cancel", true)}
-                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-[16px]"
+                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-16"
                 >
                   <span className="hidden sm:block"> Hủy chuyến</span>
                   <span className="sm:hidden"> Hủy</span>
@@ -192,10 +186,11 @@ const Payment = ({
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
                 }`}
               >
-                <span className="hidden sm:block">
+                Xác nhận
+                {/* <span className="hidden sm:block">
                   {type === "checkout" ? "Tiến hành thanh toán" : "Tiến hành đặt cọc"}
                 </span>
-                <span className="sm:hidden">{type === "checkout" ? "Thanh toán" : "Đặt cọc"}</span>
+                <span className="sm:hidden">{type === "checkout" ? "Thanh toán" : "Đặt cọc"}</span> */}
               </button>
             </div>
           </div>
@@ -244,4 +239,4 @@ const Payment = ({
   )
 }
 
-export { Payment }
+export { Checkout }

@@ -1,6 +1,6 @@
 const RideSummaryRules = () => {
   return (
-    <ul className="list-disc text-sm text-blue-8">
+    <ul className="ml-12 list-disc text-sm text-blue-8">
       <li className="mb-12">
         Quý khách vui lòng không hút thuốc trên xe hoặc mang các thực phẩm có mùi và ướt.
       </li>

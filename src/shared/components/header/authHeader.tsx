@@ -1,6 +1,5 @@
 import {
   AddIcon,
-  AddIcon2,
   blankAvatar,
   CarpoolingIcon,
   LogoIcon,
@@ -74,26 +73,18 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
                   )
                 }
-                className="hidden sm:flex h-[40px] btn text-[14px] leading-[22px] bg-[#DAE2FD] font-medium text-primary rounded-[8px] p-[10px] w-fit md:hidden mr-24"
+                className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue h-[38px] lg:h-[40px] flex lg:hidden mr-12 sm:mr-24"
               >
-                <AddIcon2 className="mr-[10px]" />
-                Đặt chuyến mới
+                <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
+                <p className="text-xs sm:text-sm text-blue-7 font-medium">
+                  <span className="hidden sm:block">Đặt chuyến mới</span>
+                  <span className="sm:hidden">Đặt chuyến</span>
+                </p>
               </button>
 
-              <button
-                onClick={() =>
-                  toggleBookingModal(
-                    userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
-                  )
-                }
-                className="sm:hidden"
-              >
-                <AddIcon className="text-[#354BB1] w-[36px] h-[36px] mr-24 fill-[#354BB1]" />
-              </button>
-
-              <ul className="mr-[52px] hidden md:flex">
-                {userInfo?.car_account_type === "customer" ? (
-                  [
+              {userInfo?.car_account_type === "customer" ? (
+                <ul className="mr-[40px] hidden lg:flex">
+                  {[
                     {
                       icon: <OneWayIcon />,
                       label: "Một chiều",
@@ -115,25 +106,25 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       onClick={() => {
                         toggleBookingModal(value as CompoundingType)
                       }}
-                      className="flex-center bg-[#EEEBFF] mr-[16px] p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
+                      className="flex-center bg-[#EEEBFF] mr-16 p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
                       key={index}
                     >
                       {icon}
-                      <span className="ml-8 text-xs font-medium">{label}</span>
+                      <span className="ml-8 text-xs text-blue-8">{label}</span>
                     </li>
-                  ))
-                ) : (
-                  <button
-                    onClick={() => {
-                      toggleBookingModal("convenient")
-                    }}
-                    className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue"
-                  >
-                    <AddIcon2 className="mr-[10px] w-[20px] h-[20px] text-blue-7" />
-                    <span className="text-blue-7 text-sm">Đặt chuyến mới</span>
-                  </button>
-                )}
-              </ul>
+                  ))}
+                </ul>
+              ) : (
+                <button
+                  onClick={() => {
+                    toggleBookingModal("convenient")
+                  }}
+                  className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue hidden sm:flex mr-24 h-[38px] lg:h-[40px]"
+                >
+                  <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
+                  <span className="text-blue-7 text-sm">Đặt chuyến mới</span>
+                </button>
+              )}
 
               <div className="flex items-center">
                 <div className="mr-24 hidden">

@@ -54,7 +54,7 @@ const Alert = ({
             )}
             <p className="text-base font-semibold line-clamp-4 text-center">{title}</p>
             {desc ? (
-              <p className="text-sm mt-[16px] text-center text-gray-color-7">{desc}</p>
+              <p className="text-sm mt-16 leading-[20px] text-center text-gray-color-7">{desc}</p>
             ) : null}
           </div>
 
@@ -64,7 +64,7 @@ const Alert = ({
             {showLeftBtn ? (
               <button
                 onClick={() => onClose?.()}
-                className="btn px-[26px] py-[8px] mr-[16px] sm:mr-24 bg-disabled"
+                className="btn px-[26px] py-[8px] mr-16 sm:mr-24 bg-disabled"
               >
                 {leftBtnLabel}
               </button>
@@ -73,18 +73,14 @@ const Alert = ({
               <button
                 onClick={() => onConfirm()}
                 className={`btn px-[26px] py-[8px] text-white-color ${
-                  disabledBtn
-                    ? "btn-disabled"
-                    : `${
-                        type === "success"
-                          ? "bg-success"
-                          : type === "warning"
-                          ? "bg-warning"
-                          : type === "info"
-                          ? "bg-info"
-                          : "bg-error"
-                      }`
-                }`}
+                  type === "success"
+                    ? "bg-success"
+                    : type === "warning"
+                    ? "bg-warning"
+                    : type === "info"
+                    ? "bg-info"
+                    : "bg-error"
+                } ${disabledBtn ? "opacity-30 pointer-events-none" : ""}`}
               >
                 {rightBtnLabel}
               </button>

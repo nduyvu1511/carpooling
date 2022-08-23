@@ -38,7 +38,7 @@ const News = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-[16px] lg:grid-cols-4 md:gap-24 lg:gap-[24px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-16 lg:grid-cols-4 md:gap-24 lg:gap-[24px]">
         {isValidatingNews
           ? Array.from({ length: 4 }).map((_, index) => <NewsItem key={index} data={null} />)
           : news?.map((item) => <NewsItem data={item} key={item.postId} />)}

@@ -4,28 +4,18 @@ const AddIcon = ({ className = "" }) => {
   return (
     <svg
       className={className}
-      width="28"
-      height="28"
-      viewBox="0 0 32 32"
+      width="16"
+      height="17"
+      viewBox="0 0 16 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <circle opacity="0.4" cx="7.9987" cy="8.42778" r="6.66667" fill="#2F19BB" />
       <path
-        d="M16 29.3332C23.3638 29.3332 29.3333 23.3636 29.3333 15.9998C29.3333 8.63604 23.3638 2.6665 16 2.6665C8.63619 2.6665 2.66666 8.63604 2.66666 15.9998C2.66666 23.3636 8.63619 29.3332 16 29.3332Z"
-        fill="currentColor"
-        fillOpacity="0.3"
-      />
-      <path
-        d="M16 10.6665V21.3332"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.6667 16H21.3333"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M7.9987 5.26111C8.27484 5.26111 8.4987 5.48497 8.4987 5.76111V7.92778H10.6654C10.9415 7.92778 11.1654 8.15163 11.1654 8.42778C11.1654 8.70392 10.9415 8.92778 10.6654 8.92778H8.4987V11.0944C8.4987 11.3706 8.27484 11.5944 7.9987 11.5944C7.72256 11.5944 7.4987 11.3706 7.4987 11.0944V8.92778H5.33203C5.05589 8.92778 4.83203 8.70392 4.83203 8.42778C4.83203 8.15163 5.05589 7.92778 5.33203 7.92778H7.4987V5.76111C7.4987 5.48497 7.72256 5.26111 7.9987 5.26111Z"
+        fill="#2F19BB"
       />
     </svg>
   )

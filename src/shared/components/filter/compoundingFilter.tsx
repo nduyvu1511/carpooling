@@ -46,10 +46,12 @@ export const CompoundingFilter = ({
   }
 
   return (
-    <div className="relative flex-1 flex-col">
+    <div className="relative flex-1 flex-col flex">
       <div
         className={`compounding__filter flex-1 overflow-y-auto ${
-          showInModal ? `h-[calc(100vh-120px)] md:h-[calc(100vh-170px)] p-12 lg:h-auto` : "h-full"
+          showInModal
+            ? `h-[calc(100vh-120px)] md:h-[calc(100vh-170px)] p-custom lg:h-auto`
+            : "h-full"
         }`}
       >
         <div className="items-center justify-between mb-[24px] hidden xl:flex">
@@ -60,7 +62,7 @@ export const CompoundingFilter = ({
                 onChangeProps(undefined)
                 setCompoundingFormValues(undefined)
               }}
-              className="text-primary text-14 leading-26 font-medium cursor-pointer"
+              className="text-primary bg-bg-blue text-sm cursor-pointer px-12 py-4 rounded-[5px]"
             >
               Đặt lại
             </span>
@@ -97,6 +99,7 @@ export const CompoundingFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            maxMenuHeight={250}
             key={"from_province_id"}
             openMenuOnFocus={true}
             options={provinceOptions}
@@ -121,6 +124,7 @@ export const CompoundingFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            maxMenuHeight={250}
             key={"to_province_id"}
             options={provinceOptions}
             value={
@@ -143,6 +147,7 @@ export const CompoundingFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            maxMenuHeight={250}
             key={"car_id"}
             options={vehicleTypeOptions}
             value={

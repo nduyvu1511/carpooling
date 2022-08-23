@@ -23,13 +23,11 @@ export const RideCheckoutPopup = ({
         className={`fixed transform left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inset-0 flex flex-col pt-12 md:pt-24 z-[2000] max-w-[440px] 
         w-full max-h-[600px] h-full bg-white-color rounded-[10px]`}
       >
-        <div className="flex-1 overflow-y-auto p-12 md:p-24 md:pt-0 pt-0">
+        <div className="flex-1 overflow-y-auto p-custom md:pt-0 pt-0">
           <div className="flex-center flex-col mb-24">
             <WarningIcon className="w-[66px] h-[66px] mb-24" />
 
-            <p className="text-base font-semibold mb-[16px]">
-              Bạn có giao dịch khác cần thanh toán!
-            </p>
+            <p className="text-base font-semibold mb-16">Bạn có giao dịch khác cần thanh toán!</p>
             <p className="text-sm text-gray-color-8 text-center">
               Bạn không thể thực hiện thanh toán cho chuyến đi này bởi vì bạn đang thực hiện giao
               dịch cho một chuyên đi khác
@@ -57,7 +55,7 @@ export const RideCheckoutPopup = ({
           ) : null}
         </div>
 
-        <div className="flex-center p-[16px]">
+        <div className="flex-center p-16">
           <button onClick={() => onClose?.()} className="btn bg-disabled">
             Quay lại
           </button>

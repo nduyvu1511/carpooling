@@ -62,13 +62,13 @@ export const CheckoutExistsItem = ({
       {/* <div className="flex-center">
         <button
           onClick={() => onClickCancel?.()}
-          className="btn bg-error px-[16px] py-[8px] mr-12 md:mr-24"
+          className="btn bg-error px-16 py-[8px] mr-12 md:mr-24"
         >
           Huỷ giao dịch
         </button>
         <button
           onClick={() => onClickCheckout?.()}
-          className="btn bg-primary text-white-color px-[16px] py-[8px]"
+          className="btn bg-primary text-white-color px-16 py-[8px]"
         >
           Đến thanh toán
         </button>

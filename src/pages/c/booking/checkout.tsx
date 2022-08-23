@@ -1,6 +1,6 @@
 import {
+  Checkout,
   CheckoutLoading,
-  Payment,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
@@ -20,11 +20,11 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-const Checkout = () => {
+const CheckoutCustomer = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
-  const { createPayment, confirmDepositCompoundingCarCustomer } = useCustomerCheckout()
+  const { createPayment } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     key: `booking_checkout_customer_${compounding_car_customer_id}`,
@@ -36,25 +36,20 @@ const Checkout = () => {
     const { compounding_car_customer_id } = compoundingCar || {}
     if (!compounding_car_customer_id) return
 
-    if (params.provider === "exxe_wallet") {
-      confirmDepositCompoundingCarCustomer({
-        params: compounding_car_customer_id,
-        onSuccess: () => {
+    createPayment({
+      params: {
+        acquirer_id: params.acquirer_id,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
+        compounding_car_customer_id,
+      },
+      onSuccess: (data) => {
+        if (params.provider === "exxe_wallet") {
           redirectToCheckoutSuccess()
-        },
-      })
-    } else {
-      createPayment({
-        params: {
-          acquirer_id: params.acquirer_id,
-          returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
-          compounding_car_customer_id,
-        },
-        onSuccess: (data) => {
+        } else {
           window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
-        },
-      })
-    }
+        }
+      },
+    })
   }
 
   const handleCancelCompoundingCarCustomer = () => {
@@ -90,28 +85,16 @@ const Checkout = () => {
 
   return (
     <CustomerBookingLayout
-      reverse={true}
       showLoading={isInitialLoading}
       topNode={<RideProgress state={compoundingCar?.state} />}
-      rightNode={
-        compoundingCar ? (
-          <>
-            <div className="hidden lg:block">
-              <RideSummary data={compoundingCar} />
-            </div>
-            <div className="lg:hidden mx-12 mb-0 md:mx-24 rounded-[5px] overflow-hidden">
-              <RideSummaryMobile rides={compoundingCar} />
-            </div>
-          </>
-        ) : null
-      }
+      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Đặt cọc chuyến đi"
     >
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar?.compounding_car_customer_id ? (
         compoundingCar?.state === "draft" ? (
-          <p className="m-24 -[40px] text-base">
+          <p className="text-sm">
             Vui lòng xác nhận
             <Link
               href={`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`}
@@ -121,21 +104,24 @@ const Checkout = () => {
             trước khi thực hiện đặt cọc
           </p>
         ) : (
-          <Payment
-            percentage={compoundingCar.customer_deposit_percentage}
-            amount_due={compoundingCar?.amount_due}
-            down_payment={compoundingCar?.down_payment?.total}
-            amount_total={compoundingCar.amount_total || compoundingCar?.price_unit?.price_unit}
-            secondsRemains={compoundingCar.second_remains}
-            onCheckout={(_) => handleConfirmTransaction(_)}
-            onCancelCheckout={handleCancelCompoundingCarCustomer}
-            state={compoundingCar.state}
-          />
+          <>
+            <Checkout
+              percentage={compoundingCar.customer_deposit_percentage}
+              amount_due={compoundingCar?.amount_due}
+              down_payment={compoundingCar?.down_payment?.total}
+              amount_total={compoundingCar.amount_total || compoundingCar?.price_unit?.price_unit}
+              secondsRemains={compoundingCar.second_remains}
+              onCheckout={(_) => handleConfirmTransaction(_)}
+              onCancelCheckout={handleCancelCompoundingCarCustomer}
+              state={compoundingCar.state}
+            />
+            <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-[40px]" />
+          </>
         )
       ) : null}
-      {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+      {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }
 
-export default Checkout
+export default CheckoutCustomer

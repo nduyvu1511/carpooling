@@ -59,7 +59,7 @@ export const TransactionForm = ({
     <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-1 flex-col">
       <div className={`flex-1 overflow-y-auto ${view === "modal" ? "pb-[64px]" : ""}`}>
         <div className="mb-24">
-          <div className="flex items-center mb-[16px] justify-between">
+          <div className="flex items-center mb-16 justify-between">
             <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư khả dụng</p>
             <p className="text-24 font-medium text-primary">{formatMoneyVND(accountBalance)}</p>
           </div>
@@ -108,7 +108,7 @@ export const TransactionForm = ({
           ) : (
             <ul className="flex flex-wrap">
               {paymentList?.map((item) => (
-                <li className="mr-[16px] mb-[16px]" key={item.acquirer_id}>
+                <li className="mr-16 mb-16" key={item.acquirer_id}>
                   <PaymentItem
                     isActive={currentAcquirerId === item.acquirer_id}
                     onChange={(val) => setValue("acquirer_id", val.acquirer_id)}
@@ -130,7 +130,7 @@ export const TransactionForm = ({
 
       <div
         className={`flex-center ${
-          view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-[16px]" : ""
+          view === "modal" ? "absolute bottom-0 right-0 left-0 p-12 md:p-16" : ""
         }`}
       >
         <button

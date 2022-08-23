@@ -3,10 +3,12 @@ import { createSlice } from "@reduxjs/toolkit"
 
 interface checkoutSliceParams {
   currentPaymentId: number | undefined
+  doesCustomerDepositSuccess: boolean | undefined
 }
 
 const initialState: checkoutSliceParams = {
   currentPaymentId: undefined,
+  doesCustomerDepositSuccess: undefined,
 }
 
 const checkoutSlice = createSlice({
@@ -15,6 +17,10 @@ const checkoutSlice = createSlice({
   reducers: {
     setCheckoutPaymentId: (state, { payload }: PayloadType<number | undefined>) => {
       state.currentPaymentId = payload
+    },
+
+    setCustomerDepositSuccess: (state, { payload }: PayloadType<boolean | undefined>) => {
+      state.doesCustomerDepositSuccess = payload
     },
   },
 })

@@ -12,7 +12,7 @@ const Footer = () => {
               <LogoIcon className="mb-[24px] cursor-pointer" />
             </Link>
             <div className="">
-              <p className="text-14 font-bold mb-[16px]">Kết nối với chúng tôi</p>
+              <p className="text-14 font-bold mb-16">Kết nối với chúng tôi</p>
 
               <p className="flex items-center">
                 <a
@@ -81,9 +81,7 @@ const Footer = () => {
             },
           ].map((item, index) => (
             <div key={index} className="">
-              <p
-                className={`mb-[16px] md:mb-[24px] leading-[26px] text-base font-bold text-blue-8`}
-              >
+              <p className={`mb-16 md:mb-[24px] leading-[26px] text-base font-bold text-blue-8`}>
                 {item.heading}
               </p>
 
@@ -103,14 +101,14 @@ const Footer = () => {
         <div className="my-[48px] border-b border-solid border-border-color"></div>
 
         <div className="">
-          <div className="mb-[16px]">
+          <div className="mb-16">
             <Link href="/">
-              <a className="text-sm font-bold leading-[16px]">Công ty cổ phần EXXE.VN</a>
+              <a className="text-sm font-bold leading-16">Công ty cổ phần EXXE.VN</a>
             </Link>
           </div>
 
           <div className="flex items-center flex-col md:flex-row mb-[40px]">
-            <div className="flex-[2] mb-[16px] md:mb-0">
+            <div className="flex-[2] mb-16 md:mb-0">
               <div className="">
                 <p className="text-sm font-normal">
                   Địa chỉ: Số 2 đường Hoàng Thế Thiện, Phường An Lợi Đông, Thành phố Thủ Đức, Thành

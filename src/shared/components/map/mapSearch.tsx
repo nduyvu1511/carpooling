@@ -75,7 +75,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect, disabled }: MapSearch
   return (
     <div ref={searchRef} className="w-full h-full">
       <div className={`relative w-full ${disabled ? "pointer-events-none" : ""}`}>
-        <SearchIcon className="absolute-vertical left-[16px] text-gray-color-5" />
+        <SearchIcon className="absolute-vertical left-16 text-gray-color-5" />
         <input
           ref={ref}
           type="text"

@@ -24,7 +24,7 @@ export const GuideItem = ({ icon, desc, label, reverse = false, index }: GuideIt
       <div className="w-[20px] lg:w-[60px]"></div>
 
       <div className="flex-1 mb-[30px] md:mb-0">
-        <h2 className="h2 text-primary mb-[16px] md:mb-[16px] lg:mb-[32px]">
+        <h2 className="h2 text-primary mb-16 md:mb-16 lg:mb-[32px]">
           {index}. {label}
         </h2>
         {desc.map((text, index) => (

@@ -29,16 +29,16 @@ export const PlaceItem = ({
 
         <div className="absolute h-full bottom-0 left-0 right-0 place-linear-gradient"></div>
 
-        <div className="p-[12px] lg:p-[16px] absolute bottom-0 left-0 right-0 ">
+        <div className="p-[12px] lg:p-16 absolute bottom-0 left-0 right-0 ">
           <div className="flex items-stretch mb-[8px]">
-            <span className="text-[13px] sm:text-[14px] md:text-[16px] font-semibold flex-1 text-white-color line-clamp-1">
+            <span className="text-[13px] sm:text-[14px] md:text-16 font-semibold flex-1 text-white-color line-clamp-1">
               {from_province}
             </span>
             <span className="my-auto mx-[4px]">
               <MinusIcon className="text-white-color fill-white-color sm:hidden" />
-              <ArrowLineRightIcon className="hidden sm:block w-[16px] h-[16px] text-white-color" />
+              <ArrowLineRightIcon className="hidden sm:block w-16 h-16 text-white-color" />
             </span>
-            <span className="text-[13px] sm:text-[14px] md:text-[16px] md:font-medium font-semibold flex-1 text-right text-white-color line-clamp-1">
+            <span className="text-[13px] sm:text-[14px] md:text-16 md:font-medium font-semibold flex-1 text-right text-white-color line-clamp-1">
               {to_province}
             </span>
           </div>

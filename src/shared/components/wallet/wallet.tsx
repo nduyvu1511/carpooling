@@ -105,6 +105,7 @@ const Wallet = ({ type }: JournalProps) => {
 
   const handleCreateRechargeRequest = (params: RechargeRequestFormParams) => {
     const journal_id = getJournalId()
+    console.log({ journal_id })
     if (!journal_id) return
 
     createRechargeRequest({
@@ -132,7 +133,7 @@ const Wallet = ({ type }: JournalProps) => {
 
   return (
     <>
-      <div className="px-12 md:px-24">
+      <div className="px-custom">
         <div className="items-stretch justify-between hidden lg:flex pb-12 md:py-24 border-b border-solid border-border-color">
           <h4 className="h4 text-primary">Ví cá nhân</h4>
 
@@ -187,7 +188,7 @@ const Wallet = ({ type }: JournalProps) => {
             </div>
 
             <div className="">
-              <div className="flex items-center justify-between mb-[16px]">
+              <div className="flex items-center justify-between mb-16">
                 <p className="text-base font-semibold lg:text-xl">Lịch sử giao dịch</p>
 
                 <button
@@ -219,7 +220,7 @@ const Wallet = ({ type }: JournalProps) => {
                   >
                     <ul className="">
                       {transactions?.transaction?.map((item, index) => (
-                        <li className="mb-12 md:mb-[16px] last:mb-0" key={index}>
+                        <li className="mb-12 md:mb-16 last:mb-0" key={index}>
                           <TransactionItem
                             onChange={(id) => handleToggleModal({ status: id, type: "payment" })}
                             transaction={item}
@@ -289,7 +290,7 @@ const Wallet = ({ type }: JournalProps) => {
         className=""
         heading="Bộ lọc"
       >
-        <div className="flex-1 flex-col p-12 md:p-24">
+        <div className="flex-1 flex-col p-custom">
           <WalletFilter
             defaultValues={journalFilter}
             onChange={(val) => {

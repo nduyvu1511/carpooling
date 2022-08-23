@@ -100,7 +100,7 @@ const CheckoutProcess = ({
 
             <p className="text-[22px] text-error font-semibold">Giao dịch không thành công</p>
 
-            <div className="my-[16px] border-b border-[#F2A0A0] border-solid w-full"></div>
+            <div className="my-16 border-b border-[#F2A0A0] border-solid w-full"></div>
 
             <p className="text-sm ml-12 leading-[22px] flex-1">
               {VNPAY_STATUS_NAME[vnp_ResponseCode]}

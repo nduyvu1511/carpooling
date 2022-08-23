@@ -1,4 +1,13 @@
-import { feature1, feature2, feature3, feature4, feature5, feature6, feature7, ogImage } from "@/assets"
+import {
+  feature1,
+  feature2,
+  feature3,
+  feature4,
+  feature5,
+  feature6,
+  feature7,
+  ogImage,
+} from "@/assets"
 import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
@@ -64,7 +73,7 @@ const HomeGuest = () => {
           <div className="">
             <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
 
-            <div className="container px-0 pl-12 md:pl-[16px] mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
+            <div className="container px-0 pl-12 md:pl-16 mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
               <PlaceSlide showLoading={isValidating} places={data || []} />
             </div>
           </div>

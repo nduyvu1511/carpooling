@@ -13,7 +13,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
 
   return (
     <div className={`flex-1 flex flex-col justify-between bg-bg-primary`}>
-      <div className="flex justify-between p-[16px]">
+      <div className="flex justify-between p-16">
         <button
           onClick={() => {
             router.push("/")
@@ -66,7 +66,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
       </ul>
 
       <div className="mb-[40px] flex-col flex-center text-sm font-semibold text-primary">
-        <p className="flex items-center mb-[16px]">
+        <p className="flex items-center mb-16">
           <PhoneIcon className="text-[14px] mr-[10px]" />
           <a href="tel:0123456789">0123456789</a>
         </p>

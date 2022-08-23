@@ -1,24 +1,22 @@
 import { CloseIcon } from "@/assets"
-import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword, UserInfoForm } from "@/components"
+import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword } from "@/components"
 import { RootState } from "@/core/store"
-import { toggleBodyOverflow } from "@/helper"
-import { useAuth, useEffectOnce, useProfile } from "@/hooks"
-import { AuthModalType, LoginFormParams, UpdateUserInfoParams, UserInfoFormSubmit } from "@/models"
+import { useAuth } from "@/hooks"
+import { AuthModalType, LoginFormParams } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-import { notify } from "reapop"
 
 const AuthModal = ({ show }: { show: AuthModalType }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const { updateUserInfo } = useProfile()
   const { loginWithPassword, getUserInfo, loginWithPhoneNumber, loginWithGoogle } = useAuth()
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
   const handleGetUserInfo = () => {
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
+      if (!userInfo?.car_account_type) return
       router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
       setTimeout(() => {
         dispatch(setAuthModalType(undefined))
@@ -44,20 +42,6 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     })
   }
 
-  const handleUpdateUserInfo = async (params: UserInfoFormSubmit) => {
-    updateUserInfo({
-      params: params as UpdateUserInfoParams,
-      onSuccess: (userInfo) => {
-        dispatch(setProfile(userInfo))
-        dispatch(notify("Cập nhật thông tin thành công!", "success"))
-        setTimeout(() => {
-          dispatch(setAuthModalType(undefined))
-        }, 250)
-        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-      },
-    })
-  }
-
   const handleLoginWithGoogle = () => {
     loginWithGoogle((token) => {
       console.log(token)
@@ -73,10 +57,6 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     return "Đăng nhập"
   }
 
-  useEffectOnce(() => {
-    toggleBodyOverflow("unset")
-  })
-
   const handleRedirectModal = () => {
     if (authModalType === "login") {
       dispatch(setAuthModalType(undefined))
@@ -85,6 +65,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     }
   }
 
+  if (authModalType === "updateProfile") return null
   return (
     <Modal
       iconType={authModalType === "login" ? "close" : "back"}
@@ -104,7 +85,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       }
     >
       <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
-        <div className="flex-1 px-12 sm:px-24 pt-[24px] z-[100] pb-[70px] ">
+        <div className="flex-1 p-custom pt-24 z-[100] pb-[70px] ">
           {authModalType === "login" ? (
             <LoginForm
               view="modal"
@@ -137,12 +118,8 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
               }}
             />
           ) : null}
-
-          {authModalType === "updateProfile" ? (
-            <UserInfoForm view="modal" onSubmit={(data) => handleUpdateUserInfo(data)} />
-          ) : null}
         </div>
-        {authModalType !== "updateProfile" && authModalType !== "register" ? <AuthBg /> : null}
+        {authModalType !== "register" ? <AuthBg /> : null}
       </div>
     </Modal>
   )

@@ -18,7 +18,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
   const { logout } = useAuth()
 
   return (
-    <div className="p-12 md:p-24">
+    <div className="p-custom">
       <div className="flex-center flex-col mb-[18px] md:mb-24">
         <div
           onClick={() =>
@@ -48,7 +48,7 @@ const AccountDashboard = ({ activePath, userInfo }: AccountDashboardProps) => {
               {userInfo?.partner_name}
             </p>
             {userInfo?.rating_number ? (
-              <div className="ml-[16px]">
+              <div className="ml-16">
                 <RatingTag
                   onClick={() => router.push("/d/account/rating")}
                   value={userInfo.rating_number}

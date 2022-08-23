@@ -33,8 +33,8 @@ interface listProps {
 }
 
 const itemStyle =
-  "rounded-[8px] md:rounded-[20px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
-const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[18px] lg:gap-24"
+  "rounded-[8px] md:rounded-[20px] shadow-shadow-1 lg:shadow-shadow-3 border border-solid border-gray-color-1 overflow-hidden"
+const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-16 lg:gap-24 pb-[10px]"
 
 const RideContainer = ({
   isValidating,
@@ -70,7 +70,7 @@ const RideContainer = ({
 
   return (
     <>
-      <section className="container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
+      <section className="ride-container container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           <div className="hidden xl:block">
             {!showFilterMobile && !showFilterTablet && router.isReady ? (
@@ -84,17 +84,18 @@ const RideContainer = ({
             ) : null}
           </div>
 
-          <div className="block-element px-12 md:px-[16px] lg:px-24 pb-24">
-            <div className="mb-12 md:mb-24">
-              <h4 className="text-[16px] leading-[26px] font-semibold md:font-medium md:text-[20px] md:leading-[32px] uppercase md:normal-case text-primary pt-[16px] md:pt-24">
+          <div className="block-element px-12 md:px-16 lg:px-24 pb-24">
+            <div className="mb-24 md:mb-[40px]">
+              <h4 className="text-[18px] xs:text-[20px] leading-[28px] md:text-[24px] md:leading-[32px] text-primary font-medium pt-16 md:pt-24">
                 {carAccountType === "car_driver"
                   ? "Các chuyến đi chưa có tài xế"
                   : "Các chuyến đi hiện có"}
               </h4>
             </div>
 
-            <div className="bg-white-color mx-[-12px] border-t border-border-color border-solid sm:border-none sm:mx-0 left-0 right-0 sticky z-[1000] sm:z-0 sm:bg-[transparent] sm:static top-[59px] mb-12 md:mb-24">
+            <div className="bg-white-color mx-[-12px] sm:mx-0 left-0 right-0 sticky z-[1000] sm:z-0 sm:bg-[transparent] sm:static top-[59px] mb-12 md:mb-16 lg:mb-24">
               <Tabs
+                className="md:border-solid md:border-b"
                 list={
                   carAccountType === "car_driver"
                     ? [
@@ -152,7 +153,7 @@ const RideContainer = ({
 
         <button
           onClick={() => toggleShowFilter({ status: true, type: "tablet" })}
-          className="hidden md:flex xl:hidden fixed right-0 top-[200px] z-[100] rounded-[5px] border border-solid border-border-color block-element flex-col flex-center p-[8px]"
+          className="hidden md:flex xl:hidden fixed right-0 bottom-[200px] z-[100]] rounded-[5px] border border-solid border-border-color block-element shadow-shadow-2 flex-col flex-center p-[10px]"
         >
           <FilterIcon className="mb-[12px]" />
           <span className="text-base font-semibold">Bộ lọc</span>

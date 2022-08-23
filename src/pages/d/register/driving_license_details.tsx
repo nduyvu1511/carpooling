@@ -37,7 +37,7 @@ const DrivingLicenseDetail = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bằng Lái Xe">
-      <div className="content-container px-[16px] sm:px-0">
+      <div className="content-container px-16 sm:px-0">
         {!isValidating ? (
           <DrivingLicenseForm
             defaultValues={drivingLicense}

@@ -12,7 +12,7 @@
   }
 
   .btn {
-    @apply cursor-pointer py-[10px] w-full sm:w-fit px-[32px] rounded-[5px] text-[14px] lg:text-[16px] outline-none font-semibold leading-[26px] flex-center sm:rounded-[30px] text-white-color;
+    @apply cursor-pointer py-[10px] w-full sm:w-fit px-[32px] rounded-[5px] text-[14px] lg:text-16 outline-none font-semibold leading-[26px] flex-center sm:rounded-[30px] text-white-color;
   }
 
   .btn-primary {
@@ -20,7 +20,7 @@
   }
 
   .normal-text {
-    @apply text-[16px] font-normal text-text-color leading-[26px];
+    @apply text-16 font-normal text-text-color leading-[26px];
   }
 
   .btn-primary-outline {
@@ -124,7 +124,7 @@
   }
 
   .text-xs {
-    @apply text-12 leading-[16px] font-normal text-blue-8;
+    @apply text-12 leading-16 font-medium text-gray-color-7;
   }
 
   .text-lg {
@@ -133,6 +133,34 @@
 
   .text-xl {
     @apply text-[24px] leading-[32px] font-medium text-blue-8;
+  }
+
+  .px-custom {
+    @apply px-12 md:px-16 lg:px-24;
+  }
+
+  .pt-custom {
+    @apply pt-12 md:pt-16 lg:pt-24;
+  }
+
+  .pb-custom {
+    @apply pb-12 md:pb-16 lg:pb-24;
+  }
+
+  .p-custom {
+    @apply p-12 md:p-16 lg:p-24;
+  }
+
+  .py-custom {
+    @apply py-12 md:py-16 lg:py-24;
+  }
+
+  .pr-custom {
+    @apply pr-12 md:pr-16 lg:pr-24;
+  }
+
+  .pl-custom {
+    @apply pl-12 md:pl-16 lg:pl-24;
   }
 }
 
@@ -482,9 +510,6 @@
     opacity: 1;
     transform: translateX(0);
     transition: opacity 300ms, transform 300ms;
-    @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, transform 500ms;
-    }
   }
   &-exit {
     opacity: 1;
@@ -508,9 +533,9 @@
   &-enter-active {
     opacity: 1;
     margin-top: 0;
-    transition: opacity 300ms, margin 300ms;
+    transition: 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: 500ms, margin 500ms;
     }
   }
   &-exit {
@@ -837,6 +862,7 @@
     }
 
     &-btn {
+      position: static;
       height: auto;
       padding: 12px;
       background-color: white;
@@ -859,5 +885,40 @@
   & .alert-confirm-btn {
     background-color: #f9d0d0;
     color: #ff3b30;
+  }
+}
+
+.drawer {
+  & .compounding__filter {
+    padding: 12px;
+    max-height: calc(100vh - 120px);
+    height: 100%;
+    overflow-y: auto;
+
+    @media screen and (min-width: 768px) {
+      max-height: calc(100vh - 170px);
+    }
+  }
+}
+
+.ride-container {
+  & .tabs {
+    border-style: solid;
+  }
+}
+
+.modal {
+  & .user-info-form {
+    &-content {
+      padding: 12px;
+
+      @media screen and (min-width: 768px) {
+        padding: 24px;
+      }
+      margin-bottom: 70px;
+    }
+
+    &-btn {
+    }
   }
 }

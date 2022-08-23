@@ -33,7 +33,7 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
         <div className="">
           <p className="flex items-center mb-4">
             <span className=" mr-8">
-              <WalletIcon className="w-[16px]" />
+              <WalletIcon className="w-16" />
             </span>
             <span className="text-xs whitespace-nowrap">Tổng tiền hiện có</span>
           </p>
@@ -44,7 +44,7 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
           <div className="mt-24 md:mt-[40px]">
             <p className="flex items-center mb-4">
               <span className="mr-8">
-                <PaymentIcon className="w-[16px]" />
+                <PaymentIcon className="w-16" />
               </span>
               <span className="text-xs whitespace-nowrap">Số dư khả dụng</span>
             </p>

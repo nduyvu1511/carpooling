@@ -34,7 +34,7 @@ const FrequentlyAskedQuestions = () => {
                     id !== tabActive ? setTabActive(+id) : null
                     setAccordionActive(undefined)
                   }}
-                  className={`rounded-[5px] select-none text-14 md:text-[16px] font-semibold cursor-pointer uppercase px-24 transition-all py-[16px] ${
+                  className={`rounded-[5px] select-none text-14 md:text-16 font-semibold cursor-pointer uppercase px-24 transition-all py-16 ${
                     tabActive === id ? "bg-primary text-white-color" : "bg-[#F1F5FF] text-primary"
                   }`}
                   key={id}
@@ -48,7 +48,7 @@ const FrequentlyAskedQuestions = () => {
           {tabActive === 1 ? (
             <div className="h-fit rounded-[5px] border border-solid border-border-color">
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Tôi không thể sử dụng mã khuyến mãi?"
                 isActive={accordionActive === 1}
@@ -69,7 +69,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 2 ? undefined : 2)}
                 title="Làm thế nào để tạo tài khoản Exxe?"
                 isActive={accordionActive === 2}
@@ -85,7 +85,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 3 ? undefined : 3)}
                 title="Tôi muốn thêm/ thay đổi phương thức thanh toán?"
                 isActive={accordionActive === 3}
@@ -97,7 +97,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 4 ? undefined : 4)}
                 title="Hướng dẫn “THÊM PHƯƠNG THỨC THANH TOÁN”"
                 isActive={accordionActive === 4}
@@ -108,7 +108,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 5 ? undefined : 5)}
                 title="Làm thế nào để gửi hỗ trợ cho chuyến đi của tôi?"
                 isActive={accordionActive === 5}
@@ -125,7 +125,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 6 ? undefined : 6)}
                 title="Cước phí chuyến đi sau khi đổi điểm đến được tính như thế nào? "
                 isActive={accordionActive === 6}
@@ -145,7 +145,7 @@ const FrequentlyAskedQuestions = () => {
                 </ul>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 7 ? undefined : 7)}
                 title="Khuyến mãi có được áp dụng cho chuyến đi đổi điểm đến? "
                 isActive={accordionActive === 7}
@@ -159,7 +159,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 10 ? undefined : 10)}
                 title="Tại sao tôi không đổi điểm đến được? "
                 isActive={accordionActive === 10}
@@ -187,7 +187,7 @@ const FrequentlyAskedQuestions = () => {
                 </ul>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 8 ? undefined : 8)}
                 title="Tôi cần xuất hóa đơn giá trị gia tăng đối với các chuyến xe Exxe tôi phải làm thế nào?"
                 isActive={accordionActive === 8}
@@ -217,7 +217,7 @@ const FrequentlyAskedQuestions = () => {
           {tabActive === 2 ? (
             <div className="h-fit rounded-[5px] border border-solid border-border-color">
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Exxe Corporate là gì?"
                 isActive={accordionActive === 1}
@@ -228,7 +228,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 2 ? undefined : 2)}
                 title="Sử dụng Exxe Corporate có tính phí không?"
                 isActive={accordionActive === 2}
@@ -240,7 +240,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 3 ? undefined : 3)}
                 title="Tôi muốn đăng ký Exxe Corporate"
                 isActive={accordionActive === 3}
@@ -259,7 +259,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 4 ? undefined : 4)}
                 title="Cách quản lý tài khoản của nhân viên?"
                 isActive={accordionActive === 4}
@@ -279,7 +279,7 @@ const FrequentlyAskedQuestions = () => {
           {tabActive === 3 ? (
             <div className="h-fit rounded-[5px] border border-solid border-border-color">
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Chương trình Exxe Loyalty là gì?"
                 isActive={accordionActive === 1}
@@ -298,7 +298,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 2 ? undefined : 2)}
                 title="Điểm thưởng Exxe Point là gì?"
                 isActive={accordionActive === 2}
@@ -309,7 +309,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 3 ? undefined : 3)}
                 title="Điểm thưởng Exxe Point có hết hạn không? ( có thể quy định lại )"
                 isActive={accordionActive === 3}
@@ -322,7 +322,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 4 ? undefined : 4)}
                 title="Tôi muốn đăng ký Exxe Corporate"
                 isActive={accordionActive === 4}
@@ -341,7 +341,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 5 ? undefined : 5)}
                 title="Ưu đãi của từng hạng thành viên khác nhau như thế nào?cước phí nào?"
                 isActive={accordionActive === 5}
@@ -353,7 +353,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 6 ? undefined : 6)}
                 title="Tôi có được xét nâng hạng thành viên không?"
                 isActive={accordionActive === 6}
@@ -371,7 +371,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 7 ? undefined : 7)}
                 title="Hạng thành viên Exxe Loyalty của tôi có thể bị giảm không?"
                 isActive={accordionActive === 7}
@@ -385,7 +385,7 @@ const FrequentlyAskedQuestions = () => {
               </AccordionItem>
 
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 8 ? undefined : 8)}
                 title="Nếu tôi bị giảm hạng thành viên thì những ưu đãi của tôi sẽ bị ảnh hưởng như thế nào?"
                 isActive={accordionActive === 8}
@@ -398,7 +398,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 9 ? undefined : 9)}
                 title="Tôi sẽ sử dụng điểm thưởng Exxe Point như thế nào?"
                 isActive={accordionActive === 9}
@@ -411,7 +411,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 10 ? undefined : 10)}
                 title="Tôi có thể xem lại các giao dịch đổi điểm Exxe Point ở đâu?"
                 isActive={accordionActive === 10}
@@ -422,7 +422,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 11 ? undefined : 11)}
                 title="Ưu đãi và quy chế tích điểm EXXE Point có bị thay đổi không?"
                 isActive={accordionActive === 11}
@@ -439,7 +439,7 @@ const FrequentlyAskedQuestions = () => {
           {tabActive === 4 ? (
             <div className="h-fit rounded-[5px] border border-solid border-border-color text-sm md:text-base">
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Thời gian chờ đợi tối đa mà Khách hàng có thể yêu cầu là bao nhiêu? Và cách tính thời gian chờ ra sao?"
                 isActive={accordionActive === 1}
@@ -453,7 +453,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 2 ? undefined : 2)}
                 title="Các loại phí cầu đường, phí đỗ xe và các chi phí phát sinh khác sẽ do ai chịu?"
                 isActive={accordionActive === 2}
@@ -466,7 +466,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 3 ? undefined : 3)}
                 title="Tại sao cước phí hiển thị trên ứng dụng lúc bắt đầu đặt xe và sau khi kết thúc chuyến đi lại khác nhau? Khách hàng sẽ thanh toán theo cước phí nào?"
                 isActive={accordionActive === 3}
@@ -479,7 +479,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 4 ? undefined : 4)}
                 title="Ứng dụng có tự động phát chuyến “Exxe đi tỉnh” cho tài xế nếu tài xế chọn chế độ “Tự động nhận chuyến” không?"
                 isActive={accordionActive === 4}
@@ -492,7 +492,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 5 ? undefined : 5)}
                 title={`Thời gian tài xế có thể đưa ra quyết định nhận yêu cầu cho chuyến "Exxe đi tỉnh" là bao lâu?`}
                 isActive={accordionActive === 5}
@@ -503,7 +503,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 6 ? undefined : 6)}
                 title={`Các chuyến "Exxe đi tỉnh" có được tính cho các chương trình thưởng tài xế hiện tại không?`}
                 isActive={accordionActive === 6}
@@ -515,7 +515,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 7 ? undefined : 7)}
                 title={`Tài xế có thể bật/ tắt dịch vụ “Exxe đi tỉnh” theo ý muốn không?`}
                 isActive={accordionActive === 7}
@@ -525,7 +525,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 8 ? undefined : 8)}
                 title={`Trong trường hợp đối với các chuyến đi với phương thức thanh toán bằng tiền mặt, nếu Tài xế gặp vấn đề về việc thu tiền từ khách hàng (do không liên lạc được khách hàng hoặc khách hàng từ chối thanh toán) thì EXXE  có chịu trách nhiệm hỗ trợ lại cho tài xế không?`}
                 isActive={accordionActive === 8}
@@ -544,7 +544,7 @@ const FrequentlyAskedQuestions = () => {
           {tabActive === 5 ? (
             <div className="h-fit rounded-[5px] border border-solid border-border-color text-sm md:text-base">
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
                 title="Trường hợp nhận được tin nhắn thông báo gian lận từ Exxe tôi nên làm gì?"
                 isActive={accordionActive === 1}
@@ -556,7 +556,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 2 ? undefined : 2)}
                 title="Chuyện gì sẽ xảy ra với thu nhập của tôi khi tôi nhận được tin nhắn thông báo rằng tôi gian lận?"
                 isActive={accordionActive === 2}
@@ -572,7 +572,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 3 ? undefined : 3)}
                 title="Chuyện gì sẽ xảy ra nếu tôi bị phát hiện có các hành vi gian lận?"
                 isActive={accordionActive === 3}
@@ -601,7 +601,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 4 ? undefined : 4)}
                 title="Thời gian thanh toán mới của Exxe như thế nào, khi nào tôi nhận được thưởng và tiền?"
                 isActive={accordionActive === 4}
@@ -628,7 +628,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 5 ? undefined : 5)}
                 title="Tôi không thể trượt thanh bắt đầu chuyến đi/ thanh bắt đầu chuyến đi không hiển thị,
                   tôi nên làm gì?"
@@ -642,7 +642,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 6 ? undefined : 6)}
                 title="Tôi đã gia nhập và đang chạy Exxe, làm sao tôi biết tôi có tôi có nằm trong chương trình thưởng dành cho tài xế mới/ chương trình thưởng cho tài xế đang hoạt động?"
                 isActive={accordionActive === 6}
@@ -656,7 +656,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 7 ? undefined : 7)}
                 title="Ứng dụng luôn hiện thông báo yêu cầu bổ sung giấy tờ, tôi phải làm gì?"
                 isActive={accordionActive === 7}
@@ -668,7 +668,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 8 ? undefined : 8)}
                 title="Tại sao tôi đăng ký xe 7 chỗ nhưng lại hiển thị xe 4 chỗ?"
                 isActive={accordionActive === 8}
@@ -685,7 +685,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 9 ? undefined : 9)}
                 title="Tôi đã hoàn thành thủ tục đăng ký tại Trung tâm Hỗ trợ Đối tác EXXE Hub, khi nào tài khoản của tôi được kích hoạt?"
                 isActive={accordionActive === 9}
@@ -698,7 +698,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 10 ? undefined : 10)}
                 title="Tôi đi đón khách xa nhưng chưa tới điểm đón khách thì khách hàng đã hủy chuyến. Tôi có được hỗ trợ chi phí đón khách?"
                 isActive={accordionActive === 10}
@@ -708,7 +708,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 11 ? undefined : 11)}
                 title="Tài xế đến điểm và chờ đợi nhưng khách không xuất hiện, tài xế cũng không liên lạc được với khách. Tài xế hủy chuyến trong trường hợp này thì có bị tính vào tỷ lệ hủy hay không?"
                 isActive={accordionActive === 11}
@@ -719,7 +719,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 12 ? undefined : 12)}
                 title="Ứng dụng đo quãng đường từ A đến B sai, dẫn đến số tiền không đúng thực tế. Tôi có được hoàn tiền?"
                 isActive={accordionActive === 12}
@@ -730,7 +730,7 @@ const FrequentlyAskedQuestions = () => {
                 </p>
               </AccordionItem>
               <AccordionItem
-                titleClassName="text-14 md:text-[16px] text-primary font-semibold"
+                titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 13 ? undefined : 13)}
                 title="Khi trên ứng dụng của tài xế và khách hàng hiển thị số tiền phải thanh toán khác nhau. Tài xế sẽ thu tiền như thế nào?"
                 isActive={accordionActive === 13}

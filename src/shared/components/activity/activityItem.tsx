@@ -20,11 +20,11 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 }: ActivityItemProps<T>) => {
   if (!activity)
     return (
-      <div className="p-12 md:p-24 rounded-[20px]">
+      <div className="p-custom rounded-[20px]">
         <div className="md:hidden">
           <div className="flex items-center justify-between mb-24">
             <div className="flex items-center">
-              <div className="skeleton rounded-[5px] w-[80px] mr-[16px] h-[14px]"></div>
+              <div className="skeleton rounded-[5px] w-[80px] mr-16 h-[14px]"></div>
               <div className="hidden xs:block skeleton rounded-[4px] w-[120px] h-[14px]"></div>
             </div>
             <div className="skeleton rounded-[4px] h-[14px] w-[80px]"></div>
@@ -41,13 +41,13 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
 
         <div className="hidden md:flex items-center justify-between">
           <div className="">
-            <div className="skeleton h-[20px] w-[200px] rounded-[4px] mb-[16px]"></div>
+            <div className="skeleton h-[20px] w-[200px] rounded-[4px] mb-16"></div>
             <div className="skeleton h-[12px] w-[200px] rounded-[4px]"></div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="skeleton h-[8px] rounded-[5px] w-[90px] mb-[16px]"></div>
-            <div className="skeleton h-[16px] rounded-[5px] w-[160px]"></div>
+            <div className="skeleton h-[8px] rounded-[5px] w-[90px] mb-16"></div>
+            <div className="skeleton h-16 rounded-[5px] w-[160px]"></div>
           </div>
 
           <div className="skeleton h-[10px] rounded-[5px] w-[100px]"></div>
@@ -62,12 +62,12 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
       <div className="items-stretch justify-between hidden md:flex">
         <div className="mr-[12px]">
           <div className="flex">
-            <span className="mr-[16px] mt-[4px]">
+            <span className="mr-16 mt-[4px]">
               <CompoundingCarICon compounding_type={compounding_type} />
             </span>
 
             <div className="flex items-center mb-[12px]">
-              <p className="md:text-base md:font-semibold lg:font-medium lg:text-lg xl:text-xl mr-[16px]">
+              <p className="md:text-base md:font-semibold lg:font-medium lg:text-lg xl:text-xl mr-16">
                 {from_province.province_brief_name} - {to_province.province_brief_name}
               </p>
               <span
@@ -149,7 +149,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
         </div>
 
         <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-14 xs:text-18 leading-[20px] font-semibold mr-[16px]">
+          <p className="text-14 xs:text-18 leading-[20px] font-semibold mr-16">
             {from_province.province_brief_name} - {to_province.province_brief_name}
           </p>
           <p className="flex items-center">

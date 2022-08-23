@@ -6,7 +6,7 @@ import {
 } from "@/models"
 import { ridesApi } from "@/services"
 import { useMemo } from "react"
-import { KeyedMutator } from "swr"
+import { KeyedMutator, mutate } from "swr"
 import { useFetcher } from "../async"
 import { useCompoundingCarDriver } from "./useCompoundingCarDriver"
 
@@ -76,11 +76,12 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     fetcherHandler({
       fetcher: ridesApi.driverConfirmWaitingForCustomer(params),
       onSuccess: () => {
-        changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
-        changeCompoundingCarCustomerState({
-          compounding_car_customer_id: params.compounding_car_customer_id,
-          state: "confirm_paid",
-        })
+        // changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
+        // changeCompoundingCarCustomerState({
+        //   compounding_car_customer_id: params.compounding_car_customer_id,
+        //   state: "waiting_customer",
+        // })
+        mutateCompoundingCar()
         onSuccess?.()
       },
       onError: () => onErr?.(),
@@ -216,7 +217,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   }, [compoundingCar])
 
   const getTotalPassenger: number = useMemo(() => {
-    if (getTotalPassenger > 0) return getTotalPassenger
+    // if (getTotalPassenger > 0) return getTotalPassenger
     if (!compoundingCar?.compounding_car_customers?.length) return 0
     return compoundingCar?.compounding_car_customers?.length
   }, [compoundingCar?.compounding_car_customers?.length])

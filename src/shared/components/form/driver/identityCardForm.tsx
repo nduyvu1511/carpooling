@@ -13,11 +13,7 @@ interface IdentityCardFormProps {
   view?: "modal" | "page"
 }
 
-export const IdentityCardForm = ({
-  onSubmit,
-  defaultValues,
-  view = "modal",
-}: IdentityCardFormProps) => {
+export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCardFormProps) => {
   const { provinceOptions } = useAddress()
   const {
     register,
@@ -60,10 +56,10 @@ export const IdentityCardForm = ({
 
   return (
     <form
-      className={`${view === "modal" ? "pb-[64px]" : ""}`}
+      className={`${view === "modal" ? "modal-form" : ""}`}
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      <div className="modal-form-content">
+      <div className={`${view === "modal" ? "modal-form-content" : ""}`}>
         {idCardFormFields.map((field) => (
           <div key={field.name} className="form-item">
             <label htmlFor={field.name} className="form-label">
@@ -170,6 +166,7 @@ export const IdentityCardForm = ({
       </div>
 
       <ButtonSubmit
+        parentClassName={`flex-center ${view === "modal" ? "modal-form-btn" : ""}`}
         className="form-upload-btn"
         view={view}
         isError={!isValid}

@@ -154,27 +154,13 @@ const ScheduleCompounding = () => {
     <>
       <BookingLayout
         showLoading={isInitialLoading}
-        topNode={
-          <div className="lg:px-12 xl:px-0">
-            <RideProgress state={compoundingCar?.state} />
-          </div>
-        }
+        topNode={<RideProgress state={compoundingCar?.state} />}
         title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}
         stickyRight
-        rightNode={
-          compoundingCar ? (
-            <>
-              <div className="hidden lg:block">
-                <RideSummary data={compoundingCar} />
-              </div>
-            </>
-          ) : null
-        }
+        rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       >
         {isInitialLoading ? (
-          <div className="p-12 md:p-24 pt-0">
-            <RidesDetailLoading />
-          </div>
+          <RidesDetailLoading />
         ) : compoundingCar?.state !== "start_running" &&
           compoundingCar?.state !== "confirm_deposit" &&
           compoundingCar?.state !== "confirm" &&
@@ -186,7 +172,7 @@ const ScheduleCompounding = () => {
           </div>
         ) : (
           <>
-            <div className="mt-12 px-12 md:px-24 pt-0 flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <p className="text-16 font-semibold uppercase md:font-medium md:normal-case">
                 Trạng thái chuyến đi
               </p>
@@ -202,7 +188,7 @@ const ScheduleCompounding = () => {
                 </p>
               ) : null}
             </div>
-            <div className="px-12 md:px-24 pt-12 md:pt-[16px] md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
+            <div className="pt-12 md:pt-16 md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
               <ProgressBarMultiple
                 height={3}
                 type="dashed"
@@ -210,7 +196,7 @@ const ScheduleCompounding = () => {
                 totalNumber={getTotalPassenger}
               />
 
-              <ul className="flex items-center flex-wrap mt-12 md:mt-[16px]">
+              <ul className="flex items-center flex-wrap mt-12 md:mt-16">
                 {statusList.map(
                   ([label, backgroundColor, number, icon]) =>
                     number > 0 && (
@@ -236,11 +222,9 @@ const ScheduleCompounding = () => {
 
             <div className="border-b border-solid border-border-color mx-12 md:mx-24 mb-24 lg:mb-0"></div>
 
-            <div className="lg:hidden mx-12 mb-12 md:mb-0 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-              <RideSummaryMobile rides={compoundingCar} />
-            </div>
+            <RideSummaryMobile rides={compoundingCar} />
 
-            <div className="px-12 md:px-24 lg:py-24 pt-0 ">
+            <div className="">
               {compoundingCar?.state === "confirm_deposit" ||
               compoundingCar?.state === "start_running" ||
               compoundingCar?.state === "stop_picking" ||
@@ -344,7 +328,7 @@ const ScheduleCompounding = () => {
             </div>
           </>
         )}
-        {compoundingCar ? <RideSummaryModal rides={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
       </BookingLayout>
 
       <Alert

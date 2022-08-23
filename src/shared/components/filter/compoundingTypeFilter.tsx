@@ -16,10 +16,10 @@ const CompoundingTypeFilter = ({ onChange }: CompoundingTypeFilterProps) => {
       ].map(({ icon, label, value }, index) => (
         <button
           onClick={() => onChange?.(value as CompoundingType)}
-          className="mr-24 last:mr-0 border border-solid border-gray-color-5 rounded-[20px] bg-white-color h-[90px] w-[150px] flex flex-col items-start justify-center p-[16px]"
+          className="mr-24 last:mr-0 border border-solid border-gray-color-5 rounded-[20px] bg-white-color h-[90px] w-[150px] flex flex-col items-start justify-center p-16"
           key={index}
         >
-          <span className="mb-[16px]">{icon}</span>
+          <span className="mb-16">{icon}</span>
           <span className="text-16 font-semibold leading-26">{label}</span>
         </button>
       ))}

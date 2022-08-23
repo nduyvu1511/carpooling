@@ -13,7 +13,7 @@ interface PlaceSlideProps {
 export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => {
   if (showLoading)
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-[16px] pr-12 md:pr-[16px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16 pr-12 md:pr-16">
         <div className="rounded-[5px] skeleton aspect-1"></div>
         <div className="rounded-[5px] skeleton aspect-1"></div>
         <div className="rounded-[5px] skeleton aspect-1 hidden lg:block"></div>

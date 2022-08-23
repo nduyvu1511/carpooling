@@ -64,10 +64,10 @@ const Rating = () => {
           title="Đánh giá"
           url="https://exxe.vn/c/rating"
         />
-        <div className="px-12 md:px-24 pt-0">
+        <div className="px-custom pt-0">
           {isValidating ? (
             <div>
-              {Array.from({ length: 4 }).map((_, key) => (
+              {Array.from({ length: 3 }).map((_, key) => (
                 <RatingItem key={key} rating={null} />
               ))}
             </div>
@@ -124,7 +124,7 @@ const Rating = () => {
           setCurrentEditRating(undefined)
         }}
       >
-        <div className="w-full p-[16px] md:p-24 h-full">
+        <div className="w-full p-16 md:p-24 h-full">
           <RatingForm
             defaultValue={currentEditRating}
             onSubmit={(data) => handleUpdateRating(data)}

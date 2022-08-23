@@ -27,20 +27,20 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
 
         <div className="mb-[40px]">
           <div className="flex items-center justify-between mb-[8px]">
-            <div className="w-[40%] h-[16px] skeleton rounded-[4px]"></div>
-            <div className="w-[35%] h-[16px] skeleton rounded-[4px]"></div>
+            <div className="w-[40%] h-16 skeleton rounded-[4px]"></div>
+            <div className="w-[35%] h-16 skeleton rounded-[4px]"></div>
           </div>
 
           <div className="flex items-center justify-between mb-[24px]">
-            <div className="w-[35%] h-[16px] skeleton rounded-[4px]"></div>
-            <div className="w-[40%] h-[16px] skeleton rounded-[4px]"></div>
+            <div className="w-[35%] h-16 skeleton rounded-[4px]"></div>
+            <div className="w-[40%] h-16 skeleton rounded-[4px]"></div>
           </div>
 
           <div className="mx-auto h-[60px] skeleton rounded-[4px] mb-[12px]"></div>
         </div>
         <div className="flex items-center justify-between">
           <div className="w-[30px] h-[12px] skeleton rounded-[4px]"></div>
-          <div className="w-[80px] xs:aspect-h-8w-[100px] h-[16px] skeleton rounded-[4px]"></div>
+          <div className="w-[80px] xs:aspect-h-8w-[100px] h-16 skeleton rounded-[4px]"></div>
         </div>
       </div>
     )
@@ -49,14 +49,14 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
   return (
     <div
       onClick={() => onClick?.()}
-      className="p-[12px] sm:p-[16px] lg:p-[18px] flex flex-col h-full justify-between relative overflow-hidden cursor-pointer"
+      className="p-[12px] sm:p-16 lg:p-[18px] flex flex-col h-full justify-between relative overflow-hidden cursor-pointer"
     >
       <div className="flex items-center justify-between">
         <p
           style={{
             background: COMPOUNDING_TYPE_BG[rides.compounding_type],
           }}
-          className="flex items-center mr-[16px] px-8 py-2 md:py-4 rounded-[5px]"
+          className="flex items-center mr-16 h-[22px] md:h-[28px] lg:h-[32px] px-8 py-2 md:py-4 rounded-[5px]"
         >
           <CompoundingCarICon
             className="hidden md:block mr-8"
@@ -64,13 +64,13 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           />
           <span
             style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
-            className="text-[10px] sm:text-xs leading-[18px]"
+            className="text-[10px] sm:text-xs leading-[18px] line-clamp-1"
           >
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}
           </span>
         </p>
         <p className="items-center flex">
-          <MultiUserIcon className="w-[12px] sm:w-[16px]" />
+          <MultiUserIcon className="w-[12px] sm:w-16" />
           <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
             {rides.number_seat_in_car - rides.number_available_seat}/{rides.number_seat_in_car}
           </span>
@@ -107,7 +107,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           </div>
         ) : null}
 
-        <div className="flex items-center justify-between mb-[8px]">
+        <div className="flex items-center justify-between">
           <CarIcon className="sm:hidden w-[12px]" />
           <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Loại xe:</p>
           <p className="flex-1 ml-[8px] sm:ml-0 text-[11px] sm:text-14 font-medium">
@@ -120,8 +120,8 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
 
       <div className="flex items-center justify-between">
         <p className="flex items-center">
-          <PaymentIcon className="w-[12px] sm:w-[16px]" />
-          <span className="text-[12px] sm:text-[14px] font-semibold text-error ml-[4px] xs:ml-[8px]">
+          <PaymentIcon className="w-[12px] sm:w-16" />
+          <span className="text-[12px] sm:text-[14px] md:text-16 font-semibold text-error ml-[8px]">
             {formatMoneyVND(rides.price_unit.price_unit)}
           </span>
         </p>
