@@ -1,5 +1,4 @@
-import { ListQuery, OptionModel } from "./common"
-import { CompoundingCarCustomer } from "./compoundingCar"
+import { OptionModel } from "./common"
 
 export interface LoginFormParams {
   phone: string

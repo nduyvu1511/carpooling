@@ -143,10 +143,11 @@ export const Header = () => {
       </HeaderWrapper>
 
       <Drawer
-        width={400}
+        width={640}
         showCloseBtn={false}
         onClose={() => toggleShowDrawer(false)}
         isShow={showDrawer}
+        transitionDirection="right"
       >
         <Menu
           onClickLogin={() => {

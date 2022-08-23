@@ -44,20 +44,11 @@ export const Map = ({
     () => ({
       disableDefaultUI: true,
       clickableIcons: false,
-      gestureHandling: "auto",
+      gestureHandling: viewOnly ? "none" : "auto",
       styles: [
-        // {
-        //   featureType: "all",
-        //   elementType: "labels.text",
-        //   stylers: [
-        //     {
-        //       visibility: "off",
-        //     },
-        //   ],
-        // },
         {
-          featureType: "poi",
-          elementType: "labels.icon",
+          featureType: directions ? "all" : "poi",
+          elementType: directions ? "labels.text" : "labels.icon",
           stylers: [
             {
               visibility: "off",

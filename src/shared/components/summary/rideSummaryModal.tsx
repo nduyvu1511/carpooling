@@ -32,7 +32,6 @@ const RideSummaryModal = ({ data, showDeposit = true }: RideSummaryModalProps) =
   return (
     <Drawer
       width="full"
-      direction="bottom"
       transitionDirection="bottom"
       showCloseBtn={false}
       isShow={isShowSummaryDetail}

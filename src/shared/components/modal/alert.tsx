@@ -63,6 +63,7 @@ const Alert = ({
           <div className="flex-center mb-24 sm:mb-24">
             {showLeftBtn ? (
               <button
+                type="button"
                 onClick={() => onClose?.()}
                 className="btn px-[26px] py-[8px] mr-16 sm:mr-24 bg-disabled"
               >
@@ -71,6 +72,7 @@ const Alert = ({
             ) : null}
             {showRightBtn ? (
               <button
+                type="button"
                 onClick={() => onConfirm()}
                 className={`btn px-[26px] py-[8px] text-white-color ${
                   type === "success"

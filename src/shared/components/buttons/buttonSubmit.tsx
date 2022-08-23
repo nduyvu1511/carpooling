@@ -21,10 +21,10 @@ export const ButtonSubmit = ({
 }: ButtonSubmitProps) => {
   return (
     <div
-      className={`w-full ${
+      className={`w-full p-12 sm:p-[16px] ${
         view === "modal"
-          ? "absolute left-[0] bottom-[0] right-[0] p-12 bg-white-color flex-center"
-          : "fixed bottom-0 right-0 left-0 bg-white-color p-12 md:static md:p-0"
+          ? "absolute left-[0] bottom-[0] right-[0] bg-white-color flex-center"
+          : "fixed bottom-0 right-0 left-0 bg-white-color md:static md:p-0"
       } btn-submit ${parentClassName}`}
     >
       <button

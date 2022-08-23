@@ -1,4 +1,11 @@
-import { Alert, Countdown, RideCancelForm, RideToolTip, Spinner } from "@/components"
+import {
+  Alert,
+  Countdown,
+  RideCancelForm,
+  RideToolTip,
+  Spinner,
+  WalletBalanceAlert,
+} from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
@@ -22,7 +29,7 @@ interface CheckoutProps {
   state?: string
 }
 
-type ModalType = "confirm" | "cancel"
+type ModalType = "confirm" | "cancel" | "alert"
 
 const Checkout = ({
   secondsRemains,
@@ -47,8 +54,8 @@ const Checkout = ({
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [showAlertModal, setShowAlertModal] = useState<boolean>()
-  const [acquirerId, setAcquirerId] = useState<PaymentRes | undefined>()
   const [showCancelModal, setShowCancelModal] = useState<boolean>()
+  const [showWalletAlert, setShowWalletAlert] = useState<boolean>(false)
 
   useEffect(() => {
     return () => {
@@ -60,6 +67,8 @@ const Checkout = ({
   const toggleModal = (type: ModalType, status: boolean) => {
     if (type === "cancel") {
       setShowCancelModal(status)
+    } else if (type === "alert") {
+      setShowWalletAlert(status)
     } else {
       setShowAlertModal(status)
     }
@@ -176,10 +185,17 @@ const Checkout = ({
                 onClick={() => {
                   if (!currentSelectPayment?.acquirer_id) return
                   if (currentSelectPayment.provider === "exxe_wallet") {
+                    if (
+                      currentSelectPayment?.money_in_cash_wallet === 0 ||
+                      (currentSelectPayment?.money_in_cash_wallet || 0) < down_payment
+                    ) {
+                      toggleModal("alert", true)
+                      return
+                    }
                     onCheckout?.(currentSelectPayment)
                   } else {
                     toggleModal("confirm", true)
-                    setAcquirerId(currentSelectPayment)
+                    setCurrentSelectPayment(currentSelectPayment)
                   }
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
@@ -217,11 +233,19 @@ const Checkout = ({
           }
           onClose={() => toggleModal("confirm", false)}
           onConfirm={() => {
-            if (!acquirerId) return
-            onCheckout?.(acquirerId)
+            if (!currentSelectPayment) return
+            onCheckout?.(currentSelectPayment)
             toggleModal("confirm", false)
           }}
           type={"info"}
+        />
+      ) : null}
+
+      {showWalletAlert ? (
+        <WalletBalanceAlert
+          show={true}
+          onClose={() => toggleModal("alert", false)}
+          onConfirm={() => {}}
         />
       ) : null}
 

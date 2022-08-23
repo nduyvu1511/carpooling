@@ -29,7 +29,7 @@ const Drawer = ({
     <>
       <CSSTransition
         in={isShow}
-        classNames={`${transitionDirection === "right" ? "slide" : `modal-up`}`}
+        classNames={`${transitionDirection === "right" ? "slide" : "modal-up"}`}
         unmountOnExit
         timeout={300}
       >
