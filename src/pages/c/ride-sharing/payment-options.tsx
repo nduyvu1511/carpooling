@@ -8,17 +8,14 @@ import {
   RideSummaryModal,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useBackRouter, useCompoundingCarCustomer, useEffectOnce, useFetcher } from "@/hooks"
+import { useCompoundingCarCustomer, useFetcher } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 
 const CheckoutOptions = () => {
-  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { fetcherHandler } = useFetcher()
@@ -29,19 +26,13 @@ const CheckoutOptions = () => {
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
   const [paymentType, setPaymentType] = useState<PaymentMethod | undefined>()
-  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [showAlert, setShowConfirm] = useState<boolean>(false)
 
-  useEffectOnce(() => {
+  useEffect(() => {
     return () => {
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
-
-  useBackRouter({
-    cb: () => {
       toggleBodyOverflow("unset")
-    },
-  })
+    }
+  }, [])
 
   // Check deposit status
   useEffect(() => {
@@ -61,8 +52,11 @@ const CheckoutOptions = () => {
         payment_method: paymentType,
       }),
       onSuccess: () => {
+        if (paymentType === 'exxe_wallet' && compoundingCar?.amount_due) {
+          
+        }
         if (paymentType === "cash") {
-          setShowAlert(true)
+          setShowConfirm(true)
         } else {
           router.push(`/c/ride-detail/checkout/${compounding_car_customer_id}`)
         }
@@ -155,7 +149,7 @@ const CheckoutOptions = () => {
             </ul>
             <div className="fixed bg-white-color p-12 z-[1000] md:p-0 left-0 right-0 bottom-0 lg:bg-[transparent] md:static ">
               <button
-                onClick={handleCheckoutMethod}
+                onClick={() => setShowConfirm(true)}
                 className={`btn-primary mx-auto md:mx-[unset] ${
                   paymentType ? "" : "btn-disabled"
                 } `}
@@ -174,11 +168,14 @@ const CheckoutOptions = () => {
           {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
         </div>
       </CustomerBookingLayout>
+
+      {/* handleCheckoutMethod */}
+
       <Alert
         show={showAlert}
-        onClose={() => setShowAlert(false)}
+        onClose={() => setShowConfirm(false)}
         onConfirm={() => {
-          setShowAlert(false)
+          setShowConfirm(false)
           router.push(
             `/c/ride-detail/checkout/checkout-success?compounding_car_customer_id=${compoundingCar?.compounding_car_customer_id}`
           )

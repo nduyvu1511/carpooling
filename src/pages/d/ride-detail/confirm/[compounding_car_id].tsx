@@ -1,9 +1,7 @@
 import {
-  AccordionItem,
   Alert,
-  Modal,
-  RatingItem,
-  RatingReport,
+  CarpoolingCompoundingForm,
+  OneWayCompoundingForm,
   RideCancelForm,
   RideCheckoutPopup,
   RideProgress,
@@ -11,60 +9,49 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  RideSummaryPassengerItem,
   RideToolTip,
+  TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
-import { useCompoundingCarDriver, useDriverCheckout, useRatingActions } from "@/hooks"
+import { useCompoundingCarDriver, useCompoundingForm, useDriverCheckout } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
-import { DepositCompoundingCarDriverFailureRes, ReportRatingParams } from "@/models"
+import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
-const ConfirmBookingCustomer = () => {
+const RideConfirmCustomer = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCarDriver({
+    compoundingCarResToCarpoolingForm,
+    compoundingCarResToOneWayForm,
+    compoundingCarResToTwoWayForm,
+  } = useCompoundingForm()
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarDriver({
     compounding_car_id: Number(compounding_car_id),
     key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
     type: "once",
   })
-  const { reportRating } = useRatingActions()
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
+
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
   >()
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
-  const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
   const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
-  const [showCustomerList, setShowCustomerList] = useState<boolean>(false)
 
   useEffect(() => {
     return () => {
       toggleBodyOverflow("unset")
     }
   }, [])
-
-  const handleReportRating = (params: ReportRatingParams) => {
-    reportRating({
-      params,
-      onSuccess() {
-        setCurrentReportRatingId(undefined)
-        mutate()
-      },
-    })
-  }
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
     if (userInfo?.verified_car_driver_account === "blocked_account") {
@@ -106,57 +93,42 @@ const ConfirmBookingCustomer = () => {
             <RidesDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
-              <div className="">
-                {compoundingCar?.car_driver_deposit_percentage &&
-                compoundingCar.state !== "done" ? (
-                  <RideToolTip
-                    className="mb-24"
-                    title={`${Number(
-                      compoundingCar.car_driver_deposit_percentage
-                    )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
-                      compoundingCar.car_driver_deposit_percentage
-                    )}% đặc cọc này sẽ đc chuyển lại Ví của Tài Xế.`}
-                  />
-                ) : null}
+              <RideToolTip
+                className="mb-24"
+                title={`${Number(
+                  compoundingCar.car_driver_deposit_percentage
+                )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
+                  compoundingCar.car_driver_deposit_percentage
+                )}% đặc cọc này sẽ được chuyển lại Ví của Tài Xế.`}
+              />
 
-                <RideSummaryMobile className="mb-24 lg:hidden" rides={compoundingCar} />
+              <RideSummaryMobile
+                className="mb-24 lg:hidden"
+                showDetailBtn={false}
+                rides={compoundingCar}
+              />
 
-                <AccordionItem
-                  isActive={showCustomerList}
-                  onClick={() => setShowCustomerList(!showCustomerList)}
-                  className="px-24 py-[16px] bg-bg-primary border-none rounded-[5px]"
-                  titleClassName="text-base text-blue-7 font-semibold"
-                  title="DANH SÁCH HÀNH KHÁCH"
-                >
-                  {compoundingCar?.compounding_car_customers?.length &&
-                    compoundingCar?.compounding_car_customers?.map((item, index) => (
-                      <div
-                        className="border-b border-solid border-border-color py-12 last:border-none"
-                        key={item.compounding_car_customer_id}
-                      >
-                        <p className="mb-12 text-xs">{index + 1},</p>
-                        <RideSummaryPassengerItem data={item} />
-                      </div>
-                    ))}
-                </AccordionItem>
-              </div>
-
-              {compoundingCar.rating_ids?.length > 0 ? (
-                <ul className="mt-24 border-t border-solid border-border-color pt-24">
-                  <p className="text-base font-semibold uppercase mb-[12px]">
-                    Đánh giá của khách hàng:{" "}
-                  </p>
-                  {compoundingCar.rating_ids.map((item) => (
-                    <li key={item?.rating_id}>
-                      <RatingItem
-                        rating={item}
-                        onReport={() => setCurrentReportRatingId(item.rating_id)}
-                        car_account_type="car_driver"
-                      />
-                    </li>
-                  ))}
-                </ul>
+              {compoundingCar?.compounding_type ? (
+                <>
+                  {compoundingCar.compounding_type === "one_way" ? (
+                    <OneWayCompoundingForm
+                      defaultValues={compoundingCarResToOneWayForm(compoundingCar)}
+                      disabled
+                    />
+                  ) : compoundingCar.compounding_type === "two_way" ? (
+                    <TwoWayCompoundingForm
+                      defaultValues={compoundingCarResToTwoWayForm(compoundingCar)}
+                      disabled
+                    />
+                  ) : (
+                    <CarpoolingCompoundingForm
+                      defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
+                      disabled
+                    />
+                  )}
+                </>
               ) : null}
+
               <div className="fixed left-0 right-0 flex bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
                 {compoundingCar.state === "waiting_deposit" ||
                 compoundingCar.state === "confirm_deposit" ||
@@ -169,19 +141,6 @@ const ConfirmBookingCustomer = () => {
                     className={`btn bg-error mr-16`}
                   >
                     Hủy chuyến
-                  </button>
-                ) : null}
-
-                {compoundingCar.state === "start_running" ||
-                compoundingCar.state === "stop_picking" ||
-                compoundingCar.state === "confirm_deposit" ? (
-                  <button
-                    onClick={() => {
-                      router.push(`/d/ride-detail/in-process/${compoundingCar.compounding_car_id}`)
-                    }}
-                    className={`btn-primary`}
-                  >
-                    Bắt đầu chuyến đi
                   </button>
                 ) : null}
 
@@ -264,23 +223,6 @@ const ConfirmBookingCustomer = () => {
         />
       ) : null}
 
-      {currentReportRatingId ? (
-        <Modal
-          key="report-compounding-car-modal"
-          show={true}
-          className="h-auto"
-          onClose={() => setCurrentReportRatingId(undefined)}
-          heading="Báo cáo đánh giá"
-        >
-          <RatingReport
-            onSubmit={(params) =>
-              currentReportRatingId &&
-              handleReportRating({ ...params, rating_id: currentReportRatingId })
-            }
-          />
-        </Modal>
-      ) : null}
-
       <Alert
         show={showAlertAccount}
         onClose={() => setShowAlertAccount(false)}
@@ -295,4 +237,4 @@ const ConfirmBookingCustomer = () => {
   )
 }
 
-export default ConfirmBookingCustomer
+export default RideConfirmCustomer

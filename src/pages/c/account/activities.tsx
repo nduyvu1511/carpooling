@@ -54,7 +54,7 @@ const Activities = () => {
         <div className="mb-24">
           <div className="flex items-center relative">
             <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
-            <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
+            <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide">
               {customerActivityFilters.map(({ label, value }, index) => (
                 <li className="mr-[12px] lg:mr-16 lg:mb-16 last:mr-24" key={index}>
                   <TagActivityItem<CompoundingCarCustomerState[]>

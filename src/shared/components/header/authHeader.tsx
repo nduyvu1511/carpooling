@@ -40,8 +40,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
   useBackRouter({
     cb: () => {
       if (bookingType) {
-        setBookingType(undefined)
-        toggleBodyOverflow("unset")
+        toggleBookingModal(undefined)
       }
     },
   })
@@ -73,12 +72,14 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
                   )
                 }
-                className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue h-[38px] lg:h-[40px] flex lg:hidden mr-12 sm:mr-24"
+                className={`flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue h-[38px] lg:h-[40px] mr-12 sm:mr-24 ${
+                  userInfo?.car_account_type === "customer" ? "flex lg:hidden" : "flex"
+                }`}
               >
                 <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
-                <p className="text-xs sm:text-sm text-blue-7 font-medium">
-                  <span className="hidden sm:block">Đặt chuyến mới</span>
-                  <span className="sm:hidden">Đặt chuyến</span>
+                <p className="text-xs sm:text-sm font-medium">
+                  <span className="hidden sm:block text-blue-7">Đặt chuyến mới</span>
+                  <span className="sm:hidden text-blue-7">Đặt chuyến</span>
                 </p>
               </button>
 
@@ -114,17 +115,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <button
-                  onClick={() => {
-                    toggleBookingModal("convenient")
-                  }}
-                  className="flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue hidden sm:flex mr-24 h-[38px] lg:h-[40px]"
-                >
-                  <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
-                  <span className="text-blue-7 text-sm">Đặt chuyến mới</span>
-                </button>
-              )}
+              ) : null}
 
               <div className="flex items-center">
                 <div className="mr-24 hidden">

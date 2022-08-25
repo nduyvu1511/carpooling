@@ -3,6 +3,7 @@ import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation, useDirections } from "@/hooks"
 import { DirectionLngLat, DirectionsResult, FromLocation, LatLng, LatlngAddress } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
+import { config } from "process"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
 import { useDispatch } from "react-redux"
@@ -100,6 +101,8 @@ export const Map = ({
   // get current location
   useEffect(() => {
     if (viewOnly) return
+    if (currentAddress?.lat) return
+
     if (defaultLocation?.province_id && defaultLocation?.lat) {
       setCurrentAddress(defaultLocation)
       setCurrentLocation(defaultLocation)
@@ -109,6 +112,7 @@ export const Map = ({
     getCurrentLocation({
       params: { showMsg: false },
       onSuccess: ({ lat, lng }) => {
+        if (currentAddress?.lat) return
         setCurrentLocation({ lat, lng })
         getAddressFromLngLat({ lat, lng })
       },
@@ -213,7 +217,7 @@ export const Map = ({
         <div
           className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px]`}
         >
-          <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} />
+          <MapSearch onSelect={handleSelectSearchValue} />
         </div>
 
         <GoogleMap

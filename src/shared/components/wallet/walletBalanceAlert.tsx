@@ -16,6 +16,7 @@ export const WalletBalanceAlert = ({ onClose, onConfirm, show }: WalletBalanceAl
       desc="Hiện tại giao dịch ko đủ số dư trong ví, vui lòng nạp thêm để hoàn tất giao dịch"
       onConfirm={onConfirm}
       onClose={onClose}
+      rightBtnLabel="Nạp tiền"
     />
   )
 }

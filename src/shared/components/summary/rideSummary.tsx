@@ -1,7 +1,7 @@
 import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
-import { ReactNode, useState } from "react"
+import { memo, ReactNode, useState } from "react"
 import { useSelector } from "react-redux"
 import { AccordionItem } from "../accordion"
 import { RideSummaryInfo } from "./rideSummaryInfo"
@@ -20,7 +20,7 @@ interface RideSummaryProps {
 const item = "flex-1 ml-24 text-14 text-right md:text-16 font-medium leading-26 text-blue-8"
 const titleClassName = "text-12 font-normal leading-[18px]"
 
-const RideSummary = ({
+export const RideSummary = ({
   data,
   view = "page",
   showFull = true,
@@ -38,6 +38,8 @@ const RideSummary = ({
       setTabsActive([...tabsActive, id])
     }
   }
+
+  console.log("ride summary rerender")
 
   return (
     <div
@@ -79,10 +81,12 @@ const RideSummary = ({
                       {formatMoneyVND((data as CompoundingCarCustomer)?.down_payment?.total)}
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="mb-12"></div>
+                )}
 
                 {(data as CompoundingCarCustomer)?.amount_due ? (
-                  <div className="flex items-center justify-between mb-16">
+                  <div className="flex items-center justify-between mb-12">
                     <p className={titleClassName}>Số tiền thanh toán sau</p>
                     <p className={item}>
                       {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
@@ -138,5 +142,3 @@ const RideSummary = ({
     </div>
   )
 }
-
-export { RideSummary }

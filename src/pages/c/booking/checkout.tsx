@@ -6,23 +6,15 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
-import {
-  useCompoundingCarActions,
-  useCompoundingCarCustomer,
-  useCustomerCheckout,
-  useEffectOnce,
-} from "@/hooks"
+import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentRes } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 
 const CheckoutCustomer = () => {
   const router = useRouter()
-  const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
@@ -61,12 +53,6 @@ const CheckoutCustomer = () => {
       },
     })
   }
-
-  useEffectOnce(() => {
-    return () => {
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
 
   const redirectToCheckoutSuccess = () => {
     router.push(
@@ -114,6 +100,7 @@ const CheckoutCustomer = () => {
               onCheckout={(_) => handleConfirmTransaction(_)}
               onCancelCheckout={handleCancelCompoundingCarCustomer}
               state={compoundingCar.state}
+              returnedUrl={`/c/booking/confirm?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`}
             />
             <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-[40px]" />
           </>

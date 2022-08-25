@@ -27,21 +27,14 @@ const CheckoutSuccess = () => {
 
   return (
     <BookingLayout
-      className="md:pb-[64px]"
+      className="md:mb-[64px]"
       topNode={<RideProgress className="mb-12 md:mb-24" state={compoundingCar?.state} />}
       showLoading={isValidating}
-      reverse
-      rightNode={
-        compoundingCar ? (
-          <div className="px-custom lg:px-0">
-            <RideDriverBill data={compoundingCar} />
-          </div>
-        ) : null
-      }
+      rightNode={compoundingCar ? <RideDriverBill data={compoundingCar} /> : null}
       title="Đặt cọc thành công"
       showHeaderDesktop={false}
     >
-      <div className="pt-24 px-custom">
+      <>
         {isValidating ? (
           <RidesDetailLoading className="mb-[40px]" />
         ) : (
@@ -53,7 +46,7 @@ const CheckoutSuccess = () => {
                     Chuyến đi của bạn đã được đặt cọc và xác nhận, vui lòng kiểm tra chi tiết chuyến
                     đi qua email hoặc trang{" "}
                     <Link href="/d/account/activities">
-                      <a className="text-primary">Hoạt động.</a>
+                      <a className="text-primary font-semibold">Hoạt động.</a>
                     </Link>
                   </p>
                 }
@@ -79,10 +72,10 @@ const CheckoutSuccess = () => {
             )}
           </>
         )}
-      </div>
+      </>
 
       {!isValidating ? (
-        <div className="max-w-[1280px] fixed bottom-0 right-0 left-0 bg-white-color xl:mx-auto md:mx-24 z-10 p-12">
+        <div className="max-w-[1280px] fixed bottom-0 right-0 left-0 bg-white-color xl:mx-auto z-10 p-custom">
           <Link href="/d">
             <a className="btn-primary-outline mx-auto">Về trang chủ</a>
           </Link>

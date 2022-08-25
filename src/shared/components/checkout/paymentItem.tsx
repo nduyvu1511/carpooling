@@ -34,7 +34,7 @@ const PaymentItem = ({ payment, onChange, isActive, className = "" }: PaymentIte
       <p className="text-[10px] leading-[18px] text-gray-color-7">
         {payment.provider === "exxe_wallet"
           ? `Số dư: ${formatMoneyVND(payment.money_in_cash_wallet || 0)}`
-          : payment.provider}
+          : payment?.brief || payment.name}
       </p>
     </div>
   )

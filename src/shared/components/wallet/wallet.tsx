@@ -8,22 +8,22 @@ import {
   TransactionItem,
   TransactionSuccess,
   WalletFilter,
-  WalletLoading,
+  WalletLoading
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
-import { useEffectOnce, useJournal } from "@/hooks"
+import { useJournal } from "@/hooks"
 import {
   CarAccountType,
   JournalDetailRes,
   JournalFilterDate,
   RechargeRequestFormParams,
-  WithdrawFormParams,
+  WithdrawFormParams
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useDispatch, useSelector } from "react-redux"
@@ -53,7 +53,6 @@ const Wallet = ({ type }: JournalProps) => {
     journalFilter,
     createRechargeRequest,
   } = useJournal()
-
   const [showWithdrawModal, setShowWithdrawModal] = useState<boolean>(false)
   const [currentPaymentId, setCurrentPaymentId] = useState<number | undefined>(undefined)
   const [showFilter, setShowFilter] = useState<boolean>(false)
@@ -105,7 +104,6 @@ const Wallet = ({ type }: JournalProps) => {
 
   const handleCreateRechargeRequest = (params: RechargeRequestFormParams) => {
     const journal_id = getJournalId()
-    console.log({ journal_id })
     if (!journal_id) return
 
     createRechargeRequest({
@@ -122,14 +120,15 @@ const Wallet = ({ type }: JournalProps) => {
     })
   }
 
-  useEffectOnce(() => {
+  useEffect(() => {
     return () => {
       toggleBodyOverflow("unset")
       if (paymentId) {
         dispatch(setCheckoutPaymentId(undefined))
       }
     }
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -305,3 +304,4 @@ const Wallet = ({ type }: JournalProps) => {
 }
 
 export { Wallet }
+

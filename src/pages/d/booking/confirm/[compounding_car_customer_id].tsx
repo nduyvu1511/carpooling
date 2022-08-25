@@ -7,21 +7,13 @@ import {
   RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import {
-  useBackRouter,
-  useCompoundingCarActions,
-  useCompoundingCarCustomer,
-  useCompoundingForm,
-  useEffectOnce,
-} from "@/hooks"
+import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
-import { useDispatch } from "react-redux"
+import { useEffect } from "react"
 
 const CompoundingCarDriver = () => {
-  const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
@@ -38,7 +30,7 @@ const CompoundingCarDriver = () => {
 
     if (compoundingCar.state === "confirm") {
       router.push(
-        `/d/ride-detail/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
+        `/d/ride-detail/checkout/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
       )
       return
     }
@@ -54,7 +46,7 @@ const CompoundingCarDriver = () => {
           params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
           onSuccess: () => {
             router.push(
-              `/d/ride-detail/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
+              `/d/ride-detail/checkout/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`
             )
           },
         })
@@ -62,17 +54,11 @@ const CompoundingCarDriver = () => {
     })
   }
 
-  useEffectOnce(() => {
+  useEffect(() => {
     return () => {
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
-
-  useBackRouter({
-    cb: () => {
       toggleBodyOverflow("unset")
-    },
-  })
+    }
+  }, [])
 
   return (
     <>
@@ -80,16 +66,7 @@ const CompoundingCarDriver = () => {
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         rightNode={
-          compoundingCar ? (
-            <>
-              <div className="hidden lg:block">
-                <RideSummary showDeposit={false} data={compoundingCar} />
-              </div>
-              <div className="lg:hidden mx-12 mb-12 md:mb-24 md:mx-24 rounded-[5px] overflow-hidden mt-12">
-                <RideSummaryMobile rides={compoundingCar} />
-              </div>
-            </>
-          ) : null
+          compoundingCar ? <RideSummary showDeposit={false} data={compoundingCar} /> : null
         }
         title="Xác nhận chuyến đi"
       >
@@ -102,6 +79,7 @@ const CompoundingCarDriver = () => {
             </div>
           ) : (
             <>
+              <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
               <CarpoolingCompoundingForm
                 compoundingType="convenient"
                 defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
@@ -114,7 +92,7 @@ const CompoundingCarDriver = () => {
           )}
         </div>
 
-        {compoundingCar ? <RideSummaryModal showDeposit={false} rides={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal showDeposit={false} data={compoundingCar} /> : null}
       </DriverBookingLayout>
     </>
   )

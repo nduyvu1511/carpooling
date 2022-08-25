@@ -27,8 +27,10 @@ export const RideCheckoutPopup = ({
           <div className="flex-center flex-col mb-24">
             <WarningIcon className="w-[66px] h-[66px] mb-24" />
 
-            <p className="text-base font-semibold mb-16">Bạn có giao dịch khác cần thanh toán!</p>
-            <p className="text-sm text-gray-color-8 text-center">
+            <p className="text-base font-semibold mb-16 text-center">
+              Bạn có giao dịch khác cần thanh toán!
+            </p>
+            <p className="text-sm text-gray-color-8 text-center leading-[22px]">
               Bạn không thể thực hiện thanh toán cho chuyến đi này bởi vì bạn đang thực hiện giao
               dịch cho một chuyên đi khác
             </p>

@@ -101,7 +101,7 @@ const DriverInfo = () => {
                             ? "Bắt đầu ngay"
                             : "Không băt buộc"}
                           {data?.[child.name] ? (
-                            <CheckCircleIcon className="ml-16" />
+                            <CheckCircleIcon className="ml-16 w-[20px] h-[20px]" />
                           ) : (
                             <ArrowRightIcon className="ml-16 w-[20] h-[20]" />
                           )}

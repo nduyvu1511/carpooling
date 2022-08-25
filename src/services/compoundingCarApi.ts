@@ -243,12 +243,9 @@ const ridesApi = {
   },
 
   driverConfirmCustomerPayFullForCompoundingCar: (params: ConfirmCompoundingCar) => {
-    return axiosClient.post(
-      "/api/compounding_car_controller/confirm_cash_payment_compounding_car_customer",
-      {
-        params,
-      }
-    )
+    return axiosClient.post("/api/compounding_car_controller/confirm_payment_compounding_car", {
+      params,
+    })
   },
 
   driverConfirmWaitingForCustomer: (params: DriverConfirmCompoundingCarCustomerParams) => {

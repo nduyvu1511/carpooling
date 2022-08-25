@@ -251,7 +251,7 @@ export const useCompoundingForm = (): Res => {
   ): CreateTwoWayCompoundingCarForm => {
     return {
       ...commonCompoundingParams(compoundingCar),
-      is_a_day_tour: compoundingCar.is_a_day_tour,
+      is_a_day_tour: true,
       expected_picking_up_date: (compoundingCar?.expected_picking_up_date || undefined) as string,
       hour_of_wait_time: hoursBackList.find(
         (item) => item.value === compoundingCar.hour_of_wait_time

@@ -89,13 +89,14 @@ export const formatNumberDec = (nStr: string, decSeparate: string, groupSeparate
 }
 // hàm định dạng tiền việt nam
 
-export function formatMoneyVND(num: number | string, format = "đ") {
+export function formatMoneyVND(num: number | string, format = "đ"): string {
   if (typeof num == "number") {
     num = Math.floor(num)
     return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
   } else if (typeof num == "string") {
     return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
   }
+  return ""
 }
 
 export function formatNumberInput(value: string, separator = ",") {

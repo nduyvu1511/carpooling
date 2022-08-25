@@ -10,9 +10,9 @@ const useBackRouter = ({ cb, shouldStay = true }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    router.beforePopState(({ as }) => {
-      if (as !== router.asPath) {
-        cb(as)
+    router.beforePopState(({ url }) => {
+      if (url !== router.asPath) {
+        cb(url)
       }
       return true
     })

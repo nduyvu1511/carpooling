@@ -28,14 +28,12 @@ export const RideSummaryMobile = ({
           {rides?.from_address || rides?.from_province?.province_name}
         </p>
       </div>
-      {rides?.to_address ? (
-        <div className="flex items-start mb-12">
-          <LocationIcon4 className="mt-4" />
-          <p className="flex-1 text-sm ml-[10px]">
-            {rides?.to_address || rides?.from_province?.province_name}
-          </p>
-        </div>
-      ) : null}
+      <div className="flex items-start mb-12">
+        <LocationIcon4 className="mt-4" />
+        <p className="flex-1 text-sm ml-[10px]">
+          {rides?.to_address || rides?.to_province?.province_name}
+        </p>
+      </div>
       <div className="flex xs:items-center flex-col xs:flex-row">
         <div className="flex items-start">
           <CalendarIcon className="mt-4" />

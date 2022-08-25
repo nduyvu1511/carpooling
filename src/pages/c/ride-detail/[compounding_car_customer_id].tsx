@@ -49,7 +49,6 @@ const RidesDetail = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(setShowSummaryDetail(false))
       toggleBodyOverflow("unset")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,6 @@
 import { PaymentIcon, WalletIcon } from "@/assets"
 import {
+  Alert,
   CheckoutLoading,
   PaymentMethodItem,
   RideDetailInfo,
@@ -9,19 +10,18 @@ import {
   RideSummaryModal,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useCompoundingCarCustomer, useCustomerCheckout, useEffectOnce } from "@/hooks"
+import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod, PaymentMethodItem as PaymentMethodItemType } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect, useMemo, useState } from "react"
-import { useDispatch } from "react-redux"
 import useSWR from "swr"
 
-const Checkout = () => {
+type ModalType = "confirmCheckout" | "walletBalanceAlert"
+
+const CheckoutCustomer = () => {
   const router = useRouter()
-  const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
   const { confirmPayFullForCompoundingCarCustomer } = useCustomerCheckout()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
@@ -37,8 +37,31 @@ const Checkout = () => {
         .then((res) => res?.result?.data?.money_in_cash_wallet || 0)
         .catch((err) => console.log(err))
   )
-
   const [paymentMethod, setPaymenMethod] = useState<PaymentMethod | undefined>(undefined)
+  const [modalType, setModalType] = useState<ModalType | undefined>()
+
+  const data: PaymentMethodItemType[] = useMemo(() => {
+    return [
+      {
+        value: "exxe_wallet",
+        label: "Ví EXXE",
+        icon: <WalletIcon className="w-16" />,
+        brief: `Số dư: ${formatMoneyVND(amountBalance || 0)}`,
+      },
+      {
+        value: "cash",
+        label: "Tiền mặt",
+        icon: <PaymentIcon className="w-16" />,
+        brief: "Thanh toán cho tài xế",
+      },
+      {
+        value: "transfer",
+        label: "Chuyển khoản",
+        icon: <WalletIcon className="w-16" />,
+        brief: `Thẻ ATM/NAPAS `,
+      },
+    ] as PaymentMethodItemType[]
+  }, [amountBalance])
 
   // Check deposit status
   useEffect(() => {
@@ -48,12 +71,11 @@ const Checkout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
 
-  useEffectOnce(() => {
+  useEffect(() => {
     return () => {
-      dispatch(setShowSummaryDetail(false))
       toggleBodyOverflow("unset")
     }
-  })
+  }, [])
 
   const redirectToCheckoutSuccess = () => {
     router.push(
@@ -81,28 +103,14 @@ const Checkout = () => {
     })
   }
 
-  const data: PaymentMethodItemType[] = useMemo(() => {
-    return [
-      {
-        value: "exxe_wallet",
-        label: "Ví EXXE",
-        icon: <WalletIcon className="w-16" />,
-        brief: `Số dư: ${formatMoneyVND(amountBalance || 0)}`,
-      },
-      {
-        value: "cash",
-        label: "Tiền mặt",
-        icon: <PaymentIcon className="w-16" />,
-        brief: "Thanh toán cho tài xế",
-      },
-      {
-        value: "transfer",
-        label: "Chuyển khoản",
-        icon: <WalletIcon className="w-16" />,
-        brief: `Thẻ ATM/NAPAS `,
-      },
-    ] as PaymentMethodItemType[]
-  }, [amountBalance])
+  const toggleModal = (type: ModalType | undefined) => {
+    setModalType(type)
+    if (type) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
 
   return (
     <CustomerBookingLayout
@@ -152,7 +160,16 @@ const Checkout = () => {
 
           <div className="">
             <button
-              onClick={handleConfirmPayFull}
+              onClick={() => {
+                if (
+                  paymentMethod === "exxe_wallet" &&
+                  (amountBalance || 0) < compoundingCar.amount_due
+                ) {
+                  toggleModal("walletBalanceAlert")
+                  return
+                }
+                toggleModal("confirmCheckout")
+              }}
               className={`btn-primary ${!paymentMethod ? "btn-disabled" : ""}`}
             >
               Tiến hành thanh toán
@@ -161,9 +178,40 @@ const Checkout = () => {
         </>
       ) : null}
 
+      {compoundingCar ? (
+        <>
+          <Alert
+            show={modalType === "confirmCheckout"}
+            onConfirm={() => {
+              handleConfirmPayFull()
+              toggleModal(undefined)
+            }}
+            onClose={() => toggleModal(undefined)}
+            title={`Xác nhận thanh toán số tiền ${formatMoneyVND(
+              compoundingCar?.amount_due
+            )} cho chuyến đi này`}
+            type="info"
+          />
+
+          <Alert
+            show={modalType === "walletBalanceAlert"}
+            onConfirm={() => {
+              router.push(
+                "/c/account/wallet?next=/c/ride-detail/checkout/${compoundingCar.compounding_car_customer_id}"
+              )
+              toggleModal(undefined)
+            }}
+            onClose={() => toggleModal(undefined)}
+            title="Số tiền trong ví không đủ để thanh toán cho chuyến đi này"
+            type="warning"
+            rightBtnLabel="Nạp tiền"
+          />
+        </>
+      ) : null}
+
       {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }
 
-export default Checkout
+export default CheckoutCustomer

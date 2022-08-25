@@ -29,7 +29,7 @@ const Activities = () => {
     if (state === "start_running" || state === "stop_picking")
       router.push(`/d/ride-detail/in-process/${activity.compounding_car_id}`)
     else if (state === "waiting_deposit")
-      router.push(`/d/ride-detail/checkout?compounding_car_id=${activity.compounding_car_id}`)
+      router.push(`/d/ride-detail/checkout/${activity.compounding_car_id}`)
     else if (state === "cancel") router.push(`/d/ride-detail/cancel/${activity.compounding_car_id}`)
     // else if (state === "done") router.push(`/d/ride-detail/done/${activity.compounding_car_id}`)
     else router.push(`/d/ride-detail/${activity.compounding_car_id}`)
@@ -40,9 +40,9 @@ const Activities = () => {
       <div className="px-custom">
         <div className="mb-24 relative">
           <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>
-          <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide w-[calc(100vw-24px)] md:w-[calc(100vw-48px)] lg:w-full">
+          <ul className="flex lg:flex-wrap overflow-auto scrollbar-hide">
             {driverActivityFilters.map(({ label, value }, index) => (
-              <li className="mr-12 md:mr-16 last:mr-0 lg:mb-16" key={index}>
+              <li className="mr-12 md:mr-16 last:mr-24 lg:mb-16" key={index}>
                 <TagActivityItem<CompoundingCarDriverState[]>
                   bgColor={STATE_BG_COLOR[value?.[0] || ""]}
                   color={STATE_COLOR?.[value?.[0] || ""]}

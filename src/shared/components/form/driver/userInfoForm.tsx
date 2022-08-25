@@ -330,7 +330,7 @@ export const UserInfoForm = ({
             </div>
           ))}
 
-          {view === "page" ? <div className="mb-[40px]"></div> : null}
+          {view === "page" ? <div className="mb-[64px] md:mb-[40px]"></div> : null}
         </div>
 
         <ButtonSubmit

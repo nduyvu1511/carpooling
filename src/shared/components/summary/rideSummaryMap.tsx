@@ -2,6 +2,7 @@ import { ArrowLineRightIcon } from "@/assets"
 import { COMPOUNDING_TYPE_NAME, getHoursName } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
+import { memo } from "react"
 import { Map } from "../map"
 
 interface RideSummaryMapProps {
@@ -10,7 +11,12 @@ interface RideSummaryMapProps {
   className?: string
 }
 
-export const RideSummaryMap = ({ data, showMap = true, className = "" }: RideSummaryMapProps) => {
+export const RideSummaryMap = memo(function Child({
+  data,
+  showMap = true,
+  className = "",
+}: RideSummaryMapProps) {
+  console.log("map re render")
   return (
     <div className={`bg-bg-primary rounded-[5px] p-custom ${className}`}>
       <div className="flex items-center mb-16">
@@ -74,5 +80,15 @@ export const RideSummaryMap = ({ data, showMap = true, className = "" }: RideSum
         </li>
       </ul>
     </div>
+  )
+},
+areEqual)
+
+function areEqual(prevProps: RideSummaryMapProps, nextProps: RideSummaryMapProps) {
+  return (
+    prevProps.data.from_province.longitude === nextProps.data.from_province.longitude &&
+    prevProps.data.from_province.latitude === nextProps.data.from_province.latitude &&
+    prevProps.data.to_province.longitude === nextProps.data.to_province.longitude &&
+    prevProps.data.to_province.latitude === nextProps.data.to_province.latitude
   )
 }

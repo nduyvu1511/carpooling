@@ -60,6 +60,7 @@ const MyInputDateTime = ({
     if (!date || !time) return
     onChange(`${date} ${time}`)
   }
+
   return (
     <div
       onBlur={() => onBlur?.()}
@@ -67,7 +68,7 @@ const MyInputDateTime = ({
     >
       <div
         className={`relative form-date w-[40%] sm:w-1/2 h-full borer border-solid bg-white-color rounded-[5px] md:rounded-[10px] ${
-          isError ? "border border-solid border-error" : "border-black-10 md:border-border-color-2"
+          isError ? "border border-solid border-error" : "border-black-10 md:border-gray-color-2"
         }`}
       >
         <Datetime
@@ -118,4 +119,3 @@ const MyInputDateTime = ({
 }
 
 export { MyInputDateTime }
-

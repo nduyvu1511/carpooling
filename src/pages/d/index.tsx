@@ -56,7 +56,7 @@ const HomeDriver = () => {
         carAccountType="car_driver"
         defaultParams={router.query}
         onClickRideItem={(compounding_car_id) =>
-          router.push(`/d/ride-detail/${compounding_car_id}`)
+          router.push(`/d/ride-detail/confirm/${compounding_car_id}`)
         }
         onFetchMore={() => fetchMoreRides(router.query)}
         onFilterRide={(data) => handleFilterRides(data)}

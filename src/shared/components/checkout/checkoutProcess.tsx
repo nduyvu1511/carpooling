@@ -1,7 +1,6 @@
-import { ErrorCircleIcon, WarningIcon } from "@/assets"
+import { ErrorCircleIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
-import { useEffectOnce } from "@/hooks"
 import {
   CompoundingCarCustomer,
   CompoundingCarDriverRes,
@@ -10,7 +9,7 @@ import {
 } from "@/models"
 import { ridesApi, userApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface CheckoutProcessProps {
   vnp_ResponseCode: VnpayStatus
@@ -34,14 +33,17 @@ const CheckoutProcess = ({
   const [isValidating, setValidating] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number | undefined>(30)
 
-  useEffectOnce(() => {
+  useEffect(() => {
     if (vnp_ResponseCode !== "00") return
 
     if (compounding_car_customer_id) {
       setValidating(true)
       ;(fetcher_type === "confirmDepositCompoundingCarCustomer"
         ? ridesApi.confirmDepositCompoundingCarCustomer
-        : ridesApi.customerConfirmPayFullCompoundingCar)({ compounding_car_customer_id })
+        : ridesApi.customerConfirmPayFullCompoundingCar)({
+        compounding_car_customer_id,
+        payment_method: "transfer",
+      })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {
           setValidating(false)
           if (
@@ -81,7 +83,8 @@ const CheckoutProcess = ({
         })
         .catch(() => setValidating(false))
     }
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="container flex-1 bg-white-color md:mt-24">

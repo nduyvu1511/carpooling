@@ -72,17 +72,15 @@ const RideContainer = ({
     <>
       <section className="ride-container container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
-          <div className="hidden xl:block">
-            {!showFilterMobile && !showFilterTablet && router.isReady ? (
-              <div className="sticky top-[81px] block-element p-24 z-[100]">
-                <CompoundingFilter
-                  type={carAccountType}
-                  defaultValues={defaultParams as any}
-                  onChange={(data) => onFilterRide?.(data)}
-                />
-              </div>
-            ) : null}
-          </div>
+          {!showFilterMobile && !showFilterTablet && router.isReady ? (
+            <div className="hidden xl:block h-fit sticky top-[81px] block-element px-[18px] py-24 z-[100]">
+              <CompoundingFilter
+                type={carAccountType}
+                defaultValues={defaultParams as any}
+                onChange={(data) => onFilterRide?.(data)}
+              />
+            </div>
+          ) : null}
 
           <div className="block-element px-12 md:px-16 lg:px-24 pb-24">
             <div className="mb-24 md:mb-[40px]">

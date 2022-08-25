@@ -8,7 +8,7 @@ const WalletCustomer = () => {
         description="Ví cá nhân"
         thumbnailUrl=""
         title="Ví cá nhân"
-        url="https://exxe.vn/c/wallet"
+        url="https://exxe.vn/c/account/wallet"
       />
       <HeaderMobile title="Ví cá nhân" className="lg:hidden" />
       <Wallet />

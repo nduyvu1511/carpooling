@@ -1,10 +1,8 @@
 import { InfoIcon } from "@/assets"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { CompoundingCancelCar, CompoundingCarCustomer, CompoundingCarRes } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import moment from "moment"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
 import { RideSummaryMobile, RideSummaryModal } from "../summary"
 
 interface RideCanceledProps {
@@ -13,14 +11,10 @@ interface RideCanceledProps {
 }
 
 const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
-  const dispatch = useDispatch()
-
   useEffect(() => {
     return () => {
-      dispatch(setShowSummaryDetail(false))
       toggleBodyOverflow("unset")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

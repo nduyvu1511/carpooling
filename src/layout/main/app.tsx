@@ -1,12 +1,11 @@
 import { SpinnerLoading } from "@/components"
 import { RootState } from "@/core"
 import { useAuth } from "@/hooks"
-import { useEffectOnce } from "@/hooks/utilities/useEffectOnce"
 import { CarId, ProvinceId, VehicleTypeParams } from "@/models"
 import { setProfile, setProvinces, setVehicleTypes } from "@/modules"
 import { addressApi, vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
 
@@ -17,7 +16,7 @@ const App = ({ children }: { children: ReactNode }) => {
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
 
-  useEffectOnce(() => {
+  useEffect(() => {
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
     })
@@ -56,7 +55,7 @@ const App = ({ children }: { children: ReactNode }) => {
         })
         .catch((err) => console.log(err))
     }
-  })
+  }, [])
 
   return (
     <>

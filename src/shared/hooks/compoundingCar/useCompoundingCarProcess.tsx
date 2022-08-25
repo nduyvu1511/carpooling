@@ -1,129 +1,139 @@
+import { isObjectHasValue } from "@/helper"
 import {
   CompoundingCarCustomer,
   CompoundingCarCustomerWithState,
   CompoundingCarDriverRes,
+  CompoundingCarRes,
   DriverConfirmCompoundingCarCustomerParams,
+  UseParams,
 } from "@/models"
 import { ridesApi } from "@/services"
-import { useMemo } from "react"
-import { KeyedMutator, mutate } from "swr"
+import { AxiosResponse } from "axios"
+import { useMemo, useState } from "react"
+import useSWR, { KeyedMutator } from "swr"
 import { useFetcher } from "../async"
-import { useCompoundingCarDriver } from "./useCompoundingCarDriver"
 
 interface Res {
+  compoundingCarMap: CompoundingCarDriverRes | undefined
   compoundingCar: CompoundingCarDriverRes | undefined
   isInitialLoading: boolean
   isValidating: boolean
-  confirmDoneCompoundingCar: (id: number, cb?: Function, _cb?: Function) => void
-  startRunningCompoundingCar: (compounding_car_id: number, cb?: Function, _cb?: Function) => void
-  confirmStateCompoundingCarCustomer: (
-    params: CompoundingCarCustomerWithState & {
-      customer_id: number
-    },
-    onSuccess?: Function,
-    onErr?: Function
-  ) => void
-  getNumberOfPassengersPickedUp: number
-  getNumberOfPassengersDone: number
-  getNumberOfPassengersPaid: number
-  changeOrderOfCompoudingCarCustomerToLast: (id: number) => void
-  confirmCustomerPayFullForCompoundingCar: (
-    compounding_car_customer_id: number,
-    onSuccess?: Function,
-    onError?: Function
-  ) => void
-  confirmWaitingForCompoundingCarCustomer: (
-    params: DriverConfirmCompoundingCarCustomerParams,
-    onSuccess?: Function,
-    onErr?: Function
-  ) => void
   mutateCompoundingCar: KeyedMutator<CompoundingCarDriverRes>
+  confirmDoneCompoundingCar: (_: UseParams<number, CompoundingCarRes>) => void
+  startRunningCompoundingCar: (_: UseParams<number, CompoundingCarRes>) => void
+  changeOrderOfCompoudingCarCustomerToLast: (id: number) => void
+  confirmCustomerPayFullForCompoundingCar: (_: UseParams<number, CompoundingCarCustomer>) => void
+  confirmWaitingForCompoundingCarCustomer: (
+    _: UseParams<DriverConfirmCompoundingCarCustomerParams, CompoundingCarCustomer>
+  ) => void
+  confirmStateCompoundingCarCustomer: (
+    _: UseParams<
+      CompoundingCarCustomerWithState & {
+        customer_id: number
+      },
+      CompoundingCarCustomer
+    >
+  ) => void
   getNumberOfNotPickedUp: number
   getNumberOfPassengersCanceled: number
   getTotalPassenger: number
+  getNumberOfPassengersPickedUp: number
+  getNumberOfPassengersDone: number
+  getNumberOfPassengersPaid: number
 }
 
 const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res => {
   const { fetcherHandler } = useFetcher()
   const {
+    error,
     data: compoundingCar,
     isValidating,
-    isInitialLoading,
     mutate: mutateCompoundingCar,
-  } = useCompoundingCarDriver({
-    key: "get_compounding_car_schedules_driver",
-    type: "once",
-    compounding_car_id: Number(compounding_car_id),
-  })
+  } = useSWR<CompoundingCarDriverRes, any>(
+    compounding_car_id ? `get_compounding_car_schedules_driver_${compounding_car_id}` : null,
+    () =>
+      ridesApi
+        .getDetailCompoundingCar({
+          compounding_car_id: Number(compounding_car_id),
+        })
+        .then((res: AxiosResponse<any>) => {
+          const data = res?.result?.data
+          if (isObjectHasValue(data)) {
+            setCompoundingCarMap(data)
+            return data
+          }
+          return null
+        })
+        .catch((err) => console.log(err))
+  )
 
-  const confirmDoneCompoundingCar = async (
-    compounding_car_id: number,
-    onSuccess?: Function,
-    onErr?: Function
-  ) => {
+  const [compoundingCarMap, setCompoundingCarMap] = useState<CompoundingCarDriverRes>()
+
+  const confirmDoneCompoundingCar = async (_: UseParams<number, CompoundingCarRes>) => {
+    const { onSuccess, params: compounding_car_id, config, onError } = _
     fetcherHandler({
       fetcher: ridesApi.confirmDoneCompoundingCar({ compounding_car_id }),
-      onSuccess: () => onSuccess?.(),
-      onError: () => onErr?.(),
+      onSuccess: (data) => onSuccess?.(data),
+      onError: () => onError?.(),
+      config,
     })
   }
 
   const confirmWaitingForCompoundingCarCustomer = async (
-    params: DriverConfirmCompoundingCarCustomerParams,
-    onSuccess?: Function,
-    onErr?: Function
+    _: UseParams<DriverConfirmCompoundingCarCustomerParams, CompoundingCarCustomer>
   ) => {
-    fetcherHandler({
+    const { onSuccess, params, config, onError } = _
+    fetcherHandler<CompoundingCarCustomer>({
       fetcher: ridesApi.driverConfirmWaitingForCustomer(params),
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(data)
         // changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
         // changeCompoundingCarCustomerState({
         //   compounding_car_customer_id: params.compounding_car_customer_id,
         //   state: "waiting_customer",
         // })
         mutateCompoundingCar()
-        onSuccess?.()
+        onSuccess?.(data)
       },
-      onError: () => onErr?.(),
+      onError: () => onError?.(),
+      config,
     })
   }
 
   const confirmCustomerPayFullForCompoundingCar = async (
-    compounding_car_customer_id: number,
-    onSuccess?: Function,
-    onError?: Function
+    _: UseParams<number, CompoundingCarCustomer>
   ) => {
-    fetcherHandler({
+    const { onSuccess, params: compounding_car_customer_id, config, onError } = _
+    fetcherHandler<CompoundingCarCustomer>({
       fetcher: ridesApi.driverConfirmCustomerPayFullForCompoundingCar({
         compounding_car_customer_id,
       }),
-      onSuccess: () => {
+      onSuccess: (data) => {
         changeOrderOfCompoudingCarCustomerToLast(compounding_car_customer_id)
         changeCompoundingCarCustomerState({
           compounding_car_customer_id,
           state: "confirm_paid",
         })
-        onSuccess?.()
+        onSuccess?.(data)
       },
       onError: onError?.(),
+      config,
     })
   }
 
-  const startRunningCompoundingCar = async (
-    compounding_car_id: number,
-    onSuccess?: Function,
-    onErr?: Function
-  ) => {
+  const startRunningCompoundingCar = async (_: UseParams<number, CompoundingCarRes>) => {
+    const { onSuccess, params: compounding_car_id, config, onError } = _
     fetcherHandler({
       fetcher: ridesApi.startRunningCompoundingCar({
         compounding_car_id,
       }),
-      onSuccess: () => {
+      onSuccess: (data) => {
         if (!compoundingCar) return
         mutateCompoundingCar({ ...compoundingCar, state: "start_running" }, false)
-        onSuccess?.()
+        onSuccess?.(data)
       },
-      onError: () => onErr?.(),
+      onError: () => onError?.(),
+      config,
     })
   }
 
@@ -140,27 +150,29 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   }
 
   const confirmStateCompoundingCarCustomer = async (
-    params: CompoundingCarCustomerWithState & {
-      customer_id: number
-    },
-
-    onSuccess?: Function,
-    onErr?: Function
+    _: UseParams<
+      CompoundingCarCustomerWithState & {
+        customer_id: number
+      },
+      CompoundingCarCustomer
+    >
   ) => {
+    const { onSuccess, params, config, onError } = _
     fetcherHandler({
       fetcher:
         params.state === "done"
           ? ridesApi.driverConfirmCompoundingCarCustomer(params)
           : ridesApi.driverConfirmPickingUpCompoundingCarCustomer(params),
-      onSuccess: () => {
+      onSuccess: (data) => {
         changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
         changeCompoundingCarCustomerState({
           compounding_car_customer_id: params.compounding_car_customer_id,
           state: params.state,
         })
-        onSuccess?.()
+        onSuccess?.(data)
       },
-      onError: () => onErr?.(),
+      onError: () => onError?.(),
+      config,
     })
   }
 
@@ -240,7 +252,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     startRunningCompoundingCar,
     confirmStateCompoundingCarCustomer,
     compoundingCar,
-    isInitialLoading,
+    isInitialLoading: error === undefined && compoundingCar === undefined,
     isValidating,
     getNumberOfPassengersPickedUp,
     changeOrderOfCompoudingCarCustomerToLast,
@@ -252,6 +264,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     getNumberOfPassengersCanceled,
     getNumberOfNotPickedUp,
     getTotalPassenger,
+    compoundingCarMap,
   }
 }
 

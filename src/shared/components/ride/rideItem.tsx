@@ -21,8 +21,8 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
     return (
       <div className="p-12 md:p-[18px]">
         <div className="flex items-center justify-between mb-[24px]">
-          <div className="w-[60px] xs:w-[80px] h-[12px] skeleton rounded-[4px]"></div>
-          <div className="w-[40px] xs:w-[50px] sm:w-[60px] h-[8px] skeleton rounded-[4px]"></div>
+          <div className="w-[60px] xs:w-[120px] h-[20px] skeleton rounded-[4px]"></div>
+          <div className="w-[40px] xs:w-[50px] sm:w-[60px] h-[14px] skeleton rounded-[4px]"></div>
         </div>
 
         <div className="mb-[40px]">
@@ -36,7 +36,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
             <div className="w-[40%] h-16 skeleton rounded-[4px]"></div>
           </div>
 
-          <div className="mx-auto h-[60px] skeleton rounded-[4px] mb-[12px]"></div>
+          <div className="mx-auto h-[65px] skeleton rounded-[4px] mb-[12px]"></div>
         </div>
         <div className="flex items-center justify-between">
           <div className="w-[30px] h-[12px] skeleton rounded-[4px]"></div>

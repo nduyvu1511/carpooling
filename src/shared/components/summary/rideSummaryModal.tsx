@@ -22,9 +22,7 @@ const RideSummaryModal = ({ data, showDeposit = true }: RideSummaryModalProps) =
 
   useEffect(() => {
     return () => {
-      setTimeout(() => {
-        dispatch(setShowSummaryDetail(false))
-      }, 300)
+      dispatch(setShowSummaryDetail(false))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

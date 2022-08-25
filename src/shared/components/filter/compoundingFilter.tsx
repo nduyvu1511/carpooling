@@ -202,7 +202,7 @@ export const CompoundingFilter = ({
                 ? compoundingOrderList.find((item) => item.value === compoundingFormValues.order_by)
                 : null
             }
-            options={type !== "car_driver" ? compoundingOrderList : compoundingCustomerOrderList}
+            options={type === "car_driver" ? compoundingOrderList : compoundingCustomerOrderList}
             onChange={(val) => {
               if (!val?.value) return
               if (val.value === "sort_by_distance") {
@@ -238,23 +238,26 @@ export const CompoundingFilter = ({
       </div>
 
       <div className="absolute bottom-0 right-0 left-0 xl:hidden bg-white-color flex md:flex-col p-12">
-        <button
-          onClick={() => {
-            onChangeProps(undefined)
-            onCloseFilter?.()
-          }}
-          className={`btn-primary-outline py-[6px] mr-12 md:mr-0 md:mb-12 flex-1 rounded-[5px] w-full ${
-            !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
-          }`}
-        >
-          Xóa bộ lọc
-        </button>
+        {isObjectHasValue(defaultValues) ? (
+          <button
+            onClick={() => {
+              onChangeProps(undefined)
+              onCloseFilter?.()
+            }}
+            className={`text-sm mr-12 text-primary md:mr-0 md:mb-12 flex-1 rounded-[5px] w-full ${
+              !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
+            }`}
+          >
+            Đặt lại
+          </button>
+        ) : null}
+
         <button
           onClick={() => {
             isObjectHasValue(compoundingFormValues) && onChangeProps(compoundingFormValues)
             onCloseFilter?.()
           }}
-          className={`btn-primary py-[6px] flex-1 rounded-[5px] w-full ${
+          className={`btn-primary flex-1 rounded-[5px] w-full ${
             !isObjectHasValue(compoundingFormValues) ? "btn-disabled" : ""
           }`}
         >

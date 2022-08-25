@@ -10,7 +10,7 @@ import useSWR from "swr"
 const RideDone = () => {
   const router = useRouter()
   const { compounding_car_id = "" } = router.query
-  const { data, mutate, error, isValidating } = useSWR<DriverCompoundingCarInvoiceRes | undefined>(
+  const { data, error, isValidating } = useSWR<DriverCompoundingCarInvoiceRes | undefined>(
     compounding_car_id ? `get_driver_compounding_car_invoice_${compounding_car_id}` : null,
     () =>
       ridesApi

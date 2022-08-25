@@ -1,4 +1,11 @@
-import { ActivityIcon, LockIcon, StarEmptyIcon, UserCircleIcon, WalletIcon } from "@/assets"
+import {
+  ActivityIcon,
+  CouponIcon,
+  LockIcon,
+  StarEmptyIcon,
+  UserCircleIcon,
+  WalletIcon,
+} from "@/assets"
 import { RootState } from "@/core/store"
 import { SidebarItem } from "@/models"
 import { useMemo } from "react"
@@ -8,6 +15,7 @@ const useAccountNavList = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const accountNavList: SidebarItem[] = useMemo(() => {
     if (!userInfo?.partner_id) return []
+
     if (userInfo.car_account_type === "car_driver")
       return [
         {
@@ -31,6 +39,11 @@ const useAccountNavList = () => {
           path: `/d/account/wallet`,
         },
         {
+          icon: <CouponIcon className="w-[20px] h-[20px]" />,
+          label: "Mã khuyến mãi",
+          path: `/d/account/promotion`,
+        },
+        {
           icon: <StarEmptyIcon className="w-[20px] h-[20px]" />,
           label: "Đánh giá",
           path: `/d/account/rating`,
@@ -52,6 +65,11 @@ const useAccountNavList = () => {
         icon: <WalletIcon className="w-[20px] h-[20px]" />,
         label: "Ví cá nhân",
         path: `/c/account/wallet`,
+      },
+      {
+        icon: <CouponIcon className="w-[20px] h-[20px]" />,
+        label: "Mã khuyến mãi",
+        path: `/c/account/promotion`,
       },
       {
         icon: <ActivityIcon className="w-[20px] h-[20px]" />,

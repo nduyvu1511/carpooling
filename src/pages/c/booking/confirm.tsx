@@ -11,7 +11,6 @@ import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 const ConfirmBookingCustomer = () => {
   const router = useRouter()
@@ -29,21 +28,18 @@ const ConfirmBookingCustomer = () => {
     type: "once",
   })
 
-  useEffect(() => {
-    if (compoundingCar?.state === "deposit") {
-      router.push(
-        `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compoundingCar])
-
   const handleConfirmCompoundingCar = (params: CreateCompoundingCar) => {
     if (!compoundingCar?.compounding_car_customer_id) return
 
     if (compoundingCar.state === "confirm") {
       router.push(`/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`)
       return
+    }
+
+    if (compoundingCar?.state === "deposit") {
+      router.push(
+        `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
+      )
     }
 
     updateCompoundingCar({

@@ -5,6 +5,7 @@ import {
   RideToolTip,
   Spinner,
   WalletBalanceAlert,
+  SummaryItem,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
@@ -27,9 +28,10 @@ interface CheckoutProps {
   type?: "deposit" | "checkout"
   descRideTooltip?: string
   state?: string
+  returnedUrl?: string
 }
 
-type ModalType = "confirm" | "cancel" | "alert"
+type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | undefined
 
 const Checkout = ({
   secondsRemains,
@@ -43,6 +45,7 @@ const Checkout = ({
   percentage,
   descRideTooltip = "Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi.",
   state,
+  returnedUrl,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -51,11 +54,10 @@ const Checkout = ({
     paymentList,
     setCurrentSelectPayment,
   } = usePayment()
-  const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
-  const [showAlertModal, setShowAlertModal] = useState<boolean>()
-  const [showCancelModal, setShowCancelModal] = useState<boolean>()
-  const [showWalletAlert, setShowWalletAlert] = useState<boolean>(false)
+
+  const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
+  const [modalType, setModalType] = useState<ModalType>()
 
   useEffect(() => {
     return () => {
@@ -64,15 +66,9 @@ const Checkout = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const toggleModal = (type: ModalType, status: boolean) => {
-    if (type === "cancel") {
-      setShowCancelModal(status)
-    } else if (type === "alert") {
-      setShowWalletAlert(status)
-    } else {
-      setShowAlertModal(status)
-    }
-    if (status) {
+  const toggleModal = (type: ModalType | undefined) => {
+    setModalType(type)
+    if (type) {
       toggleBodyOverflow("hidden")
     } else {
       toggleBodyOverflow("unset")
@@ -82,7 +78,7 @@ const Checkout = ({
   return (
     <>
       {isExpiredCountdown && showCountdown ? (
-        <div className="bg-bg-warning p-24 rounded-[5px] mb-24 mx-12 md:mx-24">
+        <div className="bg-bg-warning p-24 rounded-[5px] mb-24">
           <p className="text-14 font-medium">Hết hạn cho giao dịch này</p>
         </div>
       ) : (
@@ -98,11 +94,11 @@ const Checkout = ({
 
                 {showCountdown ? (
                   <div className="flex items-center">
-                    <span className="mr-8 text-sm text-error">Hết hạn trong</span>
+                    <span className="mr-8 text-xs sm:text-sm text-error">Hết hạn trong</span>
                     <Countdown
                       className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] whitespace-nowrap w-[56px] py-4 h-[28px] px-8"
                       onExpiredCoundown={() => {
-                        // setExpiredCountdown(true)
+                        setExpiredCountdown(true)
                       }}
                       secondsRemains={secondsRemains}
                     />
@@ -129,13 +125,14 @@ const Checkout = ({
                   </span>
                 </li>
               ) : null}
+
+              <SummaryItem
+                label="Tổng tiền cần thanh toán"
+                value={formatMoneyVND(amount_total || 0) + ""}
+              />
+
               {amount_due ? (
-                <li className="flex items-center justify-between mb-12">
-                  <span className="mr-[12px] text-xs">Số tiền thanh toán sau</span>
-                  <span className="text-sm md:text-base whitespace-nowrap">
-                    {formatMoneyVND(amount_due)}
-                  </span>
-                </li>
+                <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(amount_due)} />
               ) : null}
 
               <p className="text-xs text-error">
@@ -173,7 +170,7 @@ const Checkout = ({
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
               {onCancelCheckout ? (
                 <button
-                  onClick={() => toggleModal("cancel", true)}
+                  onClick={() => toggleModal("cancel")}
                   className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-16"
                 >
                   <span className="hidden sm:block"> Hủy chuyến</span>
@@ -189,17 +186,20 @@ const Checkout = ({
                       currentSelectPayment?.money_in_cash_wallet === 0 ||
                       (currentSelectPayment?.money_in_cash_wallet || 0) < down_payment
                     ) {
-                      toggleModal("alert", true)
+                      toggleModal("alert")
                       return
                     }
-                    onCheckout?.(currentSelectPayment)
+                    toggleModal("confirmWallet")
                   } else {
-                    toggleModal("confirm", true)
+                    toggleModal("confirm")
                     setCurrentSelectPayment(currentSelectPayment)
                   }
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
-                  currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
+                  currentSelectPayment?.acquirer_id &&
+                  userInfo?.verified_car_driver_account === "active_account"
+                    ? "bg-primary"
+                    : "btn-disabled bg-disabled"
                 }`}
               >
                 Xác nhận
@@ -225,40 +225,56 @@ const Checkout = ({
         />
       ) : null}
 
-      {showAlertModal ? (
-        <Alert
-          show={!!showAlertModal}
-          title={
-            "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
-          }
-          onClose={() => toggleModal("confirm", false)}
-          onConfirm={() => {
-            if (!currentSelectPayment) return
-            onCheckout?.(currentSelectPayment)
-            toggleModal("confirm", false)
-          }}
-          type={"info"}
-        />
-      ) : null}
+      <Alert
+        show={modalType === "confirm"}
+        title={
+          "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
+        }
+        onClose={() => toggleModal(undefined)}
+        onConfirm={() => {
+          if (!currentSelectPayment) return
+          onCheckout?.(currentSelectPayment)
+          toggleModal(undefined)
+        }}
+        type={"info"}
+      />
 
-      {showWalletAlert ? (
+      {modalType === "alert" ? (
         <WalletBalanceAlert
           show={true}
-          onClose={() => toggleModal("alert", false)}
-          onConfirm={() => {}}
+          onClose={() => toggleModal(undefined)}
+          onConfirm={() =>
+            router.push(
+              `/${userInfo?.car_account_type === "car_driver" ? "/d" : "/c"}/account/wallet?next=${
+                returnedUrl || ""
+              }&amount=${down_payment}`
+            )
+          }
         />
       ) : null}
 
-      {state && showCancelModal ? (
+      {state && modalType === "cancel" ? (
         <RideCancelForm
           onSubmit={(data) => {
             onCancelCheckout?.(data)
-            toggleModal("cancel", false)
+            toggleModal(undefined)
           }}
-          onClose={() => toggleModal("cancel", false)}
+          onClose={() => toggleModal(undefined)}
           params={{ compounding_car_customer_state: state }}
         />
       ) : null}
+
+      <Alert
+        show={modalType === "confirmWallet"}
+        onClose={() => setModalType(undefined)}
+        title={`Xác nhận thanh toán số tiền ${formatMoneyVND(down_payment)} bằng ví EXXE`}
+        onConfirm={() => {
+          if (!currentSelectPayment) return
+          onCheckout?.(currentSelectPayment)
+          setModalType(undefined)
+        }}
+        type="info"
+      />
     </>
   )
 }

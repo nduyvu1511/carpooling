@@ -13,21 +13,19 @@ import {
   RidePassengerItem,
   RideProgress,
   RidesDetailLoading,
+  RideStatus,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useBackRouter, useCompoundingCarProcess, useCurrentLocation, useEffectOnce } from "@/hooks"
+import { useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
-import { setShowSummaryDetail } from "@/modules"
 import { useRouter } from "next/router"
-import { useMemo, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useMemo, useState } from "react"
 import { LatLng } from "use-places-autocomplete"
 
-const ScheduleCompounding = () => {
-  const dispatch = useDispatch()
+const StartRunningCompoundingCar = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { getCurrentLocation } = useCurrentLocation()
@@ -46,23 +44,17 @@ const ScheduleCompounding = () => {
     getNumberOfNotPickedUp,
     getNumberOfPassengersCanceled,
     getTotalPassenger,
+    compoundingCarMap,
   } = useCompoundingCarProcess(Number(compounding_car_id))
 
   const [confirmDoneCompoundingCarModal, setConfirmDoneCompoundingCarModal] =
     useState<boolean>(false)
 
-  useEffectOnce(() => {
+  useEffect(() => {
     return () => {
-      mutateCompoundingCar(undefined, false)
-      dispatch(setShowSummaryDetail(false))
-    }
-  })
-
-  useBackRouter({
-    cb: () => {
       toggleBodyOverflow("unset")
-    },
-  })
+    }
+  }, [])
 
   const handleGenerateGoogleMapUrl = (params: LatLng) => {
     getCurrentLocation({
@@ -77,9 +69,12 @@ const ScheduleCompounding = () => {
 
   const handleConfirmDoneCompoundingCar = () => {
     if (!compoundingCar?.compounding_car_id) return
-    confirmDoneCompoundingCar(compoundingCar.compounding_car_id, () => {
-      setConfirmDoneCompoundingCarModal(false)
-      router.push(`/d/ride-detail/done/${compoundingCar.compounding_car_id}`)
+    confirmDoneCompoundingCar({
+      params: compoundingCar.compounding_car_id,
+      onSuccess: () => {
+        setConfirmDoneCompoundingCarModal(false)
+        router.push(`/d/ride-detail/done/${compoundingCar.compounding_car_id}`)
+      },
     })
   }
 
@@ -147,8 +142,20 @@ const ScheduleCompounding = () => {
         number: getNumberOfPassengersPickedUp,
         label: "Đã đón khách",
       },
+      {
+        order: 1,
+        key: "cancel",
+        color: "#ff3b3033",
+        number: getNumberOfPassengersCanceled,
+        label: "Đã hủy",
+      },
     ]
-  }, [getNumberOfPassengersDone, getNumberOfPassengersPaid, getNumberOfPassengersPickedUp])
+  }, [
+    getNumberOfPassengersDone,
+    getNumberOfPassengersPaid,
+    getNumberOfPassengersPickedUp,
+    getNumberOfPassengersCanceled,
+  ])
 
   return (
     <>
@@ -157,7 +164,7 @@ const ScheduleCompounding = () => {
         topNode={<RideProgress state={compoundingCar?.state} />}
         title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}
         stickyRight
-        rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
+        rightNode={compoundingCarMap ? <RideSummary data={compoundingCarMap} /> : null}
       >
         {isInitialLoading ? (
           <RidesDetailLoading />
@@ -173,9 +180,7 @@ const ScheduleCompounding = () => {
         ) : (
           <>
             <div className="flex items-center justify-between">
-              <p className="text-16 font-semibold uppercase md:font-medium md:normal-case">
-                Trạng thái chuyến đi
-              </p>
+              <p className="text-16 font-semibold uppercase">Trạng thái chuyến đi</p>
               {compoundingCar.compounding_type === "compounding" ? (
                 <p className="flex items-center">
                   <span className="mr-[4px] sm:mr-[8px] flex items-center">
@@ -190,39 +195,31 @@ const ScheduleCompounding = () => {
             </div>
             <div className="pt-12 md:pt-16 md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
               <ProgressBarMultiple
-                height={3}
+                height={7}
                 type="dashed"
                 progressList={progressList}
                 totalNumber={getTotalPassenger}
               />
 
-              <ul className="flex items-center flex-wrap mt-12 md:mt-16">
+              <div className="flex items-center flex-wrap mt-12 md:mt-16">
                 {statusList.map(
                   ([label, backgroundColor, number, icon]) =>
                     number > 0 && (
-                      <li
-                        key={backgroundColor as string}
-                        className="flex items-center mr-12 mb-12 last:mr-0"
-                      >
-                        <span
-                          className="flex-center w-[18px] sm:w-[24px] h-[18px] sm:h-[24px] mr-[6px] rounded-[50%]"
-                          style={{ backgroundColor: backgroundColor + "" }}
-                        >
-                          {icon}
-                        </span>
-                        <p className="">
-                          <span className="text-[10px]">{label}:</span>{" "}
-                          <span className="text-12 font-medium">{number}</span>
-                        </p>
-                      </li>
+                      <RideStatus
+                        key={+number}
+                        backgroundColor={backgroundColor + ""}
+                        icon={icon}
+                        label={label + ""}
+                        number={+number}
+                      />
                     )
                 )}
-              </ul>
+              </div>
             </div>
 
-            <div className="border-b border-solid border-border-color mx-12 md:mx-24 mb-24 lg:mb-0"></div>
+            <div className="border-b border-solid border-border-color mb-24 lg:mb-0"></div>
 
-            <RideSummaryMobile rides={compoundingCar} />
+            <RideSummaryMobile className="lg:hidden" rides={compoundingCar} />
 
             <div className="">
               {compoundingCar?.state === "confirm_deposit" ||
@@ -245,7 +242,10 @@ const ScheduleCompounding = () => {
                     <div className="flex-center p-12 lg:pb-[36px] fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
                       <button
                         onClick={() =>
-                          startRunningCompoundingCar(compoundingCar.compounding_car_id)
+                          startRunningCompoundingCar({
+                            params: compoundingCar.compounding_car_id,
+                            onSuccess: () => {},
+                          })
                         }
                         className="btn-primary"
                       >
@@ -256,11 +256,10 @@ const ScheduleCompounding = () => {
                 </>
               ) : null}
 
-              <div className="lg:hidden my-24 border-b lg:mx-12 border-solid border-border-color"></div>
+              <div className="lg:border-none my-24 border-b border-solid border-border-color"></div>
 
               <div className="mb-0 md:mb-[64px] lg:mb-0">
                 <p className="text-base font-semibold uppercase mb-12">Danh sách hành khách</p>
-
                 <ul
                   className={`${
                     compoundingCar?.state !== "start_running" &&
@@ -291,32 +290,37 @@ const ScheduleCompounding = () => {
                           rides={item}
                           onClickWaiting={() =>
                             confirmWaitingForCompoundingCarCustomer({
-                              compounding_car_customer_id: item.compounding_car_customer_id,
-                              customer_id: item.partner.partner_id,
+                              params: {
+                                compounding_car_customer_id: item.compounding_car_customer_id,
+                                customer_id: item.partner.partner_id,
+                              },
+                              onSuccess: () => {},
                             })
                           }
                           onClickPickUp={() =>
                             confirmStateCompoundingCarCustomer({
-                              compounding_car_customer_id: item.compounding_car_customer_id,
-                              customer_id: item.partner.partner_id,
-                              state: "in_process",
+                              params: {
+                                compounding_car_customer_id: item.compounding_car_customer_id,
+                                customer_id: item.partner.partner_id,
+                                state: "in_process",
+                              },
+                              onSuccess: () => {},
                             })
                           }
                           onClickPaid={() => {
-                            confirmCustomerPayFullForCompoundingCar(
-                              item.compounding_car_customer_id
-                              // () => {
-                              //   if (getTotalPassenger - 1 === getNumberOfPassengersPaid) {
-                              //     handleConfirmDoneCompoundingCar()
-                              //   }
-                              // }
-                            )
+                            confirmCustomerPayFullForCompoundingCar({
+                              params: item.compounding_car_customer_id,
+                              onSuccess: () => {},
+                            })
                           }}
                           onClickConfirm={() =>
                             confirmStateCompoundingCarCustomer({
-                              compounding_car_customer_id: item.compounding_car_customer_id,
-                              customer_id: item.partner.partner_id,
-                              state: "done",
+                              params: {
+                                compounding_car_customer_id: item.compounding_car_customer_id,
+                                customer_id: item.partner.partner_id,
+                                state: "done",
+                              },
+                              onSuccess: () => {},
                             })
                           }
                           onCancelWaiting={() => mutateCompoundingCar()}
@@ -328,7 +332,7 @@ const ScheduleCompounding = () => {
             </div>
           </>
         )}
-        {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
+        {compoundingCarMap ? <RideSummaryModal data={compoundingCarMap} /> : null}
       </BookingLayout>
 
       <Alert
@@ -342,5 +346,5 @@ const ScheduleCompounding = () => {
   )
 }
 
-ScheduleCompounding.Layout = DriverLayout
-export default ScheduleCompounding
+StartRunningCompoundingCar.Layout = DriverLayout
+export default StartRunningCompoundingCar

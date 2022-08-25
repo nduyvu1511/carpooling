@@ -58,6 +58,7 @@ module.exports = {
       "bg-blue": "#EEEBFF",
       "blue-05": "#F7F8FF",
       "blue-1": "#4E4E6A",
+      "blue-10": "#EFECFF",
       "blue-2": "#6B7EDF",
       "blue-3": "#2E4CB7",
       "blue-4": "#70A3C4",

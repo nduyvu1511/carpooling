@@ -4,7 +4,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1280px] w-full mx-auto px-[12px] md:px-24 xl:px-0;
+    @apply max-w-[1280px] w-full mx-auto p-custom xl:px-0;
   }
 
   .flex-center {
@@ -149,6 +149,14 @@
 
   .p-custom {
     @apply p-12 md:p-16 lg:p-24;
+  }
+
+  .m-custom {
+    @apply m-12 md:m-16 lg:m-24;
+  }
+
+  .mx-custom {
+    @apply mx-12 md:mx-16 lg:mx-24;
   }
 
   .py-custom {
@@ -421,6 +429,7 @@
     border: 0;
     padding-inline: 0;
     border-radius: 0;
+    font-size: 14px;
   }
 
   & .form-label {
@@ -434,6 +443,7 @@
   & .css-b62m3t-container {
     border-radius: 0;
     font-weight: 500;
+    font-size: 14px;
 
     & .css-1s2u09g-control {
       border-radius: 0;
@@ -886,6 +896,14 @@
     background-color: #f9d0d0;
     color: #ff3b30;
   }
+
+  & .css-b62m3t-container {
+    font-size: 14px;
+  }
+
+  & textarea {
+    font-size: 14px;
+  }
 }
 
 .drawer {
@@ -917,8 +935,15 @@
       }
       margin-bottom: 70px;
     }
+  }
+}
 
-    &-btn {
-    }
+.promotion-form {
+  & .form-input {
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 1px solid #efecff;
+    font-size: 14px;
   }
 }
