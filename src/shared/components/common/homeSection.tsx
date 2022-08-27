@@ -8,10 +8,14 @@ interface HomeSectionProps {
 
 export const HomeSection = ({ children, title, showBg = false }: HomeSectionProps) => {
   return (
-    <div className={`mt-[64px] md:mt-[100px] lg:mt-[160px] ${showBg ? "bg-bg-primary" : ""}`}>
-      <div className="container">
-        {title ? <h1 className="h1 text-primary text-center">{title}</h1> : null}
-        <div className="mt-[32px] md:mt-[40px] lg:mt-[80px]">{children}</div>
+    <div className={`mt-[64px] md:mt-[80px] lg:mt-[120px] ${showBg ? "bg-bg-primary" : ""}`}>
+      <div className="container py-0">
+        {title ? (
+          <h1 className="h1 text-primary text-center mb-[32px] md:mb-[40px] lg:mb-[80px]">
+            {title}
+          </h1>
+        ) : null}
+        {children}
       </div>
     </div>
   )

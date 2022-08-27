@@ -71,7 +71,7 @@ const HomeGuest = () => {
       </HomeSection>
 
       <div className="mt-[50px] lg:mt-[120px] bg-bg-primary py-[32px] md:py-[50px] lg:py-[80px]">
-        <div className="container">
+        <div className="container py-0">
           <h1 className="h1 text-primary mb-[40px] md:mb-[60px] lg:mb-[80px] text-center">
             Tin tức
           </h1>

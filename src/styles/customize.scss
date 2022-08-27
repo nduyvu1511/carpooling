@@ -195,9 +195,6 @@
   }
 }
 
-.swiper-promotion-banner {
-}
-
 .swiper-button-prev,
 .swiper-button-next {
   display: none;
@@ -220,7 +217,14 @@
 }
 
 .custom-swiper {
-  // margin-right: -10px;
+  margin-right: -12px;
+  @media screen and (min-width: 640px) {
+    margin-right: -16px;
+  }
+  @media screen and (min-width: 1024px) {
+    margin-right: 0;
+  }
+
   .swiper {
     &-slide {
       width: 100%;
@@ -977,5 +981,17 @@
 }
 
 .banner-loading {
-  animation: bannerLoading 5500ms linear;
+  animation: bannerLoading 5250ms linear;
+}
+
+.promotion-loading-gradient {
+  background: linear-gradient(89.59deg, #00ffb7 0.35%, #26b0e4 40.76%, #5a31ff 99.65%);
+}
+
+.slider__container {
+  transform: rotate(180deg);
+
+  .swiper-slide {
+    transform: rotate(180deg);
+  }
 }
