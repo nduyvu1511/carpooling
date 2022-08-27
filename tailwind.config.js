@@ -9,6 +9,7 @@ module.exports = {
       gridTemplateColumns: {
         "sidebar-grid": "220px 1fr",
         "grid-330": "330px 1fr",
+        "grid-promotion-banner": "1fr 374px",
         "booking-grid": "1fr 500px",
         "wallet-grid": "440px 1fr",
         "booking-grid-sm": "1fr 400px",
@@ -30,6 +31,7 @@ module.exports = {
       "gray-color-3": "#595959",
       "gray-color-4": "#373737",
       "gray-color-5": "#858585",
+      "gray-color-6": "#9D9D9D",
       "gray-color-7": "#767676",
       "gray-color-8": "#4E4E4E",
       "gray-90": "#595959",
@@ -58,6 +60,7 @@ module.exports = {
       "bg-blue": "#EEEBFF",
       "blue-05": "#F7F8FF",
       "blue-1": "#4E4E6A",
+      "blue-20": "#CAC2FF",
       "blue-10": "#EFECFF",
       "blue-2": "#6B7EDF",
       "blue-3": "#2E4CB7",

@@ -1,5 +1,3 @@
-import React from "react"
-
 interface SummaryItemProps {
   label: string
   value: string | number
@@ -16,13 +14,17 @@ export const SummaryItem = ({
   valueClassName = "",
 }: SummaryItemProps) => {
   return (
-    <li className={`flex items-center justify-between mb-12 ${className}`}>
-      <span className={`mr-[12px] text-xs ${labelClassName}`}>{label}</span>
+    <div className={`flex items-start justify-between mb-12 ${className}`}>
       <span
-        className={`text-sm md:text-base whitespace-nowrap flex-1 text-right ${valueClassName}`}
+        className={`${
+          labelClassName || "mr-16 leading-[20px] text-12 font-medium text-gray-color-7"
+        }`}
       >
+        {label}
+      </span>
+      <span className={`flex-1 text-right ${valueClassName || "text-14 md:text-16 font-medium"}`}>
         {value}
       </span>
-    </li>
+    </div>
   )
 }

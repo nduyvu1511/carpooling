@@ -160,7 +160,7 @@ export interface JournalFilterDate {
 
 export type JournalFilterDateOptional = Partial<JournalFilterDate>
 
-export type PaymentMethod = "cash" | "transfer"
+export type PaymentMethod = "cash" | "transfer" | "exxe_wallet"
 
 export interface RechargeRequestFormParams {
   amount: number

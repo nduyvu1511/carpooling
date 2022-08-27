@@ -21,7 +21,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   href="https://www.facebook.com/exxevnvn?gidzl=071XJTkMGmG1QcLFseX20GPjOKt5taC56pjY6P3RGrmPEp54bzaHM4e-O4IJtqSBIZLXHM7jqXTztvD41G"
                 >
-                  <FacebookIcon className="" />
+                  <FacebookIcon />
                 </a>
                 <a
                   className="mr-[20px]"

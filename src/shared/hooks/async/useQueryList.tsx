@@ -88,5 +88,6 @@ export const useQueryList = <T,>({
     isFetchingMore,
     offset,
     error,
+    isInitialLoading: data === undefined && error === undefined
   }
 }

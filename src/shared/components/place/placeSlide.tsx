@@ -1,8 +1,6 @@
 import { CompoundingCarRes } from "@/models"
-import { Autoplay, Navigation } from "swiper"
-import "swiper/css"
-import "swiper/css/navigation"
-import { Swiper, SwiperSlide } from "swiper/react"
+import { SwiperSlide } from "swiper/react"
+import { Slide } from "../common"
 import { PlaceItem } from "./placeItem"
 
 interface PlaceSlideProps {
@@ -21,22 +19,7 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
       </div>
     )
   return (
-    <Swiper
-      className="swiper-hover"
-      spaceBetween={12}
-      slidesPerView={"auto"}
-      breakpoints={{
-        768: {
-          spaceBetween: 16,
-        },
-        1024: {
-          slidesPerView: 4,
-        },
-      }}
-      modules={[Navigation, Autoplay]}
-      navigation={true}
-      autoplay={{ delay: 4000 }}
-    >
+    <Slide>
       {places?.length > 0 &&
         places.map((item, index) => (
           <SwiperSlide key={index}>
@@ -51,6 +34,6 @@ export const PlaceSlide = ({ places, showLoading = false }: PlaceSlideProps) => 
             />
           </SwiperSlide>
         ))}
-    </Swiper>
+    </Slide>
   )
 }

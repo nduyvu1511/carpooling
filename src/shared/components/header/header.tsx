@@ -57,10 +57,10 @@ export const Header = () => {
               <div className="flex-1 justify-center hidden sm:flex">
                 <ul className="flex items-center">
                   {[
-                    ["Trang chủ", "/"],
                     ["Về chúng tôi", "/about-us"],
                     ["Hướng dẫn", "/guide"],
                     ["Tin tức", "/news"],
+                    ["Ưu đãi", "/promotion"],
                     ["Liên hệ", "/contact"],
                   ].map(([label, path]) => (
                     <li

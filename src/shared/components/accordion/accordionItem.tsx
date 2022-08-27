@@ -27,7 +27,7 @@ const AccordionItem = ({
       <div
         onClick={() => onClick?.()}
         className={`flex items-center justify-between p-custom ${
-          isActive ? "bg-[#F1F5FF]" : "bg-white-color"
+          isActive ? "bg-[#F1F5FF] shadow-shadow-1" : "bg-white-color"
         } cursor-pointer border-b border-solid border-border-color ${className}`}
       >
         <h3
@@ -49,7 +49,7 @@ const AccordionItem = ({
       </div>
       <div
         className={`overflow-hidden ${allowTransition ? "transition-all duration-300" : ""} ${
-          isActive ? "my-12 md:my-24" : "m0"
+          isActive ? "my-12 md:my-16 lg:my-24" : "m0"
         }`}
       >
         <div

@@ -7,7 +7,7 @@ import {
   RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
+import { useCompoundingCarDriver, useDriverCheckout, usePromotionActions } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { CancelRideParams, DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
@@ -25,6 +25,7 @@ const CheckoutDriver = () => {
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),
   })
+  const { applyPromotionForDriver, cancelPromotionForDriver } = usePromotionActions()
   const {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
@@ -99,6 +100,17 @@ const CheckoutDriver = () => {
     })
   }
 
+  const handleApplyPromotion = (promotion_id: number) => {
+    if (!compoundingCar?.compounding_car_id) return
+
+    applyPromotionForDriver({
+      params: { compounding_car_id: compoundingCar?.compounding_car_id, promotion_id },
+      onSuccess: (data) => {
+        console.log({ data })
+      },
+    })
+  }
+
   return (
     <BookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}
@@ -125,6 +137,7 @@ const CheckoutDriver = () => {
               onCheckout={(id) => handleCreatePayment(id)}
               state={compoundingCar?.state}
               onCancelCheckout={handleCancelCompoundingCar}
+              onApplyPromotion={handleApplyPromotion}
             />
           ) : null}
         </>

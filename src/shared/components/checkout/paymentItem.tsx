@@ -14,7 +14,7 @@ const PaymentItem = ({ payment, onChange, isActive, className = "" }: PaymentIte
     <div
       onClick={() => onChange?.(payment)}
       className={`text-sm block-element p-12 shadow-shadow-1 border border-solid rounded-[8px] ${
-        isActive ? "border-[1px] border-primary bg-bg-primary" : "border-[#F3F3F3]"
+        isActive ? "border-[1px] border-primary bg-bg-primary" : "border-border-color"
       } transition-all duration-150 cursor-pointer ${className}`}
     >
       <div className="flex items-center mb-16">

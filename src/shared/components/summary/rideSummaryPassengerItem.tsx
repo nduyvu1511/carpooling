@@ -1,6 +1,9 @@
-import { formatMoneyVND } from "@/helper"
+import { PhoneIcon } from "@/assets"
+import { formatMoneyVND, PAYMENT_METHOD_NAME, toImageUrl } from "@/helper"
 import { CompoundingCarCustomer, CustomerInvoice } from "@/models"
 import moment from "moment"
+import Image from "next/image"
+import { SummaryItem } from "./summaryItem"
 
 interface RideSummaryPassengerItemProps {
   data: CompoundingCarCustomer | CustomerInvoice
@@ -8,49 +11,53 @@ interface RideSummaryPassengerItemProps {
 
 const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
   return (
-    <ul>
-      <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">Tên khách hàng</p>
-        <p className="flex-1 text-sm md:text-base text-right">{data?.partner?.partner_name}</p>
-      </li>
-      <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">SĐT</p>
-        <a
-          href={`tel:${data.partner.phone}`}
-          className="flex-1 text-14 md:text-16 font-medium text-right underline text-primary"
-        >
-          {data?.partner?.phone}
-        </a>
-      </li>
-      <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">Điểm đón</p>
-        <p className="text-sm md:text-base text-right">{data.from_address}</p>
-      </li>
-      <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">Điếm đến</p>
-        <p className="text-sm md:text-base text-right">{data.to_address}</p>
-      </li>
-      {data?.note ? (
-        <li className="flex items-start justify-between mb-12">
-          <p className="text-xs mr-12 min-w-[100px]">Ghi chú</p>
-          <p className="flex-1 text-sm md:text-base text-right">{data.note}</p>
-        </li>
-      ) : null}
-      <li className="flex items-start justify-between mb-12">
-        <p className="text-xs mr-12 min-w-[100px]">Ngày đi</p>
-        <p className="flex-1 text-sm md:text-base text-right">
-          {moment(data.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
-        </p>
-      </li>
+    <>
+      <div className="flex items-center justify-between mb-24">
+        <div className="flex items-center">
+          <div className="w-[32px] h-[32px] rounded-[50%] overflow-hidden relative">
+            <Image
+              src={toImageUrl(data?.partner?.avatar_url?.image_url)}
+              alt=""
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <p className="text-base text-primary ml-8">{data.partner.partner_name}</p>
+        </div>
+
+        <div className="flex items-center">
+          <a href={`tel:${data.partner.phone}`}>
+            <PhoneIcon className="w-[20px] h-[20px]" />
+          </a>
+
+          {/* <a href={`tel:${data.partner.phone}`}>
+            <PhoneIcon className="w-[20px] h-[20px]" />
+          </a> */}
+        </div>
+      </div>
+      <SummaryItem
+        label="Điểm đón"
+        value={data.from_address || data?.from_province.province_name}
+      />
+      <SummaryItem label="Điểm đến" value={data.to_address || data?.to_province.province_name} />
+      <SummaryItem label="Ghi chú" value={data?.note || "Không có ghi chú nào"} />
+      <SummaryItem label="Ngày đi" value={PAYMENT_METHOD_NAME?.[data.payment_method]} />
+      <SummaryItem
+        label="Phương thức thanh toán"
+        value={moment(data.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
+      />
+
       {(data as CustomerInvoice)?.payment_amount ? (
         <li className="flex items-start justify-between">
-          <p className="text-xs mr-12 min-w-[100px]">Số tiền đã trả</p>
-          <p className="flex-1 text-sm md:text-base text-right">
+          <p className="text-sm md:text-base font-semibold md:font-semibold mr-12">
+            Số tiền đã trả
+          </p>
+          <p className="flex-1 text-14 md:text-16 text-right text-error font-semibold">
             {formatMoneyVND((data as CustomerInvoice).payment_amount)}
           </p>
         </li>
       ) : null}
-    </ul>
+    </>
   )
 }
 

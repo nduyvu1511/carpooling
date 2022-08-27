@@ -10,6 +10,9 @@ interface StaticLayoutProps {
   sticky?: boolean
   showLoading?: boolean
   bg?: string
+  showBg?: boolean
+  topNode?: ReactNode
+  lastNode?: ReactNode
 }
 
 export const StaticLayout = ({
@@ -18,30 +21,36 @@ export const StaticLayout = ({
   subHeading,
   sticky = false,
   showLoading = false,
+  showBg = true,
   bg = handShakeBg,
+  topNode = null,
+  lastNode = null,
 }: StaticLayoutProps) => {
   return (
     <>
       <Header />
       <main>
-        <div
-          style={{ backgroundImage: `url(${bg})` }}
-          className="relative w-full aspect-[3/1] max-h-[500px] bg-center bg-no-repeat bg-cover"
-        ></div>
+        {showBg ? (
+          <div
+            style={{ backgroundImage: `url(${bg})` }}
+            className="relative w-full aspect-[3/1] max-h-[500px] bg-center bg-no-repeat bg-cover"
+          ></div>
+        ) : null}
+        {topNode}
         {showLoading ? (
           <Spinner className="py-[120px]" size={80} />
         ) : (
           <div
             className={`relative top-0 ${
               sticky
-                ? "md:top-[-142px] border-border-color rounded-[10px] md:max-w-[628px] w-full lg:max-w-[956px] xl:max-w-[1156px] border border-solid block-element"
+                ? "md:top-[-80px] lg:top-[-100px] border-border-color rounded-[5px] md:max-w-[628px] w-full lg:max-w-[956px] xl:max-w-[1156px] md:border border-solid md:shadow-shadow-1 bg-white-color"
                 : "container px-16 md:px-24"
-            } w-full mx-auto px-16 md:px-[40px] lg:px-[120px] py-[64px] xl:py-[120px]`}
+            } w-full mx-auto px-16 md:px-[40px] lg:px-[80px] xl:px-[120px] py-[40px] lg:py-[100px] xl:py-[120px]`}
           >
             {heading || subHeading ? (
               <div className="flex-col flex-center mb-[40px] md:mb-[64px] lg:mb-[80px]">
                 {subHeading ? (
-                  <p className="font-normal text-14 md:text-16 lg:text-[24px] leading-[26px] mb-24">
+                  <p className="font-normal text-14 md:text-16 lg:text-[24px] leading-[26px] mb-16 md:mb-24">
                     {subHeading}
                   </p>
                 ) : null}
@@ -55,6 +64,12 @@ export const StaticLayout = ({
             {children}
           </div>
         )}
+
+        {lastNode ? (
+          <div className="container mt-[24px] md:mt-0 py-0 mb-40 md:mb-[80px] lg:mb-[120px]">
+            {lastNode}
+          </div>
+        ) : null}
       </main>
 
       <ButtonCall />

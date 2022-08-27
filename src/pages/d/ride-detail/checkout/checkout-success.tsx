@@ -70,17 +70,15 @@ const CheckoutSuccess = () => {
             ) : (
               <p className="text-sm md:text-base">Chưa có hành khách nào</p>
             )}
+
+            <div className="flex justify-center lg:justify-start">
+              <Link href="/d">
+                <a className="btn-primary-outline">Về trang chủ</a>
+              </Link>
+            </div>
           </>
         )}
       </>
-
-      {!isValidating ? (
-        <div className="max-w-[1280px] fixed bottom-0 right-0 left-0 bg-white-color xl:mx-auto z-10 p-custom">
-          <Link href="/d">
-            <a className="btn-primary-outline mx-auto">Về trang chủ</a>
-          </Link>
-        </div>
-      ) : null}
     </BookingLayout>
   )
 }

@@ -98,7 +98,7 @@ const ConfirmBookingCustomer = () => {
       <DriverBookingLayout
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
-        rightNode={compoundingCar ? <RideSummary showFull={false} data={compoundingCar} /> : null}
+        rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
         title="Chi tiết chuyến đi"
       >
         <>
@@ -115,7 +115,7 @@ const ConfirmBookingCustomer = () => {
                       compoundingCar.car_driver_deposit_percentage
                     )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
                       compoundingCar.car_driver_deposit_percentage
-                    )}% đặc cọc này sẽ đc chuyển lại Ví của Tài Xế.`}
+                    )}% đặt cọc này sẽ đc chuyển lại Ví của Tài Xế.`}
                   />
                 ) : null}
 

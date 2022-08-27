@@ -1,14 +1,14 @@
+import { ogImage } from "@/assets"
 import {
-  feature1,
-  feature2,
-  feature3,
-  feature4,
-  feature5,
-  feature6,
-  feature7,
-  ogImage,
-} from "@/assets"
-import { Banner, Guide, HeroSection, NewsSlide, PlaceSlide, Seo } from "@/components"
+  Feature,
+  Guide,
+  HeroSection,
+  HomeSection,
+  NewsSlide,
+  PlaceSlide,
+  PromotionBanner,
+  Seo,
+} from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
@@ -21,6 +21,7 @@ import { RootState } from "../core"
 
 const HomeGuest = () => {
   const router = useRouter()
+  const { data: news, isValidating: isLoading } = useNews()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const { data, isValidating, error } = useSWR<CompoundingCarRes[]>(
     "get_compounding_car_template",
@@ -31,7 +32,6 @@ const HomeGuest = () => {
         .catch((err) => console.log(err)),
     { dedupingInterval: 100000 }
   )
-  const { data: news, isValidating: isLoading } = useNews()
 
   useEffect(() => {
     if (!userInfo) return
@@ -55,72 +55,39 @@ const HomeGuest = () => {
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
-
-      <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
-        <div className="">
-          <h1 className="h1 text-primary text-center font-semibold">Tính năng nổi bật</h1>
-
-          <div className="container mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-            <Banner
-              images={[feature1, feature2, feature3, feature4, feature5, feature6, feature7]}
-            />
-          </div>
-        </div>
-      </div>
-
       {data?.length ? (
-        <div className="mt-[64px] md:mt-[100px] lg:mt-[160px]">
-          <div className="">
-            <h1 className="h1 text-primary text-center font-semibold">Lịch sử chuyến đi</h1>
-
-            <div className="container px-0 pl-12 md:pl-16 mt-[32px] md:mt-[40px] lg:mt-[80px] custom-swiper">
-              <PlaceSlide showLoading={isValidating} places={data || []} />
-            </div>
-          </div>
-        </div>
+        <HomeSection title="Lịch sử chuyến đi">
+          <PlaceSlide showLoading={isValidating} places={data || []} />
+        </HomeSection>
       ) : null}
+      <HomeSection>
+        <PromotionBanner />
+      </HomeSection>
+      <HomeSection title="Tính năng nổi bật">
+        <Feature />
+      </HomeSection>
+      <HomeSection title="Hướng dẫn trải nghiệm">
+        <Guide />
+      </HomeSection>
 
-      <div className="container mt-[64px] md:mt-[100px] lg:mt-[160px]">
-        <div className="">
-          <h1 className="h1 text-primary text-center font-semibold">Hướng dẫn trải nghiệm </h1>
-          <div className="mt-[32px] md:mt-[40px] lg:mt-[80px]">
-            <Guide />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-[50px] lg:mt-[120px] bg-bg-1 py-[32px] md:py-[50px] lg:py-[80px]">
+      <div className="mt-[50px] lg:mt-[120px] bg-bg-primary py-[32px] md:py-[50px] lg:py-[80px]">
         <div className="container">
           <h1 className="h1 text-primary mb-[40px] md:mb-[60px] lg:mb-[80px] text-center">
             Tin tức
           </h1>
-
-          <div className="">
-            <div className="custom-swiper">
-              <NewsSlide data={news} isLoading={isLoading} />
-            </div>
-
-            <div className="mt-[32px] md:mt-[40px] lg:mt-[80px] flex justify-center">
-              <button
-                onClick={() => router.push("/news")}
-                className="btn-primary-outline max-w-[400px] w-full py-[6px] lg:w-fit lg:py-[10px]"
-              >
-                Xem thêm
-              </button>
-            </div>
+          <NewsSlide data={news} isLoading={isLoading} />
+          <div className="mt-[32px] md:mt-[40px] lg:mt-[80px] flex justify-center">
+            <button
+              onClick={() => router.push("/news")}
+              className="btn-primary-outline max-w-[400px] w-full py-[6px] lg:w-fit lg:py-[10px]"
+            >
+              Xem thêm
+            </button>
           </div>
         </div>
       </div>
-
-      {/* <BookingModal onClose={() =>f  {}} formType="one_way" show={"one_way"} /> */}
     </section>
   )
-}
-
-export async function getServerSideProps() {
-  return {
-    props: {},
-  }
 }
 
 HomeGuest.Layout = GuestLayout

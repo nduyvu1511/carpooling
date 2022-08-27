@@ -1,15 +1,16 @@
 import {
   Alert,
   Countdown,
-  RideCancelForm,
+  PromotionForm,
+  PromotionModal,
   RideToolTip,
   Spinner,
-  WalletBalanceAlert,
   SummaryItem,
+  WalletBalanceAlert,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { usePayment } from "@/hooks"
+import { usePayment, usePromotionActions } from "@/hooks"
 import { CancelRideParams, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -29,9 +30,11 @@ interface CheckoutProps {
   descRideTooltip?: string
   state?: string
   returnedUrl?: string
+  onApplyPromotion?: (id: number) => void
+  onCancelPromotion?: (id: number) => void
 }
 
-type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | undefined
+type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | "promotion" | undefined
 
 const Checkout = ({
   secondsRemains,
@@ -46,6 +49,8 @@ const Checkout = ({
   descRideTooltip = "Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi.",
   state,
   returnedUrl,
+  onApplyPromotion,
+  onCancelPromotion,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -54,8 +59,8 @@ const Checkout = ({
     paymentList,
     setCurrentSelectPayment,
   } = usePayment()
-  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const [modalType, setModalType] = useState<ModalType>()
 
@@ -88,13 +93,20 @@ const Checkout = ({
               <RideToolTip className="mb-24" percentage={percentage} desc={descRideTooltip} />
             ) : null}
 
+            <div className="mb-[40px]">
+              <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
+              <PromotionForm onFocus={() => toggleModal("promotion")} />
+            </div>
+
             <ul className="mb-[40px]">
               <div className="flex items-center mb-16 md:mb-24  justify-between">
                 <p className="text-base font-semibold uppercase">Giá trị chuyến đi</p>
 
                 {showCountdown ? (
                   <div className="flex items-center">
-                    <span className="mr-8 text-xs sm:text-sm text-error">Hết hạn trong</span>
+                    <span className="mr-8 text-xs sm:text-sm text-error sm:text-error">
+                      Hết hạn trong
+                    </span>
                     <Countdown
                       className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] whitespace-nowrap w-[56px] py-4 h-[28px] px-8"
                       onExpiredCoundown={() => {
@@ -152,7 +164,7 @@ const Checkout = ({
                   {paymentList.map((item) => (
                     <PaymentItem
                       key={item.acquirer_id}
-                      className="mr-12 md:mb-16 md:mr-16 w-[180px] shrink-0"
+                      className="mr-12 md:mb-16 md:mr-16 last:mr-24 w-[180px] shrink-0"
                       payment={item}
                       onChange={(val) => setCurrentSelectPayment(val)}
                       isActive={currentSelectPayment?.acquirer_id === item.acquirer_id}
@@ -160,15 +172,10 @@ const Checkout = ({
                   ))}
                 </div>
               )}
-
-              {/* <p className="text-xs text-error">
-                *Số tiền cọc sẽ được hoàn trả về phương thức thanh toán ban đầu sau khi kết thúc
-                chuyến đi sau 24 ngày....
-              </p> */}
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
-              {onCancelCheckout ? (
+              {/* {onCancelCheckout ? (
                 <button
                   onClick={() => toggleModal("cancel")}
                   className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-16"
@@ -176,7 +183,7 @@ const Checkout = ({
                   <span className="hidden sm:block"> Hủy chuyến</span>
                   <span className="sm:hidden"> Hủy</span>
                 </button>
-              ) : null}
+              ) : null} */}
 
               <button
                 onClick={() => {
@@ -253,7 +260,7 @@ const Checkout = ({
         />
       ) : null}
 
-      {state && modalType === "cancel" ? (
+      {/* {state && modalType === "cancel" ? (
         <RideCancelForm
           onSubmit={(data) => {
             onCancelCheckout?.(data)
@@ -261,6 +268,13 @@ const Checkout = ({
           }}
           onClose={() => toggleModal(undefined)}
           params={{ compounding_car_customer_state: state }}
+        />
+      ) : null} */}
+
+      {modalType === "promotion" ? (
+        <PromotionModal
+          onApply={(id) => onApplyPromotion?.(id)}
+          onClose={() => toggleModal(undefined)}
         />
       ) : null}
 

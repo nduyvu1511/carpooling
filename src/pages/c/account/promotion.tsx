@@ -1,4 +1,4 @@
-import { PromotionItem, Seo, PromotionModal } from "@/components"
+import { Promotion, PromotionModal, Seo } from "@/components"
 import { CustomerAccountLayout } from "@/layout"
 
 const PromotionPage = () => {
@@ -13,10 +13,7 @@ const PromotionPage = () => {
         />
         <PromotionModal onClose={() => {}} />
         <div className="p-custom">
-          <div className="grid grid-cols-1 gap-24">
-            <PromotionItem />
-            <PromotionItem />
-          </div>
+          <Promotion />
         </div>
       </CustomerAccountLayout>
     </>

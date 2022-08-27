@@ -1,17 +1,14 @@
 import { SpinnerLoading } from "@/components"
-import { RootState } from "@/core"
+import { AppDispatch, RootState } from "@/core"
 import { useAuth } from "@/hooks"
-import { CarId, ProvinceId, VehicleTypeParams } from "@/models"
-import { setProfile, setProvinces, setVehicleTypes } from "@/modules"
-import { addressApi, vehicleApi } from "@/services"
-import { AxiosResponse } from "axios"
+import { fetchProvinces, fetchVehicles, setProfile } from "@/modules"
 import { ReactNode, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
 
 const App = ({ children }: { children: ReactNode }) => {
   const { getUserInfo } = useAuth()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const notifications = useSelector((state: RootState) => state.notifications)
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
@@ -30,31 +27,14 @@ const App = ({ children }: { children: ReactNode }) => {
       },
     })
 
-    if (!provinces?.length) {
-      addressApi
-        .getProvinces()
-        .then((res: AxiosResponse<ProvinceId[]>) => {
-          dispatch(setProvinces(res?.result?.data || []))
-        })
-        .catch((err) => console.log(err))
+    if (!provinces?.[0]?.province_id) {
+      dispatch(fetchProvinces() as any)
     }
 
-    if (!vehicleTypes?.length) {
-      vehicleApi
-        .getCarTypes()
-        .then((res: AxiosResponse<CarId[]>) => {
-          dispatch(
-            setVehicleTypes(
-              (res?.result?.data || []).map((item: VehicleTypeParams) => ({
-                label: item.name,
-                value: item.car_id,
-                number_seat: item.number_seat,
-              }))
-            )
-          )
-        })
-        .catch((err) => console.log(err))
+    if (!vehicleTypes?.[0]?.value) {
+      dispatch(fetchVehicles() as any)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -34,6 +34,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
           ["Trang chủ", "/"],
           ["Về chúng tôi", "/about-us"],
           ["Hướng dẫn", "/guide"],
+          ["Ưu đãi", "/promotion"],
           ["Tin tức", "/news"],
         ].map(([label, path]) => (
           <li

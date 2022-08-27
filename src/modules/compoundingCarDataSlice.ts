@@ -1,34 +1,31 @@
-import { getFromSessionStorage } from "./../shared/helper/functions"
 import { setToSessionStorage } from "@/helper"
-import { CarIdType, CompoundingType, ProvinceId } from "@/models"
-import { createSlice } from "@reduxjs/toolkit"
+import { CarIdType, ProvinceId, VehicleTypeParams } from "@/models"
+import { addressApi, vehicleApi } from "@/services"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { AxiosResponse } from "axios"
+import { getFromSessionStorage } from "./../shared/helper/functions"
 
 interface CompoundingSlice {
-  currentTwoWayCompoundingCarCustomer: number | undefined
-  currentOneWayCompoundingCarCustomer: number | undefined
-  currentCarpoolingCompoundingCarCustomer: number | undefined
   vehicleTypes: CarIdType[]
   provinces: ProvinceId[]
 }
 
+export const fetchVehicles = createAsyncThunk("compounding/fetchVehicles", async () => {
+  const response: AxiosResponse = await vehicleApi.getCarTypes()
+  return response.result.data
+})
+
+export const fetchProvinces = createAsyncThunk("compounding/fetchProvinces", async () => {
+  const response: AxiosResponse = await addressApi.getProvinces()
+  return response.result.data
+})
+
 let initialState: CompoundingSlice = {
-  currentCarpoolingCompoundingCarCustomer: undefined,
-  currentOneWayCompoundingCarCustomer: undefined,
-  currentTwoWayCompoundingCarCustomer: undefined,
   provinces: [],
   vehicleTypes: [],
 }
 
 try {
-  initialState.currentCarpoolingCompoundingCarCustomer = getFromSessionStorage(
-    "currentCarpoolingCompoundingCarCustomer"
-  )
-  initialState.currentOneWayCompoundingCarCustomer = getFromSessionStorage(
-    "currentOneWayCompoundingCarCustomer"
-  )
-  initialState.currentTwoWayCompoundingCarCustomer = getFromSessionStorage(
-    "currentTwoWayCompoundingCarCustomer"
-  )
   initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
   initialState.provinces = getFromSessionStorage("compounding_provinces") || []
 } catch (error) {}
@@ -37,28 +34,6 @@ const compoundingCarDataSlice = createSlice({
   name: "compounding",
   initialState,
   reducers: {
-    setCurrentCompoundingCarCustomer: (
-      state,
-      { payload }: { payload: { key: CompoundingType; value: number | undefined } }
-    ) => {
-      const { key, value } = payload
-      if (key === "compounding") {
-        state.currentCarpoolingCompoundingCarCustomer = value
-        setToSessionStorage("currentCarpoolingCompoundingCarCustomer", value)
-        return
-      }
-      if (key === "one_way") {
-        state.currentOneWayCompoundingCarCustomer = value
-        setToSessionStorage("currentOneWayCompoundingCarCustomer", value)
-        return
-      }
-      if (key === "two_way") {
-        state.currentTwoWayCompoundingCarCustomer = value
-        setToSessionStorage("currentTwoWayCompoundingCarCustomer", value)
-        return
-      }
-    },
-
     setVehicleTypes: (state, { payload }: { payload: CarIdType[] }) => {
       state.vehicleTypes = payload
       setToSessionStorage("compounding_vehicleTypes", payload)
@@ -68,19 +43,21 @@ const compoundingCarDataSlice = createSlice({
       state.provinces = payload
       setToSessionStorage("compounding_provinces", payload)
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchVehicles.fulfilled, (state, { payload }) => {
+      state.vehicleTypes = payload.map((item: VehicleTypeParams) => ({
+        label: item.name,
+        value: item.car_id,
+        number_seat: item.number_seat,
+      }))
+    })
 
-    clearAllCurrentCompoundingCarId: (state) => {
-      state.currentCarpoolingCompoundingCarCustomer = undefined
-      state.currentOneWayCompoundingCarCustomer = undefined
-      state.currentTwoWayCompoundingCarCustomer = undefined
-    },
+    builder.addCase(fetchProvinces.fulfilled, (state, { payload }) => {
+      state.provinces = payload
+    })
   },
 })
 
 export default compoundingCarDataSlice.reducer
-export const {
-  setCurrentCompoundingCarCustomer,
-  clearAllCurrentCompoundingCarId,
-  setProvinces,
-  setVehicleTypes,
-} = compoundingCarDataSlice.actions
+export const { setProvinces, setVehicleTypes } = compoundingCarDataSlice.actions

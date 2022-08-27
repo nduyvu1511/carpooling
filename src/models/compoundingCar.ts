@@ -1,3 +1,4 @@
+import { PaymentMethod } from "./checkout"
 import { ListQuery, OptionModel } from "./common"
 import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
 import { RatingRes } from "./rating"
@@ -207,8 +208,6 @@ export interface CancelReason {
   cancel_reason_id: number
   reason: string
 }
-
-export type PaymentMethod = "cash" | "transfer" | "exxe_wallet"
 
 export interface CompoundingCarCustomer {
   compounding_car_id: number
@@ -631,4 +630,5 @@ export interface DriverCompoundingCarInvoiceRes {
   down_payment: DownPayment
   cash: number
   amount_due: number
+  income_before_pit: number
 }

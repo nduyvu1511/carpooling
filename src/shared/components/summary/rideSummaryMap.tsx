@@ -4,6 +4,7 @@ import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
 import { memo } from "react"
 import { Map } from "../map"
+import { SummaryItem } from "./summaryItem"
 
 interface RideSummaryMapProps {
   data: CompoundingCarCustomer | CompoundingCarRes
@@ -16,7 +17,6 @@ export const RideSummaryMap = memo(function Child({
   showMap = true,
   className = "",
 }: RideSummaryMapProps) {
-  console.log("map re render")
   return (
     <div className={`bg-bg-primary rounded-[5px] p-custom ${className}`}>
       <div className="flex items-center mb-16">
@@ -62,22 +62,9 @@ export const RideSummaryMap = memo(function Child({
       ) : null}
 
       <ul>
-        <li className="flex items-center justify-between mb-12">
-          <p className="text-xs">Loại chuyến</p>
-          <p className="ml-16 flex-1 text-right text-sm md:text-base">
-            {COMPOUNDING_TYPE_NAME[data.compounding_type]}
-          </p>
-        </li>
-        <li className="flex items-center justify-between mb-12">
-          <p className="text-xs">Thời gian dự kiến</p>
-          <p className="ml-16 flex-1 text-right text-sm md:text-base">
-            {getHoursName(data.duration || 0)}
-          </p>
-        </li>
-        <li className="flex items-center justify-between">
-          <p className="text-xs">Lộ trình ước tính</p>
-          <p className="ml-16 flex-1 text-right text-sm md:text-base">{data.distance} Km</p>
-        </li>
+        <SummaryItem label="Loại chuyến" value={COMPOUNDING_TYPE_NAME[data.compounding_type]} />
+        <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
+        <SummaryItem className="mb-0" label="Lộ trình ước tính" value={`${data.distance} Km`} />
       </ul>
     </div>
   )

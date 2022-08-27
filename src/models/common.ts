@@ -175,6 +175,7 @@ export interface UseQueryListRes<T> {
   offset: number
   data: T[] | undefined
   error: any
+  isInitialLoading: boolean
 }
 
 export interface ContactParams {

@@ -10,18 +10,20 @@ const DriverBookingLayout = ({
   topNode,
   onBackBtnClick,
   showHeaderOnMobile = false,
-  reverse,
   className,
+  showHeaderDesktop,
+  stickyRight,
 }: BookingLayoutProps) => {
   return (
     <DriverLayout showHeaderOnMobile={showHeaderOnMobile}>
       <BookingLayout
+        stickyRight={stickyRight}
+        showHeaderDesktop={showHeaderDesktop}
         className={className}
         topNode={topNode}
         showLoading={showLoading}
         rightNode={rightNode}
         title={title}
-        reverse={reverse}
         onBackBtnClick={onBackBtnClick}
       >
         {children}

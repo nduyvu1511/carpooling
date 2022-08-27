@@ -1,21 +1,46 @@
 import { ArrowRightIcon, ClockIcon, promotionShape1, promotionShape2 } from "@/assets"
+import { PromotionRes } from "@/models"
 import Image from "next/image"
 import React from "react"
 
-export const PromotionItem = () => {
+interface PromotionItemProps {
+  data: null | PromotionRes
+  disabled?: boolean
+  onApply?: (id: number) => void
+}
+
+export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) => {
+  if (data === null)
+    return (
+      <div className="rounded-[16px] promotion-item block-element border border-solid border-border-color p-24">
+        <div className="flex items-center w-[80%] mb-16">
+          <div className="h-24 skeleton rounded-[5px] flex-1 mr-16"></div>
+          <div className="h-24 skeleton rounded-[5px] flex-1"></div>
+        </div>
+        <div className="skeleton h-[14px] rounded-[5px] w-[70%] mb-16"></div>
+        <div className="flex items-center justify-between">
+          <div className="skeleton h-[20px] rounded-[5px] w-[40%]"></div>
+          <div className="skeleton h-[20px] rounded-[5px] w-[40px]"></div>
+        </div>
+      </div>
+    )
   return (
-    <div className="p-[16px] md:p-24 rounded-[16px] bg-blue-10 relative">
+    <div
+      className={`promotion-item p-[16px] md:p-24 rounded-[16px] relative ${
+        disabled ? "opacity-30 bg-[#D9D9D9] pointer-events-none select-none" : "bg-blue-10"
+      }`}
+    >
       <span className="absolute top-[-4px] right-24 bg-[#FDF3F3] py-12 px-6 rounded-bl-[20px] rounded-br-[20px] rounded-tl-[3px] rounded-tr-[3px] text-[10px] font-medium text-error">
         85%
       </span>
       <div className="absolute inset-0 overflow-hidden rounded-[16px]">
         <span className="absolute-vertical z-10  h-[18px] w-[18px] bg-white-color left-[-9px] rounded-[50%]"></span>
         <span className="absolute-vertical z-10 h-[18px] w-[18px] bg-white-color right-[-9px] rounded-[50%]"></span>
-        <div className="absolute h-[60%] left-0 right-0 bottom-0">
-          <div className="absolute right-0 h-full bottom-0 w-full">
+        <div className="absolute inset-0">
+          <div className="absolute right-0 h-[60%] bottom-0 w-full">
             <Image src={promotionShape1} alt="" objectFit="cover" layout="fill" />
           </div>
-          <div className="absolute right-0 bottom-[-40px] w-full h-[116px]">
+          <div className="absolute right-0 bottom-0 h-[58%] w-full">
             <Image src={promotionShape2} alt="" objectFit="cover" layout="fill" />
           </div>
         </div>
@@ -24,7 +49,7 @@ export const PromotionItem = () => {
       <div className="z-10">
         <div className="flex items-center mb-8">
           <p className="text-16 lg:text-18 font-semibold text-primary line-clamp-1">
-            Tài khoản tích luỹ
+            {data.promotion_name}
           </p>
           <p className="mx-8 border-r border-border-color-1 border-solid h-[14px]"></p>
           <p className="text-16 lg:text-18 font-semibold text-primary mr-8 line-clamp-1">
@@ -49,7 +74,12 @@ export const PromotionItem = () => {
             </span>
           </div>
 
-          <button className="text-sm md:text-base font-semibold text-primary z-10">Áp dụng</button>
+          <button
+            onClick={() => onApply?.(data.promotion_id)}
+            className="text-14 md:text-16 font-semibold text-primary z-10"
+          >
+            Áp dụng
+          </button>
         </div>
       </div>
     </div>

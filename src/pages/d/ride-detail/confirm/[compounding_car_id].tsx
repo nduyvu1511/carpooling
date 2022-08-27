@@ -99,7 +99,7 @@ const RideConfirmCustomer = () => {
                   compoundingCar.car_driver_deposit_percentage
                 )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
                   compoundingCar.car_driver_deposit_percentage
-                )}% đặc cọc này sẽ được chuyển lại Ví của Tài Xế.`}
+                )}% đặt cọc này sẽ được chuyển lại Ví của Tài Xế.`}
               />
 
               <RideSummaryMobile
@@ -130,20 +130,6 @@ const RideConfirmCustomer = () => {
               ) : null}
 
               <div className="fixed left-0 right-0 flex bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
-                {compoundingCar.state === "waiting_deposit" ||
-                compoundingCar.state === "confirm_deposit" ||
-                compoundingCar.state === "confirm" ? (
-                  <button
-                    onClick={() => {
-                      setShowCancelModal(true)
-                      toggleBodyOverflow("hidden")
-                    }}
-                    className={`btn bg-error mr-16`}
-                  >
-                    Hủy chuyến
-                  </button>
-                ) : null}
-
                 {compoundingCar.state === "waiting_deposit" ||
                 compoundingCar.state === "waiting" ? (
                   <button
