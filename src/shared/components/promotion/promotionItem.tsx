@@ -1,5 +1,7 @@
 import { ArrowRightIcon, ClockIcon, promotionShape1, promotionShape2 } from "@/assets"
+import { formatTimeType } from "@/helper"
 import { PromotionRes } from "@/models"
+import moment from "moment"
 import Image from "next/image"
 import React from "react"
 
@@ -68,9 +70,13 @@ export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) =
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <ClockIcon className="mr-8 z-10" />
-            <p className="text-[10px] sm:text-12 font-normal mr-8 text-blue-8 z-10">31/08/2022</p>
+            <p className="text-[10px] sm:text-12 font-normal mr-8 text-blue-8 z-10">
+              {moment(data.date_start).format("DD/MM/YYYY")} 
+              <span className="mx-8">-</span>
+              {moment(data.date_start).format("DD/MM/YYYY")}
+            </p>
             <span className="bg-white-color py-4 px-8 rounded-[5px] text-12 font-normal text-error z-10">
-              còn 2 ngày
+              còn {data.duration_end.time_value} {formatTimeType(data.duration_end.time_type)}
             </span>
           </div>
 

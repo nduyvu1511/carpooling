@@ -32,6 +32,7 @@ interface listProps {
   carAccountType?: CarAccountType
 }
 
+type ModalFilterType = "mobile" | "tablet" | undefined
 const itemStyle =
   "rounded-[8px] md:rounded-[20px] shadow-shadow-1 lg:shadow-shadow-3 border border-solid border-gray-color-1 overflow-hidden"
 const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-16 lg:gap-24 pb-[10px]"
@@ -48,20 +49,17 @@ const RideContainer = ({
   carAccountType = "customer",
 }: listProps) => {
   const router = useRouter()
-  const [showFilterMobile, setShowFilterMobile] = useState<boolean>(false)
-  const [showFilterTablet, setShowFilterTablet] = useState<boolean>(false)
+  const [showFilter, setShowFitler] = useState<ModalFilterType>()
 
   useBackRouter({
     cb: () => {
-      setShowFilterTablet(false)
-      setShowFilterMobile(false)
-      toggleBodyOverflow("unset")
+      toggleShowFilter(undefined)
     },
   })
 
-  const toggleShowFilter = ({ status, type }: { status: boolean; type: "mobile" | "tablet" }) => {
-    type === "mobile" ? setShowFilterMobile(status) : setShowFilterTablet(status)
-    if (status) {
+  const toggleShowFilter = (type: ModalFilterType) => {
+    setShowFitler(type)
+    if (type) {
       toggleBodyOverflow("hidden")
     } else {
       toggleBodyOverflow("unset")
@@ -72,7 +70,7 @@ const RideContainer = ({
     <>
       <section className="ride-container container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
-          {!showFilterMobile && !showFilterTablet && router.isReady ? (
+          {!showFilter && router.isReady ? (
             <div className="hidden xl:block h-fit sticky top-[81px] block-element px-[18px] py-24 z-[100]">
               <CompoundingFilter
                 type={carAccountType}
@@ -150,7 +148,7 @@ const RideContainer = ({
         </div>
 
         <button
-          onClick={() => toggleShowFilter({ status: true, type: "tablet" })}
+          onClick={() => toggleShowFilter("tablet")}
           className="hidden md:flex xl:hidden fixed right-0 bottom-[200px] z-[100]] rounded-[5px] border border-solid border-border-color block-element shadow-shadow-2 flex-col flex-center p-[10px]"
         >
           <FilterIcon className="mb-[12px]" />
@@ -159,7 +157,7 @@ const RideContainer = ({
 
         <div className="fixed bottom-0 left-0 z-[100] right-0 w-full bg-white-color p-[12px] md:hidden">
           <button
-            onClick={() => toggleShowFilter({ status: true, type: "mobile" })}
+            onClick={() => toggleShowFilter("mobile")}
             className="btn-primary w-full rounded-[5px] h-[40px]"
           >
             <FilterIcon className="mr-[8px] w-[14px] h-[14px]" />
@@ -171,8 +169,8 @@ const RideContainer = ({
       <Modal
         key="modal-filter-mobile"
         fullScreen
-        show={showFilterMobile}
-        onClose={() => toggleShowFilter({ status: false, type: "mobile" })}
+        show={showFilter === "mobile"}
+        onClose={() => toggleShowFilter(undefined)}
         heading="Bộ lọc"
       >
         <CompoundingFilter
@@ -180,15 +178,15 @@ const RideContainer = ({
           touchableDevice
           type={carAccountType}
           onChange={(val) => onFilterRide?.(val)}
-          onCloseFilter={() => toggleShowFilter({ status: false, type: "mobile" })}
+          onCloseFilter={() => toggleShowFilter(undefined)}
           defaultValues={defaultParams}
         />
       </Modal>
 
       <Drawer
         width={400}
-        isShow={showFilterTablet}
-        onClose={() => toggleShowFilter({ status: false, type: "tablet" })}
+        isShow={showFilter === "tablet"}
+        onClose={() => toggleShowFilter(undefined)}
         headerChild={<p className="text-lg">Bộ lọc</p>}
       >
         <CompoundingFilter
@@ -196,7 +194,7 @@ const RideContainer = ({
           touchableDevice
           type={carAccountType}
           onChange={(val) => onFilterRide?.(val)}
-          onCloseFilter={() => toggleShowFilter({ status: false, type: "tablet" })}
+          onCloseFilter={() => toggleShowFilter(undefined)}
           defaultValues={defaultParams}
         />
       </Drawer>

@@ -40,9 +40,10 @@ export const PhoneForm = ({ onSubmit, phone, children }: OtpFormProps) => {
         <div className="form-item-inner">
           <div className="form-item-wrapper">
             <input
+              inputMode="numeric"
               className={`form-input ${errors?.["phone"] ? "form-input-err" : ""}`}
               id="phone"
-              type="phone"
+              type="number"
               {...register("phone", {
                 required: true,
               })}

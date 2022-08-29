@@ -28,7 +28,24 @@ const PostDetail = () => {
   )
 
   return (
-    <StaticLayout showLoading={isValidating} sticky heading={data?.title} subHeading="Tin tức">
+    <StaticLayout
+      lastNode={
+        <>
+          {newsRelated ? (
+            <div className="">
+              <p className="mb-24 text-18 md:text-20 lg:text-24 font-medium">
+                Các bài viết liên quan
+              </p>
+              <NewsSlide isLoading={isRelatedLoading} data={newsRelated} />
+            </div>
+          ) : null}
+        </>
+      }
+      showLoading={isValidating}
+      sticky
+      heading={data?.title}
+      subHeading="Tin tức"
+    >
       <Seo
         description={data?.shortContent || data?.title || ""}
         thumbnailUrl=""
@@ -37,14 +54,6 @@ const PostDetail = () => {
       />
 
       <div className="news__page" dangerouslySetInnerHTML={{ __html: data?.content + "" }}></div>
-
-      <div className="my-[40px] lg:my-[80px] border-b border-solid border-border-color "></div>
-      {newsRelated ? (
-        <div className="">
-          <p className="mb-24 text-16 md:text-18 lg:text-24 font-medium">Các bài viết liên quan</p>
-          <NewsSlide isLoading={isRelatedLoading} data={newsRelated} />
-        </div>
-      ) : null}
     </StaticLayout>
   )
 }

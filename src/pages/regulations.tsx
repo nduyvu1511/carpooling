@@ -30,7 +30,7 @@ export const Regulations = () => {
             -Giải quyết các sự vụ và tranh chấp phát sinh liên quan đến việc sử dụng dịch vụ trên
             dịch vụ vận tải;
           </li>
-          <li className="text-sm md:text-base mb-12">
+        <li className="text-sm md:text-base mb-12">
             -Cung cấp thông tin cho các Cơ quan thực thi Pháp luật theo yêu cầu;
           </li>
           <li className="text-sm md:text-base mb-12">
@@ -43,7 +43,7 @@ export const Regulations = () => {
           <p className="text-sm md:text-base ml-12 font-semibold">+ Email</p>
         </ul>
         <p className="text-lg text-primary mb-24">2. Phạm vi sử dụng thông tin</p>
-        <ul className="list-disc mb-24">
+        <ul className="pl-12 list-disc mb-24">
           <li className="mb-12 text-sm md:text-base">
             Công ty sử dụng thông tin Khách hàng cung cấp để:
           </li>

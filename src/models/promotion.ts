@@ -1,4 +1,4 @@
-import { TimeType } from "./common"
+import { ListQuery, TimeType } from "./common"
 
 export interface SavePromotionParams {
   promotion_id: number
@@ -18,6 +18,10 @@ export interface ApplyPromotionDriverParams {
   compounding_car_id: number
 }
 
+export interface SearchPromotionParams extends ListQuery {
+  promotion_code: string
+}
+
 export interface CancelPromotionCustomerParams {
   compounding_car_customer_id: number
 }
@@ -30,7 +34,7 @@ export type PromotionType = "percentage" | "fixed"
 
 export interface PromotionDuration {
   time_value: number
-  type_type: TimeType
+  time_type: TimeType
 }
 
 export interface PromotionRes {
@@ -40,7 +44,37 @@ export interface PromotionRes {
   promotion_type: PromotionType
   promotion_value: number
   saved_promotion: boolean
+  date_start: string
+  date_end: string
   duration_start: PromotionDuration
   duration_end: PromotionDuration
-  save_promotion: boolean
+}
+
+export type PromotionDetailRes = Pick<
+  PromotionRes,
+  | "promotion_id"
+  | "promotion_code"
+  | "duration_start"
+  | "duration_end"
+  | "promotion_value"
+  | "promotion_name"
+  | "promotion_type"
+  | "saved_promotion"
+  | "date_end"
+  | "date_start"
+> & {
+  promotion_image_url: {
+    image_id: string
+    image_url: string
+  }
+  description: false
+  special_time: {
+    is_specific_time: boolean
+    time_start: number
+    time_end: number
+  }
+  promotion_process: {
+    used_promo: number
+    total_promo: number
+  }
 }

@@ -71,6 +71,7 @@ module.exports = {
       disabled: "#BFBFBF",
       cyan: "#278EA5",
       "orange-50": "#EE542F",
+      "orange-05": "#FFF8F2",
       "orange-50-bg": "rgba(238, 84, 47, 0.3)",
       "bg-success": "#DCFDD9",
       "bg-warning": "#EFD88F",

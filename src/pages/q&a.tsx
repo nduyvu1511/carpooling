@@ -18,7 +18,7 @@ const FrequentlyAskedQuestions = () => {
         url="https://exxe.vn/q&a"
       />
 
-      <div className="">
+      <div className="question-page">
         <div className="grid lg:grid-cols-grid-330 gap-24">
           <div className="h-fit">
             <ul className="rounded-[5px] overflow-hidden">
@@ -34,8 +34,10 @@ const FrequentlyAskedQuestions = () => {
                     id !== tabActive ? setTabActive(+id) : null
                     setAccordionActive(undefined)
                   }}
-                  className={`rounded-[5px] select-none text-14 md:text-16 font-semibold cursor-pointer uppercase px-24 transition-all py-16 ${
-                    tabActive === id ? "bg-primary text-white-color" : "bg-[#F1F5FF] text-primary"
+                  className={`select-none text-14 md:text-16 font-semibold cursor-pointer uppercase px-24 transition-all py-16 ${
+                    tabActive === id
+                      ? "rounded-[5px] bg-primary text-white-color"
+                      : "bg-[#F1F5FF] text-primary"
                   }`}
                   key={id}
                 >
@@ -46,7 +48,7 @@ const FrequentlyAskedQuestions = () => {
           </div>
 
           {tabActive === 1 ? (
-            <div className="h-fit rounded-[5px] border border-solid border-border-color">
+            <div className="h-fit rounded-[5px] border border-solid border-border-color-2 overflow-hidden">
               <AccordionItem
                 titleClassName="text-14 md:text-16 text-primary font-semibold"
                 onClick={() => setAccordionActive(accordionActive === 1 ? undefined : 1)}
@@ -63,7 +65,7 @@ const FrequentlyAskedQuestions = () => {
                   Nếu mã khuyến mãi đã được nhập thành công, bạn sẽ thấy dấu xác nhận màu xanh lá
                   hiện ra ngay bên cạnh mã khuyến mãi và giá cước được thể hiện đã giảm giá.
                 </p>
-                <p className="text-sm md:text-base mb-24">
+                <p className="text-sm md:text-base">
                   Nếu mã khuyến mãi vẫn không sử dụng được, hãy gửi màn hình thông báo lỗi đến chúng
                   tôi để được hỗ trợ kiểm tra.
                 </p>
@@ -79,7 +81,7 @@ const FrequentlyAskedQuestions = () => {
                   nhập số điện thoại, hệ thống sẽ gửi đến bạn một mã OTP thông qua tin nhắn SMS với
                   số điện thoại mà bạn vừa nhập.
                 </p>
-                <p className="text-sm md:text-base mb-24">
+                <p className="text-sm md:text-base">
                   Nhập mã OTP và điền họ tên, email của bạn để hoàn tất đăng ký tài khoản với Exxe.
                   Sau khi điền đầy đủ thông tin, bạn đã có thể sử dụng ứng dụng Exxe để yêu cầu xe.
                 </p>
@@ -134,12 +136,12 @@ const FrequentlyAskedQuestions = () => {
                   Cước phí mới của chuyến đi sẽ được tính dựa trên:
                 </p>
                 <ul className="text-sm md:text-base">
-                  <li className="mb-24">- Quãng đường bạn đã đi </li>
-                  <li className="mb-24">
+                  <li className="mb-12">- Quãng đường bạn đã đi </li>
+                  <li className="mb-12">
                     - Khoảng cách từ vị trí bạn chọn đổi điếm đến tới điểm đến mới
                   </li>
-                  <li className="mb-24">- Phụ phí cao điểm (nếu có) tại thời điểm bạn đặt xe</li>
-                  <li className="mb-24">
+                  <li className="mb-12">- Phụ phí cao điểm (nếu có) tại thời điểm bạn đặt xe</li>
+                  <li className="">
                     - Phí dịch vụ khi đổi điểm đến (nếu có). Hiện tại, Exxe không thu phụ phí này
                   </li>
                 </ul>
@@ -168,19 +170,19 @@ const FrequentlyAskedQuestions = () => {
                   Các trường hợp không được đổi điểm đến:
                 </p>
                 <ul className="text-sm md:text-base">
-                  <li className="mb-24">
+                  <li className="mb-12">
                     - Lộ trình mới của bạn ngoài phạm vi của chuyến đi nội thành.
                   </li>
-                  <li className="mb-24">
+                  <li className="mb-12">
                     - Phương thức thanh toán đang áp dụng cho chuyến đi của bạn không được hỗ trợ
                     đổi điểm đến. (Hiện tại, các phương thức thanh toán được hỗ trợ là Tiền mặt,
                     Thẻ, Tài khoản Doanh nghiệp)
                   </li>
-                  <li className="mb-24">
+                  <li className="mb-12">
                     - Cước phí chuyến đi đổi điểm đến vượt quá giới hạn thanh toán bằng thẻ. (Hiện
                     tại, giới hạn này là 500.000đ)
                   </li>
-                  <li className="mb-24">
+                  <li className="">
                     - Số dư trong tài khoản đang sử dụng để thanh toán cho chuyến đi không đủ để trả
                     cước phí chuyến đi sau khi đổi điểm đến.
                   </li>
@@ -192,7 +194,7 @@ const FrequentlyAskedQuestions = () => {
                 title="Tôi cần xuất hóa đơn giá trị gia tăng đối với các chuyến xe Exxe tôi phải làm thế nào?"
                 isActive={accordionActive === 8}
               >
-                <p className="text-sm md:text-base mb-24">
+                <p className="text-sm md:text-base">
                   Khi có nhu cầu xuất Hóa đơn giá trị gia tăng (GTGT) cho các chuyến xe Exxe, Quý
                   Khách có thể lựa chọn Tôi cần xuất hóa đơn ở phần Tùy chọn thêm của mỗi chuyến xe.
                   Hóa đơn được xuất khi có yêu cầu của khách hàng cho các dịch vụ với tất cả các

@@ -25,7 +25,7 @@ const CheckoutDriver = () => {
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),
   })
-  const { applyPromotionForDriver, cancelPromotionForDriver } = usePromotionActions()
+  const { applyPromotionForDriver } = usePromotionActions()
   const {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
@@ -106,6 +106,8 @@ const CheckoutDriver = () => {
     applyPromotionForDriver({
       params: { compounding_car_id: compoundingCar?.compounding_car_id, promotion_id },
       onSuccess: (data) => {
+        mutate(data, false)
+        
         console.log({ data })
       },
     })
@@ -138,6 +140,7 @@ const CheckoutDriver = () => {
               state={compoundingCar?.state}
               onCancelCheckout={handleCancelCompoundingCar}
               onApplyPromotion={handleApplyPromotion}
+              returnedUrl={`/d/ride-detail/checkout/${compoundingCar?.compounding_car_id}`}
             />
           ) : null}
         </>

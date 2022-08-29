@@ -24,8 +24,7 @@ const Tabs = ({
 
   useEffect(() => {
     getTabActive(list.findIndex((item) => getActiveStringOrListString(item.value, tabActive)))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabActive, width])
+  }, [list, tabActive, width])
 
   const getTabActive = (index: number) => {
     const tabItem: HTMLLIElement | null = document.querySelector(`.tabs-item-${index}`)
@@ -36,9 +35,17 @@ const Tabs = ({
     lineRef.current.style.width = offsetWidth + "px"
   }
 
+  // useEffect(() => {
+  //   if (!tabActive) return
+  //   const index = list.findIndex((item) => item.value === tabActive)
+  //   const childWidth = document.querySelector(`.tabs-item-${index}`)?.clientWidth || 0
+  //   ;(document.querySelector(`.tabs`) as any).style.transform = `translateX(-${childWidth / 2}px)`
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [tabActive])
+
   return (
     <ul
-      className={`tabs relative flex items-center flex-wrap border-b border-solid border-border-color ${
+      className={`tabs relative w-full flex items-center flex-wrap border-b border-solid border-border-color ${
         type === "full" ? "" : "md:border-none"
       } ${className}`}
     >
@@ -47,8 +54,8 @@ const Tabs = ({
           className={`select-none whitespace-nowrap text-sm font-semibold relative py-[8px] cursor-pointer tabs-item-${index} hover:text-primary
           before:absolute before:bg-primary before:h-[1px] before:content-[''] before:rounded-[2px] before:w-full before:top-[calc(100%-1px)] before:hidden ${
             getActiveStringOrListString(value, tabActive) ? "text-primary" : "text-gray-color-5"
-          } flex-1 text-center ${type === "full" ? "" : "sm:flex-none sm:text-left"} ${
-            index < list.length - 1 ? "mr-16 sm:mr-[24px]" : "mr-0"
+          } ${type === "full" ? "flex-1 text-center" : "sm:flex-none sm:text-left"} ${
+            index < list.length - 1 ? "mr-16 sm:mr-[24px]" : "mr-24"
           } ${labelClassName}`}
           key={index}
           onClick={() => {
@@ -62,7 +69,7 @@ const Tabs = ({
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-[-1px] h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-[0px] h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

@@ -21,7 +21,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
     return (
       <div className="p-12 md:p-[18px]">
         <div className="flex items-center justify-between mb-[24px]">
-          <div className="w-[60px] xs:w-[120px] h-[20px] skeleton rounded-[4px]"></div>
+          <div className="w-[60px] xs:w-[90px] h-[20px] skeleton rounded-[4px]"></div>
           <div className="w-[40px] xs:w-[50px] sm:w-[60px] h-[14px] skeleton rounded-[4px]"></div>
         </div>
 

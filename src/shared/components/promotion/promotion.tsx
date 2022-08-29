@@ -15,7 +15,7 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
     useQueryList<PromotionRes>({
       fetcher: promotionApi.getPromotionList,
       initialData: undefined,
-      key: "get_promotion_list", 
+      key: "get_promotion_list",
       params: { limit: 12, offset: 0 },
     })
 

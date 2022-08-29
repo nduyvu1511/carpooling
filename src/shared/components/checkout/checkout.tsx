@@ -10,7 +10,7 @@ import {
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { usePayment, usePromotionActions } from "@/hooks"
+import { usePayment } from "@/hooks"
 import { CancelRideParams, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -95,7 +95,7 @@ const Checkout = ({
 
             <div className="mb-[40px]">
               <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
-              <PromotionForm onFocus={() => toggleModal("promotion")} />
+              <PromotionForm promotionCode="" onFocus={() => toggleModal("promotion")} />
             </div>
 
             <ul className="mb-[40px]">
@@ -203,10 +203,7 @@ const Checkout = ({
                   }
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
-                  currentSelectPayment?.acquirer_id &&
-                  userInfo?.verified_car_driver_account === "active_account"
-                    ? "bg-primary"
-                    : "btn-disabled bg-disabled"
+                  currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
                 }`}
               >
                 Xác nhận

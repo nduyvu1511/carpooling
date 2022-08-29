@@ -79,7 +79,7 @@ const HomeGuest = () => {
           <div className="mt-[32px] md:mt-[40px] lg:mt-[80px] flex justify-center">
             <button
               onClick={() => router.push("/news")}
-              className="btn-primary-outline max-w-[400px] w-full py-[6px] lg:w-fit lg:py-[10px]"
+              className="btn-primary-outline max-w-[400px] sm:w-fit hover:bg-[transparent] w-full py-[6px] lg:w-fit lg:py-[10px]"
             >
               Xem thêm
             </button>

@@ -53,7 +53,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
                   color: PAYMENT_PURPOSE_COLOR[data.payment_purpose]?.color,
                   backgroundColor: PAYMENT_PURPOSE_COLOR[data.payment_purpose]?.bg,
                 }}
-                className="text-xs px-8 py-4 text-right"
+                className="text-xs px-8 py-4 text-right rounded-[5px]"
               >
                 {PAYMENT_PURPOSE_NAME[data?.payment_purpose]}
               </span>

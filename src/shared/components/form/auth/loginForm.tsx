@@ -20,7 +20,6 @@ export const LoginForm = ({
   onClickLoginSMS,
   onClickRegister,
   view,
-  onClickLoginWithGoogle,
 }: LoginFormProps) => {
   const formStorage = getFromLocalStorage(FORM_LOGIN_KEY)
   const [showPw, setShowPw] = useState<boolean>(false)
@@ -59,7 +58,7 @@ export const LoginForm = ({
           <input
             className={`form-input ${errors?.["phone"] ? "form-input-err" : ""}`}
             id={"phone"}
-            type="text"
+            type="number"
             placeholder="Số điện thoại"
             {...register("phone", {
               required: true,
@@ -101,23 +100,17 @@ export const LoginForm = ({
         </div>
       </div>
 
-      <div className="flex items-center justify-between text-[12px] text-blue-8 font-normal mb-[40px]">
+      <div className="flex items-center justify-between text-[12px] text-primary font-medium mb-[40px]">
         <span
           onClick={() => onClickResetPassword && onClickResetPassword()}
           className="cursor-pointer"
         >
-          Quên mật khẩu
+          Quên mật khẩu?
         </span>
         <span onClick={() => onClickLoginSMS && onClickLoginSMS()} className="cursor-pointer">
           Đăng nhập với SMS
         </span>
       </div>
-
-      {/* <div className="">
-        <span onClick={() => onClickLoginWithGoogle && onClickLoginWithGoogle()} className="">
-          Đăng nhập với google
-        </span>
-      </div> */}
 
       <div className="flex justify-center mb-[40px]">
         <button

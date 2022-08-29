@@ -26,9 +26,10 @@ const News = () => {
 
   return (
     <div className="">
-      <div className="mb-[40px] flex-center">
+      <div className="relative mr-[-12px]">
+        <span className="absolute right-0 top-0 bottom-0 w-[20px] bg-linear-gradient z-10"></span>
         <Tabs
-          className="flex-nowrap overflow-auto scrollbar-hide"
+          className="flex-nowrap overflow-auto scrollbar-hide mb-24 md:mb-[32px] lg:mb-40 border-b-0 justify-center"
           list={[
             { label: "Tất cả", value: "all" },
             ...(categories || [])?.map((item) => ({ label: item.name, value: item.categoryId })),
@@ -37,8 +38,7 @@ const News = () => {
           onChange={(val) => filterNews(val + "")}
         />
       </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-16 lg:grid-cols-4 md:gap-24 lg:gap-[24px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-custom lg:grid-cols-4">
         {isValidatingNews
           ? Array.from({ length: 4 }).map((_, index) => <NewsItem key={index} data={null} />)
           : news?.map((item) => <NewsItem data={item} key={item.postId} />)}
@@ -49,7 +49,7 @@ const News = () => {
       {hasMore ? (
         <button
           onClick={() => fetchMoreNews()}
-          className="mx-auto btn-primary-outline mt-24 md:mt-[42px] lg:mt-[64px]"
+          className="mx-auto btn-primary-outline mt-32 lg:mt-[40px]"
         >
           Xem thêm
         </button>

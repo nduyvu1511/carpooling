@@ -1,5 +1,5 @@
 import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
-import { Drawer, HeaderWrapper, AuthModal } from "@/components"
+import { AuthModal, Drawer, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
 import { PHONE, toggleBodyOverflow } from "@/helper"
 import { useBackRouter, useClickOutside } from "@/hooks"
@@ -16,6 +16,7 @@ export const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null)
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
+  const [showModal, setShowModal] = useState<boolean>(false)
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showDrawer, setShowDrawer] = useState<boolean>(false)
 
@@ -54,7 +55,7 @@ export const Header = () => {
                 </Link>
               </div>
 
-              <div className="flex-1 justify-center hidden sm:flex">
+              <div className="flex-1 justify-center hidden md:flex">
                 <ul className="flex items-center">
                   {[
                     ["Về chúng tôi", "/about-us"],
@@ -64,19 +65,17 @@ export const Header = () => {
                     ["Liên hệ", "/contact"],
                   ].map(([label, path]) => (
                     <li
-                      className={`mr-[40px] last:mr-0 ${path === "/" ? "hidden lg:block" : ""} ${
-                        path === router.pathname ? "text-primary" : ""
+                      className={`mr-[40px] nav-link-hover last:mr-0 ${
+                        path === "/" ? "hidden lg:block" : ""
+                      } ${
+                        path === router.pathname
+                          ? "border-b border-gray-color-4 border-solid hover:before:w-0"
+                          : ""
                       }`}
                       key={path}
                     >
                       <Link href={path}>
-                        <a
-                          className={`font-semibold text-16 leading-[20px] ${
-                            path === router.pathname ? "text-primary" : ""
-                          }`}
-                        >
-                          {label}
-                        </a>
+                        <a className="font-semibold text-16 leading-[20px]">{label}</a>
                       </Link>
                     </li>
                   ))}
@@ -113,7 +112,7 @@ export const Header = () => {
                   ) : null}
                 </div>
 
-                <button onClick={() => toggleShowDrawer(true)} className="ml-24 block sm:hidden">
+                <button onClick={() => toggleShowDrawer(true)} className="ml-24 block md:hidden">
                   <MenuIcon />
                 </button>
 
@@ -143,7 +142,7 @@ export const Header = () => {
       </HeaderWrapper>
 
       <Drawer
-        width={640}
+        width={420}
         showCloseBtn={false}
         onClose={() => toggleShowDrawer(false)}
         isShow={showDrawer}

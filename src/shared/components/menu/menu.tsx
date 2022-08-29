@@ -55,8 +55,8 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
               }}
             >
               <span
-                className={`text-base ${
-                  router.pathname === path ? "text-primary font-semibold" : "font-semibold"
+                className={`text-base font-semibold ${
+                  router.pathname === path ? "border-b border-gray-color-4 border-solid" : ""
                 }`}
               >
                 {label}

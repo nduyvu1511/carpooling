@@ -9,37 +9,52 @@ import { useBreakpoint } from "@/hooks"
 import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState } from "react"
-import { Autoplay } from "swiper"
+import { Autoplay, Pagination } from "swiper"
 import "swiper/css"
+import "swiper/css/pagination"
 import { Swiper, SwiperSlide } from "swiper/react"
+
+const ITEM_HEIGHT = 118
 
 const PromotionBanner = () => {
   const breakpoints = useBreakpoint()
-  const banners = [promotionBanner1, promotionBanner2, promotionBanner3]
+  const banners = [promotionBanner1, promotionBanner2, promotionBanner3, promotionBanner2]
   const [index, setIndex] = useState<number>(0)
   const ref = useRef<HTMLDivElement>(null)
+
+  const handleSlideChange = (index: number) => {
+    setIndex(index)
+    if (index % 3 === 0) {
+      ref.current?.scrollTo({ top: index * ITEM_HEIGHT, behavior: "smooth" })
+    }
+  }
 
   return (
     <div className="flex flex-col-reverse xl:flex-row gap-x-[64px]">
       <div className="flex-1 w-full overflow-hidden">
         <Swiper
           loop
-          className="pointer-events-none"
+          className="promotion-banner-slide "
           slidesPerView={1}
-          modules={[Autoplay]}
+          modules={[Autoplay, Pagination]}
           autoplay={{ delay: 5000 }}
-          onAutoplay={() => {
-            const _index = index > 7 ? 0 : index + 1
-            console.log({ _index })
-            if (_index % 3 === 0) {
-              ref.current?.scrollTo({ top: _index * 118, behavior: "smooth" })
-            }
-            setIndex(_index)
-          }}
+          pagination={{ clickable: false }}
+          onAutoplay={({ realIndex }) => handleSlideChange(realIndex)}
         >
-          {banners.map((url) => (
-            <SwiperSlide className="aspect-[2.17/1] rounded-[16px]" key={url}>
-              <Image className="rounded-[16px]" alt="" src={url} layout="fill" objectFit="cover" />
+          {banners.map((url, index) => (
+            <SwiperSlide
+              className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[16px]"
+              key={index}
+            >
+              <Link passHref href="/promotion">
+                <Image
+                  className="rounded-[16px]"
+                  alt=""
+                  src={url}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -58,8 +73,8 @@ const PromotionBanner = () => {
 
         {breakpoints >= 1280 ? (
           <div ref={ref} className="h-[354px] flex flex-col overflow-hidden scrollbar-hide">
-            {Array.from({ length: 9 }).map((_, _index) => (
-              <div className={`h-[118px] flex flex-col mb-16`} key={_index}>
+            {Array.from({ length: banners.length }).map((_, _index) => (
+              <div className={`h-[${ITEM_HEIGHT}px] flex flex-col mb-16`} key={_index}>
                 <div className="mb-8">
                   <p
                     className={`text-16 h-[54px] md:text-18 font-semibold line-clamp-2 ${

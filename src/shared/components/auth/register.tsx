@@ -17,7 +17,7 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
   const router = useRouter()
   const dispatch = useDispatch()
   const { getTokenFromFirebaseAccessToken, register, setToken: setTokenToCookie } = useAuth()
-  const [token, setToken] = useState<string>("")
+  const [token, setToken] = useState<string>()
 
   const handleGenerateToken = async (firebase_access_token: string) => {
     toggleBodyOverflow("hidden")
@@ -97,13 +97,11 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
           <AuthBg />
         </div>
       ) : (
-        <div className="py-12">
-          <AccountTypeForm
-            onSubmit={(type) => {
-              handleRegister(type)
-            }}
-          />
-        </div>
+        <AccountTypeForm
+          onSubmit={(type) => {
+            handleRegister(type)
+          }}
+        />
       )}
     </div>
   )

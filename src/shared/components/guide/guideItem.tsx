@@ -24,11 +24,14 @@ export const GuideItem = ({ icon, desc, label, reverse = false, index }: GuideIt
       <div className="w-[20px] lg:w-[60px]"></div>
 
       <div className="flex-1 mb-[30px] md:mb-0">
-        <h2 className="h2 text-primary mb-16 md:mb-16 lg:mb-[32px]">
+        <h3 className="text-18 font-medium leading-24 md:text-20 md:font-semibold md:leading-28 lg:text-28 lg:font-medium lg:leading-[36px] text-primary mb-16 lg:mb-24">
           {index}. {label}
-        </h2>
+        </h3>
         {desc.map((text, index) => (
-          <p key={index} className="text-sm leading-[22px] md:text-base mb-12 md:mb-24 last:mb-0">
+          <p
+            key={index}
+            className="text-sm leading-[22px] lg:text-base mb-12 md:mb-16 lg:mb-24 last:mb-0"
+          >
             {text}
           </p>
         ))}

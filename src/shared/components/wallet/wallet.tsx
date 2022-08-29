@@ -8,36 +8,32 @@ import {
   TransactionItem,
   TransactionSuccess,
   WalletFilter,
-  WalletLoading
+  WalletLoading,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
 import { useJournal } from "@/hooks"
 import {
-  CarAccountType,
   JournalDetailRes,
   JournalFilterDate,
   RechargeRequestFormParams,
-  WithdrawFormParams
+  WithdrawFormParams,
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import "react-circular-progressbar/dist/styles.css"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useDispatch, useSelector } from "react-redux"
 import useSWR from "swr"
 import { Transaction } from "./transaction"
 import { WalletInfo } from "./walletInfo"
 
-interface JournalProps {
-  type?: CarAccountType
-}
-
 type ModalType = "transaction" | "payment" | "filter"
 
-const Wallet = ({ type }: JournalProps) => {
+const Wallet = () => {
+  const router = useRouter()
   const dispatch = useDispatch()
   const paymentId = useSelector((state: RootState) => state.checkout.currentPaymentId)
   const {
@@ -254,6 +250,9 @@ const Wallet = ({ type }: JournalProps) => {
           show={true}
           onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}
           onClose={() => {
+            if (router.query?.next) {
+              router.push(router.query.next + "")
+            }
             dispatch(setCheckoutPaymentId(undefined))
             handleToggleModal({ status: false, type: "transaction" })
             mutate(undefined, false)
@@ -304,4 +303,3 @@ const Wallet = ({ type }: JournalProps) => {
 }
 
 export { Wallet }
-

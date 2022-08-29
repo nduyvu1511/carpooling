@@ -39,8 +39,6 @@ export const RideSummary = ({
     }
   }
 
-  console.log("ride summary rerender")
-
   return (
     <div
       className={`${

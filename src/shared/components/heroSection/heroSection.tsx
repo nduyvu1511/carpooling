@@ -4,7 +4,6 @@ import { toggleBodyOverflow } from "@/helper"
 import { setAuthModalType } from "@/modules"
 import Image from "next/image"
 import { useDispatch } from "react-redux"
-import Fade from "react-reveal"
 import { Autoplay } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
@@ -35,16 +34,12 @@ export const HeroSection = () => {
               ].map(([title, desc], index) => (
                 <SwiperSlide key={index}>
                   <div className="flex items-start flex-col">
-                    <Fade bottom delay={100}>
-                      <h1 className="text-[20px] sm:text-24 md:text-[30px] xl:text-[40px] text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
-                        {title}
-                      </h1>
-                    </Fade>
-                    <Fade bottom delay={100}>
-                      <p className="text-text-color text-xs xs:text-14 leading-[22px] md:text-16 lg:text-[20px] lg:leading-[26px] xl:text-24 xl:leading-[28px]">
-                        {desc}
-                      </p>
-                    </Fade>
+                    <h1 className="text-[20px] sm:text-24 md:text-[30px] xl:text-[40px] text-primary mb-[8px] md:mb-[12px] font-semibold lg:font-medium">
+                      {title}
+                    </h1>
+                    <p className="text-text-color text-xs xs:text-14 leading-[22px] md:text-16 lg:text-[20px] lg:leading-[26px] xl:text-24 xl:leading-[28px]">
+                      {desc}
+                    </p>
                   </div>
                 </SwiperSlide>
               ))}
@@ -55,7 +50,6 @@ export const HeroSection = () => {
         <div className="absolute bottom-24 xl:bottom-[80px] left-1/2 transform -translate-x-1/2 container hidden md:block">
           <div className="flex-center flex-col">
             <p className="text-base mb-16 font-semibold">Bạn muốn đi đâu?</p>
-
             <ul className="grid grid-cols-4 gap-x-16">
               {[
                 ["Hai chiều", "two_way", <TwoWayIcon />],
@@ -68,7 +62,7 @@ export const HeroSection = () => {
                     dispatch(setAuthModalType("login"))
                     toggleBodyOverflow("hidden")
                   }}
-                  className="cursor-pointer flex-center flex-col p-16 rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color"
+                  className="cursor-pointer flex-center flex-col p-16 rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color hover:bg-bg-primary transition-colors duration-300"
                   key={index}
                 >
                   <span className="mb-8 flex-1 my-auto flex items-center">{icon}</span>

@@ -17,7 +17,7 @@ const AboutUs = () => {
         url="https://exxe.vn/news"
       />
       <div className="mb-[40px]">
-        <p className="text-14 font-medium md:text-16 leading-[32px]">
+        <p className="text-14 font-medium md:text-16 leading-[26px]">
           Ứng dụng <span className="font-semibold">ExxeVn</span> là ứng dụng thương mại điện tử trên
           thiết bị di động do{" "}
           <span className="uppercase text-blue-7">
@@ -36,14 +36,14 @@ const AboutUs = () => {
         </div>
 
         <div className="">
-          <p className="text-14 md:text-16 mb-24 leading-[30px] font-medium">
+          <p className="text-14 md:text-16 mb-24 leading-[26px] font-medium">
             Exxe được thành lập với sứ mệnh mang đến nền tảng công nghệ hiện đại kết nối tài xế xe ô
             tô và hành khách theo cách <span className="uppercase text-blue-7">Tiết Kiệm Nhất</span>
             , <span className="uppercase text-blue-7">Nhanh Nhất</span> và{" "}
             <span className="uppercase text-blue-7">An Toàn Nhất.</span>
           </p>
 
-          <p className="text-14 md:text-16 leading-[30px] font-medium mb-24">
+          <p className="text-14 md:text-16 leading-[26px] font-medium mb-24">
             Exxe ra đời mang trên mình trách nhiệm giải quyết những vấn đề hiện tại trong xã hội như
             giá nhiên liệu tăng cao, tiếp cận công nghệ khó khăn, thời gian kém linh hoạt khi có nhu
             cầu đi lại của hành khách. Mang trong mình sự nhiệt huyết, quyết liệt và nhạy bén, chúng
@@ -51,7 +51,7 @@ const AboutUs = () => {
             chung là điều mà chúng tôi đang phát triển.
           </p>
 
-          <p className="text-14 md:text-16 leading-[30px] font-medium mb-24">
+          <p className="text-14 md:text-16 leading-[26px] font-medium">
             Ngoài ra, Exxe hướng tới việc xây dựng một cộng đồng chia sẻ chuyến đi văn minh với
             nhiều tiện ích thông qua ứng dụng trên di động, nhằm nâng cao chất lượng cuộc sống và
             tiết kiệm cho cộng đồng.

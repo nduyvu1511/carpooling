@@ -9,8 +9,8 @@ const Promotion = () => {
       subHeading="Tận hưởng vô vàn khuyến mãi"
       heading="Thế giới ExxeVn mở ra, hàng trăm ưu đãi đang chờ bạn!"
     >
-      <div className="">
-        <PromotionSlide title="Khuyến mãi từ đối tác" />
+      <div className="mt-[80px]">
+        <PromotionSlide titleClassName="mb-[32px] md:mb-[40px]" title="Khuyến mãi từ đối tác" />
       </div>
     </StaticLayout>
   )

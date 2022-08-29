@@ -9,11 +9,10 @@ import { StationItem } from "./stationItem"
 
 interface StationProps {
   defaultValue?: StationId
-  onChooseStation?: (params: StationId) => void
-  onSelectStation?: (params: StationId) => void
+  onChange?: (_: StationId) => void
 }
 
-export const Station = ({ defaultValue, onChooseStation, onSelectStation }: StationProps) => {
+export const Station = ({ defaultValue, onChange }: StationProps) => {
   const { provinceOptions } = useAddress()
   const [station, setStation] = useState<StationId | undefined>(defaultValue)
   const [stations, setStations] = useState<StationRes[] | undefined>()
@@ -43,7 +42,7 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
       return
     }
 
-    onChooseStation && onChooseStation(station)
+    onChange?.(station)
   }
 
   return (
@@ -87,7 +86,6 @@ export const Station = ({ defaultValue, onChooseStation, onSelectStation }: Stat
                   <StationItem
                     station={item}
                     onChange={(station) => {
-                      onSelectStation?.(station)
                       setStation(station)
                     }}
                     isActive={station?.station_id === item.station_id}

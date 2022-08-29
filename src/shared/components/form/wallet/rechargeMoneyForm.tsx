@@ -98,7 +98,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
 
         <div className="flex items-start p-8 bg-[#F4FDF7] rounded[8px]">
           <TrustIcon className="mr-8" />
-          <p className="text-xs text-success">
+          <p className="text-xs flex-1 text-success">
             Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
           </p>
         </div>

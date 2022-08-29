@@ -38,24 +38,25 @@ export const StaticLayout = ({
         ) : null}
         {topNode}
         {showLoading ? (
-          <Spinner className="py-[120px]" size={80} />
+          <Spinner className="my-[120px]" size={30} />
         ) : (
           <div
             className={`relative top-0 ${
               sticky
-                ? "md:top-[-80px] lg:top-[-100px] border-border-color rounded-[5px] md:max-w-[628px] w-full lg:max-w-[956px] xl:max-w-[1156px] md:border border-solid md:shadow-shadow-1 bg-white-color"
-                : "container px-16 md:px-24"
-            } w-full mx-auto px-16 md:px-[40px] lg:px-[80px] xl:px-[120px] py-[40px] lg:py-[100px] xl:py-[120px]`}
+                ? `md:top-[-80px] lg:top-[-100px] border-border-color rounded-[5px] md:max-w-[628px] w-full lg:max-w-[956px]
+                   xl:max-w-[1156px] md:border border-solid md:shadow-shadow-1 bg-white-color py-[64px] px-12 md:p-[40px] lg:p-[120px]`
+                : "container py-[64px] md:py-[80px] lg:py-[120px]"
+            } w-full mx-auto`}
           >
             {heading || subHeading ? (
-              <div className="flex-col flex-center mb-[40px] md:mb-[64px] lg:mb-[80px]">
+              <div className="flex-col flex-center mb-[32px] lg:mb-[80px]">
                 {subHeading ? (
-                  <p className="font-normal text-14 md:text-16 lg:text-[24px] leading-[26px] mb-16 md:mb-24">
+                  <p className="font-normal text-14 md:text-16 md:font-medium lg:text-[24px] leading-[20px] md:leading-[22px ] lg:leading-[30px ] lg:font-normal mb-8 md:mb-12 lg:mb-24">
                     {subHeading}
                   </p>
                 ) : null}
                 {heading ? (
-                  <h1 className="h1 text-primary text-center font-semibold lg:font-medium">
+                  <h1 className="text-24 leading-[34px] font-semibold md:text-28 md:leading-[36px] md:font-medium lg:font-medium lg:text-[48px] lg:leading-[56px] text-primary text-center">
                     {heading}
                   </h1>
                 ) : null}

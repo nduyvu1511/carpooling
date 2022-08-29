@@ -47,6 +47,7 @@ const VehicleInsurance = () => {
             <InputLoading />
             <InputLoading />
             <InputLoading />
+            <InputLoading />
           </>
         )}
       </div>

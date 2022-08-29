@@ -26,9 +26,9 @@ const AccordionItem = ({
     <div>
       <div
         onClick={() => onClick?.()}
-        className={`flex items-center justify-between p-custom ${
+        className={`accordion-item flex items-center justify-between p-custom ${
           isActive ? "bg-[#F1F5FF] shadow-shadow-1" : "bg-white-color"
-        } cursor-pointer border-b border-solid border-border-color ${className}`}
+        } cursor-pointer border-t border-solid border-border-color ${className}`}
       >
         <h3
           className={`flex-1 mr-12 select-none ${

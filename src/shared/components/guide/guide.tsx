@@ -26,7 +26,7 @@ const Guide = ({ type: typeProps = "customer" }: GuideProps) => {
           />
         </div>
       </div>
-      <div className="mt-[32px] md:mt-[40px] lg:mt-[50px]">
+      <div className="mt-24 sm:mt-[32px] lg:mt-[40px]">
         {type === "customer" ? <CustomerGuide /> : <DriverGuide />}
       </div>
     </div>

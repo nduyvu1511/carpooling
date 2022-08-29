@@ -48,6 +48,7 @@ const HomeDriver = () => {
         title="Các chuyến đi chưa có tài xế"
         url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/d"}
       />
+
       <RideContainer
         hasMore={hasMore}
         isFetchingMore={isFetchingMore}

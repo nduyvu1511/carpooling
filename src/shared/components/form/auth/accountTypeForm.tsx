@@ -44,14 +44,14 @@ const AccountTypeForm = ({ onSubmit }: AccountTypeFormProps) => {
         )}
       </div>
 
-      <div className="flex items-start mt-[30px]">
-        <WarningIcon className="w-24 h-24 mr-12 mt-[4px]" />
-        <p className="text-sm leading-[22px] flex-1">
+      <div className="flex items-start mt-[24px] bg-orange-05 rounded-[5px] p-8">
+        <WarningIcon className="w-24 h-24 mr-12" />
+        <p className="text-12 leading-[18px] flex-1 text-warning">
           Vui lòng chọn đúng loại tài khoản, mỗi số điện thoại chỉ có thể đăng ký một tài khoản.{" "}
         </p>
       </div>
 
-      <div className="mx-16 flex justify-center absolute left-0 right-0 bottom-0 py-16 bg-white-color">
+      <div className="mx-12 md:mx-16 lg:mx-24 flex justify-center absolute left-0 right-0 bottom-0 py-custom bg-white-color">
         <button
           onClick={() => accountType && onSubmit(accountType)}
           className={`btn-primary ${!accountType ? "btn-disabled" : ""}`}

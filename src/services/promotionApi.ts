@@ -6,6 +6,7 @@ import {
   GetDetailPromotionParams,
   ListQuery,
   SavePromotionParams,
+  SearchPromotionParams,
 } from "@/models"
 import axiosClient from "."
 
@@ -24,6 +25,12 @@ export const promotionApi = {
 
   savePromotion: (params: SavePromotionParams) => {
     return axiosClient.post("/api/compounding_car_promotion_controller/save_promotion", { params })
+  },
+
+  searchPromotion: (params: SearchPromotionParams) => {
+    return axiosClient.post("/api/compounding_car_promotion_controller/search_promotion", {
+      params,
+    })
   },
 
   getPromotionListSaved: (params: ListQuery) => {

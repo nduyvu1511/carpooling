@@ -43,19 +43,19 @@ const Modal = ({
           <div className="h-[56px] border-b border-solid border-gray-color-1 w-full flex px-16 md:px-24 items-center">
             <span onClick={() => onClose()} className="w-[30px] cursor-pointer">
               {iconType === "close" ? (
-                <CloseThickIcon className="text-blue-8 w-[12px] h-[12px]" />
+                <CloseThickIcon className="text-blue-8 w-[14px] h-[14px]" />
               ) : (
                 <ArrowLeftIcon className="text-blue-8 w-[20px] h-[20px]" />
               )}
             </span>
 
             <div className="flex-1">
-              <p className="text-16 font-semibold leading-20 text-center text-blue-8 line-clamp-1 mr-[20px]">
+              <p className="text-16 font-semibold leading-20 text-center text-blue-8 line-clamp-1">
                 {heading}
               </p>
             </div>
 
-            {rightHeaderNode}
+            {rightHeaderNode || <span className="w-[30px]"></span>}
           </div>
           {headerNode}
           <div

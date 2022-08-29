@@ -79,15 +79,17 @@ export const ContactForm = forwardRef(function ContactChild(
 
       <div className="flex items-start">
         <InputCheckbox
+          className="mt-4"
           isChecked={!!receive_news}
           onCheck={() => {
             setValue("receive_news", !getValues("receive_news"))
           }}
           type="circle"
+          size={20}
         />
         <p
           onClick={() => setValue("receive_news", !getValues("receive_news"))}
-          className="cursor-default flex-1 ml-[14px] text-xs leading-[18px]"
+          className="cursor-default flex-1 ml-12 text-xs leading-[18px]"
         >
           Tôi đồng ý nhận bản tin từ Exxe.vn về các chương trình khuyến mãi sắp tới, ưu đãi độc
           quyền và tiến hành các hoạt động tiếp thị.

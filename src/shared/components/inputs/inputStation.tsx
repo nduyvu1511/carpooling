@@ -77,7 +77,7 @@ export const InputStation = ({
       </div>
 
       <Modal
-        key='modal-station-input'
+        key="modal-station-input"
         show={showStation}
         onClose={() => {
           handleSetShowStation(false)
@@ -87,7 +87,7 @@ export const InputStation = ({
         transitionType="up"
       >
         <Station
-          onChooseStation={(val) => {
+          onChange={(val) => {
             if (prevProvinceId === val.province_id) {
               dispatch(notify("Vui lòng chọn địa điểm khác với tỉnh trước đó", "error"))
               return

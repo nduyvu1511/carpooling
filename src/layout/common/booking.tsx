@@ -62,7 +62,13 @@ const BookingLayout = ({
                 stickyRight ? "" : ""
               }`}
             >
-              {showLoading ? <RideSummaryLoading /> : breakpoints >= 1024 ? rightNode : null}
+              {showLoading ? (
+                <div className="p-custom">
+                  <RideSummaryLoading />
+                </div>
+              ) : breakpoints >= 1024 ? (
+                rightNode
+              ) : null}
             </div>
           </div>
         </div>

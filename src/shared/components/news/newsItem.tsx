@@ -40,7 +40,7 @@ const NewsItem = ({ data, onClick }: NewsItemProps) => {
 
       <div className="">
         <div className="">
-          <p className="line-clamp-1 text-[10px] md:text-12 lg:text-14 text-gray-color-3 font-normal mb-[4px] lg:mb-[8px]">
+          <p className="line-clamp-1 text-[10px] md:text-12 lg:text-14 text-gray-color-3 font-normal lg:font-medium mb-[4px] lg:mb-[8px]">
             {moment(data.createdAt).format("DD/MM/YYYY")}
           </p>
           <Link href={`/news/${data.postId}`}>

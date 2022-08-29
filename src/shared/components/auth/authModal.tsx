@@ -85,7 +85,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       }
     >
       <div className="w-full flex flex-col h-full overflow-auto scrollbar-hide">
-        <div className="flex-1 p-custom pt-24 z-[100] pb-[70px] ">
+        <div className="flex-1 px-12 sm:px-24 pt-24 z-[100] pb-[70px] ">
           {authModalType === "login" ? (
             <LoginForm
               view="modal"

@@ -5,19 +5,14 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  RideToolTip
+  RideToolTip,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import {
-  useBackRouter,
-  useCompoundingCar,
-  useCompoundingCarActions,
-  useCompoundingForm
-} from "@/hooks"
+import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CompoundingCarCustomer, CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
@@ -63,11 +58,9 @@ const RidesDetailCustomer = () => {
     })
   }
 
-  useBackRouter({
-    cb: () => {
-      toggleBodyOverflow("unset")
-    },
-  })
+  useEffect(() => {
+    return () => toggleBodyOverflow("unset")
+  }, [])
 
   return (
     <>

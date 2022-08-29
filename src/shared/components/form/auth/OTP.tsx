@@ -44,7 +44,6 @@ export const OTP = ({
         size: "invisible",
         callback: (response: any) => {
           setExpandForm(true)
-          console.log("this is recaptcha call")
           // reCAPTCHA solved, allow signInWithPhoneNumber.
         },
 

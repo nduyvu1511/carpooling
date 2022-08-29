@@ -11,13 +11,12 @@ import {
   RidesDetailLoading,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal,
+  RideSummaryModal
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
-import { setShowSummaryDetail } from "@/modules"
 import { ridesApi } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"

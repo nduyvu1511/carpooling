@@ -39,7 +39,13 @@ const RideProgress = ({ state, className = "" }: RideProgressProps) => {
   if (!state)
     return (
       <div className="flex items-center w-[80%]">
-        <div className="xs-hidden skeleton h-16 rounded-[3px] w-full"></div>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div key={index} className="flex-center flex-row md:flex-col mr-24">
+            <div className="w-[20px] h-[20px] md:w-24 md:h-24 rounded-[50%] skeleton mb-0 md:mb-12 mr-12 md:mr-0"></div>
+            <div className="w-[80px] h-12 skeleton rounded-[4px]"></div>
+          </div>
+        ))}
+        {/* <div className="xs-hidden skeleton h-16 rounded-[3px] w-full"></div> */}
       </div>
     )
   return (

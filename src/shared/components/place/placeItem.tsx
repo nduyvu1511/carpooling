@@ -38,7 +38,7 @@ export const PlaceItem = ({
               <MinusIcon className="text-white-color fill-white-color sm:hidden" />
               <ArrowLineRightIcon className="hidden sm:block w-16 h-16 text-white-color" />
             </span>
-            <span className="text-[13px] sm:text-[14px] md:text-16 md:font-medium font-semibold flex-1 text-right text-white-color line-clamp-1">
+            <span className="text-[13px] sm:text-[14px] md:text-16 font-semibold flex-1 text-white-color line-clamp-1 text-right">
               {to_province}
             </span>
           </div>

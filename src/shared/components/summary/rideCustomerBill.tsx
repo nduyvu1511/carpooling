@@ -5,6 +5,7 @@ import { ReactNode } from "react"
 import { DriverInfoSummary } from "./driverInfoSummary"
 import { RidesSummaryHeader } from "./rideSummaryHeader"
 import { RideSummaryInfo } from "./rideSummaryInfo"
+import { SummaryItem } from "./summaryItem"
 
 interface RideCustomerBillProps {
   data: CompoundingCarCustomer
@@ -33,13 +34,7 @@ const RideCustomerBill = ({
             <p className="text-base font-semibold text-blue-7 uppercase mb-16 md:mb-24">
               Thông tin đặt cọc
             </p>
-
-            <li className="flex items-start justify-between mb-12">
-              <p className="text-xs leading-[20px]">Giá vé</p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                {formatMoneyVND(data.amount_total)}
-              </p>
-            </li>
+            <SummaryItem label="Giá vé" value={formatMoneyVND(data.amount_total)} />
             <li className="flex items-start justify-between mb-12">
               <p className="text-sm md:text-base font-semibold uppercase md:normal-case">
                 Đã đặt cọc ({data.down_payment.percent * 100}%)
@@ -48,19 +43,11 @@ const RideCustomerBill = ({
                 {formatMoneyVND(data.down_payment.total)}
               </p>
             </li>
-
-            <li className="flex items-start justify-between mb-12">
-              <p className="text-xs leading-[20px]">Ngày đặt cọc</p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                {moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
-              </p>
-            </li>
-            <li className="flex items-start justify-between">
-              <p className="text-xs leading-[20px]">Số tiền thanh toán sau</p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                {formatMoneyVND(data.amount_due)}
-              </p>
-            </li>
+            <SummaryItem
+              label="Ngày đặt cọc"
+              value={moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
+            />
+            <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(data.amount_due)} />
           </ul>
         ) : (
           <ul>
@@ -85,33 +72,24 @@ const RideCustomerBill = ({
             ) : null}
 
             <div className="my-12 border-b border-solid border-border-color"></div>
-
-            <li className="flex items-start justify-between mb-12">
-              <p className="text-xs leading-[20px]">Số tiền còn lại</p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                {formatMoneyVND(data.amount_due)}
-              </p>
-            </li>
+            <SummaryItem label="Số tiền còn lại" value={formatMoneyVND(data.amount_due)} />
 
             {data?.paid_date ? (
-              <li className="flex items-start justify-between mb-12">
-                <p className="text-xs leading-[20px]">Ngày thanh toán</p>
-                <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                  {moment(data.paid_date).format("HH:mm DD/MM/YYYY")}
-                </p>
-              </li>
+              <SummaryItem
+                label="Ngày thanh toán"
+                value={moment(data.paid_date).format("HH:mm DD/MM/YYYY")}
+              />
             ) : null}
 
             {data?.payment_method ? (
-              <li className="flex items-start justify-between mb-12">
-                <p className="text-xs leading-[20px]">Phương thức thanh toán</p>
-                <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                  {PAYMENT_METHOD_NAME[data.payment_method]}
-                </p>
-              </li>
+              <SummaryItem
+                label="Phương thức thanh toán"
+                value={PAYMENT_METHOD_NAME[data.payment_method]}
+              />
             ) : null}
 
             <div className="my-12 border-b border-solid border-border-color"></div>
+
             <li className="flex items-start">
               <p className="text-14 leading-[26px] uppercase font-semibold">Tổng giá vé</p>
               <p className="text-sm md:text-base font-semibold text-error flex-1 text-right ml-16">
