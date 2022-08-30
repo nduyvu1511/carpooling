@@ -21,7 +21,7 @@ const ProgressBarMultiple = ({
     <div
       style={{ height }}
       className={`${
-        type === "solid" ? "bg-gray-color-1" : ""
+        type === "solid" ? "bg-gray-20" : ""
       } w-full rounded-[8px] relative flex overflow-hidden`}
     >
       {type === "dashed" ? (

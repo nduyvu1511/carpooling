@@ -119,7 +119,7 @@ export const RatingItem = ({
             <span className="flex-1 mb-2 text-sm line-clamp-1 word-wrap-anywhere">
               {rating?.partner_id.partner_name || ""}
             </span>
-            <p className="mb-[12px] flex items-center">
+            <p className="flex items-center">
               <Star readonly ratingValue={rating?.rating_number * 20} size={14} allowHalfIcon />
             </p>
           </div>
@@ -128,9 +128,9 @@ export const RatingItem = ({
             <div ref={ref} className="">
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="w-[44px] h-[44px] bg-gray-color-1 rounded-[8px] flex-center"
+                className="w-[32px] h-[32px] md:w-[44px] md:h-[44px] bg-gray-color-1 rounded-[8px] flex-center"
               >
-                <ThreeDotsIcon className="h-[14px]" />
+                <ThreeDotsIcon className="h-[10px] md:h-[14px]" />
               </button>
 
               {showMenu ? (
@@ -159,16 +159,14 @@ export const RatingItem = ({
           </div>
         </div>
 
-        <p className="text-base leading-[22px] mb-[12px]">{rating?.rating_content}</p>
+        <p className="text-sm md:text-base leading-[22px] mb-[12px]">{rating?.rating_content}</p>
 
-        <div className="flex items-center justify-between flex-wrap">
-          <p className="text-sm text-gray-color-2 mr-8">{`${
-            rating?.duration.time_value
-          } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
-        </div>
+        <p className="text-12 md:text-14 font-medium text-gray-color-2">{`${
+          rating?.duration.time_value
+        } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
 
         {rating.rating_tag_ids?.length > 0 ? (
-          <ul className="flex flex-wrap mt-[12px] mb-[-12px]">
+          <ul className="flex flex-wrap mt-[12px] mb-[-8px]">
             {rating.rating_tag_ids.map((item, index) => (
               <li className="mr-[8px] mb-[12px]" key={index}>
                 <TagItem label={item.tag_content} />

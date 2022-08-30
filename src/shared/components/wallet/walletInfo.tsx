@@ -17,15 +17,15 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
 
   return (
     <div className="flex-row flex items-stretch">
-      <div className="w-[140px xs: w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
+      <div className="w-[140px] xs:w-[160px] sm:w-[200px] mr-24 md:mr-[40px] relative flex-center">
         <CircularProgressbar
           styles={buildStyles({ pathColor: "#2E41B6", trailColor: "#D7D7D7" })}
           value={((data?.[1]?.remains_amount || 0) / totalMoney) * 100}
           strokeWidth={5}
         />
         <div className="absolute z-10 flex-col flex-center">
-          <p className="text-xs mb-4">Tổng</p>
-          <p className="text-sm font-semibold">{formatMoneyVND(totalMoney)}</p>
+          <p className="text-[10px] font-medium xs:text-xs mb-4">Tổng</p>
+          <p className="text-12 xs:text-14 font-semibold">{formatMoneyVND(totalMoney)}</p>
         </div>
       </div>
 
@@ -33,22 +33,24 @@ export const WalletInfo = ({ data }: WalletInfoProps) => {
         <div className="">
           <p className="flex items-center mb-4">
             <span className=" mr-8">
-              <WalletIcon className="w-16" />
+              <WalletIcon className="w-[14px] xs:w-16" />
             </span>
-            <span className="text-xs whitespace-nowrap">Tổng tiền hiện có</span>
+            <span className="text-[10px] font-medium xs:text-xs">Tổng tiền hiện có</span>
           </p>
-          <p className="text-base font-semibold">{formatMoneyVND(data[0].remains_amount)}</p>
+          <p className="text-14 xs:text-16 font-semibold">
+            {formatMoneyVND(data[0].remains_amount)}
+          </p>
         </div>
 
         {data?.[1] ? (
           <div className="mt-24 md:mt-[40px]">
             <p className="flex items-center mb-4">
               <span className="mr-8">
-                <PaymentIcon className="w-16" />
+                <PaymentIcon className="w-[14px] xs:w-16" />
               </span>
-              <span className="text-xs whitespace-nowrap">Số dư khả dụng</span>
+              <span className="text-[10px] font-medium xs:text-xs">Số dư khả dụng</span>
             </p>
-            <p className="text-base font-semibold text-primary">
+            <p className="text-14 xs:text-16 font-semibold text-primary">
               {formatMoneyVND(data[1].remains_amount)}
             </p>
           </div>

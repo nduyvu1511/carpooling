@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from "@/assets"
 import { HeaderMobile, ResetPassword } from "@/components"
 import { AuthLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -12,10 +13,13 @@ const ResetPasswordP = () => {
     <AuthLayout headerClassName="hidden lg:flex">
       <HeaderMobile className="lg:hidden" title="Đặt lại mật khẩu" />
       <section className="reset-password-page lg:py-24 bg-white-color lg:bg-[transparent] min-h-[calc(100vh-56px)] lg:min-h-[unset] pt-[56px]">
-        <div className="content-container block-element py-24 px-12 md:p-24">
-          <h3 className="hidden lg:block mb-24 md:font-medium md:normal-case md:h4">
-            Đặt lại mật khẩu
-          </h3>
+        <div className="content-container lg:block-element py-24 px-12 md:p-24">
+          <div className="hidden lg:flex items-center mb-24">
+            <button onClick={() => router.back()} className="flex-center mr-24">
+              <ArrowLeftIcon />
+            </button>
+            <h3 className="md:font-medium md:normal-case md:h4">Đặt lại mật khẩu</h3>
+          </div>
           <ResetPassword
             view="page"
             defaultPhoneNumber={userInfo?.phone}

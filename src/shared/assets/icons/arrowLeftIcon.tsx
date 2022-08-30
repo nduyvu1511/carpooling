@@ -14,4 +14,3 @@ const ArrowLeftIcon = ({ className = "" }) => {
 }
 
 export { ArrowLeftIcon }
-

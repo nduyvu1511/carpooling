@@ -7,26 +7,6 @@ export const CheckCircleIcon = ({
   stroke = "#1F8B24",
 }) => {
   return (
-    // <svg
-    //   width="24"
-    //   height="24"
-    //   viewBox="0 0 24 24"
-    //   fill="none"
-    //   xmlns="http://www.w3.org/2000/svg"
-    // >
-    //   <path
-    //     opacity={opacity}
-    //     d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z"
-    //     fill={fill}
-    //   />
-    //   <path
-    //     d="M5.57629 12.5L10.3941 17.3178L18.4237 7.68225"
-    //     stroke={stroke}
-    //     strokeLinecap="round"
-    //     strokeLinejoin="round"
-    //   />
-    // </svg>
-
     <svg
       className={className}
       width="68"
@@ -38,7 +18,7 @@ export const CheckCircleIcon = ({
       <path
         opacity={opacity}
         d="M67.3332 34.0001C67.3332 52.4096 52.4093 67.3334 33.9998 67.3334C15.5903 67.3334 0.666504 52.4096 0.666504 34.0001C0.666504 15.5906 15.5903 0.666748 33.9998 0.666748C52.4093 0.666748 67.3332 15.5906 67.3332 34.0001Z"
-        fill={fill}
+        fill={"currentColor"}
       />
       <path
         fillRule="evenodd"

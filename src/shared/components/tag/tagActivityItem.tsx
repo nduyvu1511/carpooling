@@ -23,7 +23,7 @@ const TagActivityItem = <T extends string | string[]>({
         backgroundColor: !isActive ? "#ffffff" : bgColor,
       }}
       onClick={() => onChange?.(value)}
-      className={`flex cursor-pointer text-xs md:text-sm py-[4px] px-[8px] rounded-[5px] whitespace-nowrap`}
+      className={`flex cursor-pointer select-none text-xs md:text-sm py-[4px] px-[8px] rounded-[5px] whitespace-nowrap`}
     >
       {label}
     </span>

@@ -62,7 +62,7 @@ const Activities = () => {
           <ul>
             {Array.from({ length: 8 }).map((_, index) => (
               <li
-                className="block-element border border-solid border-border-color mb-12 lg:mb-24"
+                className="block-element rounded-[8px] md:rounded-[20px] border border-solid border-border-color mb-12 lg:mb-24"
                 key={index}
               >
                 <ActivityItem key={index} activity={null} />
@@ -83,7 +83,7 @@ const Activities = () => {
                 loader={isFetchingMore ? <Spinner /> : null}
                 next={() => fetchMoreActivities()}
               >
-                <ul className="grid gap-12 md:gap-24">
+                <ul className="grid gap-12 md:gap-16">
                   {activities.map((item, index) => (
                     <li
                       onClick={() => activityStateHandler(item)}

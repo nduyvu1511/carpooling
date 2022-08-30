@@ -36,7 +36,7 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Thông tin xe">
-      <div className="px-16 sm:px-0">
+      <div className="px-12 md:px-0">
         {!isValidating ? (
           <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />
         ) : (

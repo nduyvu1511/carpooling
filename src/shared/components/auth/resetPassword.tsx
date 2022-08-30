@@ -29,7 +29,7 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
   }
 
   return (
-    <div className="">
+    <div className="reset-password-page">
       <div className="">
         {!firebaseToken ? (
           <OTP

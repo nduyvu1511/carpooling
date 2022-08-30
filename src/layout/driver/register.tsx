@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, HomeIcon } from "@/assets"
+import { ArrowLeft2Icon, HomeIcon } from "@/assets"
 import { useScrollTop } from "@/hooks"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
@@ -21,24 +21,26 @@ const Header = ({ onBackBtnClick, heading, rightHeaderElement, onRightBtnClick }
 
   return (
     <header
-      className={`flex items-center h-[60px] px-16 sm:px-0 sticky top-0 bg-white-color z-[100] ${
-        height > 60 ? " border-b border-solid border-border-color" : ""
+      className={`h-[60px] px-16 sm:px-24 md:px-0 sticky top-0 bg-white-color z-[100] ${
+        height > 30 ? " border-b border-solid border-border-color shadow-shadow-1" : ""
       }`}
     >
-      <button
-        onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
-        className="w-[30px]"
-      >
-        <ArrowLeftIcon />
-      </button>
-      <h3 className="text-16 font-semibold flex-1 ml-[24px] text-center">{heading}</h3>
-      <div className="">
-        {rightHeaderElement ||
-          (onRightBtnClick ? (
-            <button onClick={() => onRightBtnClick?.()}>
-              <HomeIcon />
-            </button>
-          ) : null)}
+      <div className="content-container flex items-center h-full">
+        <button
+          onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
+          className="w-[30px]"
+        >
+          <ArrowLeft2Icon className="w-[10px] h-[16px]" />
+        </button>
+        <h3 className="text-16 font-semibold flex-1 text-center">{heading}</h3>
+        <div className="">
+          {rightHeaderElement ||
+            (onRightBtnClick ? (
+              <button className="w-[30px] flex justify-end" onClick={() => onRightBtnClick?.()}>
+                <HomeIcon />
+              </button>
+            ) : null)}
+        </div>
       </div>
     </header>
   )
@@ -53,13 +55,13 @@ export const DriverRegisterLayout = ({
 }: DriverRegisterLayout) => {
   return (
     <DriverEmptyLayout>
-      <section className="content-container driver-register-layout">
-        <Header
-          heading={heading}
-          onBackBtnClick={onBackBtnClick}
-          rightHeaderElement={rightHeaderElement}
-          onRightBtnClick={onRightBtnClick}
-        />
+      <Header
+        heading={heading}
+        onBackBtnClick={onBackBtnClick}
+        rightHeaderElement={rightHeaderElement}
+        onRightBtnClick={onRightBtnClick}
+      />
+      <section className="content-container driver-register-layout pt-12">
         <main className="">{children}</main>
       </section>
     </DriverEmptyLayout>

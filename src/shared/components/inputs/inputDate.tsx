@@ -11,6 +11,7 @@ interface InputDateProps {
   inputProps?: HTMLProps<HTMLInputElement>
   value?: string
   placeholder?: string
+  currentDay?: string
 }
 
 const InputDate = ({
@@ -20,6 +21,7 @@ const InputDate = ({
   inputProps,
   value,
   placeholder,
+  currentDay,
 }: InputDateProps) => {
   const disablePastDt = (current: any) => {
     const yesterday = moment().subtract(1, "day")

@@ -71,7 +71,7 @@ export const Transaction = ({
           />
         </div>
 
-        <div className="flex-1 flex-col flex p-custom">
+        <div className="flex-1 flex-col flex p-12 sm:p-16 md:p-24">
           <div className="mb-24">
             <div className="flex items-center justify-between">
               <p className="text-base font-semibold w-[200px] mr-24 uppercase">Số dư khả dụng</p>

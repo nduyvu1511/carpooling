@@ -19,7 +19,7 @@ const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSideba
 
   return (
     <div className="">
-      <div className="flex items-center py-[14px] mb-[14px] border-b border-solid border-border-color">
+      <div className="flex items-center pb-[14px] mb-[14px] border-b border-solid border-border-color">
         <div className="relative w-[32px] h-[32px] overflow-hidden rounded-[50%] mr-[12px]">
           <Image src={toImageUrl(avatar)} layout="fill" alt="" objectFit="cover" />
         </div>
@@ -38,13 +38,11 @@ const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSideba
               onClick?.()
               router.push(path)
             }}
-            className={`mb-12 last:mb-0 ${
-              child ? "relative" : ""
-            } hover:bg-gray-color-1 rounded-[5px]`}
+            className={`mb-4 ${child ? "relative" : ""} hover:bg-gray-color-1 rounded-[5px]`}
             key={index}
           >
             <div
-              className={`flex items-center py-[8px] px-[12px] cursor-pointer ${
+              className={`flex items-center p-[10px] cursor-pointer ${
                 path === router.pathname ? "bg-primary rounded-[5px] text-white-color" : ""
               }`}
             >

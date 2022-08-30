@@ -10,6 +10,8 @@ interface PromotionProps {
   onApply?: (id: number) => void
 }
 
+const gridClassName = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-16"
+
 export const Promotion = ({ className, onApply }: PromotionProps) => {
   const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isInitialLoading } =
     useQueryList<PromotionRes>({
@@ -21,7 +23,7 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
 
   if (isInitialLoading)
     return (
-      <div className={`${className}`}>
+      <div className={`${className || gridClassName}`}>
         {Array.from({ length: 4 }).map((_, index) => (
           <PromotionItem data={null} key={index} />
         ))}
@@ -34,7 +36,7 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
       loader={isFetchingMore ? <Spinner /> : null}
       next={() => fetchMoreItem(promotionApi.getPromotionList({ limit: 12, offset: offset + 12 }))}
     >
-      <div className={`${className}`}>
+      <div className={`${className || gridClassName}`}>
         {(data || [])?.length > 0
           ? data?.map((item) => (
               <PromotionItem onApply={onApply} key={item.promotion_id} data={item} />

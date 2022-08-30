@@ -32,8 +32,8 @@ export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) =
         disabled ? "opacity-30 bg-[#D9D9D9] pointer-events-none select-none" : "bg-blue-10"
       }`}
     >
-      <span className="absolute top-[-4px] right-24 bg-[#FDF3F3] py-12 px-6 rounded-bl-[20px] rounded-br-[20px] rounded-tl-[3px] rounded-tr-[3px] text-[10px] font-medium text-error">
-        85%
+      <span className="absolute top-[-4px] right-4 lg:right-24 bg-[#FDF3F3] py-12 px-6 rounded-bl-[20px] rounded-br-[20px] rounded-tl-[3px] rounded-tr-[3px] text-[10px] font-medium text-error">
+        {data.promotion_value}%
       </span>
       <div className="absolute inset-0 overflow-hidden rounded-[16px]">
         <span className="absolute-vertical z-10  h-[18px] w-[18px] bg-white-color left-[-9px] rounded-[50%]"></span>
@@ -49,16 +49,16 @@ export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) =
       </div>
 
       <div className="z-10">
-        <div className="flex items-center mb-8">
-          <p className="text-16 lg:text-18 font-semibold text-primary line-clamp-1">
+        <div className="flex items-center mb-8 mr-24 lg:mr-[48px]">
+          <p className="text-14 md:text-16 font-semibold text-primary line-clamp-1 mr-8">
             {data.promotion_name}
           </p>
-          <p className="mx-8 border-r border-border-color-1 border-solid h-[14px]"></p>
-          <p className="text-16 lg:text-18 font-semibold text-primary mr-8 line-clamp-1">
+          {/* <p className="mx-8 border-r border-border-color-1 border-solid h-[14px]"></p> */}
+          {/* <p className="text-14 md:text-16 font-semibold text-primary mr-8 line-clamp-1">
             Giảm 100k
-          </p>
+          </p> */}
           <span className="bg-primary py-4 px-[10px] rounded-[5px] text-[10px] md:text-12 font-semibold text-white-color">
-            APPEXXE
+            {data.promotion_code}
           </span>
         </div>
 
@@ -69,20 +69,25 @@ export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) =
 
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <ClockIcon className="mr-8 z-10" />
-            <p className="text-[10px] sm:text-12 font-normal mr-8 text-blue-8 z-10">
-              {moment(data.date_start).format("DD/MM/YYYY")} 
-              <span className="mx-8">-</span>
-              {moment(data.date_start).format("DD/MM/YYYY")}
-            </p>
-            <span className="bg-white-color py-4 px-8 rounded-[5px] text-12 font-normal text-error z-10">
-              còn {data.duration_end.time_value} {formatTimeType(data.duration_end.time_type)}
-            </span>
+            {data.duration_end?.time_type === "hour" ? (
+              <span className="bg-white-color py-4 px-8 rounded-[5px] text-12 font-normal text-error z-10">
+                còn {data.duration_end.time_value} {formatTimeType(data.duration_end.time_type)}
+              </span>
+            ) : (
+              <>
+                <ClockIcon className="mr-8 z-10" />
+                <p className="text-[10px] sm:text-12 font-normal mr-8 text-blue-8 z-10">
+                  {moment(data.date_start).format("DD/MM/YYYY")}
+                  <span className="mx-8">-</span>
+                  {moment(data.date_start).format("DD/MM/YYYY")}
+                </p>
+              </>
+            )}
           </div>
 
           <button
             onClick={() => onApply?.(data.promotion_id)}
-            className="text-14 md:text-16 font-semibold text-primary z-10"
+            className="text-14 font-semibold text-primary z-10"
           >
             Áp dụng
           </button>

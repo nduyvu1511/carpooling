@@ -121,7 +121,7 @@ export const TransactionForm = ({
         </div>
 
         <div className="flex items-center">
-          <TrustIcon className="mr-8" />
+          <TrustIcon className="mr-8 text-success" />
           <p className="text-xs">
             Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
           </p>

@@ -65,103 +65,105 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
               <LogoIcon className="cursor-pointer" />
             </div>
 
-            <div className="flex items-center">
-              <button
-                onClick={() =>
-                  toggleBookingModal(
-                    userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
-                  )
-                }
-                className={`flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue h-[38px] lg:h-[40px] mr-12 sm:mr-24 ${
-                  userInfo?.car_account_type === "customer" ? "flex lg:hidden" : "flex"
-                }`}
-              >
-                <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
-                <p className="text-xs sm:text-sm font-medium">
-                  <span className="hidden sm:block text-blue-7">Đặt chuyến mới</span>
-                  <span className="sm:hidden text-blue-7">Đặt chuyến</span>
-                </p>
-              </button>
-
-              {userInfo?.car_account_type === "customer" ? (
-                <ul className="mr-[40px] hidden lg:flex">
-                  {[
-                    {
-                      icon: <OneWayIcon />,
-                      label: "Một chiều",
-                      value: "one_way",
-                    },
-                    {
-                      icon: <TwoWayIcon />,
-                      label: "Hai chiều",
-                      value: "two_way",
-                    },
-                    {
-                      icon: <CarpoolingIcon />,
-                      label: "Ghép chuyến",
-                      value: "compounding",
-                    },
-                  ].map(({ icon, label, value }, index) => (
-                    <li
-                      style={{ backgroundColor: COMPOUNDING_TYPE_BG[value as CompoundingType] }}
-                      onClick={() => {
-                        toggleBookingModal(value as CompoundingType)
-                      }}
-                      className="flex-center bg-[#EEEBFF] mr-16 p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
-                      key={index}
-                    >
-                      {icon}
-                      <span className="ml-8 text-xs text-blue-8">{label}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-
+            {router.pathname !== "/d/register" ? (
               <div className="flex items-center">
-                <div className="mr-24 hidden">
-                  <Link passHref href="/guide">
-                    <span className="cursor-pointer">
-                      <QuestionIcon className="w-[24px] h-[24px]" />
-                    </span>
-                  </Link>
-                </div>
+                <button
+                  onClick={() =>
+                    toggleBookingModal(
+                      userInfo?.car_account_type === "customer" ? "one_way" : "convenient"
+                    )
+                  }
+                  className={`flex-center py-8 px-[10px] rounded-[8px] bg-bg-blue h-[38px] lg:h-[40px] mr-12 sm:mr-24 ${
+                    userInfo?.car_account_type === "customer" ? "flex lg:hidden" : "flex"
+                  }`}
+                >
+                  <AddIcon className="mr-8 w-[20px] h-[20px] text-blue-7" />
+                  <p className="text-xs sm:text-sm font-medium">
+                    <span className="hidden sm:block text-blue-7">Đặt chuyến mới</span>
+                    <span className="sm:hidden text-blue-7">Đặt chuyến</span>
+                  </p>
+                </button>
 
-                <div className="flex items-center max-w-[150px] w-full relative group cursor-pointer">
-                  <div
-                    onClick={() =>
-                      router.push(
-                        `/${
-                          userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"
-                        }`
-                      )
-                    }
-                    className="relative w-[32px] h-[32px]"
-                  >
-                    <Image
-                      layout="fill"
-                      src={
-                        userInfo?.avatar_url?.image_url
-                          ? toImageUrl(userInfo?.avatar_url?.image_url || "")
-                          : blankAvatar
+                {userInfo?.car_account_type === "customer" ? (
+                  <ul className="mr-[40px] hidden lg:flex">
+                    {[
+                      {
+                        icon: <OneWayIcon />,
+                        label: "Một chiều",
+                        value: "one_way",
+                      },
+                      {
+                        icon: <TwoWayIcon />,
+                        label: "Hai chiều",
+                        value: "two_way",
+                      },
+                      {
+                        icon: <CarpoolingIcon />,
+                        label: "Ghép chuyến",
+                        value: "compounding",
+                      },
+                    ].map(({ icon, label, value }, index) => (
+                      <li
+                        style={{ backgroundColor: COMPOUNDING_TYPE_BG[value as CompoundingType] }}
+                        onClick={() => {
+                          toggleBookingModal(value as CompoundingType)
+                        }}
+                        className="flex-center bg-[#EEEBFF] mr-16 p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
+                        key={index}
+                      >
+                        {icon}
+                        <span className="ml-8 text-xs text-blue-8">{label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                <div className="flex items-center">
+                  <div className="mr-24 hidden">
+                    <Link passHref href="/guide">
+                      <span className="cursor-pointer">
+                        <QuestionIcon className="w-[24px] h-[24px]" />
+                      </span>
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center max-w-[150px] w-full relative group cursor-pointer">
+                    <div
+                      onClick={() =>
+                        router.push(
+                          `/${
+                            userInfo?.car_account_type === "car_driver" ? "d/account" : "c/account"
+                          }`
+                        )
                       }
-                      objectFit="cover"
-                      alt=""
-                      className="rounded-[50%]"
-                    />
-                  </div>
-                  <div className="hidden sm:block ml-8 flex-1">
-                    <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
-                      {userInfo?.partner_name}
-                    </p>
-                  </div>
+                      className="relative w-[32px] h-[32px]"
+                    >
+                      <Image
+                        layout="fill"
+                        src={
+                          userInfo?.avatar_url?.image_url
+                            ? toImageUrl(userInfo?.avatar_url?.image_url || "")
+                            : blankAvatar
+                        }
+                        objectFit="cover"
+                        alt=""
+                        className="rounded-[50%]"
+                      />
+                    </div>
+                    <div className="hidden sm:block ml-8 flex-1">
+                      <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
+                        {userInfo?.partner_name}
+                      </p>
+                    </div>
 
-                  {/* hover */}
-                  <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-full right-0 hidden lg:group-hover:block z-[1000]">
-                    <AccountMenu />
+                    {/* hover */}
+                    <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-full right-0 hidden lg:group-hover:block z-[1000]">
+                      <AccountMenu />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </HeaderWrapper>

@@ -80,7 +80,7 @@ export const ChangePasswordForm = forwardRef(function Child(
       <div className="text-right mb-[40px]">
         <span
           onClick={() => router.push("/reset-password?next=/password")}
-          className="cursor-pointer text-xs"
+          className="cursor-pointer text-xs text-primary underline"
         >
           Quên mật khẩu?
         </span>

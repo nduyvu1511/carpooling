@@ -36,7 +36,7 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bảo Hiểm Xe">
-      <div className="content-container px-16 sm:px-0">
+      <div className="content-container px-12 md:px-0">
         {isValidating ? (
           <>
             <ImageFileLoading />

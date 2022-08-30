@@ -20,7 +20,6 @@ const DrivingLicenseForm = ({
   const {
     register,
     handleSubmit,
-    setValue,
     getValues,
     formState: { errors, dirtyFields, isValid },
     control,
@@ -52,7 +51,10 @@ const DrivingLicenseForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       {drivingLicenseFormFields.map((field) => (
-        <div key={field.name} className="form-item">
+        <div
+          key={field.name}
+          className={`form-item ${field.name === "date_of_expiry" ? "mb-40" : ""}`}
+        >
           <label htmlFor={field.name} className="form-label">
             {field.placeholder}{" "}
             {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}

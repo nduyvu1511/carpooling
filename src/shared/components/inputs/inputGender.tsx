@@ -14,11 +14,7 @@ const InputGender = ({ onChange: onChangeProps, value: valueProps }: InputGender
         ["Nữ", "female"],
         ["Khác", "no_info"],
       ].map(([label, value], index) => (
-        <div
-          key={value}
-          style={{ marginRight: index === 2 ? 0 : 40 }}
-          className="flex items-center"
-        >
+        <div key={value} className="flex items-center mr-24 xs:mr-40 last:mr-0">
           <span className="mr-[14px]">
             <InputRadio
               size={20}

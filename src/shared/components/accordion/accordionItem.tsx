@@ -49,7 +49,7 @@ const AccordionItem = ({
       </div>
       <div
         className={`overflow-hidden ${allowTransition ? "transition-all duration-300" : ""} ${
-          isActive ? "my-12 md:my-16 lg:my-24" : "m0"
+          isActive ? "my-12 md:my-16 lg:my-24" : "my-0"
         }`}
       >
         <div

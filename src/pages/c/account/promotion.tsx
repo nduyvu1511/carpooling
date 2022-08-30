@@ -1,4 +1,4 @@
-import { Promotion, PromotionModal, Seo } from "@/components"
+import { Promotion, Seo } from "@/components"
 import { CustomerAccountLayout } from "@/layout"
 
 const PromotionPage = () => {
@@ -11,8 +11,7 @@ const PromotionPage = () => {
           title="Ưu đãi"
           url="https://exxe.vn/c/account/promotion"
         />
-        <PromotionModal onClose={() => {}} />
-        <div className="p-custom">
+        <div className="px-custom">
           <Promotion />
         </div>
       </CustomerAccountLayout>

@@ -1,13 +1,14 @@
 import { RatingEmptyIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Seo, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useBackRouter, useCustomerRating, useRatingActions } from "@/hooks"
+import { useCustomerRating, useRatingActions } from "@/hooks"
 import { CustomerAccountLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 
 const Rating = () => {
+  const { deleteRating, updateRating } = useRatingActions()
   const {
     data: ratingList,
     isValidating,
@@ -17,9 +18,16 @@ const Rating = () => {
     fetchMoreRatings,
     isFetchingMore,
   } = useCustomerRating()
+
   const [currentDeleteRatingId, setCurrentDeleteRatingId] = useState<number | undefined>()
-  const { deleteRating, updateRating } = useRatingActions()
   const [currentEditRating, setCurrentEditRating] = useState<RatingRes | undefined>()
+
+  useEffect(() => {
+    return () => {
+      toggleBodyOverflow("unset")
+      setCurrentDeleteRatingId(undefined)
+    }
+  }, [])
 
   const handleDeleteRating = (rating_id: number) => {
     deleteRating({
@@ -31,13 +39,6 @@ const Rating = () => {
       },
     })
   }
-
-  useBackRouter({
-    cb: () => {
-      toggleBodyOverflow("unset")
-      setCurrentDeleteRatingId(undefined)
-    },
-  })
 
   const handleUpdateRating = (params: CreateRatingFormParams) => {
     if (!currentEditRating?.rating_id || !currentEditRating?.compounding_car_customer_id) return
@@ -59,12 +60,12 @@ const Rating = () => {
     <>
       <CustomerAccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
         <Seo
-          description="Đánh giá"
+          description="Đánh giá của bạn"
           thumbnailUrl=""
-          title="Đánh giá"
+          title="Đánh giá của bạn"
           url="https://exxe.vn/c/rating"
         />
-        <div className="px-custom pt-0">
+        <div className="px-custom">
           {isValidating ? (
             <div>
               {Array.from({ length: 3 }).map((_, key) => (

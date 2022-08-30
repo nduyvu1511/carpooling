@@ -11,9 +11,7 @@ interface TransactionDetailProps {
 }
 
 const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
-  const { isValidating, mutate, data } = useSWR<
-    JournalDetailRes | JournalDetailCompoundingCarCustomerRes
-  >(
+  const { isValidating, data } = useSWR<JournalDetailRes | JournalDetailCompoundingCarCustomerRes>(
     payment_id ? `get_transaction_detail_${payment_id}` : null,
     () =>
       userApi

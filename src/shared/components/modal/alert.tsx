@@ -43,7 +43,7 @@ const Alert = ({
             {type == "error" ? (
               <ErrorCircleIcon className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] my-24 sm:my-24" />
             ) : type === "success" ? (
-              <CheckCircleIcon className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] my-24 sm:my-24" />
+              <CheckCircleIcon className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] my-24 sm:my-24 text-green" />
             ) : type === "info" ? (
               <WarningIcon
                 color="#007BFF"

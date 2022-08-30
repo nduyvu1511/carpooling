@@ -25,7 +25,7 @@ const AccountLayout = ({ children, desc, title, showHeaderMobile = true }: Accou
               />
             ) : null}
           </aside>
-          <div className="block-element pt-12 md:pt-24 lg:pt-0 pb-[12px] lg:pb-24">
+          <div className="lg:block-element pt-12 md:pt-24 lg:pt-0 pb-[12px] lg:pb-24">
             {title || desc ? (
               <div className="hidden lg:block items-center justify-between mx-12 md:mx-16 lg:mx-24 py-[12px] md:py-16 lg:py-24 mb-12 lg:mb-24 border-b border-solid border-border-color">
                 {title ? <h4 className="h4 text-primary">{title}</h4> : null}

@@ -7,9 +7,11 @@ import {
   TransactionRes,
   VnpayStatus,
 } from "@/models"
+import { setCheckoutPaymentId } from "@/modules"
 import { ridesApi, userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 
 interface CheckoutProcessProps {
   vnp_ResponseCode: VnpayStatus
@@ -30,8 +32,18 @@ const CheckoutProcess = ({
   compounding_car_id,
   payment_id,
 }: CheckoutProcessProps) => {
+  const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number | undefined>(30)
+
+  useEffect(() => {
+    return () => {
+      if (fetcher_type === "confirmRechargeRequest" && vnp_ResponseCode !== "00") {
+        dispatch(setCheckoutPaymentId(undefined))
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (vnp_ResponseCode !== "00") return
@@ -78,7 +90,7 @@ const CheckoutProcess = ({
         .then((res: AxiosResponse<TransactionRes>) => {
           setValidating(false)
           if (res.result.data?.state === "posted") {
-            window.close()
+            // window.close()
           }
         })
         .catch(() => setValidating(false))

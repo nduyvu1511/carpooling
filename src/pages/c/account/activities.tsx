@@ -90,7 +90,7 @@ const Activities = () => {
             <ul className="">
               {Array.from({ length: 6 }).map((_, index) => (
                 <li
-                  className="block-element border border-solid border-border-color mb-12 md:mb-24 rounded-[5px] md:rounded-[20px]"
+                  className="block-element border border-solid border-border-color mb-12 md:mb-24 rounded-[8px] md:rounded-[20px]"
                   key={index}
                 >
                   <ActivityItem activity={null} />
@@ -111,7 +111,7 @@ const Activities = () => {
                   loader={isFetchingMore ? <Spinner className="py-[30px]" size={30} /> : null}
                   next={() => fetchMoreActivities()}
                 >
-                  <ul className="grid gap-12 md:gap-24">
+                  <ul className="grid gap-12 md:gap-16">
                     {activities.map((item, index) => (
                       <li
                         onClick={() => handleRedirect(item)}

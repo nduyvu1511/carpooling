@@ -40,7 +40,7 @@ const RegistrationCertificate = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="Giấy Đăng Kiểm"
     >
-      <div className="content-container px-16 sm:px-0">
+      <div className="content-container px-12 md:px-0">
         {isValidating ? (
           <>
             <ImageFileLoading />

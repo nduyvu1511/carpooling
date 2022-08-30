@@ -25,12 +25,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
     resolver: yupResolver(rechargeMoneySchema),
     mode: "all",
   })
-
   const currentAcquirerId = watch("acquirer_id")
-
-  // useEffect(() => {
-  //   ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
-  // }, [])
 
   const onSubmitHandler = (params: RechargeRequestFormParams) => {
     if (!params.amount || typeof params.amount !== "number") return
@@ -82,9 +77,9 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
           {isPaymentLoading ? (
             <Spinner size={30} className="py-[20px]" />
           ) : (
-            <ul className="flex flex-wrap">
+            <ul className="flex flex-nowrap overflow-auto scrollbar-hide">
               {paymentList?.map((item) => (
-                <li className="mr-16 mb-16" key={item.acquirer_id}>
+                <li className="mr-16 mb-16 flex-shrink-0" key={item.acquirer_id}>
                   <PaymentItem
                     isActive={currentAcquirerId === item.acquirer_id}
                     onChange={(val) => setValue("acquirer_id", val.acquirer_id)}
@@ -96,8 +91,8 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
           )}
         </div>
 
-        <div className="flex items-start p-8 bg-[#F4FDF7] rounded[8px]">
-          <TrustIcon className="mr-8" />
+        <div className="flex items-start p-8 bg-[#F4FDF7] rounded-[8px]">
+          <TrustIcon className="mr-8 text-success" />
           <p className="text-xs flex-1 text-success">
             Mọi thông tin của bạn đều sẽ được chúng tôi mã hóa để bảo mật thông tin khách hàng
           </p>

@@ -8,6 +8,7 @@ import {
   TransactionItem,
   TransactionSuccess,
   WalletFilter,
+  WalletGuide,
   WalletLoading,
 } from "@/components"
 import { RootState } from "@/core/store"
@@ -49,9 +50,6 @@ const Wallet = () => {
     journalFilter,
     createRechargeRequest,
   } = useJournal()
-  const [showWithdrawModal, setShowWithdrawModal] = useState<boolean>(false)
-  const [currentPaymentId, setCurrentPaymentId] = useState<number | undefined>(undefined)
-  const [showFilter, setShowFilter] = useState<boolean>(false)
 
   const { data: transaction, mutate } = useSWR<JournalDetailRes>(
     paymentId ? `get_transaction_status_${paymentId}` : null,
@@ -61,6 +59,21 @@ const Wallet = () => {
         .then((res: AxiosResponse<JournalDetailRes>) => res?.result?.data),
     { dedupingInterval: 0, revalidateOnFocus: true }
   )
+
+  // State
+  const [currentPaymentId, setCurrentPaymentId] = useState<number | undefined>(undefined)
+  const [showWithdrawModal, setShowWithdrawModal] = useState<boolean>(false)
+  const [showFilter, setShowFilter] = useState<boolean>(false)
+
+  useEffect(() => {
+    return () => {
+      toggleBodyOverflow("unset")
+      if (paymentId) {
+        dispatch(setCheckoutPaymentId(undefined))
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleToggleModal = ({
     type,
@@ -106,7 +119,7 @@ const Wallet = () => {
       params: {
         ...params,
         journal_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/checking-recharge-money-status`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/checking-recharge-money-status?payment_id=${params.acquirer_id}`,
       },
       onSuccess: (data) => {
         dispatch(setCheckoutPaymentId(data.payment_id))
@@ -116,22 +129,11 @@ const Wallet = () => {
     })
   }
 
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-      if (paymentId) {
-        dispatch(setCheckoutPaymentId(undefined))
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <>
       <div className="px-custom">
         <div className="items-stretch justify-between hidden lg:flex pb-12 md:py-24 border-b border-solid border-border-color">
           <h4 className="h4 text-primary">Ví cá nhân</h4>
-
           <button
             onClick={() => handleToggleModal({ status: true, type: "transaction" })}
             className="btn-primary w-fit"
@@ -143,14 +145,13 @@ const Wallet = () => {
         <div className="pb-12 md:pb-24 lg:py-24">
           <div className="grid xl:grid-cols-wallet-grid gap-[40px]">
             <div className="h-fit xl:sticky top-[104px]">
-              <div className="sm:bg-bg-primary sm:shadow-shadow-1 h-fit sm:p-24 sm:rounded-[5px] relative">
+              <div className="bg-bg-primary shadow-shadow-1 h-fit p-16 md:p-24 rounded-[5px] relative">
                 {isInitialLoading ? (
                   <WalletLoading />
                 ) : (
                   <>
                     <div className="flex items-center justify-between mb-24 md:mb-[40px]">
-                      <p className="text-base font-semibold lg:text-xl">Tổng ví</p>
-
+                      <p className="text-base font-semibold">Tổng ví</p>
                       <button
                         onClick={() => handleToggleModal({ status: true, type: "transaction" })}
                         className="btn-primary rounded-[30px]  w-fit sm:hidden"
@@ -177,24 +178,24 @@ const Wallet = () => {
                 )}
               </div>
 
-              {/* <div className="mt-[40px]">
+              <div className="mt-[40px] hidden xl:block">
+                <p className="text-base font-semibold mb-16 md:mb-24">FAQ</p>
                 <WalletGuide />
-              </div> */}
+              </div>
             </div>
 
             <div className="">
-              <div className="flex items-center justify-between mb-16">
-                <p className="text-base font-semibold lg:text-xl">Lịch sử giao dịch</p>
-
+              <div className="flex items-center justify-between mb-24 sm:mb-[-8px] z-10 relative">
+                <p className="text-base font-semibold">Lịch sử giao dịch</p>
                 <button
-                  onClick={() => setShowFilter(true)}
+                  onClick={() => handleToggleModal({ status: true, type: "filter" })}
                   className="w-[44px] h-[44px] sm:hidden rounded-[8px] bg-gray-color-1 flex-center"
                 >
                   <FilterIcon />
                 </button>
               </div>
 
-              <div className="py-24 hidden sm:block xl:sticky top-[80px] bg-white-color">
+              <div className="py-24 hidden sm:block sm:sticky top-[56px] lg:top-[80px] bg-white-color">
                 <WalletFilter onChange={(val) => filterTransactions(val as JournalFilterDate)} />
               </div>
 
@@ -232,6 +233,7 @@ const Wallet = () => {
           </div>
         </div>
       </div>
+
       <Modal
         key="transaction-detail-modal"
         show={!!currentPaymentId}
@@ -245,23 +247,25 @@ const Wallet = () => {
       </Modal>
 
       {/* Transaction modal */}
+
       {transaction?.payment_id?.state === "posted" ? (
         <Alert
           show={true}
           onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}
           onClose={() => {
+            dispatch(setCheckoutPaymentId(undefined))
+            mutate(undefined, false)
             if (router.query?.next) {
               router.push(router.query.next + "")
+            } else {
+              mutateJournal()
+              handleToggleModal({ status: false, type: "transaction" })
             }
-            dispatch(setCheckoutPaymentId(undefined))
-            handleToggleModal({ status: false, type: "transaction" })
-            mutate(undefined, false)
-            mutateJournal()
           }}
           title="Giao dịch thành công"
           desc={`ID: ${transaction.payment_id.payment_code}`}
           showRightBtn={false}
-          leftBtnLabel="Đóng"
+          leftBtnLabel={`${!!router.query?.next ? "Trở về trang đặt cọc" : "Đóng"}`}
         >
           <TransactionSuccess transaction={transaction} />
         </Alert>

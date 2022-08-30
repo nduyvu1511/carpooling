@@ -144,27 +144,6 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
             </div>
           ) : null}
 
-          {field.type === "date" ? (
-            <div className="form-select">
-              <Controller
-                control={control}
-                name={field.name}
-                render={({ field: { onChange, onBlur } }) => (
-                  <Select
-                    // defaultValue={field.name === 'car_brand_id' }
-                    className={`${errors?.[field.name] ? "form-select-error" : ""}`}
-                    placeholder={field.placeholder}
-                    options={field.options}
-                    onChange={(val) => val?.value && onChange(val.value)}
-                    onBlur={onBlur}
-                    id={field.name}
-                  />
-                )}
-                rules={{ required: true }}
-              />
-            </div>
-          ) : null}
-
           {errors[field.name] || dirtyFields[field.name] ? (
             <p className="form-err-msg">{errors[field.name]?.message}</p>
           ) : null}

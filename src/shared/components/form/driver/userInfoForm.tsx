@@ -7,7 +7,13 @@ import {
   InputImage,
   Modal,
 } from "@/components"
-import { isObjectHasValue, toggleBodyOverflow, userFormSchema, userInfoFormfields } from "@/helper"
+import {
+  EMAIL_REGEX,
+  isObjectHasValue,
+  toggleBodyOverflow,
+  userFormSchema,
+  userInfoFormfields,
+} from "@/helper"
 import { useBackRouter, useIdentityCard } from "@/hooks"
 import {
   CarAccountType,
@@ -102,7 +108,7 @@ export const UserInfoForm = ({
   const onSubmitHandler = (params: UserInfoFormParams) => {
     const { district_id, ward_id, province_id, street } = params
     const data: UserInfoFormSubmit = {
-      avatar_attachment_id: params.avatar_attachment_id,
+      avatar_attachment_id: +params.avatar_attachment_id,
       date_of_birth: params.date_of_birth,
       gender: params.gender,
       name: params.name,
@@ -214,6 +220,7 @@ export const UserInfoForm = ({
                   />
                 ) : null
               ) : null}
+
               {field.type === "textarea" ? (
                 <textarea
                   {...register(field.name, {
@@ -253,7 +260,7 @@ export const UserInfoForm = ({
                       defaultValue={
                         field.name === "name"
                           ? defaultValues?.partner_name
-                          : field.name === "email"
+                          : field.name === "email" && EMAIL_REGEX.test(defaultValues?.email || "")
                           ? defaultValues?.email
                           : undefined
                       }

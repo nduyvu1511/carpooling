@@ -56,7 +56,7 @@
   }
 
   .form-input-sm {
-    @apply px-[15px] rounded-[5px] md:rounded-[10px] border border-solid border-black-10 md:border-gray-color-2 h-[32px] w-full outline-none text-14 md:text-16 font-medium;
+    @apply px-[15px] rounded-[5px] md:rounded-[10px] border border-solid border-gray-20 md:border-gray-color-2 h-[32px] w-full outline-none text-14 md:text-16 font-medium;
   }
 
   .form-input {
@@ -347,17 +347,18 @@
     width: 100%;
     height: 44px;
     font-size: 14px;
+    border-radius: 5px;
     @media screen and (min-width: 768px) {
       font-size: 16px;
       height: 52px;
     }
-    border-radius: 5px;
 
     & .css-1s2u09g-control {
       height: 44px;
-      padding-inline: 8px;
-      border: 1px solid rgba($color: #000000, $alpha: 0.1);
+      padding-inline: 5px;
+      border: 1px solid rgba(55, 55, 55, 0.2);
       border-radius: 5px;
+      font-weight: 500;
 
       @media screen and (min-width: 768px) {
         height: 52px;
@@ -369,14 +370,18 @@
     & .css-1pahdxg-control {
       height: 44px;
       box-shadow: none;
-      padding-inline: 8px;
+      padding-inline: 5px;
       border-radius: 5px;
-      border: 1px solid rgba($color: #000000, $alpha: 0.1);
+      border: 1px solid rgba(55, 55, 55, 0.2);
 
       @media screen and (min-width: 768px) {
         height: 52px;
         border-color: #bfbfbf;
         border-radius: 10px;
+      }
+
+      & .css-319lph-ValueContainer {
+        // padding-inline: 8px;
       }
     }
 
@@ -394,6 +399,7 @@
     & .css-1n7v3ny-option {
       padding-block: 10px;
       font-weight: 500;
+      font-size: 14px;
 
       &:hover {
         padding-block: 10px;
@@ -403,6 +409,15 @@
 
     & .css-qc6sy-singleValue {
       font-weight: 500;
+    }
+
+    .css-14el2xx-placeholder {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    & .css-14el2xx-placeholder {
+      color: #d0d0d0;
     }
   }
 
@@ -728,33 +743,50 @@
 }
 
 .reset-password-page {
-  & .btn-submit-fixed {
-    position: fixed;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    width: calc(100% - 24px);
+  .reset-password-page {
+    & .phone-form-btn {
+      justify-content: center;
+      @media screen and (min-width: 640px) {
+        justify-content: start;
+      }
 
-    @media screen and (min-width: 640px) {
-      width: unset;
-      margin: auto;
-    }
+      & .btn-submit-fixed {
+        position: fixed;
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        width: calc(100% - 24px);
+        margin: auto;
 
-    @media screen and (min-width: 768px) {
-      position: static;
+        @media screen and (min-width: 640px) {
+          width: unset;
+        }
+
+        @media screen and (min-width: 768px) {
+          position: static;
+          margin: unset;
+        }
+      }
     }
   }
 }
 
 .driver-register-layout {
-  padding-bottom: 72px;
+  padding-bottom: 84px;
+  @media screen and (min-width: 768px) {
+    padding-bottom: 92px;
+  }
 
   .btn-submit {
     position: fixed;
     left: 0;
     right: 0;
-    padding: 16px;
     bottom: 0;
+    padding: 12px;
+
+    @media screen and (min-width: 768px) {
+      padding: 16px;
+    }
   }
 }
 
@@ -876,6 +908,25 @@
 
 .button-call-linear-gradient {
   background: linear-gradient(173.32deg, #00ffb7 1.19%, #26b0e4 39.26%, #5a31ff 94.75%);
+}
+
+.modal {
+  & .wallet-filter {
+    &-btns {
+      padding: 12px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      flex-direction: column;
+
+      &-cancel {
+        margin-left: 0;
+        margin-top: 8px;
+        padding-block: 14px;
+      }
+    }
+  }
 }
 
 .journal-filter-inputs {
@@ -1068,4 +1119,24 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+::-webkit-input-placeholder {
+  /* Edge */
+  font-weight: 500 !important;
+  color: #d0d0d0 !important;
+  font-size: 14px !important;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  font-weight: 500 !important;
+  color: #d0d0d0 !important;
+  font-size: 14px !important;
+}
+
+::placeholder {
+  font-weight: 500 !important;
+  color: #d0d0d0 !important;
+  font-size: 14px !important;
 }

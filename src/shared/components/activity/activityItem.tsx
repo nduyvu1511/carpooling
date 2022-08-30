@@ -1,4 +1,4 @@
-import { CalendarIcon, CarIcon, MultiUserIcon, PaymentIcon } from "@/assets"
+import { ArrowRightIcon, ArrowRightIcon2 } from "@/assets"
 import {
   COMPOUNDING_STATE_NAME,
   COMPOUNDING_TYPE_NAME,
@@ -59,7 +59,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
     activity
   return (
     <div className="p-12 md:p-[20px] lg:p-24">
-      <div className="items-stretch justify-between hidden md:flex">
+      <div className="items-stretch justify-between hidden sm:flex">
         <div className="mr-[12px]">
           <div className="flex">
             <span className="mr-16 mt-[4px]">
@@ -67,7 +67,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
             </span>
 
             <div className="flex items-center mb-[12px]">
-              <p className="md:text-base md:font-semibold lg:font-medium lg:text-lg xl:text-xl mr-16">
+              <p className="text-base font-semibold lg:font-medium lg:text-lg xl:text-xl mr-16">
                 {from_province.province_brief_name} - {to_province.province_brief_name}
               </p>
               <span
@@ -82,28 +82,22 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
             </div>
           </div>
 
-          <div className="flex items-center">
-            <p className="flex items-center mr-[25px]">
+          <div className="flex items-center ml-[36px] lg:ml-[44px]">
+            <p className="flex items-center">
               {(activity as DriverActivityRes).number_seat_in_car ? (
-                <>
-                  <MultiUserIcon className="w-[14px] h-[14px] mr-[5px]" />
-                  <span className="text-sm text-gray-color-5">
-                    {(activity as DriverActivityRes).number_seat_in_car} Khách
-                  </span>
-                </>
+                <span className="text-xs text-gray-color-5">
+                  {(activity as DriverActivityRes).number_seat_in_car} Khách
+                </span>
               ) : (
-                <>
-                  <CarIcon className="w-[14px] h-[14px] mr-[5px]" />
-                  <span className="text-sm text-gray-color-5">
-                    {car.name && toFirstUpperCase(car.name)}
-                  </span>
-                </>
-              )}
+                <span className="text-xs text-gray-color-5">
+                  {car.name && toFirstUpperCase(car.name)}
+                </span>
+            )}
             </p>
+            <p className="mx-12 border-r border-gray-10 border-solid h-[14px]"></p>
 
             <p className="flex items-center">
-              <CalendarIcon className="w-[14px] h-[14px] mr-[5px]" />
-              <span className="text-sm text-gray-color-5">
+              <span className="text-xs text-gray-color-5">
                 {moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
               </span>
             </p>
@@ -122,11 +116,13 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
         </div>
 
         <div className="my-auto block">
-          <button className="text-sm font-semibold text-blue-3">Xem chi tiết</button>
+          <button className="text-sm font-semibold text-blue-3 w-[44px] h-[44px] rounded-[5px] flex-center bg-gray-05">
+            <ArrowRightIcon className="text-primary" />
+          </button>
         </div>
       </div>
 
-      <div className="md:hidden">
+      <div className="sm:hidden">
         <div className="flex items-center justify-between mb-[12px] pb-[12px] border-b border-solid border-border-color">
           <div className="flex-1 flex items-center">
             <span className="mr-[8px]">
@@ -145,47 +141,52 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
               {COMPOUNDING_STATE_NAME[state]}
             </span>
           </div>
-          <span className="text-xs text-primary">Chi tiết</span>
-        </div>
-
-        <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-14 xs:text-18 leading-[20px] font-semibold mr-16">
-            {from_province.province_brief_name} - {to_province.province_brief_name}
-          </p>
-          <p className="flex items-center">
-            {(activity as DriverActivityRes).number_seat_in_car ? (
-              <>
-                <MultiUserIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
-                <span className="text-sm text-gray-color-5">
-                  {(activity as DriverActivityRes).number_seat_in_car} Khách
-                </span>
-              </>
-            ) : (
-              <>
-                <CarIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
-                <span className="text-12 xs:text-14 xs:font-medium">
-                  {car.name && toFirstUpperCase(car.name)}
-                </span>
-              </>
-            )}
-          </p>
+          <span className="text-sm font-semibold text-blue-3 w-[32px] h-[32px] rounded-[5px] flex-center bg-gray-05">
+            <ArrowRightIcon className="text-primary" />
+          </span>
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="flex items-center text-12 xs:text-14 xs:font-medium">
-            <CalendarIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
-            <span>{moment(activity.expected_going_on_date).format("HH:mm DD/MM/YYYY")}</span>
-          </p>
-          <p className="flex items-center">
-            <PaymentIcon className="w-[12px] h-[12px] xs:w-[14px] xs:h-[14px] mr-[4px] xs:mr-[8px]" />
-            <span className="text-12 xs:text-14 font-semibold text-error">
+          <div className="">
+            <div className="mb-[8px]">
+              <p className="text-14 xs:text-18 leading-[20px] font-semibold mr-16 flex items-center">
+                {from_province.province_brief_name} <ArrowRightIcon2 className="mx-[10px]" />{" "}
+                {to_province.province_brief_name}
+              </p>
+            </div>
+
+            <div className="flex items-center">
+              <p className="flex items-center">
+                {(activity as DriverActivityRes).number_seat_in_car ? (
+                  <span className="text-[10px] xs:text-12 sm:text-14 font-medium text-gray-color-5">
+                    {(activity as DriverActivityRes).number_seat_in_car} Khách
+                  </span>
+                ) : (
+                  <span className="text-[10px] xs:text-12 sm:text-14 font-medium">
+                    {car.name && toFirstUpperCase(car.name)}
+                  </span>
+                )}
+              </p>
+              <p className="mx-8 border-r border-solid border-gray-10 h-[12px]"></p>
+
+              <p className="flex items-center text-[10px] xs:text-12 sm:text-14 font-medium text-gray-color-5">
+                <span>{moment(activity.expected_going_on_date).format("HH:mm DD/MM/YYYY")}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="">
+            <p className="text-[10px] xs:text-12 font-medium leading-[18px] mb-4 text-gray-color-5">
+              Tổng giá phí
+            </p>
+            <p className="text-12 xs:text-14 font-semibold text-error">
               {formatMoneyVND(
                 (activity as DriverActivityRes).number_seat_in_car
                   ? (activity as DriverActivityRes).price_unit.price_unit
                   : (activity as CustomerActivityRes).amount_total
               )}
-            </span>
-          </p>
+            </p>
+          </div>
         </div>
       </div>
     </div>

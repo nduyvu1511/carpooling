@@ -60,53 +60,57 @@ export const CARPOOLING_IS_PICKING_UP_FROM_START = "carpooling_is_picking_up_fro
 export const COMPOUNDING_VNPAY_CODE = "compounding_vnpay_code"
 export const LIMIT_COMPOUNDING_LIST = 12
 export const STATE_COLOR = {
-  draft: "#858585",
-  "": "#858585",
+  draft: "#767676",
+  "": "#2F19BB",
   confirm: "#2E41B6",
   confirm_deposit: "#2E41B6",
   waiting: "#2E41B6",
   assign: "#2E41B6",
   deposit: "#2E41B6",
   in_process: "#ED9526",
-  done: "#118A33",
+  done: "#008F5D",
   customer_pay: "#ED9526",
-  confirm_paid: "#118A33",
-  cancel: "#FF3B30",
-  waiting_deposit: "#858585",
+  confirm_paid: "#008F5D",
+  cancel: "#767676",
+  waiting_deposit: "#EE542F",
   start_running: "#ED9526",
   stop_picking: "#ED9526",
   waiting_customer: "#2E41B6",
 }
+
 export const STATE_BG_COLOR = {
-  draft: "#F8F9FA",
-  confirm: "rgba(46, 76, 183, 0.2)",
-  confirm_deposit: "rgba(46, 76, 183, 0.2)",
-  waiting: "rgba(46, 76, 183, 0.2)",
-  assign: "rgba(46, 76, 183, 0.2)",
-  deposit: "rgba(46, 76, 183, 0.2)",
-  in_process: "rgba(237, 149, 38, 0.2)",
-  done: "rgba(17, 138, 51, 0.2)",
-  customer_pay: "rgba(237, 149, 38, 0.2)",
-  confirm_paid: "rgba(17, 138, 51, 0.2)",
-  cancel: "rgba(255, 59, 48, 0.2)",
-  waiting_deposit: "rgba(255, 59, 48, 0.2)",
-  start_running: "rgba(237, 149, 38, 0.2)",
-  stop_picking: "rgba(237, 149, 38, 0.2)",
-  "": "rgba(55, 55, 55, 0.2)",
-  waiting_customer: "rgba(46, 76, 183, 0.2)",
+  draft: "#FAFAFA",
+  confirm: "#F7F8FF",
+  confirm_deposit: "#F7F8FF",
+  waiting: "#F7F8FF",
+  assign: "#F7F8FF",
+  deposit: "#F7F8FF",
+  in_process: "#FFF8F2",
+  done: "#F4FDF7",
+  customer_pay: "#FFF8F2",
+  confirm_paid: "#F4FDF7",
+  cancel: "#FAFAFA",
+  waiting_deposit: "#FFF8F2",
+  start_running: "#FFF8F2",
+  stop_picking: "#FFF8F2",
+  "": "#EFECFF",
+  waiting_customer: "#F7F8FF",
 }
+
 export const COMPOUNDING_TYPE_COLOR = {
   one_way: "#2F19BB",
   two_way: "#1BB5C8 ",
   compounding: "#EE542F ",
   convenient: "#FBB500 ",
 }
+
 export const COMPOUNDING_TYPE_BG = {
   one_way: "#EEEBFF",
   two_way: "#F0FCFF",
   compounding: "#FEE9CE",
   convenient: "#FBB500",
 }
+
 export const COMPOUNDING_STATE_NAME = {
   cancel: "Đã hủy",
   confirm: "Xác nhận",
@@ -124,12 +128,14 @@ export const COMPOUNDING_STATE_NAME = {
   waiting_deposit: "Chờ thanh toán",
   waiting_customer: "Chờ khách hàng",
 }
+
 export const COMPOUNDING_TYPE_NAME = {
   one_way: "Một chiều",
   two_way: "Hai chiều",
   compounding: "Ghép chuyến",
   convenient: "Tiện chuyến",
 }
+
 export const VNPAY_STATUS_NAME = {
   "00": "	Giao dịch thành công",
   "07": "	Trừ tiền thành công. Giao dịch bị nghi ngờ (liên quan tới lừa đảo, giao dịch bất thường).",
@@ -215,6 +221,7 @@ export const LIMIT_HOUR_OF_WAITING_TIME = 4
 export const PHONE = "0847878788"
 export const ADDRESS = "Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM"
 export const EMAIL = "exxevn2022@gmail.com"
+export const DOMAIN_URL = process?.env?.NEXT_PUBLIC_DOMAIN_URL
 
 export const PAYMENT_METHOD_NAME = {
   cash: "Tiền mặt",

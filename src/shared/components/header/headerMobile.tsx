@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, HomeIcon, ThreeDotsIcon } from "@/assets"
+import { ArrowLeft2Icon, HomeIcon, ThreeDotsIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { useClickOutside, useScrollTop } from "@/hooks"
 import { useRouter } from "next/router"
@@ -40,7 +40,7 @@ const HeaderMobile = ({
         className="p-4 pl-0"
         onClick={() => (onBackBtnClick ? onBackBtnClick() : router.back())}
       >
-        <ArrowLeftIcon />
+        <ArrowLeft2Icon className="w-[10px] h-[16px]" />
       </button>
       <h3 className="text-base flex-1 text-center font-semibold line-clamp-1 ml-16">{title}</h3>
       {rightNode}

@@ -11,8 +11,7 @@ const PromotionPage = () => {
           title="Ưu đãi"
           url="https://exxe.vn/c/account/promotion"
         />
-        {/* <PromotionModal onClose={() => {}} /> */}
-        <div className="p-custom pt-0">
+        <div className="px-custom">
           <Promotion />
         </div>
       </DriverAccountLayout>

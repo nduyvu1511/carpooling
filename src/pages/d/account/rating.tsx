@@ -7,6 +7,7 @@ import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 
 const Rating = () => {
+  const { reportRating } = useRatingActions()
   const {
     data: ratings,
     isInitialLoading,
@@ -15,7 +16,7 @@ const Rating = () => {
     fetchMoreRatings,
     mutate,
   } = useDriverRating()
-  const { reportRating } = useRatingActions()
+
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
 
   const handleReportRating = (params: ReportRatingParams) => {
@@ -35,8 +36,8 @@ const Rating = () => {
 
   return (
     <DriverLayout>
-      <AccountLayout desc="Xem đánh giá về bạn tại đây" title="Đánh giá">
-        <div className="px-24">
+      <AccountLayout desc="Xem đánh giá về bạn tại đây" title="Đánh giá về bạn">
+        <div className="px-custom">
           {isInitialLoading ? (
             <div>
               {Array.from({ length: 3 }).map((_, index) => (

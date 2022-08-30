@@ -68,7 +68,7 @@ const MyInputDateTime = ({
     >
       <div
         className={`relative form-date w-[40%] sm:w-1/2 h-full borer border-solid bg-white-color rounded-[5px] md:rounded-[10px] ${
-          isError ? "border border-solid border-error" : "border-black-10 md:border-gray-color-2"
+          isError ? "border border-solid border-error" : "border-gray-20 md:border-gray-color-2"
         }`}
       >
         <Datetime

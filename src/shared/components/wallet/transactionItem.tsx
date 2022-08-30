@@ -75,7 +75,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
               </p>
             </p>
 
-            <p className="text-gray-color-7 text-xs font-medium">
+            <p className="text-gray-color-7 text-[10px] font-medium ml-[26px]">
               {moment(transaction.date).format("DD/MM/YYYY")}
             </p>
           </div>

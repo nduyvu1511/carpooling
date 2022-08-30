@@ -29,4 +29,3 @@ const AuthLayout = ({ children, headerClassName = "" }: AuthLayoutProps) => {
 }
 
 export { AuthLayout }
-
