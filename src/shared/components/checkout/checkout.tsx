@@ -7,6 +7,8 @@ import {
   Spinner,
   SummaryItem,
   WalletBalanceAlert,
+  RideCancelForm,
+  DepositSummary,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
@@ -98,59 +100,18 @@ const Checkout = ({
               <PromotionForm promotionCode="" onFocus={() => toggleModal("promotion")} />
             </div>
 
-            <ul className="mb-[40px]">
-              <div className="flex items-center mb-16 md:mb-24  justify-between">
-                <p className="text-base font-semibold uppercase">Giá trị chuyến đi</p>
-
-                {showCountdown ? (
-                  <div className="flex items-center">
-                    <span className="mr-8 text-xs sm:text-sm text-error sm:text-error">
-                      Hết hạn trong
-                    </span>
-                    <Countdown
-                      className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] whitespace-nowrap w-[56px] py-4 h-[28px] px-8"
-                      onExpiredCoundown={() => {
-                        setExpiredCountdown(true)
-                      }}
-                      secondsRemains={secondsRemains}
-                    />
-                  </div>
-                ) : null}
-              </div>
-              {amount_total ? (
-                <li className="flex items-center justify-between mb-12">
-                  <span className="mr-[12px] text-xs">Giá vé</span>
-                  <span className="text-sm md:text-base whitespace-nowrap">
-                    {formatMoneyVND(amount_total)}
-                  </span>
-                </li>
-              ) : null}
-              {down_payment ? (
-                <li className="flex items-center justify-between mb-12">
-                  <span className="mr-[12px] text-base font-semibold">
-                    {type === "checkout"
-                      ? "Số tiền cần thanh toán"
-                      : `Số tiền đặt cọc (${Number(percentage)}%)`}
-                  </span>
-                  <span className="text-14 md:text-16 whitespace-nowrap font-semibold text-error">
-                    {formatMoneyVND(down_payment)}
-                  </span>
-                </li>
-              ) : null}
-
-              <SummaryItem
-                label="Tổng tiền cần thanh toán"
-                value={formatMoneyVND(amount_total || 0) + ""}
+            <div className="mb-[40px]">
+              <DepositSummary
+                down_payment={down_payment}
+                onExpiredCountdown={() => setExpiredCountdown(true)}
+                secondsRemains={secondsRemains}
+                amount_due={amount_due}
+                amount_total={amount_total}
+                percentage={percentage}
+                showCountdown={showCountdown}
+                type={type}
               />
-
-              {amount_due ? (
-                <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(amount_due)} />
-              ) : null}
-
-              <p className="text-xs text-error">
-                (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
-              </p>
-            </ul>
+            </div>
 
             <div className="mb-24">
               <p className="mb-16 md:mb-24 text-base uppercase font-semibold">
@@ -160,7 +121,7 @@ const Checkout = ({
               {isPaymentLoading ? (
                 <Spinner className="my-[40px]" size={30} />
               ) : (
-                <div className="flex mr-[-16px] md:mr-0 md:flex-wrap overflow-x-auto scrollbar-hide">
+                <div className="flex mr-[-16px] md:mr-0 flex-nowrap overflow-x-auto scrollbar-hide w-full">
                   {paymentList.map((item) => (
                     <PaymentItem
                       key={item.acquirer_id}
@@ -175,15 +136,15 @@ const Checkout = ({
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
-              {/* {onCancelCheckout ? (
+              {onCancelCheckout ? (
                 <button
                   onClick={() => toggleModal("cancel")}
-                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-error mr-12 md:mr-16"
+                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-gray-20 text-gray-color-8 mr-12 md:mr-16"
                 >
                   <span className="hidden sm:block"> Hủy chuyến</span>
                   <span className="sm:hidden"> Hủy</span>
                 </button>
-              ) : null} */}
+              ) : null}
 
               <button
                 onClick={() => {
@@ -203,7 +164,7 @@ const Checkout = ({
                   }
                 }}
                 className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
-                  currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled bg-disabled"
+                  currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled"
                 }`}
               >
                 Xác nhận
@@ -229,19 +190,21 @@ const Checkout = ({
         />
       ) : null}
 
-      <Alert
-        show={modalType === "confirm"}
-        title={
-          "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
-        }
-        onClose={() => toggleModal(undefined)}
-        onConfirm={() => {
-          if (!currentSelectPayment) return
-          onCheckout?.(currentSelectPayment)
-          toggleModal(undefined)
-        }}
-        type={"info"}
-      />
+      {modalType === "confirm" ? (
+        <Alert
+          show={modalType === "confirm"}
+          title={
+            "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
+          }
+          onClose={() => toggleModal(undefined)}
+          onConfirm={() => {
+            if (!currentSelectPayment) return
+            onCheckout?.(currentSelectPayment)
+            toggleModal(undefined)
+          }}
+          type={"info"}
+        />
+      ) : null}
 
       {modalType === "alert" ? (
         <WalletBalanceAlert
@@ -257,7 +220,7 @@ const Checkout = ({
         />
       ) : null}
 
-      {/* {state && modalType === "cancel" ? (
+      {state && modalType === "cancel" ? (
         <RideCancelForm
           onSubmit={(data) => {
             onCancelCheckout?.(data)
@@ -266,7 +229,7 @@ const Checkout = ({
           onClose={() => toggleModal(undefined)}
           params={{ compounding_car_customer_state: state }}
         />
-      ) : null} */}
+      ) : null}
 
       {modalType === "promotion" ? (
         <PromotionModal
@@ -275,17 +238,19 @@ const Checkout = ({
         />
       ) : null}
 
-      <Alert
-        show={modalType === "confirmWallet"}
-        onClose={() => setModalType(undefined)}
-        title={`Xác nhận thanh toán số tiền ${formatMoneyVND(down_payment)} bằng ví EXXE`}
-        onConfirm={() => {
-          if (!currentSelectPayment) return
-          onCheckout?.(currentSelectPayment)
-          setModalType(undefined)
-        }}
-        type="info"
-      />
+      {modalType == "confirmWallet" ? (
+        <Alert
+          show={modalType === "confirmWallet"}
+          onClose={() => toggleModal(undefined)}
+          title={`Xác nhận thanh toán số tiền ${formatMoneyVND(down_payment)} bằng ví EXXE`}
+          onConfirm={() => {
+            if (!currentSelectPayment) return
+            onCheckout?.(currentSelectPayment)
+            toggleModal(undefined)
+          }}
+          type="info"
+        />
+      ) : null}
     </>
   )
 }

@@ -5,6 +5,7 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  Seo,
 } from "@/components"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
@@ -76,6 +77,12 @@ const CheckoutCustomer = () => {
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Đặt cọc chuyến đi"
     >
+      <Seo
+        title="Đặt cọc cho chuyến đi"
+        description="Đặt cọc cho chuyến đi"
+        url=""
+        thumbnailUrl=""
+      />
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar?.compounding_car_customer_id ? (

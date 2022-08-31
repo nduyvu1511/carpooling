@@ -3,13 +3,13 @@ const ArrowLeft2Icon = ({ className = "" }) => {
     <svg
       className={className}
       width="6"
-      height="10"
-      viewBox="0 0 6 10"
+      height="12"
+      viewBox="0 0 6 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M4.66663 0.833374L1.33329 5.00004L4.66663 9.16671"
+        d="M5 1.42773L1 6.42773L5 11.4277"
         stroke="#0C0055"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -1,7 +1,6 @@
 import { RootState } from "@/core/store"
-import { formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
-import { memo, ReactNode, useState } from "react"
+import { ReactNode, useState } from "react"
 import { useSelector } from "react-redux"
 import { AccordionItem } from "../accordion"
 import { RideSummaryInfo } from "./rideSummaryInfo"
@@ -16,9 +15,6 @@ interface RideSummaryProps {
   children?: ReactNode
   showDeposit?: boolean
 }
-
-const item = "flex-1 ml-24 text-14 text-right md:text-16 font-medium leading-26 text-blue-8"
-const titleClassName = "text-12 font-normal leading-[18px]"
 
 export const RideSummary = ({
   data,
@@ -45,11 +41,13 @@ export const RideSummary = ({
         view === "modal" ? "h-[calc(100vh-56px)] overflow-y-auto p-custom pb-[56px]" : ""
       }`}
     >
-      <RideSummaryMap data={data} showMap={showMap} />
+      <div className="mb-16">
+        <RideSummaryMap data={data} showMap={showMap} />
+      </div>
 
       {showFull ? (
         <>
-          <div className="lg:px-24 my-24">
+          {/* <div className="p-custom">
             <div className="flex items-center justify-between mb-16">
               <p className={titleClassName}>Thuế phí</p>
               <p className={item}>Đã bao gồm</p>
@@ -93,7 +91,7 @@ export const RideSummary = ({
                 ) : null}
               </>
             ) : null}
-          </div>
+          </div> */}
 
           {children}
 
@@ -113,9 +111,10 @@ export const RideSummary = ({
 
           <div className="hidden lg:block">
             <AccordionItem
+              showBg
               allowTransition={false}
               onClick={() => handleToggleTabsActive(1)}
-              className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] mb-16"
+              className="px-24 py-16 md:px-24 md:py-16 rounded-[5px] mb-16 border-t-0"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
               title="Thông tin lộ trình:"
               isActive={tabsActive.includes(1)}
@@ -125,11 +124,12 @@ export const RideSummary = ({
           </div>
           <div className="hidden lg:block">
             <AccordionItem
+              showBg
               allowTransition={false}
               onClick={() => handleToggleTabsActive(3)}
               title="Điều khoản sử dụng"
               isActive={tabsActive.includes(3)}
-              className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px]"
+              className="px-24 py-16 md:px-24 md:py-16 rounded-[5px]"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
             >
               <RideSummaryRules />

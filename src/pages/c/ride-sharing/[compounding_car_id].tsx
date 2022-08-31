@@ -6,6 +6,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
+  Seo,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
@@ -24,7 +25,7 @@ const RidesDetailCustomer = () => {
   const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
-    key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
+    key: `confirm_booking_ride_sharing_${compounding_car_id}`,
     type: "once",
   })
   const [compoundingCarCustomer, setCompoundingCarCustomer] = useState<
@@ -59,11 +60,14 @@ const RidesDetailCustomer = () => {
   }
 
   useEffect(() => {
-    return () => toggleBodyOverflow("unset")
+    return () => {
+      toggleBodyOverflow("unset")
+    }
   }, [])
 
   return (
     <>
+      <Seo description="Tạo chuyến đi ghép" title="Tạo chuyến đi ghép" thumbnailUrl="" url="" />
       <CustomerBookingLayout
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}

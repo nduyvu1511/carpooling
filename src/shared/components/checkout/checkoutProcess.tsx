@@ -90,7 +90,7 @@ const CheckoutProcess = ({
         .then((res: AxiosResponse<TransactionRes>) => {
           setValidating(false)
           if (res.result.data?.state === "posted") {
-            // window.close()
+            window.close()
           }
         })
         .catch(() => setValidating(false))

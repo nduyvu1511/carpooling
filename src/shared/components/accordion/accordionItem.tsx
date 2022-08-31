@@ -10,6 +10,7 @@ interface AccordionItemProps {
   titleClassName?: string
   className?: string
   allowTransition?: boolean
+  showBg?: boolean
 }
 
 const AccordionItem = ({
@@ -21,13 +22,14 @@ const AccordionItem = ({
   titleClassName = "",
   className = "",
   allowTransition = true,
+  showBg = true,
 }: AccordionItemProps) => {
   return (
     <div>
       <div
         onClick={() => onClick?.()}
         className={`accordion-item flex items-center justify-between p-custom ${
-          isActive ? "bg-[#F1F5FF] shadow-shadow-1" : "bg-white-color"
+          isActive ? "bg-gray-05 shadow-shadow-1" : `${showBg ? "bg-gray-05" : "bg-white-color"}`
         } cursor-pointer border-t border-solid border-border-color ${className}`}
       >
         <h3

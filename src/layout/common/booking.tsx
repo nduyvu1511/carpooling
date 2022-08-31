@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@/assets"
+import { ArrowLeft2Icon, ArrowLeftIcon } from "@/assets"
 import { HeaderMobile, RideSummaryLoading } from "@/components"
 import { useBreakpoint } from "@/hooks"
 import { BookingLayoutProps } from "@/models"
@@ -37,7 +37,7 @@ const BookingLayout = ({
 
           <div className="lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid">
             <div className="p-custom lg:pr-16">
-              {topNode ? <div className="hidden lg:block lg:w-full mb-24">{topNode}</div> : null}
+              {topNode ? <div className="hidden lg:block lg:w-full mb-40">{topNode}</div> : null}
 
               {showLoading ? (
                 <div className="hidden lg:flex my-12 md:my-24 md:mb-[40px] items-center h-[20px] rounded-[5px]">
@@ -46,8 +46,8 @@ const BookingLayout = ({
                 </div>
               ) : showHeaderDesktop ? (
                 <div className="hidden lg:flex pb-12 md:pb-24 items-center border-b border-border-color border-solid mb-24">
-                  <button onClick={() => router.back()}>
-                    <ArrowLeftIcon />
+                  <button className="flex-center w-24 h-24" onClick={() => router.back()}>
+                    <ArrowLeft2Icon className="" />
                   </button>
 
                   <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-32">{title}</h3>

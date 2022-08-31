@@ -18,7 +18,7 @@ export const SuggestionPromotion = () => {
   )
 
   return (
-    <div className="">
+    <div className="xl:max-w-[986px]">
       <div className="items-center justify-between mb-16 hidden md:flex">
         {isValidating ? (
           <>

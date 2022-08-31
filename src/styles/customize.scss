@@ -88,7 +88,7 @@
   }
 
   .btn-disabled {
-    @apply bg-disabled pointer-events-none text-gray-color-1 border-none;
+    @apply bg-gray-20 pointer-events-none text-gray-color-1 border-none;
   }
 
   .btn-disabled-2 {

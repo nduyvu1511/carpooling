@@ -164,11 +164,11 @@ export interface DownPayment {
 }
 
 export interface CompoundingCarRes extends DriverActivityRes {
-  from_pick_up_station: StationParams
+  from_pick_up_station: RideStation
   from_address: string
   from_longitude: string
   from_latitude: string
-  to_pick_up_station: StationParams
+  to_pick_up_station: RideStation
   to_address: string
   to_longitude: string
   to_latitude: string
@@ -343,6 +343,17 @@ export interface CreateCarpoolingCompoundingCar extends CreateCommonCompounding 
   is_picking_up_from_start: boolean
   price_per_passenger?: number
   compounding_car_id?: number
+}
+
+export interface RideStation {
+  station_name: string
+  station_id: number
+  station_image: {
+    id: number
+    url: string
+  }
+  latitude: string
+  longitude: string
 }
 
 export interface CreateCarpoolingCompoundingForm {

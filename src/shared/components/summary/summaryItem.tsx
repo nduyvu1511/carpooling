@@ -16,8 +16,8 @@ export const SummaryItem = ({
   return (
     <div className={`flex items-start justify-between mb-12 ${className}`}>
       <span
-        className={`${
-          labelClassName || "mr-16 leading-[20px] text-12 font-medium text-gray-color-7"
+        className={`mr-16 ${
+          labelClassName || "leading-[20px] text-12 font-medium text-gray-color-7"
         }`}
       >
         {label}

@@ -1,4 +1,4 @@
-import { CloseIcon } from "@/assets"
+import { CloseThickIcon } from "@/assets"
 import { RootState } from "@/core/store"
 import { CompoundingCarCustomer, CompoundingCarDriverRes, CompoundingCarRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
@@ -36,11 +36,13 @@ const RideSummaryModal = ({ data, showDeposit = true }: RideSummaryModalProps) =
       onClose={() => toggleShowDetail(false)}
     >
       <div className="overflow-y-scroll flex-1 relative flex flex-col">
-        <div className="flex items-center h-[56px] justify-between px-custom border-b border-solid border-border-color">
-          <button onClick={() => toggleShowDetail(false)} className="">
-            <CloseIcon />
+        <div className="flex items-center h-[56px] justify-between px-16 border-b border-solid border-border-color">
+          <button onClick={() => toggleShowDetail(false)} className="w-[14px] h-[14px]">
+            <CloseThickIcon />
           </button>
-          <p className="text-base flex-1 ml-12 text-center font-semibold">Thông tin chuyến đi</p>
+          <p className="text-base flex-1 ml-12 mr-24 text-center font-semibold">
+            Thông tin chuyến đi
+          </p>
         </div>
         <RideSummary showDeposit={showDeposit} showFull view="modal" data={data} />
       </div>

@@ -59,7 +59,7 @@ const HomeCustomer = () => {
   }
 
   return (
-    <>
+    <CustomerLayout showHeaderOnMobile>
       <Seo
         description=""
         thumbnailUrl=""
@@ -90,9 +90,8 @@ const HomeCustomer = () => {
           <UserInfoForm onSubmit={handleUpdateUserInfo} />
         </Modal>
       ) : null}
-    </>
+    </CustomerLayout>
   )
 }
 
-HomeCustomer.Layout = CustomerLayout
 export default HomeCustomer

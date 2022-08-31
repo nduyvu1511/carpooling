@@ -48,7 +48,7 @@ const MyInputDateTime = ({
     if (maxHour) {
       const index = times.findIndex((item) => item.value >= maxHour)
       return times.slice(
-        index - LIMIT_HOUR_OF_WAITING_TIME > 0 ? index - LIMIT_HOUR_OF_WAITING_TIME : 0,
+        index - LIMIT_HOUR_OF_WAITING_TIME >= 0 ? index - LIMIT_HOUR_OF_WAITING_TIME : 0,
         index
       )
     }

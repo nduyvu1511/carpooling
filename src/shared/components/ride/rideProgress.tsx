@@ -51,7 +51,10 @@ const RideProgress = ({ state, className = "" }: RideProgressProps) => {
   return (
     <ul ref={ulRef} className={`flex items-center overflow-x-auto scrollbar-hide ${className}`}>
       {stateList.map((val, index) => (
-        <li className="flex items-center md:items-start mr-12 xs:mr-24 md:mr-0" key={val[0]}>
+        <li
+          className="flex items-center md:items-start mr-12 xs:mr-24 md:mr-0 last:mr-24"
+          key={val[0]}
+        >
           <div
             className={`flex flex-row items-center md:justify-center md:flex-col ${
               stateIndex === index
