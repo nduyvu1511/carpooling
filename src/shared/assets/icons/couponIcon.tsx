@@ -1,4 +1,4 @@
-export const CouponIcon = ({ className = ""}) => {
+export const CouponIcon = ({ className = "" }) => {
   return (
     <svg
       className={className}

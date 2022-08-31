@@ -56,7 +56,7 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           style={{
             background: COMPOUNDING_TYPE_BG[rides.compounding_type],
           }}
-          className="flex items-center mr-16 h-[22px] md:h-[28px] lg:h-[32px] px-8 py-2 md:py-4 rounded-[5px]"
+          className="flex items-center mr-8 md:mr-16 h-[22px] md:h-[28px] lg:h-[32px] px-4 md:px-8 py-2 md:py-4 rounded-[5px]"
         >
           <CompoundingCarICon
             className="hidden md:block mr-8"
@@ -64,20 +64,20 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           />
           <span
             style={{ color: COMPOUNDING_TYPE_COLOR[rides.compounding_type] }}
-            className="text-[10px] sm:text-xs leading-[18px] line-clamp-1"
+            className="text-[10px] md:text-12 leading-[18px] font-normal line-clamp-1"
           >
             {COMPOUNDING_TYPE_NAME[rides.compounding_type]}
           </span>
         </p>
         <p className="items-center flex">
           <MultiUserIcon className="w-[12px] sm:w-16" />
-          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] xs:ml-[8px] text-[11px] leading-[18px]">
+          <span className="text-sm font-medium sm:font-semibold sm:text-[14px] ml-[4px] sm:ml-[8px] text-[11px] leading-[18px]">
             {rides.number_seat_in_car - rides.number_available_seat}/{rides.number_seat_in_car}
           </span>
         </p>
       </div>
 
-      <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
+      <div className="my-12 lg:my-[18px] border-b border-solid border-border-color"></div>
 
       <RideItemLocation
         compounding_type={rides.compounding_type}
@@ -88,40 +88,40 @@ const RideItem = ({ onClick, rides }: RidesItemProps) => {
           .add(rides?.duration || 0, "hours")
           .toString()}
       />
-      <div className="mt-[18px] flex-1">
+      <div className="mt-12 lg:mt-[18px] flex-1">
         <div className="flex items-center justify-between mb-[8px]">
-          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Ngày đi:</p>
-          <CalendarIcon className="sm:hidden w-[11px]" />
-          <p className="flex-1 ml-[8px] sm:ml-0 text-[11px] sm:text-14 font-medium">
+          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Ngày đi:</p>
+          <CalendarIcon className="lg:hidden w-[13px] text-gray-color-7 mr-8 md:mr-[10px]" />
+          <p className="flex-1 text-[11px] sm:text-12 md:text-14 font-medium">
             {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
           </p>
         </div>
 
         {rides?.expected_picking_up_date ? (
           <div className="flex items-center justify-between mb-[8px]">
-            <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Ngày về:</p>
-            <CalendarDoneIcon className="sm:hidden w-[12px]" />
-            <p className="flex-1 ml-[8px] sm:ml-0 text-[11px] sm:text-14 font-medium">
+            <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Ngày về:</p>
+            <CalendarDoneIcon className="lg:hidden w-[13px] text-gray-color-7 mr-8 md:mr-[10px]" />
+            <p className="flex-1 text-[11px] sm:text-12 md:text-14 font-medium">
               {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
         ) : null}
 
         <div className="flex items-center justify-between">
-          <CarIcon className="sm:hidden w-[12px]" />
-          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden sm:block">Loại xe:</p>
-          <p className="flex-1 ml-[8px] sm:ml-0 text-[11px] sm:text-14 font-medium">
+          <CarIcon className="lg:hidden w-[13px] text-gray-color-7 mr-8 md:mr-[10px]" />
+          <p className="text-xs text-gray-90 w-[120px] mx-auto hidden lg:block">Loại xe:</p>
+          <p className="flex-1 text-[11px] sm:text-12 md:text-14 font-medium">
             {rides.car.name ? toFirstUpperCase(rides.car.name) : ""}
           </p>
         </div>
       </div>
 
-      <div className="my-[12px] md:my-[18px] border-b border-solid border-border-color"></div>
+      <div className="my-12 lg:my-[18px] border-b border-solid border-border-color"></div>
 
       <div className="flex items-center justify-between">
         <p className="flex items-center">
-          <PaymentIcon className="w-[12px] sm:w-16" />
-          <span className="text-[12px] sm:text-[14px] md:text-16 font-semibold text-error ml-[8px]">
+          <PaymentIcon className="w-[13px] text-gray-color-7 mr-8 md:mr-[10px]" />
+          <span className="text-[12px] sm:text-[14px] md:text-16 font-semibold text-error">
             {formatMoneyVND(rides.price_unit.price_unit)}
           </span>
         </p>

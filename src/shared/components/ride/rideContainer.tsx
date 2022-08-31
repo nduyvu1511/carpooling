@@ -1,12 +1,13 @@
 import { FilterIcon } from "@/assets"
 import {
-  CompoundingFilter,
   Drawer,
   FilterNotFound,
   Modal,
+  RideFilter,
   RideItem,
+  RideTypeFilter,
   Spinner,
-  Tabs,
+  SuggestionPromotion,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter } from "@/hooks"
@@ -34,8 +35,9 @@ interface listProps {
 
 type ModalFilterType = "mobile" | "tablet" | undefined
 const itemStyle =
-  "rounded-[8px] md:rounded-[20px] shadow-shadow-1 lg:shadow-shadow-3 border border-solid border-gray-color-1 overflow-hidden"
-const gridStyle = "grid grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-16 lg:gap-24 pb-[10px]"
+  "rounded-[8px] md:rounded-[10px] lg:rounded-[18px] shadow-shadow-1 border border-solid border-gray-color-1 overflow-hidden"
+const gridStyle =
+  "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-[12px] md:gap-16 lg:gap-24 pb-[10px]"
 
 const RideContainer = ({
   isValidating,
@@ -72,7 +74,7 @@ const RideContainer = ({
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           {!showFilter && router.isReady ? (
             <div className="hidden xl:block h-fit sticky top-[81px] block-element px-[18px] py-24 z-[100]">
-              <CompoundingFilter
+              <RideFilter
                 type={carAccountType}
                 defaultValues={defaultParams as any}
                 onChange={(data) => onFilterRide?.(data)}
@@ -89,28 +91,18 @@ const RideContainer = ({
               </h4>
             </div>
 
-            <div className="bg-white-color mx-[-12px] sm:mx-0 left-0 right-0 sticky z-[1000] sm:z-0 sm:bg-[transparent] sm:static top-[59px] mb-12 md:mb-16 lg:mb-24">
-              <Tabs
-                className="md:border-solid md:border-b"
-                list={
-                  carAccountType === "car_driver"
-                    ? [
-                        { label: "Một chiều", value: "one_way" },
-                        {
-                          label: "Hai chiều",
-                          value: "two_way",
-                        },
-                        { value: "compounding", label: "Đi ghép" },
-                      ]
-                    : [
-                        { label: "Tiện chuyến", value: "convenient" },
-                        { label: "Ghép chuyến", value: "compounding" },
-                      ]
-                }
-                tabActive={defaultParams?.compounding_type || ""}
-                onChange={(val) => onFilterRide?.({ compounding_type: val as CompoundingType })}
-              />
+            <div className="mb-12">
+              <SuggestionPromotion />
             </div>
+
+            <RideTypeFilter
+              onClickShowFilterMobile={() => toggleShowFilter("mobile")}
+              onClickShowFilterTablet={() => toggleShowFilter("tablet")}
+              carAccountType={carAccountType}
+              itemActive={defaultParams?.compounding_type}
+              onChange={(val) => onFilterRide?.({ compounding_type: val as CompoundingType })}
+            />
+            <div className="bg-white-color relative h-[3px] top-[-9px] mx-[-12px] md:mx-[-16px] z-[800] lg:mx-[-24px]"></div>
 
             {isValidating ? (
               <ul className={gridStyle}>
@@ -146,24 +138,6 @@ const RideContainer = ({
             )}
           </div>
         </div>
-
-        <button
-          onClick={() => toggleShowFilter("tablet")}
-          className="hidden md:flex xl:hidden fixed right-0 bottom-[200px] z-[100]] rounded-[5px] border border-solid border-border-color block-element shadow-shadow-2 flex-col flex-center p-[10px]"
-        >
-          <FilterIcon className="mb-[12px]" />
-          <span className="text-base font-semibold">Bộ lọc</span>
-        </button>
-
-        <div className="fixed bottom-0 left-0 z-[100] right-0 w-full bg-white-color p-[12px] md:hidden">
-          <button
-            onClick={() => toggleShowFilter("mobile")}
-            className="btn-primary w-full rounded-[5px] h-[40px]"
-          >
-            <FilterIcon className="mr-[8px] w-[14px] h-[14px]" />
-            Bộ lọc
-          </button>
-        </div>
       </section>
 
       <Modal
@@ -173,8 +147,8 @@ const RideContainer = ({
         onClose={() => toggleShowFilter(undefined)}
         heading="Bộ lọc"
       >
-        <CompoundingFilter
-          showInModal
+        <RideFilter
+          showBtn
           touchableDevice
           type={carAccountType}
           onChange={(val) => onFilterRide?.(val)}
@@ -189,8 +163,8 @@ const RideContainer = ({
         onClose={() => toggleShowFilter(undefined)}
         headerChild={<p className="text-lg">Bộ lọc</p>}
       >
-        <CompoundingFilter
-          showInModal
+        <RideFilter
+          showBtn
           touchableDevice
           type={carAccountType}
           onChange={(val) => onFilterRide?.(val)}

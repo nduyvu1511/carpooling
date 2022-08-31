@@ -9,26 +9,28 @@ interface PromotionItemProps {
   data: null | PromotionRes
   disabled?: boolean
   onApply?: (id: number) => void
+  onClick?: (id: number) => void
 }
 
-export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) => {
+export const PromotionItem = ({ data, disabled, onApply, onClick }: PromotionItemProps) => {
   if (data === null)
     return (
-      <div className="rounded-[16px] promotion-item block-element border border-solid border-border-color p-24">
+      <div className="relative rounded-[16px] filter-shadow p-16 md:p-24 shadow-shadow-1 border border-solid border-border-color">
         <div className="flex items-center w-[80%] mb-16">
-          <div className="h-24 skeleton rounded-[5px] flex-1 mr-16"></div>
-          <div className="h-24 skeleton rounded-[5px] flex-1"></div>
+          <div className="h-[20px] skeleton rounded-[5px] flex-1 mr-16"></div>
+          <div className="h-[20px] skeleton rounded-[5px] flex-1"></div>
         </div>
-        <div className="skeleton h-[14px] rounded-[5px] w-[70%] mb-16"></div>
+        <div className="skeleton h-16 rounded-[5px] w-[70%] mb-16"></div>
         <div className="flex items-center justify-between">
-          <div className="skeleton h-[20px] rounded-[5px] w-[40%]"></div>
+          <div className="skeleton h-12 rounded-[5px] w-[40%]"></div>
           <div className="skeleton h-[20px] rounded-[5px] w-[40px]"></div>
         </div>
       </div>
     )
   return (
     <div
-      className={`promotion-item p-[16px] md:p-24 rounded-[16px] relative ${
+      onClick={() => onClick?.(data.promotion_id)}
+      className={`p-[16px] md:p-24 rounded-[16px] relative cursor-pointer  ${
         disabled ? "opacity-30 bg-[#D9D9D9] pointer-events-none select-none" : "bg-blue-10"
       }`}
     >
@@ -79,7 +81,7 @@ export const PromotionItem = ({ data, disabled, onApply }: PromotionItemProps) =
                 <p className="text-[10px] sm:text-12 font-normal mr-8 text-blue-8 z-10">
                   {moment(data.date_start).format("DD/MM/YYYY")}
                   <span className="mx-8">-</span>
-                  {moment(data.date_start).format("DD/MM/YYYY")}
+                  {moment(data.date_end).format("DD/MM/YYYY")}
                 </p>
               </>
             )}

@@ -6,9 +6,10 @@ import { Swiper } from "swiper/react"
 
 interface SlideProps {
   children: ReactNode
+  loop?: boolean
 }
 
-const Slide = ({ children }: SlideProps) => {
+const Slide = ({ children, loop = true }: SlideProps) => {
   return (
     <Swiper
       className="swiper-hover custom-swiper pb-[1px]"
@@ -25,8 +26,8 @@ const Slide = ({ children }: SlideProps) => {
       }}
       modules={[Navigation, Autoplay]}
       navigation={true}
-      // autoplay={{ delay: 5000 }}
-      loop
+      autoplay={{ delay: 5000 }}
+      loop={loop}
     >
       {children}
     </Swiper>

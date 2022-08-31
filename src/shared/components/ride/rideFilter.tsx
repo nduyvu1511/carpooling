@@ -17,16 +17,16 @@ interface CompoundingFilterFormProps {
   defaultValues?: CompoundingFilterParams
   touchableDevice?: boolean
   onCloseFilter?: Function
-  showInModal?: boolean
+  showBtn?: boolean
 }
 
-export const CompoundingFilter = ({
+export const RideFilter = ({
   onChange: onChangeProps,
   defaultValues,
   type,
   touchableDevice = false,
   onCloseFilter,
-  showInModal = false,
+  showBtn,
 }: CompoundingFilterFormProps) => {
   const { provinceOptions } = useAddress()
   const { vehicleTypeOptions, seats } = useCompoundingForm()
@@ -46,17 +46,15 @@ export const CompoundingFilter = ({
   }
 
   return (
-    <div className="relative flex-1 flex-col flex">
+    <div className="ride__filter-wrapper relative flex-1 flex-col flex">
       <div
-        className={`compounding__filter flex-1 overflow-y-auto ${
-          showInModal
-            ? `h-[calc(100vh-120px)] md:h-[calc(100vh-170px)] p-custom lg:h-auto`
-            : "h-full"
-        }`}
+        className={`ride__filter ${
+          isObjectHasValue(defaultValues) ? "ride__filter--has-value" : ""
+        } flex-1 overflow-y-auto`}
       >
         <div className="items-center justify-between mb-[24px] hidden xl:flex">
           <p className="text-xl">Bộ lọc</p>
-          {isObjectHasValue(defaultValues) ? (
+          {isObjectHasValue(compoundingFormValues) ? (
             <span
               onClick={() => {
                 onChangeProps(undefined)
@@ -237,33 +235,39 @@ export const CompoundingFilter = ({
         </div>
       </div>
 
-      <div className="absolute bottom-0 right-0 left-0 xl:hidden bg-white-color flex md:flex-col p-12">
-        {isObjectHasValue(defaultValues) ? (
-          <button
-            onClick={() => {
-              onChangeProps(undefined)
-              onCloseFilter?.()
-            }}
-            className={`text-sm mr-12 text-primary md:mr-0 md:mb-12 flex-1 rounded-[5px] w-full ${
-              !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
-            }`}
-          >
-            Đặt lại
-          </button>
-        ) : null}
-
-        <button
-          onClick={() => {
-            isObjectHasValue(compoundingFormValues) && onChangeProps(compoundingFormValues)
-            onCloseFilter?.()
-          }}
-          className={`btn-primary flex-1 rounded-[5px] w-full ${
-            !isObjectHasValue(compoundingFormValues) ? "btn-disabled" : ""
+      {showBtn ? (
+        <div
+          className={`p-12 ride__filter-actions ${
+            isObjectHasValue(defaultValues) ? "h-[124px]" : "h-[76px]"
           }`}
         >
-          Áp dụng
-        </button>
-      </div>
+          <button
+            onClick={() => {
+              isObjectHasValue(compoundingFormValues) && onChangeProps(compoundingFormValues)
+              onCloseFilter?.()
+            }}
+            className={`btn-primary flex-1 rounded-[5px] w-full h-[48px] ${
+              !isObjectHasValue(compoundingFormValues) ? "btn-disabled" : ""
+            }`}
+          >
+            Áp dụng
+          </button>
+
+          {isObjectHasValue(defaultValues) ? (
+            <button
+              onClick={() => {
+                onChangeProps(undefined)
+                onCloseFilter?.()
+              }}
+              className={`text-sm mr-12 text-primary h-[48px] py-[14px] md:mr-0 md:mt-12 flex-1 rounded-[5px] w-full ${
+                !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
+              }`}
+            >
+              Đặt lại
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

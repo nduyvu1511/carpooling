@@ -12,7 +12,7 @@ interface RideItemLocationProps {
 }
 
 const titleStyle =
-  "text-[12px] leading-[22px] sm:text-[18px] mb-4 sm:leading-[30px] md:text-[24px] font-semibold sm:font-medium text-blue-8 line-clamp-1"
+  "mb-4 text-[12px] leading-[18px] 420:text-[14px] 420:leading-[20px] sm:text-[16px] sm:leading-[22px] lg:leading-[32px] lg:md:text-[24px] font-semibold sm:font-semibold lg:font-medium text-blue-8 line-clamp-1"
 
 const RideItemLocation = ({
   from_date,

@@ -7,11 +7,9 @@ export const usePromotion = () => {
     useQueryList<PromotionRes>({
       fetcher: promotionApi.getPromotionList,
       initialData: undefined,
-      key: "get_news_list",
+      key: "get_promotion_list",
       params: { limit: 12, offset: 0 },
     })
-
-    
 
   return <div>usePromotion</div>
 }

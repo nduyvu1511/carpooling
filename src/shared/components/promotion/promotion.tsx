@@ -21,7 +21,7 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
       params: { limit: 12, offset: 0 },
     })
 
-  if (isInitialLoading)
+  if ( isInitialLoading)
     return (
       <div className={`${className || gridClassName}`}>
         {Array.from({ length: 4 }).map((_, index) => (

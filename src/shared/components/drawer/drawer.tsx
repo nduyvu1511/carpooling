@@ -1,4 +1,4 @@
-import { CloseIcon } from "@/assets"
+import { CloseIcon, CloseThickIcon } from "@/assets"
 import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -51,7 +51,7 @@ const Drawer = ({
 
               {showCloseBtn ? (
                 <button onClick={() => onClose?.()} className="ml-auto right-0 top-0">
-                  <CloseIcon />
+                  <CloseThickIcon className="w-[14px] h-[14px]" />
                 </button>
               ) : null}
             </div>

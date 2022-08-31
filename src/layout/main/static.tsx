@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import { handShakeBg } from "@/assets"
-import { ButtonCall, Footer, Header, Spinner } from "@/components"
+import { AuthHeader, ButtonCall, Footer, Header, Spinner } from "@/components"
+import { RootState } from "@/core/store"
 import { ReactNode } from "react"
+import { useSelector } from "react-redux"
 
 interface StaticLayoutProps {
   children: ReactNode
@@ -26,9 +28,11 @@ export const StaticLayout = ({
   topNode = null,
   lastNode = null,
 }: StaticLayoutProps) => {
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
+
   return (
     <>
-      <Header />
+      {userInfo?.car_account_type ? <AuthHeader /> : <Header />}
       <main>
         {showBg ? (
           <div

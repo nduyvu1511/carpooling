@@ -379,10 +379,6 @@
         border-color: #bfbfbf;
         border-radius: 10px;
       }
-
-      & .css-319lph-ValueContainer {
-        // padding-inline: 8px;
-      }
     }
 
     & .css-1okebmr-indicatorSeparator {
@@ -476,9 +472,22 @@
   background: linear-gradient(180deg, #5ea3ef 0%, #1c2379 100%);
 }
 
-.compounding__filter {
+.ride__filter {
   @media screen and (min-width: 1280px) {
     overflow-y: initial;
+  }
+
+  :-ms-input-placeholder {
+    color: #0c0055 !important;
+    font-size: 14px !important;
+  }
+
+  ::placeholder {
+    color: #0c0055 !important;
+  }
+
+  & .css-14el2xx-placeholder {
+    color: #0c0055 !important;
   }
 
   & input {
@@ -546,7 +555,7 @@
   height: 42px;
 }
 
-.compounding__filter {
+.ride__filter {
   .form-select-sm {
     margin-bottom: 10px;
 
@@ -564,6 +573,32 @@
   overflow: hidden;
   @media screen and (min-width: 1024px) {
     padding-right: 17px;
+  }
+}
+
+.suggestion-promotion {
+  .swiper {
+    &-slide {
+      width: calc(100% - 24px);
+      @media screen and (min-width: 375px) {
+        width: calc(100% - 80px);
+      }
+      @media screen and (min-width: 450px) {
+        width: calc(100% - 140px);
+      }
+      @media screen and (min-width: 640px) {
+        width: calc(50% - 40px);
+      }
+      @media screen and (min-width: 768px) {
+        width: calc(50% - 60px);
+      }
+      @media screen and (min-width: 992) {
+        width: calc(50% - 80px);
+      }
+      @media screen and (min-width: 1024px) {
+        width: calc(50% - 140px);
+      }
+    }
   }
 }
 
@@ -1001,15 +1036,26 @@
   }
 }
 
-.drawer {
-  & .compounding__filter {
-    padding: 12px;
-    max-height: calc(100vh - 120px);
+.modal {
+  & .ride__filter {
+    max-height: calc(100vh - 130px);
     height: 100%;
-    overflow-y: auto;
+    padding: 12px;
 
-    @media screen and (min-width: 768px) {
-      max-height: calc(100vh - 170px);
+    &--has-value {
+      max-height: calc(100vh - 180px);
+    }
+  }
+}
+
+.drawer {
+  & .ride__filter {
+    padding: 12px;
+    max-height: calc(100vh - 126px);
+    height: 100%;
+
+    &--has-value {
+      max-height: calc(100vh - 176px);
     }
   }
 }
@@ -1043,8 +1089,12 @@
   }
 }
 
-.promotion-item {
+.filter-shadow {
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+.filter-shadow-white {
+  filter: drop-shadow(0px 1px 2px white);
 }
 
 @keyframes bannerLoading {
