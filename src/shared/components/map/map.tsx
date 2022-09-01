@@ -108,6 +108,7 @@ export const Map = ({
       setCurrentLocation(defaultLocation)
       return
     }
+    console.log(currentAddress)
 
     getCurrentLocation({
       params: { showMsg: false },
@@ -215,9 +216,9 @@ export const Map = ({
     <>
       <div className="flex flex-col flex-1 w-full h-full relative">
         <div
-          className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[4px] left-0 sm:left-[4px]`}
+          className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[6px] left-0 sm:left-[8px]`}
         >
-          <MapSearch onSelect={handleSelectSearchValue} />
+          <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} />
         </div>
 
         <GoogleMap

@@ -12,7 +12,7 @@ import {
   ProgressBarMultiple,
   RidePassengerItem,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideStatus,
   RideSummary,
   RideSummaryMobile,
@@ -49,12 +49,6 @@ const StartRunningCompoundingCar = () => {
 
   const [confirmDoneCompoundingCarModal, setConfirmDoneCompoundingCarModal] =
     useState<boolean>(false)
-
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
 
   const handleGenerateGoogleMapUrl = (params: LatLng) => {
     getCurrentLocation({
@@ -167,7 +161,7 @@ const StartRunningCompoundingCar = () => {
         rightNode={compoundingCarMap ? <RideSummary data={compoundingCarMap} /> : null}
       >
         {isInitialLoading ? (
-          <RidesDetailLoading />
+          <RideDetailLoading />
         ) : compoundingCar?.state !== "start_running" &&
           compoundingCar?.state !== "confirm_deposit" &&
           compoundingCar?.state !== "confirm" &&

@@ -161,7 +161,6 @@ export const useCompoundingForm = (): Res => {
         return
       }
       const price = Number(res?.result?.data?.[0]?.price_unit)
-      console.log({ price })
       onSuccess(price || 0)
     } catch (error) {
       onErr && onErr()
@@ -180,21 +179,14 @@ export const useCompoundingForm = (): Res => {
       },
       distance: compoundingCar.distance,
       expected_going_on_date: compoundingCar.expected_going_on_date,
-      from_location: compoundingCar?.is_picking_up_from_start
-        ? {
-            address: compoundingCar.from_address,
-            lat: Number(compoundingCar.from_latitude),
-            lng: Number(compoundingCar.from_longitude),
-            province_id: Number(compoundingCar.from_province.province_id),
-          }
-        : undefined,
+      from_location: undefined,
       is_checked_policy: true,
       note: compoundingCar?.note || "",
       price_per_passenger: compoundingCar.amount_total,
       from_station: {
         address: compoundingCar?.from_address,
-        lat: compoundingCar?.from_latitude + "",
-        lng: compoundingCar?.from_longitude + "",
+        lat: compoundingCar?.from_latitude,
+        lng: compoundingCar?.from_longitude,
         province_name: compoundingCar?.from_province?.province_name,
         province_id: compoundingCar?.from_province?.province_id,
         station_id: compoundingCar?.from_pick_up_station?.station_id,
@@ -219,54 +211,48 @@ export const useCompoundingForm = (): Res => {
     }
   }
 
-  const commonCompoundingParams = (
-    compoundingCar: CompoundingCarCustomer
-  ): CreateCommonCompoundingForm => {
+  const commonCompoundingParams = (data: CompoundingCarCustomer): CreateCommonCompoundingForm => {
     return {
       car_id: {
-        label: compoundingCar.car.name,
-        value: compoundingCar.car.car_id,
+        label: data.car.name,
+        value: data.car.car_id,
       },
-      distance: compoundingCar.distance,
-      expected_going_on_date: compoundingCar.expected_going_on_date,
+      distance: data.distance,
+      expected_going_on_date: data.expected_going_on_date,
       from_location: {
-        address: compoundingCar.from_address,
-        lat: Number(compoundingCar.from_latitude),
-        lng: Number(compoundingCar.from_longitude),
-        province_id: Number(compoundingCar.from_province.province_id),
+        address: data.from_address,
+        lat: Number(data.from_latitude),
+        lng: Number(data.from_longitude),
+        province_id: Number(data.from_province.province_id),
       },
       to_location: {
-        address: compoundingCar.to_address,
-        lat: Number(compoundingCar.to_latitude),
-        lng: Number(compoundingCar.to_longitude),
-        province_id: Number(compoundingCar.to_province.province_id),
+        address: data.to_address,
+        lat: Number(data.to_latitude),
+        lng: Number(data.to_longitude),
+        province_id: Number(data.to_province.province_id),
       },
       is_checked_policy: true,
-      note: compoundingCar.note,
-      duration: compoundingCar.duration,
-      price: compoundingCar.price_unit.price_unit,
+      note: data.note,
+      duration: data.duration,
+      price: data.price_unit.price_unit,
     }
   }
 
   const compoundingCarCustomerResToTwoWayForm = (
-    compoundingCar: CompoundingCarCustomer
+    data: CompoundingCarCustomer
   ): CreateTwoWayCompoundingCarForm => {
     return {
-      ...commonCompoundingParams(compoundingCar),
-      is_a_day_tour: true,
-      expected_picking_up_date: (compoundingCar?.expected_picking_up_date || undefined) as string,
-      hour_of_wait_time: hoursBackList.find(
-        (item) => item.value === compoundingCar.hour_of_wait_time
-      ),
+      ...commonCompoundingParams(data),
+      is_a_day_tour: data?.is_a_day_tour,
+      expected_picking_up_date: (data?.expected_picking_up_date || undefined) as string,
+      hour_of_wait_time: hoursBackList.find((item) => item.value === data.hour_of_wait_time),
     }
   }
 
   const compoundingCarCustomerResToOneWayForm = (
     compoundingCar: CompoundingCarCustomer
   ): CreateOneWayCompoundingCarForm => {
-    return {
-      ...commonCompoundingParams(compoundingCar),
-    }
+    return commonCompoundingParams(compoundingCar)
   }
 
   const compoundingCarResToCarpoolingForm = (

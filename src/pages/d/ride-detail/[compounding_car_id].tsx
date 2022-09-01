@@ -7,7 +7,7 @@ import {
   RideCancelForm,
   RideCheckoutPopup,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
@@ -20,7 +20,7 @@ import { useCompoundingCarDriver, useDriverCheckout, useRatingActions } from "@/
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes, ReportRatingParams } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
@@ -49,12 +49,6 @@ const ConfirmBookingCustomer = () => {
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
   const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
   const [showCustomerList, setShowCustomerList] = useState<boolean>(false)
-
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
 
   const handleReportRating = (params: ReportRatingParams) => {
     reportRating({
@@ -103,7 +97,7 @@ const ConfirmBookingCustomer = () => {
       >
         <>
           {isInitialLoading ? (
-            <RidesDetailLoading />
+            <RideDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
               <div className="">

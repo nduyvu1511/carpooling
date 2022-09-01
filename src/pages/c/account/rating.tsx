@@ -125,7 +125,7 @@ const Rating = () => {
           setCurrentEditRating(undefined)
         }}
       >
-        <div className="w-full p-16 md:p-24 h-full">
+        <div className="w-full p-custom h-full">
           <RatingForm
             defaultValue={currentEditRating}
             onSubmit={(data) => handleUpdateRating(data)}

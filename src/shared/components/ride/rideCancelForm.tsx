@@ -53,7 +53,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
       rightBtnLabel="Hủy chuyến"
       onClose={onClose}
       onConfirm={() =>
-        reasonId &&
+        (reasonId || value) &&
         onSubmit?.({ cancel_reason_id: reasonId, cancel_reason_other: value || undefined })
       }
       type="warning"
@@ -69,10 +69,9 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
     >
       <div className="">
         <div className="">
-          {isValidating ? (
-            <Spinner size={40} className="py-[80px]" />
-          ) : data && isArrayHasValue(data) ? (
-            <>
+          {isValidating ? <Spinner size={40} className="py-[80px]" /> : null}
+          <>
+            {data && isArrayHasValue(data) ? (
               <div className="mb-24">
                 <p onClick={() => selectRef?.current?.focus()} className="form-label">
                   Chọn lý do hủy chuyến đi:
@@ -92,24 +91,24 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
                   />
                 </div>
               </div>
+            ) : null}
 
-              <div className="">
-                <label htmlFor="input" className="text-sm mb-4 flex items-center cursor-pointer">
-                  Lý do khác:{" "}
-                </label>
-                <textarea
-                  ref={ref}
-                  value={value}
-                  onChange={onChange}
-                  name=""
-                  id="input"
-                  rows={2}
-                  placeholder="Nhập lý do khác..."
-                  className="form-textarea resize-none"
-                ></textarea>
-              </div>
-            </>
-          ) : null}
+            <div className="">
+              <label htmlFor="input" className="text-sm mb-4 flex items-center cursor-pointer">
+                Lý do khác:{" "}
+              </label>
+              <textarea
+                ref={ref}
+                value={value}
+                onChange={onChange}
+                name=""
+                id="input"
+                rows={2}
+                placeholder="Nhập lý do khác..."
+                className="form-textarea resize-none"
+              ></textarea>
+            </div>
+          </>
         </div>
       </div>
     </Alert>

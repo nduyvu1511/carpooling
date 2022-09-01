@@ -51,15 +51,24 @@ const RideDoneCustomer = () => {
                 data={data}
               />
 
+              <div className="my-24 border-border-color border-solid border-0 md:border-b"></div>
+
+              <div className="mb-24">
+                <p className="text-sm leading-[22px]">
+                  Cảm ơn bạn đã sử dụng dịch vụ của ExxeVn, chúng tôi mong rằng bạn hài lòng với
+                  dịch vụ mà chúng tôi cung cấp
+                </p>
+              </div>
+
               <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12 flex-center">
                 <Link href="/c">
-                  <a className="btn-primary-outline px-12 sm:px-[28px] h-[48px] mr-16">
-                    Về trang chủ
+                  <a className="btn-primary-outline px-12 sm:px-[28px] h-[48px] mr-12 md:mr-16">
+                    Trang chủ
                   </a>
                 </Link>
 
                 <Link href={`/c/ride-detail/${data.compounding_car_customer_id}`}>
-                  <a className="btn-primary px-12 sm:px-[28px] h-[48px]">Đánh giá ngay</a>
+                  <a className="btn-primary px-12 sm:px-[28px] h-[48px]">Đánh giá</a>
                 </Link>
               </div>
             </>

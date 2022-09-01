@@ -11,9 +11,7 @@ interface DriverInfoSummaryProps {
 export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSummaryProps) => {
   return (
     <div className="">
-      <p className={`text-16 uppercase font-semibold mb-16 md:mb-24 ${titleClassName}`}>
-        Thông tin tài xế
-      </p>
+      <p className={`text-16 uppercase font-semibold mb-16 ${titleClassName}`}>Thông tin tài xế</p>
 
       {driver?.partner_id ? (
         <div className="">

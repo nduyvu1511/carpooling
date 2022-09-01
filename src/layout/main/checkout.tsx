@@ -11,7 +11,7 @@ export const CheckoutLayout = ({ children }: LayoutProps) => {
       </div>
 
       <main className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-104px)] flex flex-col">
-        <div className="content-container flex-1 bg-white-color md:mb-24">{children}</div>
+        <div className="content-container flex-1 md:mb-24">{children}</div>
       </main>
     </div>
   )

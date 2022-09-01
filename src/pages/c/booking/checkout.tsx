@@ -7,7 +7,12 @@ import {
   RideSummaryModal,
   Seo,
 } from "@/components"
-import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
+import {
+  useCompoundingCarActions,
+  useCompoundingCarCustomer,
+  useCustomerCheckout,
+  usePromotionActions,
+} from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentRes } from "@/models"
 import Link from "next/link"
@@ -18,12 +23,39 @@ const CheckoutCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
+  const { applyPromotionForCustomer } = usePromotionActions()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
+  const {
+    data: compoundingCar,
+    isInitialLoading,
+    mutate,
+  } = useCompoundingCarCustomer({
     key: `booking_checkout_customer_${compounding_car_customer_id}`,
     type: "autoFocus",
     compounding_car_customer_id: Number(compounding_car_customer_id),
   })
+
+  useEffect(() => {
+    if (compoundingCar === undefined) return
+
+    if (compoundingCar?.state === "deposit") {
+      redirectToCheckoutSuccess()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [compoundingCar])
+
+  const handleApplyPromotion = (promotion_id: number) => {
+    if (!compoundingCar?.compounding_car_customer_id) return
+    applyPromotionForCustomer({
+      params: {
+        compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
+        promotion_id,
+      },
+      onSuccess: () => {
+        mutate()
+      },
+    })
+  }
 
   const handleConfirmTransaction = (params: PaymentRes) => {
     const { compounding_car_customer_id } = compoundingCar || {}
@@ -61,15 +93,6 @@ const CheckoutCustomer = () => {
     )
   }
 
-  useEffect(() => {
-    if (compoundingCar === undefined) return
-
-    if (compoundingCar?.state === "deposit") {
-      redirectToCheckoutSuccess()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compoundingCar])
-
   return (
     <CustomerBookingLayout
       showLoading={isInitialLoading}
@@ -99,6 +122,7 @@ const CheckoutCustomer = () => {
         ) : (
           <>
             <Checkout
+              onApplyPromotion={handleApplyPromotion}
               percentage={compoundingCar.customer_deposit_percentage}
               amount_due={compoundingCar?.amount_due}
               down_payment={compoundingCar?.down_payment?.total}
@@ -107,9 +131,9 @@ const CheckoutCustomer = () => {
               onCheckout={(_) => handleConfirmTransaction(_)}
               onCancelCheckout={handleCancelCompoundingCarCustomer}
               state={compoundingCar.state}
-              returnedUrl={`/c/booking/confirm?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`}
+              returnedUrl={`/c/booking/checkout?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`}
             />
-            <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-[40px]" />
+            <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-40 mb-24" />
           </>
         )
       ) : null}

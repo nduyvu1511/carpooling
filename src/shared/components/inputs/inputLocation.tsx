@@ -33,43 +33,45 @@ export const InputLocation = ({
 }: InputLocationProps) => {
   const [showMap, setShowMap] = useState<boolean>(false)
 
+  const toggleModal = (status: boolean) => {
+    setShowMap(status)
+  }
+
   return (
     <>
-      <>
-        <div className="">
-          {showLabel ? (
-            <label className="form-label" htmlFor={name}>
-              {placeholder} {required ? "(*)" : ""}
-            </label>
-          ) : null}
+      <div className="">
+        {showLabel ? (
+          <label className="form-label" htmlFor={name}>
+            {placeholder} {required ? "(*)" : ""}
+          </label>
+        ) : null}
 
-          <Controller
-            control={control}
-            name={name}
-            render={({ field: { onChange, onBlur } }) => (
-              <input
-                onClick={() => setShowMap(true)}
-                readOnly
-                id={name}
-                onBlur={onBlur}
-                className={`form-input ${isError ? "form-input-err" : ""}`}
-                type="text"
-                placeholder={placeholder}
-                value={defaultValue}
-              />
-            )}
-            rules={{ required: true }}
-          />
-        </div>
-        {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
-      </>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: { onChange, onBlur } }) => (
+            <input
+              onClick={() => toggleModal(true)}
+              readOnly
+              id={name}
+              onBlur={onBlur}
+              className={`form-input ${isError ? "form-input-err" : ""}`}
+              type="text"
+              placeholder={placeholder}
+              value={defaultValue}
+            />
+          )}
+          rules={{ required: true }}
+        />
+      </div>
+      {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
 
       <Modal
         key="location-modal"
         show={showMap}
         iconType="back"
         heading={type === "to" ? "Chọn điểm đến" : "Chọn điểm đón"}
-        onClose={() => setShowMap(false)}
+        onClose={() => toggleModal(false)}
         transitionType="up"
       >
         <Map
@@ -77,7 +79,7 @@ export const InputLocation = ({
           prevProvinceId={prevProvinceId}
           onChooseLocation={(location) => {
             onChange({ ...location })
-            setShowMap(false)
+            toggleModal(false)
           }}
         />
       </Modal>

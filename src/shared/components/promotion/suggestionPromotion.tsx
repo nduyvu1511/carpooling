@@ -1,4 +1,5 @@
 import { ArrowRightIcon, CouponFillIcon } from "@/assets"
+import { isArrayHasValue } from "@/helper"
 import { useScrollTop } from "@/hooks"
 import { PromotionRes } from "@/models"
 import { promotionApi } from "@/services"
@@ -10,15 +11,21 @@ import { PromotionItem } from "./promotionItem"
 
 export const SuggestionPromotion = () => {
   const router = useRouter()
-  const { isValidating, data } = useSWR<PromotionRes[]>("get_suggestion_promotions", () =>
-    promotionApi
-      .getPromotionList({ limit: 8, offset: 0 })
-      .then((res) => res.result.data)
-      .catch((err) => console.log(err))
+  const { isValidating, data } = useSWR<PromotionRes[]>(
+    "get_suggestion_promotions",
+    () =>
+      promotionApi
+        .getPromotionList({ limit: 8, offset: 0 })
+        .then((res) => res.result.data)
+        .catch((err) => console.log(err)),
+    {
+      dedupingInterval: 10000000,
+    }
   )
 
+  if (!isValidating && !isArrayHasValue(data)) return null
   return (
-    <div className="xl:max-w-[986px]">
+    <div className="xl:max-w-[986px] mb-12">
       <div className="items-center justify-between mb-16 hidden md:flex">
         {isValidating ? (
           <>

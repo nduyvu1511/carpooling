@@ -65,7 +65,7 @@ const Alert = ({
               <button
                 type="button"
                 onClick={() => onClose?.()}
-                className="btn px-[26px] py-[8px] mr-16 sm:mr-24 bg-disabled"
+                className="btn px-[26px] py-[8px] bg-disabled"
               >
                 {leftBtnLabel}
               </button>
@@ -74,7 +74,7 @@ const Alert = ({
               <button
                 type="button"
                 onClick={() => onConfirm()}
-                className={`btn px-[26px] py-[8px] text-white-color ${
+                className={`btn px-[26px] py-[8px] text-white-color ml-16 sm:ml-24 ${
                   type === "success"
                     ? "bg-success"
                     : type === "warning"

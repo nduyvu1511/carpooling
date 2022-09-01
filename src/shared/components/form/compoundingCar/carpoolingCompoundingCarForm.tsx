@@ -79,6 +79,7 @@ export const CarpoolingCompoundingForm = ({
     watch,
     clearErrors,
     formState: { errors },
+    setError,
     control,
   } = useForm<CreateCarpoolingCompoundingForm>({
     resolver: yupResolver(carpoolingCompoundingCarSchema),
@@ -169,17 +170,6 @@ export const CarpoolingCompoundingForm = ({
       duration: data?.duration || 0,
     }
     onSubmit?.(params)
-  }
-
-  const handleTogglePolicy = (): boolean | undefined => {
-    const isChecked = getValues("is_checked_policy")
-    if (!isChecked) {
-      clearErrors("is_checked_policy")
-      setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, true)
-      return true
-    }
-    setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, undefined)
-    return
   }
 
   return (
@@ -373,11 +363,19 @@ export const CarpoolingCompoundingForm = ({
             <Controller
               control={control}
               name={"is_checked_policy"}
-              render={({ field: { onChange, onBlur } }) => (
+              render={() => (
                 <InputPolicy
-                  onChange={() => onChange(handleTogglePolicy())}
-                  isError={!!errors?.is_checked_policy}
-                  onBlur={onBlur}
+                  onChange={(status) => {
+                    if (status) {
+                      clearErrors("is_checked_policy")
+                      setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, true)
+                      setValue("is_checked_policy", true)
+                    } else {
+                      setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, undefined)
+                      setError("is_checked_policy", {})
+                      setValue("is_checked_policy", undefined as any)
+                    }
+                  }}
                   value={getValues("is_checked_policy")}
                 />
               )}

@@ -1,4 +1,4 @@
-import { RideCanceled, RideProgress, RideSummary, RideSummaryMobile } from "@/components"
+import { RideCanceled, RideProgress, RideSummary } from "@/components"
 import { useCompoundingCarCustomer } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -23,6 +23,12 @@ const RideCanceledPage = () => {
       {compoundingCar ? (
         <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       ) : null}
+
+      <div className="flex justify-center md:justify-start mt-40">
+        <button onClick={() => router.push("/c")} className="btn-primary-outline">
+          Về trang chủ
+        </button>
+      </div>
     </CustomerBookingLayout>
   )
 }

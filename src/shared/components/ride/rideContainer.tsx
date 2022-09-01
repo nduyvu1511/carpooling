@@ -90,9 +90,7 @@ const RideContainer = ({
               </h4>
             </div>
 
-            <div className="mb-12">
-              <SuggestionPromotion />
-            </div>
+            <SuggestionPromotion />
 
             <RideTypeFilter
               onClickShowFilterMobile={() => toggleShowFilter("mobile")}

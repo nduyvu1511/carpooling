@@ -1,8 +1,10 @@
 import { ArrowLeft2Icon, ArrowLeftIcon } from "@/assets"
 import { HeaderMobile, RideSummaryLoading } from "@/components"
+import { toggleBodyOverflow } from "@/helper"
 import { useBreakpoint } from "@/hooks"
 import { BookingLayoutProps } from "@/models"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 const BookingLayout = ({
   children,
@@ -17,6 +19,12 @@ const BookingLayout = ({
 }: BookingLayoutProps) => {
   const router = useRouter()
   const breakpoints = useBreakpoint()
+
+  useEffect(() => {
+    return () => {
+      toggleBodyOverflow("unset")
+    }
+  }, [])
 
   return (
     <>
@@ -36,7 +44,7 @@ const BookingLayout = ({
           ) : null}
 
           <div className="lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid">
-            <div className="p-custom lg:pr-16">
+            <div className="p-custom lg:pr-16 overflow-hidden">
               {topNode ? <div className="hidden lg:block lg:w-full mb-40">{topNode}</div> : null}
 
               {showLoading ? (
@@ -50,7 +58,7 @@ const BookingLayout = ({
                     <ArrowLeft2Icon className="" />
                   </button>
 
-                  <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-32">{title}</h3>
+                  <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-16">{title}</h3>
                 </div>
               ) : null}
 

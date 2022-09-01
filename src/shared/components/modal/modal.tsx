@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, CloseThickIcon } from "@/assets"
+import { ArrowLeft2Icon, ArrowLeftIcon, CloseThickIcon } from "@/assets"
 import { TransitionDirection } from "@/models"
 import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
@@ -45,7 +45,7 @@ const Modal = ({
               {iconType === "close" ? (
                 <CloseThickIcon className="text-blue-8 w-[14px] h-[14px]" />
               ) : (
-                <ArrowLeftIcon className="text-blue-8 w-[20px] h-[20px]" />
+                <ArrowLeft2Icon className="text-blue-8 w-[20px] h-[16px]" />
               )}
             </span>
 

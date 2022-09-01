@@ -1,19 +1,18 @@
 import {
   CarpoolingCompoundingForm,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
   Seo,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CompoundingCarCustomer, CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
@@ -37,7 +36,7 @@ const RidesDetailCustomer = () => {
     createExistingCompoundingCar({
       params: { ...params, compounding_car_id: compoundingCar.compounding_car_id },
       onSuccess: (data) => {
-        document?.body?.scrollIntoView({ behavior: "smooth" })
+        document?.body?.scrollIntoView()
         setCompoundingCarCustomer(data)
         setTimeout(() => {
           dispatch(notify("Tạo chuyến đi ghép thành công!", "success"))
@@ -59,12 +58,6 @@ const RidesDetailCustomer = () => {
     })
   }
 
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
-
   return (
     <>
       <Seo description="Tạo chuyến đi ghép" title="Tạo chuyến đi ghép" thumbnailUrl="" url="" />
@@ -82,7 +75,7 @@ const RidesDetailCustomer = () => {
         title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Thông tin chuyến đi"}
       >
         {isInitialLoading ? (
-          <RidesDetailLoading />
+          <RideDetailLoading />
         ) : !compoundingCar ? (
           <div className="py-[40px] text-center">
             <p className="text-base">Không tìm thấy chuyến đi này</p>
@@ -107,7 +100,7 @@ const RidesDetailCustomer = () => {
                   number_seat: { label: "1 ghế", value: 1 },
                 }}
                 onSubmit={(data) => {
-                  if (compoundingCarCustomer) {
+                  if (compoundingCarCustomer?.compounding_car_id) {
                     handleConfirmCompoundingCar()
                   } else {
                     handleCreateExistedCompoundingCar(data)

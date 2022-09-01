@@ -16,7 +16,9 @@ const CheckoutSuccess = () => {
   useBackRouter({
     cb: (as) => {
       if (as.includes("/c/booking/checkout")) {
-        router.push("/c")
+        setTimeout(() => {
+          router.push("/c")
+        }, 0)
       }
     },
   })
@@ -32,7 +34,19 @@ const CheckoutSuccess = () => {
           <div className="block-element p-custom">
             <RideProgress className="mb-24 md:mb-[40px]" state={compoundingCarCustomer?.state} />
             {compoundingCarCustomer?.compounding_car_customer_id ? (
-              <RideCustomerBill type="deposit" data={compoundingCarCustomer} />
+              <RideCustomerBill
+                desc={
+                  <p>
+                    Chúc mừng! Chuyến đi của bạn đang được kết nối với tài xế. Hãy luôn theo dõi
+                    điện thoại để tài xế có thể liên lạc hoặc bạn có thể truy cập trang
+                    <Link href={"/c/account/activities"}>
+                      <a className="font-semibold text-primary"> Hoạt động</a>
+                    </Link>
+                  </p>
+                }
+                type="deposit"
+                data={compoundingCarCustomer}
+              />
             ) : null}
           </div>
         )}

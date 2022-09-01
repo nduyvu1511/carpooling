@@ -296,6 +296,8 @@
 }
 
 .form-date {
+  color: #373737;
+
   & .rdt {
     height: 100%;
     width: 100%;
@@ -388,6 +390,8 @@
     & .css-1n7v3ny-option,
     & .css-yt9ioa-option,
     & .css-9gakcf-option {
+      font-size: 14px;
+      font-weight: 500;
       padding-block: 0.6rem;
     }
 
@@ -597,6 +601,32 @@
       }
       @media screen and (min-width: 1024px) {
         width: calc(50% - 140px);
+      }
+    }
+  }
+}
+
+.payment__slide {
+  .swiper {
+    &-slide {
+      width: calc(100% - 48px);
+      @media screen and (min-width: 375px) {
+        width: calc(50% - 16px);
+      }
+      @media screen and (min-width: 450px) {
+        width: calc(50% - 40px);
+      }
+      @media screen and (min-width: 560px) {
+        width: calc(50% - 80px);
+      }
+      @media screen and (min-width: 640px) {
+        width: calc(33% - 32px);
+      }
+      @media screen and (min-width: 768px) {
+        width: calc(33% - 48px);
+      }
+      @media screen and (min-width: 1024px) {
+        width: calc(33% - 24px);
       }
     }
   }

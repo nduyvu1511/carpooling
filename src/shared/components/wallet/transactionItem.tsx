@@ -62,7 +62,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
 
         <div className="flex justify-between">
           <div className="">
-            <p className="flex items-center mb-4">
+            <div className="flex items-center mb-4">
               <PaymentIcon className="w-16 mr-8" />
               <p
                 className={`text-14 font-semibold whitespace-nowrap ${
@@ -73,7 +73,7 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
                   transaction.amount
                 )}`}
               </p>
-            </p>
+            </div>
 
             <p className="text-gray-color-7 text-[10px] font-medium ml-[26px]">
               {moment(transaction.date).format("DD/MM/YYYY")}

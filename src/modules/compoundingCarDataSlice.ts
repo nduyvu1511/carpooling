@@ -46,15 +46,18 @@ const compoundingCarDataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchVehicles.fulfilled, (state, { payload }) => {
-      state.vehicleTypes = payload.map((item: VehicleTypeParams) => ({
+      const data = payload.map((item: VehicleTypeParams) => ({
         label: item.name,
         value: item.car_id,
         number_seat: item.number_seat,
       }))
+      state.vehicleTypes = data
+      setToSessionStorage("compounding_vehicleTypes", data)
     })
 
     builder.addCase(fetchProvinces.fulfilled, (state, { payload }) => {
       state.provinces = payload
+      setToSessionStorage("compounding_provinces", payload)
     })
   },
 })

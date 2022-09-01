@@ -1,17 +1,19 @@
 import { InputLoading } from "./inputLoading"
+import { TextareaLoading } from "./textareaLoading"
 
-const RidesDetailLoading = ({ className = "" }) => {
+const RideDetailLoading = ({ className = "" }) => {
   return (
     <div className={className}>
-      {/* <div className="h-[200px] md:h-[300px] skeleton rounded-[5px] mb-[24px]"></div> */}
+      <div className="h-[60px] skeleton rounded-[5px] mb-[24px]"></div>
       <InputLoading />
       <InputLoading />
       <InputLoading />
       <InputLoading />
       <InputLoading />
+      <TextareaLoading />
       <div className="rounded-[25px] w-[180px] h-[50px] skeleton mt-[40px]"></div>
     </div>
   )
 }
 
-export { RidesDetailLoading }
+export { RideDetailLoading }

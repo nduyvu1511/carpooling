@@ -19,7 +19,7 @@ export const RideSummaryMobile = ({
   const dispatch = useDispatch()
 
   return (
-    <div className={`bg-gray-05 p-16 rounded-[5px] shadow-shadow-1 ${className}`}>
+    <div className={`bg-gray-05 px-12 p-16 xs:px-16 rounded-[5px] shadow-shadow-1 ${className}`}>
       <div className="flex items-center justify-between">
         <p className="uppercase text-primary text-base font-semibold">Thông tin chuyến đi</p>
         {showDetailBtn ? (
@@ -27,7 +27,7 @@ export const RideSummaryMobile = ({
             onClick={() => dispatch(setShowSummaryDetail(true))}
             className="flex items-center text--gray-color-7 text-xs font-medium p-4"
           >
-            <span className="mr-[10px] hidden sm:block">Xem chi tiết</span>
+            <span className="mr-[10px] hidden xs:block">Xem chi tiết</span>
             <ZoomInIcon className="text-gray-color-7 w-12 h-12" />
           </button>
         ) : null}
@@ -36,44 +36,45 @@ export const RideSummaryMobile = ({
       <div className="border-b border-solid border-border-color my-12"></div>
 
       <div className="flex items-start mb-12 justify-between">
-        <p className="text-xs mr-16 leading-[20px] hidden sm:block">Điểm đón</p>
-        <LocationIcon3 className="sm:hidden mt-4" />
-        <p className="flex-1 flex justify-end text-sm text-right ml-[10px] sm:max-w-[70%] w-full">
+        <p className="text-xs mr-16 leading-[20px] hidden xs:block">Điểm đón</p>
+        <LocationIcon3 className="xs:hidden mt-4" />
+        <p className="flex-1 flex justify-end text-sm leading-[22px] xs:text-right ml-[10px] xs:max-w-[70%] w-full">
           {rides?.from_address || rides?.from_province?.province_name}
         </p>
       </div>
       <div className="flex items-start mb-12 justify-between">
-        <p className="text-xs mr-16 leading-[20px] hidden sm:block">Điểm đến</p>
-        <LocationIcon4 className="sm:hidden mt-4" />
-        <p className="flex-1 flex justify-end text-sm text-right ml-[10px] sm:max-w-[70%] w-full">
+        <p className="text-xs mr-16 leading-[20px] hidden xs:block">Điểm đến</p>
+        <LocationIcon4 className="xs:hidden mt-4" />
+        <p className="flex-1 flex justify-end text-sm leading-[22px] xs:text-right ml-[10px] xs:max-w-[70%] w-full">
           {rides?.to_address || rides?.to_province?.province_name}
         </p>
       </div>
 
       <SummaryItem
-        className="hidden sm:flex"
+        className="hidden xs:flex mb-0"
         label="Ngày đi"
         value={moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
       />
 
       {rides?.expected_picking_up_date ? (
         <SummaryItem
+          className="my-12"
           label="Ngày về"
           value={moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
         />
       ) : null}
 
-      <div className="flex xs:items-center flex-col xs:flex-row sm:hidden">
+      <div className="flex xs:items-center flex-col xs:flex-row xs:hidden">
         <div className="flex items-start">
-          <CalendarIcon className="sm:hidden mt-4" />
-          <p className="flex-1 text-sm ml-[10px]">
+          <CalendarIcon className="xs:hidden mt-4" />
+          <p className="flex-1 text-sm ml-[10px] xs:text-right">
             {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}{" "}
           </p>
         </div>
         {rides?.expected_picking_up_date ? (
           <div className="flex items-start xs:ml-16 mt-12 xs:mt-0">
             <p className="text-xs "></p>
-            <CalendarDoneIcon className="sm:hidden mt-4" />
+            <CalendarDoneIcon className="xs:hidden mt-4" />
             <p className="flex-1 text-sm ml-[10px]">
               {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}{" "}
             </p>

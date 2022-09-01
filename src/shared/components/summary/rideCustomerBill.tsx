@@ -28,52 +28,37 @@ const RideCustomerBill = ({
 
       <div className="my-[40px] border-border-color border-solid border-0 md:border-b"></div>
 
-      <div className="mb-[40px]">
+      <div className="mb-24">
         {type === "deposit" ? (
           <ul>
-            <p className="text-base font-semibold text-blue-7 uppercase mb-16 md:mb-24">
-              Thông tin đặt cọc
-            </p>
-            <SummaryItem label="Giá vé" value={formatMoneyVND(data.amount_total)} />
-            <li className="flex items-start justify-between mb-12">
-              <p className="text-sm md:text-base font-semibold uppercase md:normal-case">
-                Đã đặt cọc ({data.down_payment.percent * 100}%)
-              </p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right font-semibold text-error">
-                {formatMoneyVND(data.down_payment.total)}
-              </p>
-            </li>
+            <p className="text-base font-semibold text-blue-7 uppercase mb-16">Thông tin đặt cọc</p>
+            <SummaryItem label="Chi phí tạm tính" value={formatMoneyVND(data.amount_total)} />
             <SummaryItem
               label="Ngày đặt cọc"
               value={moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
             />
             <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(data.amount_due)} />
+            <SummaryItem
+              labelClassName="text-14 md:text-16 font-semibold"
+              valueClassName="text-14 md:text-16 font-semibold"
+              label={`Số tiền đặt cọc (${data.down_payment.percent * 100}%)`}
+              value={formatMoneyVND(data.down_payment.total)}
+            />
           </ul>
         ) : (
           <ul>
-            <p className="text-base font-semibold text-blue-7 uppercase mb-16 md:mb-24">
-              Thông tin thanh toán
-            </p>
-            <li className="flex items-start justify-between mb-12">
-              <p className="text-xs leading-[20px]">
-                Số tiền đặt cọc ({Number(data.down_payment.percent * 100)}%)
-              </p>
-              <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                {formatMoneyVND(data.down_payment.total)}
-              </p>
-            </li>
+            <p className="text-base font-semibold text-primary uppercase mb-16">Hóa đơn</p>
+            <SummaryItem
+              label={`Số tiền đặt cọc (${Number(data.down_payment.percent * 100)}%)`}
+              value={formatMoneyVND(data.down_payment.total)}
+            />
             {data?.deposit_date ? (
-              <li className="flex items-start justify-between mb-12">
-                <p className="text-xs leading-[20px]">Ngày đặt cọc</p>
-                <p className="text-sm md:text-base ml-16 flex-1 text-right">
-                  {moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
-                </p>
-              </li>
+              <SummaryItem
+                label="Ngày đặt cọc"
+                value={moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
+              />
             ) : null}
-
-            <div className="my-12 border-b border-solid border-border-color"></div>
-            <SummaryItem label="Số tiền còn lại" value={formatMoneyVND(data.amount_due)} />
-
+            <SummaryItem label="Số tiền vừa thanh toán" value={formatMoneyVND(data.amount_due)} />
             {data?.paid_date ? (
               <SummaryItem
                 label="Ngày thanh toán"
@@ -87,27 +72,22 @@ const RideCustomerBill = ({
                 value={PAYMENT_METHOD_NAME[data.payment_method]}
               />
             ) : null}
-
-            <div className="my-12 border-b border-solid border-border-color"></div>
-
-            <li className="flex items-start">
-              <p className="text-14 leading-[26px] uppercase font-semibold">Tổng giá vé</p>
-              <p className="text-sm md:text-base font-semibold text-error flex-1 text-right ml-16">
-                {formatMoneyVND(data.amount_due + data.down_payment.total)}
-              </p>
-            </li>
+            <SummaryItem
+              labelClassName="text-14 md:text-16 font-semibold"
+              label="Tổng tiền"
+              value={formatMoneyVND(data.amount_due + data.down_payment.total)}
+              valueClassName="text-14 md:text-16 font-semibold text-error"
+            />
           </ul>
         )}
       </div>
 
-      <div className="mb-[40px]">
+      <div className="mb-24">
         <DriverInfoSummary titleClassName="text-blue-7" driver={data.car_driver_id} />
       </div>
 
       <div className="">
-        <p className="text-base font-semibold text-blue-7 uppercase mb-16 md:mb-24">
-          Thông tin chuyến đi
-        </p>
+        <p className="text-base font-semibold text-blue-7 uppercase mb-16">Thông tin chuyến đi</p>
         <ul>
           <RideSummaryInfo data={data} />
         </ul>

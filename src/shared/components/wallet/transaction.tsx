@@ -1,4 +1,4 @@
-import { formatMoneyVND } from "@/helper"
+import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { RechargeRequestFormParams, WithdrawFormParams } from "@/models"
 import { useState } from "react"
 import { ReChargeMoneyForm, WithdrawForm } from "../form"
@@ -13,6 +13,7 @@ interface TransactionProps {
 }
 
 type Type = "deposit" | "withdraw"
+type ModalType = "confirmAmountBalance" | "alertAmountBalance"
 
 export const Transaction = ({
   accountBalance,
@@ -22,7 +23,13 @@ export const Transaction = ({
   const [type, setType] = useState<Type>("deposit")
   const [rechargeData, setRechargeData] = useState<RechargeRequestFormParams | undefined>()
   const [withdrawData, setWithdrawData] = useState<WithdrawFormParams | undefined>()
-  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false)
+  const [modalType, setModalType] = useState<ModalType | undefined>()
+
+  const toggleModal = (status: ModalType | undefined) => {
+    setModalType(status)
+    // if (status) toggleBodyOverflow("hidden")
+    // else toggleBodyOverflow("unset")
+  }
 
   // const handleVerifyOTP = (otpInput: string) => {
   //   OTPVerifier({
@@ -85,15 +92,19 @@ export const Transaction = ({
             <ReChargeMoneyForm
               onSubmit={(data) => {
                 setRechargeData(data)
-                setShowConfirmModal(true)
+                toggleModal("confirmAmountBalance")
                 // handleGenerateOTP()
               }}
             />
           ) : (
             <WithdrawForm
               onSubmit={(data) => {
-                setWithdrawData(data)
-                setShowConfirmModal(true)
+                if (data.amount > accountBalance) {
+                  toggleModal("alertAmountBalance")
+                } else {
+                  setWithdrawData(data)
+                  toggleModal("confirmAmountBalance")
+                }
                 // handleGenerateOTP()
               }}
             />
@@ -101,20 +112,36 @@ export const Transaction = ({
         </div>
       </div>
 
-      {showConfirmModal && (rechargeData || withdrawData) ? (
+      {modalType === "alertAmountBalance" ? (
         <Alert
+          onConfirm={() => {
+            toggleModal(undefined)
+          }}
+          onClose={() => {
+            toggleModal(undefined)
+          }}
+          showRightBtn={false}
+          show={true}
+          type="warning"
+          title={`Số tiền được rút không được lớn hơn số dư trong tài khoản`}
+        />
+      ) : null}
+
+      {modalType === "confirmAmountBalance" && (rechargeData || withdrawData) ? (
+        <Alert
+          type="info"
           title={`Xác nhận ${type === "withdraw" ? "rút" : "nạp"} số tiền ${formatMoneyVND(
             rechargeData?.amount || withdrawData?.amount || 0
           )}`}
           show={true}
-          onClose={() => setShowConfirmModal(false)}
+          onClose={() => toggleModal(undefined)}
           onConfirm={() => {
             if (rechargeData) {
               onRechargeFormSubmit?.(rechargeData)
             } else if (withdrawData) {
               onWithdrawFormSubmit?.(withdrawData)
             }
-            setShowConfirmModal(false)
+            toggleModal(undefined)
           }}
         />
       ) : null}

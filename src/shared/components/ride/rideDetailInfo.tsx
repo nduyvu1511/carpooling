@@ -1,7 +1,7 @@
 import { formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer } from "@/models"
 import moment from "moment"
-import { DriverInfoSummary } from "../summary"
+import { DriverInfoSummary, SummaryItem } from "../summary"
 
 interface RideDetailInfoProps {
   data: CompoundingCarCustomer
@@ -10,43 +10,28 @@ interface RideDetailInfoProps {
 export const RideDetailInfo = ({ data }: RideDetailInfoProps) => {
   return (
     <>
-      <div className="mb-24">
-        <DriverInfoSummary driver={data.car_driver_id} />
-      </div>
-
+      <DriverInfoSummary driver={data.car_driver_id} />
+      <div className="my-24 border-b border-solid border-border-color"></div>
       <ul>
-        <p className="text-base font-semibold uppercase mb-16 md:mb-24">Thông tin thanh toán</p>
-        <li className="flex items-center justify-between mb-12">
-          <p className="text-xs">Giá vé</p>
-          <p className="text-sm md:text-base ml-16 whitespace-nowrap flex-1 text-right">
-            {formatMoneyVND(data?.amount_total)}
-          </p>
-        </li>
-        <li className="flex items-center justify-between">
-          <p className="text-base font-semibold">
-            Số tiền đặt cọc ({Number(data.customer_deposit_percentage)}%)
-          </p>
-          <p className="text-14 md:text-16 ml-16 font-semibold whitespace-nowrap flex-1 text-right text-error">
-            {formatMoneyVND(data.down_payment.total || (data as any).down_payment)}
-          </p>
-        </li>
+        <p className="text-base font-semibold uppercase mb-16 md:mb-24">Hóa đơn</p>
+        <SummaryItem label="Chi phí tạm tính" value={formatMoneyVND(data?.amount_total)} />
         {data?.paid_date ? (
-          <li className="flex items-center justify-between my-12">
-            <p className="text-xs">Ngày đặt cọc</p>
-            <p className="text-sm md:text-base ml-16 whitespace-nowrap flex-1 text-right">
-              {moment(data.paid_date).format("DD/MM/YYYY")}
-            </p>
-          </li>
+          <SummaryItem label="Ngày đặt cọc" value={moment(data.paid_date).format("DD/MM/YYYY")} />
         ) : null}
+        <SummaryItem label="Tổng tiền cần thanh toán" value={formatMoneyVND(data.amount_total)} />
+        <SummaryItem
+          label={`Số tiền đặt cọc (${Number(data.customer_deposit_percentage)}%)`}
+          value={formatMoneyVND(data.down_payment.total || (data as any).down_payment)}
+        />
+        <SummaryItem
+          className="mb-0"
+          labelClassName="text-14 md:text-16 font-semibold"
+          label="Số tiền thanh toán sau"
+          value={formatMoneyVND(data.amount_due)}
+          valueClassName="text-14 md:text-16 font-semibold"
+        />
 
-        <li className="flex items-center justify-between my-12">
-          <p className="text-xs">Số tiền thanh toán sau</p>
-          <p className="text-sm md:text-base ml-16 whitespace-nowrap flex-1 text-right">
-            {formatMoneyVND(data.amount_due + data.down_payment.total)}
-          </p>
-        </li>
-
-        <p className="text-xs">(*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.</p>
+        {/* <p className="text-xs">(*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.</p> */}
       </ul>
     </>
   )

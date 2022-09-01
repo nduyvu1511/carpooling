@@ -1,4 +1,4 @@
-import { ErrorCircleIcon } from "@/assets"
+import { ErrorCircleIcon, WarningIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
 import {
@@ -99,25 +99,37 @@ const CheckoutProcess = ({
   }, [])
 
   return (
-    <div className="container flex-1 bg-white-color md:mt-24">
+    <div className="container flex-1 block-element p-custom py-24">
       {isValidating ? (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col bg-info-10 rounded-[8px] p-custom">
           <div className=" flex-center flex-col">
-            <Spinner size={40} className="py-[20px]" />
+            <WarningIcon
+              color="#007BFF"
+              className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] mb-12 sm:mb-24"
+            />
+            <p className="text-18 md:text-[22px] text-center text-info font-semibold">
+              Đang xử lý giao dịch
+            </p>
+            <div className="my-16 border-b border-info border-solid w-full"></div>
 
-            <p className="text-sm md:text-base">Đang xử lý giao dịch...</p>
+            <p className="text-sm md:text-base text-center">
+              Giao dịch đang trong quá trình thanh toán, vui lòng chờ thông tin hoặc liên hệ Tổng
+              đài ExxeVn nếu cần thêm hỗ trợ
+            </p>
           </div>
         </div>
       ) : vnp_ResponseCode !== "00" ? (
         <div className="">
-          <div className="p-[32px] flex-center flex-col bg-[#FDF3F3] mb-24 rounded-[8px]">
+          <div className="p-16 sm:p-[32px] flex-center flex-col bg-[#FDF3F3] mb-24 rounded-[8px]">
             <ErrorCircleIcon className="w-[66px] h-[66px] mb-24" />
 
-            <p className="text-[22px] text-error font-semibold">Giao dịch không thành công</p>
+            <p className="text-18 md:text-[22px] text-center text-error font-semibold">
+              Giao dịch không thành công
+            </p>
 
             <div className="my-16 border-b border-[#F2A0A0] border-solid w-full"></div>
 
-            <p className="text-sm ml-12 leading-[22px] flex-1">
+            <p className="text-sm ml-12 leading-[22px] flex-1 text-center">
               {VNPAY_STATUS_NAME[vnp_ResponseCode]}
             </p>
           </div>
@@ -129,7 +141,7 @@ const CheckoutProcess = ({
 
             {countdown ? (
               <p className="text-sm">
-                <span className="font-normal">Tự động chuyển hướng sau </span>
+                <span className="text-sm text-gray-color-7">Tự động chuyển hướng sau </span>
                 <Countdown
                   className="w-[50px] inline-block font-semibold text-primary"
                   onExpiredCoundown={() => window.close()}
@@ -138,6 +150,12 @@ const CheckoutProcess = ({
               </p>
             ) : null}
           </div>
+        </div>
+      ) : null}
+
+      {isValidating ? (
+        <div className="fixed z-[2000] bg-[rgba(0,0,0,0.2)] inset-0 flex-center">
+          <Spinner className="z-10" size={40} />
         </div>
       ) : null}
     </div>

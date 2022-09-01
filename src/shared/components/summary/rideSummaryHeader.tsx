@@ -15,7 +15,7 @@ const RidesSummaryHeader = ({ desc, title }: RidesSummaryHeaderProps) => {
   return (
     <div className="flex items-center flex-col sm:flex-row lg:flex-col xl:flex-row">
       <div className="sm:mr-[40px] mb-24 sm:mb-0 lg:mb-24 lg:mr-0 xl:mr-[40px]">
-        <CheckCircleIcon className="w-[80px] h-[80px]" />
+        <CheckCircleIcon className="w-[80px] h-[80px] text-success" />
       </div>
       <div className="flex-1 text-center sm:text-left lg:text-center xl:text-left">
         <h3 className="text-[22px] leading-[30px] sm:text-[28px] sm:leading-[36px] font-medium text-primary">
@@ -33,7 +33,7 @@ const RidesSummaryHeader = ({ desc, title }: RidesSummaryHeaderProps) => {
                     : `/c/account/activities`
                 }
               >
-                <a className="text-primary font-semibold">hoạt động</a>
+                <a className="text-primary font-semibold">Hoạt động</a>
               </Link>
             </span>
           )}

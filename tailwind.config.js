@@ -54,6 +54,7 @@ module.exports = {
       "gray-20": "rgba(55, 55, 55, 0.2)",
       "gold-2": "#FFDAB8",
       info: "#007BFF",
+      "info-10": "#007bff1a",
       bg: "#f0f0f0",
       error: "#FF3B30",
       "bg-error": "rgba(255, 59, 48, 0.2)",

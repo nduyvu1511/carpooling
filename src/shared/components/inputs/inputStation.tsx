@@ -1,3 +1,4 @@
+import { toggleBodyOverflow } from "@/helper"
 import { StationId } from "@/models"
 import { useState } from "react"
 import { Control, Controller } from "react-hook-form"
@@ -35,10 +36,11 @@ export const InputStation = ({
   const [showStation, setShowStation] = useState<boolean>(false)
 
   const handleSetShowStation = (status: boolean) => {
+    setShowStation(status)
     if (status) {
-      setShowStation(true)
+      toggleBodyOverflow("hidden")
     } else {
-      setShowStation(false)
+      toggleBodyOverflow("unset")
     }
   }
 

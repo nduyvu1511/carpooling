@@ -45,8 +45,9 @@ export const OneWayCompoundingForm = ({
     getValues,
     clearErrors,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
+    setError,
   } = useForm<CreateOneWayCompoundingCarForm>({
     resolver: yupResolver(oneWayCompoundingCarSchema),
     mode: "all",
@@ -116,17 +117,6 @@ export const OneWayCompoundingForm = ({
     }
 
     onSubmit?.(params)
-  }
-
-  const handleTogglePolicy = (): boolean | undefined => {
-    const isChecked = getValues("is_checked_policy")
-    if (!isChecked) {
-      clearErrors("is_checked_policy")
-      setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, true)
-      return true
-    }
-    setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, undefined)
-    return
   }
 
   return (
@@ -249,11 +239,20 @@ export const OneWayCompoundingForm = ({
           <Controller
             control={control}
             name={"is_checked_policy"}
-            render={({ field: { onChange, onBlur } }) => (
+            render={() => (
               <InputPolicy
-                onChange={() => onChange(handleTogglePolicy())}
-                isError={!!errors?.is_checked_policy}
-                onBlur={onBlur}
+                isError={!!errors?.is_checked_policy?.message}
+                onChange={(status) => {
+                  if (status) {
+                    clearErrors("is_checked_policy")
+                    setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, true)
+                    setValue("is_checked_policy", true)
+                  } else {
+                    setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, undefined)
+                    setError("is_checked_policy", {})
+                    setValue("is_checked_policy", undefined as any)
+                  }
+                }}
                 value={getValues("is_checked_policy")}
               />
             )}

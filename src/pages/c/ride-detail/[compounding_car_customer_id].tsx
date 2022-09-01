@@ -8,10 +8,10 @@ import {
   RideCancelForm,
   RideDetailInfo,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
-  RideSummaryModal
+  RideSummaryModal,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
@@ -146,7 +146,7 @@ const RidesDetail = () => {
       >
         <>
           {isInitialLoading ? (
-            <RidesDetailLoading />
+            <RideDetailLoading />
           ) : !compoundingCar?.compounding_car_id ? (
             <div className="py-[40px] text-center">
               <p className="text-base">Không tìm thấy chuyến đi này</p>
@@ -163,7 +163,7 @@ const RidesDetail = () => {
 
               <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
 
-              <div className="mb-[40px]">
+              <div className="mb-24">
                 <RideDetailInfo data={compoundingCar} />
               </div>
 
@@ -173,17 +173,14 @@ const RidesDetail = () => {
               compoundingCar?.state === "waiting_customer" ||
               compoundingCar?.state === "assign" ? (
                 <div className="flex items-center md:mb-24">
-                  <button
-                    onClick={() => toggleCancelModal(true)}
-                    className="btn-primary-outline mr-12"
-                  >
+                  <button onClick={() => toggleCancelModal(true)} className="btn-primary-outline">
                     Hủy chuyến
                   </button>
                 </div>
               ) : null}
 
               {compoundingCar?.rating?.compounding_car_customer_id ? (
-                <div className="">
+                <div className="pt-24 border-t border-border-color border-solid">
                   <p className="text-base uppercase font-semibold mb-8">Đánh giá của bạn</p>
                   <RatingItem
                     onDelete={(id) => {
@@ -194,7 +191,9 @@ const RidesDetail = () => {
                     rating={compoundingCar.rating}
                   />
                 </div>
-              ) : null}
+              ) : (
+                <div className="ml-12"></div>
+              )}
 
               {compoundingCar.state === "confirm_paid" ? (
                 compoundingCar.rating_state === "no_rating" &&
@@ -216,7 +215,7 @@ const RidesDetail = () => {
             onClose={() => toggleRatingModal(false)}
             heading="Thêm đánh giá"
           >
-            <div className="w-full p-24">
+            <div className="w-full p-custom">
               <RatingForm onSubmit={(data) => handleAddRating(data)} />
             </div>
           </Modal>
@@ -227,7 +226,7 @@ const RidesDetail = () => {
             onClose={() => setCurrentRatingUpdate(undefined)}
             heading="Chỉnh sửa đánh giá"
           >
-            <div className="w-full p-24">
+            <div className="w-full p-custom">
               <RatingForm
                 defaultValue={currentRatingUpdate}
                 onSubmit={(data) => handleUpdateRating(data)}

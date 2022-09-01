@@ -50,12 +50,6 @@ const CheckoutDriver = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compounding_car_id])
 
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
-
   const redirectToCheckoutSuccess = () => {
     router.push(`/d/ride-detail/checkout/checkout-success?compounding_car_id=${compounding_car_id}`)
   }
@@ -107,7 +101,7 @@ const CheckoutDriver = () => {
       params: { compounding_car_id: compoundingCar?.compounding_car_id, promotion_id },
       onSuccess: (data) => {
         mutate(data, false)
-        
+
         console.log({ data })
       },
     })

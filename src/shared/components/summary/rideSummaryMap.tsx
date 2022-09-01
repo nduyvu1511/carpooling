@@ -1,5 +1,10 @@
 import { ArrowLineRightIcon } from "@/assets"
-import { COMPOUNDING_TYPE_NAME, getHoursName } from "@/helper"
+import {
+  COMPOUNDING_TYPE_BG,
+  COMPOUNDING_TYPE_COLOR,
+  COMPOUNDING_TYPE_NAME,
+  getHoursName,
+} from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
 import { memo } from "react"
@@ -62,7 +67,20 @@ export const RideSummaryMap = memo(function Child({
       ) : null}
 
       <ul>
-        <SummaryItem label="Loại chuyến" value={COMPOUNDING_TYPE_NAME[data.compounding_type]} />
+        <div className={`flex items-start justify-between mb-12 ${className}`}>
+          <span className={`mr-16 ${"leading-[20px] text-12 font-medium text-gray-color-7"}`}>
+            Loại chuyến
+          </span>
+          <span
+            style={{
+              color: COMPOUNDING_TYPE_COLOR[data.compounding_type],
+              backgroundColor: COMPOUNDING_TYPE_BG[data.compounding_type],
+            }}
+            className="text-xs px-[10px] py-4 rounded-[8px]"
+          >
+            {COMPOUNDING_TYPE_NAME[data.compounding_type]}
+          </span>
+        </div>
         <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
         <SummaryItem className="mb-0" label="Lộ trình ước tính" value={`${data.distance} Km`} />
       </ul>

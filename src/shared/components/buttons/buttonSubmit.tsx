@@ -30,7 +30,7 @@ export const ButtonSubmit = ({
       <button
         onClick={() => onClick && onClick()}
         type="submit"
-        className={`btn-primary mx-auto md:mx-[unset] h-[40px] md:h-fit ${
+        className={`btn-primary mx-auto md:mx-[unset] h-[48px] ${
           showMargin ? "" : ""
         } hover:border-none border-none hover:text-white-color ${
           isError ? "btn-disabled-clickable" : ""

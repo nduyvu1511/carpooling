@@ -5,7 +5,7 @@ import {
   RideCancelForm,
   RideCheckoutPopup,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
@@ -18,7 +18,7 @@ import { useCompoundingCarDriver, useCompoundingForm, useDriverCheckout } from "
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
@@ -46,12 +46,6 @@ const RideConfirmCustomer = () => {
   >()
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
   const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
-
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
     if (userInfo?.verified_car_driver_account === "blocked_account") {
@@ -90,7 +84,7 @@ const RideConfirmCustomer = () => {
       >
         <>
           {isInitialLoading ? (
-            <RidesDetailLoading />
+            <RideDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
               <RideToolTip

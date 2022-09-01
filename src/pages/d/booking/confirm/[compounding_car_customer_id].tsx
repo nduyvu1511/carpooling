@@ -1,17 +1,15 @@
 import {
   CarpoolingCompoundingForm,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { CreateCarpoolingCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
 const CompoundingCarDriver = () => {
   const router = useRouter()
@@ -54,12 +52,6 @@ const CompoundingCarDriver = () => {
     })
   }
 
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
-
   return (
     <>
       <DriverBookingLayout
@@ -72,7 +64,7 @@ const CompoundingCarDriver = () => {
       >
         <div className="p-custom md:pt-0 pt-0 h-fit">
           {isInitialLoading ? (
-            <RidesDetailLoading />
+            <RideDetailLoading />
           ) : !compoundingCar ? (
             <div className="py-[40px] text-center">
               <p className="text-base">Không tìm thấy chuyến đi này</p>

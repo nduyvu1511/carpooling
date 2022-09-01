@@ -253,13 +253,13 @@ const Wallet = () => {
           show={true}
           onConfirm={() => dispatch(setCheckoutPaymentId(undefined))}
           onClose={() => {
+            handleToggleModal({ status: false, type: "transaction" })
             dispatch(setCheckoutPaymentId(undefined))
             mutate(undefined, false)
             if (router.query?.next) {
               router.push(router.query.next + "")
             } else {
               mutateJournal()
-              handleToggleModal({ status: false, type: "transaction" })
             }
           }}
           title="Giao dịch thành công"

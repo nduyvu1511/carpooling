@@ -1,7 +1,5 @@
-import { RootState } from "@/core/store"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { ReactNode, useState } from "react"
-import { useSelector } from "react-redux"
 import { AccordionItem } from "../accordion"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"
@@ -25,7 +23,6 @@ export const RideSummary = ({
   showDeposit = true,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
-  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
   const handleToggleTabsActive = (id: number) => {
     if (tabsActive.includes(id)) {
@@ -129,7 +126,7 @@ export const RideSummary = ({
               onClick={() => handleToggleTabsActive(3)}
               title="Điều khoản sử dụng"
               isActive={tabsActive.includes(3)}
-              className="px-24 py-16 md:px-24 md:py-16 rounded-[5px]"
+              className="px-24 py-16 md:px-24 md:py-16 rounded-[5px] border-t-0"
               titleClassName="text-base font-semibold text-blue-7 uppercase"
             >
               <RideSummaryRules />

@@ -335,13 +335,6 @@ export const subtractDateTimeToNumberOfHour = (dateTime: string, hour: number): 
 
 export const toImageUrl = (url: string) => `${process.env.NEXT_PUBLIC_API_URL}${url}`
 
-export const getCompoundingCarName = (type: CompoundingType): string => {
-  if (type == "one_way") return "Một chiều"
-  if (type == "compounding") return "Ghép chuyến"
-  if (type == "two_way") return "Hai chiều"
-  return ""
-}
-
 export const getActiveStringOrListString = (
   a: string[] | string,
   b: string[] | string

@@ -2,9 +2,12 @@ import {
   CarpoolingCompoundingForm,
   OneWayCompoundingForm,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
+  RideSummaryMobile,
+  RideSummaryModal,
   RideToolTip,
+  Seo,
   TwoWayCompoundingForm,
 } from "@/components"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
@@ -40,6 +43,7 @@ const ConfirmBookingCustomer = () => {
       router.push(
         `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
       )
+      return
     }
 
     updateCompoundingCar({
@@ -64,18 +68,19 @@ const ConfirmBookingCustomer = () => {
     <CustomerBookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
-      rightNode={
-        compoundingCar ? (
-          <div className="hidden lg:block">
-            <RideSummary data={compoundingCar} />
-          </div>
-        ) : null
-      }
+      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Xác nhận chuyến đi"
     >
+      <Seo
+        description="Xác nhận chuyến đi"
+        thumbnailUrl=""
+        title="Xác nhận chuyến đi"
+        url="c/booking/confirm"
+      />
+
       <div className=" bg-white-color rounded-[5px] h-fit">
         {isInitialLoading ? (
-          <RidesDetailLoading />
+          <RideDetailLoading />
         ) : (
           <>
             {compoundingCar?.compounding_type ? (
@@ -85,6 +90,8 @@ const ConfirmBookingCustomer = () => {
                   percentage={compoundingCar?.customer_deposit_percentage}
                   desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
                 />
+                <RideSummaryMobile className="mb-24 lg:hidden" rides={compoundingCar} />
+
                 {compoundingCar.compounding_type === "one_way" ? (
                   <OneWayCompoundingForm
                     view="page"
@@ -103,7 +110,17 @@ const ConfirmBookingCustomer = () => {
                   <CarpoolingCompoundingForm
                     view="page"
                     mode={"confirm"}
-                    defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
+                    defaultValues={{
+                      ...compoundingCarCustomerResToCarpoolingForm(compoundingCar),
+                      from_location: compoundingCar?.is_picking_up_from_start
+                        ? {
+                            address: compoundingCar.from_address,
+                            lat: Number(compoundingCar.from_latitude),
+                            lng: Number(compoundingCar.from_longitude),
+                            province_id: Number(compoundingCar.from_province.province_id),
+                          }
+                        : undefined,
+                    }}
                     onSubmit={handleConfirmCompoundingCar}
                   />
                 )}
@@ -112,6 +129,8 @@ const ConfirmBookingCustomer = () => {
           </>
         )}
       </div>
+
+      {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
     </CustomerBookingLayout>
   )
 }

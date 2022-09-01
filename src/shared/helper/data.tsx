@@ -1,4 +1,3 @@
-import { PaymentIcon, WalletIcon } from "@/assets"
 import {
   CertificateInspectionFormKey,
   CompoundingCarCustomerFilterKey,
@@ -18,7 +17,6 @@ import {
   IdCardName,
   NewPasswordFormKeys,
   OptionModel,
-  PaymentRes,
   UserInfoFormKey,
   UserInforFormAddressKey,
   VehicleDetailFormKey,

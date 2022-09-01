@@ -1,7 +1,7 @@
 import {
   RideDriverBill,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RidesSummaryHeader,
   RideSummaryPassengerItem,
 } from "@/components"
@@ -36,7 +36,7 @@ const CheckoutSuccess = () => {
     >
       <>
         {isValidating ? (
-          <RidesDetailLoading className="mb-[40px]" />
+          <RideDetailLoading className="mb-[40px]" />
         ) : (
           <>
             <div className="mb-[40px]">

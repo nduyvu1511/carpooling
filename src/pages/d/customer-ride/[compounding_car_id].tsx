@@ -4,7 +4,7 @@ import {
   OneWayCompoundingForm,
   RideCheckoutPopup,
   RideProgress,
-  RidesDetailLoading,
+  RideDetailLoading,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
@@ -125,7 +125,7 @@ const ConfirmBookingCustomer = () => {
 
         <>
           {isInitialLoading ? (
-            <RidesDetailLoading />
+            <RideDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
               <div className="">

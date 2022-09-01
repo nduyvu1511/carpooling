@@ -1,7 +1,8 @@
 import { TrustIcon, WarningIcon } from "@/assets"
-import { withdrawSchema } from "@/helper"
+import { toggleBodyOverflow, withdrawSchema } from "@/helper"
 import { WithdrawFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import NumberFormat from "react-number-format"
 
@@ -20,10 +21,6 @@ export const WithdrawForm = ({ onSubmit, view = "modal" }: WithdrawFormProps) =>
     resolver: yupResolver(withdrawSchema),
     mode: "all",
   })
-
-  // useEffect(() => {
-  //   ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
-  // }, [])
 
   const onSubmitHandler = (params: WithdrawFormParams) => {
     onSubmit?.(params)

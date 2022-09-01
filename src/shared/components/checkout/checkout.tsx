@@ -1,14 +1,11 @@
 import {
   Alert,
-  Countdown,
+  DepositSummary,
   PromotionForm,
   PromotionModal,
-  RideToolTip,
-  Spinner,
-  SummaryItem,
-  WalletBalanceAlert,
   RideCancelForm,
-  DepositSummary,
+  RideToolTip,
+  WalletBalanceAlert,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
@@ -17,7 +14,7 @@ import { CancelRideParams, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { PaymentItem } from "./paymentItem"
+import { PaymentSlide } from "./paymentSlide"
 
 interface CheckoutProps {
   secondsRemains: number
@@ -61,7 +58,6 @@ const Checkout = ({
     paymentList,
     setCurrentSelectPayment,
   } = usePayment()
-
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const [modalType, setModalType] = useState<ModalType>()
@@ -113,29 +109,20 @@ const Checkout = ({
               />
             </div>
 
-            <div className="mb-24">
+            <div className="mb-40">
               <p className="mb-16 md:mb-24 text-base uppercase font-semibold">
                 Phương thức thanh toán
               </p>
 
-              {isPaymentLoading ? (
-                <Spinner className="my-[40px]" size={30} />
-              ) : (
-                <div className="flex mr-[-16px] md:mr-0 flex-nowrap overflow-x-auto scrollbar-hide w-full">
-                  {paymentList.map((item) => (
-                    <PaymentItem
-                      key={item.acquirer_id}
-                      className="mr-12 md:mb-16 md:mr-16 last:mr-24 w-[180px] shrink-0"
-                      payment={item}
-                      onChange={(val) => setCurrentSelectPayment(val)}
-                      isActive={currentSelectPayment?.acquirer_id === item.acquirer_id}
-                    />
-                  ))}
-                </div>
-              )}
+              <PaymentSlide
+                isLoading={isPaymentLoading}
+                data={paymentList}
+                currentPaymentSelected={currentSelectPayment?.acquirer_id}
+                onChange={(val) => setCurrentSelectPayment(val)}
+              />
             </div>
 
-            <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap">
+            <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap z-[100]">
               {onCancelCheckout ? (
                 <button
                   onClick={() => toggleModal("cancel")}
