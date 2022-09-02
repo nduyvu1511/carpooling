@@ -15,41 +15,45 @@ interface RideSummaryMapProps {
   data: CompoundingCarCustomer | CompoundingCarRes
   showMap?: boolean
   className?: string
+  showInfo?: boolean
 }
 
 export const RideSummaryMap = memo(function Child({
   data,
   showMap = true,
   className = "",
+  showInfo = true,
 }: RideSummaryMapProps) {
   return (
     <div className={`bg-gray-05 rounded-[5px] p-custom ${className}`}>
-      <div className="flex items-center mb-16">
-        <div className="flex-1">
-          <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
-            {data?.from_province.province_brief_name}
-          </p>
-          <p className="text-12 md:text-14 font-medium leading-26">
-            {moment(data?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
-          </p>
+      {showInfo ? (
+        <div className="flex items-center mb-16">
+          <div className="flex-1">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
+              {data?.from_province.province_brief_name}
+            </p>
+            <p className="text-12 md:text-14 font-medium leading-26">
+              {moment(data?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
+            </p>
+          </div>
+          <div className="mx-8 flex-center flex-col">
+            <ArrowLineRightIcon className="w-[14px] mb-12" />
+          </div>
+          <div className="flex-1 flex items-end flex-col">
+            <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
+              {data?.to_province.province_brief_name}
+            </p>
+            <p className="text-12 md:text-14 font-medium leading-26">
+              {moment(data?.expected_going_on_date)
+                .add(data.duration, "hours")
+                .format("HH:mm DD/MM/YYYY")}
+            </p>
+          </div>
         </div>
-        <div className="mx-8 flex-center flex-col">
-          <ArrowLineRightIcon className="w-[14px] mb-12" />
-        </div>
-        <div className="flex-1 flex items-end flex-col">
-          <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
-            {data?.to_province.province_brief_name}
-          </p>
-          <p className="text-12 md:text-14 font-medium leading-26">
-            {moment(data?.expected_going_on_date)
-              .add(data.duration, "hours")
-              .format("HH:mm DD/MM/YYYY")}
-          </p>
-        </div>
-      </div>
+      ) : null}
 
       {showMap ? (
-        <div className="h-[200px] mb-16">
+        <div className="h-[200px]">
           {/* <Map
             viewOnly
             directions={{
@@ -66,24 +70,26 @@ export const RideSummaryMap = memo(function Child({
         </div>
       ) : null}
 
-      <ul>
-        <div className={`flex items-start justify-between mb-12 ${className}`}>
-          <span className={`mr-16 ${"leading-[20px] text-12 font-medium text-gray-color-7"}`}>
-            Loại chuyến
-          </span>
-          <span
-            style={{
-              color: COMPOUNDING_TYPE_COLOR[data.compounding_type],
-              backgroundColor: COMPOUNDING_TYPE_BG[data.compounding_type],
-            }}
-            className="text-xs px-[10px] py-4 rounded-[8px]"
-          >
-            {COMPOUNDING_TYPE_NAME[data.compounding_type]}
-          </span>
-        </div>
-        <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
-        <SummaryItem className="mb-0" label="Lộ trình ước tính" value={`${data.distance} Km`} />
-      </ul>
+      {showInfo ? (
+        <ul className="mt-16">
+          <div className={`flex items-start justify-between mb-12 ${className}`}>
+            <span className={`mr-16 ${"leading-[20px] text-12 font-medium text-gray-color-7"}`}>
+              Loại chuyến
+            </span>
+            <span
+              style={{
+                color: COMPOUNDING_TYPE_COLOR[data.compounding_type],
+                backgroundColor: COMPOUNDING_TYPE_BG[data.compounding_type],
+              }}
+              className="text-12 px-[10px] py-4 rounded-[8px]"
+            >
+              {COMPOUNDING_TYPE_NAME[data.compounding_type]}
+            </span>
+          </div>
+          <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
+          <SummaryItem className="mb-0" label="Lộ trình ước tính" value={`${data.distance} Km`} />
+        </ul>
+      ) : null}
     </div>
   )
 },

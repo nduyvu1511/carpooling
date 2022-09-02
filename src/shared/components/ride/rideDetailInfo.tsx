@@ -1,6 +1,7 @@
 import { formatMoneyVND } from "@/helper"
 import { CompoundingCarCustomer } from "@/models"
 import moment from "moment"
+import { Snackbar } from "../common"
 import { DriverInfoSummary, SummaryItem } from "../summary"
 
 interface RideDetailInfoProps {
@@ -8,6 +9,7 @@ interface RideDetailInfoProps {
 }
 
 export const RideDetailInfo = ({ data }: RideDetailInfoProps) => {
+  const cancelDate = moment(data.expected_going_on_date).subtract(3, "hours")
   return (
     <>
       <DriverInfoSummary driver={data.car_driver_id} />
@@ -31,7 +33,12 @@ export const RideDetailInfo = ({ data }: RideDetailInfoProps) => {
           valueClassName="text-14 md:text-16 font-semibold"
         />
 
-        {/* <p className="text-xs">(*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.</p> */}
+        <Snackbar
+          className="mt-24"
+          title={`Hủy miễn phí trước ${cancelDate.format("HH:mm")} ngày ${cancelDate.format(
+            "DD/MM/YYYY"
+          )}. Bạn sẽ không được hoàn tiền nếu hủy trong khoảng thời gian 3 giờ trước giờ khởi hành.`}
+        />
       </ul>
     </>
   )

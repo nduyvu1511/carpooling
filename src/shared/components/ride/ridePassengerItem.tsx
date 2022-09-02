@@ -1,49 +1,47 @@
+import { blankAvatar, LocationThinIcon, MessageIcon, PhoneIcon2 } from "@/assets"
 import {
-  blankAvatar,
-  CalendarIcon,
-  LocationIcon3,
-  LocationIcon4,
-  NoteIcon,
-  PhoneIcon,
-} from "@/assets"
-import { toImageUrl } from "@/helper"
+  formatMoneyVND,
+  RIDE_STATE_BG,
+  RIDE_STATE_NAME,
+  RIDE_STATE_TEXT_COLOR,
+  toImageUrl,
+} from "@/helper"
 import { CompoundingCarCustomer } from "@/models"
 import moment from "moment"
 import Image from "next/image"
 import { Countdown } from "../countdown"
+import { SummaryItem } from "../summary"
 
 interface RidePassengerItemProps {
-  rides: CompoundingCarCustomer
+  data: CompoundingCarCustomer
   onClickViewMap?: Function
   onClickPickUp?: Function
   onClickWaiting?: Function
   onClickConfirm?: Function
   onClickPaid?: Function
   onCancelWaiting?: Function
-  readonly?: boolean
 }
 
 const RidePassengerItem = ({
-  rides,
+  data,
   onClickWaiting,
   onClickPickUp,
   onClickViewMap,
   onClickConfirm,
   onClickPaid,
   onCancelWaiting,
-  readonly = false,
 }: RidePassengerItemProps) => {
-  const { partner, from_address, to_address, expected_going_on_date } = rides
+  const { partner, from_address, to_address, expected_going_on_date } = data
 
   return (
     <div
       className={`relative ${
-        rides?.state === "cancel" ? "opacity-50 select-none pointer-events-none" : ""
+        data?.state === "cancel" ? "opacity-50 select-none pointer-events-none" : ""
       }`}
     >
       <div className="">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center mb-16 flex-1">
+        <div className="flex items-center mb-16 justify-between">
+          <div className="flex items-center flex-1 sm:flex-none sm:mr-16">
             <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden">
               <Image
                 src={
@@ -56,184 +54,123 @@ const RidePassengerItem = ({
                 alt={partner.partner_name}
               />
             </div>
-            <div className="text-sm md:text-base flex items-stretch flex-1 ml-16 w-full text-primary">
-              <span className="flex-1 my-auto">{partner.partner_name}</span>
-              <span
-                className={`h-fit ml-12 whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] ${
-                  rides.state === "cancel"
-                    ? "bg-bg-error text-error"
-                    : rides.state === "in_process"
-                    ? "bg-primary-opacity text-primary"
-                    : rides.state === "done"
-                    ? "bg-warning-opacity text-warning"
-                    : rides.state === "confirm_paid"
-                    ? "bg-bg-success text-success"
-                    : "bg-bg text-gray-color-3"
-                } right-0`}
-              >
-                {rides.state === "cancel"
-                  ? "Đã hủy"
-                  : rides.state === "in_process"
-                  ? "Đã đón khách"
-                  : rides.state === "done"
-                  ? "Đã trả khách"
-                  : rides.state === "confirm_paid"
-                  ? "Đã thanh toán"
-                  : "Chưa đón khách"}
+            <div className="text-sm md:text-base mr-12 flex items-stretch flex-1 ml-8 w-full text-primary">
+              <span className="flex-1 my-auto font-semibold text-14 md:text-16">
+                {partner.partner_name}
               </span>
             </div>
+
+            <span
+              style={{
+                color: (RIDE_STATE_TEXT_COLOR as any)?.[data.state],
+                backgroundColor: (RIDE_STATE_BG as any)?.[data.state],
+              }}
+              className="h-fit ml-auto sm:ml-unset whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] right-0"
+            >
+              {(RIDE_STATE_NAME as any)?.[data.state]}
+            </span>
           </div>
 
-          {/* {rides.state === "cancel" ||
-          rides.state === "confirm_paid" ||
-          rides.state === "done" ||
-          rides.state === "deposit" ? (
-            <span
-              className={`text-xs text-white-color px-[8px] py-[4px] rounded-[5px] ${
-                rides.state === "cancel" ? "bg-bg-error text-error" : "bg-bg-success text-success"
-              } right-0`}
-            >
-              {rides.state === "cancel" ? "Đã hủy" : "Đã thanh toán"}
-            </span>
-          ) : null} */}
+          <div className="items-center hidden sm:flex">
+            <a className="mr-16" href={`tel:${data.partner.phone}`}>
+              <PhoneIcon2 className="w-[18px] h-[18px]" />
+            </a>
+            <button>
+              <MessageIcon className="text-primary w-[24px] h-[24px]" />
+            </button>
+          </div>
         </div>
 
-        <ul className="pl-12 md:pl-[24px]">
-          <li className="flex items-baseline mb-[12px]">
-            <p className="flex items-center">
-              <PhoneIcon className="mr-12" />
-              <span className="hidden sm:block text-xs w-[150px]">Số điện thoại: </span>
-            </p>
-            <a href={`tel:${partner.phone}`} className="text-sm flex-1 text-primary underline">
-              {partner.phone}
-            </a>
-          </li>
-
-          <li className="flex items-baseline mb-[12px]">
-            <p className="flex items-center">
-              <LocationIcon3 className="mr-12" />
-              <span className="hidden sm:block text-xs w-[150px]">Điểm đón: </span>
-            </p>
-            <p className="text-sm flex-1 flex items-start">
-              <span className="flex-1 mr-12">{from_address}</span>
-
-              {!readonly ? (
-                rides?.state === "waiting" ||
-                rides?.state === "in_process" ||
-                rides?.state === "deposit" ||
-                rides?.state === "assign" ? (
-                  <button
-                    onClick={() => onClickViewMap?.()}
-                    className="hidden xl:block text-sm text-primary"
-                  >
-                    Xem đường đi
-                  </button>
-                ) : null
-              ) : null}
-            </p>
-          </li>
-
-          {rides?.to_address ? (
-            <li className="flex items-baseline mb-[12px]">
-              <p className="flex items-center">
-                <LocationIcon4 className="mr-12" />
-                <span className="hidden sm:block text-xs w-[150px]">Điểm đến: </span>
-              </p>
-              <span className="text-sm flex-1">{to_address}</span>
-            </li>
-          ) : null}
-
-          <li className="flex items-baseline mb-[12px]">
-            <p className="flex items-center">
-              <CalendarIcon className="mr-12" />
-              <span className="hidden sm:block text-xs w-[150px]">Giờ đi: </span>
-            </p>
-            <span className="text-sm flex-1">
-              {moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
-            </span>
-          </li>
-
-          {rides?.note ? (
-            <li className="flex items-baseline">
-              <p className="flex items-center">
-                <NoteIcon className="mr-12" />
-                <span className="hidden sm:block text-xs w-[150px]">Ghi chú: </span>
-              </p>
-              <span className="text-sm flex-1">{rides.note}</span>
-            </li>
-          ) : null}
+        <ul className="sm:ml]">
+          <SummaryItem label="Điểm đón" value={from_address} />
+          {data?.to_address ? <SummaryItem label="Điểm đến" value={to_address} /> : null}
+          <SummaryItem
+            label="Giờ đi"
+            value={moment(expected_going_on_date).format("HH:mm DD/MM/YYYY")}
+          />
+          <SummaryItem label="Ghi chú" value={data?.note || "Không có ghi chú nào"} />
+          <SummaryItem
+            labelClassName="text-14 md:text-16 font-semibold"
+            label="Số tiền phải trả"
+            valueClassName="text-14 md:text-16 font-semibold text-error"
+            value={formatMoneyVND(data.amount_due)}
+          />
         </ul>
 
-        <div className="flex xl:hidden mt-24">
+        <div className="flex md:hidden mt-16">
           <a
             href={`tel:${partner.phone}`}
-            className="w-[56px] h-[56px] bg-primary-opacity rounded-[5px] flex-center mr-12"
+            className="w-[44px] h-[44px] bg-bg-blue rounded-[8px] flex-center mr-12"
           >
-            <PhoneIcon className="w-[18px] h-[18px] text-primary" />
+            <PhoneIcon2 className="w-[18px] h-[18px] text-primary" />
+          </a>
+          <a
+            href={`tel:${partner.phone}`}
+            className="w-[44px] h-[44px] bg-bg-blue rounded-[8px] flex-center mr-12"
+          >
+            <MessageIcon className="w-[24px] h-[24px] text-primary" />
           </a>
           <button
             onClick={() => onClickViewMap?.()}
-            className="w-[56px] h-[56px] bg-primary-opacity rounded-[5px] flex-center"
+            className="w-[44px] h-[44px] bg-bg-blue rounded-[8px] flex-center"
           >
-            <LocationIcon4 className="w-[18px] h-[18px] text-primary" />
+            <LocationThinIcon className="w-[18px] h-[20px] text-primary" />
           </button>
         </div>
       </div>
 
-      {rides.state === "waiting_customer" ? (
+      {data.state === "waiting_customer" ? (
         <div className="mt-24">
           <p className="flex items-center mb-12">
             <span className="mr-[8px] text-xs">Thời gian chờ khách: </span>
             <Countdown
               className="text-base font-semibold"
-              secondsRemains={rides.second_waiting_remains}
+              secondsRemains={data.second_waiting_remains}
               onExpiredCoundown={() => onCancelWaiting?.()}
             />
           </p>
 
-          <p className="text-sm text-warning">
+          <p className="text-sm leading-[22px] text-gray-color-7">
             *Nếu quá thời gian chờ, bạn có quyền bỏ đón hành khách này
           </p>
         </div>
       ) : null}
 
-      {!readonly ? (
-        rides.state === "cancel" || rides.state === "confirm_paid" ? null : (
-          <div className="flex mt-24">
-            {rides.state === "deposit" || rides.state === "waiting" || rides.state === "assign" ? (
-              <button
-                onClick={() => onClickWaiting?.()}
-                className="btn bg-gray-color-2 flex-1 sm:flex-none mr-12 sm:px-[32px] text-white-color px-12"
-              >
-                Chờ khách
-              </button>
-            ) : null}
+      {data.state === "cancel" || data.state === "confirm_paid" ? null : (
+        <div className="flex mt-16 md:mt-24">
+          {data.state === "deposit" || data.state === "waiting" || data.state === "assign" ? (
+            <button
+              onClick={() => onClickWaiting?.()}
+              className="btn bg-gray-color-2 flex-1 sm:flex-none mr-12 sm:px-[32px] text-white-color px-12"
+            >
+              Chờ khách
+            </button>
+          ) : null}
 
-            {rides?.state === "in_process" ? (
-              <button
-                onClick={() => onClickConfirm?.()}
-                className="flex-1 sm:flex-none btn-primary sm:px-[32px] bg-warning hover:bg-warning px-12"
-              >
-                Trả khách
-              </button>
-            ) : rides?.state === "done" ? (
-              <button
-                onClick={() => onClickPaid?.()}
-                className="flex-1 sm:flex-none btn-primary bg-success hover:bg-success px-[32px]"
-              >
-                Thanh toán
-              </button>
-            ) : (
-              <button
-                onClick={() => onClickPickUp?.()}
-                className="flex-1 sm:flex-none btn-primary sm:px-[32px] px-12"
-              >
-                <span>Đón khách</span>
-              </button>
-            )}
-          </div>
-        )
-      ) : null}
+          {data?.state === "in_process" ? (
+            <button
+              onClick={() => onClickConfirm?.()}
+              className="flex-1 sm:flex-none btn-primary sm:px-[32px] bg-warning hover:bg-warning px-12"
+            >
+              Trả khách
+            </button>
+          ) : data?.state === "done" ? (
+            <button
+              onClick={() => onClickPaid?.()}
+              className="flex-1 sm:flex-none btn-primary bg-success hover:bg-success px-[32px]"
+            >
+              Thanh toán
+            </button>
+          ) : (
+            <button
+              onClick={() => onClickPickUp?.()}
+              className="flex-1 sm:flex-none btn-primary sm:px-[32px] px-12"
+            >
+              <span>Đón khách</span>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }

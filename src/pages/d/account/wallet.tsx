@@ -5,7 +5,7 @@ const WalletDriver = () => {
   return (
     <DriverAccountLayout showHeaderMobile={false}>
       <HeaderMobile title="Ví cá nhân" className="lg:hidden" />
-      <Wallet type="car_driver" />
+      <Wallet />
     </DriverAccountLayout>
   )
 }

@@ -15,7 +15,7 @@ const Password = () => {
     <AuthLayout headerClassName="hidden lg:flex">
       <Seo description="Mật khẩu" thumbnailUrl="" title="Đổi mật khẩu" url="password" />
       <AccountLayout title={!hasPassword ? "Tạo mật khẩu" : "Đổi mật khẩu"}>
-        <div className="content-container px-16 flex-1 bg-white-color min-h-[calc(100vh-100px)] lg:min-h-[auto]">
+        <div className="content-container px-custom flex-1 pb-[64px] md:pb-0">
           {isValidating ? (
             <div className="">
               <InputLoading />

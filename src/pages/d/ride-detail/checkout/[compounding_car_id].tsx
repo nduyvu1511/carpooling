@@ -6,7 +6,6 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarDriver, useDriverCheckout, usePromotionActions } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { CancelRideParams, DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
@@ -101,7 +100,6 @@ const CheckoutDriver = () => {
       params: { compounding_car_id: compoundingCar?.compounding_car_id, promotion_id },
       onSuccess: (data) => {
         mutate(data, false)
-
         console.log({ data })
       },
     })

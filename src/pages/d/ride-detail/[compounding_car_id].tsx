@@ -1,24 +1,18 @@
 import {
   AccordionItem,
-  Alert,
-  Modal,
+  Alert, DriverDepositInfo, Modal,
   RatingItem,
   RatingReport,
-  RideCancelForm,
-  RideCheckoutPopup,
-  RideProgress,
-  RideDetailLoading,
-  RideSummary,
+  RideCancelForm, RideCancelSnackbar, RideCheckoutPopup, RideDetailLoading, RideProgress, RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  RideSummaryPassengerItem,
-  RideToolTip,
+  RideSummaryPassengerItem
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarDriver, useDriverCheckout, useRatingActions } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
-import { DepositCompoundingCarDriverFailureRes, ReportRatingParams } from "@/models"
+import { DepositCompoundingCarDriverFailureRes, DownPayment, ReportRatingParams } from "@/models"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -100,27 +94,15 @@ const ConfirmBookingCustomer = () => {
             <RideDetailLoading />
           ) : compoundingCar?.compounding_car_id ? (
             <>
-              <div className="">
-                {compoundingCar?.car_driver_deposit_percentage &&
-                compoundingCar.state !== "done" ? (
-                  <RideToolTip
-                    className="mb-24"
-                    title={`${Number(
-                      compoundingCar.car_driver_deposit_percentage
-                    )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
-                      compoundingCar.car_driver_deposit_percentage
-                    )}% đặt cọc này sẽ đc chuyển lại Ví của Tài Xế.`}
-                  />
-                ) : null}
-
+              <div className="mb-40">
                 <RideSummaryMobile className="mb-24 lg:hidden" rides={compoundingCar} />
-
                 <AccordionItem
                   isActive={showCustomerList}
                   onClick={() => setShowCustomerList(!showCustomerList)}
-                  className="px-24 py-[16px] bg-bg-primary border-none rounded-[5px]"
+                  className="px-24 py-[16px] bg-bg-primary border-none rounded-[5px] mb-24"
                   titleClassName="text-base text-blue-7 font-semibold"
                   title="DANH SÁCH HÀNH KHÁCH"
+                  allowTransition={false}
                 >
                   {compoundingCar?.compounding_car_customers?.length &&
                     compoundingCar?.compounding_car_customers?.map((item, index) => (
@@ -128,11 +110,21 @@ const ConfirmBookingCustomer = () => {
                         className="border-b border-solid border-border-color py-12 last:border-none"
                         key={item.compounding_car_customer_id}
                       >
-                        <p className="mb-12 text-xs">{index + 1},</p>
                         <RideSummaryPassengerItem data={item} />
                       </div>
                     ))}
                 </AccordionItem>
+
+                <div className="ride-detail-driver mb-24">
+                  <p className="text-base font-semibold uppercase mb-16 md:mb-24">Hóa đơn</p>
+                  <DriverDepositInfo
+                    amount_total={compoundingCar.amount_total || 0}
+                    down_payment={compoundingCar.down_payment as DownPayment}
+                    deposit_date={compoundingCar.deposit_date}
+                  />
+                </div>
+
+                <RideCancelSnackbar expectedGoingOnDate={compoundingCar.expected_going_on_date} />
               </div>
 
               {compoundingCar.rating_ids?.length > 0 ? (
@@ -151,7 +143,7 @@ const ConfirmBookingCustomer = () => {
                   ))}
                 </ul>
               ) : null}
-              <div className="fixed left-0 right-0 flex bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent] mt-[40px]">
+              <div className="fixed left-0 right-0 flex bottom-0 p-12 md:p-0 bg-white-color md:static md:bg-[transparent]">
                 {compoundingCar.state === "waiting_deposit" ||
                 compoundingCar.state === "confirm_deposit" ||
                 compoundingCar.state === "confirm" ? (
@@ -160,7 +152,7 @@ const ConfirmBookingCustomer = () => {
                       setShowCancelModal(true)
                       toggleBodyOverflow("hidden")
                     }}
-                    className={`btn bg-error mr-16`}
+                    className={`btn bg-gray-20 text-gray-color-7 px-12 sm:px-[28px] md:text-gray-color-7 mr-12 sm:mr-16  whitespace-nowrap line-clamp-1`}
                   >
                     Hủy chuyến
                   </button>
@@ -173,9 +165,9 @@ const ConfirmBookingCustomer = () => {
                     onClick={() => {
                       router.push(`/d/ride-detail/in-process/${compoundingCar.compounding_car_id}`)
                     }}
-                    className={`btn-primary`}
+                    className={`btn-primary px-12 sm:px-[28px]`}
                   >
-                    Bắt đầu chuyến đi
+                    Bắt đầu
                   </button>
                 ) : null}
 
@@ -183,7 +175,7 @@ const ConfirmBookingCustomer = () => {
                 compoundingCar.state === "waiting" ? (
                   <button
                     onClick={() => handleConfirmCheckout(compoundingCar.compounding_car_id)}
-                    className={`btn-primary`}
+                    className={`btn-primary whitespace-nowrap line-clamp-1`}
                   >
                     Nhận chuyến đi
                   </button>

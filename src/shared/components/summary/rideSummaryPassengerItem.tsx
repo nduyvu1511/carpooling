@@ -22,7 +22,7 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
               objectFit="cover"
             />
           </div>
-          <p className="text-base text-primary ml-8">{data.partner.partner_name}</p>
+          <p className="text-base font-semibold text-primary ml-12">{data.partner.partner_name}</p>
         </div>
 
         <div className="flex items-center">
@@ -41,11 +41,16 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
       />
       <SummaryItem label="Điểm đến" value={data.to_address || data?.to_province.province_name} />
       <SummaryItem label="Ghi chú" value={data?.note || "Không có ghi chú nào"} />
-      <SummaryItem label="Ngày đi" value={PAYMENT_METHOD_NAME?.[data.payment_method]} />
       <SummaryItem
-        label="Phương thức thanh toán"
+        label="Ngày đi"
         value={moment(data.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
       />
+      {data?.payment_method ? (
+        <SummaryItem
+          label="Phương thức thanh toán"
+          value={PAYMENT_METHOD_NAME?.[data.payment_method]}
+        />
+      ) : null}
 
       {(data as CustomerInvoice)?.payment_amount ? (
         <li className="flex items-start justify-between">

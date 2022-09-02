@@ -44,10 +44,12 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
       dedupingInterval: 10000,
     }
   )
+
   const [reasonId, setReasonId] = useState<number>()
 
   return (
     <Alert
+      warningColor="#ff3b30"
       show={true}
       className="ride-cancel-form"
       rightBtnLabel="Hủy chuyến"
@@ -68,8 +70,9 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
       }
     >
       <div className="">
-        <div className="">
-          {isValidating ? <Spinner size={40} className="py-[80px]" /> : null}
+        {isValidating ? (
+          <Spinner size={40} className="py-[80px]" />
+        ) : (
           <>
             {data && isArrayHasValue(data) ? (
               <div className="mb-24">
@@ -109,7 +112,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
               ></textarea>
             </div>
           </>
-        </div>
+        )}
       </div>
     </Alert>
   )

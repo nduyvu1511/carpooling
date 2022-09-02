@@ -16,6 +16,7 @@ const BookingLayout = ({
   onBackBtnClick,
   className = "",
   showHeaderDesktop = true,
+  overflowHidden = true,
 }: BookingLayoutProps) => {
   const router = useRouter()
   const breakpoints = useBreakpoint()
@@ -44,7 +45,7 @@ const BookingLayout = ({
           ) : null}
 
           <div className="lg:grid lg:grid-cols-booking-grid-sm xl:grid-cols-booking-grid">
-            <div className="p-custom lg:pr-16 overflow-hidden">
+            <div className={`p-12 sm:p-16 lg:p-24 ${overflowHidden ? "overflow-hidden" : ""}`}>
               {topNode ? <div className="hidden lg:block lg:w-full mb-40">{topNode}</div> : null}
 
               {showLoading ? (

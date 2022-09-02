@@ -1,6 +1,7 @@
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { ReactNode, useState } from "react"
 import { AccordionItem } from "../accordion"
+import { Map } from "../map"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"
 import { RideSummaryRules } from "./rideSummaryRules"
@@ -39,57 +40,11 @@ export const RideSummary = ({
       }`}
     >
       <div className="mb-16">
-        <RideSummaryMap data={data} showMap={showMap} />
+        <RideSummaryMap showInfo={view === "page"} data={data} showMap={showMap} />
       </div>
 
       {showFull ? (
         <>
-          {/* <div className="p-custom">
-            <div className="flex items-center justify-between mb-16">
-              <p className={titleClassName}>Thuế phí</p>
-              <p className={item}>Đã bao gồm</p>
-            </div>
-
-            <div className="flex items-baseline justify-between">
-              <p className={titleClassName}>Giá vé</p>
-              <p className={`font-medium text-orange-50 text-22 xl:text-28 leading-[36px]`}>
-                {formatMoneyVND(
-                  userInfo?.car_account_type === "car_driver"
-                    ? data?.price_unit?.price_unit || data?.amount_total || 0
-                    : data?.amount_total || data?.price_unit?.price_unit || 0
-                )}
-              </p>
-            </div>
-
-            {showDeposit && (data?.state === "confirm" || data?.state === "draft") ? (
-              <>
-                {(data as CompoundingCarCustomer)?.down_payment?.total ? (
-                  <div className="flex items-center justify-between my-16">
-                    <p className="font-semibold uppercase">
-                      CẦN ĐẶT CỌC (
-                      {((data as CompoundingCarCustomer)?.down_payment.percent || 0) * 100}
-                      %)
-                    </p>
-                    <p className={`${item} text-error font-semibold md:font-semibold`}>
-                      {formatMoneyVND((data as CompoundingCarCustomer)?.down_payment?.total)}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="mb-12"></div>
-                )}
-
-                {(data as CompoundingCarCustomer)?.amount_due ? (
-                  <div className="flex items-center justify-between mb-12">
-                    <p className={titleClassName}>Số tiền thanh toán sau</p>
-                    <p className={item}>
-                      {formatMoneyVND((data as CompoundingCarCustomer)?.amount_due)}
-                    </p>
-                  </div>
-                ) : null}
-              </>
-            ) : null}
-          </div> */}
-
           {children}
 
           <div className="lg:hidden">
@@ -116,7 +71,7 @@ export const RideSummary = ({
               title="Thông tin lộ trình:"
               isActive={tabsActive.includes(1)}
             >
-              <RideSummaryInfo data={data} />
+              <RideSummaryInfo showRideType={view === "modal"} data={data} />
             </AccordionItem>
           </div>
           <div className="hidden lg:block">

@@ -1,28 +1,29 @@
 import {
-  CheckIcon,
-  CloseIcon,
   InfoIcon,
-  LocationIcon2,
-  LocationIcon3,
-  LocationIcon4,
   MultiUserIcon,
+  RideCancelIcon,
+  RideDoneIcon,
+  RidePaidIcon,
+  RidePickupIcon,
 } from "@/assets"
 import {
   Alert,
   ProgressBarMultiple,
+  RideDetailLoading,
   RidePassengerItem,
   RideProgress,
-  RideDetailLoading,
   RideStatus,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  RideToolTip,
+  Seo,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
+import { RIDE_STATE_COLOR } from "@/helper"
 import { useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { useRouter } from "next/router"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { LatLng } from "use-places-autocomplete"
 
 const StartRunningCompoundingCar = () => {
@@ -74,36 +75,11 @@ const StartRunningCompoundingCar = () => {
 
   const statusList = useMemo(() => {
     return [
-      [
-        "Chưa đón",
-        "#f0f0f0",
-        getNumberOfNotPickedUp,
-        <LocationIcon2 className="w-[11px] sm:w-[13px] text-gray-color-3" key={1} />,
-      ],
-      [
-        "Đã đón",
-        "#DAE2FD",
-        getNumberOfPassengersPickedUp,
-        <LocationIcon3 className="w-[11px] sm:w-[13px] text-primary" key={2} />,
-      ],
-      [
-        "Đã trả",
-        "#FFE9CD",
-        getNumberOfPassengersDone,
-        <LocationIcon4 className="w-[11px] sm:w-[13px] text-warning" key={3} />,
-      ],
-      [
-        "Đã thanh toán",
-        "#DBFFEA",
-        getNumberOfPassengersPaid,
-        <CheckIcon stroke="#10B981" className="w-[11px] sm:w-[13px]" key={4} />,
-      ],
-      [
-        "Đã hủy",
-        "#FFD8D6",
-        getNumberOfPassengersCanceled,
-        <CloseIcon className="w-[11px] sm:w-[13px] text-error" key={5} />,
-      ],
+      ["Chưa đón", "#f0f0f0", getNumberOfNotPickedUp, <RideCancelIcon key={1} />],
+      ["Đã đón", "#DAE2FD", getNumberOfPassengersPickedUp, <RidePickupIcon key={2} />],
+      ["Đã trả", "#FFE9CD", getNumberOfPassengersDone, <RideDoneIcon key={3} />],
+      ["Đã thanh toán", "#DBFFEA", getNumberOfPassengersPaid, <RidePaidIcon key={4} />],
+      ["Đã hủy", "#FFD8D6", getNumberOfPassengersCanceled, <RideCancelIcon key={5} />],
     ]
   }, [
     getNumberOfNotPickedUp,
@@ -117,29 +93,29 @@ const StartRunningCompoundingCar = () => {
     return [
       {
         order: 4,
-        key: "paid",
-        color: "#DBFFEA",
+        key: "confirm_paid",
+        color: RIDE_STATE_COLOR["confirm_paid"],
         number: getNumberOfPassengersPaid,
         label: "Đã thanh toán",
       },
       {
         order: 3,
         key: "done",
-        color: "#FFE9CD",
+        color: RIDE_STATE_COLOR["done"],
         number: getNumberOfPassengersDone,
         label: "Đã trả khách",
       },
       {
         order: 2,
         key: "pickedUp",
-        color: "#DAE2FD",
+        color: RIDE_STATE_COLOR["in_process"],
         number: getNumberOfPassengersPickedUp,
         label: "Đã đón khách",
       },
       {
         order: 1,
         key: "cancel",
-        color: "#ff3b3033",
+        color: RIDE_STATE_COLOR["cancel"],
         number: getNumberOfPassengersCanceled,
         label: "Đã hủy",
       },
@@ -153,7 +129,15 @@ const StartRunningCompoundingCar = () => {
 
   return (
     <>
+      <Seo
+        description="Bắt đầu chuyến đi"
+        thumbnailUrl=""
+        title="Bắt đầu chuyến đi"
+        url={`d/ride-detail/in-process/${compoundingCar?.compounding_car_id}`}
+      />
       <BookingLayout
+        overflowHidden={false}
+        className="pb-[80px] lg:pb-24 overflow-clip"
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}
@@ -171,14 +155,20 @@ const StartRunningCompoundingCar = () => {
             <InfoIcon className="w-[18px] h-[18px]" />
             <p className="flex-1 ml-12 text-sm">Chuyến đi chưa được bắt đầu</p>
           </div>
+        ) : compoundingCar.state === "done" ? (
+          <p className="text-sm md:text-base text-center">Chuyến đi đã hoàn thành</p>
         ) : (
           <>
+            <RideToolTip
+              className="mb-24"
+              title="Bạn sẽ được hoàn trả số tiền còn lại vào ví sau khi hoàn tất chuyến đi."
+            />
             <div className="flex items-center justify-between">
               <p className="text-16 font-semibold uppercase">Trạng thái chuyến đi</p>
               {compoundingCar.compounding_type === "compounding" ? (
                 <p className="flex items-center">
                   <span className="mr-[4px] sm:mr-[8px] flex items-center">
-                    <MultiUserIcon />
+                    <MultiUserIcon className="sm:hidden" />
                     <span className="ml-[4px] text-xs hidden sm:block">Tổng số khách:</span>{" "}
                   </span>
                   <span className="font-semibold">
@@ -187,7 +177,8 @@ const StartRunningCompoundingCar = () => {
                 </p>
               ) : null}
             </div>
-            <div className="pt-12 md:pt-16 md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10">
+
+            <div className="pt-12 md:pt-16 md:pb-12 sticky top-[56px] lg:top-[80px] bg-white-color z-10 mb-12 md:mb-[28px]">
               <ProgressBarMultiple
                 height={7}
                 type="dashed"
@@ -195,25 +186,19 @@ const StartRunningCompoundingCar = () => {
                 totalNumber={getTotalPassenger}
               />
 
-              <div className="flex items-center flex-wrap mt-12 md:mt-16">
-                {statusList.map(
-                  ([label, backgroundColor, number, icon]) =>
-                    number > 0 && (
-                      <RideStatus
-                        key={+number}
-                        backgroundColor={backgroundColor + ""}
-                        icon={icon}
-                        label={label + ""}
-                        number={+number}
-                      />
-                    )
-                )}
+              <div className="flex items-center flex-nowrap mt-12 md:mt-16 overflow-x-auto w-full scrollbar-hide lg:scrollbar-default">
+                {statusList.map(([label, backgroundColor, number, icon]) => (
+                  <RideStatus
+                    className="shrink-0"
+                    key={label + ""}
+                    backgroundColor={backgroundColor + ""}
+                    icon={icon}
+                    label={label + ""}
+                    number={+number}
+                  />
+                ))}
               </div>
             </div>
-
-            <div className="border-b border-solid border-border-color mb-24 lg:mb-0"></div>
-
-            <RideSummaryMobile className="lg:hidden" rides={compoundingCar} />
 
             <div className="">
               {compoundingCar?.state === "confirm_deposit" ||
@@ -223,7 +208,7 @@ const StartRunningCompoundingCar = () => {
                 <>
                   {getNumberOfPassengersPaid ===
                   getTotalPassenger - getNumberOfPassengersCanceled ? (
-                    <div className="border-b border-solid border-border-color flex-center p-12 lg:pt-0 lg:pb-24 fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000]">
+                    <div className="lg:border-b border-solid border-border-color flex-center p-custom lg:p-0 lg:mb-24 lg:pb-24 md:mx-16 lg:mx-0 fixed bottom-0 left-0 right-0 bg-white-color lg:static lg:bg-[transparent] z-[1000] lg:mt-[-24px] lg:pt-0">
                       <button
                         onClick={() => setConfirmDoneCompoundingCarModal(true)}
                         className="btn-primary bg-success hover:bg-success"
@@ -250,14 +235,11 @@ const StartRunningCompoundingCar = () => {
                 </>
               ) : null}
 
-              <div className="lg:border-none my-24 border-b border-solid border-border-color"></div>
-
-              <div className="mb-0 md:mb-[64px] lg:mb-0">
-                <p className="text-base font-semibold uppercase mb-12">Danh sách hành khách</p>
+              <div className="mb-24 md:mb-40">
+                <p className="text-base font-semibold uppercase mb-16">Danh sách hành khách</p>
                 <ul
                   className={`${
                     compoundingCar?.state !== "start_running" &&
-                    compoundingCar?.state !== "done" &&
                     compoundingCar?.state !== "stop_picking"
                       ? "opacity-[50%] pointer-events-none select-none"
                       : ""
@@ -266,8 +248,8 @@ const StartRunningCompoundingCar = () => {
                   {getTotalPassenger > 0 &&
                     compoundingCar.compounding_car_customers.map((item, index) => (
                       <li
-                        key={index}
-                        className="border-b border-solid border-border-color py-24 last:mb-0 last:border-none"
+                        key={item.compounding_car_customer_id}
+                        className="border-b border-solid border-border-color py-16 md:py-24 first:pt-0 last:border-none"
                       >
                         <RidePassengerItem
                           onClickViewMap={() =>
@@ -281,7 +263,7 @@ const StartRunningCompoundingCar = () => {
                                   lng: +item.from_longitude,
                                 })
                           }
-                          rides={item}
+                          data={item}
                           onClickWaiting={() =>
                             confirmWaitingForCompoundingCarCustomer({
                               params: {
@@ -323,19 +305,23 @@ const StartRunningCompoundingCar = () => {
                     ))}
                 </ul>
               </div>
+
+              <RideSummaryMobile className="lg:hidden" rides={compoundingCar} />
             </div>
           </>
         )}
         {compoundingCarMap ? <RideSummaryModal data={compoundingCarMap} /> : null}
       </BookingLayout>
 
-      <Alert
-        show={!!confirmDoneCompoundingCarModal}
-        title="Hãy chắc chắn tất cả khách hàng đã thanh toán tiền cho bạn"
-        onClose={() => setConfirmDoneCompoundingCarModal(false)}
-        onConfirm={() => handleConfirmDoneCompoundingCar()}
-        type="info"
-      />
+      {confirmDoneCompoundingCarModal ? (
+        <Alert
+          show={!!confirmDoneCompoundingCarModal}
+          title="Hãy chắc chắn tất cả khách hàng đã thanh toán tiền cho bạn"
+          onClose={() => setConfirmDoneCompoundingCarModal(false)}
+          onConfirm={() => handleConfirmDoneCompoundingCar()}
+          type="info"
+        />
+      ) : null}
     </>
   )
 }

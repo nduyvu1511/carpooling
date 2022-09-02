@@ -73,16 +73,16 @@ const Activities = () => {
           </div>
 
           {activityStates?.includes("confirm_paid") ? (
-            <div className="mt-[12px]">
-              <Tabs
-                list={[
-                  { label: "Chưa đánh giá", value: "no_rating" },
-                  { label: "Đã đánh giá", value: "rated" },
-                ]}
-                tabActive={ratingValue || ""}
-                onChange={(val) => filterCompoundingActivities(activityStates, val as any)}
-              />
-            </div>
+            <Tabs
+              className="mt-12 lg:mt-0"
+              labelClassName="flex-1 text-center sm:flex-auto sm:text-left"
+              list={[
+                { label: "Chưa đánh giá", value: "no_rating" },
+                { label: "Đã đánh giá", value: "rated" },
+              ]}
+              tabActive={ratingValue || ""}
+              onChange={(val) => filterCompoundingActivities(activityStates, val as any)}
+            />
           ) : null}
         </div>
         <div className="">

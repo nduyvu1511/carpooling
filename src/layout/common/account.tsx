@@ -1,13 +1,21 @@
 import { blankAvatar } from "@/assets"
 import { AccountSidebar, HeaderMobile } from "@/components"
 import { RootState } from "@/core/store"
+import { toggleBodyOverflow } from "@/helper"
 import { useAccountNavList } from "@/hooks"
 import { AccountLayoutProps } from "@/models"
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
 
 const AccountLayout = ({ children, desc, title, showHeaderMobile = true }: AccountLayoutProps) => {
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
   const { accountNavList } = useAccountNavList()
+
+  useEffect(() => {
+    return () => {
+      toggleBodyOverflow("unset")
+    }
+  }, [])
 
   if (!userInfo) return null
   return (

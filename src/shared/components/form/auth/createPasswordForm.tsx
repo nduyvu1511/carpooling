@@ -82,8 +82,11 @@ export const CreatePasswordForm = forwardRef(function Child(
           </div>
         ))}
       </div>
-      <div className="fixed bottom-0 left-0 right-0 md:static p-12 bg-white-color md:bg-[transparent]">
-        <button type="submit" className={`btn-primary mx-auto ${isValid ? "" : "btn-disabled"}`}>
+      <div className="fixed bottom-0 left-0 right-0 md:static p-12 md:p-0 bg-white-color md:bg-[transparent]">
+        <button
+          type="submit"
+          className={`btn-primary mx-auto md:mx-0 ${isValid ? "" : "btn-disabled"}`}
+        >
           Xác nhận
         </button>
       </div>

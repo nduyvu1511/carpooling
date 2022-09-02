@@ -2,6 +2,7 @@ import { useQueryList } from "@/hooks"
 import { PromotionRes } from "@/models"
 import { promotionApi } from "@/services/promotionApi"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { FilterNotFound } from "../common"
 import { Spinner } from "../loading"
 import { PromotionItem } from "./promotionItem"
 
@@ -21,7 +22,7 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
       params: { limit: 12, offset: 0 },
     })
 
-  if ( isInitialLoading)
+  if (isInitialLoading)
     return (
       <div className={`${className || gridClassName}`}>
         {Array.from({ length: 4 }).map((_, index) => (
@@ -36,13 +37,15 @@ export const Promotion = ({ className, onApply }: PromotionProps) => {
       loader={isFetchingMore ? <Spinner /> : null}
       next={() => fetchMoreItem(promotionApi.getPromotionList({ limit: 12, offset: offset + 12 }))}
     >
-      <div className={`${className || gridClassName}`}>
-        {(data || [])?.length > 0
-          ? data?.map((item) => (
-              <PromotionItem onApply={onApply} key={item.promotion_id} data={item} />
-            ))
-          : null}
-      </div>
+      {(data || [])?.length > 0 ? (
+        <div className={`${className || gridClassName}`}>
+          {data?.map((item) => (
+            <PromotionItem onApply={onApply} key={item.promotion_id} data={item} />
+          ))}
+        </div>
+      ) : (
+        <FilterNotFound title="Chưa có mã giảm giá nào được lưu" />
+      )}
     </InfiniteScroll>
   )
 }

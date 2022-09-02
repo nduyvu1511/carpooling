@@ -3,7 +3,7 @@ import {
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
   getHoursName,
-  toFirstUpperCase,
+  toFirstUpperCase
 } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
@@ -11,25 +11,28 @@ import { SummaryItem } from "./summaryItem"
 
 interface RideSummarInfoProps {
   data: CompoundingCarRes | CompoundingCarCustomer
+  showRideType?: boolean
 }
 
-const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
+const RideSummaryInfo = ({ data, showRideType = true }: RideSummarInfoProps) => {
   return (
     <ul>
-      <div className="flex items-start justify-between mb-12">
-        <span className="mr-16 leading-[20px] text-12 font-medium text-gray-color-7">
-          Loại chuyến
-        </span>
-        <span
-          style={{
-            color: COMPOUNDING_TYPE_COLOR?.[data.compounding_type],
-            backgroundColor: COMPOUNDING_TYPE_BG?.[data.compounding_type],
-          }}
-          className="py-4 px-10 rounded-[8px] text-12"
-        >
-          {COMPOUNDING_TYPE_NAME?.[data.compounding_type]}
-        </span>
-      </div>
+      {showRideType ? (
+        <div className="flex items-start justify-between mb-12">
+          <span className="mr-16 leading-[20px] text-12 font-medium text-gray-color-7">
+            Loại chuyến
+          </span>
+          <span
+            style={{
+              color: COMPOUNDING_TYPE_COLOR?.[data.compounding_type],
+              backgroundColor: COMPOUNDING_TYPE_BG?.[data.compounding_type],
+            }}
+            className="py-4 px-10 rounded-[8px] text-12"
+          >
+            {COMPOUNDING_TYPE_NAME?.[data.compounding_type]}
+          </span>
+        </div>
+      ) : null}
       <SummaryItem
         label="Điểm đón"
         value={data?.from_address || data.from_province?.province_name}
@@ -45,11 +48,7 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
           value={moment(data.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}
         />
       ) : null}
-      <SummaryItem
-        className="mb-0"
-        label="Loại xe"
-        value={data?.car?.name && toFirstUpperCase(data.car.name)}
-      />
+      <SummaryItem label="Loại xe" value={data?.car?.name && toFirstUpperCase(data.car.name)} />
       <SummaryItem label="Tổng lộ trình ước tính" value={`${data.distance} Km`} />
       {data.duration ? (
         <SummaryItem label="Thời gian ước tính" value={getHoursName(data.duration)} />
@@ -70,3 +69,4 @@ const RideSummaryInfo = ({ data }: RideSummarInfoProps) => {
 }
 
 export { RideSummaryInfo }
+

@@ -44,7 +44,7 @@ export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSum
           </ul>
         </div>
       ) : (
-        <p className="text-sm text-gray-color-7">
+        <p className="text-sm text-gray-color-7 leading-[22px]">
           Chưa có tài xế nhận chuyến, chúng tôi sẽ thông báo đến bạn sau khi có tài xế nhận chuyến.
         </p>
       )}

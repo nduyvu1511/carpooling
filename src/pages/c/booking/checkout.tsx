@@ -1,6 +1,7 @@
 import {
   Checkout,
   CheckoutLoading,
+  RideCancelSnackbar,
   RideProgress,
   RideSummary,
   RideSummaryMobile,

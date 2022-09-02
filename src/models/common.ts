@@ -130,6 +130,7 @@ export interface BookingLayoutProps {
   className?: string
   showHeaderOnMobile?: boolean
   showHeaderDesktop?: boolean
+  overflowHidden?: boolean
 }
 
 declare module "axios" {

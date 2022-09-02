@@ -35,7 +35,7 @@ const RideTypeFilter = ({
 
   return (
     <div
-      className={`flex items-center justify-between mb-[9px] sticky xl:static top-[60px] md:top-[80px] bg-white-color z-[800] mx-[-12px] md:mx-[-16px] lg:mx-[-24px] px-custom py-12 shadow-shadow-1 xl:shadow-none`}
+      className={`flex items-center justify-between mb-12 sticky xl:static top-[60px] md:top-[80px] bg-white-color z-[1000] mx-[-12px] md:mx-[-16px] lg:mx-[-24px] px-custom py-12`}
     >
       <div className="flex overflow-auto scrollbar-hide">
         <p className="text-base hidden md:block font-semibold mr-16">Danh sách chuyến:</p>

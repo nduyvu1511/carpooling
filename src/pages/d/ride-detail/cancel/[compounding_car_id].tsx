@@ -29,13 +29,11 @@ const RideCanceledPage = () => {
       topNode={<RideProgress state={compoundingCar?.state} />}
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
     >
-      <div>
-        <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
-        <div className="container fixed lg:static bottom-0 right-0 left-0 bg-white-color z-10">
-          <Link href="/d">
-            <a className="btn-primary-outline mx-auto">Về trang chủ</a>
-          </Link>
-        </div>
+      <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
+      <div className="mt-40">
+        <Link href="/d">
+          <a className="btn-primary-outline mx-auto sm:mx-0">Về trang chủ</a>
+        </Link>
       </div>
     </DriverBookingLayout>
   )

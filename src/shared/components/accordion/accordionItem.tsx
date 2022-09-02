@@ -18,7 +18,7 @@ const AccordionItem = ({
   children,
   onClick,
   title,
-  maxHeight = 1000,
+  maxHeight = 10000,
   titleClassName = "",
   className = "",
   allowTransition = true,

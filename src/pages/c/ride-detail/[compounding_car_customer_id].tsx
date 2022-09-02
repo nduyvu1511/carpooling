@@ -7,8 +7,8 @@ import {
   RatingItem,
   RideCancelForm,
   RideDetailInfo,
-  RideProgress,
   RideDetailLoading,
+  RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
@@ -20,9 +20,14 @@ import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "
 import { ridesApi } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
+
+interface ModalType  {
+  value: number | boolean
+  name: 'ratingModal' | ''
+}
 
 const RidesDetail = () => {
   const router = useRouter()
@@ -45,13 +50,6 @@ const RidesDetail = () => {
   const { addRating, updateRating, deleteRating } = useRatingActions()
   const [currentDeleteRating, setCurrentDeleteRating] = useState<number | undefined>()
   const [showCancelModal, setShowCancelModal] = useState<boolean | undefined>()
-
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleAddRating = (params: CreateRatingFormParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
@@ -173,7 +171,10 @@ const RidesDetail = () => {
               compoundingCar?.state === "waiting_customer" ||
               compoundingCar?.state === "assign" ? (
                 <div className="flex items-center md:mb-24">
-                  <button onClick={() => toggleCancelModal(true)} className="btn-primary-outline">
+                  <button
+                    onClick={() => toggleCancelModal(true)}
+                    className="btn bg-gray-20 text-gray-color-8"
+                  >
                     Hủy chuyến
                   </button>
                 </div>

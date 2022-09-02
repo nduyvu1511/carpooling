@@ -1,9 +1,9 @@
-import { InfoIcon } from "@/assets"
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { formatMoneyVND } from "@/helper"
 import { CompoundingCancelCar, CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
-import { useEffect } from "react"
-import { RideSummaryMobile, RideSummaryModal } from "../summary"
+import { Snackbar } from "../common"
+import { RideCancelLoading } from "../loading"
+import { RideSummaryMobile, RideSummaryModal, SummaryItem } from "../summary"
 
 interface RideCanceledProps {
   showLoading?: boolean
@@ -11,114 +11,72 @@ interface RideCanceledProps {
 }
 
 const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-  }, [])
-
   return (
     <>
       {showLoading ? (
-        <div>
-          <div className="skeleton h-[18px] rounded-[5px] mb-[40px]"></div>
-          <div className="mb-24 flex justify-between">
-            <div className="skeleton w-[160px] sm:w-[220px] h-[12px] rounded-[5px]"></div>
-            <div className="skeleton w-[90px] sm:w-[180px] h-[12px] rounded-[5px]"></div>
-          </div>
-          <div className="mb-24 flex justify-between">
-            <div className="skeleton w-[120px] sm:w-[180px] h-[12px] rounded-[5px]"></div>
-            <div className="skeleton w-[80px] sm:w-[140px] h-[12px] rounded-[5px]"></div>
-          </div>
-          <div className="mb-[40px] flex justify-between">
-            <div className="skeleton w-[200px] sm:w-[250px] h-[12px] rounded-[5px]"></div>
-            <div className="skeleton w-[110px] sm:w-[150px] h-[12px] rounded-[5px]"></div>
-          </div>
-          <div className="flex justify-between mb-[40px]">
-            <div className="skeleton w-[140px] sm:w-[160px] h-[12px] rounded-[5px]"></div>
-            <div className="skeleton w-[80px] sm:w-[140px] h-[12px] rounded-[5px]"></div>
-          </div>
-          <div className="lg:hidden skeleton h-[200px] rounded-[5px]"></div>
-        </div>
+        <RideCancelLoading />
       ) : compoundingCar?.compounding_car_id ? (
         <div className="">
-          <div className="px-[10px] py-8 mb-24 bg-bg-primary rounded-[8px] flex items-center">
-            <InfoIcon />
-            <p className="text-xs ml-[10px] flex-1">
-              Exxe sẽ hoàn tiền trong vòng 24 ngày nếu giao dịch hợp lệ và khách hảng tuân thủ đúng
-              yêu cầu hủy chuyến.
-            </p>
-          </div>
-
           <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-
           {compoundingCar?.cancel_reason?.cancel_reason_id ? (
-            <div className="mb-24 pb-24 border-b border-border-color border-solid">
-              <p className="text-base font-semibold mb-24 uppercase">Thông tin hủy chuyến</p>
-              <p className="text-14 md:text-16 font-semibold text-error">
-                {compoundingCar?.cancel_reason?.reason}
-              </p>
+            <div className="mb-24">
+              <p className="text-base font-semibold mb-16 uppercase">Thông tin hủy chuyến</p>
+              <p className="text-sm text-gray-color-7">{compoundingCar?.cancel_reason?.reason}</p>
             </div>
           ) : null}
 
-          <ul>
-            <p className="text-base font-semibold mb-16 md:mb-24 uppercase">Chi phí chuyến đi</p>
-
-            <li className="flex items-center mb-12">
-              <span className="text-xs">Giá vé</span>
-              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
-              </span>
-            </li>
-
-            <li
-              className={`flex items-center ${
-                !(compoundingCar as CompoundingCancelCar)?.paid_date ? "mb-12" : ""
-              }`}
-            >
-              <span className="text-xs">
-                Số tiền đặt cọc (
-                {(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)
-              </span>
-              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
-              </span>
-            </li>
-
-            <li className="flex items-center mb-12">
-              <span className="text-xs">Ngày hủy chuyến:</span>
-              <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                {moment((compoundingCar as CompoundingCancelCar)?.cancel_date).format(
+          <ul className="mb-24">
+            <p className="text-base font-semibold mb-16 uppercase">Chi phí chuyến đi</p>
+            <SummaryItem
+              label="Chi phí tạm tính"
+              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
+            />
+            <SummaryItem
+              label="Tổng tiền cần thanh toán"
+              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
+            />
+            <SummaryItem
+              label={`Số tiền đặt cọc (
+                ${(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)`}
+              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
+            />
+            {(compoundingCar as CompoundingCancelCar)?.payment_method ? (
+              <SummaryItem
+                label="Phương thức đặt cọc"
+                value={(compoundingCar as CompoundingCancelCar)?.payment_method}
+              />
+            ) : null}
+            <SummaryItem
+              label="Ngày hủy chuyến"
+              value={moment((compoundingCar as CompoundingCancelCar)?.cancel_date).format(
+                "HH:mm DD/MM/YYYY"
+              )}
+            />
+            {(compoundingCar as CompoundingCancelCar)?.paid_date ? (
+              <SummaryItem
+                label="Thời gian đặt cọc"
+                value={moment((compoundingCar as CompoundingCancelCar)?.paid_date).format(
                   "HH:mm DD/MM/YYYY"
                 )}
-              </span>
-            </li>
-
-            {(compoundingCar as CompoundingCancelCar)?.paid_date ? (
-              <li className="flex items-center justify-between mb-12">
-                <span className="text-xs">Thời gian đặt cọc</span>
-                <span className="text-sm md:text-base flex-1 text-right ml-12 whitespace-nowrap">
-                  {moment((compoundingCar as CompoundingCancelCar)?.paid_date).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
-                </span>
-              </li>
+              />
             ) : null}
-
-            <li className="flex items-center justify-between mb-12">
-              <span className="text-base font-semibold">Số tiền được hoàn trả</span>
-              <span className="text-base text-error flex-1 text-right ml-12 font-semibold whitespace-nowrap">
-                {formatMoneyVND(
-                  compoundingCar?.amount_return ||
-                    (compoundingCar as CompoundingCarCustomer)?.amount_total
-                )}
-              </span>
-            </li>
-
-            <p className="text-xs">
-              (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
-            </p>
+            <SummaryItem
+              className="mb-0"
+              labelClassName="text-14 md:text-16 font-semibold"
+              label="Số tiền được hoàn trả"
+              value={formatMoneyVND(
+                compoundingCar?.amount_return ||
+                  (compoundingCar as CompoundingCarCustomer)?.amount_total
+              )}
+              valueClassName="text-14 md:text-16 font-semibold"
+            />
           </ul>
+
+          {moment((compoundingCar as CompoundingCancelCar)?.cancel_date)
+            .add(3, "hours")
+            .isBefore(moment(compoundingCar.expected_going_on_date)) ? (
+            <Snackbar title="Số tiền đặt cọc sẽ được hoàn về ví của hành khách trong 24 giờ làm việc." />
+          ) : null}
         </div>
       ) : null}
 

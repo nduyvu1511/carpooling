@@ -52,7 +52,7 @@ const Tabs = ({
       {list.map(({ label, value }, index) => (
         <li
           className={`select-none whitespace-nowrap text-sm font-semibold relative py-[8px] cursor-pointer tabs-item-${index} hover:text-primary
-          before:absolute before:bg-primary before:h-[1px] before:content-[''] before:rounded-[2px] before:w-full before:top-[calc(100%-1px)] before:hidden ${
+          before:absolute before:bg-primary before:h-[1px] before:content-[''] before:rounded-[1px] before:w-full before:top-[calc(100%-1px)] before:hidden ${
             getActiveStringOrListString(value, tabActive) ? "text-primary" : "text-gray-color-5"
           } ${type === "full" ? "flex-1 text-center" : "sm:flex-none sm:text-left"} ${
             index < list.length - 1 ? "mr-16 sm:mr-[24px]" : "mr-0"
@@ -69,7 +69,7 @@ const Tabs = ({
       {tabActive ? (
         <span
           ref={lineRef}
-          className={`tabs-line absolute bottom-[0px] h-[2px] rounded-[4px] bg-primary transition-all duration-200`}
+          className={`tabs-line absolute bottom-[0px] h-[1px] rounded-[4px] bg-primary transition-all duration-200`}
         ></span>
       ) : null}
     </ul>

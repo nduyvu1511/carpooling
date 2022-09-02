@@ -77,16 +77,16 @@ export const PAYMENT_PURPOSE_COLOR = {
 
 export const COMPOUNDING_TYPE_COLOR = {
   one_way: "#2F19BB",
-  two_way: "#1BB5C8 ",
-  compounding: "#EE542F ",
-  convenient: "#FBB500 ",
+  two_way: "#1BB5C8",
+  compounding: "#EE542F",
+  convenient: "#FBB500",
 }
 
 export const COMPOUNDING_TYPE_BG = {
   one_way: "#EEEBFF",
   two_way: "#F0FCFF",
   compounding: "#FEE9CE",
-  convenient: "#FBB500",
+  convenient: "#FEFEE5",
 }
 
 export const COMPOUNDING_STATE_NAME = {
@@ -112,6 +112,46 @@ export const COMPOUNDING_TYPE_NAME = {
   two_way: "Hai chiều",
   compounding: "Ghép chuyến",
   convenient: "Tiện chuyến",
+}
+
+export const RIDE_STATE_COLOR = {
+  in_process: "#5A78FF",
+  done: "#FFE2CC",
+  cancel: "#E7E7E7 ",
+  deposit: "#E7E7E7 ",
+  waiting: "#E7E7E7 ",
+  assign: "#E7E7E7 ",
+  confirm_paid: "#A7F2C1",
+}
+
+export const RIDE_STATE_TEXT_COLOR = {
+  in_process: "#5A78FF",
+  done: "#ED9526",
+  cancel: "#767676",
+  deposit: "#767676",
+  waiting: "#767676",
+  assign: "#767676",
+  confirm_paid: "#A7F2C1",
+}
+
+export const RIDE_STATE_BG = {
+  in_process: "#F7F8FF",
+  done: "#FFF8F2",
+  cancel: "#FAFAFA",
+  deposit: "#FAFAFA",
+  waiting: "#FAFAFA",
+  assign: "#FAFAFA",
+  confirm_paid: "#008F5D",
+}
+
+export const RIDE_STATE_NAME = {
+  in_process: "Đã đón",
+  done: "Đã trả khách",
+  cancel: "Đã hủy",
+  deposit: "Chưa đón khách",
+  waiting: "Chưa đón khách",
+  assign: "Chưa đón khách",
+  confirm_paid: "Đã thanh toán",
 }
 
 // export const PASSENGER_STATE_COLOR = {

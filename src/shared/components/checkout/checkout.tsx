@@ -12,7 +12,7 @@ import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { usePayment } from "@/hooks"
 import { CancelRideParams, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { PaymentSlide } from "./paymentSlide"
 
@@ -31,6 +31,7 @@ interface CheckoutProps {
   returnedUrl?: string
   onApplyPromotion?: (id: number) => void
   onCancelPromotion?: (id: number) => void
+  snackbar?: ReactNode
 }
 
 type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | "promotion" | undefined
@@ -50,6 +51,7 @@ const Checkout = ({
   returnedUrl,
   onApplyPromotion,
   onCancelPromotion,
+  snackbar = null,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -91,13 +93,14 @@ const Checkout = ({
               <RideToolTip className="mb-24" percentage={percentage} desc={descRideTooltip} />
             ) : null}
 
-            <div className="mb-[40px]">
+            <div className="mb-40">
               <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
               <PromotionForm promotionCode="" onFocus={() => toggleModal("promotion")} />
             </div>
 
-            <div className="mb-[40px]">
+            <div className="mb-40">
               <DepositSummary
+                accountType={userInfo?.car_account_type}
                 down_payment={down_payment}
                 onExpiredCountdown={() => setExpiredCountdown(true)}
                 secondsRemains={secondsRemains}
@@ -122,11 +125,13 @@ const Checkout = ({
               />
             </div>
 
+            {snackbar ? <div className="mb-24"> {snackbar}</div> : null}
+
             <div className="fixed bottom-0 left-0 right-0 p-12 md:p-0 bg-white-color md:static flex items-center whitespace-nowrap z-[100]">
               {onCancelCheckout ? (
                 <button
                   onClick={() => toggleModal("cancel")}
-                  className="btn h-[40px] md:h-fit rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-gray-20 text-gray-color-8 mr-12 md:mr-16"
+                  className="btn rounded-[5px] md:rounded-[30px] flex-1 md:flex-none bg-gray-20 text-gray-color-8 mr-12 md:mr-16"
                 >
                   <span className="hidden sm:block"> Hủy chuyến</span>
                   <span className="sm:hidden"> Hủy</span>
@@ -150,7 +155,7 @@ const Checkout = ({
                     setCurrentSelectPayment(currentSelectPayment)
                   }
                 }}
-                className={`btn h-[40px] md:h-fit whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
+                className={`btn whitespace-nowrap rounded-[5px] md:rounded-[30px] flex-1 md:flex-none ${
                   currentSelectPayment?.acquirer_id ? "bg-primary" : "btn-disabled"
                 }`}
               >

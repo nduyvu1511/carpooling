@@ -1,4 +1,5 @@
 import { formatMoneyVND } from "@/helper"
+import { CarAccountType } from "@/models"
 import React from "react"
 import { Countdown } from "../countdown"
 import { SummaryItem } from "./summaryItem"
@@ -12,6 +13,7 @@ interface DepositSummaryProps {
   showCountdown?: boolean
   type?: "deposit" | "checkout"
   onExpiredCountdown: Function
+  accountType?: CarAccountType
 }
 
 export const DepositSummary = ({
@@ -23,6 +25,7 @@ export const DepositSummary = ({
   showCountdown,
   type,
   onExpiredCountdown,
+  accountType,
 }: DepositSummaryProps) => {
   return (
     <>
@@ -43,9 +46,11 @@ export const DepositSummary = ({
         ) : null}
       </div>
 
-      <p className="text-xs mb-12">
-        (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
-      </p>
+      {accountType === "customer" ? (
+        <p className="text-xs mb-12">
+          (*) Chi phí trên chưa bao gồm phát sinh phí cầu đường, bến bãi.
+        </p>
+      ) : null}
 
       {amount_total ? (
         <div className="flex items-center justify-between mb-12">
@@ -56,13 +61,17 @@ export const DepositSummary = ({
         </div>
       ) : null}
 
-      <SummaryItem
-        label="Tổng tiền cần thanh toán"
-        value={formatMoneyVND(amount_total || 0) + ""}
-      />
+      {accountType === "customer" ? (
+        <>
+          <SummaryItem
+            label="Tổng tiền cần thanh toán"
+            value={formatMoneyVND(amount_total || 0) + ""}
+          />
 
-      {amount_due ? (
-        <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(amount_due)} />
+          {amount_due ? (
+            <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(amount_due)} />
+          ) : null}
+        </>
       ) : null}
 
       {down_payment ? (
@@ -75,6 +84,13 @@ export const DepositSummary = ({
           }
           valueClassName="text-14 md:text-16 whitespace-nowrap font-semibold"
           value={formatMoneyVND(down_payment)}
+        />
+      ) : null}
+
+      {accountType === "car_driver" ? (
+        <SummaryItem
+          label="Số tiền hoàn sau khi thanh toán"
+          value={formatMoneyVND(amount_total || 0)}
         />
       ) : null}
     </>

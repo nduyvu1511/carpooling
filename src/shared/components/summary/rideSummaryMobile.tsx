@@ -1,4 +1,5 @@
 import { CalendarDoneIcon, CalendarIcon, LocationIcon3, LocationIcon4, ZoomInIcon } from "@/assets"
+import { COMPOUNDING_TYPE_BG, COMPOUNDING_TYPE_COLOR, COMPOUNDING_TYPE_NAME } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarDriverRes, CompoundingCarRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import moment from "moment"
@@ -35,17 +36,30 @@ export const RideSummaryMobile = ({
 
       <div className="border-b border-solid border-border-color my-12"></div>
 
+      {/* <div className="flex items-start mb-12 justify-between">
+        <p className="text-xs mr-16 leading-[20px] hidden xs:block">Loại chuyến</p>
+        <LocationIcon3 className="xs:hidden mt-4" />
+        <p
+          style={{
+            color: COMPOUNDING_TYPE_COLOR?.[rides.compounding_type],
+            backgroundColor: COMPOUNDING_TYPE_BG?.[rides.compounding_type],
+          }}
+          className="text-[10px] sm:text-12 px-10 py-4 rounded-[8px] mr-auto ml-12 xs:ml-auto"
+        >
+          {COMPOUNDING_TYPE_NAME?.[rides.compounding_type]}
+        </p>
+      </div> */}
       <div className="flex items-start mb-12 justify-between">
         <p className="text-xs mr-16 leading-[20px] hidden xs:block">Điểm đón</p>
         <LocationIcon3 className="xs:hidden mt-4" />
-        <p className="flex-1 flex justify-end text-sm leading-[22px] xs:text-right ml-[10px] xs:max-w-[70%] w-full">
+        <p className="flex-1 flex xs:justify-end text-sm leading-[22px] xs:text-right ml-12 xs:max-w-[70%] w-full">
           {rides?.from_address || rides?.from_province?.province_name}
         </p>
       </div>
       <div className="flex items-start mb-12 justify-between">
         <p className="text-xs mr-16 leading-[20px] hidden xs:block">Điểm đến</p>
         <LocationIcon4 className="xs:hidden mt-4" />
-        <p className="flex-1 flex justify-end text-sm leading-[22px] xs:text-right ml-[10px] xs:max-w-[70%] w-full">
+        <p className="flex-1 flex xs:justify-end text-sm leading-[22px] xs:text-right ml-12 xs:max-w-[70%] w-full">
           {rides?.to_address || rides?.to_province?.province_name}
         </p>
       </div>
@@ -67,7 +81,7 @@ export const RideSummaryMobile = ({
       <div className="flex xs:items-center flex-col xs:flex-row xs:hidden">
         <div className="flex items-start">
           <CalendarIcon className="xs:hidden mt-4" />
-          <p className="flex-1 text-sm ml-[10px] xs:text-right">
+          <p className="flex-1 text-sm ml-12 xs:text-right leading-[22px]">
             {moment(rides.expected_going_on_date).format("HH:mm DD/MM/YYYY")}{" "}
           </p>
         </div>
@@ -75,7 +89,7 @@ export const RideSummaryMobile = ({
           <div className="flex items-start xs:ml-16 mt-12 xs:mt-0">
             <p className="text-xs "></p>
             <CalendarDoneIcon className="xs:hidden mt-4" />
-            <p className="flex-1 text-sm ml-[10px]">
+            <p className="flex-1 text-sm ml-12 leading-[22px]">
               {moment(rides.expected_picking_up_date).format("HH:mm DD/MM/YYYY")}{" "}
             </p>
           </div>

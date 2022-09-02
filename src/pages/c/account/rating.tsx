@@ -4,7 +4,7 @@ import { toggleBodyOverflow } from "@/helper"
 import { useCustomerRating, useRatingActions } from "@/hooks"
 import { CustomerAccountLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 
 const Rating = () => {
@@ -21,13 +21,6 @@ const Rating = () => {
 
   const [currentDeleteRatingId, setCurrentDeleteRatingId] = useState<number | undefined>()
   const [currentEditRating, setCurrentEditRating] = useState<RatingRes | undefined>()
-
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-      setCurrentDeleteRatingId(undefined)
-    }
-  }, [])
 
   const handleDeleteRating = (rating_id: number) => {
     deleteRating({

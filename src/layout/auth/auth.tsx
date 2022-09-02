@@ -23,7 +23,7 @@ const AuthLayout = ({ children, headerClassName = "" }: AuthLayoutProps) => {
   return (
     <>
       <AuthHeader className={headerClassName} />
-      <main className="min-h-[calc(100vh-80px)] h-full bg-bg flex flex-col">{children}</main>
+      <main className="min-h-screen h-full bg-bg flex flex-col">{children}</main>
     </>
   )
 }

@@ -24,7 +24,7 @@ const RideCanceledPage = () => {
         <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       ) : null}
 
-      <div className="flex justify-center md:justify-start mt-40">
+      <div className="flex justify-center md:justify-start mt-40 mb-12">
         <button onClick={() => router.push("/c")} className="btn-primary-outline">
           Về trang chủ
         </button>

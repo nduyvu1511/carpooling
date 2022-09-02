@@ -1,21 +1,25 @@
 import {
+  AccordionItem,
+  HeaderMobile,
   RideDriverSummary,
   RideProgress,
   RidesSummaryHeader,
+  RideStatus,
   RideSummaryLoading,
   RideSummaryMap,
   RideSummaryPassengerItem,
+  Seo,
 } from "@/components"
 import { useBackRouter, useBreakpoint } from "@/hooks"
-import { DriverBookingLayout } from "@/layout"
+import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import { ridesApi } from "@/services"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useState } from "react"
 import useSWR from "swr"
 
 const RideDone = () => {
-  const breakpoints = useBreakpoint()
   const router = useRouter()
   const { compounding_car_id = "" } = router.query
   const { data: compoundingCar, isValidating } = useSWR<DriverCompoundingCarInvoiceRes | undefined>(
@@ -26,6 +30,7 @@ const RideDone = () => {
         .then((res) => res.result.data)
         .catch((err) => console.log(err))
   )
+  const [show, setShow] = useState<boolean>()
 
   useBackRouter({
     cb: (as) => {
@@ -36,25 +41,25 @@ const RideDone = () => {
   })
 
   return (
-    <DriverBookingLayout
-      topNode={<RideProgress className="mb-[40px]" state={compoundingCar?.state} />}
-      showLoading={isValidating}
-      rightNode={
-        compoundingCar ? (
+    <DriverLayout>
+      <Seo
+        description="Hoàn thành chuyến đi"
+        thumbnailUrl=""
+        title="Hoàn thành chuyến đi"
+        url={`d/ride-detail/in-process/${compoundingCar?.compounding_car_id}`}
+      />
+      <HeaderMobile title="Hoàn thành chuyến đi" className="lg:hidden" />
+      <div className="content-container block-element p-custom my-24 mt-[56px] md:mt-[80px] lg:mt-24">
+        {isValidating ? (
           <>
-            <RideSummaryMap showMap={false} data={compoundingCar as any} />
-            <RideDriverSummary className="py-16 px-12 md:px-16 xl:px-24" ride={compoundingCar} />
+            <RideProgress state={undefined} />
+            <div className="mt-24"></div>
+            <RideSummaryLoading view="lg" />
           </>
-        ) : null
-      }
-      title="Chuyến đi thành công"
-      showHeaderDesktop={false}
-    >
-      {isValidating ? (
-        <RideSummaryLoading view="lg" />
-      ) : compoundingCar ? (
-        <>
-          <div className="mb-[40px]">
+        ) : compoundingCar ? (
+          <>
+            <RideProgress state={compoundingCar.state} className="mb-24 md:mb-40" />
+
             <RidesSummaryHeader
               desc={
                 <p className="text-sm md:text-base">
@@ -65,38 +70,58 @@ const RideDone = () => {
                   </Link>
                 </p>
               }
-              title="Chuyến đi đã được khởi tạo"
+              title="Hoàn thành chuyến đi"
             />
-          </div>
 
-          {breakpoints < 1024 ? (
-            <div className="mb-[40px]">
-              <p className="title-uppercase">Thông tin thanh toán</p>
-              <RideDriverSummary className="mb-24" ride={compoundingCar} />
+            <div className="my-24 border-b border-solid border-border-color"></div>
+
+            <div className="mb-24">
+              <p className="title-uppercase mb-16">Hóa đơn</p>
+              <RideDriverSummary ride={compoundingCar} />
             </div>
-          ) : null}
 
-          {compoundingCar && compoundingCar?.customer_invoice?.length > 0 ? (
-            <ul className="mb-[40px]">
-              {compoundingCar.customer_invoice.map((item, index) => (
-                <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
-                  <p className="text-xs mb-12">{index + 1},</p>
-                  <RideSummaryPassengerItem data={item} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm md:text-base">Chưa có hành khách nào</p>
-          )}
+            {compoundingCar && compoundingCar?.customer_invoice?.length > 0 ? (
+              <ul className="mb-24">
+                {/* <p className="title-uppercase mb-16">Danh sách hành khách</p> */}
+                <AccordionItem
+                  className="px-24 py-16 md:px-24 md:py-16 bg-bg-primary rounded-[5px] border-t-0"
+                  // titleClassName="text-base font-semibold text-blue-7 uppercase"
+                  titleClassName="title-uppercase mb-0"
+                  title="Danh sách hành khách"
+                  onClick={() => setShow(!show)}
+                  maxHeight={10000000}
+                  isActive={show}
+                  allowTransition={false}
+                >
+                  {compoundingCar.customer_invoice.map((item, index) => (
+                    <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
+                      <RideSummaryPassengerItem data={item} />
+                    </li>
+                  ))}
+                </AccordionItem>
+              </ul>
+            ) : (
+              <p className="text-sm md:text-base">Chưa có hành khách nào</p>
+            )}
 
-          <div className="flex-center lg:justify-start">
-            <Link href="/d">
-              <a className="btn-primary-outline">Về trang chủ</a>
-            </Link>
-          </div>
-        </>
-      ) : null}
-    </DriverBookingLayout>
+            <div className="my-24 border-t border-solid border-border-color"></div>
+
+            <div className="">
+              <p className="text-sm md:text-base">
+                Cảm ơn bạn đã sử dụng dịch vụ của ExxeVn, Chúng tôi mong bạn sẽ thích và tiếp tục
+                ủng hộ dịch vụ của chúng tôi.
+              </p>
+            </div>
+
+            <div className="flex-center mt-[40px]">
+              <Link href="/d">
+                <a className="btn-primary-outline">Về trang chủ</a>
+              </Link>
+            </div>
+          </>
+        ) : null}
+      </div>
+    </DriverLayout>
   )
 }
 

@@ -5,6 +5,7 @@ interface RideStatusProps {
   backgroundColor: string
   number: number
   icon: ReactNode
+  className?: string
 }
 
 export const RideStatus = ({ backgroundColor, icon, label, number }: RideStatusProps) => {
@@ -16,7 +17,7 @@ export const RideStatus = ({ backgroundColor, icon, label, number }: RideStatusP
       >
         {icon}
       </span>
-      <p className="">
+      <p className="whitespace-nowrap">
         <span className="text-[10px]">{label}:</span>{" "}
         <span className="text-12 font-medium">{number}</span>
       </p>

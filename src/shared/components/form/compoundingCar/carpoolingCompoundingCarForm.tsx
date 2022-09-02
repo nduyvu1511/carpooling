@@ -181,7 +181,7 @@ export const CarpoolingCompoundingForm = ({
       >
         <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
           <div className="mb-8">
-            {getValues("from_location") ? (
+            {getValues("from_location") && compoundingType === "compounding" ? (
               <InputLocation
                 prevProvinceId={getValues("from_location.province_id")}
                 isError={!!errors?.from_location}
