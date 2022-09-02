@@ -54,7 +54,7 @@ export const RideSummaryMap = memo(function Child({
 
       {showMap ? (
         <div className="h-[200px]">
-          {/* <Map
+          <Map
             viewOnly
             directions={{
               destination: {
@@ -66,7 +66,7 @@ export const RideSummaryMap = memo(function Child({
                 lng: Number(data.to_province.longitude),
               },
             }}
-          /> */}
+          />
         </div>
       ) : null}
 
