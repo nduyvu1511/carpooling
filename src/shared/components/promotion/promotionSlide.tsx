@@ -1,3 +1,6 @@
+import { useQueryList } from "@/hooks"
+import { PromotionRes } from "@/models"
+import { promotionApi } from "@/services"
 import { SwiperSlide } from "swiper/react"
 import { Slide } from "../common"
 import { PromotionInfoItem } from "./promotionInfoItem"
@@ -8,6 +11,14 @@ interface PromotionSlideProps {
 }
 
 export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlideProps) => {
+  const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isInitialLoading } =
+    useQueryList<PromotionRes>({
+      fetcher: promotionApi.getPromotionList,
+      initialData: undefined,
+      key: "get_promotion_list",
+      params: { limit: 12, offset: 0 },
+    })
+
   return (
     <div className="promotion-slide">
       <h4

@@ -131,7 +131,7 @@ export const RIDE_STATE_TEXT_COLOR = {
   deposit: "#767676",
   waiting: "#767676",
   assign: "#767676",
-  confirm_paid: "#A7F2C1",
+  confirm_paid: "#008F5D",
 }
 
 export const RIDE_STATE_BG = {
@@ -141,7 +141,7 @@ export const RIDE_STATE_BG = {
   deposit: "#FAFAFA",
   waiting: "#FAFAFA",
   assign: "#FAFAFA",
-  confirm_paid: "#008F5D",
+  confirm_paid: "#F4FDF7",
 }
 
 export const RIDE_STATE_NAME = {
