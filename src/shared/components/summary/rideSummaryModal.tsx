@@ -9,10 +9,9 @@ import { RideSummary } from "./rideSummary"
 
 interface RideSummaryModalProps {
   data: CompoundingCarCustomer | CompoundingCarRes | CompoundingCarDriverRes
-  showDeposit?: boolean
 }
 
-const RideSummaryModal = ({ data, showDeposit = true }: RideSummaryModalProps) => {
+const RideSummaryModal = ({ data }: RideSummaryModalProps) => {
   const dispatch = useDispatch()
   const isShowSummaryDetail = useSelector((state: RootState) => state.common.isShowSummaryDetail)
 
@@ -44,7 +43,7 @@ const RideSummaryModal = ({ data, showDeposit = true }: RideSummaryModalProps) =
             Thông tin chuyến đi
           </p>
         </div>
-        <RideSummary showDeposit={showDeposit} showFull view="modal" data={data} />
+        <RideSummary showFull view="modal" data={data} />
       </div>
     </Drawer>
   )

@@ -14,7 +14,7 @@ const PromotionDetailPage = () => {
       sticky
       bg={promotionBanner1}
     >
-      <PromotionDetail promotion_id={Number(promotion_id)} />
+      {promotion_id ? <PromotionDetail promotion_id={Number(promotion_id)} /> : null}
     </StaticLayout>
   )
 }

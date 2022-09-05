@@ -24,9 +24,9 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
-interface ModalType  {
+interface ModalType {
   value: number | boolean
-  name: 'ratingModal' | ''
+  name: "ratingModal" | ""
 }
 
 const RidesDetail = () => {

@@ -1,3 +1,4 @@
+import { MessageIcon, PhoneIcon2 } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { CarDriverId } from "@/models"
 import Image from "next/image"
@@ -15,33 +16,37 @@ export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSum
 
       {driver?.partner_id ? (
         <div className="">
-          <div className="flex items-center mb-24">
-            <div className="relative w-[60px] h-[60px] rounded-[50%] overflow-hidden mr-16">
-              <Image
-                src={toImageUrl(driver.avatar_url.image_url)}
-                alt={driver.partner_name}
-                layout="fill"
-                objectFit="cover"
-              />
+          <div className="flex items-start">
+            <div className="flex items-center flex-1 mr-16">
+              <div className="relative w-[80px] h-[80px] rounded-[50%] overflow-hidden mr-16">
+                <Image
+                  src={toImageUrl(driver.avatar_url.image_url)}
+                  alt={driver.partner_name}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-semibold line-clamp-1 text-primary">
+                  {driver.partner_name}
+                </p>
+                <p className="text-sm font-semibold">
+                  <Star ratingValue={driver.rating_number * 20} readonly size={14} />
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold">{driver.partner_name}</p>
-              <p className="text-sm font-semibold">
-                <Star ratingValue={driver.rating_number * 20} readonly size={14} />
-              </p>
+
+            <div className="flex items-center">
+              <a href={`tel:${driver.phone}`} className="mr-12 md:mr-24">
+                <PhoneIcon2 className="text-primary w-[18px] h-[18px]" />
+              </a>
+              <button>
+                <MessageIcon className="text-primary w-[24px] h-[24px]" />
+              </button>
             </div>
           </div>
-          <ul>
-            <li className="flex items-center">
-              <p className="text-xs w-[150px]">Số điện thoại</p>
-              <a
-                href={`tel:${driver.phone}`}
-                className="text-14 md:text-16 font-medium ml-auto text-primary underline"
-              >
-                {driver.phone}
-              </a>
-            </li>
-          </ul>
+
+          {/*  */}
         </div>
       ) : (
         <p className="text-sm text-gray-color-7 leading-[22px]">

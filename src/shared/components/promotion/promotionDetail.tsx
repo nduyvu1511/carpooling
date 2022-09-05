@@ -1,22 +1,25 @@
+import { PromotionDetailRes } from "@/models"
 import { promotionApi } from "@/services"
 import useSWR from "swr"
+import { Spinner } from "../loading"
 
 interface PromotionDetailProps {
   promotion_id: number
 }
 
 export const PromotionDetail = ({ promotion_id }: PromotionDetailProps) => {
-  const { isValidating, mutate, data, error } = useSWR(
+  const { isValidating, mutate, data, error } = useSWR<PromotionDetailRes>(
     promotion_id ? `get_detail_promotion_${promotion_id}` : null,
     () => promotionApi.getDetailPromotion({ promotion_id }).then((res) => res.result.data),
     {
-      dedupingInterval: 10000,
+      dedupingInterval: 100000,
     }
   )
 
+  if (isValidating) return <Spinner size={30} />
   return (
-    <div>
-      <div className="mb-[40px]">
+    <div dangerouslySetInnerHTML={{ __html: data?.description || "" }}>
+      {/* <div className="mb-[40px]">
         <p className="text-16 md:text-18 mb-16 font-semibold">Thông tin ưu đãi</p>
         <p className="text-sm md:text-base">
           Lượt sử dụng có hạn. Nhanh tay kẻo lỡ bạn nhé! Giảm 10% Đơn Tối Thiểu ₫50k Giảm tối đa
@@ -52,7 +55,7 @@ export const PromotionDetail = ({ promotion_id }: PromotionDetailProps) => {
         <span className="italic">
           Chương trình có thể chấm dứt sớm hơn khi số lượng vé được bán hết.
         </span>
-      </p>
+      </p> */}
     </div>
   )
 }

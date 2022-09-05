@@ -1,4 +1,4 @@
-import { CompoundingCarRes } from "@/models"
+import { CompoundingCarDriverRes } from "@/models"
 import { useState } from "react"
 import { AccordionItem } from "../accordion"
 import { DriverDepositInfo } from "./driverDepositInfo"
@@ -7,7 +7,7 @@ import { RideSummaryMap } from "./rideSummaryMap"
 import { RideSummaryRules } from "./rideSummaryRules"
 
 interface RideDriverBillProps {
-  data: CompoundingCarRes
+  data: CompoundingCarDriverRes
   showHeader?: boolean
   showDepositInfo?: boolean
 }
@@ -35,7 +35,8 @@ const RideDriverBill = ({
         <div className="px-custom py-16">
           {data?.down_payment ? (
             <DriverDepositInfo
-              amount_total={data?.amount_total || data?.price_unit?.price_unit}
+              discount_after_tax={data?.discount_after_tax}
+              amount_total={data?.amount_undiscounted || data.amount_total || 0}
               down_payment={data.down_payment}
               deposit_date={data.deposit_date}
             />

@@ -65,8 +65,9 @@ const CheckoutSuccess = () => {
                   Thông tin đặt cọc
                 </p>
                 <DriverDepositInfo
+                  discount_after_tax={compoundingCar?.discount_after_tax}
                   amount_total={
-                    compoundingCar?.amount_total || compoundingCar?.price_unit?.price_unit
+                    compoundingCar?.amount_undiscounted || compoundingCar.amount_total || 0
                   }
                   down_payment={compoundingCar.down_payment}
                   deposit_date={compoundingCar.deposit_date}

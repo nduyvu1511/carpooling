@@ -9,6 +9,7 @@ interface PromotionFormProps {
   promotionCode?: string
   onCancelPromotion?: Function
   onChange?: (val: string) => void
+  readonly?: boolean
 }
 
 export const PromotionForm = ({
@@ -18,10 +19,10 @@ export const PromotionForm = ({
   promotionCode,
   onCancelPromotion,
   onChange: onChangeProps,
+  readonly = false,
 }: PromotionFormProps) => {
   const secondRef = useRef<boolean>(false)
   const { onChange, value, clearValue } = useInputText("")
-
   const searchTerm = useDebounce(value, 500)
 
   useEffect(() => {
@@ -47,6 +48,8 @@ export const PromotionForm = ({
           <CouponIcon className="w-[20px] h-[20px] text-primary" />
         </span>
         <input
+          style={{ userSelect: readonly ? "none" : "auto" }}
+          readOnly={readonly}
           onFocus={() => onFocus?.()}
           value={promotionCode || value}
           onChange={onChange}

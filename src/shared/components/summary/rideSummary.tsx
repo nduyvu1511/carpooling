@@ -1,7 +1,6 @@
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { ReactNode, useState } from "react"
 import { AccordionItem } from "../accordion"
-import { Map } from "../map"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"
 import { RideSummaryRules } from "./rideSummaryRules"
@@ -12,7 +11,6 @@ interface RideSummaryProps {
   showFull?: boolean
   showMap?: boolean
   children?: ReactNode
-  showDeposit?: boolean
 }
 
 export const RideSummary = ({
@@ -21,7 +19,6 @@ export const RideSummary = ({
   showFull = true,
   showMap = true,
   children = null,
-  showDeposit = true,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
 

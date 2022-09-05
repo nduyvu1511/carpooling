@@ -32,11 +32,23 @@ const RideCustomerBill = ({
         {type === "deposit" ? (
           <ul>
             <p className="text-base font-semibold text-blue-7 uppercase mb-16">Thông tin đặt cọc</p>
-            <SummaryItem label="Chi phí tạm tính" value={formatMoneyVND(data.amount_total)} />
             <SummaryItem
-              label="Ngày đặt cọc"
-              value={moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
+              label="Chi phí tạm tính"
+              value={formatMoneyVND(data.amount_undiscounted || data.amount_total)}
             />
+            {data?.discount_after_tax ? (
+              <SummaryItem
+                label="Khuyến mãi"
+                valueClassName="text-sm md:text-base text-error md:text-error"
+                value={formatMoneyVND(-data.discount_after_tax)}
+              />
+            ) : null}
+            {data?.deposit_date ? (
+              <SummaryItem
+                label="Ngày đặt cọc"
+                value={moment(data.deposit_date).format("HH:mm DD/MM/YYYY")}
+              />
+            ) : null}
             <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(data.amount_due)} />
             <SummaryItem
               labelClassName="text-14 md:text-16 font-semibold"
@@ -48,6 +60,13 @@ const RideCustomerBill = ({
         ) : (
           <ul>
             <p className="text-base font-semibold text-primary uppercase mb-16">Hóa đơn</p>
+            {data?.discount_after_tax ? (
+              <SummaryItem
+                label="Khuyến mãi"
+                valueClassName="text-sm md:text-base text-error md:text-error"
+                value={formatMoneyVND(-data.discount_after_tax)}
+              />
+            ) : null}
             <SummaryItem
               label={`Số tiền đặt cọc (${Number(data.down_payment.percent * 100)}%)`}
               value={formatMoneyVND(data.down_payment.total)}

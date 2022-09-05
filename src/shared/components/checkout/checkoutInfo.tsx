@@ -1,44 +1,35 @@
 import { formatMoneyVND } from "@/helper"
-import { CarAccountType } from "@/models"
-import React from "react"
+import { CarAccountType, IDepositSummaryOptional } from "@/models"
 import { Countdown } from "../countdown"
-import { SummaryItem } from "./summaryItem"
+import { SummaryItem } from "../summary"
 
 interface DepositSummaryProps {
   secondsRemains: number
-  amount_total?: number
-  down_payment: number
-  amount_due?: number
-  percentage?: number
-  showCountdown?: boolean
   type?: "deposit" | "checkout"
   onExpiredCountdown: Function
   accountType?: CarAccountType
+  data: IDepositSummaryOptional
 }
 
-export const DepositSummary = ({
-  down_payment,
+export const CheckoutInfo = ({
   secondsRemains,
-  amount_due,
-  amount_total,
-  percentage,
-  showCountdown,
   type,
   onExpiredCountdown,
   accountType,
+  data,
 }: DepositSummaryProps) => {
   return (
     <>
       <div className="flex items-center mb-16 md:mb-24  justify-between">
         <p className="text-base font-semibold uppercase">Hóa đơn</p>
 
-        {showCountdown ? (
+        {type === "deposit" ? (
           <div className="flex items-center">
             <span className="mr-8 text-xs sm:text-sm text-error sm:text-error">
               Thời hạn giữ vé
             </span>
             <Countdown
-              className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] whitespace-nowrap w-[56px] py-4 h-[28px] px-8"
+              className="bg-bg-error-2 text-14 font-semibold text-error rounded-[5px] w-[56px] py-4 h-[28px] px-8"
               onExpiredCoundown={onExpiredCountdown}
               secondsRemains={secondsRemains}
             />
@@ -52,11 +43,20 @@ export const DepositSummary = ({
         </p>
       ) : null}
 
-      {amount_total ? (
+      {data?.amount_total ? (
         <div className="flex items-center justify-between mb-12">
           <span className="mr-[12px] text-xs">Chi phí tạm tính</span>
           <span className="text-sm md:text-base whitespace-nowrap">
-            {formatMoneyVND(amount_total)}
+            {formatMoneyVND(data?.amount_total)}
+          </span>
+        </div>
+      ) : null}
+
+      {data?.discount_after_tax ? (
+        <div className="flex items-center justify-between mb-12">
+          <span className="mr-[12px] text-xs">Khuyến mãi</span>
+          <span className="text-sm md:text-base text-error md:text-error">
+            -{formatMoneyVND(data?.discount_after_tax)}
           </span>
         </div>
       ) : null}
@@ -65,32 +65,35 @@ export const DepositSummary = ({
         <>
           <SummaryItem
             label="Tổng tiền cần thanh toán"
-            value={formatMoneyVND(amount_total || 0) + ""}
+            value={formatMoneyVND(data.amount_total || 0) + ""}
           />
 
-          {amount_due ? (
-            <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(amount_due)} />
+          {data?.amount_due ? (
+            <SummaryItem label="Số tiền thanh toán sau" value={formatMoneyVND(data?.amount_due)} />
           ) : null}
         </>
       ) : null}
 
-      {down_payment ? (
+      {type === "checkout" ? (
         <SummaryItem
           labelClassName="text-base font-semibold"
-          label={
-            type === "checkout"
-              ? "Số tiền cần thanh toán"
-              : `Số tiền đặt cọc (${Number(percentage)}%)`
-          }
-          valueClassName="text-14 md:text-16 whitespace-nowrap font-semibold"
-          value={formatMoneyVND(down_payment)}
+          label="Số tiền cần thanh toán"
+          valueClassName="text-14 md:text-16 font-semibold"
+          value={formatMoneyVND(data?.down_payment?.total || 0)}
         />
-      ) : null}
+      ) : (
+        <SummaryItem
+          labelClassName="text-base font-semibold"
+          label={`Số tiền đặt cọc (${Number((data?.down_payment?.percent || 0) * 100)}%)`}
+          valueClassName="text-14 md:text-16 font-semibold"
+          value={formatMoneyVND(data?.down_payment?.total || 0)}
+        />
+      )}
 
       {accountType === "car_driver" ? (
         <SummaryItem
           label="Số tiền hoàn sau khi thanh toán"
-          value={formatMoneyVND(amount_total || 0)}
+          value={formatMoneyVND(data.amount_total || 0)}
         />
       ) : null}
     </>

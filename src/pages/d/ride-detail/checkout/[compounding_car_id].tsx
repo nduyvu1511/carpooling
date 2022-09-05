@@ -7,7 +7,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
 } from "@/components"
-import { useCompoundingCarDriver, useDriverCheckout, usePromotionActions } from "@/hooks"
+import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { CancelRideParams, DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
 import { useRouter } from "next/router"
@@ -25,7 +25,6 @@ const CheckoutDriver = () => {
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),
   })
-  const { applyPromotionForDriver } = usePromotionActions()
   const {
     cancelDepositCompoundingCarDriver,
     createPaymentForDriver,
@@ -94,14 +93,6 @@ const CheckoutDriver = () => {
     })
   }
 
-  const handleApplyPromotion = (promotion_id: number) => {
-    mutate()
-  }
-
-  const handleCancelPromotion = (promotion_id: number) => {
-    mutate()
-  }
-
   return (
     <BookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}
@@ -122,22 +113,24 @@ const CheckoutDriver = () => {
               promotion={
                 <PromotionCheckout
                   data={compoundingCar?.promotion}
-                  onCancelPromotion={handleCancelPromotion}
-                  onApplyPromotion={handleApplyPromotion}
+                  onCancelPromotion={() => mutate()}
+                  onApplyPromotion={() => mutate()}
                   compounding_car_id={compoundingCar?.compounding_car_id}
                   accountType="car_driver"
                 />
               }
+              data={{
+                amount_due: deposit.amount_due,
+                amount_total: deposit.amount_total,
+                amount_undiscounted: deposit?.amount_undiscounted,
+                discount_after_tax: deposit?.discount_after_tax,
+                down_payment: deposit.down_payment,
+              }}
               descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
-              amount_due={deposit.amount_due}
-              amount_total={deposit.amount_total}
-              down_payment={+deposit.down_payment.total}
               secondsRemains={+deposit.second_remains}
-              percentage={compoundingCar?.car_driver_deposit_percentage}
               onCheckout={(id) => handleCreatePayment(id)}
               state={compoundingCar?.state}
               onCancelCheckout={handleCancelCompoundingCar}
-              onApplyPromotion={handleApplyPromotion}
               returnedUrl={`/d/ride-detail/checkout/${compoundingCar?.compounding_car_id}`}
             />
           ) : null}

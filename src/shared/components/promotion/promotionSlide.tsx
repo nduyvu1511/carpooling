@@ -11,13 +11,12 @@ interface PromotionSlideProps {
 }
 
 export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlideProps) => {
-  const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isInitialLoading } =
-    useQueryList<PromotionRes>({
-      fetcher: promotionApi.getPromotionList,
-      initialData: undefined,
-      key: "get_promotion_list",
-      params: { limit: 12, offset: 0 },
-    })
+  const { data } = useQueryList<PromotionRes>({
+    fetcher: promotionApi.getSpecialPromotionList,
+    initialData: undefined,
+    key: "get_special_promotion_list",
+    params: { limit: 12, offset: 0 },
+  })
 
   return (
     <div className="promotion-slide">

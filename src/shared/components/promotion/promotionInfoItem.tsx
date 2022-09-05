@@ -15,7 +15,7 @@ export const PromotionInfoItem = ({ data }: PromotionInfoItemProps) => {
 
   return (
     <div
-      onClick={() => router.push(`/promotion/${1}`)}
+      onClick={() => router.push(`/promotion/${data.promotion_id}`)}
       className="relative flex flex-col rounded-[10px]"
     >
       <span className="absolute top-24 left-[-4px] z-10 text-[10px] font- text-error bg-bg-error-2 py-6 px-[14px] rounded-tr-[20px] rounded-br-[20px]">

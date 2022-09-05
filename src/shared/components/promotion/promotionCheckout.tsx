@@ -54,7 +54,7 @@ export const PromotionCheckout = ({
       })
     }
   }
-  console.log({ promotionCode })
+
   const handleApplyPromotion = (promotion: PromotionRes) => {
     if (accountType === "car_driver") {
       if (!compounding_car_id) return
@@ -92,13 +92,18 @@ export const PromotionCheckout = ({
     <>
       <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
       <PromotionForm
+        readonly
         promotionCode={promotionCode}
         onCancelPromotion={handleCancelPromotion}
         onFocus={() => toggleModal(true)}
       />
 
       {showPromotionModal ? (
-        <PromotionModal onApply={handleApplyPromotion} onClose={() => toggleModal(false)} />
+        <PromotionModal
+          appliedPromotionId={data?.promotion_id}
+          onApply={handleApplyPromotion}
+          onClose={() => toggleModal(false)}
+        />
       ) : null}
     </>
   )

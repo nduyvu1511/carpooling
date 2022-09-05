@@ -39,29 +39,20 @@ const CheckoutCustomer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
 
-  const handleApplyPromotion = (promotion_id: number) => {
-    mutate()
-
-    // if (!compoundingCar?.compounding_car_customer_id) return
-    // applyPromotionForCustomer({
-    //   params: {
-    //     compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
-    //     promotion_id,
-    //   },
-    //   onSuccess: () => {
-    //   },
-    // })
+  const redirectToCheckoutSuccess = () => {
+    router.push(
+      `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
+    )
   }
 
   const handleConfirmTransaction = (params: PaymentRes) => {
-    const { compounding_car_customer_id } = compoundingCar || {}
-    if (!compounding_car_customer_id) return
+    if (!compoundingCar?.compounding_car_customer_id) return
 
     createPayment({
       params: {
         acquirer_id: params.acquirer_id,
         returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
-        compounding_car_customer_id,
+        compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
       },
       onSuccess: (data) => {
         if (params.provider === "exxe_wallet") {
@@ -81,16 +72,6 @@ const CheckoutCustomer = () => {
         router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
       },
     })
-  }
-
-  const redirectToCheckoutSuccess = () => {
-    router.push(
-      `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
-    )
-  }
-
-  const handleCancelPromotion = () => {
-    mutate()
   }
 
   return (
@@ -125,17 +106,19 @@ const CheckoutCustomer = () => {
               promotion={
                 <PromotionCheckout
                   data={compoundingCar?.promotion}
-                  onCancelPromotion={handleCancelPromotion}
-                  onApplyPromotion={handleApplyPromotion}
+                  onCancelPromotion={() => mutate()}
+                  onApplyPromotion={() => mutate()}
                   compounding_car_customer_id={compoundingCar.compounding_car_customer_id}
                   accountType="customer"
                 />
               }
-              onApplyPromotion={handleApplyPromotion}
-              percentage={compoundingCar.customer_deposit_percentage}
-              amount_due={compoundingCar?.amount_due}
-              down_payment={compoundingCar?.down_payment?.total}
-              amount_total={compoundingCar.amount_total || compoundingCar?.price_unit?.price_unit}
+              data={{
+                amount_due: compoundingCar.amount_due,
+                amount_total: compoundingCar.amount_total,
+                amount_undiscounted: compoundingCar?.amount_undiscounted,
+                discount_after_tax: compoundingCar?.discount_after_tax,
+                down_payment: compoundingCar.down_payment,
+              }}
               secondsRemains={compoundingCar.second_remains}
               onCheckout={(_) => handleConfirmTransaction(_)}
               onCancelCheckout={handleCancelCompoundingCarCustomer}

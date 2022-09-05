@@ -1,12 +1,19 @@
 import {
   AccordionItem,
-  Alert, DriverDepositInfo, Modal,
+  Alert,
+  DriverDepositInfo,
+  Modal,
   RatingItem,
   RatingReport,
-  RideCancelForm, RideCancelSnackbar, RideCheckoutPopup, RideDetailLoading, RideProgress, RideSummary,
+  RideCancelForm,
+  RideCancelSnackbar,
+  RideCheckoutPopup,
+  RideDetailLoading,
+  RideProgress,
+  RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  RideSummaryPassengerItem
+  RideSummaryPassengerItem,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -118,7 +125,10 @@ const ConfirmBookingCustomer = () => {
                 <div className="ride-detail-driver mb-24">
                   <p className="text-base font-semibold uppercase mb-16 md:mb-24">Hóa đơn</p>
                   <DriverDepositInfo
-                    amount_total={compoundingCar.amount_total || 0}
+                    discount_after_tax={compoundingCar?.discount_after_tax}
+                    amount_total={
+                      compoundingCar?.amount_undiscounted || compoundingCar.amount_total || 0
+                    }
                     down_payment={compoundingCar.down_payment as DownPayment}
                     deposit_date={compoundingCar.deposit_date}
                   />

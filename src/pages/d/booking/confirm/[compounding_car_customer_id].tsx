@@ -78,9 +78,7 @@ const CompoundingCarDriver = () => {
       <DriverBookingLayout
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
-        rightNode={
-          compoundingCar ? <RideSummary showDeposit={false} data={compoundingCar} /> : null
-        }
+        rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
         title="Xác nhận chuyến đi"
       >
         <>
@@ -116,7 +114,7 @@ const CompoundingCarDriver = () => {
           type="warning"
         />
 
-        {compoundingCar ? <RideSummaryModal showDeposit={false} data={compoundingCar} /> : null}
+        {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
       </DriverBookingLayout>
     </>
   )

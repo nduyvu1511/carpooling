@@ -1,4 +1,4 @@
-import { ClockIcon, promotionShape1, promotionShape2, QuestionIcon } from "@/assets"
+import { ClockIcon, promotionShape1, promotionShape2 } from "@/assets"
 import { formatTimeType } from "@/helper"
 import { PromotionRes } from "@/models"
 import moment from "moment"
@@ -9,8 +9,8 @@ interface PromotionItemProps {
   disabled?: boolean
   onApply?: (_: PromotionRes) => void
   onClick?: (id: number) => void
-  onShowCondition?: (id: number) => void
   onSave?: (_: PromotionRes) => void
+  appliedPromotionId?: number
 }
 
 export const PromotionItem = ({
@@ -18,8 +18,8 @@ export const PromotionItem = ({
   disabled,
   onApply,
   onClick,
-  onShowCondition,
   onSave,
+  appliedPromotionId,
 }: PromotionItemProps) => {
   if (data === null)
     return (
@@ -38,7 +38,7 @@ export const PromotionItem = ({
   return (
     <div
       onClick={() => onClick?.(data.promotion_id)}
-      className={`p-[16px] md:p-24 rounded-[16px] relative cursor-pointer  ${
+      className={`p-[16px] md:p-24 rounded-[16px] relative ${
         disabled ? "opacity-30 bg-[#D9D9D9] pointer-events-none select-none" : "bg-blue-10"
       }`}
     >
@@ -73,15 +73,15 @@ export const PromotionItem = ({
         </div>
 
         <div className="flex items-center mb-8">
-          <button className="z-10" onClick={() => onShowCondition?.(data.promotion_id)}>
-            <QuestionIcon className="w-[16px] h-[16px] text-primary" />
-          </button>
-          <p className="text-xs mr-16 text-blue-8">{data.promotion_brief}</p>
+          <p className="text-xs text-blue-8 z-10 line-clamp-1">
+            {data.promotion_brief || data.promotion_name}
+          </p>
         </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            {data.duration_end?.time_type === "hour" ? (
+            {data.duration_end?.time_type === "day" &&
+            moment(data.date_end).add(3, "days").isAfter(moment()) ? (
               <span className="bg-white-color py-4 px-8 rounded-[5px] text-12 font-normal text-error z-10">
                 còn {data.duration_end.time_value} {formatTimeType(data.duration_end.time_type)}
               </span>
@@ -98,10 +98,22 @@ export const PromotionItem = ({
           </div>
 
           <button
-            onClick={() => (data.saved_promotion ? onApply?.(data) : onSave?.(data))}
-            className="text-14 font-semibold text-primary z-10"
+            onClick={(e) => {
+              e.stopPropagation()
+              if (data.promotion_id === appliedPromotionId) return
+              data.saved_promotion ? onApply?.(data) : onSave?.(data)
+            }}
+            className={`text-14 font-semibold z-10 ${
+              appliedPromotionId === data?.promotion_id
+                ? "pointer-events-none text-gray-color-6"
+                : "text-primary"
+            }`}
           >
-            {data.saved_promotion ? "Áp dụng" : "Lưu"}
+            {data.saved_promotion
+              ? appliedPromotionId === data.promotion_id
+                ? "Đã áp dụng"
+                : "Áp dụng"
+              : "Lưu"}
           </button>
         </div>
       </div>

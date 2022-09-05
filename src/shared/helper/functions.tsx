@@ -29,6 +29,7 @@ export const onScrollBottom = (callBack: Function) => {
 }
 
 export const getHoursName = (hours: number): string => {
+  console.log({ hours })
   const hoursVal = ((hours % 1) * 10 * 6).toFixed(0)
   if (hours < 1) return `${hoursVal} Phút`
   return `${hours | 0} Giờ ${hoursVal} Phút`

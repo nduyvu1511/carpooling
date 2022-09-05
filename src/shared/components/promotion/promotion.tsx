@@ -1,18 +1,14 @@
-import { RootState } from "@/core/store"
+import { FilterNotFound, Modal, PromotionDetail, PromotionItem, Spinner } from "@/components"
+import { RootState } from "@/core"
 import { toggleBodyOverflow } from "@/helper"
 import { usePromotionActions, useQueryList } from "@/hooks"
 import { PromotionRes } from "@/models"
-import { promotionApi } from "@/services/promotionApi"
+import { promotionApi } from "@/services"
 import { AxiosPromise } from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useSelector } from "react-redux"
-import { FilterNotFound } from "../common"
-import { Spinner } from "../loading"
-import { Modal } from "../modal"
-import { PromotionDetail } from "./promotionDetail"
-import { PromotionItem } from "./promotionItem"
 
 interface PromotionProps {
   className?: string
@@ -115,7 +111,7 @@ export const Promotion = ({ className }: PromotionProps) => {
               {data?.map((item) => (
                 <PromotionItem
                   onSave={handleSavePromotion}
-                  onShowCondition={(id) => {
+                  onClick={(id) => {
                     toggleModal(id)
                   }}
                   onApply={() =>

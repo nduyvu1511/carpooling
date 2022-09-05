@@ -194,6 +194,8 @@ export interface CompoundingCarDriverRes
   amount_total?: number
   down_payment?: DownPayment
   promotion?: PromotionRes
+  discount_after_tax?: number
+  amount_undiscounted?: number
 }
 
 export interface PriceUnit {
@@ -260,6 +262,8 @@ export interface CompoundingCarCustomer {
   payment_amount?: number
   deposit_date?: string
   promotion?: PromotionRes
+  amount_undiscounted?: number
+  discount_after_tax?: number
 }
 
 export interface PartnerCompoundingCar {
@@ -556,6 +560,8 @@ export interface DepositCompoundingCarDriverRes {
   amount_total: number
   down_payment: DownPayment
   amount_due: number
+  amount_undiscounted?: number
+  discount_after_tax?: number
 }
 
 export interface DepositCompoundingCarDriverFailureRes {
@@ -645,3 +651,13 @@ export interface DriverCompoundingCarInvoiceRes {
   amount_due: number
   income_before_pit: number
 }
+
+export interface IDepositSummary {
+  amount_undiscounted: number
+  discount_after_tax: number
+  amount_total: number
+  down_payment: DownPayment
+  amount_due: number
+}
+
+export type IDepositSummaryOptional = Partial<IDepositSummary>

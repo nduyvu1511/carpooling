@@ -4,13 +4,11 @@ import {
   RideDriverSummary,
   RideProgress,
   RidesSummaryHeader,
-  RideStatus,
   RideSummaryLoading,
-  RideSummaryMap,
   RideSummaryPassengerItem,
   Seo,
 } from "@/components"
-import { useBackRouter, useBreakpoint } from "@/hooks"
+import { useBackRouter } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import { ridesApi } from "@/services"

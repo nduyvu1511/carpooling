@@ -93,9 +93,8 @@ const CheckoutCustomer = () => {
       ) : compoundingCar ? (
         <>
           <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-          <RideDetailInfo data={compoundingCar} />
+          <RideDetailInfo showSnackbar={false} data={compoundingCar} />
           <div className="my-24 border-b border-solid border-border-color"></div>
-
           <div className="mb-[40px]">
             <p className="uppercase text-base font-semibold mb-16 md:mb-24">
               PHƯƠNG THỨC THANH TOÁN
