@@ -15,7 +15,7 @@ export const SuggestionPromotion = () => {
     "get_suggestion_promotions",
     () =>
       promotionApi
-        .getPromotionList({ limit: 8, offset: 0 })
+        .getSpecialPromotionList({ limit: 8, offset: 0 })
         .then((res) => res.result.data)
         .catch((err) => console.log(err)),
     {

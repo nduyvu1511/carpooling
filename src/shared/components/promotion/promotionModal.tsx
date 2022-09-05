@@ -11,7 +11,7 @@ import { PromotionItem } from "./promotionItem"
 
 interface PromotionModalProps {
   onClose: Function
-  onApply?: (id: number) => void
+  onApply?: (id: PromotionRes) => void
 }
 
 export const PromotionModal = ({ onClose, onApply }: PromotionModalProps) => {

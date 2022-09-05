@@ -117,17 +117,17 @@ export const COMPOUNDING_TYPE_NAME = {
 export const RIDE_STATE_COLOR = {
   in_process: "#5A78FF",
   done: "#FFE2CC",
-  cancel: "#E7E7E7 ",
-  deposit: "#E7E7E7 ",
-  waiting: "#E7E7E7 ",
-  assign: "#E7E7E7 ",
+  cancel: "#FDF3F3",
+  deposit: "#E7E7E7",
+  waiting: "#E7E7E7",
+  assign: "#E7E7E7",
   confirm_paid: "#A7F2C1",
 }
 
 export const RIDE_STATE_TEXT_COLOR = {
   in_process: "#5A78FF",
   done: "#ED9526",
-  cancel: "#767676",
+  cancel: "#FF3B30",
   deposit: "#767676",
   waiting: "#767676",
   assign: "#767676",
@@ -137,7 +137,7 @@ export const RIDE_STATE_TEXT_COLOR = {
 export const RIDE_STATE_BG = {
   in_process: "#F7F8FF",
   done: "#FFF8F2",
-  cancel: "#FAFAFA",
+  cancel: "#FDF3F3",
   deposit: "#FAFAFA",
   waiting: "#FAFAFA",
   assign: "#FAFAFA",

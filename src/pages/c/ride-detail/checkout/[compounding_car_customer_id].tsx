@@ -1,9 +1,7 @@
-import { PaymentIcon, WalletIcon } from "@/assets"
 import {
   Alert,
   CheckoutLoading,
   PaymentCheckoutSlide,
-  PaymentMethodItem,
   RideDetailInfo,
   RideProgress,
   RideSummary,
@@ -13,10 +11,10 @@ import {
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { PaymentMethod, PaymentMethodItem as PaymentMethodItemType } from "@/models"
+import { PaymentMethod } from "@/models"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import useSWR from "swr"
 
 type ModalType = "confirmCheckout" | "walletBalanceAlert"

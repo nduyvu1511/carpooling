@@ -7,12 +7,13 @@ import { Swiper } from "swiper/react"
 interface SlideProps {
   children: ReactNode
   loop?: boolean
+  className?: string
 }
 
-const Slide = ({ children, loop = true }: SlideProps) => {
+const Slide = ({ children, loop = true, className = "" }: SlideProps) => {
   return (
     <Swiper
-      className="swiper-hover custom-swiper pb-[1px]"
+      className={`swiper-hover custom-swiper pb-[1px] ${className}`}
       spaceBetween={12}
       slidesPerView={"auto"}
       breakpoints={{

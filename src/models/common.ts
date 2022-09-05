@@ -1,3 +1,4 @@
+import { KeyedMutator } from 'swr';
 import { AxiosPromise } from "axios"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
@@ -177,6 +178,7 @@ export interface UseQueryListRes<T> {
   data: T[] | undefined
   error: any
   isInitialLoading: boolean
+  mutate: KeyedMutator<any>
 }
 
 export interface ContactParams {

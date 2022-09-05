@@ -2,7 +2,7 @@ import { ListQuery, UseQueryListRes } from "@/models"
 import { AxiosPromise, AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR from "swr"
-import { PublicConfiguration } from "swr/dist/types"
+import { KeyedMutator, PublicConfiguration } from "swr/dist/types"
 
 interface Props<T> {
   limit?: number
@@ -88,6 +88,7 @@ export const useQueryList = <T,>({
     isFetchingMore,
     offset,
     error,
-    isInitialLoading: data === undefined && error === undefined
+    isInitialLoading: data === undefined && error === undefined,
+    mutate,
   }
 }

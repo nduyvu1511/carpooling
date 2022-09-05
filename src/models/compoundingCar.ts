@@ -1,6 +1,7 @@
 import { PaymentMethod } from "./checkout"
 import { ListQuery, OptionModel } from "./common"
 import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
+import { PromotionRes } from "./promotion"
 import { RatingRes } from "./rating"
 import { CarAccountType, CarDriverId, GenderType, UserInfo } from "./user"
 
@@ -192,6 +193,7 @@ export interface CompoundingCarDriverRes
   car_driver_deposit_percentage: number
   amount_total?: number
   down_payment?: DownPayment
+  promotion?: PromotionRes
 }
 
 export interface PriceUnit {
@@ -227,7 +229,6 @@ export interface CompoundingCarCustomer {
   partner: PartnerCompoundingCar
   number_seat: number
   fee_final_destination: number
-  promotion: string
   sale_order_id: SaleOrderCompoundingCar
   amount_total: number
   down_payment: DownPayment
@@ -258,6 +259,7 @@ export interface CompoundingCarCustomer {
   confirm_date?: string
   payment_amount?: number
   deposit_date?: string
+  promotion?: PromotionRes
 }
 
 export interface PartnerCompoundingCar {

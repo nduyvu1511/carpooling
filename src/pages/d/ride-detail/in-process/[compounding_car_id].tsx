@@ -5,6 +5,7 @@ import {
   RideDoneIcon,
   RidePaidIcon,
   RidePickupIcon,
+  RideWaitingIcon,
 } from "@/assets"
 import {
   Alert,
@@ -75,11 +76,21 @@ const StartRunningCompoundingCar = () => {
 
   const statusList = useMemo(() => {
     return [
-      ["Chưa đón", "#f0f0f0", getNumberOfNotPickedUp, <RideCancelIcon key={1} />],
+      [
+        "Chưa đón",
+        "#FFD8D6",
+        getNumberOfNotPickedUp,
+        <RideWaitingIcon className="text-gray-color-7" key={1} />,
+      ],
       ["Đã đón", "#DAE2FD", getNumberOfPassengersPickedUp, <RidePickupIcon key={2} />],
       ["Đã trả", "#FFE9CD", getNumberOfPassengersDone, <RideDoneIcon key={3} />],
       ["Đã thanh toán", "#DBFFEA", getNumberOfPassengersPaid, <RidePaidIcon key={4} />],
-      ["Đã hủy", "#FFD8D6", getNumberOfPassengersCanceled, <RideCancelIcon key={5} />],
+      [
+        "Đã hủy",
+        "#FFD8D6",
+        getNumberOfPassengersCanceled,
+        <RideCancelIcon className="text-error" key={5} />,
+      ],
     ]
   }, [
     getNumberOfNotPickedUp,

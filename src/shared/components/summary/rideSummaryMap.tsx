@@ -25,7 +25,7 @@ export const RideSummaryMap = memo(function Child({
   showInfo = true,
 }: RideSummaryMapProps) {
   return (
-    <div className={`bg-gray-05 rounded-[5px] p-custom ${className}`}>
+    <div className={`${showInfo ? "bg-gray-05 rounded-[5px] p-custom" : ""} ${className}`}>
       {showInfo ? (
         <div className="flex items-center mb-16">
           <div className="flex-1">

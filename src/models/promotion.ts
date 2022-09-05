@@ -42,12 +42,20 @@ export interface PromotionRes {
   promotion_code: string
   promotion_name: string
   promotion_type: PromotionType
-  promotion_value: number
+  promotion_value: {
+    value: number
+    unit: string
+  }
+  promotion_brief: string
   saved_promotion: boolean
   date_start: string
   date_end: string
   duration_start: PromotionDuration
   duration_end: PromotionDuration
+  promotion_image_url: {
+    image_id: number
+    image_url: string
+  }
 }
 
 export type PromotionDetailRes = Pick<

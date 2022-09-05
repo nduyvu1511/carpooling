@@ -1,0 +1,105 @@
+import { toggleBodyOverflow } from "@/helper"
+import { usePromotionActions } from "@/hooks"
+import { CarAccountType, PromotionRes } from "@/models"
+import { useState } from "react"
+import { PromotionForm } from "../form"
+import { PromotionModal } from "./promotionModal"
+
+interface PromotionCheckoutProps {
+  accountType: CarAccountType
+  onApplyPromotion?: Function
+  onCancelPromotion?: Function
+  compounding_car_customer_id?: number
+  compounding_car_id?: number
+  data?: PromotionRes
+}
+
+export const PromotionCheckout = ({
+  onApplyPromotion,
+  accountType,
+  compounding_car_customer_id,
+  compounding_car_id,
+  onCancelPromotion,
+  data,
+}: PromotionCheckoutProps) => {
+  const [showPromotionModal, setShowPromotionModal] = useState<boolean>(false)
+  const [promotionCode, setPromotionCode] = useState<string | undefined>(data?.promotion_code)
+  const {
+    applyPromotionForCustomer,
+    applyPromotionForDriver,
+    cancelPromotionForCustomer,
+    cancelPromotionForDriver,
+  } = usePromotionActions()
+
+  const handleCancelPromotion = () => {
+    if (accountType === "car_driver") {
+      if (!compounding_car_id) return
+      cancelPromotionForDriver({
+        params: { compounding_car_id },
+        onSuccess: () => {
+          toggleModal(false)
+          setPromotionCode(undefined)
+          onCancelPromotion?.()
+        },
+      })
+    } else {
+      if (!compounding_car_customer_id) return
+      cancelPromotionForCustomer({
+        params: { compounding_car_customer_id },
+        onSuccess: () => {
+          toggleModal(false)
+          setPromotionCode(undefined)
+          onCancelPromotion?.()
+        },
+      })
+    }
+  }
+  console.log({ promotionCode })
+  const handleApplyPromotion = (promotion: PromotionRes) => {
+    if (accountType === "car_driver") {
+      if (!compounding_car_id) return
+      applyPromotionForDriver({
+        params: { compounding_car_id, promotion_id: promotion.promotion_id },
+        onSuccess: () => {
+          setPromotionCode(promotion.promotion_code)
+          toggleModal(false)
+          onApplyPromotion?.()
+        },
+      })
+    } else {
+      if (!compounding_car_customer_id) return
+      applyPromotionForCustomer({
+        params: { compounding_car_customer_id, promotion_id: promotion.promotion_id },
+        onSuccess: () => {
+          setPromotionCode(promotion.promotion_code)
+          toggleModal(false)
+          onApplyPromotion?.()
+        },
+      })
+    }
+  }
+
+  const toggleModal = (status: boolean) => {
+    setShowPromotionModal(status)
+    if (status) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
+
+  return (
+    <>
+      <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
+      <PromotionForm
+        promotionCode={promotionCode}
+        onCancelPromotion={handleCancelPromotion}
+        onFocus={() => toggleModal(true)}
+      />
+
+      {showPromotionModal ? (
+        <PromotionModal onApply={handleApplyPromotion} onClose={() => toggleModal(false)} />
+      ) : null}
+    </>
+  )
+}

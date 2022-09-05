@@ -15,6 +15,7 @@ export const WalletGuide = () => {
   return (
     <div>
       <AccordionItem
+        maxHeight={300}
         isActive={tabsActive.includes(1)}
         onClick={() => handleToggleTabsActive(1)}
         className="bg-bg-primary rounded-[5px] border-t-0 p-12 "
@@ -25,6 +26,7 @@ export const WalletGuide = () => {
       </AccordionItem>
 
       <AccordionItem
+        maxHeight={300}
         isActive={tabsActive.includes(2)}
         onClick={() => handleToggleTabsActive(2)}
         className="bg-bg-primary rounded-[5px] p-12"

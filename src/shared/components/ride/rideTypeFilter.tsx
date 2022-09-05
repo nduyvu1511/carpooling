@@ -8,6 +8,7 @@ interface RideTypeFilterProps {
   carAccountType: CarAccountType
   onClickShowFilterMobile?: Function
   onClickShowFilterTablet?: Function
+  showLoading?: boolean
 }
 
 const RideTypeFilter = ({
@@ -16,6 +17,7 @@ const RideTypeFilter = ({
   carAccountType,
   onClickShowFilterMobile,
   onClickShowFilterTablet,
+  showLoading,
 }: RideTypeFilterProps) => {
   const list = useMemo(() => {
     return carAccountType === "car_driver"

@@ -20,7 +20,7 @@ export const PromotionForm = ({
   onChange: onChangeProps,
 }: PromotionFormProps) => {
   const secondRef = useRef<boolean>(false)
-  const { onChange, value, clearValue } = useInputText(promotionCode)
+  const { onChange, value, clearValue } = useInputText("")
 
   const searchTerm = useDebounce(value, 500)
 
@@ -48,13 +48,13 @@ export const PromotionForm = ({
         </span>
         <input
           onFocus={() => onFocus?.()}
-          value={value}
+          value={promotionCode || value}
           onChange={onChange}
           type="text"
           className="form-input h-full flex-1 rounded-tl-0 pr-[40px] rounded-tr-[8px] rounded-br-[8px]"
           placeholder="Tìm kiếm khuyến mãi"
         />
-        {value ? (
+        {promotionCode || value ? (
           <span
             onClick={() => {
               if (promotionCode) {

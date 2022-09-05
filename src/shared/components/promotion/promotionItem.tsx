@@ -1,18 +1,26 @@
-import { ArrowRightIcon, ClockIcon, promotionShape1, promotionShape2 } from "@/assets"
+import { ClockIcon, promotionShape1, promotionShape2, QuestionIcon } from "@/assets"
 import { formatTimeType } from "@/helper"
 import { PromotionRes } from "@/models"
 import moment from "moment"
 import Image from "next/image"
-import React from "react"
 
 interface PromotionItemProps {
   data: null | PromotionRes
   disabled?: boolean
-  onApply?: (id: number) => void
+  onApply?: (_: PromotionRes) => void
   onClick?: (id: number) => void
+  onShowCondition?: (id: number) => void
+  onSave?: (_: PromotionRes) => void
 }
 
-export const PromotionItem = ({ data, disabled, onApply, onClick }: PromotionItemProps) => {
+export const PromotionItem = ({
+  data,
+  disabled,
+  onApply,
+  onClick,
+  onShowCondition,
+  onSave,
+}: PromotionItemProps) => {
   if (data === null)
     return (
       <div className="relative rounded-[16px] filter-shadow p-16 md:p-24 shadow-shadow-1 border border-solid border-border-color">
@@ -34,9 +42,12 @@ export const PromotionItem = ({ data, disabled, onApply, onClick }: PromotionIte
         disabled ? "opacity-30 bg-[#D9D9D9] pointer-events-none select-none" : "bg-blue-10"
       }`}
     >
-      <span className="absolute top-[-4px] right-4 lg:right-24 bg-[#FDF3F3] py-12 px-6 rounded-bl-[20px] rounded-br-[20px] rounded-tl-[3px] rounded-tr-[3px] text-[10px] font-medium text-error">
-        {data.promotion_value}%
-      </span>
+      {data.promotion_type === "percentage" ? (
+        <span className="absolute top-[-4px] right-4 lg:right-24 bg-[#FDF3F3] py-12 px-6 rounded-bl-[20px] rounded-br-[20px] rounded-tl-[3px] rounded-tr-[3px] text-[10px] font-medium text-error">
+          {data.promotion_value.value + "%"}
+        </span>
+      ) : null}
+
       <div className="absolute inset-0 overflow-hidden rounded-[16px]">
         <span className="absolute-vertical z-10  h-[18px] w-[18px] bg-white-color left-[-9px] rounded-[50%]"></span>
         <span className="absolute-vertical z-10 h-[18px] w-[18px] bg-white-color right-[-9px] rounded-[50%]"></span>
@@ -51,22 +62,21 @@ export const PromotionItem = ({ data, disabled, onApply, onClick }: PromotionIte
       </div>
 
       <div className="z-10">
-        <div className="flex items-center mb-8 mr-24 lg:mr-[48px]">
+        <div
+          className={`flex items-center mb-8 ${
+            data.promotion_type === "percentage" ? "mr-24 lg:mr-[48px]" : ""
+          }`}
+        >
           <p className="text-14 md:text-16 font-semibold text-primary line-clamp-1 mr-8">
             {data.promotion_name}
           </p>
-          {/* <p className="mx-8 border-r border-border-color-1 border-solid h-[14px]"></p> */}
-          {/* <p className="text-14 md:text-16 font-semibold text-primary mr-8 line-clamp-1">
-            Giảm 100k
-          </p> */}
-          <span className="bg-primary py-4 px-[10px] rounded-[5px] text-[10px] md:text-12 font-semibold text-white-color">
-            {data.promotion_code}
-          </span>
         </div>
 
         <div className="flex items-center mb-8">
-          <p className="text-xs mr-16 text-blue-8">Sử dụng với chuyến đi trên 3.000.000 đ </p>
-          <ArrowRightIcon />
+          <button className="z-10" onClick={() => onShowCondition?.(data.promotion_id)}>
+            <QuestionIcon className="w-[16px] h-[16px] text-primary" />
+          </button>
+          <p className="text-xs mr-16 text-blue-8">{data.promotion_brief}</p>
         </div>
 
         <div className="flex items-center justify-between">
@@ -88,10 +98,10 @@ export const PromotionItem = ({ data, disabled, onApply, onClick }: PromotionIte
           </div>
 
           <button
-            onClick={() => onApply?.(data.promotion_id)}
+            onClick={() => (data.saved_promotion ? onApply?.(data) : onSave?.(data))}
             className="text-14 font-semibold text-primary z-10"
           >
-            Áp dụng
+            {data.saved_promotion ? "Áp dụng" : "Lưu"}
           </button>
         </div>
       </div>

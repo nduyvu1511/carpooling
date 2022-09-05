@@ -1,6 +1,7 @@
 import {
   Checkout,
   CheckoutLoading,
+  PromotionCheckout,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
@@ -94,15 +95,11 @@ const CheckoutDriver = () => {
   }
 
   const handleApplyPromotion = (promotion_id: number) => {
-    if (!compoundingCar?.compounding_car_id) return
+    mutate()
+  }
 
-    applyPromotionForDriver({
-      params: { compounding_car_id: compoundingCar?.compounding_car_id, promotion_id },
-      onSuccess: (data) => {
-        mutate(data, false)
-        console.log({ data })
-      },
-    })
+  const handleCancelPromotion = (promotion_id: number) => {
+    mutate()
   }
 
   return (
@@ -122,6 +119,15 @@ const CheckoutDriver = () => {
 
           {deposit ? (
             <Checkout
+              promotion={
+                <PromotionCheckout
+                  data={compoundingCar?.promotion}
+                  onCancelPromotion={handleCancelPromotion}
+                  onApplyPromotion={handleApplyPromotion}
+                  compounding_car_id={compoundingCar?.compounding_car_id}
+                  accountType="car_driver"
+                />
+              }
               descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
               amount_due={deposit.amount_due}
               amount_total={deposit.amount_total}

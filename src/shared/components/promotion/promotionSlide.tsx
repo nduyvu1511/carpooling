@@ -28,12 +28,13 @@ export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlidePro
       >
         {title}
       </h4>
-      <Slide>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <SwiperSlide className="relative aspect-[3/2]" key={index}>
-            <PromotionInfoItem />
-          </SwiperSlide>
-        ))}
+      <Slide className="pr-[1px]">
+        {data &&
+          data.map((item, index) => (
+            <SwiperSlide className="relative aspect-[3/2]" key={index}>
+              <PromotionInfoItem data={item} />
+            </SwiperSlide>
+          ))}
       </Slide>
     </div>
   )

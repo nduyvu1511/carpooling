@@ -23,6 +23,12 @@ export const promotionApi = {
     })
   },
 
+  getNewPromotionList: (params: ListQuery) => {
+    return axiosClient.post("/api/compounding_car_promotion_controller/get_list_new_promotion", {
+      params,
+    })
+  },
+
   savePromotion: (params: SavePromotionParams) => {
     return axiosClient.post("/api/compounding_car_promotion_controller/save_promotion", { params })
   },
@@ -33,7 +39,7 @@ export const promotionApi = {
     })
   },
 
-  getPromotionListSaved: (params: ListQuery) => {
+  getSavedPromotionList: (params: ListQuery) => {
     return axiosClient.post("/api/compounding_car_promotion_controller/get_list_my_promotion", {
       params,
     })

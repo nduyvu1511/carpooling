@@ -1,8 +1,6 @@
 import {
   Alert,
   DepositSummary,
-  PromotionForm,
-  PromotionModal,
   RideCancelForm,
   RideToolTip,
   WalletBalanceAlert,
@@ -32,9 +30,10 @@ interface CheckoutProps {
   onApplyPromotion?: (id: number) => void
   onCancelPromotion?: (id: number) => void
   snackbar?: ReactNode
+  promotion?: ReactNode
 }
 
-type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | "promotion" | undefined
+type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | undefined
 
 const Checkout = ({
   secondsRemains,
@@ -52,6 +51,7 @@ const Checkout = ({
   onApplyPromotion,
   onCancelPromotion,
   snackbar = null,
+  promotion,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -94,8 +94,14 @@ const Checkout = ({
             ) : null}
 
             <div className="mb-40">
-              <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
-              <PromotionForm promotionCode="" onFocus={() => toggleModal("promotion")} />
+              {/* <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
+              <PromotionForm promotionCode="" onFocus={() => toggleModal("promotion")} /> */}
+              {/* <PromotionCheckout
+                onApplyPromotion={onApplyPromotion}
+                onCancelPromotion={onCancelPromotion}
+                accountType={userInfo?.car_account_type as CarAccountType}
+              /> */}
+              {promotion}
             </div>
 
             <div className="mb-40">
@@ -223,12 +229,12 @@ const Checkout = ({
         />
       ) : null}
 
-      {modalType === "promotion" ? (
+      {/* {modalType === "promotion" ? (
         <PromotionModal
           onApply={(id) => onApplyPromotion?.(id)}
           onClose={() => toggleModal(undefined)}
         />
-      ) : null}
+      ) : null} */}
 
       {modalType == "confirmWallet" ? (
         <Alert

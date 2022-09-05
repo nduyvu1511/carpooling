@@ -1,4 +1,4 @@
-import { CloseIcon } from "@/assets"
+import { CloseThickIcon } from "@/assets"
 import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword } from "@/components"
 import { RootState } from "@/core/store"
 import { useAuth } from "@/hooks"
@@ -79,7 +79,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
             onClick={() => dispatch(setAuthModalType(undefined))}
             className="w-[30px] cursor-pointer"
           >
-            <CloseIcon className="text-blue-8 w-[26px] h-[26px]" />
+            <CloseThickIcon className="text-blue-8 w-[14px] h-[14px]" />
           </span>
         ) : null
       }

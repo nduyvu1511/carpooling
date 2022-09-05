@@ -1,19 +1,14 @@
 import {
   Checkout,
   CheckoutLoading,
-  RideCancelSnackbar,
+  PromotionCheckout,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
   Seo,
 } from "@/components"
-import {
-  useCompoundingCarActions,
-  useCompoundingCarCustomer,
-  useCustomerCheckout,
-  usePromotionActions,
-} from "@/hooks"
+import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentRes } from "@/models"
 import Link from "next/link"
@@ -24,7 +19,6 @@ const CheckoutCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
-  const { applyPromotionForCustomer } = usePromotionActions()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
   const {
     data: compoundingCar,
@@ -46,16 +40,17 @@ const CheckoutCustomer = () => {
   }, [compoundingCar])
 
   const handleApplyPromotion = (promotion_id: number) => {
-    if (!compoundingCar?.compounding_car_customer_id) return
-    applyPromotionForCustomer({
-      params: {
-        compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
-        promotion_id,
-      },
-      onSuccess: () => {
-        mutate()
-      },
-    })
+    mutate()
+
+    // if (!compoundingCar?.compounding_car_customer_id) return
+    // applyPromotionForCustomer({
+    //   params: {
+    //     compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
+    //     promotion_id,
+    //   },
+    //   onSuccess: () => {
+    //   },
+    // })
   }
 
   const handleConfirmTransaction = (params: PaymentRes) => {
@@ -94,6 +89,10 @@ const CheckoutCustomer = () => {
     )
   }
 
+  const handleCancelPromotion = () => {
+    mutate()
+  }
+
   return (
     <CustomerBookingLayout
       showLoading={isInitialLoading}
@@ -123,6 +122,15 @@ const CheckoutCustomer = () => {
         ) : (
           <>
             <Checkout
+              promotion={
+                <PromotionCheckout
+                  data={compoundingCar?.promotion}
+                  onCancelPromotion={handleCancelPromotion}
+                  onApplyPromotion={handleApplyPromotion}
+                  compounding_car_customer_id={compoundingCar.compounding_car_customer_id}
+                  accountType="customer"
+                />
+              }
               onApplyPromotion={handleApplyPromotion}
               percentage={compoundingCar.customer_deposit_percentage}
               amount_due={compoundingCar?.amount_due}
