@@ -119,7 +119,7 @@ const Wallet = () => {
       params: {
         ...params,
         journal_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/checking-recharge-money-status?payment_id=${params.acquirer_id}`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/checking-recharge-money-status`,
       },
       onSuccess: (data) => {
         dispatch(setCheckoutPaymentId(data.payment_id))
