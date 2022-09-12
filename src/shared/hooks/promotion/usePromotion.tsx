@@ -4,7 +4,7 @@ import { useQueryList } from "../async"
 
 export const usePromotion = () => {
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
-    useQueryList<PromotionRes>({
+    useQueryList<PromotionRes[]>({
       fetcher: promotionApi.getPromotionList,
       initialData: undefined,
       key: "get_promotion_list",

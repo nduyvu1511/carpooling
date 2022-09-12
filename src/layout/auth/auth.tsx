@@ -7,9 +7,10 @@ import { useSelector } from "react-redux"
 interface AuthLayoutProps {
   children: ReactNode
   headerClassName?: string
+  className?: string
 }
 
-const AuthLayout = ({ children, headerClassName = "" }: AuthLayoutProps) => {
+const AuthLayout = ({ children, headerClassName = "", className = "" }: AuthLayoutProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
@@ -23,7 +24,9 @@ const AuthLayout = ({ children, headerClassName = "" }: AuthLayoutProps) => {
   return (
     <>
       <AuthHeader className={headerClassName} />
-      <main className="min-h-screen h-full bg-bg flex flex-col">{children}</main>
+      <main className={`bg-bg flex flex-col ${className || "min-h-screen h-full"}`}>
+        {children}
+      </main>
     </>
   )
 }

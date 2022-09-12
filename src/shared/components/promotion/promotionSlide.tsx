@@ -11,7 +11,7 @@ interface PromotionSlideProps {
 }
 
 export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlideProps) => {
-  const { data } = useQueryList<PromotionRes>({
+  const { data } = useQueryList<PromotionRes[]>({
     fetcher: promotionApi.getSpecialPromotionList,
     initialData: undefined,
     key: "get_special_promotion_list",

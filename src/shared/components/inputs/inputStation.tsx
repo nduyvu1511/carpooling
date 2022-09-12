@@ -37,11 +37,6 @@ export const InputStation = ({
 
   const handleSetShowStation = (status: boolean) => {
     setShowStation(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

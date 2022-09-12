@@ -18,7 +18,7 @@ interface Res {
 
 export const useDriverActivities = (): Res => {
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
-    useQueryList<DriverActivityRes>({
+    useQueryList<DriverActivityRes[]>({
       initialData: undefined,
       key: "query_activity_for_driver",
       limit: 12,

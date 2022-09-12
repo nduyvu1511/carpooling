@@ -99,3 +99,5 @@ export const PAYMENT_METHOD_NAME = {
   transfer: "Chuyển khoản",
   bank: "Chuyển khoản",
 }
+
+export const MESSAGES_LIMIT = 30

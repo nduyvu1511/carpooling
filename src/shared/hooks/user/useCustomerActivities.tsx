@@ -22,7 +22,7 @@ interface Res {
 
 export const useCustomerActivities = (): Res => {
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
-    useQueryList<CustomerActivityRes>({
+    useQueryList<CustomerActivityRes[]>({
       initialData: undefined,
       key: "query_activity_for_customer",
       limit: 12,

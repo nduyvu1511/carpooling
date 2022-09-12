@@ -16,7 +16,7 @@ const LIMIT = 12
 
 export const useQueryCompoundingCarDriver = (): Res => {
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
-    useQueryList<CompoundingCarRes>({
+    useQueryList<CompoundingCarRes[]>({
       initialData: undefined,
       key: "query_compounding_car_driver",
       limit: 12,

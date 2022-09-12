@@ -1,11 +1,8 @@
 import { ChangePasswordForm, CreatePasswordForm, InputLoading, Seo } from "@/components"
 import { usePassword } from "@/hooks"
 import { AccountLayout, AuthLayout } from "@/layout"
+import { OnResetParams } from "@/models"
 import { useRef } from "react"
-
-type OnResetParams = {
-  onReset: () => void
-}
 
 const Password = () => {
   const childRef = useRef<OnResetParams>(null)

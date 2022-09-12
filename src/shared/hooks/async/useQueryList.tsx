@@ -2,7 +2,7 @@ import { ListQuery, UseQueryListRes } from "@/models"
 import { AxiosPromise, AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR from "swr"
-import { KeyedMutator, PublicConfiguration } from "swr/dist/types"
+import { PublicConfiguration } from "swr/dist/types"
 
 interface Props<T> {
   limit?: number
@@ -33,7 +33,7 @@ export const useQueryList = <T,>({
       ? () =>
           fetcher(params)
             .then((res) => {
-              const list: T[] = res?.result?.data || res?.data?.data || []
+              const list: T[] = res?.result?.data || res?.data || []
               setHasMore(list.length >= limit)
               return list as any
             })
@@ -51,7 +51,7 @@ export const useQueryList = <T,>({
       const res: AxiosResponse<T[]> = await fetcher
       setLoading(false)
       setOffset(0)
-      const list = res?.result?.data || (res as any)?.data?.data || []
+      const list = res?.result?.data || (res as any)?.data || []
       mutate(list, false)
       setHasMore(list.length >= limit)
       cb?.(list)
@@ -68,7 +68,7 @@ export const useQueryList = <T,>({
       const res: AxiosResponse<T[]> = await fetcher
       setFetchingMore(false)
       setOffset(offset + limit)
-      const list = res?.result?.data || (res as any)?.data?.data || []
+      const list = res?.result?.data || (res as any)?.data || []
       setHasMore(list.length >= limit)
       mutate([...(data || []), ...list], false)
       cb?.(list)

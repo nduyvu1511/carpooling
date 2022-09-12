@@ -1,35 +1,40 @@
 import { SearchIcon } from "@/assets"
 import { useDebounce, useInputText } from "@/hooks"
-import { InputHTMLAttributes, useEffect } from "react"
+import { InputHTMLAttributes } from "react"
+import { useEffect, useRef } from "react"
 
-interface InputSearchProps {
-  attributes: InputHTMLAttributes<HTMLInputElement>
+interface RoomFormProps {
   onChange?: (val: string) => void
   className?: string
+  attributes?: InputHTMLAttributes<HTMLInputElement>
 }
 
-export const InputSearch = ({
-  onChange: onChangeProps,
-  className = "",
-  ...attributes
-}: InputSearchProps) => {
-  const { onChange, value } = useInputText("")
-  const searchTerms = useDebounce(value, 400)
+export const InputSearch = ({ onChange: onChangeProps, className, attributes }: RoomFormProps) => {
+  const secondRef = useRef<boolean>(false)
+  const { clearValue, onChange, value } = useInputText()
+  const searchValue = useDebounce(value, 500)
 
   useEffect(() => {
-    if (!searchTerms) return
-    onChangeProps?.(searchTerms)
-  }, [searchTerms])
+    if (!secondRef.current) {
+      secondRef.current = true
+      return
+    }
+
+    onChangeProps?.(searchValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue])
 
   return (
-    <div className="relative lg:w-[376px]">
-      <SearchIcon className="absolute-vertical left-[13px] w-[14px] text-blue-8" />
+    <div className={`w-full h-full relative flex items-center rounded-[8px] ${className}`}>
+      <span className="absolute-vertical left-[14px]">
+        <SearchIcon className="w-[16px] h-[16px]" />
+      </span>
       <input
-        className={`pl-[44px] pr-[20px] h-[32px] outline-none text-12 leading-16 font-normal placeholder:text-gray-color-2 text-blue-8 w-full rounded-[20px] border border-solid border-gray-color-2 ${className}`}
-        value={value}
+        className="form-input flex-1 border-none pl-40 bg-gray-05"
         onChange={onChange}
-        {...attributes.attributes}
+        value={value}
         type="text"
+        {...attributes}
       />
     </div>
   )

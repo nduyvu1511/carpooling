@@ -1240,3 +1240,13 @@ input[type="number"] {
     }
   }
 }
+
+.chat-page {
+  & .chat-room,
+  & .chat-message {
+    &-list {
+      overflow: auto;
+      max-height: calc(100vh - 280px);
+    }
+  }
+}

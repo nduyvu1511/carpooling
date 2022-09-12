@@ -22,7 +22,7 @@ export const PromotionModal = ({ onClose, onApply, appliedPromotionId }: Promoti
   const [searchPromotions, setSearchPromotions] = useState<PromotionRes[]>([])
 
   const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isValidating } =
-    useQueryList<PromotionRes>({
+    useQueryList<PromotionRes[]>({
       fetcher: promotionApi.getSavedPromotionList,
       initialData: undefined,
       key: "get_promotion_list",

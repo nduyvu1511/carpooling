@@ -13,6 +13,7 @@ module.exports = {
         "booking-grid": "1fr 500px",
         "wallet-grid": "440px 1fr",
         "booking-grid-sm": "1fr 400px",
+        "chat-lg": "400px 1fr",
       },
       boxShadow: {
         "shadow-1": "0px 1px 2px rgba(0, 0, 0, 0.05)",
@@ -37,6 +38,7 @@ module.exports = {
       "gray-color-8": "#4E4E4E",
       "gray-90": "#595959",
       "gray-05": "#FAFAFA",
+      "gray-10": "#80808033",
       "gray-20": "#E7E7E7",
       green: "#008F5D",
       "border-color-1": "#C8C8C8",

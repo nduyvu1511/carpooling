@@ -19,7 +19,7 @@ const LIMIT = 12
 const useNews = (): Res => {
   const [categoryId, setCategoryId] = useState<string>("all")
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
-    useQueryList<PostRes>({
+    useQueryList<PostRes[]>({
       fetcher: newsApi.getPosts,
       initialData: undefined,
       key: "get_news_list",

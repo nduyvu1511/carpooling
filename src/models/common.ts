@@ -1,9 +1,10 @@
-import { KeyedMutator } from 'swr';
+import { KeyedMutator } from "swr"
 import { AxiosPromise } from "axios"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ForwardedRef, ReactChild, ReactElement, ReactNode } from "react"
 import { LocationType } from "./location"
+import { UserRole } from "./user"
 
 export interface HasChildren {
   children: ReactChild
@@ -175,7 +176,7 @@ export interface UseQueryListRes<T> {
   fetchMoreItem: (fetcher: AxiosPromise, cb?: Function, err?: Function) => void
   isFetchingMore: boolean
   offset: number
-  data: T[] | undefined
+  data: T | undefined
   error: any
   isInitialLoading: boolean
   mutate: KeyedMutator<any>
@@ -190,3 +191,90 @@ export interface ContactParams {
 }
 
 export type ContactFormKey = keyof ContactParams
+
+export interface QueryCommonParams {
+  limit: number
+  offset: number
+}
+
+export interface ListParams<T> {
+  limit: number
+  offset: number
+  total: number
+  data: T
+}
+
+export interface ListRes<T> {
+  hasMore: boolean
+  limit: number
+  offset: number
+  total: number
+  data: T
+}
+
+export interface Lnglat {
+  lng: string
+  lat: string
+}
+
+type AttachmentType = "image" | "video" | "voice"
+
+export interface IAttachment {
+  _id: string
+  url: string
+  thumbnail_url: string
+  desc: string
+  attachment_type: AttachmentType
+  created_at: Date
+  updated_at: Date
+}
+
+export type AttachmentRes = Pick<IAttachment, "thumbnail_url" | "url" | "attachment_type"> & {
+  attachment_id: string
+}
+
+export interface AttachmentId {
+  attachment_id: string
+  url: string
+}
+
+export interface ServiceQueryListRes<T> {
+  total: number
+  data: T
+}
+
+export interface ITag {
+  _id: string
+  text: string
+  role: UserRole
+  created_at: Date
+  updated_at: Date
+}
+
+export interface TagRes {
+  tag_id: string
+  text: string
+}
+
+export type CreateAttachment = Pick<IAttachment, "attachment_type" | "url" | "thumbnail_url"> & {
+  desc?: string
+}
+
+export type UpdateAttachment = Partial<
+  Pick<IAttachment, "attachment_type" | "url" | "thumbnail_url" | "desc" | "updated_at">
+> & {
+  attachment_id: string
+}
+
+export interface CreateTagMessage {
+  role: UserRole
+  text: string
+}
+
+export type UpdateTagMessage = Partial<CreateTagMessage> & {
+  tag_id: string
+}
+
+export type OnResetParams = {
+  onReset: () => void
+}

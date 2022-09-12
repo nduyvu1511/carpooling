@@ -98,13 +98,13 @@ const userApi = {
   },
 
   createAttachmentCommon: (params: AttachmentParams) => {
-    return axiosClient.post("/api/user_information_controller/create_attachment_data", {
+    return axiosClient.post("/api/user_information_controller/created_attachment_data", {
       params,
     })
   },
 
   createAttachmentAvatar: (params: AttachmentParams) => {
-    return axiosClient.post("/api/detail_data_controller/create_attachment_data", {
+    return axiosClient.post("/api/detail_data_controller/created_attachment_data", {
       params,
     })
   },
