@@ -1,25 +1,46 @@
 import { InputSearch } from "@/components"
 import { useRoom } from "@/hooks"
-import { RoomRes } from "@/models"
+import { RoomFunctionHandler, RoomRes } from "@/models"
+import { ForwardedRef, forwardRef, useImperativeHandle } from "react"
 import { RoomItem } from "./roomItem"
-import { Socket } from "socket.io-client"
-import { useEffect } from "react"
+
+export type OnForwaredRoomDetail = ForwardedRef<RoomFunctionHandler>
 
 interface RoomProps {
   onSelectRoom?: (room: RoomRes) => void
   roomId?: string
-  // socket: Socket<any>
 }
 
-export const Room = ({ onSelectRoom, roomId }: RoomProps) => {
-  const { data, fetchMoreItem, filterList, mutate } = useRoom()
+export const Room = forwardRef(function RoomChild(
+  { onSelectRoom, roomId }: RoomProps,
+  ref: OnForwaredRoomDetail
+) {
+  const {
+    data,
+    changeStatusOfRoom,
+    messageUnreadhandler,
+    increaseMessageUnread,
+    setCurrentRoomToFirstOrder,
+    appendLastMessage,
+  } = useRoom()
 
-  // useEffect(() => {
-  //   if (!data?.data?.length) return
-  //   data.data.forEach((item) => {
-  //     socket.emit(item.room_id)
-  //   })
-  // }, [data?.data])
+  useImperativeHandle(ref, () => ({
+    messageUnreadhandler: (mes) => {
+      messageUnreadhandler(mes)
+    },
+    changeStatusOfRoom: (params) => {
+      changeStatusOfRoom(params)
+    },
+    increaseMessageUnread: (params) => {
+      increaseMessageUnread(params)
+    },
+    setCurrentRoomToFirstOrder: (params) => {
+      setCurrentRoomToFirstOrder(params)
+    },
+    appendLastMessage: (params) => {
+      appendLastMessage(params)
+    },
+  }))
 
   return (
     <div className="chat-room flex-1 flex flex-col">
@@ -50,4 +71,4 @@ export const Room = ({ onSelectRoom, roomId }: RoomProps) => {
       ) : null}
     </div>
   )
-}
+})

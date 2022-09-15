@@ -1,7 +1,7 @@
-import { carAnimation, SpinnerIcon } from "@/assets"
+import { carLoadingAnimation } from "@/assets"
 import { RootState } from "@/core/store"
-import { useSelector } from "react-redux"
 import Lottie from "react-lottie"
+import { useSelector } from "react-redux"
 
 const SpinnerLoading = () => {
   const isScreenLoading = useSelector((state: RootState) => state.common.isScreenLoading)
@@ -9,7 +9,7 @@ const SpinnerLoading = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: carAnimation,
+    animationData: carLoadingAnimation,
     renderer: "svg",
   }
 

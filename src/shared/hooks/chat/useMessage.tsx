@@ -1,8 +1,7 @@
-import { MESSAGES_LIMIT } from "@/helper"
+import { LIMIT_MESSAGES, MESSAGES_LIMIT } from "@/helper"
 import { ListRes, MessageRes, SendMessage, UseParams } from "@/models"
 import { chatApi } from "@/services"
 import produce from "immer"
-import { useState } from "react"
 import useSWR from "swr"
 
 interface UseMessageRes {
@@ -20,15 +19,9 @@ interface UseMessageProps {
 }
 
 export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessageRes => {
-  const [offset, setOffset] = useState<number>(0)
   const { isValidating, mutate, data, error } = useSWR<ListRes<MessageRes[]>>(
     `get_messages_in_room_${roomId}`,
-    roomId
-      ? () =>
-          chatApi
-            .getMessagesInRoom({ room_id: roomId, limit: MESSAGES_LIMIT, offset: 0 })
-            .then((res) => res.data)
-      : null,
+    null,
     {
       fallbackData: initialData,
       revalidateOnMount: false,
@@ -39,25 +32,21 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     if (!roomId) return
     try {
       const res = await chatApi.getMessagesInRoom({
-        offset: offset + MESSAGES_LIMIT,
+        offset: 0,
         limit: MESSAGES_LIMIT,
         room_id: roomId,
       })
-      console.log({ messages: res.data })
     } catch (error) {
       console.log(error)
     }
   }
 
   const appendMessage = (params: MessageRes) => {
-    console.log("append message")
-    if (!data) return
-    setOffset(offset + 1)
-
     mutate(
       produce(data, (draft) => {
-        console.log({ draft: draft.data })
-        draft?.data?.push(params)
+        ;(draft?.data || []).push(params)
+        ;(draft as any).offset += 1
+        ;(draft as any).total += 1
       }),
       false
     )

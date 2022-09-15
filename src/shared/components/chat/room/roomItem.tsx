@@ -1,7 +1,8 @@
 import { CheckIcon2 } from "@/assets"
+import { Badge } from "@/components/badge"
 import { RoomRes } from "@/models"
 import moment from "moment"
-import Image from "next/image"
+import { RoomAvatar } from "../roomAvatar"
 
 interface RoomItemProps {
   data: RoomRes
@@ -17,19 +18,13 @@ export const RoomItem = ({ data, onSelectRoom, isActive }: RoomItemProps) => {
         isActive ? "bg-blue-10" : "hover:bg-gray-05"
       }`}
     >
-      <div className="w-[46px] h-[46px] rounded-[50%] relative mr-12">
-        <Image
-          src={data.room_avatar?.thumbnail_url || ""}
-          alt=""
-          className="rounded-[50%]"
-          layout="fill"
-          objectFit="cover"
-        />
-        <span className="absolute right-0 bottom-[4px] w-[8px] h-[8px] bg-[#22DF64] shadow-shadow-1 rounded-[50%]"></span>
+      <div className="mr-12">
+        <RoomAvatar avatar={data.room_avatar?.thumbnail_url || ""} isOnline={data.is_online} />
       </div>
+
       <div className="flex-1">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold text-primary flex-1 line-clamp-1 mr-12">
+          <p className="text-sm font-semibold text-primary flex-1 line-clamp-1 mr-12 word-break">
             {data.room_name}
           </p>
           {data?.last_message?.created_at ? (
@@ -49,8 +44,11 @@ export const RoomItem = ({ data, onSelectRoom, isActive }: RoomItemProps) => {
               </p>
             </div>
             <div className="">
-              <CheckIcon2 className="text-gray-color-5" />
-              {/* <Badge className="text-10" count={92} size={18} /> */}
+              {data?.message_unread_count ? (
+                <Badge className="text-10" count={data.message_unread_count} size={18} />
+              ) : (
+                <CheckIcon2 className="text-gray-color-5" />
+              )}
             </div>
           </div>
         ) : null}

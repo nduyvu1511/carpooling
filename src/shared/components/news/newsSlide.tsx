@@ -14,6 +14,7 @@ const NewsSlide = ({ data, isLoading }: { data: PostRes[]; isLoading: boolean })
         ))}
       </div>
     )
+  console.log({ data })
   return (
     <Swiper
       className="swiper-hover"
@@ -34,11 +35,12 @@ const NewsSlide = ({ data, isLoading }: { data: PostRes[]; isLoading: boolean })
       navigation={true}
       autoplay={{ delay: 5000 }}
     >
-      {data?.map((item) => (
-        <SwiperSlide key={item.postId} className="relative aspect-[3/2]">
-          <NewsItem data={item} />
-        </SwiperSlide>
-      ))}
+      {data &&
+        data?.map((item) => (
+          <SwiperSlide key={item.postId} className="relative aspect-[3/2]">
+            <NewsItem data={item} />
+          </SwiperSlide>
+        ))}
     </Swiper>
   )
 }

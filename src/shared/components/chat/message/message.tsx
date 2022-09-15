@@ -1,6 +1,8 @@
+import { RootState } from "@/core/store"
 import { ListRes, MessageRes } from "@/models"
 import { useEffect, useRef } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { useSelector } from "react-redux"
 import { MessageItem } from "./messageItem"
 
 interface MessageProps {
@@ -10,14 +12,15 @@ interface MessageProps {
 export const Message = ({ data }: MessageProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const isFirstMount = useRef<boolean>(true)
+  const isTyping = useSelector((state: RootState) => state.chat.isTyping)
 
   useEffect(() => {
-    let behavior: ScrollBehavior = isFirstMount ? "auto" : "smooth"
+    let behavior: ScrollBehavior = isFirstMount.current ? "auto" : "smooth"
     ref.current?.scrollIntoView({ behavior })
-    if (isFirstMount.current === false) {
+    if (isFirstMount.current === true) {
       isFirstMount.current = false
     }
-  }, [data])
+  }, [data, isTyping])
 
   return (
     <InfiniteScroll
@@ -38,6 +41,8 @@ export const Message = ({ data }: MessageProps) => {
             </div>
           ))
         : null}
+
+      {isTyping ? <div>typing...</div> : null}
     </InfiniteScroll>
   )
 }

@@ -1,9 +1,9 @@
 import { GetPostsParams } from "@/models/news"
-import axios from "axios"
+import axiosClient from "."
 
 export const newsApi = {
   getPosts: ({ limit = 12, offset = 0, categoryId }: GetPostsParams) => {
-    return axios.get(
+    return axiosClient.get(
       `https://tintuc.exxe.vn/api/post?limit=${limit}&offset=${offset}${
         categoryId !== undefined ? `&categoryId=${categoryId} ` : ""
       }`
@@ -11,7 +11,7 @@ export const newsApi = {
   },
 
   getRelatedPosts: ({ limit = 12, offset = 0, categoryId }: GetPostsParams) => {
-    return axios.get(
+    return axiosClient.get(
       `https://tintuc.exxe.vn/api/post?limit=${limit}&offset=${offset}${
         categoryId !== undefined ? `&categoryId=${categoryId} ` : ""
       }`
@@ -19,10 +19,10 @@ export const newsApi = {
   },
 
   getPostDetail: (postId: string) => {
-    return axios.get(`https://tintuc.exxe.vn/api/post/${postId}`)
+    return axiosClient.get(`https://tintuc.exxe.vn/api/post/${postId}`)
   },
 
   getCategories: () => {
-    return axios.get(`https://tintuc.exxe.vn/api/category`)
+    return axiosClient.get(`https://tintuc.exxe.vn/api/category`)
   },
 }

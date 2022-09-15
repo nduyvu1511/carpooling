@@ -1,6 +1,6 @@
 import { AttachmentId, AttachmentRes, ListRes, QueryCommonParams } from "./common"
 import { MessageRes } from "./message"
-import { IUser } from "./user"
+import { changeUserStatusParams, IUser } from "./user"
 
 export interface IRoom {
   _id: string
@@ -27,6 +27,8 @@ export interface RoomRes {
   member_count: number
   last_message?: LastMessage | null
   created_at: Date
+  is_online: boolean
+  message_unread_count: number
 }
 
 export interface RoomDetailRes extends RoomRes {
@@ -55,7 +57,7 @@ export interface RoomMemberWithId {
 
 export type LastMessage = Pick<
   MessageRes,
-  "message_id" | "message_text" | "is_author" | "author" | "created_at"
+  "message_id" | "message_text" | "is_author" | "author" | "created_at" | "room_id"
 >
 
 export interface CreateSingleChat {
@@ -103,4 +105,21 @@ export type RoomMemberRes = Pick<
 > & {
   user_id: string
   avatar: AttachmentRes
+}
+
+interface ClearUnreadMessage {
+  room_id: string
+}
+
+export interface RoomFunctionHandler {
+  messageUnreadhandler: (_: LastMessage) => void
+  changeStatusOfRoom: (_: changeUserStatusParams) => void
+  increaseMessageUnread: (_: LastMessage) => void
+  appendLastMessage: (_: LastMessage) => void
+  setCurrentRoomToFirstOrder: (_: LastMessage) => void
+}
+
+export interface RoomDetailFunctionHandler {
+  appendMessage: (_: MessageRes) => void
+  clearUnreadMessage: (_: ClearUnreadMessage) => void
 }

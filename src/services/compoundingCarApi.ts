@@ -122,8 +122,7 @@ const ridesApi = {
     )
   },
 
-  // compounding_car_controller/deposit_compounding_car_customer
-  confirmDepositCompoundingCarCustomer: (params: GetDetailCompoundingCustomer) => {
+  confirmDepositCompoundingCarCustomer: (params: ConfirmTransactionParams) => {
     return axiosClient.post("/api/payment/vnpay/confirm_transaction", {
       params,
     })

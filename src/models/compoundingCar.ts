@@ -231,7 +231,6 @@ export interface CompoundingCarCustomer {
   partner: PartnerCompoundingCar
   number_seat: number
   fee_final_destination: number
-  sale_order_id: SaleOrderCompoundingCar
   amount_total: number
   down_payment: DownPayment
   payment_method: PaymentMethod
@@ -264,6 +263,7 @@ export interface CompoundingCarCustomer {
   promotion?: PromotionRes
   amount_undiscounted?: number
   discount_after_tax?: number
+  sale_order_id?: number
 }
 
 export interface PartnerCompoundingCar {
@@ -388,6 +388,8 @@ export interface ConfirmCompoundingCar {
 export interface ConfirmTransactionParams {
   sale_order_id: number
 }
+
+export interface ConfirmTransactionPa {}
 
 export interface CreateCompoundingCarDriver {
   compounding_type: CompoundingType

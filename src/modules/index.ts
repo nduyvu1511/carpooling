@@ -6,6 +6,7 @@ import locationHistorySlice from "./locationHistorySlice"
 import mapDirectionSlice from "./mapDirectionSlice"
 import profileSlice from "./profileSlice"
 import checkoutSlice from "./checkoutSlice"
+import chatSlice from "./chatSlice"
 
 const rootReducer = combineReducers({
   notifications: notificationsReducer(),
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   locationHistory: locationHistorySlice,
   mapDirection: mapDirectionSlice,
   checkout: checkoutSlice,
+  chat: chatSlice
 })
 
 export default rootReducer
@@ -24,3 +26,4 @@ export * from "./locationHistorySlice"
 export * from "./mapDirectionSlice"
 export * from "./profileSlice"
 export * from "./checkoutSlice"
+export * from "./chatSlice"

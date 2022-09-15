@@ -23,6 +23,7 @@ interface CheckoutProcessProps {
   compounding_car_customer_id?: number
   compounding_car_id?: number
   payment_id?: number
+  sale_order_id?: number
 }
 
 const CheckoutProcess = ({
@@ -31,6 +32,7 @@ const CheckoutProcess = ({
   compounding_car_customer_id,
   compounding_car_id,
   payment_id,
+  sale_order_id,
 }: CheckoutProcessProps) => {
   const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
@@ -48,21 +50,28 @@ const CheckoutProcess = ({
   useEffect(() => {
     if (vnp_ResponseCode !== "00") return
 
-    if (compounding_car_customer_id) {
+    if (sale_order_id) {
+      //   ;(fetcher_type === "confirmDepositCompoundingCarCustomer"
+      //   ? ridesApi.confirmDepositCompoundingCarCustomer
+      //   : ridesApi.customerConfirmPayFullCompoundingCar)({
+      //   // compounding_car_customer_id,
+      //   // payment_method: "transfer",
+      //   compounding_car_customer_id: compounding_car_customer_id,
+      //   payment_method: "transfer",
+      //   sale_order_id,
+      // })
       setValidating(true)
-      ;(fetcher_type === "confirmDepositCompoundingCarCustomer"
-        ? ridesApi.confirmDepositCompoundingCarCustomer
-        : ridesApi.customerConfirmPayFullCompoundingCar)({
-        compounding_car_customer_id,
-        payment_method: "transfer",
-      })
+      ridesApi
+        .confirmDepositCompoundingCarCustomer({
+          sale_order_id,
+        })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {
           setValidating(false)
           if (
             fetcher_type === "confirmDepositForDriver" ||
             fetcher_type === "confirmDepositCompoundingCarCustomer"
           ) {
-            if (res.result.data.state === "deposit") {
+            if (res.result.success) {
               window.close()
             }
             return

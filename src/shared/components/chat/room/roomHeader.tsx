@@ -1,6 +1,6 @@
 import { blankAvatar, ThreeDotsIcon } from "@/assets"
 import { RoomRes } from "@/models"
-import { Avatar } from "../avatar"
+import { RoomAvatar } from "../roomAvatar"
 
 interface RoomHeaderProps {
   data: RoomRes
@@ -11,7 +11,7 @@ export const RoomHeader = ({ data }: RoomHeaderProps) => {
     <div className="flex">
       <div className="flex items-center flex-1 mr-16">
         <div className="mr-12">
-          <Avatar avatar={data.room_avatar?.thumbnail_url || blankAvatar} />
+          <RoomAvatar avatar={data.room_avatar?.thumbnail_url || blankAvatar} />
         </div>
 
         <div className="flex-1">

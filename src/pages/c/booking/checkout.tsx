@@ -51,7 +51,7 @@ const CheckoutCustomer = () => {
     createPayment({
       params: {
         acquirer_id: params.acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}&sale_order_id=${compoundingCar.sale_order_id}`,
         compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
       },
       onSuccess: (data) => {

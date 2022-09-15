@@ -1,4 +1,5 @@
 import { AttachmentRes, IAttachment, OptionModel, QueryCommonParams } from "./common"
+// import { Socket } from "socket.io-client"
 
 export interface LoginFormParams {
   phone: string
@@ -500,4 +501,14 @@ export type CreatePasswordServiceParams = CreatePasswordParams & {
 
 export type ChangePasswordServiceParams = ChangePasswordParams & {
   _id: string
+}
+
+export interface UserData extends UserRes {
+  user_chatted_with_ids: string[]
+  room_joined_ids: string[]
+}
+
+export interface LoginToSocket {
+  socket_id: string
+  // socket: Socket<any>
 }

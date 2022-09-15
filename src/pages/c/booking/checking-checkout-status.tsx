@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 
 const ConfirmedCheckout = () => {
   const router = useRouter()
-  const { compounding_car_customer_id, vnp_ResponseCode } = router.query
+  const { compounding_car_customer_id, vnp_ResponseCode, sale_order_id } = router.query
 
   return (
     <>
@@ -14,6 +14,7 @@ const ConfirmedCheckout = () => {
           fetcher_type="confirmDepositCompoundingCarCustomer"
           compounding_car_customer_id={Number(compounding_car_customer_id)}
           vnp_ResponseCode={vnp_ResponseCode as VnpayStatus}
+          sale_order_id={Number(sale_order_id)}
         />
       ) : null}
     </>

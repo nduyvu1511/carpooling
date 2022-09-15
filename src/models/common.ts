@@ -1,8 +1,8 @@
-import { KeyedMutator } from "swr"
 import { AxiosPromise } from "axios"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ForwardedRef, ReactChild, ReactElement, ReactNode } from "react"
+import { KeyedMutator } from "swr"
 import { LocationType } from "./location"
 import { UserRole } from "./user"
 

@@ -1,25 +1,51 @@
 import { Spinner } from "@/components/loading"
 import { useMessage } from "@/hooks"
-import { MessageRes, OnResetParams, RoomDetailRes, SendMessageForm } from "@/models"
+import {
+  MessageRes,
+  OnResetParams,
+  RoomDetailFunctionHandler,
+  RoomDetailRes,
+  SendMessageForm,
+} from "@/models"
 import { chatApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useEffect, useRef } from "react"
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react"
 import { Socket } from "socket.io-client"
-import useSWR from "swr"
+import useSWR, { mutate } from "swr"
 import { Message, MessageForm } from "../message"
 import { RoomHeader } from "./roomHeader"
+import produce from "immer"
+
+type OnForwaredRoomDetail = ForwardedRef<RoomDetailFunctionHandler>
 
 interface RoomDetailProps {
   roomId: string
-  socket: Socket<any>
+  socket: Socket | undefined
 }
 
-export const RoomDetail = ({ roomId, socket }: RoomDetailProps) => {
+export const RoomDetail = forwardRef(function RoomChild(
+  { roomId, socket }: RoomDetailProps,
+  ref: OnForwaredRoomDetail
+) {
+  const [isTyping, setTyping] = useState<boolean>(false)
   const messageFormRef = useRef<OnResetParams>(null)
-  const { data, isValidating, error, mutate } = useSWR(
+  const { data, isValidating, error } = useSWR(
     roomId ? `get_room_detail_${roomId}` : null,
     roomId
-      ? () => chatApi.getRoomDetail(roomId).then((res: AxiosResponse<RoomDetailRes>) => res?.data)
+      ? () =>
+          chatApi.getRoomDetail(roomId).then((res: AxiosResponse<RoomDetailRes>) => {
+            const data = res?.data
+            mutate(`get_messages_in_room_${roomId}`, data.messages, false)
+            return data
+          })
       : null
   )
   const {
@@ -28,34 +54,52 @@ export const RoomDetail = ({ roomId, socket }: RoomDetailProps) => {
     data: messages,
   } = useMessage({ roomId, initialData: data?.messages })
 
+  useImperativeHandle(ref, () => ({
+    appendMessage: (mes) => {
+      appendMessage(mes)
+    },
+    clearUnreadMessage: (params) => {
+      mutate("get_room_list", mutate)
+    },
+  }))
+
+  useEffect(() => {
+    ;(document?.querySelector(".message-form-input") as HTMLInputElement)?.focus()
+  }, [roomId])
+
   const handleSendMessage = (val: SendMessageForm) => {
     if (!roomId) return
     sendMessage({
       params: { ...val, room_id: roomId },
       onSuccess: (data) => {
-        socket.emit("send_message", data)
         messageFormRef?.current?.onReset()
+        if (socket) {
+          socket.emit("send_message", data)
+        }
       },
     })
-    // socket.emit("client_send_message", val)
   }
 
-  useEffect(() => {
-    if (!roomId) return
-    // socket.emit(roomId, roomId)
+  const typingHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!socket) return
 
-    socket.emit("join_room", roomId)
-
-    socket.on(`receive_message`, (data: MessageRes) => {
-      appendMessage({ ...data, is_author: false })
-    })
-
-    return () => {
-      socket.off("connect")
-      socket.off("disconnect")
+    if (!isTyping) {
+      socket.emit("start_typing", roomId)
+      setTyping(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const lastTypingTime = new Date().getTime()
+    const timerLength = 3000
+    const timeout = setTimeout(() => {
+      const timeNow = new Date().getTime()
+      const timeDiff = timeNow - lastTypingTime
+      if (timeDiff >= timerLength && isTyping) {
+        socket.emit("stop_typing", roomId)
+        setTyping(false)
+      }
+    }, timerLength)
+
+    clearTimeout(timeout)
+  }
 
   return (
     <div className="flex flex-col flex-1 chat-message">
@@ -72,10 +116,14 @@ export const RoomDetail = ({ roomId, socket }: RoomDetailProps) => {
           </div>
 
           <div className="h-[78px] flex items-center">
-            <MessageForm ref={messageFormRef} onSubmit={handleSendMessage} />
+            <MessageForm
+              onChange={typingHandler}
+              ref={messageFormRef}
+              onSubmit={handleSendMessage}
+            />
           </div>
         </>
       )}
     </div>
   )
-}
+})

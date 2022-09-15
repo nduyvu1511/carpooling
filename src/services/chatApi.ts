@@ -7,7 +7,7 @@ const axiosClient = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ`,
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFhYzE1NThmNTY1NDRjYmMwMWEyNmQiLCJ1c2VyX2lkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI2OTgxNTh9.-5t6rx8qKmA-hUuy9aT-Ht2kPCKFJ0-vyEo6d7SvD30`,
   },
 })
 
@@ -44,6 +44,10 @@ const chatApi = {
     return axiosClient.get("/room")
   },
 
+  getRoomJoinedIds: () => {
+    return axiosClient.get("/room/ids")
+  },
+
   getRoomDetail: (roomId: string) => {
     return axiosClient.get(`/room/${roomId}`)
   },
@@ -78,6 +82,10 @@ const chatApi = {
 
   getTagMessageList: ({ limit, offset }: QueryCommonParams) => {
     return axiosClient.post(`/tag?limit=${limit}&offset=${offset}`)
+  },
+
+  loginToSocket: () => {
+    return axiosClient.post("/user/login_to_socket")
   },
 }
 
