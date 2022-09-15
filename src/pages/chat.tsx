@@ -1,4 +1,4 @@
-import { Chat, Header } from "@/components"
+import { Header } from "@/components"
 
 const ChatPage = () => {
   return (
