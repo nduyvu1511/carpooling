@@ -59,18 +59,18 @@ export const useRoom = (roomId?: string): UseRoomRes => {
       false
     )
 
-    if (roomId !== params.room_id) {
-      increaseMessageUnread(params.room_id)
-    }
+    
+    
   }
 
   const getRoomIndex = (roomId: string): number =>
     data && data?.data?.length > 0 ? data.data.findIndex((item) => item.room_id === roomId) : -1
 
-  const increaseMessageUnread = async (params: LastMessage) => {
+  const increaseMessageUnread = async (params: LastMessage, cb?: Function) => {
     if (!data?.data?.length) return
 
     const res: any = await chatApi.addMessageUnreadToRoom({ message_id: params.message_id })
+    cb?.()
     if (res?.success) {
       mutate(
         produce(data, (draft) => {
