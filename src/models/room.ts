@@ -117,6 +117,7 @@ export interface RoomFunctionHandler {
   increaseMessageUnread: (_: LastMessage) => void
   appendLastMessage: (_: LastMessage) => void
   setCurrentRoomToFirstOrder: (_: LastMessage) => void
+  clearMessagesUnreadFromRoom: (room_id: string) => void
 }
 
 export interface RoomDetailFunctionHandler {

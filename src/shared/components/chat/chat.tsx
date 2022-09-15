@@ -47,13 +47,12 @@ export const Chat = () => {
       socket.on(`receive_message`, (data: MessageRes) => {
         console.log("receive_message")
         roomDetailRef.current?.appendMessage(data)
-        roomRef.current?.messageUnreadhandler
-        roomRef.current?.appendLastMessage(data)
       })
       // Listen to message when you are not in, append it as last message in room
       socket.on("receive_unread_message", (data: MessageRes) => {
         console.log("receive_unread_message")
         roomRef.current?.messageUnreadhandler(data)
+        // roomRef.current?.increaseMessageUnread(data)
       })
 
       // Typing listener
@@ -75,15 +74,14 @@ export const Chat = () => {
 
   const handleSelectRoom = (room: RoomRes) => {
     if (roomId === room.room_id) return
+
     setRoomId(room.room_id)
 
     if (!socketIo.current?.id) return
     const socket = socketIo.current
-
     if (roomId) {
       socket.emit("leave_room", roomId)
     }
-
     socket.emit("join_room", room.room_id)
   }
 

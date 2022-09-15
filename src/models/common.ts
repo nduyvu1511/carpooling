@@ -278,3 +278,11 @@ export type UpdateTagMessage = Partial<CreateTagMessage> & {
 export type OnResetParams = {
   onReset: () => void
 }
+
+export interface ClearMessageUnread {
+  room_id: string
+}
+
+export interface AddMessageUnread {
+  message_id: string
+}

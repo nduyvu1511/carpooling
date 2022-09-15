@@ -1,4 +1,11 @@
-import { CreateGroupChat, CreateSingleChat, QueryCommonParams, SendMessage } from "@/models"
+import {
+  AddMessageUnread,
+  ClearMessageUnread,
+  CreateGroupChat,
+  CreateSingleChat,
+  QueryCommonParams,
+  SendMessage,
+} from "@/models"
 import axios from "axios"
 
 const axiosClient = axios.create({
@@ -86,6 +93,14 @@ const chatApi = {
 
   loginToSocket: () => {
     return axiosClient.post("/user/login_to_socket")
+  },
+
+  addMessageUnreadToRoom: (params: AddMessageUnread) => {
+    return axiosClient.post("/room/message_unread", params)
+  },
+
+  clearMessageUnreadFromRoom: (roomId: string) => {
+    return axiosClient.delete(`/room/${roomId}/message_unread`)
   },
 }
 

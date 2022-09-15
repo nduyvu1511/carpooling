@@ -1,7 +1,7 @@
 import { InputSearch } from "@/components"
 import { useRoom } from "@/hooks"
 import { RoomFunctionHandler, RoomRes } from "@/models"
-import { ForwardedRef, forwardRef, useImperativeHandle } from "react"
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
 import { RoomItem } from "./roomItem"
 
 export type OnForwaredRoomDetail = ForwardedRef<RoomFunctionHandler>
@@ -22,7 +22,8 @@ export const Room = forwardRef(function RoomChild(
     increaseMessageUnread,
     setCurrentRoomToFirstOrder,
     appendLastMessage,
-  } = useRoom()
+    clearMessagesUnreadFromRoom,
+  } = useRoom(roomId)
 
   useImperativeHandle(ref, () => ({
     messageUnreadhandler: (mes) => {
@@ -32,7 +33,10 @@ export const Room = forwardRef(function RoomChild(
       changeStatusOfRoom(params)
     },
     increaseMessageUnread: (params) => {
-      increaseMessageUnread(params)
+      if (params.room_id !== roomId) {
+        console.log({ roomId, params: params.room_id })
+        increaseMessageUnread(params)
+      }
     },
     setCurrentRoomToFirstOrder: (params) => {
       setCurrentRoomToFirstOrder(params)
@@ -40,7 +44,16 @@ export const Room = forwardRef(function RoomChild(
     appendLastMessage: (params) => {
       appendLastMessage(params)
     },
+    clearMessagesUnreadFromRoom: (params) => {
+      clearMessagesUnreadFromRoom(params)
+    },
   }))
+
+  useEffect(() => {
+    if (!data?.data?.length || !roomId) return
+    clearMessagesUnreadFromRoom(roomId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId])
 
   return (
     <div className="chat-room flex-1 flex flex-col">

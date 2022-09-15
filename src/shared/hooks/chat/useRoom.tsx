@@ -12,7 +12,7 @@ import { useQueryList } from "../async"
 
 type UseRoomRes = UseQueryListRes<ListRes<RoomRes[]>> & RoomFunctionHandler
 
-export const useRoom = (): UseRoomRes => {
+export const useRoom = (roomId?: string): UseRoomRes => {
   const {
     isValidating,
     mutate,
@@ -47,10 +47,8 @@ export const useRoom = (): UseRoomRes => {
           draft.data[index] = {
             ...room,
             last_message: params,
-            message_unread_count: room.message_unread_count + 1,
           }
         } else {
-          console.log("change order")
           const newRooms = draft.data.filter((item) => item.room_id !== params.room_id)
           draft.data = [
             { ...room, last_message: params, message_unread_count: room.message_unread_count + 1 },
@@ -61,29 +59,44 @@ export const useRoom = (): UseRoomRes => {
       false
     )
 
-    setTimeout(() => {
-      increaseMessageUnread(params)
-    }, 0)
-    setTimeout(() => {
-      if (data?.data?.[0]?.room_id !== params.room_id) {
-        setCurrentRoomToFirstOrder(params)
-      }
-    }, 1)
+    if (roomId !== params.room_id) {
+      increaseMessageUnread(params.room_id)
+    }
   }
 
   const getRoomIndex = (roomId: string): number =>
     data && data?.data?.length > 0 ? data.data.findIndex((item) => item.room_id === roomId) : -1
 
-  const increaseMessageUnread = (params: LastMessage) => {
+  const increaseMessageUnread = async (params: LastMessage) => {
     if (!data?.data?.length) return
-    mutate(
-      produce(data, (draft) => {
-        const index = getRoomIndex(params.room_id)
-        if (index === -1) return
-        draft.data[index].message_unread_count += 1
-      }),
-      false
-    )
+
+    const res: any = await chatApi.addMessageUnreadToRoom({ message_id: params.message_id })
+    if (res?.success) {
+      mutate(
+        produce(data, (draft) => {
+          const index = getRoomIndex(params.room_id)
+          if (index === -1) return
+          draft.data[index].message_unread_count += 1
+        }),
+        false
+      )
+    }
+  }
+
+  const clearMessagesUnreadFromRoom = async (room_id: string) => {
+    if (!data?.data?.length) return
+
+    const res: any = await chatApi.clearMessageUnreadFromRoom(room_id)
+    if (res?.success) {
+      mutate(
+        produce(data, (draft) => {
+          const index = getRoomIndex(room_id)
+          if (index === -1) return
+          draft.data[index].message_unread_count = 0
+        }),
+        false
+      )
+    }
   }
 
   const appendLastMessage = (params: LastMessage) => {
@@ -141,5 +154,6 @@ export const useRoom = (): UseRoomRes => {
     messageUnreadhandler,
     setCurrentRoomToFirstOrder,
     increaseMessageUnread,
+    clearMessagesUnreadFromRoom,
   }
 }
