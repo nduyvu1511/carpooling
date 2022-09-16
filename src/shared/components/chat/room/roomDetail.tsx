@@ -1,12 +1,6 @@
 import { Spinner } from "@/components/loading"
 import { useMessage } from "@/hooks"
-import {
-  MessageRes,
-  OnResetParams,
-  RoomDetailFunctionHandler,
-  RoomDetailRes,
-  SendMessageForm,
-} from "@/models"
+import { OnResetParams, RoomDetailFunctionHandler, RoomDetailRes, SendMessageForm } from "@/models"
 import { chatApi } from "@/services"
 import { AxiosResponse } from "axios"
 import {
@@ -37,7 +31,12 @@ export const RoomDetail = forwardRef(function RoomChild(
 ) {
   const [isTyping, setTyping] = useState<boolean>(false)
   const messageFormRef = useRef<OnResetParams>(null)
-  const { data, isValidating, error } = useSWR(
+  const {
+    data,
+    isValidating,
+    error,
+    mutate: mutateRoomDetail,
+  } = useSWR(
     roomId ? `get_room_detail_${roomId}` : null,
     roomId
       ? () =>
@@ -51,17 +50,53 @@ export const RoomDetail = forwardRef(function RoomChild(
   const {
     appendMessage,
     sendMessage,
+    confirmReadMessage,
     data: messages,
+    confirmReadAllMessageInRoom,
   } = useMessage({ roomId, initialData: data?.messages })
 
   useImperativeHandle(ref, () => ({
     appendMessage: (mes) => {
       appendMessage(mes)
     },
-    clearUnreadMessage: (params) => {
-      mutate("get_room_list", mutate)
+    changeStatusOfRoom: (params) => {
+      if (!data) return
+      console.log(data.members?.data)
+      if (params.type === "logout") {
+        if (data.members.data?.length === 2) {
+          mutateRoomDetail(
+            produce(data, (draft) => {
+              draft.is_online = false
+              draft.offline_at = new Date()
+            }),
+            false
+          )
+        }
+      } else {
+        mutateRoomDetail(
+          produce(data, (draft) => {
+            draft.is_online = true
+          }),
+          false
+        )
+      }
+    },
+    changeMesageStatus: async (params) => {
+      confirmReadMessage(params)
     },
   }))
+
+  useEffect(() => {
+    if (!data?.messages?.data?.length) return
+    const lastMessage = data?.messages?.data?.[data?.messages?.data?.length - 1]
+    if (lastMessage.is_author || lastMessage.is_read) return
+
+    confirmReadAllMessageInRoom(roomId)
+    if (!socket) return
+    socket.emit("read_message", lastMessage)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.messages?.data, roomId])
 
   useEffect(() => {
     ;(document?.querySelector(".message-form-input") as HTMLInputElement)?.focus()
@@ -84,7 +119,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     if (!socket) return
 
     if (!isTyping) {
-      socket.emit("start_typing", roomId)
+      // socket.emit("start_typing", roomId)
       setTyping(true)
     }
     const lastTypingTime = new Date().getTime()
@@ -93,7 +128,7 @@ export const RoomDetail = forwardRef(function RoomChild(
       const timeNow = new Date().getTime()
       const timeDiff = timeNow - lastTypingTime
       if (timeDiff >= timerLength && isTyping) {
-        socket.emit("stop_typing", roomId)
+        // socket.emit("stop_typing", roomId)
         setTyping(false)
       }
     }, timerLength)

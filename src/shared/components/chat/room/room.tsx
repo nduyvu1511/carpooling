@@ -34,7 +34,6 @@ export const Room = forwardRef(function RoomChild(
     },
     increaseMessageUnread: (params) => {
       if (params.room_id !== roomId) {
-        console.log({ roomId, params: params.room_id })
         increaseMessageUnread(params)
       }
     },
@@ -44,14 +43,12 @@ export const Room = forwardRef(function RoomChild(
     appendLastMessage: (params) => {
       appendLastMessage(params)
     },
-    clearMessagesUnreadFromRoom: (params) => {
-      clearMessagesUnreadFromRoom(params)
-    },
   }))
 
   useEffect(() => {
     if (!data?.data?.length || !roomId) return
     clearMessagesUnreadFromRoom(roomId)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId])
 

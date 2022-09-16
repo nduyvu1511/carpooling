@@ -27,9 +27,7 @@ export const MessageForm = forwardRef(function MessageFormChild(
     onSubmit?.({ text: value })
   }
 
-  useEffect(() => {
-
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <div className="flex items-center h-[46px] flex-1">

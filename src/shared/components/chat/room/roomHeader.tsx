@@ -1,5 +1,6 @@
 import { blankAvatar, ThreeDotsIcon } from "@/assets"
 import { RoomRes } from "@/models"
+import moment from "moment"
 import { RoomAvatar } from "../roomAvatar"
 
 interface RoomHeaderProps {
@@ -11,14 +12,19 @@ export const RoomHeader = ({ data }: RoomHeaderProps) => {
     <div className="flex">
       <div className="flex items-center flex-1 mr-16">
         <div className="mr-12">
-          <RoomAvatar avatar={data.room_avatar?.thumbnail_url || blankAvatar} />
+          <RoomAvatar
+            isOnline={data.is_online}
+            avatar={data.room_avatar?.thumbnail_url || blankAvatar}
+          />
         </div>
 
         <div className="flex-1">
           <p className="text-sm font-semibold md:text-semibold text-primary line-clamp-1">
             {data.room_name}
           </p>
-          <p className="text-xs text-gray-color-5 line-clamp-1"></p>
+          {!data.is_online && data?.offline_at ? (
+            <p className="text-xs text-gray-color-5">{moment(data?.offline_at).fromNow()}</p>
+          ) : null}
         </div>
       </div>
 

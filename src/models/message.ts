@@ -36,6 +36,7 @@ export type MessageRes = Pick<IMessage, "room_id" | "created_at"> & {
   reply_to?: MessageReply | null
   location?: Lnglat | null
   tags?: TagRes[]
+  is_read: boolean
 }
 
 export type AttachmentType = "image" | "video" | "voice"

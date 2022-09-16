@@ -1,6 +1,6 @@
 import { AttachmentId, AttachmentRes, ListRes, QueryCommonParams } from "./common"
 import { MessageRes } from "./message"
-import { changeUserStatusParams, IUser } from "./user"
+import { changeUserStatusParams, IUser, UserData } from "./user"
 
 export interface IRoom {
   _id: string
@@ -10,7 +10,7 @@ export interface IRoom {
   member_ids: RoomMember[]
   leader_id: string
   last_message_id?: string
-  message_pinned_ids: string[]
+  pinned_message_ids: string[]
   members_leaved: MemberLeaved
   message_ids: string[]
   is_expired: boolean
@@ -29,6 +29,7 @@ export interface RoomRes {
   created_at: Date
   is_online: boolean
   message_unread_count: number
+  offline_at: Date
 }
 
 export interface RoomDetailRes extends RoomRes {
@@ -38,7 +39,7 @@ export interface RoomDetailRes extends RoomRes {
   leader_user_info: RoomMemberRes | null
 }
 
-type RoomType = "group" | "private" | "admin"
+type RoomType = "group" | "single" | "admin"
 
 export interface RoomMember {
   user_id: string
@@ -107,20 +108,34 @@ export type RoomMemberRes = Pick<
   avatar: AttachmentRes
 }
 
-interface ClearUnreadMessage {
+export interface ClearUnreadMessage {
   room_id: string
 }
 
+export type ChangeStatusOfRoom = UserData & { type: "login" | "logout" }
+
 export interface RoomFunctionHandler {
   messageUnreadhandler: (_: LastMessage) => void
-  changeStatusOfRoom: (_: changeUserStatusParams) => void
+  changeStatusOfRoom: (_: ChangeStatusOfRoom) => void
   increaseMessageUnread: (_: LastMessage) => void
   appendLastMessage: (_: LastMessage) => void
   setCurrentRoomToFirstOrder: (_: LastMessage) => void
-  clearMessagesUnreadFromRoom: (room_id: string) => void
 }
 
 export interface RoomDetailFunctionHandler {
   appendMessage: (_: MessageRes) => void
-  clearUnreadMessage: (_: ClearUnreadMessage) => void
+  changeStatusOfRoom: (_: ChangeStatusOfRoom) => void
+  changeMesageStatus: (_: MessageRes) => void
+}
+
+export interface AddMessageUnreadToRoomRes {
+  message_unread_count: number
+}
+
+export interface ClearMessageUnread {
+  room_id: string
+}
+
+export interface AddMessageUnread {
+  message_id: string
 }

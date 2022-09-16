@@ -37,7 +37,11 @@ export const Message = ({ data }: MessageProps) => {
       {data?.data?.length
         ? data.data.map((item) => (
             <div className="mb-10" key={item.message_id} ref={ref}>
-              <MessageItem key={item.message_id} data={item} />
+              <MessageItem
+                lastMessage={data.data?.[data?.data?.length - 1]}
+                key={item.message_id}
+                data={item}
+              />
             </div>
           ))
         : null}

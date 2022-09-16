@@ -1,8 +1,8 @@
 import {
   AddMessageUnread,
-  ClearMessageUnread,
   CreateGroupChat,
   CreateSingleChat,
+  LoginToSocket,
   QueryCommonParams,
   SendMessage,
 } from "@/models"
@@ -91,8 +91,8 @@ const chatApi = {
     return axiosClient.post(`/tag?limit=${limit}&offset=${offset}`)
   },
 
-  loginToSocket: () => {
-    return axiosClient.post("/user/login_to_socket")
+  loginToSocket: (params: LoginToSocket) => {
+    return axiosClient.post("/user/login_to_socket", params)
   },
 
   addMessageUnreadToRoom: (params: AddMessageUnread) => {
@@ -101,6 +101,14 @@ const chatApi = {
 
   clearMessageUnreadFromRoom: (roomId: string) => {
     return axiosClient.delete(`/room/${roomId}/message_unread`)
+  },
+
+  confirmReadMessage: (message_id: string) => {
+    return axiosClient.post(`/message/read`, { message_id })
+  },
+
+  confirmReadAllMessageInRoom: (room_id: string) => {
+    return axiosClient.post(`/message/read_all`, { room_id })
   },
 }
 

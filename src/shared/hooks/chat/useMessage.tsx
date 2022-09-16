@@ -1,4 +1,4 @@
-import { LIMIT_MESSAGES, MESSAGES_LIMIT } from "@/helper"
+import { MESSAGES_LIMIT } from "@/helper"
 import { ListRes, MessageRes, SendMessage, UseParams } from "@/models"
 import { chatApi } from "@/services"
 import produce from "immer"
@@ -11,6 +11,8 @@ interface UseMessageRes {
   getMoreMessages: Function
   sendMessage: (params: UseParams<SendMessage, MessageRes>) => void
   appendMessage: (params: MessageRes) => void
+  confirmReadMessage: (params: MessageRes) => void
+  confirmReadAllMessageInRoom: (params: string) => void
 }
 
 interface UseMessageProps {
@@ -52,6 +54,17 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     )
   }
 
+  const findMessageIndex = (message_id: string): number => {
+    const index =
+      data && data?.data?.length > 0
+        ? data?.data.findIndex((item) => item.message_id === message_id) || -1
+        : -1
+
+    if (index === -1) mutate()
+
+    return index
+  }
+
   const sendMessage = async (_: UseParams<SendMessage, MessageRes>) => {
     const { onSuccess, params, config, onError } = _
     try {
@@ -69,6 +82,33 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     }
   }
 
+  const confirmReadMessage = async (params: MessageRes) => {
+    if (!data?.data?.length) return
+
+    const index = findMessageIndex(params.message_id)
+    if (index === -1) return
+    if (data.data[index].is_read) return
+
+    mutate(
+      produce(data, (draft) => {
+        draft.data[index].is_read = true
+      })
+    )
+  }
+
+  const confirmReadAllMessageInRoom = async (roomId: string, cb?: Function) => {
+    if (!data?.data?.length) return
+
+    const res: any = chatApi.confirmReadAllMessageInRoom(roomId)
+    if (res?.success) {
+      mutate(
+        produce(data, (draft) => {
+          draft.data[draft.data.length - 1].is_read = true
+        })
+      )
+    }
+  }
+
   return {
     data,
     getMoreMessages,
@@ -76,5 +116,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     isValidating,
     sendMessage,
     appendMessage,
+    confirmReadMessage,
+    confirmReadAllMessageInRoom,
   }
 }
