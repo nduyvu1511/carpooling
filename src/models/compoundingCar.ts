@@ -387,6 +387,7 @@ export interface ConfirmCompoundingCar {
 
 export interface ConfirmTransactionParams {
   sale_order_id: number
+  compounding_car_customer_id: number
 }
 
 export interface ConfirmTransactionPa {}

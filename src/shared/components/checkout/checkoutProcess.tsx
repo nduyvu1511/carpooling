@@ -50,7 +50,7 @@ const CheckoutProcess = ({
   useEffect(() => {
     if (vnp_ResponseCode !== "00") return
 
-    if (sale_order_id) {
+    if (sale_order_id && compounding_car_customer_id) {
       //   ;(fetcher_type === "confirmDepositCompoundingCarCustomer"
       //   ? ridesApi.confirmDepositCompoundingCarCustomer
       //   : ridesApi.customerConfirmPayFullCompoundingCar)({
@@ -64,6 +64,7 @@ const CheckoutProcess = ({
       ridesApi
         .confirmDepositCompoundingCarCustomer({
           sale_order_id,
+          compounding_car_customer_id,
         })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {
           setValidating(false)
@@ -74,7 +75,6 @@ const CheckoutProcess = ({
             if (res.result.success) {
               window.close()
             }
-            return
           }
           if (res.result.data.state === "confirm_paid") {
             window.close()
