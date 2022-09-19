@@ -22,8 +22,7 @@ const CustomerLayout = ({
     if (userInfo?.car_account_type !== "customer") {
       router.push("/")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo])
+  }, [userInfo, router])
 
   return (
     <>

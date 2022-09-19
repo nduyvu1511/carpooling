@@ -1,4 +1,4 @@
-import { GetPostsParams } from "@/models/news"
+import { GetPostsParams } from "@/models"
 import axiosClient from "."
 
 export const newsApi = {

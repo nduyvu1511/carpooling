@@ -66,7 +66,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   }
 
   const sendMessage = async (_: UseParams<SendMessage, MessageRes>) => {
-    const { onSuccess, params, config, onError } = _
+    const { onSuccess, params, onError } = _
     try {
       const res: any = await chatApi.sendMessage(params)
 

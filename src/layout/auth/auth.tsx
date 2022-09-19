@@ -18,8 +18,7 @@ const AuthLayout = ({ children, headerClassName = "", className = "" }: AuthLayo
     if (!userInfo?.car_account_type) {
       router.push("/")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo])
+  }, [userInfo, router])
 
   return (
     <>

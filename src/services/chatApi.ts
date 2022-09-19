@@ -104,11 +104,11 @@ const chatApi = {
   },
 
   confirmReadMessage: (message_id: string) => {
-    return axiosClient.post(`/message/read`, { message_id })
+    return axiosClient.patch(`/message/read`, { message_id })
   },
 
   confirmReadAllMessageInRoom: (room_id: string) => {
-    return axiosClient.post(`/message/read_all`, { room_id })
+    return axiosClient.patch(`/message/read_all`, { room_id })
   },
 }
 
