@@ -8,6 +8,7 @@ import {
 import { useBreakpoint } from "@/hooks"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useRef, useState } from "react"
 import { Autoplay, Pagination } from "swiper"
 import "swiper/css"
@@ -34,7 +35,7 @@ const PromotionBanner = () => {
       <div className="flex-1 w-full overflow-hidden">
         <Swiper
           loop
-          className="promotion-banner-slide "
+          className="promotion-banner-slide cursor-pointer "
           slidesPerView={1}
           modules={[Autoplay, Pagination]}
           autoplay={{ delay: 5000 }}
@@ -43,17 +44,19 @@ const PromotionBanner = () => {
         >
           {banners.map((url, index) => (
             <SwiperSlide
-              className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[16px]"
+              className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
               key={index}
             >
-              <Link passHref href="/promotion">
-                <Image
-                  className="rounded-[16px]"
-                  alt=""
-                  src={url}
-                  layout="fill"
-                  objectFit="cover"
-                />
+              <Link href="/promotion">
+                <a href="cursor-pointer">
+                  <Image
+                    className="rounded-[16px] cursor-pointer"
+                    alt=""
+                    src={url}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </a>
               </Link>
             </SwiperSlide>
           ))}

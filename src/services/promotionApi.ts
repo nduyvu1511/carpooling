@@ -78,4 +78,11 @@ export const promotionApi = {
       { params }
     )
   },
+
+  getPromotionListCanApply: () => {
+    return axiosClient.post(
+      "/api/compounding_car_promotion_controller/get_list_promotion_can_apply",
+      {}
+    )
+  },
 }

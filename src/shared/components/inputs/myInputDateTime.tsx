@@ -1,7 +1,7 @@
 import { getTimes } from "@/helper"
 import { OptionModel } from "@/models"
 import moment from "moment"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Datetime from "react-datetime"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
@@ -52,8 +52,16 @@ const MyInputDateTime = ({
     return current.isAfter(currentDay ? moment(currentDay) : yesterday)
   }
 
+  const getTimesBySameDay = (): OptionModel[] => {
+    const data = [...getTimes()]
+    // const times = moment().isSame(initialValue, "date")
+    //   ? data.slice(data.findIndex((item) => item.value >= moment().format("HH:mm")))
+    //   : data
+    return data
+  }
+
   const times: OptionModel[] = useMemo(() => {
-    const times = [...getTimes()]
+    const times = getTimesBySameDay()
     if (!maxHour) return times
     const index = times.findIndex((item) => item.value >= maxHour)
 

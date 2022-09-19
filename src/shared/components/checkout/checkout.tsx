@@ -61,7 +61,6 @@ const Checkout = ({
       toggleBodyOverflow("unset")
     }
   }
-  console.log(data.down_payment)
 
   return (
     <>

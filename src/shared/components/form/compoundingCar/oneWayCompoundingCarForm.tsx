@@ -231,6 +231,7 @@ export const OneWayCompoundingForm = ({
             setToLocalStorage(ONE_WAY_NOTE, e.target.value)
             setValue("note", e.target.value)
           }}
+          maxLength={300}
         ></textarea>
       </div>
 
@@ -244,8 +245,8 @@ export const OneWayCompoundingForm = ({
                 isError={!!errors?.is_checked_policy?.message}
                 onChange={(status) => {
                   if (status) {
-                    clearErrors("is_checked_policy")
                     setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, true)
+                    clearErrors("is_checked_policy")
                     setValue("is_checked_policy", true)
                   } else {
                     setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, undefined)

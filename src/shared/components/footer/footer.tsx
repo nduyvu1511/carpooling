@@ -9,8 +9,10 @@ const Footer = () => {
         <div className="lg:flex">
           <div className="w-fit lg:w-[25%] lg:mr-[40px] mb-[40px] xs:flex items-center lg:block">
             <div className="w-[120px] mb-24 xs:mb-0 lg:mb-[24px] md:w-auto mr-[32px] sm:mr-[64px] md:mr-[32px] lg:mr-0">
-              <Link passHref href="/">
-                <LogoIcon className="cursor-pointer h-[75px] w-[80px] md:w-[80px] md:h-[75px]" />
+              <Link href="/">
+                <a href="cursor-pointer">
+                  <LogoIcon className="h-[75px] w-[80px] md:w-[80px] md:h-[75px]" />
+                </a>
               </Link>
             </div>
             <div className="">

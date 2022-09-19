@@ -183,7 +183,7 @@ export const Map = ({
     getAddressFromLngLat(address)
   }, [])
 
-  if (!isLoaded) return <Spinner size={40} className="py-[60px]" />
+  if (!isLoaded) return <Spinner size={30} className="py-[60px]" />
   if (viewOnly)
     return (
       <GoogleMap

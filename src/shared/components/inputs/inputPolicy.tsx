@@ -9,8 +9,9 @@ interface InputPolicyProps {
 }
 
 const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
-  const [privacy1, setPrivacy1] = useState<boolean | undefined>(!!value)
-  const [privacy2, setPrivacy2] = useState<boolean | undefined>(!!value)
+  const [privacy1, setPrivacy1] = useState<boolean | undefined>(!!value || undefined)
+  const [privacy2, setPrivacy2] = useState<boolean | undefined>(!!value || undefined)
+  console.log({ privacy1 })
 
   const handleChange = (privacy1: boolean | undefined, privacy2: boolean | undefined) => {
     onChange(privacy1 === true && privacy2 === true)
@@ -20,7 +21,6 @@ const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
     setPrivacy1(status)
     handleChange(status, privacy2)
   }
-  console.log({ isError })
 
   const checkPrivacy2 = (status: boolean) => {
     setPrivacy2(status)
@@ -44,10 +44,12 @@ const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
             onClick={() => checkPrivacy1(!privacy1)}
             className="text-sm leading-[18px] select-none flex-1"
           >
-            Số tiền này chưa bao gồm chi phí cầu đường , bãi bến..
+            Số tiền này chưa bao gồm chi phí cầu đường, bến bãi...
           </span>
         </div>
-        {!privacy1 ? <p className="text-error text-12">Vui lòng nhập trường này</p> : null}
+        {isError || privacy1 === false ? (
+          <p className="form-err-msg">Vui lòng nhập trường này</p>
+        ) : null}
       </div>
 
       <div>
@@ -79,7 +81,9 @@ const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
             </Link>
           </span>
         </div>
-        {!privacy2 ? <p className="text-error text-12">Vui lòng nhập trường này</p> : null}
+        {isError || privacy2 === false ? (
+          <p className="form-err-msg">Vui lòng nhập trường này</p>
+        ) : null}
       </div>
     </>
   )

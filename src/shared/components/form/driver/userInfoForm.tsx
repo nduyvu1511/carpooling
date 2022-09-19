@@ -232,6 +232,7 @@ export const UserInfoForm = ({
                   name={field.name}
                   rows={2}
                   defaultValue={defaultValues?.description ? defaultValues.description : ""}
+                  maxLength={300}
                 ></textarea>
               ) : null}
 

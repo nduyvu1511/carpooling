@@ -115,7 +115,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect, disabled }: MapSearch
           {searchValues ? (
             <div className="flex-1 flex flex-col">
               {loading ? (
-                <Spinner className="py-80px" size={40} />
+                <Spinner className="py-[30px]" size={20} />
               ) : (
                 <>
                   {status === "OK" ? (

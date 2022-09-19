@@ -21,13 +21,14 @@ export const PromotionModal = ({ onClose, onApply, appliedPromotionId }: Promoti
   const [promotionCode, setPromotionCode] = useState<string>()
   const [searchPromotions, setSearchPromotions] = useState<PromotionRes[]>([])
 
-  const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isValidating } =
-    useQueryList<PromotionRes[]>({
-      fetcher: promotionApi.getSavedPromotionList,
-      initialData: undefined,
-      key: "get_promotion_list",
-      params: { limit: 12, offset: 0 },
-    })
+  const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isValidating } = useQueryList<
+    PromotionRes[]
+  >({
+    fetcher: promotionApi.getPromotionListCanApply,
+    initialData: undefined,
+    key: "get_promotion_list_can_apply",
+    params: { limit: 12, offset: 0 },
+  })
 
   const handleSearchPromotion = (value: string) => {
     if (!data) return

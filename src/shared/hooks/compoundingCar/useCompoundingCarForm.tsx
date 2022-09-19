@@ -51,6 +51,7 @@ import {
 } from "@/models"
 import { vehicleApi } from "@/services"
 import { AxiosResponse } from "axios"
+import moment from "moment"
 import { useSelector } from "react-redux"
 
 export interface CalcPriceParams {
@@ -401,46 +402,73 @@ export const useCompoundingForm = (): Res => {
     }
   }
 
-  const carpoolingCompoundingFormFromLocalStorage = (): CreateCarpoolingCompoundingForm => ({
-    car_id: getFromLocalStorage(CARPOOLING_CAR_ID),
-    distance: getFromLocalStorage(CARPOOLING_DISTANCE),
-    expected_going_on_date: getFromLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE),
-    from_station: getFromLocalStorage(CARPOOLING_FROM_STATION),
-    to_station: getFromLocalStorage(CARPOOLING_TO_STATION),
-    is_checked_policy: getFromLocalStorage(CARPOOLING_IS_CHECKED_POLICY),
-    note: getFromLocalStorage(CARPOOLING_NOTE),
-    number_seat: getFromLocalStorage(CARPOOLING_NUMBER_SEAT),
-    price_per_passenger: getFromLocalStorage(CARPOOLING_PRICE_PER_PASSENGER),
-    duration: getFromLocalStorage(CARPOOLING_DURATION),
-    from_location: getFromLocalStorage(CARPOOLING_FROM_LOCATION),
-  })
+  const carpoolingCompoundingFormFromLocalStorage = (): CreateCarpoolingCompoundingForm => {
+    const dateFromLocalStorage = getFromLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE)
+    const isAfter = moment().isAfter(moment(dateFromLocalStorage))
+    if (isAfter) {
+      setToLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, undefined)
+    }
+    const expected_going_on_date = isAfter ? undefined : dateFromLocalStorage
 
-  const twoWayCompoundingCarFormFromLocalStorage = (): CreateTwoWayCompoundingCarForm => ({
-    car_id: getFromLocalStorage(TWO_WAY_CAR_ID),
-    distance: getFromLocalStorage(TWO_WAY_DISTANCE),
-    expected_going_on_date: getFromLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE),
-    from_location: getFromLocalStorage(TWO_WAY_FROM_LOCATION),
-    to_location: getFromLocalStorage(TWO_WAY_TO_LOCATION),
-    is_checked_policy: getFromLocalStorage(TWO_WAY_IS_CHECKED_POLICY),
-    note: getFromLocalStorage(TWO_WAY_NOTE),
-    is_a_day_tour: getFromLocalStorage(TWO_WAY_IS_A_DAY_TOUR),
-    expected_picking_up_date: getFromLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE),
-    hour_of_wait_time: getFromLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME),
-    duration: getFromLocalStorage(TWO_WAY_DURATION),
-    price: getFromLocalStorage(TWO_WAY_PRICE),
-  })
+    return {
+      car_id: getFromLocalStorage(CARPOOLING_CAR_ID),
+      distance: getFromLocalStorage(CARPOOLING_DISTANCE),
+      expected_going_on_date,
+      from_station: getFromLocalStorage(CARPOOLING_FROM_STATION),
+      to_station: getFromLocalStorage(CARPOOLING_TO_STATION),
+      is_checked_policy: getFromLocalStorage(CARPOOLING_IS_CHECKED_POLICY),
+      note: getFromLocalStorage(CARPOOLING_NOTE),
+      number_seat: getFromLocalStorage(CARPOOLING_NUMBER_SEAT),
+      price_per_passenger: getFromLocalStorage(CARPOOLING_PRICE_PER_PASSENGER),
+      duration: getFromLocalStorage(CARPOOLING_DURATION),
+      from_location: getFromLocalStorage(CARPOOLING_FROM_LOCATION),
+    }
+  }
 
-  const oneWayCompoundingCarFormFromLocalStorage = (): CreateOneWayCompoundingCarForm => ({
-    car_id: getFromLocalStorage(ONE_WAY_CAR_ID),
-    distance: getFromLocalStorage(ONE_WAY_DISTANCE),
-    expected_going_on_date: getFromLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE),
-    from_location: getFromLocalStorage(ONE_WAY_FROM_LOCATION),
-    to_location: getFromLocalStorage(ONE_WAY_TO_LOCATION),
-    is_checked_policy: getFromLocalStorage(ONE_WAY_IS_CHECKED_POLICY),
-    note: getFromLocalStorage(ONE_WAY_NOTE),
-    duration: getFromLocalStorage(ONE_WAY_DURATION),
-    price: getFromLocalStorage(ONE_WAY_PRICE),
-  })
+  const twoWayCompoundingCarFormFromLocalStorage = (): CreateTwoWayCompoundingCarForm => {
+    const dateFromLocalStorage = getFromLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE)
+    const isAfter = moment().isAfter(moment(dateFromLocalStorage))
+    if (isAfter) {
+      setToLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, undefined)
+    }
+    const expected_going_on_date = isAfter ? undefined : dateFromLocalStorage
+
+    return {
+      car_id: getFromLocalStorage(TWO_WAY_CAR_ID),
+      distance: getFromLocalStorage(TWO_WAY_DISTANCE),
+      expected_going_on_date,
+      from_location: getFromLocalStorage(TWO_WAY_FROM_LOCATION),
+      to_location: getFromLocalStorage(TWO_WAY_TO_LOCATION),
+      is_checked_policy: getFromLocalStorage(TWO_WAY_IS_CHECKED_POLICY),
+      note: getFromLocalStorage(TWO_WAY_NOTE),
+      is_a_day_tour: getFromLocalStorage(TWO_WAY_IS_A_DAY_TOUR),
+      expected_picking_up_date: getFromLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE),
+      hour_of_wait_time: getFromLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME),
+      duration: getFromLocalStorage(TWO_WAY_DURATION),
+      price: getFromLocalStorage(TWO_WAY_PRICE),
+    }
+  }
+
+  const oneWayCompoundingCarFormFromLocalStorage = (): CreateOneWayCompoundingCarForm => {
+    const dateFromLocalStorage = getFromLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE)
+    const isAfter = moment().isAfter(moment(dateFromLocalStorage))
+    if (isAfter) {
+      setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, undefined)
+    }
+    const expected_going_on_date = isAfter ? undefined : dateFromLocalStorage
+
+    return {
+      car_id: getFromLocalStorage(ONE_WAY_CAR_ID),
+      distance: getFromLocalStorage(ONE_WAY_DISTANCE),
+      expected_going_on_date,
+      from_location: getFromLocalStorage(ONE_WAY_FROM_LOCATION),
+      to_location: getFromLocalStorage(ONE_WAY_TO_LOCATION),
+      is_checked_policy: getFromLocalStorage(ONE_WAY_IS_CHECKED_POLICY),
+      note: getFromLocalStorage(ONE_WAY_NOTE),
+      duration: getFromLocalStorage(ONE_WAY_DURATION),
+      price: getFromLocalStorage(ONE_WAY_PRICE),
+    }
+  }
 
   return {
     seats,

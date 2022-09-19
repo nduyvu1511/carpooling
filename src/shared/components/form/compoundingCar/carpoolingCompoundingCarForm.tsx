@@ -354,6 +354,7 @@ export const CarpoolingCompoundingForm = ({
                 setValue("note", e.target.value)
                 setToLocalStorage(CARPOOLING_NOTE, e.target.value)
               }}
+              maxLength={300}
             ></textarea>
           </div>
         ) : null}
@@ -365,6 +366,7 @@ export const CarpoolingCompoundingForm = ({
               name={"is_checked_policy"}
               render={() => (
                 <InputPolicy
+                  isError={!!errors?.is_checked_policy?.message}
                   onChange={(status) => {
                     if (status) {
                       clearErrors("is_checked_policy")

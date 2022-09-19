@@ -3,6 +3,9 @@ import moment from "moment"
 import { HTMLProps } from "react"
 import Datetime from "react-datetime"
 import "react-datetime/css/react-datetime.css"
+import "moment/locale/vi"
+
+moment.locale("vi")
 
 interface InputDateProps {
   disablePassDay?: boolean
@@ -28,12 +31,13 @@ const InputDate = ({
     return current.isAfter(yesterday)
   }
 
+  console.log(moment().fromNow())
+
   return (
     <div className="relative h-full">
       <Datetime
         closeOnSelect
         dateFormat="DD/MM/YYYY"
-        locale="vi"
         isValidDate={disablePassDay ? disablePastDt : undefined}
         onChange={(e: any) => {
           const val = moment(e._d).format("YYYY-MM-DD")

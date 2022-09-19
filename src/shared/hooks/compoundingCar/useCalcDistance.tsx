@@ -53,14 +53,6 @@ export const useCalcDistance = (): Res => {
         }
       )
     } catch (error) {
-      const distance = lngLatToKms({
-        from: origin,
-        to: destination,
-      })
-      onSuccess({
-        distance: distance,
-        duration: distance / 60,
-      })
       onError?.()
     }
   }

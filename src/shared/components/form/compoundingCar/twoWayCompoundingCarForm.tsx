@@ -377,6 +377,7 @@ export const TwoWayCompoundingForm = ({
             setValue("note", e.target.value)
             setToLocalStorage(TWO_WAY_NOTE, e.target.value)
           }}
+          maxLength={300}
         ></textarea>
       </div>
 
@@ -387,6 +388,7 @@ export const TwoWayCompoundingForm = ({
             name={"is_checked_policy"}
             render={() => (
               <InputPolicy
+                isError={!!errors?.is_checked_policy?.message}
                 onChange={(status) => {
                   if (status) {
                     clearErrors("is_checked_policy")

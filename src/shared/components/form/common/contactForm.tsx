@@ -58,6 +58,7 @@ export const ContactForm = forwardRef(function ContactChild(
 
           {field.type === "textarea" ? (
             <textarea
+              maxLength={300}
               className={`form-textarea mb-24 bg-bg-primary border-none ${
                 errors?.[field.name] ? "form-input-err" : ""
               }`}

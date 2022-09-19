@@ -55,6 +55,7 @@ const HomeGuest = () => {
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
+
       {data?.length ? (
         <HomeSection title="Lịch sử chuyến đi">
           <PlaceSlide showLoading={isValidating} places={data || []} />

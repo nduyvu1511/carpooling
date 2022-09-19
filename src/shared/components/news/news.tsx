@@ -20,7 +20,7 @@ const News = () => {
   const { data: categories } = useSWR<CategoryRes[]>("get_category_list", () =>
     newsApi
       .getCategories()
-      .then((res: any) => res.data.data)
+      .then((res: any) => res.data)
       .catch((err) => console.log(err))
   )
 

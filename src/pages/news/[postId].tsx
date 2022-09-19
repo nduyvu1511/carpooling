@@ -13,16 +13,16 @@ const PostDetail = () => {
     () =>
       newsApi
         .getPostDetail(postId + "")
-        .then((res: any) => res.data.data)
+        .then((res: any) => res.data)
         .catch((err) => console.log(err)),
-    { dedupingInterval: 1000000 }
+    { dedupingInterval: 1000 }
   )
   const { data: newsRelated, isValidating: isRelatedLoading } = useSWR<PostRes[]>(
     data?.category?.categoryId ? `get_related_post_${postId}` : null,
     () =>
       newsApi
         .getPosts({ categoryId: data?.category?.categoryId })
-        .then((res: any) => res.data.data)
+        .then((res: any) => res.data)
         .catch((err) => console.log(err)),
     { dedupingInterval: 1000000 }
   )
@@ -53,7 +53,9 @@ const PostDetail = () => {
         url={`https://exxe.vn/news/${data?.postId}`}
       />
 
-      <div className="news__page" dangerouslySetInnerHTML={{ __html: data?.content + "" }}></div>
+      {data ? (
+        <div className="news__page" dangerouslySetInnerHTML={{ __html: data?.content + "" }}></div>
+      ) : null}
     </StaticLayout>
   )
 }

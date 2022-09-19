@@ -48,7 +48,7 @@ export const Header = () => {
           <div className="container">
             <div className="flex items-center justify-between">
               <div className="my-auto">
-                <Link href="/" passHref>
+                <Link href="/">
                   <a className="cursor-pointer">
                     <LogoIcon />
                   </a>

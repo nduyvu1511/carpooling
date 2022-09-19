@@ -14,7 +14,7 @@ const NewsSlide = ({ data, isLoading }: { data: PostRes[]; isLoading: boolean })
         ))}
       </div>
     )
-  console.log({ data })
+
   return (
     <Swiper
       className="swiper-hover"
