@@ -3,9 +3,6 @@ import moment from "moment"
 import { HTMLProps } from "react"
 import Datetime from "react-datetime"
 import "react-datetime/css/react-datetime.css"
-import "moment/locale/vi"
-
-moment.locale("vi")
 
 interface InputDateProps {
   disablePassDay?: boolean
