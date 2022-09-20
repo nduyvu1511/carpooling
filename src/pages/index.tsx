@@ -7,7 +7,7 @@ import {
   NewsSlide,
   PlaceSlide,
   PromotionBanner,
-  Seo,
+  Seo
 } from "@/components"
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"

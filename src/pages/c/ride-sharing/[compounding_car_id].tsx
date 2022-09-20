@@ -21,7 +21,7 @@ const RidesDetailCustomer = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const { confirmCompoundingCar, createExistingCompoundingCar } = useCompoundingCarActions()
+  const { createExistingCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
   const { compoundingCarResToCarpoolingForm } = useCompoundingForm()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
     compounding_car_id: Number(compounding_car_id),
@@ -46,11 +46,14 @@ const RidesDetailCustomer = () => {
     })
   }
 
-  const handleConfirmCompoundingCar = () => {
+  const handleConfirmCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
     if (!compoundingCarCustomer) return
 
-    confirmCompoundingCar({
-      params: { compounding_car_customer_id: compoundingCarCustomer.compounding_car_customer_id },
+    updateCompoundingCar({
+      params: {
+        ...params,
+        compounding_car_customer_id: compoundingCarCustomer.compounding_car_customer_id,
+      },
       onSuccess: () => {
         router.push(
           `/c/booking/checkout?compounding_car_customer_id=${compoundingCarCustomer.compounding_car_customer_id}`
@@ -102,7 +105,7 @@ const RidesDetailCustomer = () => {
                 }}
                 onSubmit={(data) => {
                   if (compoundingCarCustomer?.compounding_car_id) {
-                    handleConfirmCompoundingCar()
+                    handleConfirmCompoundingCar(data)
                   } else {
                     handleCreateExistedCompoundingCar(data)
                   }
@@ -110,7 +113,7 @@ const RidesDetailCustomer = () => {
                 type="existed"
                 limitNumberSeat={compoundingCar?.number_available_seat}
                 view="page"
-                mode="confirm"
+                mode={compoundingCarCustomer?.compounding_car_id ? "confirm" : "create"}
                 btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
               />
             ) : null}

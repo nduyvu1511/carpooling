@@ -23,7 +23,11 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
       setValidating(true)
       const res = await vehicleApi.getPickUpStations(provinceId || 0)
       setValidating(false)
-      setStations(res?.result?.data || [])
+      const data = res?.result?.data || []
+      setStations(data)
+      if (station?.station_id !== data?.[0]?.station_id) {
+        setStation(undefined)
+      }
     } catch (error) {
       setValidating(false)
       console.log(error)
@@ -33,6 +37,7 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
   useEffect(() => {
     if (!defaultValue?.province_id) return
     fetchStations(defaultValue.province_id)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -61,6 +66,7 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
             placeholder="Chọn tỉnh"
             onChange={(val) => {
               if (!val?.value) return
+              if (+val?.value === station?.province_id) return
               fetchStations(+val.value)
             }}
             autoFocus
@@ -70,7 +76,7 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
 
         <>
           {isValidating ? (
-            <Spinner size={40} className="py-[40px]" />
+            <Spinner size={28} className="py-[40px]" />
           ) : stations === undefined ? (
             <div className="py-[20px] flex-center">
               <span className="text-14 text-gray-color-3 font-medium">Vui lòng chọn tỉnh</span>

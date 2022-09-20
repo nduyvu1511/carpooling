@@ -224,25 +224,27 @@ const ConfirmBookingCustomer = () => {
         />
       ) : null}
 
-      <Alert
-        show={!!(showAlert && compoundingCar?.compounding_car_id)}
-        type="warning"
-        title="Bạn có chắc chắn muốn hủy giao dịch này?"
-        onClose={() => setShowAlert(undefined)}
-        onConfirm={() =>
-          compoundingCar?.compounding_car_id &&
-          showAlert &&
-          cancelDepositCompoundingCarDriver({
-            params: { compounding_car_id: showAlert },
-            onSuccess: () => {
-              setShowAlert(undefined)
-              toggleBodyOverflow("unset")
-              setDepositFailure(undefined)
-              router.push(`/d/ride-detail/checkout/${compoundingCar.compounding_car_id}`)
-            },
-          })
-        }
-      />
+      {showAlert && compoundingCar?.compounding_car_id ? (
+        <Alert
+          show={true}
+          type="warning"
+          title="Bạn có chắc chắn muốn hủy giao dịch này?"
+          onClose={() => setShowAlert(undefined)}
+          onConfirm={() =>
+            compoundingCar?.compounding_car_id &&
+            showAlert &&
+            cancelDepositCompoundingCarDriver({
+              params: { compounding_car_id: showAlert },
+              onSuccess: () => {
+                setShowAlert(undefined)
+                toggleBodyOverflow("unset")
+                setDepositFailure(undefined)
+                router.push(`/d/ride-detail/checkout/${compoundingCar.compounding_car_id}`)
+              },
+            })
+          }
+        />
+      ) : null}
 
       {depositFailure ? (
         <RideCheckoutPopup

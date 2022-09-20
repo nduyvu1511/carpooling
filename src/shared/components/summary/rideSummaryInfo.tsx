@@ -3,7 +3,7 @@ import {
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
   getHoursName,
-  toFirstUpperCase
+  toFirstUpperCase,
 } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import moment from "moment"
@@ -15,6 +15,7 @@ interface RideSummarInfoProps {
 }
 
 const RideSummaryInfo = ({ data, showRideType = true }: RideSummarInfoProps) => {
+  console.log(data)
   return (
     <ul>
       {showRideType ? (
@@ -53,7 +54,7 @@ const RideSummaryInfo = ({ data, showRideType = true }: RideSummarInfoProps) => 
       {data.duration ? (
         <SummaryItem label="Thời gian ước tính" value={getHoursName(data.duration)} />
       ) : null}
-      {data.compounding_type === "compounding" ? (
+      {data.compounding_type === "compounding" && data?.number_available_seat ? (
         <SummaryItem
           className="mb-0 mt-12"
           label="Số hành khách"
@@ -69,4 +70,3 @@ const RideSummaryInfo = ({ data, showRideType = true }: RideSummarInfoProps) => 
 }
 
 export { RideSummaryInfo }
-

@@ -9,6 +9,7 @@ interface DepositSummaryProps {
   onExpiredCountdown: Function
   accountType?: CarAccountType
   data: IDepositSummaryOptional
+  showCountdown?: boolean
 }
 
 export const CheckoutInfo = ({
@@ -17,13 +18,14 @@ export const CheckoutInfo = ({
   onExpiredCountdown,
   accountType,
   data,
+  showCountdown,
 }: DepositSummaryProps) => {
   return (
     <>
       <div className="flex items-center mb-16 md:mb-24  justify-between">
         <p className="text-base font-semibold uppercase">Hóa đơn</p>
 
-        {type === "deposit" ? (
+        {showCountdown && type === "deposit" ? (
           <div className="flex items-center">
             <span className="mr-8 text-xs sm:text-sm text-error sm:text-error">
               Thời hạn giữ vé
@@ -56,7 +58,7 @@ export const CheckoutInfo = ({
         <div className="flex items-center justify-between mb-12">
           <span className="mr-[12px] text-xs">Khuyến mãi</span>
           <span className="text-sm md:text-base text-error md:text-error">
-            -{formatMoneyVND(data?.discount_after_tax)}
+            {formatMoneyVND(data?.discount_after_tax)}
           </span>
         </div>
       ) : null}

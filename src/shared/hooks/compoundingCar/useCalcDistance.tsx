@@ -1,4 +1,3 @@
-import { lngLatToKms } from "@/helper"
 import { CalcDistanceRes, LatLng, UseParams } from "@/models"
 
 interface CalcDistanceParams {
@@ -18,24 +17,19 @@ export const useCalcDistance = (): Res => {
   ) => {
     const { params, onSuccess, onError } = _params
     const { origin, destination } = params
-    if (!window?.google) {
-      const distance = lngLatToKms({
-        from: origin,
-        to: destination,
-      })
-      onSuccess({
-        distance: distance,
-        duration: distance / 60,
-      })
-      return
-    }
+    if (!window?.google) return
+
+    console.log({
+      origins: [`${origin.lat},${origin.lng}`],
+      destinations: [`${destination.lat},${destination.lng}`],
+    })
 
     const service = new google.maps.DistanceMatrixService()
     try {
       service.getDistanceMatrix(
         {
-          origins: [origin],
-          destinations: [destination],
+          origins: [`${origin.lat},${origin.lng}`],
+          destinations: [`${destination.lat},${destination.lng}`],
           travelMode: google.maps.TravelMode.DRIVING,
           // transitOptions: TransitOptions,
           // drivingOptions: google.maps.dri,
@@ -45,6 +39,7 @@ export const useCalcDistance = (): Res => {
         },
         (data) => {
           const value = data?.rows?.[0]?.elements?.[0]
+          console.log(value)
           if (!value?.duration) return
           onSuccess({
             duration: value.duration.value / (60 * 60),
@@ -54,6 +49,7 @@ export const useCalcDistance = (): Res => {
       )
     } catch (error) {
       onError?.()
+      console.log(error)
     }
   }
 

@@ -1,8 +1,15 @@
 import { Alert, RideCancelForm, RideToolTip, WalletBalanceAlert, CheckoutInfo } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { usePayment } from "@/hooks"
-import { CancelRideParams, IDepositSummaryOptional, PaymentRes } from "@/models"
+import { useCompoundingCar, useCompoundingCarActions, usePayment } from "@/hooks"
+import {
+  CancelRideParams,
+  CompoundingCarCustomer,
+  CompoundingCarCustomerState,
+  CompoundingCarDriverRes,
+  IDepositSummaryOptional,
+  PaymentRes,
+} from "@/models"
 import { useRouter } from "next/router"
 import { ReactNode, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -14,11 +21,12 @@ interface CheckoutProps {
   onCancelCheckout?: (_: CancelRideParams) => void
   type?: "deposit" | "checkout"
   descRideTooltip?: string
-  state?: string
   returnedUrl?: string
   snackbar?: ReactNode
   promotion?: ReactNode
-  data: IDepositSummaryOptional
+  checkoutData: IDepositSummaryOptional
+  data: CompoundingCarDriverRes | CompoundingCarCustomer
+  setState?: (val: CompoundingCarCustomerState) => void
 }
 
 type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | undefined
@@ -29,11 +37,12 @@ const Checkout = ({
   onCancelCheckout,
   type = "deposit",
   descRideTooltip = "Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi.",
-  state,
   returnedUrl,
   snackbar = null,
   promotion,
   data,
+  setState,
+  checkoutData,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -45,6 +54,7 @@ const Checkout = ({
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const [modalType, setModalType] = useState<ModalType>()
+  const { confirmCompoundingCar } = useCompoundingCarActions()
 
   useEffect(() => {
     return () => {
@@ -62,9 +72,28 @@ const Checkout = ({
     }
   }
 
+  const handleConfirmCompoundingCar = () => {
+    if (!currentSelectPayment) return
+    if ((data as CompoundingCarCustomer)?.compounding_car_customer_id && data.state === "draft") {
+      confirmCompoundingCar({
+        params: {
+          compounding_car_customer_id: (data as CompoundingCarCustomer).compounding_car_customer_id,
+        },
+        onSuccess: () => {
+          onCheckout?.(currentSelectPayment)
+          toggleModal(undefined)
+          setState?.("confirm")
+        },
+      })
+    } else {
+      onCheckout?.(currentSelectPayment)
+      toggleModal(undefined)
+    }
+  }
+
   return (
     <>
-      {isExpiredCountdown && type === "deposit" ? (
+      {data.state === "confirm" && isExpiredCountdown && type === "deposit" ? (
         <div className="bg-bg-warning p-24 rounded-[5px] mb-24">
           <p className="text-14 font-medium">Hết hạn cho giao dịch này</p>
         </div>
@@ -83,7 +112,8 @@ const Checkout = ({
 
             <div className="mb-40">
               <CheckoutInfo
-                data={data}
+                showCountdown={data.state === "confirm"}
+                data={checkoutData}
                 accountType={userInfo?.car_account_type}
                 onExpiredCountdown={() => setExpiredCountdown(true)}
                 secondsRemains={secondsRemains}
@@ -148,7 +178,7 @@ const Checkout = ({
       )}
 
       {/* Alert deposit when time is due */}
-      {isExpiredCountdown && type === "deposit" ? (
+      {data.state === "confirm" && isExpiredCountdown && type === "deposit" ? (
         <Alert
           show={true}
           title="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
@@ -168,11 +198,7 @@ const Checkout = ({
             "Hệ thống sẽ chuyển đến liên kết của hình thức thanh toán bạn đã chọn. Vui lòng không tắt trình duyệt."
           }
           onClose={() => toggleModal(undefined)}
-          onConfirm={() => {
-            if (!currentSelectPayment) return
-            onCheckout?.(currentSelectPayment)
-            toggleModal(undefined)
-          }}
+          onConfirm={handleConfirmCompoundingCar}
           type={"info"}
         />
       ) : null}
@@ -193,14 +219,14 @@ const Checkout = ({
       ) : null}
 
       {/* Cancel form modal */}
-      {state && modalType === "cancel" ? (
+      {modalType === "cancel" ? (
         <RideCancelForm
           onSubmit={(data) => {
             onCancelCheckout?.(data)
             toggleModal(undefined)
           }}
           onClose={() => toggleModal(undefined)}
-          params={{ compounding_car_customer_state: state }}
+          params={{ compounding_car_customer_state: data.state }}
         />
       ) : null}
 
@@ -212,11 +238,7 @@ const Checkout = ({
           title={`Xác nhận thanh toán số tiền ${formatMoneyVND(
             data?.down_payment?.total || 0
           )} bằng ví EXXE`}
-          onConfirm={() => {
-            if (!currentSelectPayment) return
-            onCheckout?.(currentSelectPayment)
-            toggleModal(undefined)
-          }}
+          onConfirm={handleConfirmCompoundingCar}
           type="info"
         />
       ) : null}

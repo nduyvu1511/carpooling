@@ -8,27 +8,52 @@ import {
   RideSummaryModal,
   Seo,
 } from "@/components"
-import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
+import { isObjectHasValue } from "@/helper"
+import { useCompoundingCarActions, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { PaymentRes } from "@/models"
-import Link from "next/link"
+import { CompoundingCarCustomer, CompoundingCarCustomerState, PaymentRes } from "@/models"
+import { ridesApi } from "@/services"
+import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import useSWR from "swr"
 
 const CheckoutCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
+  const [state, setState] = useState<CompoundingCarCustomerState>()
+
   const {
     data: compoundingCar,
-    isInitialLoading,
+    error,
     mutate,
-  } = useCompoundingCarCustomer({
-    key: `booking_checkout_customer_${compounding_car_customer_id}`,
-    type: "autoFocus",
-    compounding_car_customer_id: Number(compounding_car_customer_id),
-  })
+  } = useSWR<CompoundingCarCustomer>(
+    compounding_car_customer_id ? `booking_checkout_customer_${compounding_car_customer_id}` : null,
+    () =>
+      ridesApi
+        .getDetailCompoundingCarCustomer({
+          compounding_car_customer_id: Number(compounding_car_customer_id),
+        })
+        .then((res: AxiosResponse<any>) => {
+          const data = res?.result?.data
+          if (isObjectHasValue(data)) {
+            setState(data.state)
+            return data
+          }
+
+          return null
+        })
+        .catch((err) => console.log(err)),
+
+    {
+      dedupingInterval: 100,
+      revalidateOnFocus: state === "confirm",
+    }
+  )
+
+  const isInitialLoading = error === undefined && compoundingCar === undefined
 
   useEffect(() => {
     if (compoundingCar === undefined) return
@@ -90,44 +115,34 @@ const CheckoutCustomer = () => {
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar?.compounding_car_customer_id ? (
-        compoundingCar?.state === "draft" ? (
-          <p className="text-sm">
-            Vui lòng xác nhận
-            <Link
-              href={`/c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`}
-            >
-              <a className="text-primary"> chuyến đi này </a>
-            </Link>
-            trước khi thực hiện đặt cọc
-          </p>
-        ) : (
-          <>
-            <Checkout
-              promotion={
-                <PromotionCheckout
-                  data={compoundingCar?.promotion}
-                  onCancelPromotion={() => mutate()}
-                  onApplyPromotion={() => mutate()}
-                  compounding_car_customer_id={compoundingCar.compounding_car_customer_id}
-                  accountType="customer"
-                />
-              }
-              data={{
-                amount_due: compoundingCar.amount_due,
-                amount_total: compoundingCar.amount_total,
-                amount_undiscounted: compoundingCar?.amount_undiscounted,
-                discount_after_tax: compoundingCar?.discount_after_tax,
-                down_payment: compoundingCar.down_payment,
-              }}
-              secondsRemains={compoundingCar.second_remains}
-              onCheckout={(_) => handleConfirmTransaction(_)}
-              onCancelCheckout={handleCancelCompoundingCarCustomer}
-              state={compoundingCar.state}
-              returnedUrl={`/c/booking/checkout?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`}
-            />
-            <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-40 mb-24" />
-          </>
-        )
+        <>
+          <Checkout
+            setState={setState}
+            promotion={
+              <PromotionCheckout
+                data={compoundingCar?.promotion}
+                onCancelPromotion={() => mutate()}
+                onApplyPromotion={() => mutate()}
+                compounding_car_customer_id={compoundingCar.compounding_car_customer_id}
+                accountType="customer"
+                disabled={state === "confirm"}
+              />
+            }
+            data={compoundingCar}
+            checkoutData={{
+              amount_due: compoundingCar.amount_due,
+              amount_total: compoundingCar.amount_total,
+              amount_undiscounted: compoundingCar?.amount_undiscounted,
+              discount_after_tax: compoundingCar?.discount_after_tax,
+              down_payment: compoundingCar.down_payment,
+            }}
+            secondsRemains={compoundingCar.second_remains}
+            onCheckout={(_) => handleConfirmTransaction(_)}
+            onCancelCheckout={handleCancelCompoundingCarCustomer}
+            returnedUrl={`/c/booking/checkout?compounding_car_customer_id=${compoundingCar.compounding_car_customer_id}`}
+          />
+          <RideSummaryMobile rides={compoundingCar} className="lg:hidden mt-40 mb-24" />
+        </>
       ) : null}
       {compoundingCar ? <RideSummaryModal data={compoundingCar} /> : null}
     </CustomerBookingLayout>

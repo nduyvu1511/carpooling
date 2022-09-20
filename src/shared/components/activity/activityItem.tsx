@@ -92,7 +92,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
                 <span className="text-xs text-gray-color-5">
                   {car.name && toFirstUpperCase(car.name)}
                 </span>
-            )}
+              )}
             </p>
             <p className="mx-12 border-r border-gray-10 border-solid h-[14px]"></p>
 
@@ -109,7 +109,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
           <p className="text-14 md:text-16 lg:text-18 xl:text-24 font-semibold text-error">
             {formatMoneyVND(
               (activity as DriverActivityRes).number_seat_in_car
-                ? (activity as DriverActivityRes).price_unit.price_unit
+                ? (activity as DriverActivityRes)?.price_unit?.price_unit
                 : (activity as CustomerActivityRes).amount_total
             )}
           </p>
@@ -182,7 +182,7 @@ const ActivityItem = <T extends DriverActivityRes | CustomerActivityRes>({
             <p className="text-12 xs:text-14 font-semibold text-error">
               {formatMoneyVND(
                 (activity as DriverActivityRes).number_seat_in_car
-                  ? (activity as DriverActivityRes).price_unit.price_unit
+                  ? (activity as DriverActivityRes)?.price_unit?.price_unit
                   : (activity as CustomerActivityRes).amount_total
               )}
             </p>

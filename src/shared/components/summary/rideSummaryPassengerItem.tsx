@@ -1,4 +1,4 @@
-import { PhoneIcon } from "@/assets"
+import { MessageIcon, PhoneIcon2 } from "@/assets"
 import { formatMoneyVND, PAYMENT_METHOD_NAME, toImageUrl } from "@/helper"
 import { CompoundingCarCustomer, CustomerInvoice } from "@/models"
 import moment from "moment"
@@ -22,17 +22,18 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
               objectFit="cover"
             />
           </div>
-          <p className="text-base font-semibold text-primary ml-12">{data.partner.partner_name}</p>
+          <p className="text-base font-semibold text-primary ml-12 flex-1 line-clamp-1 word-break mr-12">
+            {data.partner.partner_name}
+          </p>
         </div>
 
-        <div className="flex items-center">
-          <a href={`tel:${data.partner.phone}`}>
-            <PhoneIcon className="w-[20px] h-[20px]" />
+        <div className="items-center flex">
+          <a className="mr-16" href={`tel:${data.partner.phone}`}>
+            <PhoneIcon2 className="w-[18px] h-[18px]" />
           </a>
-
-          {/* <a href={`tel:${data.partner.phone}`}>
-            <PhoneIcon className="w-[20px] h-[20px]" />
-          </a> */}
+          <button>
+            <MessageIcon className="text-primary w-[24px] h-[24px]" />
+          </button>
         </div>
       </div>
       <SummaryItem

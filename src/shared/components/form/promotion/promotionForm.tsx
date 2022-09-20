@@ -10,6 +10,7 @@ interface PromotionFormProps {
   onCancelPromotion?: Function
   onChange?: (val: string) => void
   readonly?: boolean
+  disabled?: boolean
 }
 
 export const PromotionForm = ({
@@ -20,6 +21,7 @@ export const PromotionForm = ({
   onCancelPromotion,
   onChange: onChangeProps,
   readonly = false,
+  disabled,
 }: PromotionFormProps) => {
   const secondRef = useRef<boolean>(false)
   const { onChange, value, clearValue } = useInputText("")
@@ -37,11 +39,14 @@ export const PromotionForm = ({
   return (
     <form
       onSubmit={(e) => {
+        if (disabled) return
         if (!value) return
         e.preventDefault()
         onSubmit?.(value)
       }}
-      className={`flex items-center h-[44px] promotion-form ${className}`}
+      className={`flex items-center h-[44px] promotion-form ${className} ${
+        disabled ? "pointer-events-none" : ""
+      }`}
     >
       <div className="flex flex-1 relative">
         <span className="flex-center bg-blue-10 p-12 rounded-tl-[8px] rounded-bl-[8px]">
@@ -60,6 +65,7 @@ export const PromotionForm = ({
         {promotionCode || value ? (
           <span
             onClick={() => {
+              if (disabled) return
               if (promotionCode) {
                 onCancelPromotion?.()
               }

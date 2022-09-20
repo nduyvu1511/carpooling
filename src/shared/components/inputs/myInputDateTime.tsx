@@ -35,10 +35,21 @@ const MyInputDateTime = ({
   onBlur,
   currentDay,
 }: MyInputDateTimeProps) => {
+  const [times, setTimes] = useState<OptionModel[]>()
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
     initialValue ? moment(initialValue.slice(0, 10)).format("YYYY-MM-DD") : ""
   )
+  const timeValue: OptionModel | null = useMemo(() => {
+    if (!times || !time) return null
+
+    return (
+      times?.find((item) => item.value === time) || {
+        label: `${time.slice(0, 5)}`,
+        value: time,
+      }
+    )
+  }, [times, time])
 
   const initialDate = useMemo(() => {
     return initialValue && maxHour && maxHour <= "02:00:00"
@@ -47,45 +58,56 @@ const MyInputDateTime = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+  // Set time options
+  useEffect(() => {
+    const times = [...getTimes()]
+
+    if (!maxHour) {
+      setTimes(times)
+      return
+    }
+
+    const index = times.findIndex((item) => item.value >= maxHour)
+    let newTimes = []
+
+    if (index < LIMIT_TIME_RANGE) {
+      if (index === 0) {
+        newTimes = [...times.slice(-4), ...times.slice(0, 1)]
+      } else if (index === 1) {
+        newTimes = [...times.slice(-3), ...times.slice(0, 2)]
+      } else if (index === 2) {
+        newTimes = [...times.slice(-2), ...times.slice(0, 3)]
+      } else {
+        newTimes = [...times.slice(-1), ...times.slice(0, 4)]
+      }
+    } else {
+      newTimes = times.slice(index - LIMIT_TIME_RANGE, index + 1)
+    }
+
+    setTimes(newTimes)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const disablePastDt = (current: any) => {
     const yesterday = moment().subtract(1, "day")
     return current.isAfter(currentDay ? moment(currentDay) : yesterday)
   }
 
-  const getTimesBySameDay = (): OptionModel[] => {
+  const getTimesBySameDay = (date: string): OptionModel[] => {
     const data = [...getTimes()]
-    // const times = moment().isSame(initialValue, "date")
-    //   ? data.slice(data.findIndex((item) => item.value >= moment().format("HH:mm")))
-    //   : data
-    return data
+    const times = moment().isSame(date, "date")
+      ? data.slice(data.findIndex((item) => item.value >= moment().format("HH:mm")))
+      : data
+    return times
   }
 
-  const times: OptionModel[] = useMemo(() => {
-    const times = getTimesBySameDay()
-    if (!maxHour) return times
-    const index = times.findIndex((item) => item.value >= maxHour)
-
-    if (index < LIMIT_TIME_RANGE) {
-      if (index === 0) {
-        return [...times.slice(-4), ...times.slice(0, 1)]
-      } else if (index === 1) {
-        return [...times.slice(-3), ...times.slice(0, 2)]
-      } else if (index === 2) {
-        return [...times.slice(-2), ...times.slice(0, 3)]
-      }
-      return [...times.slice(-1), ...times.slice(0, 4)]
-    }
-
-    return times.slice(index - LIMIT_TIME_RANGE, index + 1)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const handleChange = ({ date, time }: { date: string | undefined; time: string | undefined }) => {
-    if (!date || !time) return
     onChange(`${date} ${time}`)
   }
 
-  const handleGetTime = (val: OptionModel) => {
+  const handleSetTime = (val: OptionModel) => {
     if (!val) return
     setTime(val?.value + "")
 
@@ -102,6 +124,18 @@ const MyInputDateTime = ({
     }
 
     handleChange({ date, time: val?.value + "" })
+  }
+
+  const handleSetDate = (date: string) => {
+    setDate(date)
+    setTimes(getTimesBySameDay(date))
+
+    let newTime = time
+    if (time && moment().isAfter(moment(`${date} ${time}`))) {
+      newTime = ""
+      setTime(newTime)
+    }
+    handleChange({ date, time: newTime })
   }
 
   return (
@@ -121,8 +155,7 @@ const MyInputDateTime = ({
           isValidDate={disablePassDay ? disablePastDt : undefined}
           onChange={(e: any) => {
             const date = moment(e._d).format("YYYY-MM-DD")
-            handleChange({ date, time })
-            setDate(date)
+            handleSetDate(date)
           }}
           timeFormat={false}
           inputProps={{ placeholder: "Chọn ngày" }}
@@ -138,16 +171,9 @@ const MyInputDateTime = ({
         <Select
           menuShouldScrollIntoView={false}
           options={times}
-          value={
-            time
-              ? times?.find((item) => item.value === time) || {
-                  label: `${time.slice(0, 5)}`,
-                  value: time,
-                }
-              : undefined
-          }
+          value={timeValue}
           placeholder={<p className="font-medium">Chọn giờ</p>}
-          onChange={(val) => handleGetTime(val as OptionModel)}
+          onChange={(val) => handleSetTime(val as OptionModel)}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
           maxMenuHeight={maxMenuHeight}
           isSearchable={isSelectSearchable}

@@ -12,6 +12,7 @@ interface PromotionCheckoutProps {
   compounding_car_customer_id?: number
   compounding_car_id?: number
   data?: PromotionRes
+  disabled?: boolean
 }
 
 export const PromotionCheckout = ({
@@ -21,6 +22,7 @@ export const PromotionCheckout = ({
   compounding_car_id,
   onCancelPromotion,
   data,
+  disabled,
 }: PromotionCheckoutProps) => {
   const [showPromotionModal, setShowPromotionModal] = useState<boolean>(false)
   const [promotionCode, setPromotionCode] = useState<string | undefined>(data?.promotion_code)
@@ -92,10 +94,11 @@ export const PromotionCheckout = ({
     <>
       <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
       <PromotionForm
+        disabled={disabled}
         readonly
         promotionCode={promotionCode}
         onCancelPromotion={handleCancelPromotion}
-        onFocus={() => toggleModal(true)}
+        onFocus={() => !disabled && toggleModal(true)}
       />
 
       {showPromotionModal ? (
@@ -103,6 +106,7 @@ export const PromotionCheckout = ({
           appliedPromotionId={data?.promotion_id}
           onApply={handleApplyPromotion}
           onClose={() => toggleModal(false)}
+          compounding_car_customer_id={compounding_car_customer_id}
         />
       ) : null}
     </>

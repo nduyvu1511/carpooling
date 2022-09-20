@@ -79,10 +79,10 @@ export const promotionApi = {
     )
   },
 
-  getPromotionListCanApply: () => {
+  getPromotionListCanApply: (id: number) => {
     return axiosClient.post(
       "/api/compounding_car_promotion_controller/get_list_promotion_can_apply",
-      {}
+      { compounding_car_customer_id: id }
     )
   },
 }

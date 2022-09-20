@@ -13,11 +13,17 @@ interface PromotionModalProps {
   onClose: Function
   onApply?: (id: PromotionRes) => void
   appliedPromotionId?: number
+  compounding_car_customer_id?: number
 }
 
 const gridClassName = "grid grid-cols-1 gap-16"
 
-export const PromotionModal = ({ onClose, onApply, appliedPromotionId }: PromotionModalProps) => {
+export const PromotionModal = ({
+  onClose,
+  onApply,
+  appliedPromotionId,
+  compounding_car_customer_id,
+}: PromotionModalProps) => {
   const [promotionCode, setPromotionCode] = useState<string>()
   const [searchPromotions, setSearchPromotions] = useState<PromotionRes[]>([])
 
@@ -27,7 +33,7 @@ export const PromotionModal = ({ onClose, onApply, appliedPromotionId }: Promoti
     fetcher: promotionApi.getPromotionListCanApply,
     initialData: undefined,
     key: "get_promotion_list_can_apply",
-    params: { limit: 12, offset: 0 },
+    params: { limit: 12, offset: 0, compounding_car_customer_id },
   })
 
   const handleSearchPromotion = (value: string) => {

@@ -31,8 +31,6 @@ const InputDate = ({
     return current.isAfter(yesterday)
   }
 
-  console.log(moment().fromNow())
-
   return (
     <div className="relative h-full">
       <Datetime

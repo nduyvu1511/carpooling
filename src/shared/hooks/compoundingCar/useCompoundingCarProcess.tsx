@@ -10,8 +10,9 @@ import {
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useMemo, useState } from "react"
-import useSWR, { KeyedMutator } from "swr"
+import useSWR, { KeyedMutator, mutate } from "swr"
 import { useFetcher } from "../async"
+import produce from "immer"
 
 interface Res {
   compoundingCarMap: CompoundingCarDriverRes | undefined
@@ -21,7 +22,7 @@ interface Res {
   mutateCompoundingCar: KeyedMutator<CompoundingCarDriverRes>
   confirmDoneCompoundingCar: (_: UseParams<number, CompoundingCarRes>) => void
   startRunningCompoundingCar: (_: UseParams<number, CompoundingCarRes>) => void
-  changeOrderOfCompoudingCarCustomerToLast: (id: number) => void
+  mutateCompoundingCarCustomer: (params: CompoundingCarCustomer) => void
   confirmCustomerPayFullForCompoundingCar: (_: UseParams<number, CompoundingCarCustomer>) => void
   confirmWaitingForCompoundingCarCustomer: (
     _: UseParams<DriverConfirmCompoundingCarCustomerParams, CompoundingCarCustomer>
@@ -86,13 +87,9 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     fetcherHandler<CompoundingCarCustomer>({
       fetcher: ridesApi.driverConfirmWaitingForCustomer(params),
       onSuccess: (data) => {
-        console.log(data)
-        // changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
-        // changeCompoundingCarCustomerState({
-        //   compounding_car_customer_id: params.compounding_car_customer_id,
-        //   state: "waiting_customer",
-        // })
-        mutateCompoundingCar()
+        if (!compoundingCar?.compounding_car_customers?.length) return
+        mutateCompoundingCarCustomer(data)
+
         onSuccess?.(data)
       },
       onError: () => onError?.(),
@@ -109,11 +106,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
         compounding_car_customer_id,
       }),
       onSuccess: (data) => {
-        changeOrderOfCompoudingCarCustomerToLast(compounding_car_customer_id)
-        changeCompoundingCarCustomerState({
-          compounding_car_customer_id,
-          state: "confirm_paid",
-        })
+        mutateCompoundingCarCustomer(data)
         onSuccess?.(data)
       },
       onError: onError?.(),
@@ -129,23 +122,16 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
       }),
       onSuccess: (data) => {
         if (!compoundingCar) return
-        mutateCompoundingCar({ ...compoundingCar, state: "start_running" }, false)
+        mutateCompoundingCar(
+          produce(compoundingCar, (draft) => {
+            draft.state = "start_running"
+          }),
+          false
+        )
         onSuccess?.(data)
       },
       onError: () => onError?.(),
       config,
-    })
-  }
-
-  const changeCompoundingCarCustomerState = (params: CompoundingCarCustomerWithState) => {
-    if (!compoundingCar?.compounding_car_customers?.length) return
-    mutateCompoundingCar({
-      ...compoundingCar,
-      compounding_car_customers: [...(compoundingCar.compounding_car_customers || [])].map((item) =>
-        item.compounding_car_customer_id === params.compounding_car_customer_id
-          ? { ...item, state: params.state }
-          : item
-      ),
     })
   }
 
@@ -164,11 +150,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
           ? ridesApi.driverConfirmCompoundingCarCustomer(params)
           : ridesApi.driverConfirmPickingUpCompoundingCarCustomer(params),
       onSuccess: (data) => {
-        changeOrderOfCompoudingCarCustomerToLast(params.compounding_car_customer_id)
-        changeCompoundingCarCustomerState({
-          compounding_car_customer_id: params.compounding_car_customer_id,
-          state: params.state,
-        })
+        mutateCompoundingCarCustomer(data)
         onSuccess?.(data)
       },
       onError: () => onError?.(),
@@ -176,21 +158,22 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     })
   }
 
-  const changeOrderOfCompoudingCarCustomerToLast = (id: number) => {
-    if (!compoundingCar) return
-    const compoundingCarCustomerList = [...compoundingCar.compounding_car_customers] || []
+  const mutateCompoundingCarCustomer = (params: CompoundingCarCustomer) => {
+    if (!compoundingCar?.compounding_car_customers?.length) return
+
+    if (!params?.compounding_car_customer_id) {
+      mutateCompoundingCar()
+      return
+    }
+
     mutateCompoundingCar(
-      {
-        ...compoundingCar,
-        compounding_car_customers: [
-          ...compoundingCarCustomerList.filter(
-            ({ compounding_car_customer_id }) => compounding_car_customer_id !== id
-          ),
-          compoundingCarCustomerList.find(
-            (item) => item.compounding_car_customer_id === id
-          ) as CompoundingCarCustomer,
-        ],
-      },
+      produce(compoundingCar, (draft) => {
+        draft.compounding_car_customers = draft.compounding_car_customers.filter(
+          ({ compounding_car_customer_id }) =>
+            compounding_car_customer_id !== params.compounding_car_customer_id
+        )
+        draft.compounding_car_customers.push(params)
+      }),
       false
     )
   }
@@ -255,7 +238,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     isInitialLoading: error === undefined && compoundingCar === undefined,
     isValidating,
     getNumberOfPassengersPickedUp,
-    changeOrderOfCompoudingCarCustomerToLast,
+    mutateCompoundingCarCustomer,
     getNumberOfPassengersDone,
     confirmCustomerPayFullForCompoundingCar,
     getNumberOfPassengersPaid,

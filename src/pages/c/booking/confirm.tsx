@@ -1,8 +1,8 @@
 import {
   CarpoolingCompoundingForm,
   OneWayCompoundingForm,
-  RideProgress,
   RideDetailLoading,
+  RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
@@ -24,7 +24,7 @@ const ConfirmBookingCustomer = () => {
     compoundingCarCustomerResToTwoWayForm,
     compoundingCarCustomerResToCarpoolingForm,
   } = useCompoundingForm()
-  const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
+  const { updateCompoundingCar } = useCompoundingCarActions()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
     compounding_car_customer_id: Number(compounding_car_customer_id),
     key: `confirm_booking_compounding_car_customer_${compounding_car_customer_id}`,
@@ -52,14 +52,9 @@ const ConfirmBookingCustomer = () => {
         ...params,
       },
       onSuccess: () => {
-        confirmCompoundingCar({
-          params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
-          onSuccess: () => {
-            router.push(
-              `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
-            )
-          },
-        })
+        router.push(
+          `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
+        )
       },
     })
   }

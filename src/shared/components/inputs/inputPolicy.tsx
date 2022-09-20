@@ -11,7 +11,6 @@ interface InputPolicyProps {
 const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
   const [privacy1, setPrivacy1] = useState<boolean | undefined>(!!value || undefined)
   const [privacy2, setPrivacy2] = useState<boolean | undefined>(!!value || undefined)
-  console.log({ privacy1 })
 
   const handleChange = (privacy1: boolean | undefined, privacy2: boolean | undefined) => {
     onChange(privacy1 === true && privacy2 === true)

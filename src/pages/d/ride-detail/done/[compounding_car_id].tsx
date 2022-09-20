@@ -107,7 +107,7 @@ const RideDone = () => {
             <div className="">
               <p className="text-sm md:text-base">
                 Cảm ơn bạn đã sử dụng dịch vụ của ExxeVn, Chúng tôi mong bạn sẽ thích và tiếp tục
-                ủng hộ dịch vụ của chúng tôi.
+                ủng hộ dịch vụ.
               </p>
             </div>
 
