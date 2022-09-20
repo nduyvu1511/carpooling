@@ -90,7 +90,7 @@ const RideContainer = ({
               </h4>
             </div>
 
-            <SuggestionPromotion />
+            {carAccountType === "customer" ? <SuggestionPromotion /> : null}
 
             <RideTypeFilter
               onClickShowFilterMobile={() => toggleShowFilter("mobile")}

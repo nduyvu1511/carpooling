@@ -45,11 +45,11 @@ export const CheckoutInfo = ({
         </p>
       ) : null}
 
-      {data?.amount_total ? (
+      {data?.amount_undiscounted ? (
         <div className="flex items-center justify-between mb-12">
           <span className="mr-[12px] text-xs">Chi phí tạm tính</span>
           <span className="text-sm md:text-base whitespace-nowrap">
-            {formatMoneyVND(data?.amount_total)}
+            {formatMoneyVND(data?.amount_undiscounted)}
           </span>
         </div>
       ) : null}
@@ -81,7 +81,7 @@ export const CheckoutInfo = ({
           labelClassName="text-base font-semibold"
           label="Số tiền cần thanh toán"
           valueClassName="text-14 md:text-16 font-semibold"
-          value={formatMoneyVND(data?.down_payment?.total || 0)}
+          value={formatMoneyVND(data?.amount_due || 0)}
         />
       ) : (
         <SummaryItem

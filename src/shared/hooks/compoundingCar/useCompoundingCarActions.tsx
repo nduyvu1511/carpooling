@@ -11,7 +11,9 @@ import { useFetcher } from "../async"
 
 interface UseCompoundingCarActions {
   createCompoundingCar: (params: UseParams<CreateCompoundingCar, CompoundingCarCustomer>) => void
-  confirmCompoundingCar: (_params: UseParams<{ compounding_car_customer_id: number }, any>) => void
+  confirmCompoundingCar: (
+    _params: UseParams<{ compounding_car_customer_id: number }, CompoundingCarCustomer>
+  ) => void
   updateCompoundingCar: (_params: UseParams<UpdateCompoundingCar, CompoundingCarCustomer>) => void
   customerCancelCompoundingCarBeforeDeposit: (
     _params: UseParams<ConfirmCompoundingCar, any>

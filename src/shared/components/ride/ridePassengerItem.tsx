@@ -120,7 +120,7 @@ const RidePassengerItem = ({
       </div>
 
       {data.state === "waiting_customer" ? (
-        <div className="mt-24">
+        <div className="mt-12">
           <p className="flex items-center mb-12">
             <span className="mr-[8px] text-xs">Thời gian chờ khách: </span>
             <Countdown

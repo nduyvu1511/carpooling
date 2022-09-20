@@ -18,40 +18,61 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
       ) : compoundingCar?.compounding_car_id ? (
         <div className="">
           <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-          {compoundingCar?.cancel_reason?.cancel_reason_id ? (
+
+          {compoundingCar?.cancel_reason?.cancel_reason_id ||
+          compoundingCar?.cancel_reason_other ? (
             <div className="mb-24">
               <p className="text-base font-semibold mb-16 uppercase">Thông tin hủy chuyến</p>
-              <p className="text-sm text-gray-color-7">{compoundingCar?.cancel_reason?.reason}</p>
+              {compoundingCar?.cancel_reason?.reason ? (
+                <p className="text-sm text-gray-color-7">{compoundingCar?.cancel_reason?.reason}</p>
+              ) : null}
+              {compoundingCar?.cancel_reason_other ? (
+                <p className="text-sm text-gray-color-7 mt-12">
+                  {compoundingCar?.cancel_reason_other}
+                </p>
+              ) : null}
             </div>
           ) : null}
 
           <ul className="mb-24">
             <p className="text-base font-semibold mb-16 uppercase">Chi phí chuyến đi</p>
-            <SummaryItem
-              label="Chi phí tạm tính"
-              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
-            />
-            <SummaryItem
-              label="Tổng tiền cần thanh toán"
-              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
-            />
-            <SummaryItem
-              label={`Số tiền đặt cọc (
+            {(compoundingCar as CompoundingCancelCar)?.amount_undiscounted ? (
+              <SummaryItem
+                label="Chi phí tạm tính"
+                value={formatMoneyVND(
+                  (compoundingCar as CompoundingCancelCar).amount_undiscounted || 0
+                )}
+              />
+            ) : null}
+            {compoundingCar?.amount_return ? (
+              <SummaryItem
+                label="Tổng tiền cần thanh toán"
+                value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.amount_total)}
+              />
+            ) : null}
+            {compoundingCar?.down_payment ? (
+              <SummaryItem
+                label={`Số tiền đặt cọc (
                 ${(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)`}
-              value={formatMoneyVND((compoundingCar as CompoundingCancelCar)?.down_payment?.total)}
-            />
+                value={formatMoneyVND(
+                  (compoundingCar as CompoundingCancelCar)?.down_payment?.total
+                )}
+              />
+            ) : null}
             {(compoundingCar as CompoundingCancelCar)?.payment_method ? (
               <SummaryItem
                 label="Phương thức đặt cọc"
                 value={(compoundingCar as CompoundingCancelCar)?.payment_method}
               />
             ) : null}
-            <SummaryItem
-              label="Ngày hủy chuyến"
-              value={moment((compoundingCar as CompoundingCancelCar)?.cancel_date).format(
-                "HH:mm DD/MM/YYYY"
-              )}
-            />
+            {(compoundingCar as CompoundingCancelCar)?.cancel_date ? (
+              <SummaryItem
+                label="Ngày hủy chuyến"
+                value={moment((compoundingCar as CompoundingCancelCar)?.cancel_date).format(
+                  "HH:mm DD/MM/YYYY"
+                )}
+              />
+            ) : null}
             {(compoundingCar as CompoundingCancelCar)?.paid_date ? (
               <SummaryItem
                 label="Thời gian đặt cọc"
@@ -60,16 +81,15 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
                 )}
               />
             ) : null}
-            <SummaryItem
-              className="mb-0"
-              labelClassName="text-14 md:text-16 font-semibold"
-              label="Số tiền được hoàn trả"
-              value={formatMoneyVND(
-                compoundingCar?.amount_return ||
-                  (compoundingCar as CompoundingCarCustomer)?.amount_total
-              )}
-              valueClassName="text-14 md:text-16 font-semibold"
-            />
+            {compoundingCar?.amount_return ? (
+              <SummaryItem
+                className="mb-0"
+                labelClassName="text-14 md:text-16 font-semibold"
+                label="Số tiền được hoàn trả"
+                value={formatMoneyVND(compoundingCar?.amount_return)}
+                valueClassName="text-14 md:text-16 font-semibold"
+              />
+            ) : null}
           </ul>
 
           {moment((compoundingCar as CompoundingCancelCar)?.cancel_date)

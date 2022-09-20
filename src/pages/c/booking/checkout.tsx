@@ -11,7 +11,12 @@ import {
 import { isObjectHasValue } from "@/helper"
 import { useCompoundingCarActions, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
-import { CompoundingCarCustomer, CompoundingCarCustomerState, PaymentRes } from "@/models"
+import {
+  CancelRideParams,
+  CompoundingCarCustomer,
+  CompoundingCarCustomerState,
+  PaymentRes,
+} from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
@@ -89,10 +94,13 @@ const CheckoutCustomer = () => {
     })
   }
 
-  const handleCancelCompoundingCarCustomer = () => {
+  const handleCancelCompoundingCarCustomer = (params: CancelRideParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
     customerCancelCompoundingCarBeforeDeposit({
-      params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
+      params: {
+        compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
+        ...params,
+      },
       onSuccess: () => {
         router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
       },
@@ -117,7 +125,10 @@ const CheckoutCustomer = () => {
       ) : compoundingCar?.compounding_car_customer_id ? (
         <>
           <Checkout
-            setState={setState}
+            onConfirmCompoundingCar={(data) => {
+              setState("confirm")
+              mutate(data, false)
+            }}
             promotion={
               <PromotionCheckout
                 data={compoundingCar?.promotion}

@@ -93,7 +93,6 @@ const CheckoutDriver = () => {
     })
   }
 
-  console.log(deposit)
   return (
     <BookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}

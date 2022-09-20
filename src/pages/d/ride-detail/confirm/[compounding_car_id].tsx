@@ -7,7 +7,6 @@ import {
   RideDetailLoading,
   RideProgress,
   RideSummary,
-  RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
   TwoWayCompoundingForm,
@@ -40,12 +39,12 @@ const RideConfirmCustomer = () => {
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
 
+  const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<number | undefined>()
   const [depositFailure, setDepositFailure] = useState<
     DepositCompoundingCarDriverFailureRes | undefined
   >()
-  const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
-  const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
 
   const handleConfirmCheckout = (compounding_car_id: number) => {
     if (userInfo?.verified_car_driver_account === "blocked_account") {
@@ -54,6 +53,7 @@ const RideConfirmCustomer = () => {
       )
       return
     }
+
     if (userInfo?.verified_car_driver_account === "inactive_account") {
       setShowAlertAccount(true)
       return
@@ -94,12 +94,6 @@ const RideConfirmCustomer = () => {
                 )}% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi hoàn tất chuyến, ${Number(
                   compoundingCar.car_driver_deposit_percentage
                 )}% đặt cọc này sẽ được chuyển lại Ví của Tài Xế.`}
-              />
-
-              <RideSummaryMobile
-                className="mb-24 lg:hidden"
-                showDetailBtn={false}
-                rides={compoundingCar}
               />
 
               {compoundingCar?.compounding_type ? (

@@ -23,6 +23,7 @@ import {
 import { RIDE_STATE_COLOR } from "@/helper"
 import { useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
 import { LatLng } from "use-places-autocomplete"
@@ -167,7 +168,16 @@ const StartRunningCompoundingCar = () => {
             <p className="flex-1 ml-12 text-sm">Chuyến đi chưa được bắt đầu</p>
           </div>
         ) : compoundingCar.state === "done" ? (
-          <p className="text-sm md:text-base text-center">Chuyến đi đã hoàn thành</p>
+          <div className="py-[20px]">
+            <p className="text-sm md:text-base text-center">
+              Chuyến đi đã hoàn thành, chi tiết trong{" "}
+              <Link href="/d/account/activities">
+                <a href="" className="text-primary font-semibold">
+                  Hoạt động
+                </a>
+              </Link>
+            </p>
+          </div>
         ) : (
           <>
             <RideToolTip

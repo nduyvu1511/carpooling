@@ -161,9 +161,11 @@ export const RatingItem = ({
 
         <p className="text-sm md:text-base leading-[22px] mb-[12px]">{rating?.rating_content}</p>
 
-        <p className="text-12 md:text-14 font-medium text-gray-color-2">{`${
-          rating?.duration.time_value
-        } ${formatTimeType(rating?.duration.time_type || "")} trước`}</p>
+        <p className="text-12 md:text-14 font-medium text-gray-color-2">
+          {`${rating?.duration.time_value} ${formatTimeType(
+            rating?.duration.time_type || ""
+          )} trước`}{" "}
+        </p>
 
         {rating.rating_tag_ids?.length > 0 ? (
           <ul className="flex flex-wrap mt-[12px] mb-[-8px]">

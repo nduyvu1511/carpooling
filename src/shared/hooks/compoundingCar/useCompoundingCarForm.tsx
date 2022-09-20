@@ -283,7 +283,7 @@ export const useCompoundingForm = (): Res => {
         label: `${compoundingCar.number_seat_in_car - compoundingCar.number_available_seat} ghế`,
         value: compoundingCar.number_seat_in_car - compoundingCar.number_available_seat,
       },
-      price_per_passenger: compoundingCar.price_unit.price_unit,
+      price_per_passenger: compoundingCar?.price_unit?.price_unit,
       car_id: {
         label: compoundingCar.car.name,
         number_seat: compoundingCar.car.number_seat,

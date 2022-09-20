@@ -26,7 +26,7 @@ interface CheckoutProps {
   promotion?: ReactNode
   checkoutData: IDepositSummaryOptional
   data: CompoundingCarDriverRes | CompoundingCarCustomer
-  setState?: (val: CompoundingCarCustomerState) => void
+  onConfirmCompoundingCar?: (val: CompoundingCarCustomer) => void
 }
 
 type ModalType = "confirm" | "cancel" | "alert" | "confirmWallet" | undefined
@@ -41,8 +41,8 @@ const Checkout = ({
   snackbar = null,
   promotion,
   data,
-  setState,
   checkoutData,
+  onConfirmCompoundingCar,
 }: CheckoutProps) => {
   const router = useRouter()
   const {
@@ -79,10 +79,10 @@ const Checkout = ({
         params: {
           compounding_car_customer_id: (data as CompoundingCarCustomer).compounding_car_customer_id,
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
+          onConfirmCompoundingCar?.(data)
           onCheckout?.(currentSelectPayment)
           toggleModal(undefined)
-          setState?.("confirm")
         },
       })
     } else {

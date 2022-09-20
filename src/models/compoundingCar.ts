@@ -183,6 +183,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   down_payment?: DownPayment
   amount_total?: number
   deposit_date?: string
+  cancel_reason_other?: string
 }
 
 export interface CompoundingCarDriverRes
@@ -264,6 +265,7 @@ export interface CompoundingCarCustomer {
   amount_undiscounted?: number
   discount_after_tax?: number
   sale_order_id?: number
+  cancel_reason_other?: string
 }
 
 export interface PartnerCompoundingCar {

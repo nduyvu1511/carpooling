@@ -9,10 +9,10 @@ import {
 } from "@/models"
 import { ridesApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useMemo, useState } from "react"
-import useSWR, { KeyedMutator, mutate } from "swr"
-import { useFetcher } from "../async"
 import produce from "immer"
+import { useMemo, useState } from "react"
+import useSWR, { KeyedMutator } from "swr"
+import { useFetcher } from "../async"
 
 interface Res {
   compoundingCarMap: CompoundingCarDriverRes | undefined
@@ -166,13 +166,32 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
       return
     }
 
+    if (params?.state === "in_process" || params?.state === "confirm_paid") {
+      mutateCompoundingCar(
+        produce(compoundingCar, (draft) => {
+          draft.compounding_car_customers = draft.compounding_car_customers.filter(
+            ({ compounding_car_customer_id }) =>
+              compounding_car_customer_id !== params.compounding_car_customer_id
+          )
+          draft.compounding_car_customers.push(params)
+        }),
+        false
+      )
+      return
+    }
+
+    const index = compoundingCar.compounding_car_customers.findIndex(
+      (item) => item.compounding_car_customer_id === params.compounding_car_customer_id
+    )
+
+    if (!index) {
+      mutateCompoundingCar()
+      return
+    }
+
     mutateCompoundingCar(
       produce(compoundingCar, (draft) => {
-        draft.compounding_car_customers = draft.compounding_car_customers.filter(
-          ({ compounding_car_customer_id }) =>
-            compounding_car_customer_id !== params.compounding_car_customer_id
-        )
-        draft.compounding_car_customers.push(params)
+        draft.compounding_car_customers[index] = params
       }),
       false
     )

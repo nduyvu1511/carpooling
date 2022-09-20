@@ -1,4 +1,4 @@
-import { ArrowLeft2Icon, ArrowLeftIcon } from "@/assets"
+import { ArrowLeft2Icon } from "@/assets"
 import { HeaderMobile, RideSummaryLoading } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useBreakpoint } from "@/hooks"
@@ -56,7 +56,7 @@ const BookingLayout = ({
               ) : showHeaderDesktop ? (
                 <div className="hidden lg:flex pb-12 md:pb-24 items-center border-b border-border-color border-solid mb-24">
                   <button className="flex-center w-24 h-24" onClick={() => router.back()}>
-                    <ArrowLeft2Icon className="" />
+                    <ArrowLeft2Icon className="w-[10px] h-[16px]" />
                   </button>
 
                   <h3 className="text-24 font-medium leading-[32px] text-blue-8 ml-16">{title}</h3>

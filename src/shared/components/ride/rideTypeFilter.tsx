@@ -22,6 +22,7 @@ const RideTypeFilter = ({
   const list = useMemo(() => {
     return carAccountType === "car_driver"
       ? [
+          // { value: "all", label: "Tất cả" },
           { label: "Một chiều", value: "one_way" },
           {
             label: "Hai chiều",
@@ -30,6 +31,7 @@ const RideTypeFilter = ({
           { value: "compounding", label: "Đi ghép" },
         ]
       : [
+          // { value: "all", label: "Tất cả" },
           { label: "Tiện chuyến", value: "convenient" },
           { label: "Ghép chuyến", value: "compounding" },
         ]
@@ -47,6 +49,7 @@ const RideTypeFilter = ({
             onClick={() =>
               onChange?.(itemActive === value ? undefined : (value as CompoundingType))
             }
+            // (value === "all" ? !itemActive || itemActive === "all" : itemActive === value)
             className={`flex py-6 px-12 rounded-[5px] border border-solid mr-12 last:mr-0 ${
               itemActive === value ? "bg-bg-blue border-[transparent]" : "border-bg-blue"
             }`}

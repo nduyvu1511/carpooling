@@ -92,7 +92,7 @@ const ridesApi = {
     })
   },
 
-  customerCancelCompoundingCarBeforeDeposit: (params: ConfirmCompoundingCar) => {
+  customerCancelCompoundingCarBeforeDeposit: (params: CancelCompoundingCarParams) => {
     return axiosClient.post("/api/compounding_car_controller/cancel_compounding_car", {
       params,
     })

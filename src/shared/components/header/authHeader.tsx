@@ -157,7 +157,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     </div>
 
                     {/* hover */}
-                    <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-full right-0 hidden lg:group-hover:block z-[1000]">
+                    <div className="absolute w-[275px] shadow-md block-element border-gray-color-5 top-full right-0 hidden lg:group-hover:block z-[1001]">
                       <AccountMenu />
                     </div>
                   </div>

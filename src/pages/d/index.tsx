@@ -27,7 +27,6 @@ const HomeDriver = () => {
   }, [router.query])
 
   const handleFilterRides = (params: CompoundingFilterParams | undefined) => {
-    console.log(params)
     if (isObjectHasValue(params)) {
       router.push({
         query: {
