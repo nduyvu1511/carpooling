@@ -1,4 +1,4 @@
-import { EMAIL, PHONE } from "@/helper"
+import { ADDRESS, EMAIL, PHONE } from "@/helper"
 import { StaticLayout } from "@/layout"
 
 export const Regulations = () => {
@@ -30,7 +30,7 @@ export const Regulations = () => {
             -Giải quyết các sự vụ và tranh chấp phát sinh liên quan đến việc sử dụng dịch vụ trên
             dịch vụ vận tải;
           </li>
-        <li className="text-sm md:text-base mb-12">
+          <li className="text-sm md:text-base mb-12">
             -Cung cấp thông tin cho các Cơ quan thực thi Pháp luật theo yêu cầu;
           </li>
           <li className="text-sm md:text-base mb-12">
@@ -86,10 +86,7 @@ export const Regulations = () => {
         </p>
         <ul className="mb-24">
           <li className="text-sm md:text-base mb-12">Công ty Cổ phần Đầu tư và Công Nghệ ExxeVn</li>
-          <li className="text-sm md:text-base mb-12">
-            Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, TP. Thủ Đức, Tp. Hồ Chí Minh,
-            Việt Nam.
-          </li>
+          <li className="text-sm md:text-base mb-12">Trụ sở chính: {ADDRESS}, Việt Nam.</li>
           <li className="text-sm md:text-base mb-12">Số điện thoại: {PHONE}</li>
           <li className="text-sm md:text-base">Email: {EMAIL}</li>
         </ul>
@@ -169,9 +166,7 @@ export const Regulations = () => {
         <p className="text-sm md:text-base mb-12">
           - Công ty Cổ Phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
         </p>
-        <p className="text-sm md:text-base mb-12">
-          - Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp. Thủ Đức, Tp.HCM.
-        </p>
+        <p className="text-sm md:text-base mb-12">- Trụ sở chính: {ADDRESS}</p>
         <p className="text-sm md:text-base mb-12">- Số điện thoại: {PHONE}</p>
         <p className="text-sm md:text-base mb-12">- Email: {EMAIL}</p>
 

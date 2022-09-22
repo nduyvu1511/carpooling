@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { bg2 } from "@/assets"
 import { Seo } from "@/components"
+import { ADDRESS } from "@/helper"
 import { StaticLayout } from "@/layout"
 
 const AboutUs = () => {
@@ -23,10 +24,9 @@ const AboutUs = () => {
           <span className="uppercase text-blue-7">
             Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
           </span>{" "}
-          <span className="font-semibold">MST: 0317412411</span>. Địa chỉ: Số 2 Hoàng Thế Thiện,
-          Phường An Lợi Đông, TP. Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam (sau đây gọi là:{" "}
-          <span className="uppercase text-blue-7">Exxe</span>), thiết lập, quản lý vận tải cho các
-          tổ chức, cá nhân khác hoạt động phù hợp với quy định của pháp luật hiện hành.
+          <span className="font-semibold">MST: 0317412411</span>. Địa chỉ: {ADDRESS} Việt Nam (sau
+          đây gọi là: <span className="uppercase text-blue-7">Exxe</span>), thiết lập, quản lý vận
+          tải cho các tổ chức, cá nhân khác hoạt động phù hợp với quy định của pháp luật hiện hành.
         </p>
       </div>
 

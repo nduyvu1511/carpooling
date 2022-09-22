@@ -1,4 +1,5 @@
 import { FacebookIcon, LogoIcon, paymentMehods, TiktokIcon, YoutubeIcon, ZaloIcon } from "@/assets"
+import { ADDRESS } from "@/helper"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -118,9 +119,10 @@ const Footer = () => {
             <div className="flex-[2] mb-16 md:mb-0">
               <div className="">
                 <p className="text-12 leading-[20px] sm:text-14 sm:leading-26 font-normal text-blue-8">
-                  Địa chỉ: Số 2 đường Hoàng Thế Thiện, Phường An Lợi Đông, Thành phố Thủ Đức, Thành
-                  phố Hồ Chí Minh, Việt Nam. Số đăng ký kinh doanh: 0317412411. Ngày cấp:
-                  01/08/2022. Nơi cấp: Sở Kế hoạch và đầu tư Thành phố Hồ Chí Minh
+                  Địa chỉ: {ADDRESS}, Việt Nam.
+                  <br />
+                  Số đăng ký kinh doanh: 0317412411. Ngày cấp: 01/08/2022. Nơi cấp: Sở Kế hoạch và
+                  đầu tư Thành phố Hồ Chí Minh
                 </p>
               </div>
             </div>
@@ -131,7 +133,7 @@ const Footer = () => {
           <div className="flex flex-col-reverse items-center sm:flex-row sm:justify-between">
             <div className="">
               <p className="text-12 sm:text-14 text-gray-color-8 md:mb-0">
-                © 2022 Công ty Cổ Phần Exxe.Vn
+                © 2022 Công ty CP đầu tư công nghệ và vận tải EXXEVN
               </p>
             </div>
 
