@@ -1,3 +1,5 @@
+import { angryIcon, heartIcon, laughIcon, likeIcon, sadIcon, wowIcon } from "@/assets"
+
 // Regex
 export const PHONE_SCHEMA = /((^(\+84|84|0|0084){1})(3|5|7|8|9))+([0-9]{8})$/
 export const BIRTHDAY_SCHEMA = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
@@ -98,6 +100,26 @@ export const PAYMENT_METHOD_NAME = {
   exxe_wallet: "Ví Exxe",
   transfer: "Chuyển khoản",
   bank: "Chuyển khoản",
+}
+
+export const MESSAGE_STATUS = {
+  pending: "Đang gửi",
+  rejected: "Gửi lỗi",
+  fulfilled: "Đã gửi",
+}
+
+export const MESSAGE_EMOTION_ICON = {
+  laugh: laughIcon,
+  heart: heartIcon,
+  sad: sadIcon,
+  wow: wowIcon,
+  like: likeIcon,
+  angry: angryIcon,
+}
+
+export const MESSAGE_OPTION_MENU_SIZE = {
+  width: 180,
+  height: 168,
 }
 
 export const MESSAGES_LIMIT = 30

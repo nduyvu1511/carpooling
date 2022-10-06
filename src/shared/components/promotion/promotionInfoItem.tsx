@@ -16,7 +16,7 @@ export const PromotionInfoItem = ({ data }: PromotionInfoItemProps) => {
   return (
     <div
       onClick={() => router.push(`/promotion/${data.promotion_id}`)}
-      className="relative flex flex-col rounded-[10px]"
+      className="relative flex flex-col rounded-[10px] border border-solid border-blue-20 cursor-pointer"
     >
       <span className="absolute top-24 left-[-4px] z-10 text-[10px] font- text-error bg-bg-error-2 py-6 px-[14px] rounded-tr-[20px] rounded-br-[20px]">
         Mới
@@ -26,7 +26,7 @@ export const PromotionInfoItem = ({ data }: PromotionInfoItemProps) => {
         <Image
           src={
             data?.promotion_image_url?.image_url
-              ? toImageUrl(data.promotion_image_url.image_url.slice(1))
+              ? toImageUrl(data.promotion_image_url.image_url)
               : promotionItemImage
           }
           alt=""
@@ -34,7 +34,7 @@ export const PromotionInfoItem = ({ data }: PromotionInfoItemProps) => {
           objectFit="cover"
         />
       </div>
-      <div className="border border-solid flex-1 border-blue-20   border-t-0 p-16 rounded-bl-[10px] rounded-br-[10px]">
+      <div className="flex-1 p-16 rounded-bl-[10px] rounded-br-[10px]">
         <Link href={`/promotion/1`}>
           <a className="text-center text-14 h-[42px] md:h-[46px] md:text-18 line-clamp-2 font-semibold text-primary leading-[20opx] md:leading-[24px] mb-16">
             {data.promotion_name}

@@ -1,4 +1,4 @@
-import { ImageFileLoading, InputLoading, RegistrationCetificateForm } from "@/components"
+import { ImageFileLoading, InputLoading, RegistrationCetificateForm, Seo } from "@/components"
 import { useCertificateInspection } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { CertificateInspectionParams } from "@/models"
@@ -40,21 +40,26 @@ const RegistrationCertificate = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="Giấy Đăng Kiểm"
     >
-      <div className="content-container px-12 md:px-0">
-        {isValidating ? (
-          <>
-            <ImageFileLoading />
-            <ImageFileLoading />
-            <InputLoading />
-            <InputLoading />
-          </>
-        ) : (
-          <RegistrationCetificateForm
-            defaultValues={certificateInspection}
-            onSubmit={(data) => handleSubmit(data)}
-          />
-        )}
-      </div>
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="Giấy Đăng Kiểm"
+        url="/d/register/registration_certificate"
+      />
+
+      {isValidating ? (
+        <>
+          <ImageFileLoading />
+          <ImageFileLoading />
+          <InputLoading />
+          <InputLoading />
+        </>
+      ) : (
+        <RegistrationCetificateForm
+          defaultValues={certificateInspection}
+          onSubmit={(data) => handleSubmit(data)}
+        />
+      )}
     </DriverRegisterLayout>
   )
 }

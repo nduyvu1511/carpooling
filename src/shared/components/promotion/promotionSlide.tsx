@@ -17,6 +17,7 @@ export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlidePro
     key: "get_special_promotion_list",
     params: { limit: 12, offset: 0 },
   })
+  console.log(data)
 
   return (
     <div className="promotion-slide">
@@ -27,7 +28,7 @@ export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlidePro
       >
         {title}
       </h4>
-      <Slide className="pr-[1px]">
+      <Slide loop={false} className="pr-[1px]">
         {data &&
           data.map((item, index) => (
             <SwiperSlide className="relative aspect-[3/2]" key={index}>

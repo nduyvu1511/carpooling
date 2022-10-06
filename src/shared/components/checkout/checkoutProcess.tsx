@@ -63,7 +63,7 @@ const CheckoutProcess = ({
       setValidating(true)
       ridesApi
         .confirmDepositCompoundingCarCustomer({
-          sale_order_id,
+          // sale_order_id,
           compounding_car_customer_id,
         })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {

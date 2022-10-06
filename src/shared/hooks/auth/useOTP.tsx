@@ -1,8 +1,6 @@
-import { authentication } from "@/core/config"
-import { PhoneParams, UseParams } from "@/models"
-import { setScreenLoading } from "@/modules"
-import { ApplicationVerifier, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
-import { useDispatch } from "react-redux"
+import { RequestOTPCode, UseParams, VerifyOTPCode } from "@/models"
+import { userApi } from "@/services"
+import { useFetcher } from "../async"
 
 declare global {
   interface Window {
@@ -12,54 +10,43 @@ declare global {
 }
 
 interface UseOTPRes {
-  generateOTPCode: (_: UseParams<PhoneParams, PhoneParams>) => void
+  verifyOTPCode: (_: UseParams<VerifyOTPCode, any>) => void
+  requestOTPCode: (_: UseParams<RequestOTPCode, any>) => void
 }
 
 export const useOTP = (): UseOTPRes => {
-  const dispatch = useDispatch()
+  const { fetcherHandler } = useFetcher()
 
-  const generateRecaptcha = () => {
-    return new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: (response: any) => {},
-
-        "expired-callback": () => {},
+  const requestOTPCode = (_: UseParams<RequestOTPCode, any>) => {
+    const { onSuccess, params, config, onError } = _
+    fetcherHandler({
+      fetcher: userApi.requestOTP(params),
+      onSuccess: (res: any) => {
+        onSuccess?.(res)
       },
-      authentication
-    )
+      onError: (res: any) => {
+        onError?.(res)
+      },
+      config,
+    })
   }
 
-  const generateOTPCode = async (_: UseParams<PhoneParams, PhoneParams>) => {
-    const {
-      onSuccess,
-      params: { phone },
+  const verifyOTPCode = (_: UseParams<VerifyOTPCode, any>) => {
+    const { onSuccess, params, config, onError } = _
+    fetcherHandler({
+      fetcher: userApi.verifyOTP(params),
+      onSuccess: (res: any) => {
+        onSuccess?.(res)
+      },
+      onError: (res: any) => {
+        onError?.(res)
+      },
       config,
-      onError,
-    } = _
-    if (!phone) return
-
-    dispatch(setScreenLoading({ show: true, toggleOverFlow: config?.toggleOverFlow }))
-
-    try {
-      const verify: ApplicationVerifier = generateRecaptcha()
-      const confirmationResult = await signInWithPhoneNumber(
-        authentication,
-        `+84${phone.slice(1)}`,
-        verify
-      )
-      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
-      onSuccess({ phone })
-      window.confirmationResult = confirmationResult
-    } catch (error) {
-      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
-      generateRecaptcha().clear()
-      onError?.()
-    }
+    })
   }
 
   return {
-    generateOTPCode,
+    requestOTPCode,
+    verifyOTPCode,
   }
 }

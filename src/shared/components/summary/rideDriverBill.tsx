@@ -1,6 +1,6 @@
 import { CompoundingCarDriverRes } from "@/models"
 import { useState } from "react"
-import { AccordionItem } from "../accordion"
+import { AccordionItem } from "../common"
 import { DriverDepositInfo } from "./driverDepositInfo"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"

@@ -158,14 +158,12 @@ const DrivingLicenseForm = ({
         </div>
       ))}
 
-      <div className="flex-center content-container fixed bottom-0 left-0 right-0">
-        <ButtonSubmit
-          className="form-upload-btn"
-          title="Tiếp tục"
-          view={view}
-          onClick={() => handleSubmit(onSubmitHandler)}
-        />
-      </div>
+      <ButtonSubmit
+        className="form-upload-btn"
+        title="Tiếp tục"
+        view={view}
+        onClick={() => handleSubmit(onSubmitHandler)}
+      />
     </form>
   )
 }

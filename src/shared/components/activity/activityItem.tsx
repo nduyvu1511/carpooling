@@ -9,7 +9,7 @@ import {
 } from "@/helper"
 import { CustomerActivityRes, DriverActivityRes } from "@/models"
 import moment from "moment"
-import { CompoundingCarICon } from "../utilities"
+import { CompoundingCarICon } from "../common"
 
 interface ActivityItemProps<T> {
   activity: T | null

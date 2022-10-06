@@ -1,5 +1,5 @@
 import { formatMoneyVND } from "@/helper"
-import { Countdown } from "../countdown"
+import { Countdown } from "../common"
 
 interface CheckoutExistsItemProps {
   second_remains: number

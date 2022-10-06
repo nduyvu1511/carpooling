@@ -13,18 +13,6 @@ export const config = {
 const proxy = httpProxy.createProxyServer()
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<ResponseType<any>>) {
-  if (req.method !== "POST") {
-    return res.status(404).json({
-      result: {
-        message: "method not supported",
-        success: false,
-        data: [],
-        validate_token: false,
-        code: 404,
-      },
-    })
-  }
-
   return new Promise((resolve) => {
     const cookies = new Cookies(req, res)
     const token = cookies.get("access_token")

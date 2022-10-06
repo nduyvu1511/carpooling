@@ -19,7 +19,6 @@ const BookingLayout = ({
   overflowHidden = true,
 }: BookingLayoutProps) => {
   const router = useRouter()
-  const breakpoints = useBreakpoint()
 
   useEffect(() => {
     return () => {
@@ -75,9 +74,9 @@ const BookingLayout = ({
                 <div className="p-custom">
                   <RideSummaryLoading />
                 </div>
-              ) : breakpoints >= 1024 ? (
-                rightNode
-              ) : null}
+              ) : (
+                <div className="hidden lg:block">{rightNode}</div>
+              )}
             </div>
           </div>
         </div>

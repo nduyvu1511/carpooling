@@ -1,9 +1,8 @@
-import { authentication, fbProvider, googleProvider } from "@/core"
 import { isObjectHasValue } from "@/helper"
 import { useFetcher } from "@/hooks"
 import {
   CheckPhoneExistParams,
-  FetcherConfig,
+  LoginByOTP,
   LoginFormParams,
   LoginRes,
   RegisterParams,
@@ -14,61 +13,22 @@ import {
 import { setProfile, setScreenLoading } from "@/modules"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useDispatch } from "react-redux"
-import { notify } from "reapop"
-
-interface otpProps {
-  otpInput: string
-  handleSuccess: (token: string) => void
-  handleError?: Function
-  config?: FetcherConfig
-}
 
 interface UseAuthRes {
-  loginWithFacebook: (handleSuccess: (token: string) => void, handleError?: Function) => void
-  loginWithGoogle: (handleSuccess: (token: string) => void) => void
-  loginWithPhoneNumber: (_params: UseParams<string, string>) => void
   getUserInfo: (handleSuccess: (props: UserInfo) => void, handleError?: Function) => void
   loginWithPassword: (_params: UseParams<LoginFormParams, LoginRes>) => void
-  OTPVerifier: (props: otpProps) => void
   checkPhoneExist: (_params: UseParams<CheckPhoneExistParams, undefined>) => void
   logout: (cb?: Function) => void
   register: (_params: UseParams<RegisterParams, UserInfo>) => void
   getTokenFromFirebaseAccessToken: (_params: UseParams<string, string>) => void
   setToken: (params: UseParams<string, undefined>) => void
+  loginByOTP: (params: UseParams<LoginByOTP, any>) => void
 }
 
 export const useAuth = (): UseAuthRes => {
   const dispatch = useDispatch()
   const { fetcherHandler } = useFetcher()
-
-  const loginWithFacebook = async (
-    handleSuccess: (token: string) => void,
-    handleError?: Function
-  ) => {
-    try {
-      const result: any = await signInWithPopup(authentication, fbProvider)
-      const credential: any = FacebookAuthProvider.credentialFromResult(result)
-      const facebook_access_token = credential.accessToken
-
-      fetcherHandler<{ token: string }>({
-        fetcher: userApi.firebaseAuth({
-          type: "facebook",
-          facebook_access_token,
-        }),
-        onSuccess: ({ token }) => {
-          handleSuccess(token)
-        },
-        onError: () => {
-          handleError?.()
-        },
-      })
-    } catch (error: any) {
-      handleError?.()
-      // dispatch(setScreenLoading(false))
-    }
-  }
 
   const setToken = async (_params: UseParams<string, undefined>) => {
     const { params, onSuccess, config, onError } = _params
@@ -111,65 +71,6 @@ export const useAuth = (): UseAuthRes => {
     })
   }
 
-  const loginWithGoogle = async (handleSuccess: (token: string) => void) => {
-    try {
-      const response: any = await signInWithPopup(authentication, googleProvider)
-      const credential = GoogleAuthProvider.credentialFromResult(response)
-      const firebase_access_token = credential?.idToken
-      if (!googleProvider || !firebase_access_token || !response?.user) return
-      // dispatch(setScreenLoading(true))
-
-      const res: AxiosResponse<any> = await userApi.firebaseAuth({
-        type: "data_google",
-        data_in_token: response.user,
-        firebase_access_token,
-      })
-      // dispatch(setScreenLoading(false))
-      const token = res?.result?.data?.token
-      if (res?.result?.code !== 200) {
-        dispatch(
-          notify({
-            type: "danger",
-            title: res?.result?.message || "",
-          })
-        )
-        return
-      }
-
-      handleSuccess(token)
-    } catch (error) {
-      console.log(error)
-      // dispatch(setScreenLoading(false))
-    }
-  }
-
-  const OTPVerifier = async (props: otpProps) => {
-    const { otpInput, handleSuccess, handleError, config } = props
-    const confirmationResult = window.confirmationResult
-    dispatch(setScreenLoading({ show: true, toggleOverFlow: config?.toggleOverFlow }))
-
-    try {
-      const responseToken = await confirmationResult.confirm(otpInput)
-      const firebaseToken = responseToken?._tokenResponse?.idToken
-      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
-
-      if (firebaseToken) {
-        handleSuccess(firebaseToken)
-      } else {
-        handleError && handleError()
-        dispatch(notify("Vui lòng nhập đúng mã OTP", "error"))
-      }
-    } catch (error) {
-      dispatch(setScreenLoading({ show: false, toggleOverFlow: config?.toggleOverFlow }))
-      dispatch(
-        notify("Vui lòng nhập đúng mã OTP", "error", {
-          position: "top-center",
-        })
-      )
-      handleError && handleError()
-    }
-  }
-
   const logout = async (cb?: Function) => {
     try {
       const res: AxiosResponse<any> = await userApi.logout()
@@ -181,10 +82,10 @@ export const useAuth = (): UseAuthRes => {
     }
   }
 
-  const loginWithPhoneNumber = async (_params: UseParams<string, string>) => {
+  const loginByOTP = async (_params: UseParams<LoginByOTP, string>) => {
     const { onSuccess, params, onError, config } = _params
     fetcherHandler<{ token: string }>({
-      fetcher: userApi.firebaseAuth({ firebase_access_token: params }),
+      fetcher: userApi.loginByOTP(params),
       onSuccess: (data) => {
         onSuccess(data.token)
       },
@@ -252,16 +153,13 @@ export const useAuth = (): UseAuthRes => {
   }
 
   return {
-    loginWithFacebook,
-    loginWithGoogle,
     getUserInfo,
-    loginWithPhoneNumber,
     loginWithPassword,
-    OTPVerifier,
     checkPhoneExist,
     logout,
     getTokenFromFirebaseAccessToken,
     register,
     setToken,
+    loginByOTP,
   }
 }

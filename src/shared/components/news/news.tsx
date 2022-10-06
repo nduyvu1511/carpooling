@@ -2,8 +2,8 @@ import { useNews } from "@/hooks"
 import { CategoryRes } from "@/models"
 import { newsApi } from "@/services"
 import useSWR from "swr"
+import { Tabs } from "../common"
 import { Spinner } from "../loading"
-import { Tabs } from "../tabs"
 import { NewsItem } from "./newsItem"
 
 const News = () => {

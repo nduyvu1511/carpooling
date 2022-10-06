@@ -92,6 +92,15 @@ export interface Auth {
   data_in_token?: any
 }
 
+export interface RequestOTPCode {
+  phone: string
+}
+
+export interface VerifyOTPCode {
+  phone: string
+  otp_code: string
+}
+
 export interface NewPasswordParams {
   password: string
   re_password: string
@@ -433,6 +442,13 @@ export interface IUser {
   room_blocked_noti_ids: string[]
 }
 
+export interface LoginByOTP {
+  type: "firebase" | "stringee"
+  name_user?: string
+  firebase_access_token?: string
+  stringee_access_token?: string
+}
+
 export type UserPopulate = Omit<IUser, "avatar_id"> & {
   avatar_id: IAttachment
 }
@@ -450,8 +466,11 @@ export type UserRes = Pick<
   | "user_name"
   | "updated_at"
 > & {
+  socket_id: string
   user_id: string
   avatar: AttachmentRes
+  room_id?: string
+  is_yourself?: boolean
 }
 
 export type CreateUserParams = Pick<
@@ -495,6 +514,15 @@ export interface ChangePasswordParams extends CreatePasswordParams {
   current_password: string
 }
 
+export interface CreatePasswordParams {
+  new_password: string
+  confirm_new_password: string
+}
+
+export interface ChangePasswordParams extends CreatePasswordParams {
+  current_password: string
+}
+
 export type CreatePasswordServiceParams = CreatePasswordParams & {
   _id: string
 }
@@ -508,7 +536,7 @@ export interface UserData extends UserRes {
   room_joined_ids: string[]
 }
 
-export interface LoginToSocket {
-  socket_id: string
-  // socket: Socket<any>
+export type FriendStatusRes = {
+  user_id: string
+  room_ids: string[]
 }

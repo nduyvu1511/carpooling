@@ -1,9 +1,9 @@
 import { ArrowRightIcon, CheckCircleIcon, TrustIcon } from "@/assets"
-import { Alert, ProgressBar, Seo } from "@/components"
+import { Alert, HeaderEmpty, HeaderWrapper, ProgressBar, Seo } from "@/components"
 import { RootState } from "@/core/store"
 import { driverFormFields, isObjectHasValue } from "@/helper"
 import { useFetchFilledDriverFormFields } from "@/hooks"
-import { DriverEmptyLayout, DriverLayout } from "@/layout"
+import { DriverEmptyLayout } from "@/layout"
 import { FilledDataFieldsKey } from "@/models"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
@@ -38,10 +38,15 @@ const DriverInfo = () => {
   }
 
   return (
-    <DriverLayout showHeaderOnMobile>
+    <DriverEmptyLayout>
+      <HeaderWrapper className="border-b border-solid border-border-color md:border-0">
+        <HeaderEmpty />
+      </HeaderWrapper>
+
       <Seo description="" thumbnailUrl="" title="Đăng ký trỏ thành tài xế" url="/d/register" />
-      <div className="min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)] flex flex-col sm:px-custom">
-        <div className="content-container flex-1 relative sm:my-12 md:my-16 lg:my-24 bg-white-color p-custom py-12 sm:py-24 block-element">
+
+      <div className="min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)] flex flex-col sm:px-custom bg-bg">
+        <div className="content-container flex-1 relative sm:my-12 md:my-16 lg:my-24 bg-white-color p-custom pb-12 pt-24 md:py-24 block-element">
           {isInitialLoading ? (
             <>
               <div className="skeleton h-[40px] mb-[40px] rounded-[4px]"></div>
@@ -62,16 +67,17 @@ const DriverInfo = () => {
             </>
           ) : (
             <>
-              <div className="mb-40">
-                <p className="text-16 md:text-18 font-semibold text-center">
+              <div className="mb-24 md:mb-40">
+                <p className="text-16 md:text-18 leading-[22px] md:leading-[24px] font-semibold text-center">
                   Xác thực thông tin giấy tờ
                 </p>
               </div>
-              <div className="mb-40">
+
+              <div className="mb-24 md:mb-40">
                 <div className="flex p-8 rounded-[8px] bg-orange-05 border border-solid border-warning">
                   <TrustIcon className="text-warning mr-12" />
                   <p className="flex-1 text-12 text-warning">
-                    Vui lòng hoàn thành toàn bộ thông tin sau đăng ký để bắt đầu lái xe
+                    Vui lòng hoàn thành toàn bộ thông tin sau đăng ký để bắt đầu lái xe.
                   </p>
                 </div>
               </div>
@@ -143,7 +149,7 @@ const DriverInfo = () => {
         onClose={() => setOpenAlert(false)}
         onConfirm={() => router.push("/d")}
       />
-    </DriverLayout>
+    </DriverEmptyLayout>
   )
 }
 

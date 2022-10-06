@@ -193,8 +193,8 @@ export interface ContactParams {
 export type ContactFormKey = keyof ContactParams
 
 export interface QueryCommonParams {
-  limit: number
-  offset: number
+  limit?: number
+  offset?: number
 }
 
 export interface ListParams<T> {
@@ -205,7 +205,7 @@ export interface ListParams<T> {
 }
 
 export interface ListRes<T> {
-  hasMore: boolean
+  has_more: boolean
   limit: number
   offset: number
   total: number
@@ -256,6 +256,34 @@ export interface TagRes {
   text: string
 }
 
+export interface CreateTagMessage {
+  role: UserRole
+  text: string
+}
+
+export interface AttachmentId {
+  attachment_id: string
+  url: string
+}
+
+export interface ServiceQueryListRes<T> {
+  total: number
+  data: T
+}
+
+export interface ITag {
+  _id: string
+  text: string
+  role: UserRole
+  created_at: Date
+  updated_at: Date
+}
+
+export interface TagRes {
+  tag_id: string
+  text: string
+}
+
 export type CreateAttachment = Pick<IAttachment, "attachment_type" | "url" | "thumbnail_url"> & {
   desc?: string
 }
@@ -278,3 +306,30 @@ export type UpdateTagMessage = Partial<CreateTagMessage> & {
 export type OnResetParams = {
   onReset: () => void
 }
+
+export interface ImageWithId {
+  id: string
+  url: string
+}
+
+export interface AttachmentResult {
+  formData: FormData
+  previewImages: ImageWithId[]
+}
+
+export type UploadFileType = "image" | "video"
+
+export interface UploadSingleFile {
+  name: UploadFileType
+  file: File
+}
+
+export interface UploadMultipleFile {
+  params: {
+    name: UploadFileType
+    files: File[]
+  }
+  onSuccess?: (data: AttachmentRes) => void
+}
+
+export type MessageResponseStatus = "pending" | "rejected" | "fulfilled"

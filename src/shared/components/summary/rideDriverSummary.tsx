@@ -36,7 +36,7 @@ const RideDriverSummary = ({ ride }: RideDriverSummaryProps) => {
           label="Số tiền thực nhận"
           labelClassName="text-14 md:text-16 font-semibold text-blue-8 md:text-blue-8"
           value={formatMoneyVND(ride.income_before_pit)}
-          valueClassName="text-error font-semibold"
+          valueClassName="text-error font-semibold text-16 md:text-16"
         />
       </ul>
 

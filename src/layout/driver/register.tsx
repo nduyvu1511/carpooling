@@ -1,5 +1,5 @@
-import { ArrowLeft2Icon, HomeIcon } from "@/assets"
-import { useScrollTop } from "@/hooks"
+import { ArrowLeft2Icon } from "@/assets"
+import { HeaderEmpty, HeaderWrapper } from "@/components"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
 import { DriverEmptyLayout } from "."
@@ -15,54 +15,35 @@ interface DriverRegisterLayout extends HeaderProps {
   children: ReactNode
 }
 
-const Header = ({ onBackBtnClick, heading, rightHeaderElement, onRightBtnClick }: HeaderProps) => {
-  const height = useScrollTop()
-  const router = useRouter()
-
-  return (
-    <header
-      className={`h-[60px] px-16 sm:px-24 md:px-0 sticky top-0 bg-white-color z-[100] ${
-        height > 30 ? " border-b border-solid border-border-color shadow-shadow-1" : ""
-      }`}
-    >
-      <div className="content-container flex items-center h-full">
-        <button
-          onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
-          className="w-[30px]"
-        >
-          <ArrowLeft2Icon className="w-[10px] h-[16px]" />
-        </button>
-        <h3 className="text-16 font-semibold flex-1 text-center">{heading}</h3>
-        <div className="">
-          {rightHeaderElement ||
-            (onRightBtnClick ? (
-              <button className="w-[30px] flex justify-end" onClick={() => onRightBtnClick?.()}>
-                <HomeIcon />
-              </button>
-            ) : null)}
-        </div>
-      </div>
-    </header>
-  )
-}
-
 export const DriverRegisterLayout = ({
   children,
   heading,
   onBackBtnClick,
-  rightHeaderElement,
-  onRightBtnClick,
 }: DriverRegisterLayout) => {
+  const router = useRouter()
   return (
     <DriverEmptyLayout>
-      <Header
-        heading={heading}
-        onBackBtnClick={onBackBtnClick}
-        rightHeaderElement={rightHeaderElement}
-        onRightBtnClick={onRightBtnClick}
-      />
-      <section className="content-container driver-register-layout pt-12">
-        <main className="">{children}</main>
+      <HeaderWrapper className="hidden md:block">
+        <HeaderEmpty />
+      </HeaderWrapper>
+
+      <section className="driver-register-layout bg-white-color md:bg-bg md:py-16 lg:py-24 min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)]">
+        <main className="content-container block-element">
+          <div className="fixed z-[1000] md:z-0 md:static left-0 right-0 top-0 bg-white-color flex px-12 sm:px-24 md:pt-24 items-center mb-24 md:mb-40 h-[56px] md:h-fit border-b border-border-color border-solid md:border-none">
+            <button
+              onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}
+              className="w-24 h-24 md:w-[40px] md:h-[40px] mr-12 md:mr-16 flex-center"
+            >
+              <ArrowLeft2Icon className="w-[8px] h-[12px]" />
+            </button>
+            <h3 className="text-16 md:text-18 font-semibold leading-[22px] md:leading-[24px] flex-1 text-center md:text-left line-clamp-1">
+              {heading}
+            </h3>
+            <span className="w-24"></span>
+          </div>
+
+          <div className="px-12 pt-24 pb-12 md:pt-0 md:px-24 md:pb-24 mt-[56px]">{children}</div>
+        </main>
       </section>
     </DriverEmptyLayout>
   )

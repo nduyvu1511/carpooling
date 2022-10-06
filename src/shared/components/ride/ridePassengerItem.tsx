@@ -9,7 +9,7 @@ import {
 import { CompoundingCarCustomer } from "@/models"
 import moment from "moment"
 import Image from "next/image"
-import { Countdown } from "../countdown"
+import { Countdown } from "../common"
 import { SummaryItem } from "../summary"
 
 interface RidePassengerItemProps {

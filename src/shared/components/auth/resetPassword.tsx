@@ -1,5 +1,4 @@
 import { CreatePasswordForm, OTP } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { usePassword } from "@/hooks"
 import { useEffect, useState } from "react"
 
@@ -11,16 +10,16 @@ interface ResetPasswordProps {
 
 const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordProps) => {
   const { resetPassword } = usePassword()
-  const [firebaseToken, setFirebaseToken] = useState<string>()
+  const [token, settoken] = useState<string>()
 
   useEffect(() => {
     ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
   }, [])
 
   const handleResetPassword = (params: { password: string; re_password: string }) => {
-    if (!firebaseToken) return
+    if (!token) return
     resetPassword({
-      params: { ...params, firebase_access_token: firebaseToken },
+      params: { ...params, firebase_access_token: token },
       onSuccess: () => {
         onSuccess?.()
       },
@@ -31,13 +30,13 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
   return (
     <div className="reset-password-page">
       <div className="">
-        {!firebaseToken ? (
+        {!token ? (
           <OTP
             view={view}
             defaultPhoneNumber={defaultPhoneNumber}
             type="resetPassword"
             onVerifyOTP={(token) => {
-              setFirebaseToken(token)
+              settoken(token)
             }}
           />
         ) : (

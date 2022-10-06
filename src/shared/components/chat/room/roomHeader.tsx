@@ -1,37 +1,59 @@
-import { blankAvatar, ThreeDotsIcon } from "@/assets"
-import { RoomRes } from "@/models"
+import { MultiUserIcon } from "@/assets"
+import { toFirstUpperCase } from "@/helper"
+import { RoomDetailRes } from "@/models"
+import { setCurrentRoomId } from "@/modules"
 import moment from "moment"
-import { RoomAvatar } from "../roomAvatar"
+import { MdOutlineArrowBackIosNew } from "react-icons/md"
+import { useDispatch } from "react-redux"
+import { Avatar } from "../user/avatar"
 
 interface RoomHeaderProps {
-  data: RoomRes
+  data: RoomDetailRes
+  onClick?: () => void
 }
 
-export const RoomHeader = ({ data }: RoomHeaderProps) => {
+export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
+  const dispatch = useDispatch()
   return (
-    <div className="flex">
-      <div className="flex items-center flex-1 mr-16">
+    <div className="h-full px-16 flex-center">
+      <div className="mr-12 md:hidden">
+        <button className="p-8" onClick={() => dispatch(setCurrentRoomId(undefined))}>
+          <MdOutlineArrowBackIosNew className="text-sm text-gray-color-4" />
+        </button>
+      </div>
+
+      <div className="flex items-center flex-1">
         <div className="mr-12">
-          <RoomAvatar
+          <Avatar
+            onClick={onClick}
+            memberCount={data.member_count}
+            isGroup={data.room_type === "group"}
             isOnline={data.is_online}
-            avatar={data.room_avatar?.thumbnail_url || blankAvatar}
+            avatar={data.room_avatar?.thumbnail_url || ""}
+            avatarGroup={data.members?.data?.map((item) => item.avatar.thumbnail_url)}
           />
         </div>
 
         <div className="flex-1">
-          <p className="text-sm font-semibold md:text-semibold text-primary line-clamp-1">
+          <p className="text-sm leading-[20px] font-semibold text-primary line-clamp-1 word-wrap-anywhere mb-4">
             {data.room_name}
           </p>
-          {!data.is_online && data?.offline_at ? (
-            <p className="text-xs text-gray-color-5">{moment(data?.offline_at).fromNow()}</p>
-          ) : null}
+          <div className="flex items-center">
+            {data.room_type === "group" ? (
+              <button onClick={onClick} className="flex items-center cursor-pointer">
+                <MultiUserIcon className="hidden sm:block mr-4 text-base w-[16px] h-[16px]" />
+                <p className="text-[10px] sm:text-[12px] mr-12 text-gray-color-4 font-medium">
+                  {data.member_count} Thành viên
+                </p>
+              </button>
+            ) : null}
+            {!data.is_online && data?.offline_at ? (
+              <p className="text-[10px] sm:text-[10px] text-gray-color-3 font-medium">
+                {toFirstUpperCase(moment(data?.offline_at).fromNow())}
+              </p>
+            ) : null}
+          </div>
         </div>
-      </div>
-
-      <div className="">
-        <button className="w-[36px] h-[36px] rounded-[8px] bg-gray-05 flex-center">
-          <ThreeDotsIcon className="h-[12px]" />
-        </button>
       </div>
     </div>
   )

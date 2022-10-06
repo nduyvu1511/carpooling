@@ -16,7 +16,6 @@ export const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null)
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
-  const [showModal, setShowModal] = useState<boolean>(false)
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showDrawer, setShowDrawer] = useState<boolean>(false)
 

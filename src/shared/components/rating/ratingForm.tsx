@@ -3,7 +3,7 @@ import { useFetchRatingTags } from "@/hooks"
 import { CreateRatingFormParams, RatingRangePost, RatingRes } from "@/models"
 import { useState } from "react"
 import { Spinner } from "../loading"
-import { TagItem } from "../tag"
+import { TagItem } from "../common"
 
 interface RatingFormProps {
   onSubmit?: (params: CreateRatingFormParams) => void

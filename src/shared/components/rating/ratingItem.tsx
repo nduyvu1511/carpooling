@@ -6,7 +6,7 @@ import { RatingRes } from "@/models"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useMemo, useRef, useState } from "react"
-import { TagItem } from "../tag"
+import { TagItem } from "../common"
 
 interface RatingItemProps {
   rating: RatingRes | null

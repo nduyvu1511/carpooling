@@ -2,7 +2,7 @@ import { CloseThickIcon } from "@/assets"
 import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword } from "@/components"
 import { RootState } from "@/core/store"
 import { useAuth } from "@/hooks"
-import { AuthModalType, LoginFormParams } from "@/models"
+import { AuthModalType, LoginByOTP, LoginFormParams } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 const AuthModal = ({ show }: { show: AuthModalType }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const { loginWithPassword, getUserInfo, loginWithPhoneNumber, loginWithGoogle } = useAuth()
+  const { loginWithPassword, getUserInfo, loginByOTP } = useAuth()
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
 
   const handleGetUserInfo = () => {
@@ -32,8 +32,8 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     })
   }
 
-  const handleLoginWithOTP = (params: string) => {
-    loginWithPhoneNumber({
+  const handleLoginWithOTP = (params: LoginByOTP) => {
+    loginByOTP({
       params,
       onSuccess: () => {
         handleGetUserInfo()
@@ -42,11 +42,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     })
   }
 
-  const handleLoginWithGoogle = () => {
-    loginWithGoogle((token) => {
-      console.log(token)
-    })
-  }
+  const handleLoginWithGoogle = () => {}
 
   const getModalHeading = (): string => {
     if (authModalType === "login") return "Đăng nhập"
@@ -105,8 +101,8 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
             <OTP
               view="modal"
               type="login"
-              onVerifyOTP={(token) => {
-                handleLoginWithOTP(token)
+              onVerifyOTP={(stringee_access_token) => {
+                handleLoginWithOTP({ type: "stringee", stringee_access_token })
               }}
             />
           ) : null}

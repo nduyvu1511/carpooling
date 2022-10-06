@@ -149,14 +149,12 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
           ) : null}
         </div>
       ))}
-      <div className="fixed bottom-0 right-0 left-0">
-        <ButtonSubmit
-          className="form-upload-btn"
-          title="Tiếp tục"
-          view={view}
-          onClick={() => handleSubmit(onSubmitHandler)}
-        />
-      </div>
+      <ButtonSubmit
+        className="form-upload-btn"
+        title="Tiếp tục"
+        view={view}
+        onClick={() => handleSubmit(onSubmitHandler)}
+      />
     </form>
   )
 }

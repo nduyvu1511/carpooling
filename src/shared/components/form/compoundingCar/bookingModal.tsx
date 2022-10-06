@@ -1,5 +1,4 @@
-import { Modal } from "@/components/modal"
-import { Tabs } from "@/components/tabs"
+import { Modal, Tabs } from "@/components"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CarAccountType, CompoundingType, CreateCompoundingCarParams } from "@/models"
 import { useRouter } from "next/router"

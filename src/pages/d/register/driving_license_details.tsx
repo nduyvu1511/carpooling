@@ -1,4 +1,4 @@
-import { ImageFileLoading, InputLoading } from "@/components"
+import { ImageFileLoading, InputLoading, Seo } from "@/components"
 import DrivingLicenseForm from "@/components/form/driver/drivingLicenseForm"
 import { useVehicleDrivingLicense } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
@@ -37,23 +37,28 @@ const DrivingLicenseDetail = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bằng Lái Xe">
-      <div className="content-container px-12 md:px-0">
-        {!isValidating ? (
-          <DrivingLicenseForm
-            defaultValues={drivingLicense}
-            onSubmit={(data) => handleSubmitForm(data)}
-          />
-        ) : (
-          <>
-            <ImageFileLoading />
-            <ImageFileLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-          </>
-        )}
-      </div>
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="Bằng lái xe"
+        url="/d/register/driving_license_details"
+      />
+
+      {!isValidating ? (
+        <DrivingLicenseForm
+          defaultValues={drivingLicense}
+          onSubmit={(data) => handleSubmitForm(data)}
+        />
+      ) : (
+        <>
+          <ImageFileLoading />
+          <ImageFileLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+        </>
+      )}
     </DriverRegisterLayout>
   )
 }

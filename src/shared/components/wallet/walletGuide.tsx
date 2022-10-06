@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { AccordionItem } from "../accordion"
+import { AccordionItem } from "../common"
 
 export const WalletGuide = () => {
   const [tabsActive, setTabsActive] = useState<number[]>([])

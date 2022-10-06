@@ -1,10 +1,9 @@
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { formatMoneyVND } from "@/helper"
 import { RechargeRequestFormParams, WithdrawFormParams } from "@/models"
 import { useState } from "react"
 import { ReChargeMoneyForm, WithdrawForm } from "../form"
 import { Alert } from "../modal"
-
-import { Tabs } from "../tabs"
+import { Tabs } from "../common"
 
 interface TransactionProps {
   accountBalance: number

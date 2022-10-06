@@ -841,21 +841,27 @@
 }
 
 .driver-register-layout {
-  padding-bottom: 84px;
+  padding-bottom: 72px;
   @media screen and (min-width: 768px) {
-    padding-bottom: 92px;
+    // padding-bottom: 92px;
   }
 
   .btn-submit {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    margin-top: 40px;
     padding: 12px;
+    position: fixed;
 
     @media screen and (min-width: 768px) {
-      padding: 16px;
+      position: static;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0;
     }
+
+    // @media screen and (min-width: 768px) {
+    //   padding: 16px;
+    // }
   }
 }
 
@@ -1253,4 +1259,82 @@ input[type="number"] {
       max-height: calc(100vh - 280px);
     }
   }
+}
+
+.chat-page {
+  & .chat-room {
+    &-list {
+      max-height: calc(100vh - 160px);
+    }
+
+    &-search {
+      max-height: calc(100vh - 168px);
+    }
+  }
+
+  & .chat-message {
+    &-list {
+      max-height: calc(100vh - 170px);
+      // max-height: calc(100vh - 154px);
+      // @media screen and(min-width: 768px) {
+      //   max-height: calc(100vh - 170px);
+      // }
+
+      & .infinite-scroll-component__outerdiv {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+.modal-profile {
+  & .modal-sm {
+    max-width: 350px;
+    width: 100%;
+  }
+}
+
+.message-item {
+  &-text {
+    & a {
+      color: #2e41b6;
+      line-height: 20px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.modal-room-info {
+  & .modal-sm {
+    max-width: 350px;
+  }
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-sm {
+  animation: 0.1s linear opacity;
+}
+
+.react-transform-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.EmojiPickerReact {
+  width: 100% !important;
+  height: 100% !important;
+  border-color: #f0f0f0 !important;
 }

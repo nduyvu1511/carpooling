@@ -15,9 +15,18 @@ export const useFetchFilledDriverFormFields = (shouldFetch = true): Res => {
     "get_filled_data_fields",
     shouldFetch
       ? () =>
-          userApi
-            .getFilledDataFields()
-            .then((res: AxiosResponse<FilledDataFieldsRes>) => res?.result?.data)
+          userApi.getFilledDataFields().then((res: AxiosResponse<FilledDataFieldsRes>) => {
+            const data = res?.result?.data
+
+            return {
+              car_driving_license: data?.car_driving_license,
+              car_registration_certificate: data?.car_registration_certificate,
+              compulsory_car_insurance: data?.compulsory_car_insurance,
+              identity_card: data?.identity_card,
+              periodical_inspection_certificate: data?.periodical_inspection_certificate,
+              user_information: data?.user_information,
+            } as FilledDataFieldsRes
+          })
       : null,
     {
       dedupingInterval: 1000,

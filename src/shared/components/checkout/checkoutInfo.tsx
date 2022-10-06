@@ -1,6 +1,6 @@
 import { formatMoneyVND } from "@/helper"
 import { CarAccountType, IDepositSummaryOptional } from "@/models"
-import { Countdown } from "../countdown"
+import { Countdown } from "../common"
 import { SummaryItem } from "../summary"
 
 interface DepositSummaryProps {

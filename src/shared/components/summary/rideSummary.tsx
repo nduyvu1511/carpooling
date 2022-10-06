@@ -1,6 +1,6 @@
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
 import { ReactNode, useState } from "react"
-import { AccordionItem } from "../accordion"
+import { AccordionItem } from "../common"
 import { RideSummaryInfo } from "./rideSummaryInfo"
 import { RideSummaryMap } from "./rideSummaryMap"
 import { RideSummaryRules } from "./rideSummaryRules"

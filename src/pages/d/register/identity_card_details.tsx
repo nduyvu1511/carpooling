@@ -1,4 +1,4 @@
-import { IdentityCardForm, ImageFileLoading, InputLoading } from "@/components"
+import { IdentityCardForm, ImageFileLoading, InputLoading, Seo } from "@/components"
 import { useIdentityCard } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { IdCardParams } from "@/models"
@@ -39,21 +39,26 @@ const IdentityCardDetail = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="CMND / Thẻ Căn Cước / Hộ Chiếu"
     >
-      <div className="relative px-12 md:px-0">
-        {!isValidating ? (
-          <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />
-        ) : (
-          <>
-            <ImageFileLoading />
-            <ImageFileLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-          </>
-        )}
-      </div>
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="CMND / Thẻ Căn Cước / Hộ Chiếu"
+        url="/d/register/identity_card_details"
+      />
+
+      {!isValidating ? (
+        <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />
+      ) : (
+        <>
+          <ImageFileLoading />
+          <ImageFileLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+        </>
+      )}
     </DriverRegisterLayout>
   )
 }

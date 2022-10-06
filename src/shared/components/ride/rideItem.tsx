@@ -8,7 +8,7 @@ import {
 } from "@/helper"
 import { CompoundingCarRes } from "@/models"
 import moment from "moment"
-import { CompoundingCarICon } from "../utilities"
+import { CompoundingCarICon } from "../common"
 import { RideItemLocation } from "./rideItemLocation"
 
 interface RidesItemProps {

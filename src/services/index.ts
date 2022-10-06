@@ -1,6 +1,6 @@
+import store from "@/core/store"
 import { setProfile } from "@/modules"
 import axios from "axios"
-import { store } from "../core"
 import { userApi } from "./userApi"
 
 const axiosClient = axios.create({
@@ -22,7 +22,7 @@ try {
       if (response?.data) {
         if (response?.data?.result?.code === 401 || response?.data?.result?.code === 403) {
           await userApi.logout()
-          store.dispatch(setProfile(undefined))
+          store?.dispatch(setProfile(undefined))
           return
         }
 
@@ -40,10 +40,10 @@ try {
 
 export default axiosClient
 export * from "./addressApi"
+export * from "./chatApi"
 export * from "./compoundingCarApi"
+export * from "./newsApi"
+export * from "./promotionApi"
 export * from "./ratingApi"
 export * from "./userApi"
 export * from "./vehicleApi"
-export * from "./newsApi"
-export * from "./promotionApi"
-export * from "./chatApi"

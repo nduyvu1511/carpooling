@@ -1,6 +1,7 @@
+import store from "@/core/store"
 import { App, EmptyLayout } from "@/layout"
 import { AppPropsWithLayout } from "@/models"
-import { persistor, store } from "core"
+import { persistor } from "core"
 import Head from "next/head"
 import { Provider } from "react-redux"
 import { NotificationsProvider } from "reapop"

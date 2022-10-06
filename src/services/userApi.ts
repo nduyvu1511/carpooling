@@ -14,8 +14,10 @@ import {
   IdCardParams,
   IdCardUpdateParams,
   ListQuery,
+  LoginByOTP,
   LoginFormParams,
   MakeWithdrawingRequestParams,
+  RequestOTPCode,
   ResetPasswordParams,
   UpdateCertificateInspectionParams,
   UpdateDrivingLicenseParams,
@@ -23,6 +25,7 @@ import {
   UpdateVehicleInsuranceParams,
   VehicleDetailFormParams,
   VehicleInsuranceParams,
+  VerifyOTPCode,
 } from "@/models"
 import axiosClient from "."
 
@@ -80,6 +83,24 @@ const userApi = {
   },
 
   getTokenFromFirebase: (params: Auth) => {
+    return axiosClient.post("/api/user_information_controller/auth", {
+      params,
+    })
+  },
+
+  requestOTP: (params: RequestOTPCode) => {
+    return axiosClient.post("/api/connect_stringee_controller/send_otp_verification_message", {
+      params,
+    })
+  },
+
+  verifyOTP: (params: VerifyOTPCode) => {
+    return axiosClient.post("/api/connect_stringee_controller/verify_otp_code", {
+      params,
+    })
+  },
+
+  loginByOTP: (params: LoginByOTP) => {
     return axiosClient.post("/api/user_information_controller/auth", {
       params,
     })

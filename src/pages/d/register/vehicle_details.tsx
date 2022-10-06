@@ -1,4 +1,4 @@
-import { ImageFileLoading, InputLoading, VehicleForm } from "@/components"
+import { ImageFileLoading, InputLoading, Seo, VehicleForm } from "@/components"
 import { useRegistrationCertificate } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { VehicleDetailFormParams } from "@/models"
@@ -36,21 +36,21 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Thông tin xe">
-      <div className="px-12 md:px-0">
-        {!isValidating ? (
-          <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />
-        ) : (
-          <>
-            <ImageFileLoading />
-            <ImageFileLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-          </>
-        )}
-      </div>
+      <Seo description="" thumbnailUrl="" title="Thông tin xe" url="/d/register/vehicle_details" />
+
+      {!isValidating ? (
+        <VehicleForm defaultValues={regisCertificate} onSubmit={(data) => handleSubmit(data)} />
+      ) : (
+        <>
+          <ImageFileLoading />
+          <ImageFileLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+        </>
+      )}
     </DriverRegisterLayout>
   )
 }

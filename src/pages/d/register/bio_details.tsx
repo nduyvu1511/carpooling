@@ -1,4 +1,4 @@
-import { ImageFileLoading, InputLoading, TextareaLoading, UserInfoForm } from "@/components"
+import { ImageFileLoading, InputLoading, Seo, TextareaLoading, UserInfoForm } from "@/components"
 import { useProfile } from "@/hooks"
 import { DriverEmptyLayout, DriverRegisterLayout } from "@/layout"
 import { UserInfoFormSubmit } from "@/models"
@@ -35,22 +35,22 @@ const BioDetail = () => {
   return (
     <DriverRegisterLayout
       onRightBtnClick={() => router.push("/d/register")}
-      heading="Thông tin người dùng"
+      heading="Thông tin cá nhân"
     >
-      <div className="content-container px-12 md:px-0">
-        {!isValidating ? (
-          <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />
-        ) : (
-          <>
-            <ImageFileLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <InputLoading />
-            <TextareaLoading />
-          </>
-        )}
-      </div>
+      <Seo description="" thumbnailUrl="" title="Thông tin cá nhân" url="/d/register/bio_details" />
+
+      {!isValidating ? (
+        <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />
+      ) : (
+        <>
+          <ImageFileLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <InputLoading />
+          <TextareaLoading />
+        </>
+      )}
     </DriverRegisterLayout>
   )
 }
