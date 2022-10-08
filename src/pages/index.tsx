@@ -50,7 +50,7 @@ const HomeGuest = () => {
         description="Ứng dụng gọi xe đường dài số 1 Việt Nam"
         thumbnailUrl={ogImage}
         title="Ứng dụng đặt xe Exxe"
-        url="https://exxe.vn"
+        url=""
       />
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />

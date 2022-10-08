@@ -42,7 +42,9 @@ export const DriverRegisterLayout = ({
             <span className="w-24"></span>
           </div>
 
-          <div className="px-12 pt-24 pb-12 md:pt-0 md:px-24 md:pb-24 mt-[56px]">{children}</div>
+          <div className="px-12 pt-24 pb-12 md:pt-0 md:px-24 md:pb-24 mt-[56px] md:mt-0">
+            {children}
+          </div>
         </main>
       </section>
     </DriverEmptyLayout>

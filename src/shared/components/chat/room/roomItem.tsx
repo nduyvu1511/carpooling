@@ -4,7 +4,6 @@ import { RootState } from "@/core/store"
 import { getMessageDescription, toFirstUpperCase } from "@/helper"
 import { RoomRes } from "@/models"
 import moment from "moment"
-import "moment/locale/vi"
 import { useSelector } from "react-redux"
 import { Avatar } from "../user/avatar"
 

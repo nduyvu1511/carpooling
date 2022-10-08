@@ -48,7 +48,7 @@ const Activities = () => {
         description="Quản lý hoạt động của bạn"
         thumbnailUrl=""
         title="Hoạt động"
-        url="https://exxe.vn/c/account/activities"
+        url="c/account/activities"
       />
       <div className="px-custom">
         <div className="mb-24">

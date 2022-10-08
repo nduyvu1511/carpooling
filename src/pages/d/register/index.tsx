@@ -1,5 +1,5 @@
 import { ArrowRightIcon, CheckCircleIcon, TrustIcon } from "@/assets"
-import { Alert, HeaderEmpty, HeaderWrapper, ProgressBar, Seo } from "@/components"
+import { Alert, ButtonSubmit, HeaderEmpty, HeaderWrapper, ProgressBar, Seo } from "@/components"
 import { RootState } from "@/core/store"
 import { driverFormFields, isObjectHasValue } from "@/helper"
 import { useFetchFilledDriverFormFields } from "@/hooks"
@@ -17,20 +17,22 @@ const DriverInfo = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
-  const filledDataLength = useMemo(() => {
-    if (!data || !isObjectHasValue(data)) return 0
+  const filledDataCount: { current: number; total: number } = useMemo(() => {
+    if (!data || !isObjectHasValue(data))
+      return {
+        current: 0,
+        total: 0,
+      }
 
-    return (
-      Object.keys(data).reduce((a, b) => a + (data?.[b as FilledDataFieldsKey] ? 1 : 0), 0) || 0
-    )
+    return {
+      total: Object.keys(data).length,
+      current:
+        Object.keys(data).reduce((a, b) => a + (data?.[b as FilledDataFieldsKey] ? 1 : 0), 0) || 0,
+    }
   }, [data])
 
-  const isFilledAllData = useMemo(() => {
-    return filledDataLength === Object.keys(data || {}).length
-  }, [data, filledDataLength])
-
   const handleCreateDriverForm = () => {
-    if (!isFilledAllData) {
+    if (filledDataCount.total && filledDataCount.current < filledDataCount.total) {
       dispatch(notify("Vui lòng nhập đầy đủ thông tin để tiếp tục", "warning"))
       return
     }
@@ -45,7 +47,7 @@ const DriverInfo = () => {
 
       <Seo description="" thumbnailUrl="" title="Đăng ký trỏ thành tài xế" url="/d/register" />
 
-      <div className="min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)] flex flex-col sm:px-custom bg-bg">
+      <div className="driver-register-layout min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)] flex flex-col sm:px-custom bg-white-color md:bg-bg">
         <div className="content-container flex-1 relative sm:my-12 md:my-16 lg:my-24 bg-white-color p-custom pb-12 pt-24 md:py-24 block-element">
           {isInitialLoading ? (
             <>
@@ -83,14 +85,29 @@ const DriverInfo = () => {
               </div>
 
               <div className="mb-24">
-                <ProgressBar
-                  type="dashed"
-                  totalProgressNumber={Object.keys(data || {}).length}
-                  progressNumber={filledDataLength}
-                />
+                <div className="">
+                  <div className="flex items-center justify-between mb-16 ">
+                    <span className="text-base font-semibold">Tiến độ xác nhận </span>
+
+                    <p className="flex items-center">
+                      <span className="text-10 font-medium leading-[18px] text-gray-color-7 mr-8">
+                        Trạng thái
+                      </span>
+                      <span className="text-14 leading-[20px] font-semibold text-green">
+                        {filledDataCount.current}/{filledDataCount.total}
+                      </span>
+                    </p>
+                  </div>
+                  <ProgressBar
+                    showLabel={false}
+                    type="dashed"
+                    totalProgressNumber={filledDataCount.total}
+                    progressNumber={filledDataCount.current}
+                  />
+                </div>
               </div>
 
-              <div className="pb-[78px]">
+              <div className="">
                 {driverFormFields.map((parent, index) => (
                   <div key={index} className="driver__page-body-item">
                     <ul className="driver__body-list">
@@ -128,15 +145,23 @@ const DriverInfo = () => {
               </div>
 
               {userInfo?.verified_car_driver_account !== "inactive_account" ? (
-                <div className="flex-center absolute left-0 right-0 bottom-0 py-16 px-custom">
-                  <button
-                    onClick={handleCreateDriverForm}
-                    className={`btn-primary ${!isFilledAllData ? "btn-not-allowed" : ""}`}
-                  >
-                    Gửi hồ sơ
-                  </button>
-                </div>
-              ) : null}
+                <ButtonSubmit
+                  className="flex-center"
+                  title="Tiếp tục"
+                  view={"page"}
+                  onClick={handleCreateDriverForm}
+                />
+              ) : // <div className="flex-center absolute left-0 right-0 bottom-0 py-16 px-custom">
+              //   <button
+              //     onClick={handleCreateDriverForm}
+              //     className={`btn-primary ${
+              //       filledDataCount.current < filledDataCount.total ? "btn-not-allowed" : ""
+              //     }`}
+              //   >
+              //     Gửi hồ sơ
+              //   </button>
+              // </div>
+              null}
             </>
           )}
         </div>

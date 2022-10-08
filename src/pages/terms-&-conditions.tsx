@@ -18,7 +18,7 @@ const Conditions = () => {
         description="Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn hoạt động trên nền tảng ứng dụng cho thuê xe có tài xế 4-7-16 chỗ, theo mô hình kinh tế chia sẻ trực tuyến. Ra đời vào cuối năm 2022, Exxe mong muốn cung cấp dịch vụ Di chuyển đường dài và các hình thức đa dạng nhằm mang đến những trải nghiệm tốt nhất cho cả khách hàng và cả đối tác của Exxe. Sứ mệnh"
         thumbnailUrl=""
         title="Điều lệ & Điều khoản"
-        url="https://exxe.vn/terms-&-conditions"
+        url="terms-&-conditions"
       />
       <div className="">
         <AccordionItem

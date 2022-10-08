@@ -52,7 +52,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
             return (res as NextApiResponse<Data>).status(200).json({
               result: {
                 message,
-                data: { car_account_type: data.car_account_type },
+                data,
                 success: false,
                 validate_token: true,
                 code,
@@ -69,7 +69,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
           ;(res as NextApiResponse<Data>).status(200).json({
             result: {
               message: "Đăng nhập thành công",
-              data: { car_account_type: data.car_account_type },
+              data,
               success: true,
               validate_token: true,
               code: 200,

@@ -90,7 +90,9 @@ export const RegistrationCetificateForm = ({
               render={({ field: { onChange, onBlur } }) => (
                 <div
                   onBlur={onBlur}
-                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                  className={`form-date form-date-reverse ${
+                    errors?.[field.name] ? "form-date-err" : ""
+                  }`}
                 >
                   <InputDate
                     value={

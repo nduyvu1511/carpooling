@@ -58,7 +58,6 @@ const MyInputDateTime = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-
   // Set time options
   useEffect(() => {
     const times = [...getTimes()]
@@ -149,9 +148,9 @@ const MyInputDateTime = ({
         }`}
       >
         <Datetime
+          renderMonth={(props, month) => <td {...props}>Thg {month + 1}</td>}
           closeOnSelect
           dateFormat="DD/MM/YYYY"
-          locale="vi"
           isValidDate={disablePassDay ? disablePastDt : undefined}
           onChange={(e: any) => {
             const date = moment(e._d).format("YYYY-MM-DD")

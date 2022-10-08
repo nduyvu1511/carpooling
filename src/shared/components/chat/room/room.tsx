@@ -63,7 +63,7 @@ export const Room = forwardRef(function RoomChild(
   }, [roomId])
 
   return (
-    <div className="chat-room flex-1 flex flex-col relative">
+    <div className="chat-room h-full flex-1 flex flex-col relative">
       {showSearch ? (
         <div className="bg-white-color z-10 flex flex-col flex-1">
           <RoomSearch
@@ -75,7 +75,7 @@ export const Room = forwardRef(function RoomChild(
         </div>
       ) : (
         <>
-          <div className="h-[48px] lg:pr-12 mb-24">
+          <div className="h-[48px] lg:pr-12 mb-24 chat-room-search">
             <InputSearch
               attributes={{ placeholder: "Tìm kiếm" }}
               onFocus={() => setShowSearch(true)}
@@ -95,6 +95,7 @@ export const Room = forwardRef(function RoomChild(
                 >
                   {data.data.map((item) => (
                     <RoomItem
+                      className="last:mb-12"
                       isActive={item.room_id === roomId}
                       onSelectRoom={onSelectRoom}
                       key={item.room_id}

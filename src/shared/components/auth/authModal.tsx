@@ -1,48 +1,43 @@
 import { CloseThickIcon } from "@/assets"
-import { AuthBg, LoginForm, Modal, OTP, Register, ResetPassword } from "@/components"
+import { AuthBg, Login, LoginForm, Modal, Register, ResetPassword } from "@/components"
 import { RootState } from "@/core/store"
 import { useAuth } from "@/hooks"
-import { AuthModalType, LoginByOTP, LoginFormParams } from "@/models"
+import { AuthModalType, LoginFormParams, UserInfo } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
+import { notify } from "reapop"
 
 const AuthModal = ({ show }: { show: AuthModalType }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const { loginWithPassword, getUserInfo, loginByOTP } = useAuth()
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
+  const { loginWithPassword, getUserInfo } = useAuth()
 
-  const handleGetUserInfo = () => {
-    getUserInfo((userInfo) => {
-      dispatch(setProfile(userInfo))
-      if (!userInfo?.car_account_type) return
-      router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
-      setTimeout(() => {
-        dispatch(setAuthModalType(undefined))
-      }, 250)
-    })
+  const redirectUser = (userInfo: UserInfo) => {
+    if (!userInfo?.car_account_type) {
+      dispatch(notify("Loại tài khoản không hợp lệ, vui lòng liên hệ với bộ phận CSKH"))
+      return
+    }
+
+    router.push(userInfo?.car_account_type === "car_driver" ? "/d" : "/c")
+    dispatch(setAuthModalType(undefined))
   }
 
   const handleLoginWithPassword = (params: LoginFormParams) => {
     loginWithPassword({
       params,
-      onSuccess: () => handleGetUserInfo(),
-      config: { toggleOverFlow: false },
-    })
-  }
-
-  const handleLoginWithOTP = (params: LoginByOTP) => {
-    loginByOTP({
-      params,
       onSuccess: () => {
-        handleGetUserInfo()
+        getUserInfo((userInfo) => {
+          dispatch(setProfile(userInfo))
+          setTimeout(() => {
+            redirectUser(userInfo)
+          }, 200)
+        })
       },
       config: { toggleOverFlow: false },
     })
   }
-
-  const handleLoginWithGoogle = () => {}
 
   const getModalHeading = (): string => {
     if (authModalType === "login") return "Đăng nhập"
@@ -89,7 +84,6 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
               onClickResetPassword={() => dispatch(setAuthModalType("resetPassword"))}
               onClickLoginSMS={() => dispatch(setAuthModalType("sms"))}
               onClickRegister={() => dispatch(setAuthModalType("register"))}
-              onClickLoginWithGoogle={handleLoginWithGoogle}
             />
           ) : null}
 
@@ -97,15 +91,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
             <ResetPassword view="modal" onSuccess={() => dispatch(setAuthModalType("login"))} />
           ) : null}
 
-          {authModalType === "sms" ? (
-            <OTP
-              view="modal"
-              type="login"
-              onVerifyOTP={(stringee_access_token) => {
-                handleLoginWithOTP({ type: "stringee", stringee_access_token })
-              }}
-            />
-          ) : null}
+          {authModalType === "sms" ? <Login onLoginSuccess={redirectUser} /> : null}
 
           {authModalType === "register" ? (
             <Register
@@ -122,3 +108,4 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
 }
 
 export { AuthModal }
+

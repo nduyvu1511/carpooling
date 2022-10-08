@@ -82,12 +82,6 @@ const userApi = {
     })
   },
 
-  getTokenFromFirebase: (params: Auth) => {
-    return axiosClient.post("/api/user_information_controller/auth", {
-      params,
-    })
-  },
-
   requestOTP: (params: RequestOTPCode) => {
     return axiosClient.post("/api/connect_stringee_controller/send_otp_verification_message", {
       params,
@@ -101,6 +95,13 @@ const userApi = {
   },
 
   loginByOTP: (params: LoginByOTP) => {
+    return axiosClient.post("/api/user_information_controller/auth_otp", {
+      params,
+    })
+  },
+
+  // This didn't assign token to cookie
+  getTokenByOTP: (params: LoginByOTP) => {
     return axiosClient.post("/api/user_information_controller/auth", {
       params,
     })
@@ -119,13 +120,13 @@ const userApi = {
   },
 
   createAttachmentCommon: (params: AttachmentParams) => {
-    return axiosClient.post("/api/user_information_controller/created_attachment_data", {
+    return axiosClient.post("/api/user_information_controller/create_attachment_data", {
       params,
     })
   },
 
   createAttachmentAvatar: (params: AttachmentParams) => {
-    return axiosClient.post("/api/detail_data_controller/created_attachment_data", {
+    return axiosClient.post("/api/detail_data_controller/create_attachment_data", {
       params,
     })
   },

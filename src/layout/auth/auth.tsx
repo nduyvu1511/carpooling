@@ -23,7 +23,7 @@ const AuthLayout = ({ children, headerClassName = "", className = "" }: AuthLayo
   return (
     <>
       <AuthHeader className={headerClassName} />
-      <main className={`bg-bg flex flex-col ${className || "min-h-screen h-full"}`}>
+      <main className={`${className || "bg-bg flex flex-col min-h-[calc(100vh-80px)] h-full"}`}>
         {children}
       </main>
     </>

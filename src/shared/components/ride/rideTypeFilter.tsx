@@ -22,7 +22,7 @@ const RideTypeFilter = ({
   const list = useMemo(() => {
     return carAccountType === "car_driver"
       ? [
-          // { value: "all", label: "Tất cả" },
+          { value: "", label: "Tất cả" },
           { label: "Một chiều", value: "one_way" },
           {
             label: "Hai chiều",
@@ -31,7 +31,7 @@ const RideTypeFilter = ({
           { value: "compounding", label: "Đi ghép" },
         ]
       : [
-          // { value: "all", label: "Tất cả" },
+          { value: "", label: "Tất cả" },
           { label: "Tiện chuyến", value: "convenient" },
           { label: "Ghép chuyến", value: "compounding" },
         ]
@@ -41,17 +41,15 @@ const RideTypeFilter = ({
     <div
       className={`flex items-center justify-between mb-12 sticky xl:static top-[60px] md:top-[80px] bg-white-color z-[1000] mx-[-12px] md:mx-[-16px] lg:mx-[-24px] px-custom py-12`}
     >
-      <div className="flex overflow-auto scrollbar-hide">
+      <div className="flex overflow-auto scrollbar-hide mr-16">
         <p className="text-base hidden md:block font-semibold mr-16">Danh sách chuyến:</p>
 
         {list.map(({ label, value }, index) => (
           <button
-            onClick={() =>
-              onChange?.(itemActive === value ? undefined : (value as CompoundingType))
-            }
+            onClick={() => value !== itemActive && onChange?.(value as CompoundingType)}
             // (value === "all" ? !itemActive || itemActive === "all" : itemActive === value)
-            className={`flex py-6 px-12 rounded-[5px] border border-solid mr-12 last:mr-0 ${
-              itemActive === value ? "bg-bg-blue border-[transparent]" : "border-bg-blue"
+            className={`flex py-6 px-8 xs:px-12 rounded-[5px] border border-solid mr-12 last:mr-0 ${
+              (itemActive || "") === value ? "bg-bg-blue border-[transparent]" : "border-bg-blue"
             }`}
             key={index}
           >
@@ -63,7 +61,7 @@ const RideTypeFilter = ({
       <div className="">
         <button
           onClick={() => onClickShowFilterMobile?.()}
-          className="w-[32px] h-[32px] flex-center sm:hidden"
+          className="w-[32px] h-[32px] flex-center sm:hidden bg-gray-05 rounded-[5px]"
         >
           <FilterIcon />
         </button>

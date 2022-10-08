@@ -80,7 +80,7 @@ export const SuggestionPromotion = () => {
               </SwiperSlide>
             ))
           : data?.map((item) => (
-              <SwiperSlide className="" key={item.promotion_id}>
+              <SwiperSlide className="cursor-pointer" key={item.promotion_id}>
                 <PromotionItem
                   onSave={handleSavePromotion}
                   onClick={(id) => router.push(`/promotion/${id}`)}

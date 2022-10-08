@@ -51,19 +51,9 @@ const CheckoutProcess = ({
     if (vnp_ResponseCode !== "00") return
 
     if (sale_order_id && compounding_car_customer_id) {
-      //   ;(fetcher_type === "confirmDepositCompoundingCarCustomer"
-      //   ? ridesApi.confirmDepositCompoundingCarCustomer
-      //   : ridesApi.customerConfirmPayFullCompoundingCar)({
-      //   // compounding_car_customer_id,
-      //   // payment_method: "transfer",
-      //   compounding_car_customer_id: compounding_car_customer_id,
-      //   payment_method: "transfer",
-      //   sale_order_id,
-      // })
       setValidating(true)
       ridesApi
         .confirmDepositCompoundingCarCustomer({
-          // sale_order_id,
           compounding_car_customer_id,
         })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {

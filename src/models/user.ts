@@ -1,12 +1,18 @@
 import { AttachmentRes, IAttachment, OptionModel, QueryCommonParams } from "./common"
-// import { Socket } from "socket.io-client"
 
 export interface LoginFormParams {
   phone: string
   password: string
 }
 
-export interface LoginRes {
+export type LoginRes = UserInfo & {
+  token: string
+  refresh_token: string
+}
+
+export interface LoginWithPasswordRes {
+  token: string
+  refresh_token: string
   car_account_type: CarAccountType
 }
 
@@ -111,7 +117,7 @@ export interface ChangePasswordParams extends NewPasswordParams {
 }
 
 export interface ResetPasswordParams {
-  firebase_access_token: string
+  stringee_access_token: string
   password: string
   re_password: string
 }
@@ -133,10 +139,6 @@ export interface ChangePasswordFormParams extends NewPasswordParams {
 }
 
 export interface CreatePasswordFormParams extends NewPasswordParams {}
-
-export interface LoginRes {
-  car_account_type: CarAccountType
-}
 
 export interface UserInfoFormAddress {
   country_id?: OptionModel
@@ -508,32 +510,6 @@ export interface LoginParams {
 export interface CreatePasswordParams {
   new_password: string
   confirm_new_password: string
-}
-
-export interface ChangePasswordParams extends CreatePasswordParams {
-  current_password: string
-}
-
-export interface CreatePasswordParams {
-  new_password: string
-  confirm_new_password: string
-}
-
-export interface ChangePasswordParams extends CreatePasswordParams {
-  current_password: string
-}
-
-export type CreatePasswordServiceParams = CreatePasswordParams & {
-  _id: string
-}
-
-export type ChangePasswordServiceParams = ChangePasswordParams & {
-  _id: string
-}
-
-export interface UserData extends UserRes {
-  user_chatted_with_ids: string[]
-  room_joined_ids: string[]
 }
 
 export type FriendStatusRes = {

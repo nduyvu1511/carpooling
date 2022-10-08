@@ -9,7 +9,7 @@ const NotFoundPage = () => {
 
   return (
     <main>
-      <Seo description="" thumbnailUrl="" title="Không tìm thấy đường dẫn" url="" />
+      <Seo description="" thumbnailUrl="" title="Không tìm thấy đường dẫn" url="404" />
       {userInfo?.car_account_type ? <AuthHeader /> : <Header />}
       <div className="flex-center py-[40px] flex-col px-12">
         <NotFoundIcon className="mb-[40px] w-[60%]" />

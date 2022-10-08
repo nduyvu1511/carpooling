@@ -11,12 +11,7 @@ const FrequentlyAskedQuestions = () => {
 
   return (
     <StaticLayout bg={questionBg}>
-      <Seo
-        description="Câu hỏi thường gặp"
-        thumbnailUrl=""
-        title="Câu hỏi thường gặp"
-        url="https://exxe.vn/q&a"
-      />
+      <Seo description="Câu hỏi thường gặp" thumbnailUrl="" title="Câu hỏi thường gặp" url="q&a" />
 
       <div className="question-page">
         <div className="grid lg:grid-cols-grid-330 gap-24">

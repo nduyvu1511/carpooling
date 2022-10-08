@@ -1,6 +1,7 @@
 import { EyeHideIcon, EyeShowIcon } from "@/assets"
 import { FORM_LOGIN_KEY, getFromLocalStorage, loginSchema, setToLocalStorage } from "@/helper"
-import { LoginFormParams } from "@/models"
+import { useAuth } from "@/hooks"
+import { LoginFormParams, UserInfo } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -10,7 +11,6 @@ interface LoginFormProps {
   onClickResetPassword?: Function
   onClickLoginSMS?: Function
   onClickRegister?: Function
-  onClickLoginWithGoogle?: Function
   view?: "page" | "modal"
 }
 
@@ -21,6 +21,7 @@ export const LoginForm = ({
   onClickRegister,
   view,
 }: LoginFormProps) => {
+  const { loginWithPassword } = useAuth()
   const formStorage = getFromLocalStorage(FORM_LOGIN_KEY)
   const [showPw, setShowPw] = useState<boolean>(false)
 

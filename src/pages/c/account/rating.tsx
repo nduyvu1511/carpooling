@@ -56,7 +56,7 @@ const Rating = () => {
           description="Đánh giá của bạn"
           thumbnailUrl=""
           title="Đánh giá của bạn"
-          url="https://exxe.vn/c/rating"
+          url="c/rating"
         />
         <div className="px-custom">
           {isValidating ? (

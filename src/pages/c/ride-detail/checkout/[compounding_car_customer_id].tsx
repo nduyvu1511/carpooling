@@ -127,7 +127,7 @@ const CheckoutCustomer = () => {
         </>
       ) : null}
 
-      {compoundingCar ? (
+      {compoundingCar?.down_payment?.total ? (
         <>
           {modalType === "confirmCheckout" ? (
             <Alert
@@ -138,7 +138,7 @@ const CheckoutCustomer = () => {
               }}
               onClose={() => toggleModal(undefined)}
               title={`Xác nhận thanh toán số tiền ${formatMoneyVND(
-                compoundingCar?.amount_due
+                compoundingCar?.down_payment?.total
               )} cho chuyến đi này`}
               type="info"
             />

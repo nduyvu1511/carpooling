@@ -1,4 +1,6 @@
+import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { CalcDistanceRes, LatLng, UseParams } from "@/models"
+import { useLoadScript } from "@react-google-maps/api"
 
 interface CalcDistanceParams {
   origin: LatLng
@@ -12,30 +14,30 @@ interface Res {
 }
 
 export const useCalcDistance = (): Res => {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    language: "vi",
+  })
+
   const calculateDistanceBetweenTwoCoordinates = (
     _params: UseParams<CalcDistanceParams, CalcDistanceRes>
   ) => {
     const { params, onSuccess, onError } = _params
     const { origin, destination } = params
-    if (!window?.google) return
-
-    console.log({
-      origins: [`${origin.lat},${origin.lng}`],
-      destinations: [`${destination.lat},${destination.lng}`],
-    })
+    if (!isLoaded) return
 
     const service = new google.maps.DistanceMatrixService()
     try {
       service.getDistanceMatrix(
         {
-          origins: [`${origin.lat},${origin.lng}`],
-          destinations: [`${destination.lat},${destination.lng}`],
+          origins: [{ lng: origin.lng, lat: origin.lat }],
+          destinations: [{ lng: destination.lng, lat: destination.lat }],
           travelMode: google.maps.TravelMode.DRIVING,
           // transitOptions: TransitOptions,
           // drivingOptions: google.maps.dri,
           // unitSystem: UnitSystem,
-          avoidHighways: true,
-          avoidTolls: true,
+          // avoidHighways: true,
+          // avoidTolls: true,
         },
         (data) => {
           const value = data?.rows?.[0]?.elements?.[0]

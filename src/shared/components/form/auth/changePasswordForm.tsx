@@ -43,7 +43,7 @@ export const ChangePasswordForm = forwardRef(function Child(
   const onSubmitHandler = (data: ChangePasswordFormParams) => {
     onSubmit(data)
   }
-
+  
   return (
     <form className="form-control" onSubmit={handleSubmit(onSubmitHandler)}>
       {changePasswordFormFields.map((field) => (

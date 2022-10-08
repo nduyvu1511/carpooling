@@ -31,6 +31,7 @@ const InputDate = ({
   return (
     <div className="relative h-full">
       <Datetime
+        renderMonth={(props, month) => <td {...props}>Thg {month + 1}</td>}
         closeOnSelect
         dateFormat="DD/MM/YYYY"
         isValidDate={disablePassDay ? disablePastDt : undefined}

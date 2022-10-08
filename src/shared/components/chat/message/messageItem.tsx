@@ -116,8 +116,9 @@ export const MessageItem = ({
   return (
     <div
       className={`message-item relative flex message-item-${data.message_id} ${
-        data?.attachments?.length || data?.location ? "mb-24" : "mb-4"
-      } ${isLast ? "mb-16" : ""}`}
+        data?.attachments?.length || data?.location || isLast ? "mb-24" : "mb-4"
+      }
+      }`}
     >
       {action === "longpress" ? (
         <MessageOptionModal
@@ -173,7 +174,7 @@ export const MessageItem = ({
               ref={messageOptionMenuRef}
               className={`relative w-fit message-option-absolute message-item-child-${
                 data.message_id
-              } ${data.is_author ? "ml-auto" : ""}`}
+              } ${data.is_author ? "ml-auto" : ""} shadow-sm rounded-[16px]`}
             >
               {!data?.status || data.status === "fulfilled" ? (
                 <MessageOption
@@ -189,7 +190,7 @@ export const MessageItem = ({
               ) : null}
 
               <div
-                className={`min-w-[56px] rounded-[8px] ${
+                className={`min-w-[56px] rounded-[16px] ${
                   isLast || data?.message_text || data?.reaction_count || data?.location
                     ? "p-12 md:p-16"
                     : ""
@@ -208,8 +209,8 @@ export const MessageItem = ({
                     onClick={() =>
                       data.reply_to?.message_id && onClickReplyMsg?.(data.reply_to?.message_id)
                     }
-                    className={`p-12 md:p-16 mb-10 rounded-[8px] min-w-[140px] cursor-pointer flex items-stretch ${
-                      data.is_author ? "bg-[#cddef8]" : "bg-gray-05"
+                    className={`p-12 md:p-16 mb-10 rounded-[16px] min-w-[140px] cursor-pointer flex items-stretch ${
+                      data.is_author ? "bg-blue-20" : "bg-gray-05"
                     }`}
                   >
                     <div className="">
@@ -234,7 +235,7 @@ export const MessageItem = ({
                 {data?.location ? (
                   <div
                     onClick={() => data.location && generateGoogleMapUrl(data.location)}
-                    className="w-[150px] xs:w-[200px] lg:w-[300px] h-[150px] rounded-[8px] overflow-hidden cursor-pointer mb-12"
+                    className="w-[150px] xs:w-[200px] lg:w-[300px] h-[150px] rounded-[16px] overflow-hidden cursor-pointer mb-12"
                   >
                     <Map
                       // markerIcon={data.author?.author_avatar?.thumbnail_url || blankAvatar}
@@ -284,7 +285,7 @@ export const MessageItem = ({
 
               {data?.message_text ? (
                 <div
-                  className={`rounded-[8px] p-12 md:p-16 w-fit min-w-[56px] ${
+                  className={`rounded-[16px] p-12 md:p-16 w-fit min-w-[56px] shadow-shadow-1 ${
                     data.is_author ? "text-primary bg-bg-blue ml-auto" : "text-blue-8 bg-bg"
                   }`}
                 >

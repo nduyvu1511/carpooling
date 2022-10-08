@@ -1,5 +1,4 @@
 import { AccountTypeForm, OTP } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useAuth } from "@/hooks"
 import { CarAccountType } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
@@ -16,23 +15,21 @@ interface RegisterModalProps {
 export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { getTokenFromFirebaseAccessToken, register, setToken: setTokenToCookie } = useAuth()
+  const { getTokenByOTP, register, setToken: setTokenToCookie } = useAuth()
   const [token, setToken] = useState<string>()
 
-  const handleGenerateToken = async (firebase_access_token: string) => {
-    toggleBodyOverflow("hidden")
-    getTokenFromFirebaseAccessToken({
-      params: firebase_access_token,
-      onSuccess: (token) => {
-        setToken(token)
-        toggleBodyOverflow("hidden")
+  const handleGenerateToken = async (stringee_access_token: string) => {
+    getTokenByOTP({
+      params: { stringee_access_token, type: "stringee" },
+      onSuccess: (res) => {
+        setToken(res.token)
       },
-      config: { toggleOverFlow: false },
     })
   }
 
   const handleRegister = async (car_account_type: CarAccountType) => {
     if (!token) return
+
     register({
       params: { car_account_type, token },
       onSuccess: (userInfo) => {
@@ -44,12 +41,9 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
               onSuccess()
             } else {
               dispatch(setAuthModalType(undefined))
-              setTimeout(() => {
-                router.push("/d/register")
-              }, 0)
+              router.push("/d/register")
             }
           },
-          config: { toggleOverFlow: false },
         })
       },
       config: { toggleOverFlow: false },

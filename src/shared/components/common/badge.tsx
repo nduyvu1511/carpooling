@@ -13,9 +13,16 @@ const Badge = ({ count, className = "", size = 14 }: BadgeProps) => {
         width: size,
         height: size,
       }}
-      className={`relative rounded-[50%] text-[8px] font-normal flex-center bg-error text-white-color ${className}`}
+      className={`rounded-[50%] font-medium text-[8px] flex-center bg-error text-white-color ${className}`}
     >
-      {count > 9 ? `9+` : count}
+      {count > 9 ? (
+        <>
+          <span>9</span>
+          <span className="text-[6px]">+</span>
+        </>
+      ) : (
+        count
+      )}
     </div>
   )
 }

@@ -25,7 +25,7 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
       setValidating(false)
       const data = res?.result?.data || []
       setStations(data)
-      if (station?.station_id !== data?.[0]?.station_id) {
+      if (station?.province_id !== data?.[0]?.province_id?.province_id) {
         setStation(undefined)
       }
     } catch (error) {
@@ -74,33 +74,29 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
           />
         </div>
 
-        <>
-          {isValidating ? (
-            <Spinner size={28} className="py-[40px]" />
-          ) : stations === undefined ? (
-            <div className="py-[20px] flex-center">
-              <span className="text-14 text-gray-color-3 font-medium">Vui lòng chọn tỉnh</span>
-            </div>
-          ) : isArray(stations) && stations?.length === 0 ? (
-            <div className="py-[20px] flex-center">
-              <span className="text-14 text-gray-color-3 font-medium">Không tìm thấy trạm nào</span>
-            </div>
-          ) : stations?.length > 0 ? (
-            <ul className="py-custom flex-1 overflow-y-auto">
-              {stations.map((item, index) => (
-                <li className="mb-16 last:mb-0" key={index}>
-                  <StationItem
-                    station={item}
-                    onChange={(station) => {
-                      setStation(station)
-                    }}
-                    isActive={station?.station_id === item.station_id}
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </>
+        {isValidating ? (
+          <Spinner size={24} className="py-[40px]" />
+        ) : stations === undefined ? (
+          <div className="py-[20px] flex-center">
+            <span className="text-14 text-gray-color-3 font-medium">Vui lòng chọn tỉnh</span>
+          </div>
+        ) : isArray(stations) && stations?.length === 0 ? (
+          <div className="py-[20px] flex-center">
+            <span className="text-14 text-gray-color-3 font-medium">Không tìm thấy trạm nào</span>
+          </div>
+        ) : stations?.length > 0 ? (
+          <ul className="py-custom flex-1 overflow-y-auto">
+            {stations.map((item, index) => (
+              <li className="mb-16 last:mb-0" key={index}>
+                <StationItem
+                  station={item}
+                  onChange={setStation}
+                  isActive={station?.station_id === item.station_id}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
 
       {/* Footer */}

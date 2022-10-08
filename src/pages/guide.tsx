@@ -11,12 +11,7 @@ const Guide = () => {
       subHeading="Hướng dẫn"
       heading="Trải nghiệm các dịch vụ của chúng tôi"
     >
-      <Seo
-        description="Hướng dẫn đặt xe"
-        thumbnailUrl=""
-        title="Hướng dẫn đặt xe"
-        url="https://exxe.vn/guide"
-      />
+      <Seo description="Hướng dẫn đặt xe" thumbnailUrl="" title="Hướng dẫn đặt xe" url="guide" />
       <GuideCom type={router.query?.type || ("customer" as any)} />
     </StaticLayout>
   )

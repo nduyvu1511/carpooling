@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ResponseType } from "@/models"
 import Cookies from "cookies"
-import httpProxy, { ProxyResCallback } from "http-proxy"
+import httpProxy from "http-proxy"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 export const config = {

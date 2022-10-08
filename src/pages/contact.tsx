@@ -30,12 +30,7 @@ const Contact = () => {
 
   return (
     <StaticLayout bg={contactBg}>
-      <Seo
-        description="Liên hệ với chúng tôi"
-        thumbnailUrl=""
-        title="Liên hệ"
-        url="https://exxe.vn/contact"
-      />
+      <Seo description="Liên hệ với chúng tôi" thumbnailUrl="" title="Liên hệ" url="contact" />
       <div className="flex flex-col md:flex-row mb-[80px]">
         <div className="flex-1 mb-24 md:mb-0 md:mr-24 flex flex-col items-center md:items-start">
           <h4 className="h4 mb-[40px] text-blue-7 font-semibold md:font-medium">

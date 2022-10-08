@@ -12,7 +12,7 @@ const ProfilePage = () => {
           description="Thông tin cá nhân"
           thumbnailUrl=""
           title="Thông tin cá nhân"
-          url="https://exxe.vn/c/account/profile"
+          url="c/account/profile"
         />
         <div className="content-container px-12 md:px-0 pb-[64px] md:pb-0">
           <Profile type="customer" />

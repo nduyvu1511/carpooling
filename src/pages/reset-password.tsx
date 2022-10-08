@@ -1,5 +1,5 @@
 import { ArrowLeftIcon } from "@/assets"
-import { HeaderMobile, ResetPassword } from "@/components"
+import { HeaderMobile, ResetPassword, Seo } from "@/components"
 import { AuthLayout } from "@/layout"
 import { useRouter } from "next/router"
 import { useSelector } from "react-redux"
@@ -10,22 +10,26 @@ const ResetPasswordP = () => {
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
   return (
-    <AuthLayout headerClassName="hidden lg:flex">
-      <HeaderMobile className="lg:hidden" title="Đặt lại mật khẩu" />
-      <section className="reset-password-page lg:py-24 bg-white-color lg:bg-[transparent] min-h-[calc(100vh-56px)] lg:min-h-[unset] pt-[56px]">
-        <div className="content-container lg:block-element py-24 px-12 md:p-24">
-          <div className="hidden lg:flex items-center mb-24">
-            <button onClick={() => router.back()} className="flex-center mr-24">
-              <ArrowLeftIcon />
-            </button>
-            <h3 className="md:font-medium md:normal-case md:h4">Đặt lại mật khẩu</h3>
-          </div>
-          <ResetPassword
-            view="page"
-            defaultPhoneNumber={userInfo?.phone}
-            onSuccess={() => router.push(router.query.next as string)}
-          />
+    <AuthLayout
+      headerClassName="hidden md:flex"
+      className="bg-white-color sm:bg-white-color md:bg-bg min-h-[100vh] md:min-h-[calc(100vh-80px)] py-24"
+    >
+      <Seo description="" thumbnailUrl="" title="Đặt lại mật khẩu" url="reset-password" />
+      <HeaderMobile className="md:hidden" title="Đặt lại mật khẩu" />
+
+      <section className="reset-password-page md:py-24 content-container bg-white-color mt-[56px] md:mt-0 px-12 md:px-24 block-element">
+        <div className="hidden md:flex items-center mb-24">
+          <button onClick={() => router.back()} className="flex-center mr-24">
+            <ArrowLeftIcon />
+          </button>
+          <h3 className="md:font-medium md:normal-case md:h4">Đặt lại mật khẩu</h3>
         </div>
+
+        <ResetPassword
+          view="page"
+          defaultPhoneNumber={userInfo?.phone}
+          onSuccess={() => router.push(router.query.next as string)}
+        />
       </section>
     </AuthLayout>
   )

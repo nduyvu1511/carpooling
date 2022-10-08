@@ -51,7 +51,7 @@ export const UsersLikedMessageModal = ({ messageId }: Props) => {
       <>
         {data ? (
           <div className="flex-1 bg-gray-05 border-b border-solid border-border-color">
-            <div className="flex items-center border-b border-solid border-border-color px-16 w-full overflow-x-auto">
+            <div className="flex items-center border-b border-solid border-border-color px-16 pb-1 w-full overflow-x-auto">
               {Object.entries(data).map(([key]) => (
                 <button
                   key={key}

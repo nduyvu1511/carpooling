@@ -3,11 +3,12 @@ import {
   blankAvatar,
   CarpoolingIcon,
   LogoIcon,
+  MessageIcon,
   OneWayIcon,
   QuestionIcon,
   TwoWayIcon,
 } from "@/assets"
-import { BookingModal, HeaderWrapper } from "@/components"
+import { Badge, BookingModal, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
 import { COMPOUNDING_TYPE_BG, toggleBodyOverflow, toImageUrl } from "@/helper"
 import { useBackRouter } from "@/hooks"
@@ -25,7 +26,8 @@ interface AuthHeaderProps {
 
 const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
   const router = useRouter()
-  const { userInfo } = useSelector((state: RootState) => state.userInfo)
+  const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
+  const msgUnreadCount = useSelector((state: RootState) => state.userInfo.msgUnreadCount)
   const [bookingType, setBookingType] = useState<CompoundingType | undefined>()
 
   const toggleBookingModal = (status: CompoundingType | undefined) => {
@@ -83,7 +85,6 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     <span className="sm:hidden text-blue-7">Đặt chuyến</span>
                   </p>
                 </button>
-
                 {userInfo?.car_account_type === "customer" ? (
                   <ul className="mr-[40px] hidden lg:flex">
                     {[
@@ -118,6 +119,40 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                   </ul>
                 ) : null}
 
+                <div className="flex items-center mr-12 md:mr-16">
+                  <div className="relative">
+                    <button
+                      onClick={() => {
+                        router.push("/chat")
+                      }}
+                      className={`w-[32px] h-[32px] flex-center rounded-[8px] ${
+                        router.pathname === "/chat" ? "bg-bg-blue" : ""
+                      }`}
+                    >
+                      <div className="relative">
+                        {msgUnreadCount ? (
+                          <Badge
+                            size={13}
+                            count={msgUnreadCount || 0}
+                            className="absolute top-[-2px] right-[-2px]"
+                          />
+                        ) : null}
+                        <MessageIcon />
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* <div className="relative">
+                    <button className="w-[32px] h-[32px] flex-center bg-bg-blue rounded-[8px]">
+                      <div className="relative">
+                        <Badge size={13} count={8} className="absolute top-[-2px] right-[-2px]" />
+                        <NotificationIcon />
+                      </div>
+                    </button>
+
+                    <NotificationPopup className="right-0" />
+                  </div> */}
+                </div>
                 <div className="flex items-center">
                   <div className="mr-24 hidden">
                     <Link passHref href="/guide">
@@ -150,6 +185,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                         className="rounded-[50%]"
                       />
                     </div>
+
                     <div className="hidden sm:block ml-8 flex-1">
                       <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
                         {userInfo?.partner_name}

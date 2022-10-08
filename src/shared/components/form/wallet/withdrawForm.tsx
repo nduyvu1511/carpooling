@@ -1,8 +1,7 @@
 import { TrustIcon, WarningIcon } from "@/assets"
-import { toggleBodyOverflow, withdrawSchema } from "@/helper"
+import { withdrawSchema } from "@/helper"
 import { WithdrawFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import NumberFormat from "react-number-format"
 

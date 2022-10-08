@@ -8,7 +8,6 @@ import {
 import { useBreakpoint } from "@/hooks"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { useRef, useState } from "react"
 import { Autoplay, Pagination } from "swiper"
 import "swiper/css"

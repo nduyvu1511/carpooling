@@ -19,7 +19,7 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
   const handleResetPassword = (params: { password: string; re_password: string }) => {
     if (!token) return
     resetPassword({
-      params: { ...params, firebase_access_token: token },
+      params: { ...params, stringee_access_token: token },
       onSuccess: () => {
         onSuccess?.()
       },

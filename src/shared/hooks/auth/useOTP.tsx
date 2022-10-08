@@ -2,13 +2,6 @@ import { RequestOTPCode, UseParams, VerifyOTPCode } from "@/models"
 import { userApi } from "@/services"
 import { useFetcher } from "../async"
 
-declare global {
-  interface Window {
-    recaptchaVerifier: any
-    confirmationResult: any
-  }
-}
-
 interface UseOTPRes {
   verifyOTPCode: (_: UseParams<VerifyOTPCode, any>) => void
   requestOTPCode: (_: UseParams<RequestOTPCode, any>) => void

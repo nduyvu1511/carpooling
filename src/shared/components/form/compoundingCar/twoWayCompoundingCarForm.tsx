@@ -194,7 +194,7 @@ export const TwoWayCompoundingForm = ({
       onSubmit={handleSubmit((data) => {
         onSubmitHandler({ ...data })
       })}
-      className=""
+      className="two-way-form"
     >
       <div className="">
         <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>

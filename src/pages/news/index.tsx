@@ -13,7 +13,7 @@ const NewsPage = () => {
         description="Ứng dụng gọi xe đường dài số 1 Việt Nam"
         thumbnailUrl=""
         title="Tin tức Exxe"
-        url="https://exxe.vn/news"
+        url="news"
       />
       <News />
     </StaticLayout>

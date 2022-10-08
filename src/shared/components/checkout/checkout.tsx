@@ -1,11 +1,10 @@
-import { Alert, RideCancelForm, RideToolTip, WalletBalanceAlert, CheckoutInfo } from "@/components"
+import { Alert, CheckoutInfo, RideCancelForm, RideToolTip, WalletBalanceAlert } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
-import { useCompoundingCar, useCompoundingCarActions, usePayment } from "@/hooks"
+import { useCompoundingCarActions, usePayment } from "@/hooks"
 import {
   CancelRideParams,
   CompoundingCarCustomer,
-  CompoundingCarCustomerState,
   CompoundingCarDriverRes,
   IDepositSummaryOptional,
   PaymentRes,
@@ -231,12 +230,12 @@ const Checkout = ({
       ) : null}
 
       {/* Confirm payment by wallet */}
-      {modalType == "confirmWallet" ? (
+      {modalType === "confirmWallet" && checkoutData.down_payment?.total ? (
         <Alert
           show={modalType === "confirmWallet"}
           onClose={() => toggleModal(undefined)}
           title={`Xác nhận thanh toán số tiền ${formatMoneyVND(
-            data?.down_payment?.total || 0
+            checkoutData.down_payment?.total
           )} bằng ví EXXE`}
           onConfirm={handleConfirmCompoundingCar}
           type="info"

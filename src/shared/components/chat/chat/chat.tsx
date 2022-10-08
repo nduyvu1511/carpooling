@@ -17,12 +17,12 @@ import {
   setCurrentTyping,
   setSocketInstance,
 } from "@/modules"
-import { useEffect, useRef, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import io, { Socket } from "socket.io-client"
 import { Room, RoomDetail } from "../room"
 
-export const Chat = () => {
+export const Chat = memo(function _Chat() {
   const dispatch = useDispatch()
   const socketIo = useRef<Socket>()
   const roomDetailRef = useRef<RoomDetailFunctionHandler>(null)
@@ -144,9 +144,13 @@ export const Chat = () => {
   if (!isConnected) return <Spinner size={36} />
 
   return (
-    <section className="grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 lg:gap-24 overflow-hidden flex-1">
+    <section
+      className={`chat-wrapper ${
+        currentRoomId ? "chat-joined-room" : ""
+      } grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 lg:gap-24 overflow-hidden h-fmull flex-1`}
+    >
       <aside
-        className={`block-element py-[18px] px-12 lg:p-24 lg:pr-12 flex-col ${
+        className={`chat-room block-element py-[18px] px-12 lg:p-24 lg:pr-12 flex-col ${
           currentRoomId ? "hidden md:flex" : "flex"
         }`}
       >
@@ -154,7 +158,7 @@ export const Chat = () => {
       </aside>
 
       <div
-        className={`block-element overflow-hidden flex-col ${
+        className={`chat-message block-element overflow-hidden flex-col ${
           !currentRoomId ? "hidden md:flex" : "flex"
         }`}
       >
@@ -162,4 +166,4 @@ export const Chat = () => {
       </div>
     </section>
   )
-}
+})

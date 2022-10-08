@@ -175,6 +175,7 @@ export const CarpoolingCompoundingForm = ({
   return (
     <>
       <form
+        className="carpooling-form"
         onSubmit={handleSubmit((data) => {
           onSubmitHandler(data)
         })}
@@ -260,12 +261,12 @@ export const CarpoolingCompoundingForm = ({
           />
 
           {mode === "create" && durationDistance?.[0] ? (
-            <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
+            <div className="mt-[4px] text-xs leading-[22px] font-normal  flex items-center flex-wrap">
               {durationDistance?.[0] ? (
-                <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
+                <p className="mr-12">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
               ) : null}
               {durationDistance?.[1] ? (
-                <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
+                <p className="mr-12">Thời gian: {getHoursName(durationDistance?.[1])}</p>
               ) : null}
               {durationDistance?.[2] ? (
                 <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>

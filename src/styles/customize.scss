@@ -100,7 +100,7 @@
   }
 
   .block-element {
-    @apply bg-white-color rounded-[5px] md:shadow-shadow-1;
+    @apply bg-white-color rounded-[5px] shadow-shadow-base;
   }
 
   .h1 {
@@ -327,6 +327,7 @@
     & .rdtPicker {
       border-radius: 8px;
       min-width: 300px;
+      height: 330px;
       max-width: 400px;
       width: 100%;
       left: -15px;
@@ -346,7 +347,21 @@
       height: 40px;
     }
   }
+
+  &-reverse {
+    & .rdtPicker {
+      top: -334px;
+    }
+  }
 }
+
+// .one-way-form,
+// .two-way-form,
+// .carpooling-form {
+//   & .rdtPicker {
+//     top: -334px;
+//   }
+// }
 
 .form-select {
   & .css-b62m3t-container {
@@ -812,29 +827,27 @@
 }
 
 .reset-password-page {
-  .reset-password-page {
-    & .phone-form-btn {
-      justify-content: center;
+  & .phone-form-btn {
+    justify-content: center;
+    @media screen and (min-width: 640px) {
+      justify-content: start;
+    }
+
+    & .btn-submit-fixed {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      width: calc(100% - 24px);
+      margin: auto;
+
       @media screen and (min-width: 640px) {
-        justify-content: start;
+        width: unset;
       }
 
-      & .btn-submit-fixed {
-        position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
-        width: calc(100% - 24px);
-        margin: auto;
-
-        @media screen and (min-width: 640px) {
-          width: unset;
-        }
-
-        @media screen and (min-width: 768px) {
-          position: static;
-          margin: unset;
-        }
+      @media screen and (min-width: 768px) {
+        position: static;
+        margin: unset;
       }
     }
   }
@@ -842,14 +855,15 @@
 
 .driver-register-layout {
   padding-bottom: 72px;
-  @media screen and (min-width: 768px) {
-    // padding-bottom: 92px;
-  }
 
   .btn-submit {
     margin-top: 40px;
     padding: 12px;
     position: fixed;
+
+    & button {
+      margin-inline: auto;
+    }
 
     @media screen and (min-width: 768px) {
       position: static;
@@ -858,10 +872,6 @@
       bottom: 0;
       padding: 0;
     }
-
-    // @media screen and (min-width: 768px) {
-    //   padding: 16px;
-    // }
   }
 }
 
@@ -1252,42 +1262,61 @@ input[type="number"] {
 }
 
 .chat-page {
-  & .chat-room,
-  & .chat-message {
-    &-list {
-      overflow: auto;
-      max-height: calc(100vh - 280px);
-    }
-  }
-}
-
-.chat-page {
   & .chat-room {
     &-list {
-      max-height: calc(100vh - 160px);
-    }
+      max-height: calc(100vh - 152px);
 
-    &-search {
-      max-height: calc(100vh - 168px);
+      @media screen and(min-width: 768px) {
+        max-height: calc(100vh - 218px);
+      }
+
+      @media screen and(min-width: 1024px) {
+        max-height: calc(100vh - 258px);
+      }
     }
   }
-
   & .chat-message {
     &-list {
-      max-height: calc(100vh - 170px);
-      // max-height: calc(100vh - 154px);
-      // @media screen and(min-width: 768px) {
-      //   max-height: calc(100vh - 170px);
-      // }
+      max-height: calc(100vh - 192px);
 
-      & .infinite-scroll-component__outerdiv {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+      @media screen and(min-width: 768px) {
+        max-height: calc(100vh - 242px);
+      }
+
+      @media screen and(min-width: 1024px) {
+        max-height: calc(100vh - 258px);
       }
     }
   }
 }
+
+// .chat-page {
+//   & .chat-room {
+//     &-list {
+//       max-height: calc(100vh - 160px);
+//     }
+
+//     &-search {
+//       max-height: calc(100vh - 168px);
+//     }
+//   }
+
+//   & .chat-message {
+//     &-list {
+//       max-height: calc(100vh - 170px);
+//       // max-height: calc(100vh - 154px);
+//       // @media screen and(min-width: 768px) {
+//       //   max-height: calc(100vh - 170px);
+//       // }
+
+//       & .infinite-scroll-component__outerdiv {
+//         flex: 1;
+//         display: flex;
+//         flex-direction: column;
+//       }
+//     }
+//   }
+// }
 
 .modal-profile {
   & .modal-sm {

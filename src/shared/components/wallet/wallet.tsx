@@ -277,8 +277,8 @@ const Wallet = () => {
           heading="Giao dịch"
         >
           <Transaction
-            onRechargeFormSubmit={(data) => handleCreateRechargeRequest(data)}
-            onWithdrawFormSubmit={(data) => handleMakeWithdrawRequest(data)}
+            onRechargeFormSubmit={handleCreateRechargeRequest}
+            onWithdrawFormSubmit={handleMakeWithdrawRequest}
             accountBalance={transactions?.journal?.[1]?.remains_amount || 0}
           />
         </Modal>

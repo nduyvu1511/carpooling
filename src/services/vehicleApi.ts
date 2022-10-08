@@ -1,4 +1,5 @@
-import { GetPriceUnitParams } from "@/models"
+import { GetPriceUnitParams, StationRes } from "@/models"
+import { AxiosResponse } from "axios"
 import axiosClient from "."
 
 const vehicleApi = {
@@ -32,7 +33,7 @@ const vehicleApi = {
     })
   },
 
-  getPickUpStations: (province_id: number) => {
+  getPickUpStations: (province_id: number): Promise<AxiosResponse<StationRes[]>> => {
     return axiosClient.post("/api/address_controller/get_pick_up_station", {
       params: {
         province_id,

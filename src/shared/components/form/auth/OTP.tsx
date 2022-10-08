@@ -4,13 +4,6 @@ import { ReactNode, useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
-declare global {
-  interface Window {
-    recaptchaVerifier: any
-    confirmationResult: any
-  }
-}
-
 interface LoginOtpProps {
   onVerifyOTP: (token: string) => void
   type?: "register" | "login" | "resetPassword"
@@ -35,34 +28,12 @@ export const OTP = ({
   const [phone, setPhone] = useState<string>(defaultPhoneNumber)
   const { requestOTPCode, verifyOTPCode } = useOTP()
 
-  // // Generate OTP input
-  // const generateOTPCode = async (phoneNumber: string) => {
-  //   if (!phoneNumber) return
-
-  //   dispatch(setScreenLoading({ show: true, toggleOverFlow: view === "page" }))
-  //   const verify: ApplicationVerifier = generateRecaptcha()
-  //   try {
-  //     const confirmationResult = await signInWithPhoneNumber(
-  //       authentication,
-  //       `+84${phoneNumber.slice(1)}`,
-  //       verify
-  //     )
-  //     dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
-  //     setPhone(phoneNumber)
-  //     window.confirmationResult = confirmationResult
-  //     setExpandForm(true)
-  //   } catch (error) {
-  //     dispatch(setScreenLoading({ show: false, toggleOverFlow: view === "page" }))
-  //     generateRecaptcha().clear()
-  //     console.log("error goes here")
-  //   }
-  // }
-
   const handleGenerateOTPCode = (phone: string) => {
     requestOTPCode({
       params: { phone },
-      onSuccess: (res) => {
+      onSuccess: () => {
         setExpandForm(true)
+        sessionStorage.setItem("phoneNumberInput", phone)
       },
     })
   }
@@ -78,53 +49,40 @@ export const OTP = ({
   }
 
   const onGenerateOTPCode = (phone: string) => {
-    requestOTPCode({
-      params: { phone },
-      onSuccess: (res) => {
-        setExpandForm(true)
-      },
-    })
+    setPhone(phone)
 
-    if (type === undefined) {
-      // generateOTPCode(phone)
-      return
+    if (!type) {
+      handleGenerateOTPCode(phone)
+    } else {
+      checkPhoneExist({
+        params: { phone, type },
+        onSuccess: () => {
+          handleGenerateOTPCode(phone)
+        },
+        onError: () => {
+          if (type === "register") {
+            dispatch(notify("SĐT đã tồn tại, vui lòng đăng nhập!", "warning"))
+            onRedirectToLogin?.()
+          } else if (type === "login") {
+            dispatch(notify("Không tìm thấy SĐT, vui lòng đăng ký", "warning"))
+          }
+        },
+        config: { toggleOverFlow: view === "page" },
+      })
     }
-
-    checkPhoneExist({
-      params: { phone, type },
-      onSuccess: () => {
-        // generateOTPCode(phone)
-      },
-      onError: () => {
-        if (type === "register") {
-          dispatch(notify("SĐT đã tồn tại, vui lòng thử đăng nhập!", "warning"))
-          onRedirectToLogin?.()
-        } else if (type === "login") {
-          dispatch(notify("Không tìm thấy SĐT, vui lòng thử lại", "warning"))
-        }
-      },
-      config: { toggleOverFlow: view === "page" },
-    })
   }
 
   return (
     <>
       {!expandForm ? (
-        <PhoneForm
-          phone={phone}
-          onSubmit={(phone) => {
-            handleGenerateOTPCode(phone)
-            setPhone(phone)
-          }}
-        >
+        <PhoneForm phone={phone} onSubmit={onGenerateOTPCode}>
           {children}
         </PhoneForm>
       ) : (
         <div className="otp__form">
           <OtpForm
-            reGenerateRecaptcha={() => {
+            resendOTPCode={() => {
               setExpandForm(false)
-              // generateRecaptcha().clear()
             }}
             phoneNumber={phone || ""}
             onSubmit={(val) => handleVerifyOTP(val)}

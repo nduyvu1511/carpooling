@@ -51,10 +51,7 @@ const DrivingLicenseForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       {drivingLicenseFormFields.map((field) => (
-        <div
-          key={field.name}
-          className={`form-item ${field.name === "date_of_expiry" ? "mb-40" : ""}`}
-        >
+        <div key={field.name} className="form-item">
           <label htmlFor={field.name} className="form-label">
             {field.placeholder}{" "}
             {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
@@ -138,7 +135,9 @@ const DrivingLicenseForm = ({
               render={({ field: { onChange, onBlur } }) => (
                 <div
                   onBlur={onBlur}
-                  className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
+                  className={`form-date form-date-reverse ${
+                    errors?.[field.name] ? "form-date-err" : ""
+                  }`}
                 >
                   <InputDate
                     value={getValues(field.name) + ""}

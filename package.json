@@ -21,7 +21,6 @@
     "axios": "^0.27.2",
     "cookies": "^0.8.0",
     "emoji-picker-react": "4.0.3",
-    "firebase": "^9.8.1",
     "formik": "^2.2.9",
     "http-proxy": "^1.18.1",
     "mem": "^9.0.2",

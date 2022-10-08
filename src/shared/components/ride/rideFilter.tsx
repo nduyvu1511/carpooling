@@ -2,11 +2,11 @@ import {
   compoundingCustomerOrderList,
   compoundingOrderList,
   isArrayHasValue,
-  isObjectHasValue,
+  isObjectHasValue
 } from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
 import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
 import { InputDate } from "../inputs"
@@ -45,6 +45,11 @@ export const RideFilter = ({
     onChangeProps({ ...compoundingFormValues, ...params })
   }
 
+  const hasValue = useMemo(() => {
+    if (!compoundingFormValues || !isObjectHasValue(compoundingFormValues)) return false
+    return Object.keys(compoundingFormValues).some((key) => !!(compoundingFormValues as any)?.[key])
+  }, [compoundingFormValues])
+
   return (
     <div className="ride__filter-wrapper relative flex-1 flex-col flex">
       <div
@@ -54,7 +59,7 @@ export const RideFilter = ({
       >
         <div className="items-center justify-between mb-[24px] hidden xl:flex">
           <p className="text-xl">Bộ lọc</p>
-          {isObjectHasValue(compoundingFormValues) ? (
+          {hasValue ? (
             <span
               onClick={() => {
                 onChangeProps(undefined)
@@ -260,7 +265,7 @@ export const RideFilter = ({
                 onCloseFilter?.()
               }}
               className={`text-sm mr-12 text-primary h-[48px] py-[14px] md:mr-0 md:mt-12 flex-1 rounded-[5px] w-full ${
-                !isObjectHasValue(defaultValues) ? "btn-disabled" : ""
+                !hasValue ? "btn-disabled" : ""
               }`}
             >
               Đặt lại

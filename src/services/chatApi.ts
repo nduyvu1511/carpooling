@@ -10,7 +10,7 @@ import {
   SendMessage,
   UpdateRoomInfo,
 } from "@/models"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import mem from "mem"
 
 const axiosClient = axios.create({
@@ -75,6 +75,10 @@ const chatApi = {
 
   getProfile: (id?: string) => {
     return axiosClient.get(`/chat/user/profile${id ? `?user_id=${id}` : ""}`)
+  },
+
+  getMessageUnreadCount: (): Promise<AxiosResponse<{ message_unread_count: number }>> => {
+    return axiosClient.get("/chat/user/message_unread_count")
   },
 
   getRoomList: ({

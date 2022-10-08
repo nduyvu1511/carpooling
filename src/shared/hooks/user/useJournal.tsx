@@ -4,7 +4,6 @@ import {
   CreateRechargeRequestParams,
   Journal,
   JournalFilterDate,
-  JournalRes,
   MakeWithdrawingRequestParams,
   TransactionRes,
   UseParams,

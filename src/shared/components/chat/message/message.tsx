@@ -34,7 +34,7 @@ export const Message = ({
     >
       <InfiniteScroll
         inverse
-        className="p-12 lg :p-24 lg :pr-12"
+        className="p-custom lg:p-16"
         scrollableTarget="messageScrollable"
         loader={null}
         hasMore={data.has_more}

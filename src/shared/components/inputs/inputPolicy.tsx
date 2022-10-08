@@ -73,7 +73,7 @@ const InputPolicy = ({ onChange, value, isError }: InputPolicyProps) => {
               </a>
             </Link>{" "}
             &{" "}
-            <Link href="/terms-&-conditions">
+            <Link href="/private-policy">
               <a target="_blank" className="text-active font-semibold">
                 Chính sách bảo mật.
               </a>

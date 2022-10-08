@@ -5,10 +5,10 @@ import OtpInput from "react-otp-input"
 interface PhoneFormProps {
   phoneNumber: string
   onSubmit: (otpCode: string) => void
-  reGenerateRecaptcha?: Function
+  resendOTPCode?: Function
 }
 
-export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFormProps) => {
+export const OtpForm = ({ phoneNumber, onSubmit, resendOTPCode }: PhoneFormProps) => {
   const [otpVal, setOtpVal] = useState<string>("")
 
   return (
@@ -38,7 +38,7 @@ export const OtpForm = ({ phoneNumber, onSubmit, reGenerateRecaptcha }: PhoneFor
       </div>
 
       <div className="mb-[40px]">
-        <OtpSecondsRemains onChange={reGenerateRecaptcha} />
+        <OtpSecondsRemains onChange={resendOTPCode} />
       </div>
 
       <button
