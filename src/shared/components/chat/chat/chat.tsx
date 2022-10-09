@@ -55,7 +55,7 @@ export const Chat = memo(function _Chat() {
     // if (!access_token) return
 
     // Connect to socket
-    const socket = io("http://localhost:8080", {
+    const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
       query: {
         access_token:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ",
@@ -147,10 +147,10 @@ export const Chat = memo(function _Chat() {
     <section
       className={`chat-wrapper ${
         currentRoomId ? "chat-joined-room" : ""
-      } grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 lg:gap-24 overflow-hidden h-fmull flex-1`}
+      } grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 lg:gap-24 overflow-hidden h-full flex-1`}
     >
       <aside
-        className={`chat-room block-element py-custom pl-custom pr-8 flex-col ${
+        className={`chat-room block-element pt-custom pl-custom flex-col ${
           currentRoomId ? "hidden md:flex" : "flex"
         }`}
       >

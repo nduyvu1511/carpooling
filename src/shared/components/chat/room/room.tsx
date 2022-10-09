@@ -75,7 +75,7 @@ export const Room = forwardRef(function RoomChild(
         </div>
       ) : (
         <>
-          <div className="h-[48px] lg:pr-12 mb-24 chat-room-search">
+          <div className="h-[48px] pr-12 md:pr-16 lg:pr-24 mb-12 md:mb-16 lg:mb-24 chat-room-search">
             <InputSearch
               attributes={{ placeholder: "Tìm kiếm" }}
               onFocus={() => setShowSearch(true)}
@@ -83,8 +83,8 @@ export const Room = forwardRef(function RoomChild(
           </div>
 
           {data && data?.data?.length > 0 ? (
-            <div className="flex-1 flex flex-col chat-room-list">
-              <div className="flex-1 overflow-y-auto pr-8" id="scrollableDiv">
+            <div className="flex-1 flex flex-col chat-room-list pr-8">
+              <div className="flex-1 overflow-y-auto pr-12 md:pr-8" id="scrollableDiv">
                 <InfiniteScroll
                   scrollableTarget="scrollableDiv"
                   loader={isFetchingMore ? <Spinner /> : null}

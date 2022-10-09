@@ -14,7 +14,7 @@ import axios, { AxiosResponse } from "axios"
 import mem from "mem"
 
 const axiosClient = axios.create({
-  baseURL: `http://localhost:5000/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api`,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

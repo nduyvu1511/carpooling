@@ -72,11 +72,11 @@ export const RoomSearch = ({
           ) : (
             <>
               {data?.data?.length ? (
-                <div id="scrollableDiv" className="chat-room-search overflow-y-auto pr-12 flex-1">
+                <div id="scrollbarRoomSearch" className="chat-room-search overflow-y-auto flex-1">
                   <p className="text-sm font-semibold mb-16">Kết quả tìm kiếm ({data.total})</p>
 
                   <InfiniteScroll
-                    scrollableTarget="scrollableDiv"
+                    scrollableTarget="scrollbarRoomSearch"
                     className="mt-16"
                     hasMore={data?.has_more}
                     dataLength={data.data.length}
@@ -109,7 +109,7 @@ export const RoomSearch = ({
             </>
           )
         ) : (
-          <div className="chat-room-search overflow-y-auto pr-12 flex-1">
+          <div className="chat-room-search overflow-y-auto flex-1">
             <p className="text-sm font-semibold mb-8">Tìm gần đây</p>
             {roomHistory.map((item) => (
               <RoomItem

@@ -86,5 +86,3 @@ export const InputLocation = ({
     </>
   )
 }
-
-export default InputLocation
