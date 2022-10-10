@@ -15,21 +15,19 @@ import {
   setChatProfile,
   setCurrentRoomId,
   setCurrentTyping,
-  setSocketInstance,
 } from "@/modules"
 import { memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import io, { Socket } from "socket.io-client"
 import { Room, RoomDetail } from "../room"
 
 export const Chat = memo(function _Chat() {
   const dispatch = useDispatch()
-  const socketIo = useRef<Socket>()
   const roomDetailRef = useRef<RoomDetailFunctionHandler>(null)
   const roomRef = useRef<RoomFunctionHandler>(null)
   const currentRoomId = useSelector((state: RootState) => state.chat.currentRoomId)
   // const access_token = useSelector((state: RootState) => state.chat.accessToken)
   const [isConnected, setConnected] = useState<boolean>(false)
+  const socket = useSelector((state: RootState) => state.chat.socket)
 
   const createNotification = (data: MessageRes) => {
     Notification.requestPermission().then((per) => {
@@ -52,83 +50,79 @@ export const Chat = memo(function _Chat() {
   }
 
   useEffect(() => {
-    // if (!access_token) return
+    if (!socket) return
 
-    // Connect to socket
-    const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
-      query: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ",
-      },
+    // socket.on("connect", async () => {
+    setConnected(true)
+
+    socket.on("login", (res: UserRes) => {
+      dispatch(setChatProfile(res))
     })
 
-    dispatch(setSocketInstance(socket))
-    socketIo.current = socket
+    // Listen to status of friend
+    socket.on("friend_login", (user: FriendStatusRes) => {
+      roomDetailRef.current?.changeStatusOfRoom({ ...user, type: "login" })
+      roomRef.current?.changeStatusOfRoom({ ...user, type: "login" })
+    })
 
-    socket.emit("login")
+    socket.on("friend_logout", (user: FriendStatusRes) => {
+      dispatch(checkForUserDisconnectWhenTyping(user.user_id))
+      roomDetailRef.current?.changeStatusOfRoom({ ...user, type: "logout" })
+      roomRef.current?.changeStatusOfRoom({ ...user, type: "logout" })
+    })
 
-    socket.on("connect", async () => {
-      setConnected(true)
+    // Message listener
+    socket.on("receive_message", (data: MessageRes) => {
+      console.log("receive message")
+      roomDetailRef.current?.appendMessage(data)
+      roomRef.current?.changeOrderAndAppendLastMessage(data)
 
-      socket.on("login", (res: UserRes) => {
-        dispatch(setChatProfile(res))
-      })
-
-      // Listen to status of friend
-      socket.on("friend_login", (user: FriendStatusRes) => {
-        roomDetailRef.current?.changeStatusOfRoom({ ...user, type: "login" })
-        roomRef.current?.changeStatusOfRoom({ ...user, type: "login" })
-      })
-
-      socket.on("friend_logout", (user: FriendStatusRes) => {
-        dispatch(checkForUserDisconnectWhenTyping(user.user_id))
-        roomDetailRef.current?.changeStatusOfRoom({ ...user, type: "logout" })
-        roomRef.current?.changeStatusOfRoom({ ...user, type: "logout" })
-      })
-
-      // Message listener
-      socket.on("receive_message", (data: MessageRes) => {
-        roomDetailRef.current?.appendMessage(data)
-        roomRef.current?.changeOrderAndAppendLastMessage(data)
-
-        if (document.hasFocus()) {
-          socket.emit("read_message", data)
-        } else {
-          createNotification(data)
-        }
-      })
-
-      socket.on("confirm_read_message", (data: MessageRes) => {
-        roomDetailRef.current?.changeMesageStatus(data)
-      })
-
-      socket.on("receive_unread_message", (data: MessageRes) => {
+      if (document.hasFocus()) {
+        socket.emit("read_message", data)
+      } else {
         createNotification(data)
-        roomRef.current?.messageUnreadhandler(data)
-      })
-
-      socket.on("like_message", (payload: MessageRes) => {
-        roomDetailRef.current?.mutatePartnerReactionMessage(payload)
-      })
-
-      socket.on("unlike_message", (payload: MessageRes) => {
-        roomDetailRef.current?.mutatePartnerReactionMessage(payload)
-      })
-
-      // Typing listener
-      socket.on("start_typing", (payload: RoomTypingRes) => {
-        dispatch(setCurrentTyping(payload))
-      })
-
-      socket.on("stop_typing", () => {
-        dispatch(setCurrentTyping(undefined))
-      })
+      }
     })
+
+    socket.on("confirm_read_message", (data: MessageRes) => {
+      roomDetailRef.current?.changeMesageStatus(data)
+    })
+
+    socket.on("receive_unread_message", (data: MessageRes) => {
+      console.log("receive unread message")
+      createNotification(data)
+      roomRef.current?.messageUnreadhandler(data)
+    })
+
+    socket.on("like_message", (payload: MessageRes) => {
+      roomDetailRef.current?.mutatePartnerReactionMessage(payload)
+    })
+
+    socket.on("unlike_message", (payload: MessageRes) => {
+      roomDetailRef.current?.mutatePartnerReactionMessage(payload)
+    })
+
+    // Typing listener
+    socket.on("start_typing", (payload: RoomTypingRes) => {
+      dispatch(setCurrentTyping(payload))
+    })
+
+    socket.on("stop_typing", () => {
+      dispatch(setCurrentTyping(undefined))
+    })
+    // })
 
     return () => {
-      // socket.emit("logout", "631ac1558f56544cbc01a26d")
+      dispatch(setCurrentRoomId(undefined))
       socket.off("connect")
       socket.off("disconnect")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket])
+
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentRoomId(undefined))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

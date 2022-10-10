@@ -15,7 +15,6 @@ interface RideSummarInfoProps {
 }
 
 const RideSummaryInfo = ({ data, showRideType = true }: RideSummarInfoProps) => {
-  console.log(data)
   return (
     <ul>
       {showRideType ? (

@@ -12,6 +12,7 @@ type UseRoomRes = {
   mutate: KeyedMutator<ListRes<RoomRes[]>>
   isFetchingMore: boolean
   isValidating: boolean
+  isFirstLoading: boolean
   messageUnreadhandler: (_: MessageRes) => void
   changeStatusOfRoom: (_: ChangeStatusOfRoom) => void
   increaseMessageUnread: (_: MessageRes) => void
@@ -216,5 +217,6 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     changeOrderAndAppendLastMessage,
     increaseMessageUnread,
     clearMessagesUnreadFromRoom,
+    isFirstLoading: error === undefined && data === undefined,
   }
 }

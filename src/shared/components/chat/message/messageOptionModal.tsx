@@ -35,7 +35,7 @@ export const MessageOptionModal = ({
   })
 
   return (
-    <div className="fixed z-[3000] inset-0 flex justify-center items-end">
+    <div className="fixed z-[3000] inset-0 flex lg:hidden justify-center items-end">
       <div ref={ref} className="z-10 mb-[100px]">
         <div
           ref={emotionRef}

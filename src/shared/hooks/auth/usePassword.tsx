@@ -5,7 +5,7 @@ import useSWR, { KeyedMutator } from "swr"
 import { useFetcher } from "../async"
 
 interface ChangePasswordProps {
-  handleSuccess: Function
+  handleSuccess: (_: any) => void
   password: string
   re_password: string
   old_password: string
@@ -89,8 +89,8 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
         re_password,
         old_password,
       }),
-      onSuccess: () => {
-        handleSuccess()
+      onSuccess: (res) => {
+        handleSuccess(res)
       },
       config: { successMsg: "Đổi mật khẩu thành công!" },
     })

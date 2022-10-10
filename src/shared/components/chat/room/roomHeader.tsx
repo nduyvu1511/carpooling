@@ -42,13 +42,13 @@ export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
             {data.room_type === "group" ? (
               <button onClick={onClick} className="flex items-center cursor-pointer">
                 <MultiUserIcon className="hidden sm:block mr-4 text-base w-[16px] h-[16px]" />
-                <p className="text-[10px] sm:text-[12px] mr-12 text-gray-color-4 font-medium">
+                <p className="text-[10px] sm:text-[12px] mr-12 text-gray-color-3 font-medium">
                   {data.member_count} Thành viên
                 </p>
               </button>
             ) : null}
             {!data.is_online && data?.offline_at ? (
-              <p className="text-[10px] sm:text-[10px] text-gray-color-3 font-medium">
+              <p className="text-[10px] sm:text-[12px] text-gray-color-3 font-medium">
                 {toFirstUpperCase(moment(data?.offline_at).fromNow())}
               </p>
             ) : null}

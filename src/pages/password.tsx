@@ -2,6 +2,7 @@ import { ChangePasswordForm, CreatePasswordForm, InputLoading, Seo } from "@/com
 import { usePassword } from "@/hooks"
 import { AccountLayout, AuthLayout } from "@/layout"
 import { OnResetParams } from "@/models"
+import { userApi } from "@/services"
 import { useRef } from "react"
 
 const Password = () => {
@@ -27,8 +28,10 @@ const Password = () => {
                   onSubmit={(data) =>
                     changePassword({
                       ...data,
-                      handleSuccess: () => {
+                      handleSuccess: (data) => {
                         childRef.current?.onReset()
+                        console.log(data)
+                        // userApi.setToken(data.token)
                       },
                     })
                   }

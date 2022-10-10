@@ -1,13 +1,19 @@
 import { SpinnerLoading } from "@/components"
 import { AppDispatch, RootState } from "@/core"
 import { useAuth } from "@/hooks"
-import { fetchProvinces, fetchVehicles, setMessageUnreadCount, setProfile } from "@/modules"
+import {
+  fetchProvinces,
+  fetchVehicles,
+  setMessageUnreadCount,
+  setProfile,
+  setSocketInstance,
+} from "@/modules"
 import { chatApi } from "@/services"
-import moment from "moment"
 import "moment/locale/vi"
 import { ReactNode, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
+import { io } from "socket.io-client"
 
 const App = ({ children }: { children: ReactNode }) => {
   const { getUserInfo } = useAuth()
@@ -16,11 +22,26 @@ const App = ({ children }: { children: ReactNode }) => {
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
 
+  const connectSocket = () => {
+    const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
+      query: {
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ",
+      },
+    })
+
+    socket.emit("login")
+    socket.on("connect", () => {
+      dispatch(setSocketInstance(socket))
+    })
+  }
+
   useEffect(() => {
-    console.log(moment().format("MMMM"))
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
     })
+
+    connectSocket()
 
     chatApi
       .getMessageUnreadCount()

@@ -82,7 +82,7 @@ export const OTP = ({
         <div className="otp__form">
           <OtpForm
             resendOTPCode={() => {
-              setExpandForm(false)
+              handleGenerateOTPCode(phone)
             }}
             phoneNumber={phone || ""}
             onSubmit={(val) => handleVerifyOTP(val)}

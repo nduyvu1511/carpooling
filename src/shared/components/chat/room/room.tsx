@@ -33,6 +33,7 @@ export const Room = forwardRef(function RoomChild(
     fetchMoreRooms,
     isFetchingMore,
     hasMore,
+    isFirstLoading,
   } = useRoom(roomId)
 
   useImperativeHandle(ref, () => ({
@@ -65,7 +66,7 @@ export const Room = forwardRef(function RoomChild(
   return (
     <div className="chat-room h-full flex-1 flex flex-col relative">
       {showSearch ? (
-        <div className="bg-white-color z-10 flex flex-col flex-1">
+        <div className="bg-white-color z-10 flex flex-col flex-1 pr-12 md:pr-16 lg:pr-24">
           <RoomSearch
             currentRoomSelected={roomId}
             onSelectRoom={onSelectRoom}
@@ -82,8 +83,16 @@ export const Room = forwardRef(function RoomChild(
             />
           </div>
 
-          {data && data?.data?.length > 0 ? (
-            <div className="flex-1 flex flex-col chat-room-list pr-8">
+          {isFirstLoading ? (
+            <>
+              <RoomItem data={null} />
+              <RoomItem data={null} />
+              <RoomItem data={null} />
+              <RoomItem data={null} />
+              <RoomItem data={null} />
+            </>
+          ) : data && data?.data?.length > 0 ? (
+            <div className="flex-1 flex flex-col chat-room-list md:pr-8">
               <div className="flex-1 overflow-y-auto pr-12 md:pr-8" id="scrollableDiv">
                 <InfiniteScroll
                   scrollableTarget="scrollableDiv"

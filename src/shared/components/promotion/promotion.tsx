@@ -14,7 +14,7 @@ interface PromotionProps {
   className?: string
 }
 
-const gridClassName = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-16"
+const gridClassName = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-cols-2 gap-16"
 type PromotionValue = "all" | "saved" | "new"
 
 export const Promotion = ({ className }: PromotionProps) => {

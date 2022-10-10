@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@/assets"
+import { ArrowLeft2Icon } from "@/assets"
 import { HeaderMobile, ResetPassword, Seo } from "@/components"
 import { AuthLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -20,7 +20,7 @@ const ResetPasswordP = () => {
       <section className="reset-password-page md:py-24 content-container bg-white-color mt-[56px] md:mt-0 px-12 md:px-24 block-element">
         <div className="hidden md:flex items-center mb-24">
           <button onClick={() => router.back()} className="flex-center mr-24">
-            <ArrowLeftIcon />
+            <ArrowLeft2Icon className="h-12 w-8" />
           </button>
           <h3 className="md:font-medium md:normal-case md:h4">Đặt lại mật khẩu</h3>
         </div>

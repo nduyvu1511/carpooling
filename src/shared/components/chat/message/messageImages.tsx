@@ -18,7 +18,7 @@ export const MessageImages = ({ data, className }: MessageImagesProps) => {
         <div
           onClick={() => dispatch(setCurrentPreviewImages([item.url]))}
           key={item.attachment_id}
-          className={`relative aspect-[4/3] rounded-[5px] overflow-hidden ${
+          className={`relative aspect-[4/3] rounded-[16px] overflow-hidden ${
             data.length > 1 ? "border border-solid border-gray-05" : ""
           } hover:opacity-90 cursor-pointer mb-2 ${
             data.length - 1 === index

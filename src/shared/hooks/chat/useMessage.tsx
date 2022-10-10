@@ -69,9 +69,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
         room_id: roomId,
       })
 
-      setTimeout(() => {
-        setFetchingMore(false)
-      }, 100)
+      setFetchingMore(false)
 
       const messagesData = res?.data
 
@@ -237,9 +235,9 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     const { onSuccess, params, onError } = _
     const messageRes = createMessageRes(params)
     appendMessage(messageRes)
-    setTimeout(() => {
-      document.querySelector(`.message-item-${messageRes.message_id}`)?.scrollIntoView()
-    }, 0)
+    // setTimeout(() => {
+    //   document.querySelector(`.message-item-${messageRes.message_id}`)?.scrollIntoView()
+    // }, 0)
 
     try {
       const messageParams = await getMessage(params)

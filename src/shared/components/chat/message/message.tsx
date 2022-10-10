@@ -29,22 +29,21 @@ export const Message = ({
 
   return (
     <div
-      className="flex-1 lg:mr-12 overflow-y-auto flex flex-col-reverse chat-message-list"
+      className="flex-1 md:mr-8 overflow-y-auto flex flex-col-reverse chat-message-list"
       id="messageScrollable"
     >
       <InfiniteScroll
         inverse
-        className="p-custom lg:p-16"
+        className="lg:p-16"
         scrollableTarget="messageScrollable"
-        loader={null}
+        loader={isFetchingMore ? <Spinner size={20} /> : null}
         hasMore={data.has_more}
         next={() => {
+          if (isFetchingMore) return
           onGetMoreMessage()
         }}
         dataLength={data?.data?.length}
       >
-        {isFetchingMore ? <Spinner size={20} className="py-0" /> : null}
-
         {data?.data?.length
           ? data.data.map((item, index) => {
               const messages = data?.data || []
