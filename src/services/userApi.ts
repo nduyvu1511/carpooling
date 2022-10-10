@@ -19,6 +19,7 @@ import {
   MakeWithdrawingRequestParams,
   RequestOTPCode,
   ResetPasswordParams,
+  ResetPasswordRes,
   UpdateCertificateInspectionParams,
   UpdateDrivingLicenseParams,
   UpdateUserInfoParams,
@@ -27,6 +28,7 @@ import {
   VehicleInsuranceParams,
   VerifyOTPCode,
 } from "@/models"
+import { AxiosResponse } from "axios"
 import axiosClient from "."
 
 const userApi = {
@@ -56,7 +58,7 @@ const userApi = {
     })
   },
 
-  resetPassword: (data: ResetPasswordParams) => {
+  resetPassword: (data: ResetPasswordParams): Promise<AxiosResponse<ResetPasswordRes>> => {
     return axiosClient.post("/api/user_information_controller/reset-password", {
       params: data,
     })

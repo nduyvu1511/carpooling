@@ -3,14 +3,14 @@ import { usePassword } from "@/hooks"
 import { useEffect, useState } from "react"
 
 interface ResetPasswordProps {
-  onSuccess?: Function
+  onSuccess?: (token: string) => void
   defaultPhoneNumber?: string
   view?: "modal" | "page"
 }
 
 const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordProps) => {
   const { resetPassword } = usePassword()
-  const [token, settoken] = useState<string>()
+  const [token, setToken] = useState<string>()
 
   useEffect(() => {
     ;(document?.querySelector(".form-input") as HTMLInputElement)?.focus()
@@ -20,8 +20,8 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
     if (!token) return
     resetPassword({
       params: { ...params, stringee_access_token: token },
-      onSuccess: () => {
-        onSuccess?.()
+      onSuccess: ({ token }: { token: string }) => {
+        onSuccess?.(token)
       },
       onError: () => {},
     })
@@ -36,13 +36,11 @@ const ResetPassword = ({ onSuccess, defaultPhoneNumber, view }: ResetPasswordPro
             defaultPhoneNumber={defaultPhoneNumber}
             type="resetPassword"
             onVerifyOTP={(token) => {
-              settoken(token)
+              setToken(token)
             }}
           />
         ) : (
-          <div className="">
-            <CreatePasswordForm onSubmit={(params) => handleResetPassword(params)} />
-          </div>
+          <CreatePasswordForm onSubmit={(params) => handleResetPassword(params)} />
         )}
       </div>
     </div>

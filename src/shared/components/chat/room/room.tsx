@@ -18,7 +18,6 @@ export const Room = forwardRef(function RoomChild(
   { onSelectRoom }: RoomProps,
   ref: OnForwaredRoomDetail
 ) {
-  // const socket = useSelector((state: RootState) => state.chat.socket)
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
   const [showSearch, setShowSearch] = useState<boolean>()
 

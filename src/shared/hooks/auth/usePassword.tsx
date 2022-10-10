@@ -1,4 +1,4 @@
-import { ResetPasswordParams } from "@/models"
+import { ResetPasswordParams, ResetPasswordRes } from "@/models"
 import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR, { KeyedMutator } from "swr"
@@ -71,19 +71,15 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
     const { params, onSuccess, onError } = props
     fetcherHandler({
       fetcher: userApi.resetPassword(params),
-      onSuccess: () => {
-        onSuccess()
-      },
-      onError: () => {
-        onError?.()
-      },
+      onSuccess: (res) => onSuccess?.(res),
+      onError: () => onError?.(),
     })
   }
 
   const changePassword = async (props: ChangePasswordProps) => {
     const { password, handleSuccess, re_password, old_password } = props
     if (!password || !re_password) return
-    fetcherHandler({
+    fetcherHandler<ResetPasswordRes>({
       fetcher: userApi.changePassword({
         password,
         re_password,

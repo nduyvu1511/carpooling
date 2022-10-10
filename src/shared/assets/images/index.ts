@@ -29,8 +29,6 @@ export const ogImage = require("./og-image.png")
 export const promotionShape1 = require("./promotion-shape-1.svg")
 export const promotionShape2 = require("./promotion-shape-2.svg")
 export const promotionBanner1 = require("./promotion-banner-1.svg")
-export const promotionBanner2 = require("./promotion-banner-2.svg")
-export const promotionBanner3 = require("./promotion-banner-3.svg")
 export const promotionItemImage = require("./promotion-item.png")
 export const imageBlur =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="

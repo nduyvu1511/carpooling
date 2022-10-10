@@ -1,9 +1,9 @@
-import { InputCheckbox } from "@/components/inputs"
 import { contactFormFields, contactSchema } from "@/helper"
 import { ContactParams, OnForwaredResetForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { forwardRef, useImperativeHandle } from "react"
 import { useForm } from "react-hook-form"
+import { CheckboxField } from "../fields"
 
 interface ContactFormProps {
   onSubmit?: (params: ContactParams) => void
@@ -17,15 +17,12 @@ export const ContactForm = forwardRef(function ContactChild(
     register,
     handleSubmit,
     reset,
-    setValue,
-    getValues,
-    watch,
+    control,
     formState: { errors, dirtyFields, isValid },
   } = useForm<ContactParams>({
     resolver: yupResolver(contactSchema),
     mode: "all",
   })
-  const receive_news = watch("receive_news")
 
   useImperativeHandle(ref, () => ({
     onReset() {
@@ -78,24 +75,13 @@ export const ContactForm = forwardRef(function ContactChild(
         </div>
       ))}
 
-      <div className="flex items-start">
-        <InputCheckbox
-          className="mt-4"
-          isChecked={!!receive_news}
-          onCheck={() => {
-            setValue("receive_news", !getValues("receive_news"))
-          }}
-          type="circle"
-          size={20}
-        />
-        <p
-          onClick={() => setValue("receive_news", !getValues("receive_news"))}
-          className="cursor-default flex-1 ml-12 text-xs leading-[18px]"
-        >
-          Tôi đồng ý nhận bản tin từ Exxe.vn về các chương trình khuyến mãi sắp tới, ưu đãi độc
-          quyền và tiến hành các hoạt động tiếp thị.
-        </p>
-      </div>
+      <CheckboxField
+        size={20}
+        control={control}
+        label="Tôi đồng ý nhận bản tin từ Exxe.vn về các chương trình khuyến mãi sắp tới, ưu đãi độc
+          quyền và tiến hành các hoạt động tiếp thị."
+        name="receive_news"
+      />
 
       <div className="mt-[40px]">
         <button

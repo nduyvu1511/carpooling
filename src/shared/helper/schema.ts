@@ -65,7 +65,7 @@ export const changePasswordSchema = Yup.object().shape({
     .required("Vui lòng nhập mật khẩu"),
   password: Yup.string()
     .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")
-    .required("Vui lòng nhập mật khẩu"),
+    .required("Vui lòng nhập mật khẩu mới"),
   re_password: Yup.string()
     .oneOf([Yup.ref("password")], "Mật khẩu xác nhận phải trùng với mật khẩu mới")
     .required("Vui lòng nhập mật khẩu xác nhận"),

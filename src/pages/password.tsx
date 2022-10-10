@@ -2,11 +2,11 @@ import { ChangePasswordForm, CreatePasswordForm, InputLoading, Seo } from "@/com
 import { usePassword } from "@/hooks"
 import { AccountLayout, AuthLayout } from "@/layout"
 import { OnResetParams } from "@/models"
-import { userApi } from "@/services"
 import { useRef } from "react"
 
 const Password = () => {
-  const childRef = useRef<OnResetParams>(null)
+  const changePwRef = useRef<OnResetParams>(null)
+  const createPwRef = useRef<OnResetParams>(null)
   const { data: hasPassword, createPassword, changePassword, isValidating } = usePassword(true)
 
   return (
@@ -24,26 +24,25 @@ const Password = () => {
             <>
               {hasPassword ? (
                 <ChangePasswordForm
-                  ref={childRef}
+                  ref={changePwRef}
                   onSubmit={(data) =>
                     changePassword({
                       ...data,
-                      handleSuccess: (data) => {
-                        childRef.current?.onReset()
-                        console.log(data)
-                        // userApi.setToken(data.token)
+                      handleSuccess: () => {
+                        console.log("hello")
+                        changePwRef.current?.onReset()
                       },
                     })
                   }
                 />
               ) : (
                 <CreatePasswordForm
-                  ref={childRef}
+                  ref={createPwRef}
                   onSubmit={(data) =>
                     createPassword({
                       ...data,
                       handleSuccess: () => {
-                        childRef.current?.onReset()
+                        createPwRef.current?.onReset()
                       },
                     })
                   }

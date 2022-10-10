@@ -1,4 +1,5 @@
 import { CheckIcon } from "@/assets"
+import { RefCallback } from "react"
 
 interface InputCheck {
   onCheck: Function
@@ -6,6 +7,8 @@ interface InputCheck {
   type?: "circle" | "square"
   size?: number
   className?: string
+  onBlur?: Function
+  ref?: RefCallback<any> | null
 }
 
 export const InputCheckbox = ({
@@ -14,9 +17,13 @@ export const InputCheckbox = ({
   type = "square",
   size = 24,
   className = "",
+  onBlur,
+  ref = null,
 }: InputCheck) => {
   return (
     <span
+      ref={ref as any}
+      onBlur={() => onBlur?.()}
       style={{ width: size, height: size }}
       onClick={(e) => {
         e.stopPropagation()

@@ -4,6 +4,7 @@ import { RootState } from "@/core/store"
 import { useAuth } from "@/hooks"
 import { AuthModalType, LoginFormParams, UserInfo } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
+import { userApi } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
@@ -16,7 +17,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
 
   const redirectUser = (userInfo: UserInfo) => {
     if (!userInfo?.car_account_type) {
-      dispatch(notify("Loại tài khoản không hợp lệ, vui lòng liên hệ với bộ phận CSKH"))
+      dispatch(notify("Loại tài khoản không hợp lệ, vui lòng thử lại sau"))
       return
     }
 
@@ -24,16 +25,28 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
     dispatch(setAuthModalType(undefined))
   }
 
+  // Call after add token to cookie
+  const handleGetUserInfo = () => {
+    getUserInfo((userInfo) => {
+      dispatch(setProfile(userInfo))
+      setTimeout(() => {
+        redirectUser(userInfo)
+      }, 200)
+    })
+  }
+
+  const handleResetPassword = async (token: string) => {
+    const res = await userApi.setToken(token)
+    if (res?.result?.success) {
+      handleGetUserInfo()
+    }
+  }
+
   const handleLoginWithPassword = (params: LoginFormParams) => {
     loginWithPassword({
       params,
       onSuccess: () => {
-        getUserInfo((userInfo) => {
-          dispatch(setProfile(userInfo))
-          setTimeout(() => {
-            redirectUser(userInfo)
-          }, 200)
-        })
+        handleGetUserInfo()
       },
       config: { toggleOverFlow: false },
     })
@@ -59,6 +72,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   if (authModalType === "updateProfile") return null
   return (
     <Modal
+      className="auth-modal"
       iconType={authModalType === "login" ? "close" : "back"}
       key="auth-modal"
       show={!!show}
@@ -88,7 +102,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
           ) : null}
 
           {authModalType === "resetPassword" ? (
-            <ResetPassword view="modal" onSuccess={() => dispatch(setAuthModalType("login"))} />
+            <ResetPassword view="modal" onSuccess={handleResetPassword} />
           ) : null}
 
           {authModalType === "sms" ? <Login onLoginSuccess={redirectUser} /> : null}
@@ -108,4 +122,3 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
 }
 
 export { AuthModal }
-

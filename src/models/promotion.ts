@@ -56,6 +56,10 @@ export interface PromotionRes {
     image_id: number
     image_url: string
   }
+  promotion_banner_url: {
+    image_id: number
+    image_url: string
+  }
 }
 
 export type PromotionDetailRes = Pick<
@@ -84,5 +88,9 @@ export type PromotionDetailRes = Pick<
   promotion_process: {
     used_promo: number
     total_promo: number
+  }
+  promotion_banner_url: {
+    image_id: string
+    image_url: string
   }
 }

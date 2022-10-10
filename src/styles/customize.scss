@@ -1372,3 +1372,11 @@ input[type="number"] {
   height: 100% !important;
   border-color: #f0f0f0 !important;
 }
+
+.auth-modal {
+  & .phone-form-btn,
+  & .create-pw-submit-btn {
+    display: flex;
+    justify-content: center;
+  }
+}

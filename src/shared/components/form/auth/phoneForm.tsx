@@ -2,6 +2,7 @@ import { phoneNumberSchema } from "@/helper"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ReactNode, useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { InputField } from "../fields"
 
 interface OtpFormProps {
   onSubmit: (phoneNumber: string) => void
@@ -11,9 +12,9 @@ interface OtpFormProps {
 
 export const PhoneForm = ({ onSubmit, phone, children }: OtpFormProps) => {
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { isValid },
   } = useForm<{ phone: string }>({
     resolver: yupResolver(phoneNumberSchema),
     mode: "all",
@@ -32,33 +33,19 @@ export const PhoneForm = ({ onSubmit, phone, children }: OtpFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <div className={`form-item ${!children ? "mb-[40px]" : ""}`}>
-        <label htmlFor={"phone"} className="form-label">
-          Số điện thoại (*)
-        </label>
-
-        <div className="form-item-inner">
-          <div className="form-item-wrapper">
-            <input
-              inputMode="numeric"
-              className={`form-input ${errors?.["phone"] ? "form-input-err" : ""}`}
-              id="phone"
-              type="number"
-              {...register("phone", {
-                required: true,
-              })}
-              placeholder="+84"
-            />
-          </div>
-          {errors?.["phone"] || dirtyFields?.["phone"] ? (
-            <p className="form-err-msg">{errors?.["phone"]?.message}</p>
-          ) : null}
-        </div>
-      </div>
+      <InputField
+        label="Số điện thoại"
+        required
+        placeholder="+84"
+        control={control}
+        name="phone"
+        inputMode="numeric"
+        type="number"
+      />
 
       {children || null}
 
-      <div className="flex justify-center phone-form-btn">
+      <div className="flex justify-center phone-form-btn mt-40">
         <button
           type="submit"
           className={`btn-primary btn-submit-fixed ${isValid ? "" : "btn-disabled"}`}

@@ -1,11 +1,9 @@
-import {
-  ArrowRightIcon,
-  ClockIcon,
-  promotionBanner1,
-  promotionBanner2,
-  promotionBanner3,
-} from "@/assets"
+import { ArrowRightIcon, ClockIcon } from "@/assets"
+import { toImageUrl } from "@/helper"
 import { useBreakpoint } from "@/hooks"
+import { PromotionRes } from "@/models"
+import { promotionApi } from "@/services"
+import moment from "moment"
 import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState } from "react"
@@ -13,14 +11,24 @@ import { Autoplay, Pagination } from "swiper"
 import "swiper/css"
 import "swiper/css/pagination"
 import { Swiper, SwiperSlide } from "swiper/react"
+import useSWR from "swr"
+import { Spinner } from "../loading"
 
 const ITEM_HEIGHT = 118
 
 const PromotionBanner = () => {
   const breakpoints = useBreakpoint()
-  const banners = [promotionBanner1, promotionBanner2, promotionBanner3, promotionBanner2]
   const [index, setIndex] = useState<number>(0)
   const ref = useRef<HTMLDivElement>(null)
+
+  const { isValidating, data } = useSWR<PromotionRes[] | undefined>(
+    "get_special_promotion_list",
+    () =>
+      promotionApi
+        .getSpecialPromotionList({})
+        .then((res) => res?.result?.data || [])
+        .catch((err) => console.log(err))
+  )
 
   const handleSlideChange = (index: number) => {
     setIndex(index)
@@ -29,6 +37,9 @@ const PromotionBanner = () => {
     }
   }
 
+  if (isValidating) return <Spinner className="py-[60px]" size={30} />
+
+  if (!data?.length) return null
   return (
     <div className="flex flex-col-reverse xl:flex-row gap-x-[64px]">
       <div className="flex-1 w-full overflow-hidden">
@@ -41,7 +52,7 @@ const PromotionBanner = () => {
           pagination={{ clickable: false }}
           onAutoplay={({ realIndex }) => handleSlideChange(realIndex)}
         >
-          {banners.map((url, index) => (
+          {data.map((item, index) => (
             <SwiperSlide
               className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
               key={index}
@@ -51,7 +62,7 @@ const PromotionBanner = () => {
                   <Image
                     className="rounded-[16px] cursor-pointer"
                     alt=""
-                    src={url}
+                    src={toImageUrl(item?.promotion_banner_url?.image_url || "")}
                     layout="fill"
                     objectFit="cover"
                   />
@@ -75,7 +86,7 @@ const PromotionBanner = () => {
 
         {breakpoints >= 1280 ? (
           <div ref={ref} className="h-[354px] flex flex-col overflow-hidden scrollbar-hide">
-            {Array.from({ length: banners.length }).map((_, _index) => (
+            {data.map((item, _index) => (
               <div className={`h-[${ITEM_HEIGHT}px] flex flex-col mb-16`} key={_index}>
                 <div className="mb-8">
                   <p
@@ -83,15 +94,15 @@ const PromotionBanner = () => {
                       index === _index ? "text-primary" : "text-gray-color-7"
                     }`}
                   >
-                    Thế giới ExxeVn mở ra, hàng trăm ưu đãi đang chờ bạn!
+                    {item.promotion_name}
                   </p>
                 </div>
                 <div className="flex-1">
                   <p className="flex items-center mb-16 text-gray-color-7">
                     <ClockIcon className="w-[14px] h-[14px] mr-8" />
-                    <span className="text-12">31/08/2022</span>
+                    <span className="text-12">{moment(item.date_end).format("DD/MM/YYYY")}</span>
                     <span className="mx-8">-</span>
-                    <span className="text-12">31/08/2022</span>
+                    <span className="text-12">{moment(item.date_start).format("DD/MM/YYYY")}</span>
                   </p>
 
                   <div className="bg-[#f3f3f3] rounded-[98px] overflow-hidden h-[3px] relative">

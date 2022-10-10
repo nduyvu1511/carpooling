@@ -35,14 +35,14 @@ export const InputSearch = ({
       <span className="absolute-vertical left-[14px]">
         <SearchIcon className="w-[16px] h-[16px] text-gray-color-6" />
       </span>
-      {/* <input
+      <input
         onFocus={() => onFocus?.()}
         className="form-input flex-1 border-none pl-40 pr-40 bg-bg text-sm"
         onChange={onChange}
         value={value}
         type="text"
         {...attributes}
-      /> */}
+      />
 
       {value ? (
         <span onClick={() => clearValue()} className="absolute-vertical right-16 cursor-pointer">

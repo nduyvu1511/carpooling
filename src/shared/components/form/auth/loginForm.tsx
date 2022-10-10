@@ -1,10 +1,9 @@
-import { EyeHideIcon, EyeShowIcon } from "@/assets"
 import { FORM_LOGIN_KEY, getFromLocalStorage, loginSchema, setToLocalStorage } from "@/helper"
-import { useAuth } from "@/hooks"
-import { LoginFormParams, UserInfo } from "@/models"
+import { LoginFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { InputField } from "../fields"
 
 interface LoginFormProps {
   onSubmit?: (data: LoginFormParams) => void
@@ -21,14 +20,12 @@ export const LoginForm = ({
   onClickRegister,
   view,
 }: LoginFormProps) => {
-  const { loginWithPassword } = useAuth()
   const formStorage = getFromLocalStorage(FORM_LOGIN_KEY)
-  const [showPw, setShowPw] = useState<boolean>(false)
 
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { isValid, isSubmitting },
   } = useForm<LoginFormParams>({
     resolver: yupResolver(loginSchema),
     mode: "all",
@@ -50,56 +47,16 @@ export const LoginForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <div className="form-item">
-        <label htmlFor={"phone"} className="form-label">
-          Số điện thoại <span className="">(*)</span>
-        </label>
+      <InputField
+        required
+        inputMode="numeric"
+        type="number"
+        label="Số điện thoại"
+        control={control}
+        name="phone"
+      />
 
-        <div className="">
-          <input
-            className={`form-input ${errors?.["phone"] ? "form-input-err" : ""}`}
-            id={"phone"}
-            type="number"
-            placeholder="Số điện thoại"
-            {...register("phone", {
-              required: true,
-            })}
-          />
-        </div>
-
-        {errors.phone || dirtyFields.phone ? (
-          <p className="form-err-msg">{errors.phone?.message}</p>
-        ) : null}
-      </div>
-
-      <div className="form-item">
-        <label htmlFor={"password"} className="form-label">
-          Mật Khẩu <span className="form-label-warning">(*)</span>
-        </label>
-        <div className="form-item">
-          <div className="relative">
-            <input
-              className={`form-input ${errors?.["password"] ? "form-input-err" : ""}`}
-              id={"password"}
-              type={showPw ? "text" : "password"}
-              placeholder="Mật khẩu"
-              {...register("password", {
-                required: true,
-              })}
-            />
-
-            <span
-              onClick={() => setShowPw(!showPw)}
-              className="cursor-pointer absolute top-1/2 transform -translate-y-1/2 right-[10px]"
-            >
-              {!showPw ? <EyeHideIcon /> : <EyeShowIcon />}
-            </span>
-          </div>
-          {errors.password || dirtyFields.password ? (
-            <p className="form-err-msg">{errors.password?.message}</p>
-          ) : null}
-        </div>
-      </div>
+      <InputField required type="password" label="Mật Khẩu" control={control} name="password" />
 
       <div className="flex items-center justify-between text-[12px] text-primary font-medium mb-[40px]">
         <span

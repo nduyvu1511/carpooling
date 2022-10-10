@@ -1,6 +1,7 @@
 import { ArrowLeft2Icon } from "@/assets"
 import { HeaderMobile, ResetPassword, Seo } from "@/components"
 import { AuthLayout } from "@/layout"
+import { userApi } from "@/services"
 import { useRouter } from "next/router"
 import { useSelector } from "react-redux"
 import { RootState } from "../core"
@@ -8,6 +9,11 @@ import { RootState } from "../core"
 const ResetPasswordP = () => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
+
+  const handleResetPassword = async (token: string) => {
+    await userApi.setToken(token)
+    router.push(router.query.next as string)
+  }
 
   return (
     <AuthLayout
@@ -28,7 +34,7 @@ const ResetPasswordP = () => {
         <ResetPassword
           view="page"
           defaultPhoneNumber={userInfo?.phone}
-          onSuccess={() => router.push(router.query.next as string)}
+          onSuccess={(token) => handleResetPassword(token)}
         />
       </section>
     </AuthLayout>

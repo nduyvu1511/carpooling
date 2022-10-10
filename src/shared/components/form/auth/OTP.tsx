@@ -89,8 +89,6 @@ export const OTP = ({
           />
         </div>
       )}
-
-      <div id="recaptcha-container"></div>
     </>
   )
 }

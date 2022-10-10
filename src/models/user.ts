@@ -516,3 +516,9 @@ export type FriendStatusRes = {
   user_id: string
   room_ids: string[]
 }
+
+export interface ResetPasswordRes {
+  token: string
+  car_account_type: string
+  refresh_token: string
+}
