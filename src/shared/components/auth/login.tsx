@@ -28,14 +28,12 @@ export const Login = ({ onLoginSuccess }: LoginProps) => {
   }
 
   return (
-    <div>
-      <OTP
-        view="page"
-        type="login"
-        onVerifyOTP={(stringee_access_token) => {
-          handleLoginWithOTP({ type: "stringee", stringee_access_token })
-        }}
-      />
-    </div>
+    <OTP
+      view="page"
+      type="login"
+      onVerifyOTP={(stringee_access_token) => {
+        handleLoginWithOTP({ type: "stringee", stringee_access_token })
+      }}
+    />
   )
 }

@@ -52,7 +52,7 @@ const PromotionBanner = () => {
           pagination={{ clickable: false }}
           onAutoplay={({ realIndex }) => handleSlideChange(realIndex)}
         >
-          {data.map((item, index) => (
+          {[...data, ...data].map((item, index) => (
             <SwiperSlide
               className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
               key={index}
@@ -86,7 +86,7 @@ const PromotionBanner = () => {
 
         {breakpoints >= 1280 ? (
           <div ref={ref} className="h-[354px] flex flex-col overflow-hidden scrollbar-hide">
-            {data.map((item, _index) => (
+            {[...data, ...data].map((item, _index) => (
               <div className={`h-[${ITEM_HEIGHT}px] flex flex-col mb-16`} key={_index}>
                 <div className="mb-8">
                   <p
@@ -99,7 +99,7 @@ const PromotionBanner = () => {
                 </div>
                 <div className="flex-1">
                   <p className="flex items-center mb-16 text-gray-color-7">
-                    <ClockIcon className="w-[14px] h-[14px] mr-8" />
+                    <ClockIcon className="w-[14px] h-[14px] mr-8 text-gray-color-7" />
                     <span className="text-12">{moment(item.date_end).format("DD/MM/YYYY")}</span>
                     <span className="mx-8">-</span>
                     <span className="text-12">{moment(item.date_start).format("DD/MM/YYYY")}</span>

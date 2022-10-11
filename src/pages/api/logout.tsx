@@ -23,6 +23,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
 
   const cookies = new Cookies(req, res)
   cookies.set("access_token")
+  cookies.set("chat_access_token")
+  cookies.set("chat_refresh_token")
 
   res.status(200).json({
     result: {

@@ -1264,7 +1264,7 @@ input[type="number"] {
 .chat-page {
   & .chat-room {
     &-list {
-      max-height: calc(100vh - 152px);
+      max-height: calc(100vh - 148px);
 
       @media screen and(min-width: 768px) {
         max-height: calc(100vh - 218px);
@@ -1296,7 +1296,7 @@ input[type="number"] {
   & .chat-message {
     &-list {
       scrollbar-width: thin;
-      max-height: calc(100vh - 192px);
+      max-height: calc(100vh - 188px);
 
       @media screen and(min-width: 768px) {
         max-height: calc(100vh - 242px);

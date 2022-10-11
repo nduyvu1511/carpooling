@@ -8,7 +8,7 @@ import {
   setProfile,
   setSocketInstance,
 } from "@/modules"
-import { chatApi } from "@/services"
+import { chatApi, userApi } from "@/services"
 import "moment/locale/vi"
 import { ReactNode, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -22,17 +22,21 @@ const App = ({ children }: { children: ReactNode }) => {
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
 
-  const connectSocket = () => {
+  const connectSocket = async () => {
+    const res = await userApi.getChatToken()
+    const access_token = res.result?.data?.chat_access_token
+    if (!access_token) return
+
     const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
       query: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ",
+        access_token,
       },
     })
-
     socket.emit("login")
     socket.on("connect", () => {
-      dispatch(setSocketInstance(socket))
+      if (socket.connected) {
+        dispatch(setSocketInstance(socket))
+      }
     })
   }
 

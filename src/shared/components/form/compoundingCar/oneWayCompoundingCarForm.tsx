@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ButtonSubmit } from "@/components"
+import { ButtonSubmit, DateTimeField, TextareaField } from "@/components"
 import {
   formatMoneyVND,
   getHoursName,
@@ -21,7 +21,7 @@ import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import { CreateOneWayCompoundingCar, CreateOneWayCompoundingCarForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Controller, useForm } from "react-hook-form"
-import { InputDateTime, InputLocation, InputPolicy, InputSelect } from "../../inputs"
+import { InputLocation, InputPolicy, InputSelect } from "../../inputs"
 
 interface OneWayCompoundingFormProps {
   onSubmit?: (params: CreateOneWayCompoundingCar) => void
@@ -97,6 +97,8 @@ export const OneWayCompoundingForm = ({
       },
     })
   }
+
+  console.log("one way form re-render")
 
   const onSubmitHandler = (data: CreateOneWayCompoundingCarForm) => {
     const params: CreateOneWayCompoundingCar = {
@@ -199,41 +201,26 @@ export const OneWayCompoundingForm = ({
           options={vehicleTypeOptions}
         />
       </div>
-      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
-        <InputDateTime
-          control={control}
-          name="expected_going_on_date"
-          placeholder="Thời gian đi"
-          defaultValue={defaultValues?.expected_going_on_date || ""}
-          onChange={(val) => {
-            setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
-            clearErrors("expected_going_on_date")
-          }}
-          isError={!!errors?.expected_going_on_date}
-        />
-      </div>
 
-      <div className={`form-item`}>
-        <label htmlFor="note" className="form-label">
-          Ghi chú cho chuyến đi
-        </label>
+      <DateTimeField
+        required
+        control={control}
+        name="expected_going_on_date"
+        label="Thời gian đi"
+        placeholder="Thời gian đi"
+        onChange={(val) => {
+          setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
+        }}
+      />
 
-        <textarea
-          readOnly={disabled}
-          {...register}
-          className="form-textarea"
-          name="note"
-          id="note"
-          cols={10}
-          placeholder="Ghi chú thêm cho chuyến đi..."
-          defaultValue={defaultValues?.note}
-          onChange={(e) => {
-            setToLocalStorage(ONE_WAY_NOTE, e.target.value)
-            setValue("note", e.target.value)
-          }}
-          maxLength={300}
-        ></textarea>
-      </div>
+      <TextareaField
+        control={control}
+        name="note"
+        readOnly={disabled}
+        label="Ghi chú cho chuyến đi"
+        placeholder="Ghi chú cho chuyến đi"
+        onBlur={(val) => setToLocalStorage(ONE_WAY_NOTE, val)}
+      />
 
       {mode === "create" && !disabled ? (
         <div className="mb-[24px]">

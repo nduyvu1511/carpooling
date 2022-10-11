@@ -102,6 +102,14 @@ const userApi = {
     })
   },
 
+  getChatToken: (): Promise<AxiosResponse<{ chat_access_token: string }>> => {
+    return axiosClient.get("/api/get_chat_token")
+  },
+
+  setChatToken: (params: { access_token: string; refresh_token: string }) => {
+    return axiosClient.post("/api/set_chat_token", params)
+  },
+
   // This didn't assign token to cookie
   getTokenByOTP: (params: LoginByOTP) => {
     return axiosClient.post("/api/user_information_controller/auth", {

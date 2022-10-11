@@ -479,7 +479,7 @@ export type CreateUserParams = Pick<
   IUser,
   "user_name" | "date_of_birth" | "gender" | "role" | "bio" | "phone" | "user_id"
 > & {
-  user_id: string
+  user_id: number
   avatar: string
 }
 
@@ -490,9 +490,9 @@ export type UpdateProfile = Partial<
 >
 export type UpdateProfileService = UpdateProfile & { user: IUser }
 export type GetTokenParams = Pick<IUser, "user_id" | "phone">
-export type UserRole = "customer" | "driver" | "admin"
+export type UserRole = "customer" | "car_driver" | "admin"
 export type Gender = "male" | "female" | "no_info" | ""
-export type UserLoginRes = UserRes & { token: string }
+export type UserLoginRes = UserRes & { access_token: string; refresh_token: string }
 export type changeUserStatusParams = Pick<IUser, "is_online"> & { user_id: string }
 export type BlockUserStatus = "block" | "unblock"
 export type BlockOrUnBlockUserParams = {
@@ -520,5 +520,10 @@ export type FriendStatusRes = {
 export interface ResetPasswordRes {
   token: string
   car_account_type: string
+  refresh_token: string
+}
+
+export interface TokenRes {
+  access_token: string
   refresh_token: string
 }

@@ -11,7 +11,7 @@ import {
 } from "@/models"
 import { setCurrentProfileId, setCurrentRoomInfo } from "@/modules"
 import { chatApi } from "@/services"
-import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle } from "react"
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Message, MessageForm } from "../message"
 import { RoomDetailModals } from "./roomDetailModals"
@@ -28,7 +28,6 @@ export const RoomDetail = forwardRef(function RoomChild(
   ref: OnForwaredRoomDetail
 ) {
   const user = useSelector((state: RootState) => state.chat.profile)
-  // const messageFormRef = useRef<OnResetParams>(null)
   const dispatch = useDispatch()
   const isWindowFocus = useDetectWindowFocus()
 
@@ -38,10 +37,7 @@ export const RoomDetail = forwardRef(function RoomChild(
   const { changeStatusOfRoom, data, isFirstLoading } = useRoomDetail({
     roomId,
     callback: (res) => {
-      console.log("lastMessage from here: ", res)
       handleReadMessage(res)
-      // socket?.emit("read_message", res)
-      // confirmReadAllMessage()
     },
   })
   const {

@@ -52,11 +52,19 @@ export const LoginForm = ({
         inputMode="numeric"
         type="number"
         label="Số điện thoại"
+        placeholder="Số điện thoại"
         control={control}
         name="phone"
       />
 
-      <InputField required type="password" label="Mật Khẩu" control={control} name="password" />
+      <InputField
+        required
+        type="password"
+        placeholder="Mật khẩu"
+        label="Mật Khẩu"
+        control={control}
+        name="password"
+      />
 
       <div className="flex items-center justify-between text-[12px] text-primary font-medium mb-[40px]">
         <span

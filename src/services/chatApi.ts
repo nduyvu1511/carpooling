@@ -1,55 +1,56 @@
-import store from "@/core/store"
 import {
   AddMessageUnread,
   changeUserStatusParams,
+  ChatAxiosResponse,
   CreateGroupChat,
   CreateSingleChat,
+  CreateUserParams,
+  GetTokenParams,
   LikeMessage,
   LoginFormParams,
   QueryCommonParams,
   SendMessage,
+  TokenRes,
+  UpdateProfile,
   UpdateRoomInfo,
+  UserRes,
 } from "@/models"
 import axios, { AxiosResponse } from "axios"
-import mem from "mem"
 
 const axiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api`,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFkNTZjNTRhMjBiZWY4MmU0NzlmMGQiLCJ1c2VyX2lkIjoyLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NjI5MDEzNTl9.7YgTIRjbTGsmUSEfz3RwHl0UdTgv6f9loNJ4Zmz_3nQ`,
   },
 })
 
-const memoizedRefreshToken = mem(
-  async () => {
-    const res = await chatApi.refreshToken()
-    return res
-  },
-  {
-    maxAge: 10000,
-  }
-)
+// const memoizedRefreshToken = mem(
+//   async () => {
+//     const res = await chatApi.refreshToken()
+//     return res
+//   },
+//   {
+//     maxAge: 10000,
+//   }
+// )
 
 axiosClient.interceptors.request.use(async (config) => {
-  const accessToken = store.getState().chat.accessToken
-  // ;(config as any).headers.authorization = `Bearer ${accessToken}`
   return config
 })
 
 try {
   axiosClient.interceptors.response.use(
     async (response) => {
-      if (response?.data?.status_code === 401 || response?.data?.status_code === 403) {
-        const res: any = await memoizedRefreshToken()
+      // if (response?.data?.status_code === 401 || response?.data?.status_code === 403) {
+      //   const res: any = await memoizedRefreshToken()
 
-        if (res?.success) {
-          return response.data
-        } else {
-          // store.dispatch(setProfile(undefined))
-        }
-      }
+      //   if (res?.success) {
+      //     return response.data
+      //   } else {
+      //     store.dispatch(setProfile(undefined))
+      //   }
+      // }
 
       if (response?.data) {
         return response.data
@@ -65,6 +66,18 @@ try {
 }
 
 const chatApi = {
+  createUser: (params: CreateUserParams): Promise<ChatAxiosResponse<UserRes>> => {
+    return axiosClient.post("/chat/user", params)
+  },
+
+  updateUser: (params: UpdateProfile): Promise<ChatAxiosResponse<UserRes>> => {
+    return axiosClient.patch("/chat/user/profile", params)
+  },
+
+  generateToken: (params: GetTokenParams): Promise<ChatAxiosResponse<TokenRes>> => {
+    return axiosClient.post("/chat/user/generate_token", params)
+  },
+
   createSingleChat: (params: CreateSingleChat) => {
     return axiosClient.post("/chat/room/single", params)
   },

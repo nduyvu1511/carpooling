@@ -34,7 +34,7 @@ export const Message = ({
     >
       <InfiniteScroll
         inverse
-        className="lg:p-16"
+        className="px-12 lg:p-16"
         scrollableTarget="messageScrollable"
         loader={isFetchingMore ? <Spinner size={20} /> : null}
         hasMore={data.has_more}

@@ -91,8 +91,8 @@ export const Room = forwardRef(function RoomChild(
               <RoomItem data={null} />
             </>
           ) : data && data?.data?.length > 0 ? (
-            <div className="flex-1 flex flex-col chat-room-list md:pr-8">
-              <div className="flex-1 overflow-y-auto pr-12 md:pr-8" id="scrollableDiv">
+            <div className="flex-1 flex flex-col chat-room-list md:pr-12">
+              <div className="flex-1 overflow-y-auto pr-12" id="scrollableDiv">
                 <InfiniteScroll
                   scrollableTarget="scrollableDiv"
                   loader={isFetchingMore ? <Spinner /> : null}

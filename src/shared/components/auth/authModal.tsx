@@ -13,7 +13,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
-  const { loginWithPassword, getUserInfo } = useAuth()
+  const { loginWithPassword, getUserInfo, loginToChatServer } = useAuth()
 
   const redirectUser = (userInfo: UserInfo) => {
     if (!userInfo?.car_account_type) {
@@ -26,9 +26,13 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   }
 
   // Call after add token to cookie
-  const handleGetUserInfo = () => {
+  const handleGetUserInfo = (shouldLoginChatServer = true) => {
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
+      if (shouldLoginChatServer) {
+        loginToChatServer({ phone: userInfo.phone, user_id: userInfo.partner_id })
+      }
+
       setTimeout(() => {
         redirectUser(userInfo)
       }, 200)
@@ -38,7 +42,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   const handleResetPassword = async (token: string) => {
     const res = await userApi.setToken(token)
     if (res?.result?.success) {
-      handleGetUserInfo()
+      handleGetUserInfo(false)
     }
   }
 

@@ -1,4 +1,4 @@
-import { AxiosPromise } from "axios"
+import { AxiosPromise, AxiosResponse } from "axios"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ForwardedRef, ReactChild, ReactElement, ReactNode } from "react"
@@ -333,3 +333,10 @@ export interface UploadMultipleFile {
 }
 
 export type MessageResponseStatus = "pending" | "rejected" | "fulfilled"
+
+export type ChatAxiosResponse<T> = AxiosResponse & {
+  message: string
+  success: boolean
+  status_code: number
+  data: T
+}

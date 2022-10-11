@@ -15,7 +15,13 @@ interface RegisterModalProps {
 export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { getTokenByOTP, register, setToken: setTokenToCookie } = useAuth()
+  const {
+    getTokenByOTP,
+    register,
+    setToken: setTokenToCookie,
+    createChatUser,
+    setChatToken,
+  } = useAuth()
   const [token, setToken] = useState<string>()
 
   const handleGenerateToken = async (stringee_access_token: string) => {
@@ -43,6 +49,17 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
               dispatch(setAuthModalType(undefined))
               router.push("/d/register")
             }
+          },
+        })
+
+        // Also create chat user
+        createChatUser({
+          params: userInfo,
+          onSuccess: (res) => {
+            setChatToken({
+              params: { access_token: res.access_token, refresh_token: res.refresh_token },
+              onSuccess: () => {},
+            })
           },
         })
       },

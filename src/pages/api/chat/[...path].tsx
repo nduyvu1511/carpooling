@@ -14,12 +14,12 @@ const proxy = httpProxy.createProxyServer()
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<ResponseType<any>>) {
   return new Promise((resolve) => {
-    // const cookies = new Cookies(req, res)
-    // const token = cookies.get("access_token")
+    const cookies = new Cookies(req, res)
+    const token = cookies.get("chat_access_token")
 
-    // if (token) {
-    //   req.headers.Authorization = `Bearer ${token}`
-    // }
+    if (token) {
+      req.headers.Authorization = `Bearer ${token}`
+    }
     // don't send cookies to API server
     req.url = `${process.env.NEXT_PUBLIC_CHAT_API_URL}${req.url?.replace("/chat", "")}`
     proxy.once("proxyRes", () => {

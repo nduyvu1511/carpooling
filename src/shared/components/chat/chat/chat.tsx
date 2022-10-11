@@ -1,4 +1,4 @@
-import { Spinner } from "@/components"
+import { RoomLoading, Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { getMessageDescription } from "@/helper"
 import {
@@ -52,7 +52,6 @@ export const Chat = memo(function _Chat() {
   useEffect(() => {
     if (!socket) return
 
-    // socket.on("connect", async () => {
     setConnected(true)
 
     socket.on("login", (res: UserRes) => {
@@ -73,7 +72,6 @@ export const Chat = memo(function _Chat() {
 
     // Message listener
     socket.on("receive_message", (data: MessageRes) => {
-      console.log("receive message")
       roomDetailRef.current?.appendMessage(data)
       roomRef.current?.changeOrderAndAppendLastMessage(data)
 
@@ -110,7 +108,6 @@ export const Chat = memo(function _Chat() {
     socket.on("stop_typing", () => {
       dispatch(setCurrentTyping(undefined))
     })
-    // })
 
     return () => {
       dispatch(setCurrentRoomId(undefined))
@@ -135,20 +132,22 @@ export const Chat = memo(function _Chat() {
     dispatch(setCurrentRoomId(room.room_id))
   }
 
-  if (!isConnected) return <Spinner size={36} />
-
   return (
     <section
       className={`chat-wrapper ${
         currentRoomId ? "chat-joined-room" : ""
-      } grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 lg:gap-24 overflow-hidden h-full flex-1`}
+      } grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 md:gap-16 lg:gap-24 overflow-hidden h-full flex-1`}
     >
       <aside
         className={`chat-room block-element pt-custom pl-custom flex-col ${
           currentRoomId ? "hidden md:flex" : "flex"
         }`}
       >
-        <Room ref={roomRef} onSelectRoom={handleSelectRoom} />
+        {!isConnected ? (
+          <RoomLoading className="pr-custom" />
+        ) : (
+          <Room ref={roomRef} onSelectRoom={handleSelectRoom} />
+        )}
       </aside>
 
       <div
@@ -156,7 +155,13 @@ export const Chat = memo(function _Chat() {
           !currentRoomId ? "hidden md:flex" : "flex"
         }`}
       >
-        <RoomDetail onSendMessage={handleSendMessage} ref={roomDetailRef} />
+        {!isConnected ? (
+          <div className="flex-1 flex-center h-full">
+            <Spinner />
+          </div>
+        ) : (
+          <RoomDetail onSendMessage={handleSendMessage} ref={roomDetailRef} />
+        )}
       </div>
     </section>
   )

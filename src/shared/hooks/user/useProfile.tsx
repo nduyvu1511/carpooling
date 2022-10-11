@@ -9,6 +9,7 @@ import { userApi } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
+import { useAuth } from "../auth"
 
 interface UserRes {
   data: UserInfo | undefined
@@ -22,6 +23,7 @@ interface UserRes {
 
 const useProfile = (shouldFetch = false): UserRes => {
   const { fetcherHandler } = useFetcher()
+  const { updateChatUser } = useAuth()
 
   const { data, isValidating, mutate } = useSWR<UserInfo>(
     "get_user_info",
@@ -58,6 +60,10 @@ const useProfile = (shouldFetch = false): UserRes => {
       onSuccess: (data: UserInfo) => {
         mutate(data, false)
         onSuccess(data)
+        updateChatUser({
+          params: data,
+          onSuccess: () => {},
+        })
       },
       onError: () => onError?.(),
       config: { showScreenLoading: showLoading },
