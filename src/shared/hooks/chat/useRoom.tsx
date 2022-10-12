@@ -1,10 +1,9 @@
 import { getLastMessage } from "@/helper"
-import { ChangeStatusOfRoom, FriendStatusRes, ListRes, MessageRes, RoomRes } from "@/models"
+import { ChangeStatusOfRoom, ListRes, MessageRes, RoomRes } from "@/models"
 import { chatApi } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useState } from "react"
-import { Socket } from "socket.io-client"
 import useSWR, { KeyedMutator } from "swr"
 import { useChatNotification } from "./useChatNotification"
 
@@ -22,7 +21,6 @@ type UseRoomRes = {
   changeOrderAndAppendLastMessage: (_: MessageRes) => void
   clearMessagesUnreadFromRoom: (room_id: string) => void
   fetchMoreRooms: () => void
-  socketHandler: (socket: Socket) => void
 }
 
 const LIMIT = 30
@@ -66,27 +64,6 @@ export const useRoom = (roomId?: string): UseRoomRes => {
         )
       })
     }
-  }
-
-  const socketHandler = (socket: Socket) => {
-    // Listen to status of friend
-    socket.on("friend_login", (user: FriendStatusRes) => {
-      changeStatusOfRoom({ ...user, type: "login" })
-    })
-
-    socket.on("friend_logout", (user: FriendStatusRes) => {
-      changeStatusOfRoom({ ...user, type: "logout" })
-    })
-
-    // Message listener
-    socket.on("receive_message", (data: MessageRes) => {
-      changeOrderAndAppendLastMessage(data)
-    })
-
-    socket.on("receive_unread_message", (data: MessageRes) => {
-      messageUnreadhandler(data)
-      createNotification(data)
-    })
   }
 
   const fetchMoreRooms = async () => {
@@ -244,6 +221,5 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     increaseMessageUnread,
     clearMessagesUnreadFromRoom,
     isFirstLoading: error === undefined && data === undefined,
-    socketHandler,
   }
 }

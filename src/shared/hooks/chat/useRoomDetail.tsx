@@ -18,7 +18,6 @@ interface Res {
   data: RoomDetailRes | undefined
   isValidating: boolean
   isFirstLoading: boolean
-  socketHandler: (socket: Socket) => void
 }
 
 interface Props {
@@ -51,26 +50,6 @@ export const useRoomDetail = ({ roomId, callback }: Props): Res => {
       : null
   )
 
-  const socketHandler = (socket: Socket) => {
-    socket.on("friend_login", (user: FriendStatusRes) => {
-      changeStatusOfRoom({ ...user, type: "login" })
-    })
-
-    socket.on("friend_logout", (user: FriendStatusRes) => {
-      dispatch(checkForUserDisconnectWhenTyping(user.user_id))
-      changeStatusOfRoom({ ...user, type: "logout" })
-    })
-
-    // Typing listener
-    socket.on("start_typing", (payload: RoomTypingRes) => {
-      dispatch(setCurrentTyping(payload))
-    })
-
-    socket.on("stop_typing", () => {
-      dispatch(setCurrentTyping(undefined))
-    })
-  }
-
   const changeStatusOfRoom = (params: ChangeStatusOfRoom) => {
     if (!data) return
 
@@ -101,6 +80,5 @@ export const useRoomDetail = ({ roomId, callback }: Props): Res => {
     isFirstLoading: data === undefined && error === undefined,
     isValidating,
     changeStatusOfRoom,
-    socketHandler,
   }
 }

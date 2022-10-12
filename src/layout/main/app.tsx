@@ -60,7 +60,12 @@ const App = ({ children }: { children: ReactNode }) => {
 
     socket.on("connect", () => {
       if (socket.connected) {
+        socket.on("login", (res: UserRes) => {
+          dispatch(setChatProfile(res))
+        })
+
         dispatch(setSocketInstance(socket))
+
         if (socketIo?.current) {
           socketIo.current = socket
         }

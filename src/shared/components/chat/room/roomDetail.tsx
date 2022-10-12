@@ -2,28 +2,31 @@ import { Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { useDetectWindowFocus, useMessage, useRoomDetail } from "@/hooks"
 import {
-  FriendStatusRes,
   LikeMessage,
   MessageRes,
+  RoomDetailFunctionHandler,
   RoomType,
-  RoomTypingRes,
   SendMessageData,
   UnlikeMessage,
 } from "@/models"
-import {
-  checkForUserDisconnectWhenTyping,
-  setCurrentProfileId,
-  setCurrentRoomInfo,
-  setCurrentTyping,
-} from "@/modules"
+import { setCurrentProfileId, setCurrentRoomInfo } from "@/modules"
 import { chatApi } from "@/services"
-import { useEffect } from "react"
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Message, MessageForm } from "../message"
 import { RoomDetailModals } from "./roomDetailModals"
 import { RoomHeader } from "./roomHeader"
 
-export const RoomDetail = () => {
+type OnForwaredRoomDetail = ForwardedRef<RoomDetailFunctionHandler>
+
+interface RoomDetailProps {
+  onSendMessage?: (_: MessageRes) => void
+}
+
+export const RoomDetail = forwardRef(function RoomChild(
+  { onSendMessage }: RoomDetailProps,
+  ref: OnForwaredRoomDetail
+) {
   const user = useSelector((state: RootState) => state.chat.profile)
   const dispatch = useDispatch()
   const isWindowFocus = useDetectWindowFocus()
@@ -31,38 +34,51 @@ export const RoomDetail = () => {
   const socket = useSelector((state: RootState) => state.chat.socket)
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
 
-  // const { createNotification } = useChatNotification()
-  const {
-    changeStatusOfRoom,
-    data,
-    isFirstLoading,
-    socketHandler: roomDetailSocketHandler,
-  } = useRoomDetail({
+  const { changeStatusOfRoom, data, isFirstLoading } = useRoomDetail({
     roomId,
     callback: (res) => {
       handleReadMessage(res)
     },
   })
+
   const {
+    appendMessage,
     sendMessage,
     confirmReadMessage,
     data: messages,
     likeMessage,
     unlikeMessage,
+    mutateByMessageRes,
     getMoreMessages,
     isFetchingMore,
+    mutatePartnerReactionMessage,
     resendMessage,
     confirmReadAllMessage,
-    socketHandler: messageSocketHandler,
   } = useMessage({ roomId, initialData: data?.messages })
 
+  useImperativeHandle(ref, () => ({
+    appendMessage: (mes) => {
+      appendMessage(mes)
+    },
+    changeStatusOfRoom: (params) => {
+      changeStatusOfRoom(params)
+    },
+    changeMesageStatus: async (params) => {
+      confirmReadMessage(params)
+    },
+    mutateWithMessageRes: (params) => {
+      mutateByMessageRes(params)
+    },
+    mutatePartnerReactionMessage: (params) => {
+      mutatePartnerReactionMessage(params)
+    },
+  }))
+
   const handleSendMessage = (params: SendMessageData) => {
-    console.log(params)
     sendMessage({
       params,
       onSuccess: (data) => {
-        // handle with room here, damn...............................................................
-        // changeOrderAndAppendLastMessage(msg)
+        onSendMessage?.(data)
         socket?.emit("send_message", data)
       },
     })
@@ -103,13 +119,6 @@ export const RoomDetail = () => {
       chatApi.confirmReadAllMessageInRoom(roomId)
     }
   }
-
-  useEffect(() => {
-    if (!socket) return
-    messageSocketHandler(socket)
-    roomDetailSocketHandler(socket)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket])
 
   useEffect(() => {
     if (!roomId || !isWindowFocus || !messages?.data?.length) return
@@ -195,4 +204,4 @@ export const RoomDetail = () => {
       )}
     </div>
   )
-}
+})
