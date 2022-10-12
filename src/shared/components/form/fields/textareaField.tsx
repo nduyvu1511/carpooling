@@ -37,6 +37,7 @@ export const TextareaField = ({
       {label ? (
         <label htmlFor={name} className="form-label">
           {label}
+          {attributes?.required ? "(*)" : ""}
         </label>
       ) : null}
 

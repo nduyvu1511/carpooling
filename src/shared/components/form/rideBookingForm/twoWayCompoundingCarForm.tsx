@@ -68,6 +68,7 @@ export const TwoWayCompoundingForm = ({
   const { vehicleTypeOptions, calcPriceFromProvinceIds } = useCompoundingForm()
   const durationDistance = watch(["distance", "duration", "price"])
   const isAdayTour = watch("is_a_day_tour")
+  const expectedGoingOnDate = watch("expected_going_on_date")
 
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
@@ -255,7 +256,7 @@ export const TwoWayCompoundingForm = ({
 
         {isAdayTour ? (
           <SelectField
-            maxMenuHeight={200}
+            maxMenuHeight={160}
             disabled={disabled}
             placeholder="Số giờ"
             name="hour_of_wait_time"
@@ -271,7 +272,7 @@ export const TwoWayCompoundingForm = ({
             disabled={disabled}
             required
             control={control}
-            currentDay={getValues("expected_going_on_date")}
+            currentDay={expectedGoingOnDate}
             name="expected_picking_up_date"
             placeholder="Ngày đến"
             defaultValue={getValues("expected_picking_up_date")}
@@ -302,7 +303,7 @@ export const TwoWayCompoundingForm = ({
         />
       ) : null}
 
-      {view === "page" ? <div className="md:mt-[40px]"></div> : null}
+      {view === "page" ? <div className="mt-[40px]"></div> : null}
 
       {onSubmit ? (
         <ButtonSubmit

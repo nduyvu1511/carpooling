@@ -208,7 +208,7 @@ export const OneWayCompoundingForm = ({
         />
       ) : null}
 
-      {view === "page" ? <div className="md:mt-[40px]"></div> : null}
+      {view === "page" ? <div className="mt-[40px]"></div> : null}
 
       {onSubmit ? (
         <ButtonSubmit

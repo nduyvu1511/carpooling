@@ -1,4 +1,4 @@
-import { RideCanceled, RideProgress, RideSummary } from "@/components"
+import { RideCanceled, RideProgress, RideSummary, Seo } from "@/components"
 import { useCompoundingCarCustomer } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { useRouter } from "next/router"
@@ -20,6 +20,11 @@ const RideCanceledPage = () => {
       title="Thông tin hủy chuyến đi"
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
     >
+      <Seo
+        title="Thông tin hủy chuyến"
+        url={`c/ride-detail/cancel/${compounding_car_customer_id}`}
+      />
+
       {compoundingCar ? (
         <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       ) : null}

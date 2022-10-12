@@ -45,7 +45,7 @@ const DriverInfo = () => {
         <HeaderEmpty />
       </HeaderWrapper>
 
-      <Seo description="" thumbnailUrl="" title="Đăng ký trỏ thành tài xế" url="/d/register" />
+      <Seo title="Đăng ký trỏ thành tài xế" url="d/register" />
 
       <div className="driver-register-layout min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)] flex flex-col sm:px-custom bg-white-color md:bg-bg">
         <div className="content-container flex-1 relative sm:my-12 md:my-16 lg:my-24 bg-white-color p-custom pb-12 pt-24 md:py-24 block-element">

@@ -1,9 +1,10 @@
-import { ADDRESS, EMAIL, PHONE } from "@/helper"
+import { Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 
 export const Regulations = () => {
   return (
     <StaticLayout heading="Chính sách bảo mật">
+      <Seo title="Chính sách bảo mật" url="private-policy" />
       <div className="">
         <p className="text-base mb-24">
           Riêng tư của khách hàng vô cùng quan trọng với Công ty cổ phần Đầu tư Công nghệ và Vận tải

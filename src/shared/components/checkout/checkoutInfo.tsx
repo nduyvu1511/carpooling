@@ -93,10 +93,7 @@ export const CheckoutInfo = ({
       )}
 
       {accountType === "car_driver" ? (
-        <SummaryItem
-          label="Số tiền hoàn sau khi thanh toán"
-          value={formatMoneyVND(data.amount_total || 0)}
-        />
+        <SummaryItem label="Giá trị chuyến đi" value={formatMoneyVND(data.amount_total || 0)} />
       ) : null}
     </>
   )

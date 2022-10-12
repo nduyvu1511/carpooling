@@ -6,6 +6,7 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  Seo,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
@@ -81,6 +82,11 @@ const CompoundingCarDriver = () => {
         rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
         title="Xác nhận chuyến đi"
       >
+        <Seo
+          description="Xác nhận chuyến đi"
+          title="Xác nhận chuyến đi"
+          url={`d/booking/confirm/${compounding_car_customer_id}`}
+        />
         <>
           {isInitialLoading ? (
             <RideDetailLoading />

@@ -64,12 +64,12 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
   const confirmPayFullForCompoundingCarCustomer = async (
     _: UseParams<ConfirmPayFullCustomerParams, CompoundingCarCustomer>
   ) => {
-    const { onSuccess, params, config, onError } = _
+    const { onSuccess, params, onError } = _
 
     fetcherHandler({
-      fetcher: ridesApi.customerConfirmPayFullCompoundingCar(params),
+      fetcher: ridesApi.customerPayForRemainingAmount(params),
       onSuccess: (result) => {
-        if (result?.state === "confirm_paid") {
+        if (result?.state === "done") {
           onSuccess?.(result)
         } else {
           onError?.()

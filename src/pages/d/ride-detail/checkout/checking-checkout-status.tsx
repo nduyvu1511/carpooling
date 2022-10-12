@@ -1,4 +1,4 @@
-import { CheckoutProcess } from "@/components"
+import { CheckoutProcess, Seo } from "@/components"
 import { DriverLayout } from "@/layout"
 import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
@@ -9,6 +9,11 @@ const ConfirmCheckoutDriver = () => {
 
   return (
     <DriverLayout showHeaderOnMobile>
+      <Seo
+        title="Đang tiên hành thanh toán"
+        url={`/d/ride-detail/checking-checkout-status?compounding_car_id=${compounding_car_id}`}
+      />
+
       {compounding_car_id ? (
         <CheckoutProcess
           compounding_car_customer_id={Number(compounding_car_customer_id)}

@@ -52,12 +52,7 @@ const Rating = () => {
   return (
     <>
       <CustomerAccountLayout title="Đánh giá" desc="Xem đánh giá của bạn tại đây.">
-        <Seo
-          description="Đánh giá của bạn"
-          thumbnailUrl=""
-          title="Đánh giá của bạn"
-          url="c/rating"
-        />
+        <Seo description="Đánh giá của bạn" title="Đánh giá của bạn" url="c/rating" />
         <div className="px-custom">
           {isValidating ? (
             <div>

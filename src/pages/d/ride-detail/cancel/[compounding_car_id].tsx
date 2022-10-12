@@ -1,4 +1,4 @@
-import { RideCanceled, RideProgress, RideSummary } from "@/components"
+import { RideCanceled, RideProgress, RideSummary, Seo } from "@/components"
 import { useBackRouter, useCompoundingCarDriver } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import Link from "next/link"
@@ -29,6 +29,8 @@ const RideCanceledPage = () => {
       topNode={<RideProgress state={compoundingCar?.state} />}
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
     >
+      <Seo title="Chi tiết hủy chuyến" url={`/d/ride-detail/cancel/${compounding_car_id}`} />
+
       <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       <div className="mt-40">
         <Link href="/d">

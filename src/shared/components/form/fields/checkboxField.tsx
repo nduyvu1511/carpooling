@@ -23,7 +23,6 @@ export const CheckboxField = ({
   const {
     field: { onChange, onBlur, value, ref },
     fieldState: { error },
-    formState: { dirtyFields },
   } = useController({
     name,
     control,

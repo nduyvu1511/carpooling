@@ -9,6 +9,7 @@ import {
   RideSummary,
   RideSummaryModal,
   RideToolTip,
+  Seo,
   TwoWayCompoundingForm,
 } from "@/components"
 import { RootState } from "@/core/store"
@@ -82,6 +83,7 @@ const RideConfirmCustomer = () => {
         rightNode={compoundingCar ? <RideSummary showFull={false} data={compoundingCar} /> : null}
         title="Chi tiết chuyến đi"
       >
+        <Seo title="Chi tiết chuyến đi" url={`/d/ride-detail/confirm/${compounding_car_id}`} />
         <>
           {isInitialLoading ? (
             <RideDetailLoading />

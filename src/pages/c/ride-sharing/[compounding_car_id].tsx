@@ -64,7 +64,8 @@ const RidesDetailCustomer = () => {
 
   return (
     <>
-      <Seo description="Tạo chuyến đi ghép" title="Tạo chuyến đi ghép" thumbnailUrl="" url="" />
+      <Seo url={`c/ride-sharing/${compounding_car_id}`} title="Tạo chuyến đi ghép" />
+
       <CustomerBookingLayout
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}

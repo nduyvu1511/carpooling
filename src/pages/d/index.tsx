@@ -41,12 +41,7 @@ const HomeDriver = () => {
 
   return (
     <DriverLayout showHeaderOnMobile>
-      <Seo
-        description=""
-        thumbnailUrl=""
-        title="Các chuyến đi chưa có tài xế"
-        url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/d"}
-      />
+      <Seo title="Các chuyến đi chưa có tài xế" url={"d"} />
 
       <RideContainer
         hasMore={hasMore}

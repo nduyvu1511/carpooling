@@ -6,6 +6,7 @@ import {
   RideProgress,
   RidesSummaryHeader,
   RideSummaryPassengerItem,
+  Seo,
 } from "@/components"
 import { useBackRouter, useBreakpoint, useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
@@ -39,6 +40,11 @@ const CheckoutSuccess = () => {
       title="Đặt cọc thành công"
       showHeaderDesktop={false}
     >
+      <Seo
+        title="Đặt cọc thành công"
+        url={`/d/ride-detail/checkout-success?compounding_car_id=${compounding_car_id}`}
+      />
+
       <>
         {isValidating ? (
           <RideDetailLoading className="mb-[40px]" />

@@ -37,12 +37,7 @@ const DrivingLicenseDetail = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bằng Lái Xe">
-      <Seo
-        description=""
-        thumbnailUrl=""
-        title="Bằng lái xe"
-        url="/d/register/driving_license_details"
-      />
+      <Seo title="Bằng lái xe" url="d/register/driving_license_details" />
 
       {!isValidating ? (
         <DrivingLicenseForm

@@ -12,6 +12,7 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  Seo,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
@@ -142,6 +143,8 @@ const RidesDetail = () => {
         rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
         title="Chi tiết chuyến đi"
       >
+        <Seo title="Chi tiết chuyến đi" url={`c/ride-detail/${compounding_car_customer_id}`} />
+
         <>
           {isInitialLoading ? (
             <RideDetailLoading />
@@ -161,7 +164,7 @@ const RidesDetail = () => {
 
               <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
 
-              <div className="mb-24">
+              <div className="mb-24 md:mb-40">
                 <RideDetailInfo data={compoundingCar} />
               </div>
 

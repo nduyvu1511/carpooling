@@ -1,10 +1,12 @@
 import { SpinnerLoading } from "@/components"
 import { AppDispatch, RootState } from "@/core"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
-import { useAuth } from "@/hooks"
+import { useAuth, useChatNotification } from "@/hooks"
+import { MessageRes, UserRes } from "@/models"
 import {
   fetchProvinces,
   fetchVehicles,
+  setChatProfile,
   setLoadedGoogleMap,
   setMessageUnreadCount,
   setProfile,
@@ -13,10 +15,11 @@ import {
 import { chatApi, userApi } from "@/services"
 import { useLoadScript } from "@react-google-maps/api"
 import "moment/locale/vi"
-import { ReactNode, useEffect } from "react"
+import { useRouter } from "next/router"
+import { ReactNode, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
-import { io } from "socket.io-client"
+import { io, Socket } from "socket.io-client"
 
 const libraries: any = ["places", "geometry"]
 
@@ -26,6 +29,9 @@ const App = ({ children }: { children: ReactNode }) => {
   const notifications = useSelector((state: RootState) => state.notifications)
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
+  const router = useRouter()
+  const { createNotification } = useChatNotification()
+  const socketIo = useRef<Socket<any>>()
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
@@ -36,7 +42,6 @@ const App = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isLoaded) {
       dispatch(setLoadedGoogleMap(true))
-      console.log("re dispatch google map")
     }
   }, [dispatch, isLoaded])
 
@@ -50,12 +55,34 @@ const App = ({ children }: { children: ReactNode }) => {
         access_token,
       },
     })
+
     socket.emit("login")
+
     socket.on("connect", () => {
       if (socket.connected) {
         dispatch(setSocketInstance(socket))
+        if (socketIo?.current) {
+          socketIo.current = socket
+        }
+
+        socket.on("login", (res: UserRes) => {
+          dispatch(setChatProfile(res))
+        })
+
+        socket.on("receive_unread_message", (data: MessageRes) => {
+          if (router.pathname !== "/chat") {
+            createNotification(data)
+          }
+        })
       }
     })
+
+    return socket
+  }
+
+  const disconnectSocket = (socket: Socket) => {
+    socket.off("connect")
+    socket.off("disconnect")
   }
 
   useEffect(() => {
@@ -87,6 +114,12 @@ const App = ({ children }: { children: ReactNode }) => {
 
     if (!vehicleTypes?.[0]?.value) {
       dispatch(fetchVehicles() as any)
+    }
+
+    return () => {
+      if (socketIo?.current) {
+        disconnectSocket(socketIo.current)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

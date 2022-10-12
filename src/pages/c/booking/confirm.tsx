@@ -67,10 +67,8 @@ const ConfirmBookingCustomer = () => {
       title="Xác nhận chuyến đi"
     >
       <Seo
-        description="Xác nhận chuyến đi"
-        thumbnailUrl=""
         title="Xác nhận chuyến đi"
-        url="c/booking/confirm"
+        url={`c/booking/confirm?compounding_car_customer_id=${compounding_car_customer_id}`}
       />
 
       <div className=" bg-white-color rounded-[5px] h-fit">

@@ -7,10 +7,10 @@ import {
   CompoundingCarCustomer,
   CompoundingCarDriverRes,
   IDepositSummaryOptional,
-  PaymentRes,
+  PaymentRes
 } from "@/models"
 import { useRouter } from "next/router"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useState } from "react"
 import { useSelector } from "react-redux"
 import { PaymentSlide } from "./paymentSlide"
 
@@ -55,13 +55,6 @@ const Checkout = ({
   const [modalType, setModalType] = useState<ModalType>()
   const { confirmCompoundingCar } = useCompoundingCarActions()
 
-  useEffect(() => {
-    return () => {
-      toggleBodyOverflow("unset")
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const toggleModal = (type: ModalType | undefined) => {
     setModalType(type)
     if (type) {
@@ -90,9 +83,12 @@ const Checkout = ({
     }
   }
 
+  const showCountdown =
+    data.state === "confirm" || data.state === "waiting" || data.state === "waiting_deposit"
+
   return (
     <>
-      {data.state === "confirm" && isExpiredCountdown && type === "deposit" ? (
+      {showCountdown && isExpiredCountdown && type === "deposit" ? (
         <div className="bg-bg-warning p-24 rounded-[5px] mb-24">
           <p className="text-14 font-medium">Hết hạn cho giao dịch này</p>
         </div>
@@ -111,7 +107,7 @@ const Checkout = ({
 
             <div className="mb-40">
               <CheckoutInfo
-                showCountdown={data.state === "confirm"}
+                showCountdown={showCountdown}
                 data={checkoutData}
                 accountType={userInfo?.car_account_type}
                 onExpiredCountdown={() => setExpiredCountdown(true)}
@@ -150,6 +146,7 @@ const Checkout = ({
               <button
                 onClick={() => {
                   if (!currentSelectPayment?.acquirer_id) return
+
                   if (currentSelectPayment.provider === "exxe_wallet") {
                     if (
                       currentSelectPayment?.money_in_cash_wallet === 0 ||
@@ -177,7 +174,7 @@ const Checkout = ({
       )}
 
       {/* Alert deposit when time is due */}
-      {data.state === "confirm" && isExpiredCountdown && type === "deposit" ? (
+      {showCountdown && isExpiredCountdown && type === "deposit" ? (
         <Alert
           show={true}
           title="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
@@ -246,3 +243,4 @@ const Checkout = ({
 }
 
 export { Checkout }
+

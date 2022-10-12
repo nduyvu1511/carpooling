@@ -58,6 +58,21 @@ const MyInputDateTime = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (!currentDay || !date || !time) return
+
+    if (
+      moment(currentDay)
+        .add(12, "hour")
+        .isAfter(moment(`${date} ${time}`))
+    ) {
+      onChange("")
+      setTime("")
+      setDate("")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentDay])
+
   // Set time options
   useEffect(() => {
     const times = [...getTimes()]

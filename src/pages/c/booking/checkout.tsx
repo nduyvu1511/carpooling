@@ -115,11 +115,10 @@ const CheckoutCustomer = () => {
       title="Đặt cọc chuyến đi"
     >
       <Seo
-        title="Đặt cọc cho chuyến đi"
-        description="Đặt cọc cho chuyến đi"
-        url=""
-        thumbnailUrl=""
+        title="Đặt cọc chuyến đi"
+        url={`c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`}
       />
+
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar?.compounding_car_customer_id ? (

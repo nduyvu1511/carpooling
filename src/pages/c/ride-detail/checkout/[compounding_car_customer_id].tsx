@@ -7,6 +7,7 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  Seo,
 } from "@/components"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
@@ -88,6 +89,11 @@ const CheckoutCustomer = () => {
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Thanh toán cho chuyến đi"
     >
+      <Seo
+        title="Thanh toán cho chuyến đi"
+        url={`c/ride-detail/checkout/${compounding_car_customer_id}`}
+      />
+
       {isInitialLoading ? (
         <CheckoutLoading />
       ) : compoundingCar ? (
@@ -97,7 +103,7 @@ const CheckoutCustomer = () => {
           <div className="my-24 border-b border-solid border-border-color"></div>
           <div className="mb-[40px]">
             <p className="uppercase text-base font-semibold mb-16 md:mb-24">
-              PHƯƠNG THỨC THANH TOÁN
+              Phương thức thanh toán
             </p>
             <PaymentCheckoutSlide
               amountBalance={amountBalance || 0}
@@ -107,23 +113,21 @@ const CheckoutCustomer = () => {
             />
           </div>
 
-          <div className="">
-            <button
-              onClick={() => {
-                if (
-                  paymentMethod === "exxe_wallet" &&
-                  (amountBalance || 0) < compoundingCar.amount_due
-                ) {
-                  toggleModal("walletBalanceAlert")
-                  return
-                }
-                toggleModal("confirmCheckout")
-              }}
-              className={`btn-primary ${!paymentMethod ? "btn-disabled" : ""}`}
-            >
-              Tiến hành thanh toán
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              if (
+                paymentMethod === "exxe_wallet" &&
+                (amountBalance || 0) < compoundingCar.amount_due
+              ) {
+                toggleModal("walletBalanceAlert")
+                return
+              }
+              toggleModal("confirmCheckout")
+            }}
+            className={`btn-primary ${!paymentMethod ? "btn-disabled" : ""}`}
+          >
+            Tiến hành thanh toán
+          </button>
         </>
       ) : null}
 

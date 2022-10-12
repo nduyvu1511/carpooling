@@ -37,7 +37,7 @@ const BioDetail = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="Thông tin cá nhân"
     >
-      <Seo description="" thumbnailUrl="" title="Thông tin cá nhân" url="/d/register/bio_details" />
+      <Seo title="Thông tin cá nhân" url="d/register/bio_details" />
 
       {!isValidating ? (
         <UserInfoForm onSubmit={onSubmitHandler} defaultValues={userInfo} />

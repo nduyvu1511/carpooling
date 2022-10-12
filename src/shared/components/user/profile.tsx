@@ -56,7 +56,7 @@ const Profile = ({ type }: ProfileProps) => {
     getBase64Images(files, ([base64]) => {
       uploadImages({
         params: [{ file: removeBase64Reader(base64), type: "image" }],
-        onSuccess: ([{ attachment_id, attachment_url }]) => {
+        onSuccess: ([{ attachment_id }]) => {
           handleUpdateUserInfo({ avatar_attachment_id: attachment_id }, "avatar")
         },
         type: "avatar",
@@ -125,11 +125,6 @@ const Profile = ({ type }: ProfileProps) => {
               <EditIcon className="w-[12px] text-white-color" />
             </label>
           </div>
-
-          {/* <label htmlFor="avatar" className="flex-center cursor-pointer">
-            <EditIcon className="mr-[8px]" />
-            <span className="text-sm text-primary">Thay đổi ảnh đại diện</span>
-          </label> */}
         </div>
         <div className="flex-1 md:ml-[48px]">
           <div className="flex-col flex-center md:items-start">

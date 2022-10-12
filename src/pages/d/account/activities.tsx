@@ -1,5 +1,5 @@
 import { EmptyPocketIcon } from "@/assets"
-import { ActivityItem, Spinner, TagActivityItem } from "@/components"
+import { ActivityItem, Seo, Spinner, TagActivityItem } from "@/components"
 import {
   driverActivityFilters,
   getActiveStringOrListString,
@@ -37,6 +37,8 @@ const Activities = () => {
 
   return (
     <DriverAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
+      <Seo title="hoạt động" url="/d/account/activities" />
+
       <div className="px-custom">
         <div className="mb-24 relative">
           <div className="absolute bottom-0 right-0 top-0 linear-gradient-white w-[200px] pointer-events-none bg-[red]"></div>

@@ -36,7 +36,7 @@ const VehicleInsurance = () => {
 
   return (
     <DriverRegisterLayout onRightBtnClick={() => router.push("/d/register")} heading="Bảo Hiểm Xe">
-      <Seo description="" thumbnailUrl="" title="Bảo Hiểm Xe" url="/d/register/vehicle_insurance" />
+      <Seo title="Bảo Hiểm Xe" url="/d/register/vehicle_insurance" />
 
       {isValidating ? (
         <>

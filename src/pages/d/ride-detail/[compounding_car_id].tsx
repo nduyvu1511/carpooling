@@ -14,6 +14,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideSummaryPassengerItem,
+  Seo,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -96,6 +97,7 @@ const ConfirmBookingCustomer = () => {
         rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
         title="Chi tiết chuyến đi"
       >
+        <Seo title="Bắt đầu chuyến đi" url={`/d/ride-detail/in-process/${compounding_car_id}`} />
         <>
           {isInitialLoading ? (
             <RideDetailLoading />

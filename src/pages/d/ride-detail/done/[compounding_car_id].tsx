@@ -105,7 +105,7 @@ const RideDone = () => {
             <div className="my-24 border-t border-solid border-border-color"></div>
 
             <div className="">
-              <p className="text-sm md:text-base">
+              <p className="text-sm leading-[22px]">
                 Cảm ơn bạn đã sử dụng dịch vụ của ExxeVn, Chúng tôi mong bạn sẽ thích và tiếp tục
                 ủng hộ dịch vụ.
               </p>

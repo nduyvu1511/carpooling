@@ -60,12 +60,7 @@ const HomeCustomer = () => {
 
   return (
     <CustomerLayout showHeaderOnMobile>
-      <Seo
-        description=""
-        thumbnailUrl=""
-        title="Các chuyến đi hiện có"
-        url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/c"}
-      />
+      <Seo title="Các chuyến đi hiện có" url={"c"} />
       <RideContainer
         hasMore={hasMore}
         isFetchingMore={isFetchingMore}

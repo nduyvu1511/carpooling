@@ -26,7 +26,6 @@ export const InputField = ({
   const {
     field: { onChange, onBlur, value, ref },
     fieldState: { error },
-    formState: { dirtyFields },
   } = useController({
     name,
     control,

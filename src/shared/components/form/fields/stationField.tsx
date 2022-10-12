@@ -66,7 +66,8 @@ export const StationField = ({
             }}
             className="form-label"
           >
-            {label} {required ? "(*)" : ""}
+            {label}
+            {required ? "(*)" : ""}
           </label>
         ) : null}
 

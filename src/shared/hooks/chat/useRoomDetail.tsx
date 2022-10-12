@@ -1,7 +1,16 @@
-import { ChangeStatusOfRoom, MessageRes, RoomDetailRes } from "@/models"
+import {
+  ChangeStatusOfRoom,
+  FriendStatusRes,
+  MessageRes,
+  RoomDetailRes,
+  RoomTypingRes,
+} from "@/models"
+import { checkForUserDisconnectWhenTyping, setCurrentTyping } from "@/modules"
 import { chatApi } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
+import { useDispatch } from "react-redux"
+import { Socket } from "socket.io-client"
 import useSWR, { mutate } from "swr"
 
 interface Res {
@@ -9,6 +18,7 @@ interface Res {
   data: RoomDetailRes | undefined
   isValidating: boolean
   isFirstLoading: boolean
+  socketHandler: (socket: Socket) => void
 }
 
 interface Props {
@@ -17,6 +27,7 @@ interface Props {
 }
 
 export const useRoomDetail = ({ roomId, callback }: Props): Res => {
+  const dispatch = useDispatch()
   const {
     data,
     error,
@@ -39,6 +50,26 @@ export const useRoomDetail = ({ roomId, callback }: Props): Res => {
           })
       : null
   )
+
+  const socketHandler = (socket: Socket) => {
+    socket.on("friend_login", (user: FriendStatusRes) => {
+      changeStatusOfRoom({ ...user, type: "login" })
+    })
+
+    socket.on("friend_logout", (user: FriendStatusRes) => {
+      dispatch(checkForUserDisconnectWhenTyping(user.user_id))
+      changeStatusOfRoom({ ...user, type: "logout" })
+    })
+
+    // Typing listener
+    socket.on("start_typing", (payload: RoomTypingRes) => {
+      dispatch(setCurrentTyping(payload))
+    })
+
+    socket.on("stop_typing", () => {
+      dispatch(setCurrentTyping(undefined))
+    })
+  }
 
   const changeStatusOfRoom = (params: ChangeStatusOfRoom) => {
     if (!data) return
@@ -64,10 +95,12 @@ export const useRoomDetail = ({ roomId, callback }: Props): Res => {
       }
     }
   }
+
   return {
     data,
     isFirstLoading: data === undefined && error === undefined,
     isValidating,
     changeStatusOfRoom,
+    socketHandler,
   }
 }

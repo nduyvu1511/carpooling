@@ -5,7 +5,7 @@ const PromotionPage = () => {
   return (
     <>
       <DriverAccountLayout title="Ưu đãi">
-        <Seo description="Ưu đãi" thumbnailUrl="" title="Ưu đãi" url="c/account/promotion" />
+        <Seo description="Ưu đãi" title="Ưu đãi" url="d/account/promotion" />
         <div className="px-custom">
           <Promotion />
         </div>

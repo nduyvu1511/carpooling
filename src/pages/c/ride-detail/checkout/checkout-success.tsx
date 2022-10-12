@@ -1,4 +1,4 @@
-import { HeaderMobile, RideCustomerBill, RideProgress, RideSummaryLoading } from "@/components"
+import { HeaderMobile, RideCustomerBill, RideProgress, RideSummaryLoading, Seo } from "@/components"
 import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -24,6 +24,11 @@ const RideDoneCustomer = () => {
   return (
     <>
       <HeaderMobile showHomeBtn className="lg:hidden" title="Thông tin hóa đơn" />
+      <Seo
+        title="Thông tin hóa đơn"
+        url={`c/ride-detail/checkout/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`}
+      />
+
       <CustomerLayout showHeaderOnMobile={false}>
         <div className="mb-[56px] lg:mb-0"></div>
         <div className="content-container block-element md:mt-16 lg:mt-24 p-custom flex-1 pb-[70px]">

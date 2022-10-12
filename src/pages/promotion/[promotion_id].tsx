@@ -1,5 +1,5 @@
 import { promotionBanner1 } from "@/assets"
-import { PromotionSlide, PromotionDetail } from "@/components"
+import { PromotionSlide, PromotionDetail, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { useRouter } from "next/router"
 

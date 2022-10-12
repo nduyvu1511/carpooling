@@ -1,5 +1,5 @@
 import { RatingEmptyIcon } from "@/assets"
-import { Modal, RatingItem, RatingReport, Spinner } from "@/components"
+import { Modal, RatingItem, RatingReport, Seo, Spinner } from "@/components"
 import { useDriverRating, useRatingActions } from "@/hooks"
 import { AccountLayout, DriverLayout } from "@/layout"
 import { ReportRatingParams } from "@/models"
@@ -37,6 +37,8 @@ const Rating = () => {
   return (
     <DriverLayout>
       <AccountLayout desc="Xem đánh giá về bạn tại đây" title="Đánh giá về bạn">
+        <Seo description="Ưu đãi" title="Đánh giá" url="d/account/rating" />
+
         <div className="px-custom">
           {isInitialLoading ? (
             <div>

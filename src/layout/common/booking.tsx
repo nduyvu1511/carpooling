@@ -34,7 +34,7 @@ const BookingLayout = ({
       <section
         className={`container px-0 md:p-16 lg:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
       >
-        <div className="block-element h-full">
+        <div className="md:block-element h-full">
           {topNode ? (
             <div className="lg:hidden p-custom pr-0 relative overflow-hidden rounded-tr-[5px]">
               <div className="absolute w-[200px] pointer-events-none top-0 h-[40px] right-0 linear-gradient-white"></div>

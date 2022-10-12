@@ -64,7 +64,8 @@ export const LocationField = ({
         <div className="">
           {label ? (
             <label className="form-label" htmlFor={name}>
-              {label} {required ? "(*)" : ""}
+              {label}
+              {required ? "(*)" : ""}
             </label>
           ) : null}
 

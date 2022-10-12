@@ -5,6 +5,7 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
+  Seo,
 } from "@/components"
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
@@ -49,10 +50,6 @@ const CheckoutDriver = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compounding_car_id])
 
-  const redirectToCheckoutSuccess = () => {
-    router.push(`/d/ride-detail/checkout/checkout-success?compounding_car_id=${compounding_car_id}`)
-  }
-
   useEffect(() => {
     if (!compoundingCar) return
     if (compoundingCar?.state === "confirm_deposit") {
@@ -60,6 +57,10 @@ const CheckoutDriver = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compoundingCar])
+
+  const redirectToCheckoutSuccess = () => {
+    router.push(`/d/ride-detail/checkout/checkout-success?compounding_car_id=${compounding_car_id}`)
+  }
 
   const handleCreatePayment = (params: PaymentRes) => {
     const { compounding_car_id } = compoundingCar || {}
@@ -100,6 +101,8 @@ const CheckoutDriver = () => {
       rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
       title="Đặt cọc chuyến đi"
     >
+      <Seo title="Đặt cọc chuyến đi" url={`/d/ride-detail/checkout/${compounding_car_id}`} />
+
       {depositLoading ? (
         <CheckoutLoading />
       ) : (
@@ -110,11 +113,10 @@ const CheckoutDriver = () => {
 
           {deposit && compoundingCar ? (
             <Checkout
+              type="deposit"
               checkoutData={{
                 amount_due: deposit.amount_due,
                 amount_total: deposit.amount_total,
-                amount_undiscounted: deposit?.amount_undiscounted,
-                discount_after_tax: deposit?.discount_after_tax,
                 down_payment: deposit.down_payment,
               }}
               data={compoundingCar}

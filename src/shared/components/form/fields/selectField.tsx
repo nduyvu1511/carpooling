@@ -48,7 +48,8 @@ export const SelectField = ({
           htmlFor={name}
           className={`form-label ${disabled ? "pointer-events-none" : ""}`}
         >
-          {label} {required ? "(*)" : ""}
+          {label}
+          {required ? "(*)" : ""}
         </label>
       ) : null}
 

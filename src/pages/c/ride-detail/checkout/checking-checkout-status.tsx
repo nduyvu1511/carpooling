@@ -1,4 +1,4 @@
-import { CheckoutProcess } from "@/components"
+import { CheckoutProcess, Seo } from "@/components"
 import { CustomerLayout } from "@/layout"
 import { VnpayStatus } from "@/models"
 import { useRouter } from "next/router"
@@ -9,6 +9,11 @@ const CheckingCheckoutStatus = () => {
 
   return (
     <>
+      <Seo
+        title="Tiền hành thanh toán chuyến đi"
+        url={`c/ride-detail/checkout/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`}
+      />
+
       {compounding_car_customer_id ? (
         <CheckoutProcess
           fetcher_type="customerConfirmPayFullCompoundingCar"

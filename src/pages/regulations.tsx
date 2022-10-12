@@ -1,9 +1,11 @@
+import { Seo } from "@/components"
 import { ADDRESS, EMAIL, PHONE } from "@/helper"
 import { StaticLayout } from "@/layout"
 
 export const Regulations = () => {
   return (
     <StaticLayout heading="Quy chế hoạt động">
+      <Seo title="Quy chế hoạt động" url="regulations" />
       <div className="">
         <p className="text-base md:text-xl font-semibold text-center my-[40px]">
           CÁC QUY ĐỊNH VỀ AN TOÀN THÔNG TIN, CƠ CHẾ KIỂM TRA, GIÁM SÁT ĐỂ ĐẢM BẢO VIỆC CUNG CẤP

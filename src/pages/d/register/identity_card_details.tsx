@@ -39,12 +39,7 @@ const IdentityCardDetail = () => {
       onRightBtnClick={() => router.push("/d/register")}
       heading="CMND / Thẻ Căn Cước / Hộ Chiếu"
     >
-      <Seo
-        description=""
-        thumbnailUrl=""
-        title="CMND / Thẻ Căn Cước / Hộ Chiếu"
-        url="/d/register/identity_card_details"
-      />
+      <Seo title="CMND / Thẻ Căn Cước / Hộ Chiếu" url="d/register/identity_card_details" />
 
       {!isValidating ? (
         <IdentityCardForm defaultValues={idCard} onSubmit={(data) => handleSubmitForm(data)} />

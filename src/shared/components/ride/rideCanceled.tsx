@@ -97,7 +97,7 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
           {moment((compoundingCar as CompoundingCancelCar)?.cancel_date)
             .add(3, "hours")
             .isBefore(moment(compoundingCar.expected_going_on_date)) ? (
-            <Snackbar title="Số tiền đặt cọc sẽ được hoàn về ví của hành khách trong 24 giờ làm việc." />
+            <Snackbar title="Số tiền đặt cọc sẽ được hoàn về ví của khách hàng trong 24 giờ làm việc." />
           ) : null}
         </div>
       ) : null}
