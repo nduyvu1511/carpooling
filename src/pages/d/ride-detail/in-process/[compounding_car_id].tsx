@@ -149,7 +149,7 @@ const StartRunningCompoundingCar = () => {
       />
       <BookingLayout
         overflowHidden={false}
-        className="pb-[80px] lg:pb-24 overflow-clip"
+        className="pb-[70px] lg:pb-24 overflow-clip"
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}

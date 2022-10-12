@@ -87,22 +87,12 @@ export interface CreateCommonCompoundingForm {
   note?: string
   expected_going_on_date: string
   distance: number
+  price?: number
   duration?: number
   is_checked_policy: boolean
 }
 
 export interface CreateOneWayCompoundingCarForm extends CreateCommonCompoundingForm {
-  price?: number
-}
-
-export interface CreateCommonCompoundingForm {
-  from_location: FromLocation
-  to_location: FromLocation
-  car_id: OptionModel
-  note?: string
-  expected_going_on_date: string
-  distance: number
-  is_checked_policy: boolean
   price?: number
 }
 
@@ -178,7 +168,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
   rating_ids: RatingRes[]
   rating_state: RatingState
   car_driver_deposit_percentage: number
-  cancel_reason?: CancelReason
+  cancel_reason_id?: CancelReason
   amount_return?: number
   down_payment?: DownPayment
   amount_total?: number
@@ -254,7 +244,7 @@ export interface CompoundingCarCustomer {
   rating?: RatingRes
   second_waiting_remains: number
   customer_deposit_percentage: number
-  cancel_reason?: CancelReason
+  cancel_reason_id?: CancelReason
   paid_date?: string
   cancel_date?: string
   amount_return?: number

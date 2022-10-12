@@ -1,6 +1,8 @@
+import { RootState } from "@/core/store"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { CalcDistanceRes, LatLng, UseParams } from "@/models"
 import { useLoadScript } from "@react-google-maps/api"
+import { useSelector } from "react-redux"
 
 interface CalcDistanceParams {
   origin: LatLng
@@ -14,10 +16,8 @@ interface Res {
 }
 
 export const useCalcDistance = (): Res => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: GOOGLE_MAP_API_KEY,
-    language: "vi",
-  })
+  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
+
 
   const calculateDistanceBetweenTwoCoordinates = (
     _params: UseParams<CalcDistanceParams, CalcDistanceRes>

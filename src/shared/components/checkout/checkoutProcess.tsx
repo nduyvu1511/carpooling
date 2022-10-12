@@ -135,7 +135,7 @@ const CheckoutProcess = ({
 
           <div className="flex-center flex-col">
             <button onClick={() => window.close()} className="btn-primary mb-24">
-              Trở về trang chủ
+              Trở về trang thanh toán
             </button>
 
             {countdown ? (

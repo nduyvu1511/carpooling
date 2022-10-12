@@ -14,7 +14,7 @@ const RidesSummaryHeader = ({ desc, title }: RidesSummaryHeaderProps) => {
 
   return (
     <div className="flex items-center flex-col sm:flex-row lg:flex-row">
-      <div className="sm:mr-[40px] mb-16 sm:mb-0 lg:mb-24 lg:mr-[40px]">
+      <div className="sm:mr-[40px] mb-16 sm:mb-0 lg:mb-0 lg:mr-[40px]">
         <CheckCircleIcon className="w-[66px] h-[66px] md:w-[80px] md:h-[80px] text-success" />
       </div>
       <div className="flex-1 text-center sm:text-left ">

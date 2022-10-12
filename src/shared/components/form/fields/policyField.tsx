@@ -1,21 +1,39 @@
+import { InputCheckbox } from "@/components"
 import Link from "next/link"
 import { useState } from "react"
-import { InputCheckbox } from "./inputCheckbox"
-import { Control } from "react-hook-form"
+import { Control, useController } from "react-hook-form"
 
-interface InputPolicyProps {
+interface PolicyFieldProps {
   onChange: (_: boolean) => void
-  value?: boolean
-  isError?: boolean
   control: Control<any>
+  name: string
+  defaultValue?: boolean
+  className?: string
 }
 
-const InputPolicy = ({ onChange, value, isError, control }: InputPolicyProps) => {
-  const [privacy1, setPrivacy1] = useState<boolean | undefined>(!!value || undefined)
-  const [privacy2, setPrivacy2] = useState<boolean | undefined>(!!value || undefined)
+const PolicyField = ({
+  onChange: externalOnChange,
+  control,
+  name,
+  defaultValue,
+  className = "",
+}: PolicyFieldProps) => {
+  const {
+    field: { onChange, onBlur, value, ref },
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+    defaultValue,
+  })
 
-  const handleChange = (privacy1: boolean | undefined, privacy2: boolean | undefined) => {
-    onChange(privacy1 === true && privacy2 === true)
+  const [privacy1, setPrivacy1] = useState<boolean>(!!value)
+  const [privacy2, setPrivacy2] = useState<boolean>(!!value)
+
+  const handleChange = (privacy1: boolean, privacy2: boolean) => {
+    const val = privacy1 === true && privacy2 === true
+    onChange(val || undefined)
+    externalOnChange(val)
   }
 
   const checkPrivacy1 = (status: boolean) => {
@@ -29,7 +47,7 @@ const InputPolicy = ({ onChange, value, isError, control }: InputPolicyProps) =>
   }
 
   return (
-    <>
+    <div ref={ref} onBlur={onBlur} className={`form-item ${className}`}>
       <div className="mb-12">
         <div className="flex items-center">
           <p className="mr-12">
@@ -48,7 +66,7 @@ const InputPolicy = ({ onChange, value, isError, control }: InputPolicyProps) =>
             Số tiền này chưa bao gồm chi phí cầu đường, bến bãi...
           </span>
         </div>
-        {isError || privacy1 === false ? (
+        {error && privacy1 === false ? (
           <p className="form-err-msg">Vui lòng nhập trường này</p>
         ) : null}
       </div>
@@ -82,12 +100,13 @@ const InputPolicy = ({ onChange, value, isError, control }: InputPolicyProps) =>
             </Link>
           </span>
         </div>
-        {isError || privacy2 === false ? (
+        {error && privacy2 === false ? (
           <p className="form-err-msg">Vui lòng nhập trường này</p>
         ) : null}
       </div>
-    </>
+    </div>
   )
 }
 
-export { InputPolicy }
+export { PolicyField }
+

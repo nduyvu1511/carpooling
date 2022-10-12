@@ -1,47 +1,37 @@
-import { MyInputDateTime } from "@/components"
-import { OptionModel } from "@/models"
-import React, { useRef } from "react"
+import { useRef } from "react"
 
 import { Control, useController } from "react-hook-form"
-import Select from "react-select"
+import Select, { Props } from "react-select"
 
-type DateTimeFieldProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLDivElement>,
-  any
-> & {
+type SelectFieldProps = Props & {
   size?: number
   control: Control<any>
   name: string
-  label: string
+  label?: string
   className?: string
-  disableHour?: boolean
-  disableDate?: boolean
-  maxHour?: string
-  currentDay?: string
+  disabled?: boolean
+  required?: boolean
   onChange?: (val: string) => void
-  options: OptionModel[]
 }
 
-export const DateTimeField = ({
+export const SelectField = ({
   control,
   name,
   label,
   className = "",
   size,
-  maxHour,
-  currentDay,
-  disableDate,
-  disableHour,
   defaultValue,
-  options,
   onChange: externalOnChange,
-  ...attributes
-}: DateTimeFieldProps) => {
+  disabled = false,
+  required = true,
+  autoFocus = false,
+  openMenuOnFocus = true,
+  ...attribute
+}: SelectFieldProps) => {
   const selectRef = useRef<any>(null)
   const {
     field: { onChange, onBlur, value, ref },
     fieldState: { error },
-    formState: { dirtyFields },
   } = useController({
     name,
     control,
@@ -49,41 +39,43 @@ export const DateTimeField = ({
   })
 
   return (
-    <div ref={ref} className={`form-item ${className}`}>
+    <div ref={ref} className={`form-item ${disabled ? "pointer-events-none" : ""} ${className}`}>
       {label ? (
         <label
           onClick={() => {
             selectRef.current?.focus()
           }}
           htmlFor={name}
-          className={`form-label ${attributes?.disabled ? "pointer-events-none" : ""}`}
+          className={`form-label ${disabled ? "pointer-events-none" : ""}`}
         >
-          {label} {attr ? "(*)" : ""}
+          {label} {required ? "(*)" : ""}
         </label>
       ) : null}
 
       <div className="form-select">
         <Select
-          isSearchable={isSearchable}
-          autoFocus={false}
+          {...attribute}
           openMenuOnFocus={true}
           ref={selectRef}
-          placeholder={placeholder}
-          options={options}
+          placeholder={attribute.placeholder}
+          options={attribute.options}
           onChange={(val) => {
+            if (disabled) return
+
             onChange(val)
-            onChangeProps(val as OptionModel)
+            externalOnChange?.(val)
           }}
           onBlur={onBlur}
           value={value}
           defaultValue={defaultValue}
           id={name}
-          className={`${isError ? "form-select-error" : ""} ${
-            disabled ? "pointer-events-none opacity-60" : ""
-          }`}
+          className={`${error ? "form-select-error" : ""}`}
         />
       </div>
-      {isError ? <p className="form-err-msg">Vui lòng nhập trường này</p> : null}
+
+      {error ? (
+        <p className="form-err-msg">{error?.message || "Vui lòng nhập trường này"}</p>
+      ) : null}
     </div>
   )
 }

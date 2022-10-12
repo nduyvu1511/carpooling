@@ -1,11 +1,12 @@
 import { LocationIcon, LocationIcon2, LocationIcon3 } from "@/assets"
+import { RootState } from "@/core/store"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation, useDirections } from "@/hooks"
 import { DirectionLngLat, DirectionsResult, FromLocation, LatLng, LatlngAddress } from "@/models"
 import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
 import { Alert } from "../modal"
@@ -60,7 +61,11 @@ export const Map = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  const [libraries] = useState<any>(["places", "geometry"])
+  // const [libraries] = useState<any>(["places", "geometry"])
+  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
+  const [mapLoading, setMapLoading] = useState<boolean>(false)
+  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [directionsResult, setDirectionsResult] = useState<DirectionsResult | undefined>()
   const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>(
     markerLocation || {
       lng: 10.7553411,
@@ -72,17 +77,14 @@ export const Map = ({
     lat: 0,
     lng: 0,
   })
-  const [mapLoading, setMapLoading] = useState<boolean>(false)
-  const [showAlert, setShowAlert] = useState<boolean>(false)
-  const [directionsResult, setDirectionsResult] = useState<DirectionsResult | undefined>()
 
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: GOOGLE_MAP_API_KEY,
-    language: "vi",
-    libraries,
-  })
+  // const { isLoaded } = useLoadScript({
+  //   googleMapsApiKey: GOOGLE_MAP_API_KEY,
+  //   language: "vi",
+  //   libraries,
+  // })
 
   // Get Directions result
   useEffect(() => {
@@ -107,7 +109,6 @@ export const Map = ({
       setCurrentLocation(defaultLocation)
       return
     }
-    console.log(currentAddress)
 
     getCurrentLocation({
       params: { showMsg: false },
@@ -169,9 +170,10 @@ export const Map = ({
     }
 
     if (province_id === prevProvinceId) {
-      dispatch(notify("Exxe chỉ hỗ chợ những quốc xe khác tỉnh", "warning"))
+      dispatch(notify("Vui lòng chọn địa điểm khác với tỉnh trước đó", "warning"))
       return
     }
+
     onChooseLocation && onChooseLocation({ ...currentAddress, province_id })
   }
 

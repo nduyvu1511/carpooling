@@ -103,7 +103,9 @@ const MyInputDateTime = ({
   }
 
   const handleChange = ({ date, time }: { date: string | undefined; time: string | undefined }) => {
-    onChange(`${date} ${time}`)
+    if (date && time) {
+      onChange(`${date} ${time}`)
+    }
   }
 
   const handleSetTime = (val: OptionModel) => {

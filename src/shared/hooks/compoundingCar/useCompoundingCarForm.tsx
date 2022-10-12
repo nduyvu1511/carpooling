@@ -205,7 +205,7 @@ export const useCompoundingForm = (): Res => {
           compoundingCar?.from_address || compoundingCar?.to_pick_up_station?.station_name,
       },
       number_seat: {
-        label: `${compoundingCar.number_seat} ghế`,
+        label: compoundingCar.number_seat + "",
         value: compoundingCar.number_seat,
       },
       duration: compoundingCar.duration,
@@ -280,7 +280,7 @@ export const useCompoundingForm = (): Res => {
         station_name: compoundingCar.from_pick_up_station?.station_name,
       },
       number_seat: {
-        label: `${compoundingCar.number_seat_in_car - compoundingCar.number_available_seat} ghế`,
+        label: `${compoundingCar.number_seat_in_car - compoundingCar.number_available_seat}`,
         value: compoundingCar.number_seat_in_car - compoundingCar.number_available_seat,
       },
       price_per_passenger: compoundingCar?.price_unit?.price_unit,
@@ -441,8 +441,8 @@ export const useCompoundingForm = (): Res => {
       to_location: getFromLocalStorage(TWO_WAY_TO_LOCATION),
       is_checked_policy: getFromLocalStorage(TWO_WAY_IS_CHECKED_POLICY),
       note: getFromLocalStorage(TWO_WAY_NOTE),
-      is_a_day_tour: getFromLocalStorage(TWO_WAY_IS_A_DAY_TOUR),
-      expected_picking_up_date: getFromLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE),
+      is_a_day_tour: getFromLocalStorage(TWO_WAY_IS_A_DAY_TOUR) || false,
+      expected_picking_up_date: getFromLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE) || "",
       hour_of_wait_time: getFromLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME),
       duration: getFromLocalStorage(TWO_WAY_DURATION),
       price: getFromLocalStorage(TWO_WAY_PRICE),

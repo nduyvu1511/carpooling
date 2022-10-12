@@ -323,13 +323,26 @@ export const twoWayCompoundingCarSchema = Yup.object().shape({
   note: Yup.string().nullable(),
   distance: Yup.number().typeError("Vui lòng nhập khoảng cách").required(),
   is_a_day_tour: Yup.boolean().required(),
-  hour_of_wait_time: Yup.object()
-    .shape({
-      label: Yup.string().required(),
-      value: Yup.string().required(),
-    })
-    .required(),
-  expected_picking_up_date: Yup.string().required(),
+  hour_of_wait_time: Yup.mixed()
+    .optional()
+    .when("is_a_day_tour", {
+      is: true,
+      then: Yup.object()
+        .shape({
+          label: Yup.string().required(),
+          value: Yup.string().required(),
+        })
+        .typeError("Vui lòng nhập ngày về")
+        .required("Vui lòng nhập ngày về"),
+    }),
+  expected_picking_up_date: Yup.string()
+    .optional()
+    .default("")
+    .when("is_a_day_tour", {
+      is: false,
+      then: Yup.string().required("Vui lòng nhập ngày về"),
+      otherwise: Yup.string().optional(),
+    }),
   price: Yup.number(),
 })
 
@@ -344,7 +357,7 @@ export const carpoolingCompoundingCarSchema = Yup.object().shape({
       lng: Yup.string().required(),
       province_name: Yup.string(),
     })
-    .required("Vui lòng nhập trường này"),
+    .required("Vui lòng chọn điểm đón"),
   to_station: Yup.object()
     .shape({
       station_name: Yup.string().required(),
@@ -355,7 +368,7 @@ export const carpoolingCompoundingCarSchema = Yup.object().shape({
       lng: Yup.string().required(),
       province_name: Yup.string(),
     })
-    .required("Vui lòng nhập trường này"),
+    .required("Vui lòng chọn điểm đến"),
   from_location: Yup.object()
     .shape({
       lng: Yup.string(),

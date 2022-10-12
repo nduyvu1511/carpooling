@@ -231,6 +231,7 @@ export const MessageItem = ({
                     </p>
                   </Linkify>
                 ) : null}
+
                 {/* Location */}
                 {data?.location ? (
                   <div

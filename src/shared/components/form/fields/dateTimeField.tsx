@@ -10,7 +10,7 @@ type DateTimeFieldProps = React.DetailedHTMLProps<
   size?: number
   control: Control<any>
   name: string
-  label: string
+  label?: string
   className?: string
   disableHour?: boolean
   disableDate?: boolean
@@ -36,7 +36,6 @@ export const DateTimeField = ({
   const {
     field: { onChange, onBlur, value, ref },
     fieldState: { error },
-    formState: { dirtyFields },
   } = useController({
     name,
     control,
@@ -44,7 +43,10 @@ export const DateTimeField = ({
   })
 
   return (
-    <div ref={ref} className={`form-item ${className}`}>
+    <div
+      ref={ref}
+      className={`form-item ${attributes.disabled ? "pointer-events-none" : ""} ${className}`}
+    >
       {label ? (
         <label htmlFor={name} className="form-label">
           {label}
@@ -60,8 +62,10 @@ export const DateTimeField = ({
         disableDate={disableDate}
         isError={!!error}
         onChange={(dateTime) => {
-          onChange(dateTime)
+          if (attributes.disabled) return
+
           externalOnChange?.(dateTime)
+          onChange(dateTime)
         }}
         initialValue={value}
         maxMenuHeight={200}

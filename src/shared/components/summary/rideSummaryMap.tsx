@@ -53,7 +53,15 @@ export const RideSummaryMap = memo(function Child({
       ) : null}
 
       {showMap ? (
-        <div className="h-[200px]">
+        <div
+          onClick={() =>
+            window.open(
+              `https://www.google.com/maps/dir/?api=1&origin=${data.from_province.latitude},${data.from_province.longitude}&destination=${data.to_province.latitude},${data.to_province.longitude}`,
+              "_blank"
+            )
+          }
+          className="h-[200px]"
+        >
           <Map
             viewOnly
             directions={{

@@ -1,19 +1,24 @@
 import { SpinnerLoading } from "@/components"
 import { AppDispatch, RootState } from "@/core"
+import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAuth } from "@/hooks"
 import {
   fetchProvinces,
   fetchVehicles,
+  setLoadedGoogleMap,
   setMessageUnreadCount,
   setProfile,
   setSocketInstance,
 } from "@/modules"
 import { chatApi, userApi } from "@/services"
+import { useLoadScript } from "@react-google-maps/api"
 import "moment/locale/vi"
 import { ReactNode, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
 import { io } from "socket.io-client"
+
+const libraries: any = ["places", "geometry"]
 
 const App = ({ children }: { children: ReactNode }) => {
   const { getUserInfo } = useAuth()
@@ -21,6 +26,19 @@ const App = ({ children }: { children: ReactNode }) => {
   const notifications = useSelector((state: RootState) => state.notifications)
   const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
   const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    language: "vi",
+    libraries,
+  })
+
+  useEffect(() => {
+    if (isLoaded) {
+      dispatch(setLoadedGoogleMap(true))
+      console.log("re dispatch google map")
+    }
+  }, [dispatch, isLoaded])
 
   const connectSocket = async () => {
     const res = await userApi.getChatToken()

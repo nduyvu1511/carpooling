@@ -89,7 +89,6 @@ const ConfirmBookingCustomer = () => {
 
                 {compoundingCar.compounding_type === "one_way" ? (
                   <OneWayCompoundingForm
-                    view="page"
                     defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
                     mode={"confirm"}
                     onSubmit={handleConfirmCompoundingCar}

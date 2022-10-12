@@ -6,12 +6,14 @@ interface CommonSliceParams {
   isScreenLoading: boolean
   authModalType: AuthModalType | undefined
   isShowSummaryDetail: boolean
+  isLoadedGoogleMap: boolean
 }
 
 const initialState: CommonSliceParams = {
   isScreenLoading: false,
   authModalType: undefined,
   isShowSummaryDetail: false,
+  isLoadedGoogleMap: false,
 }
 
 const commonSlice = createSlice({
@@ -50,8 +52,13 @@ const commonSlice = createSlice({
       }
       state.isShowSummaryDetail = payload
     },
+
+    setLoadedGoogleMap: (state, { payload }: PayloadType<boolean>) => {
+      state.isLoadedGoogleMap = payload
+    },
   },
 })
 
 export default commonSlice.reducer
-export const { setScreenLoading, setAuthModalType, setShowSummaryDetail } = commonSlice.actions
+export const { setScreenLoading, setAuthModalType, setShowSummaryDetail, setLoadedGoogleMap } =
+  commonSlice.actions

@@ -1,8 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ButtonSubmit, DateTimeField, TextareaField } from "@/components"
 import {
-  formatMoneyVND,
-  getHoursName,
+  ButtonSubmit,
+  DateTimeField,
+  LocationField,
+  PolicyField,
+  SelectField,
+  TextareaField,
+} from "@/components"
+import {
   isObjectHasValue,
   oneWayCompoundingCarSchema,
   ONE_WAY_CAR_ID,
@@ -20,8 +25,7 @@ import {
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
 import { CreateOneWayCompoundingCar, CreateOneWayCompoundingCarForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Controller, useForm } from "react-hook-form"
-import { InputLocation, InputPolicy, InputSelect } from "../../inputs"
+import { useForm } from "react-hook-form"
 
 interface OneWayCompoundingFormProps {
   onSubmit?: (params: CreateOneWayCompoundingCar) => void
@@ -39,15 +43,13 @@ export const OneWayCompoundingForm = ({
   view = "page",
 }: OneWayCompoundingFormProps) => {
   const {
-    register,
     handleSubmit,
     setValue,
     getValues,
     clearErrors,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
     control,
-    setError,
   } = useForm<CreateOneWayCompoundingCarForm>({
     resolver: yupResolver(oneWayCompoundingCarSchema),
     mode: "all",
@@ -98,8 +100,6 @@ export const OneWayCompoundingForm = ({
     })
   }
 
-  console.log("one way form re-render")
-
   const onSubmitHandler = (data: CreateOneWayCompoundingCarForm) => {
     const params: CreateOneWayCompoundingCar = {
       car_id: Number(data.car_id.value),
@@ -128,81 +128,56 @@ export const OneWayCompoundingForm = ({
       })}
       className="one-way-form"
     >
-      <div className="">
-        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
-          <InputLocation
-            prevProvinceId={getValues("to_location.province_id")}
-            isError={!!errors?.from_location}
-            type="from"
-            defaultValue={getValues("from_location")?.address || ""}
-            placeholder="Điểm đón"
-            onChange={(location) => {
-              setValue("from_location", location)
-              clearErrors("from_location")
-              setToLocalStorage(ONE_WAY_FROM_LOCATION, location)
-              calcDistance()
-              calcPrice()
-            }}
-            defaultLocation={getValues("from_location")}
-            control={control}
-            name="from_location"
-          />
-        </div>
+      <LocationField
+        disabled={disabled}
+        control={control}
+        name="from_location"
+        onChange={(data) => {
+          setToLocalStorage(ONE_WAY_FROM_LOCATION, data)
+          calcDistance()
+          calcPrice()
+        }}
+        label="Điểm đón"
+        placeholder="Điểm đón"
+        modalTitle="Chọn điểm đón"
+        prevProvinceId={getValues("to_location.province_id")}
+      />
 
-        <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
-          <InputLocation
-            prevProvinceId={getValues("from_location.province_id")}
-            isError={!!errors?.to_location}
-            type="to"
-            defaultValue={getValues("to_location")?.address || ""}
-            placeholder="Điểm đến"
-            onChange={(location) => {
-              setValue("to_location", location)
-              clearErrors("to_location")
-              setToLocalStorage(ONE_WAY_TO_LOCATION, location)
-              calcDistance()
-              calcPrice()
-            }}
-            defaultLocation={getValues("to_location")}
-            control={control}
-            name="to_location"
-          />
-          {mode === "create" && durationDistance?.[0] ? (
-            <div className="mt-[4px] text-xs leading-[22px] font-normal flex items-center flex-wrap">
-              {durationDistance?.[0] ? (
-                <p className="mr-[12px]">Quãng đường: {durationDistance?.[0].toFixed()}km</p>
-              ) : null}
-              {durationDistance?.[1] ? (
-                <p className="mr-[12px]">Thời gian: {getHoursName(durationDistance?.[1])}</p>
-              ) : null}
-              {durationDistance?.[2] ? (
-                <p className="">Giá: {formatMoneyVND(durationDistance?.[2].toFixed(2))}</p>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      </div>
+      <LocationField
+        disabled={disabled}
+        control={control}
+        name="to_location"
+        onChange={(data) => {
+          setToLocalStorage(ONE_WAY_TO_LOCATION, data)
+          calcDistance()
+          calcPrice()
+        }}
+        prevProvinceId={getValues("from_location.province_id")}
+        label="Điểm đến"
+        placeholder="Điểm đến"
+        modalTitle="Chọn điểm đến"
+        distance={durationDistance?.[0]}
+        duration={durationDistance?.[1]}
+        price={durationDistance?.[2]}
+        showLocationInfo={mode === "create" && !!durationDistance?.[0]}
+      />
 
-      <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
-        <InputSelect
-          isSearchable={false}
-          control={control}
-          name={"car_id"}
-          defaultValue={getValues("car_id") || defaultValues?.car_id}
-          isError={!!errors?.car_id}
-          placeholder="Loại xe"
-          onChange={(option) => {
-            if (!option) return
-            setToLocalStorage(ONE_WAY_CAR_ID, option)
-            setValue("car_id", option)
-            clearErrors("car_id")
-            calcPrice()
-          }}
-          options={vehicleTypeOptions}
-        />
-      </div>
+      <SelectField
+        disabled={disabled}
+        label="Loại xe"
+        placeholder="Loại xe"
+        name="car_id"
+        isSearchable={false}
+        control={control}
+        options={vehicleTypeOptions}
+        onChange={(option) => {
+          setToLocalStorage(ONE_WAY_CAR_ID, option)
+          calcPrice()
+        }}
+      />
 
       <DateTimeField
+        disabled={disabled}
         required
         control={control}
         name="expected_going_on_date"
@@ -214,6 +189,7 @@ export const OneWayCompoundingForm = ({
       />
 
       <TextareaField
+        disabled={disabled}
         control={control}
         name="note"
         readOnly={disabled}
@@ -223,30 +199,13 @@ export const OneWayCompoundingForm = ({
       />
 
       {mode === "create" && !disabled ? (
-        <div className="mb-[24px]">
-          <Controller
-            control={control}
-            name={"is_checked_policy"}
-            render={() => (
-              <InputPolicy
-                isError={!!errors?.is_checked_policy?.message}
-                onChange={(status) => {
-                  if (status) {
-                    setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, true)
-                    clearErrors("is_checked_policy")
-                    setValue("is_checked_policy", true)
-                  } else {
-                    setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, undefined)
-                    setError("is_checked_policy", {})
-                    setValue("is_checked_policy", undefined as any)
-                  }
-                }}
-                value={getValues("is_checked_policy")}
-              />
-            )}
-            rules={{ required: true }}
-          />
-        </div>
+        <PolicyField
+          className="mb-24"
+          defaultValue={getValues("is_checked_policy")}
+          control={control}
+          name="is_checked_policy"
+          onChange={(val) => setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, val || undefined)}
+        />
       ) : null}
 
       {view === "page" ? <div className="md:mt-[40px]"></div> : null}

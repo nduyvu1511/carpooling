@@ -25,9 +25,14 @@ const CheckoutSuccess = () => {
 
   return (
     <CustomerLayout headerClassName="hidden md:flex" showHeaderOnMobile={false}>
-      <Seo description="" thumbnailUrl="" title="Đặt chuyến thành công" url="" />
+      <Seo
+        description=""
+        thumbnailUrl=""
+        title="Đặt chuyến thành công"
+        url={`c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`}
+      />
       <HeaderMobile className="md:hidden" title="Đặt chuyến thành công" />
-      <div className="content-container sm:py-16 pb-[70px] mt-[56px] md:mt-0">
+      <div className="content-container py-custom pb-[70px] mt-[56px] md:mt-0">
         {isValidating ? (
           <Spinner className="py-[60px]" size={40} />
         ) : (

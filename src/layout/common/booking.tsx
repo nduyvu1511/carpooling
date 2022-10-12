@@ -1,7 +1,6 @@
 import { ArrowLeft2Icon } from "@/assets"
 import { HeaderMobile, RideSummaryLoading } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { useBreakpoint } from "@/hooks"
 import { BookingLayoutProps } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"

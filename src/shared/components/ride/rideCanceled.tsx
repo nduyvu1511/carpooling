@@ -19,12 +19,14 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
         <div className="">
           <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
 
-          {compoundingCar?.cancel_reason?.cancel_reason_id ||
+          {compoundingCar?.cancel_reason_id?.cancel_reason_id ||
           compoundingCar?.cancel_reason_other ? (
             <div className="mb-24">
               <p className="text-base font-semibold mb-16 uppercase">Thông tin hủy chuyến</p>
-              {compoundingCar?.cancel_reason?.reason ? (
-                <p className="text-sm text-gray-color-7">{compoundingCar?.cancel_reason?.reason}</p>
+              {compoundingCar?.cancel_reason_id?.reason ? (
+                <p className="text-sm text-gray-color-7">
+                  {compoundingCar?.cancel_reason_id?.reason}
+                </p>
               ) : null}
               {compoundingCar?.cancel_reason_other ? (
                 <p className="text-sm text-gray-color-7 mt-12">

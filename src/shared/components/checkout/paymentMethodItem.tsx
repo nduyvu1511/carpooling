@@ -11,7 +11,7 @@ export const PaymentMethodItem = ({ data, value, onChange, className }: PaymentM
   return (
     <div
       onClick={() => onChange?.(data.value)}
-      className={`text-sm block-element p-12 shadow-shadow-1 border border-solid rounded-[8px] ${
+      className={`cursor-pointer text-sm block-element p-12 shadow-shadow-1 border border-solid rounded-[8px] ${
         value === data.value ? "border-[1px] border-primary bg-bg-primary" : "border-[#F3F3F3]"
       } transition-all duration-150 cursor-pointer ${className}`}
     >
