@@ -1,4 +1,3 @@
-import { Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { useChatNotification } from "@/hooks"
 import {
@@ -7,9 +6,12 @@ import {
   RoomDetailFunctionHandler,
   RoomFunctionHandler,
   RoomRes,
-  RoomTypingRes,
 } from "@/models"
-import { checkForUserDisconnectWhenTyping, setCurrentRoomId, setCurrentTyping } from "@/modules"
+import {
+  checkForUserDisconnectWhenTyping,
+  setCurrentRoomId,
+  updateMessageUnreadCount,
+} from "@/modules"
 import { memo, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Room, RoomDetail } from "../room"
@@ -23,7 +25,9 @@ export const Chat = memo(function _Chat() {
   const { createNotification } = useChatNotification()
 
   useEffect(() => {
-    if (!socket) return
+    if (!socket?.connected) {
+      return
+    }
 
     // Listen to status of friend
     socket.on("friend_login", (user: FriendStatusRes) => {
@@ -49,6 +53,15 @@ export const Chat = memo(function _Chat() {
       }
     })
 
+    socket.on("read_all_message", (room_id: string) => {
+      roomRef.current?.clearMessagesUnreadFromRoom(room_id)
+      dispatch(updateMessageUnreadCount({ room_id: room_id, type: "decrease" }))
+    })
+
+    socket.on("partner_read_all_message", (room_id: string) => {
+      roomDetailRef.current?.confirmReadAllMessage(room_id)
+    })
+
     socket.on("confirm_read_message", (data: MessageRes) => {
       roomDetailRef.current?.changeMesageStatus(data)
     })
@@ -66,20 +79,6 @@ export const Chat = memo(function _Chat() {
       roomDetailRef.current?.mutatePartnerReactionMessage(payload)
     })
 
-    // Typing listener
-    socket.on("start_typing", (payload: RoomTypingRes) => {
-      dispatch(setCurrentTyping(payload))
-    })
-
-    socket.on("stop_typing", () => {
-      dispatch(setCurrentTyping(undefined))
-    })
-
-    return () => {
-      dispatch(setCurrentRoomId(undefined))
-      socket.off("connect")
-      socket.off("disconnect")
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])
 
@@ -98,7 +97,6 @@ export const Chat = memo(function _Chat() {
     roomRef.current?.changeOrderAndAppendLastMessage(params)
   }
 
-  if (!socket) return <Spinner size={36} />
   return (
     <section
       className={`chat-wrapper grid md:grid-cols-chat-md lg:grid-cols-chat-lg gap-12 md:gap-16 lg:gap-24 overflow-hidden h-full flex-1`}

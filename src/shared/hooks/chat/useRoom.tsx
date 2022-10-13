@@ -5,7 +5,6 @@ import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useState } from "react"
 import useSWR, { KeyedMutator } from "swr"
-import { useChatNotification } from "./useChatNotification"
 
 type UseRoomRes = {
   data: ListRes<RoomRes[]> | undefined
@@ -16,7 +15,6 @@ type UseRoomRes = {
   isFirstLoading: boolean
   messageUnreadhandler: (_: MessageRes) => void
   changeStatusOfRoom: (_: ChangeStatusOfRoom) => void
-  increaseMessageUnread: (_: MessageRes) => void
   appendLastMessage: (_: MessageRes) => void
   changeOrderAndAppendLastMessage: (_: MessageRes) => void
   clearMessagesUnreadFromRoom: (room_id: string) => void
@@ -26,7 +24,6 @@ type UseRoomRes = {
 const LIMIT = 30
 
 export const useRoom = (roomId?: string): UseRoomRes => {
-  const { createNotification } = useChatNotification()
   const { isValidating, mutate, data, error } = useSWR<ListRes<RoomRes[]>>("get_room_list", () =>
     chatApi.getRoomList({ limit: LIMIT }).then((res: AxiosResponse<ListRes<RoomRes[]>>) => {
       setHasMore(res.data?.has_more || false)
@@ -45,24 +42,32 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     if (index === -1) return
 
     if (roomId !== params.room_id) {
-      increaseMessageUnread(params, (message_unread_count) => {
-        const lastMessage = getLastMessage(params)
-        mutate(
-          produce(data, (draft) => {
-            const room = { ...draft.data[index], last_message: params }
-            if (data.data?.[0]?.room_id === params.room_id) {
-              draft.data[index] = { ...room, message_unread_count, last_message: lastMessage }
-            } else {
-              const newRooms = draft.data.filter((item) => item.room_id !== params.room_id)
-              draft.data = [
-                { ...room, message_unread_count, last_message: lastMessage },
-                ...newRooms,
-              ]
+      // increaseMessageUnread(params, (message_unread_count) => {
+      const lastMessage = getLastMessage(params)
+      mutate(
+        produce(data, (draft) => {
+          const room = { ...draft.data[index], last_message: params }
+          if (data.data?.[0]?.room_id === params.room_id) {
+            draft.data[index] = {
+              ...room,
+              message_unread_count: room.message_unread_count + 1,
+              last_message: lastMessage,
             }
-          }),
-          false
-        )
-      })
+          } else {
+            const newRooms = draft.data.filter((item) => item.room_id !== params.room_id)
+            draft.data = [
+              {
+                ...room,
+                message_unread_count: room.message_unread_count + 1,
+                last_message: lastMessage,
+              },
+              ...newRooms,
+            ]
+          }
+        }),
+        false
+      )
+      // })
     }
   }
 
@@ -101,20 +106,20 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     return index
   }
 
-  const increaseMessageUnread = async (
-    params: MessageRes,
-    cb?: (_: number) => void,
-    onErr?: Function
-  ) => {
-    try {
-      const res: any = await chatApi.addMessageUnreadToRoom({ message_id: params.message_id })
-      if (res?.success) {
-        cb?.(res?.data?.message_unread_count || 0)
-      } else {
-        onErr?.()
-      }
-    } catch (error) {}
-  }
+  // const increaseMessageUnread = async (
+  //   params: MessageRes,
+  //   cb?: (_: number) => void,
+  //   onErr?: Function
+  // ) => {
+  //   try {
+  //     const res: any = await chatApi.addMessageUnreadToRoom({ message_id: params.message_id })
+  //     if (res?.success) {
+  //       cb?.(res?.data?.message_unread_count || 0)
+  //     } else {
+  //       onErr?.()
+  //     }
+  //   } catch (error) {}
+  // }
 
   const clearMessagesUnreadFromRoom = async (roomId: string) => {
     if (!data?.data?.length) return
@@ -124,15 +129,15 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     const room = { ...data.data[index] }
     if (!room.message_unread_count || room.message_unread_count <= 0) return
 
-    const res: any = await chatApi.clearMessageUnreadFromRoom(roomId)
-    if (res?.success) {
-      mutate(
-        produce(data, (draft) => {
-          draft.data[index].message_unread_count = 0
-        }),
-        false
-      )
-    }
+    // const res: any = await chatApi.clearMessageUnreadFromRoom(roomId)
+    // if (res?.success) {
+    mutate(
+      produce(data, (draft) => {
+        draft.data[index].message_unread_count = 0
+      }),
+      false
+    )
+    // }
   }
 
   const appendLastMessage = (params: MessageRes) => {
@@ -218,7 +223,6 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     changeStatusOfRoom,
     messageUnreadhandler,
     changeOrderAndAppendLastMessage,
-    increaseMessageUnread,
     clearMessagesUnreadFromRoom,
     isFirstLoading: error === undefined && data === undefined,
   }

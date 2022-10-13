@@ -8,7 +8,7 @@ import {
   RideSummaryPassengerItem,
   Seo,
 } from "@/components"
-import { useBackRouter, useBreakpoint, useCompoundingCarDriver } from "@/hooks"
+import { useBackRouter, useBreakpoint, useChatActions, useCompoundingCarDriver } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -23,6 +23,8 @@ const CheckoutSuccess = () => {
     type: "once",
     compounding_car_id: Number(compounding_car_id),
   })
+  const { createSingleChat } = useChatActions()
+
   const [show, setShow] = useState<boolean>(false)
 
   useBackRouter({
@@ -95,7 +97,12 @@ const CheckoutSuccess = () => {
                 <ul className="">
                   {compoundingCar.compounding_car_customers.map((item, index) => (
                     <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
-                      <RideSummaryPassengerItem data={item} />
+                      <RideSummaryPassengerItem
+                        onChat={(partner_id) =>
+                          createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                        }
+                        data={item}
+                      />
                     </li>
                   ))}
                 </ul>

@@ -1,5 +1,6 @@
 import { MessageIcon, PhoneIcon2 } from "@/assets"
 import { toImageUrl } from "@/helper"
+import { useChatActions } from "@/hooks"
 import { CarDriverId } from "@/models"
 import Image from "next/image"
 import { Star } from "../star"
@@ -10,6 +11,14 @@ interface DriverInfoSummaryProps {
 }
 
 export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSummaryProps) => {
+  const { createSingleChat } = useChatActions()
+
+  const handleCreateChat = () => {
+    createSingleChat({
+      params: { partner_id: driver.partner_id },
+      onSuccess: () => {},
+    })
+  }
   return (
     <div className="">
       <p className={`text-16 uppercase font-semibold mb-16 ${titleClassName}`}>Thông tin tài xế</p>
@@ -40,7 +49,7 @@ export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSum
               <a href={`tel:${driver.phone}`} className="mr-12 md:mr-24">
                 <PhoneIcon2 className="text-primary w-[18px] h-[18px]" />
               </a>
-              <button>
+              <button onClick={() => handleCreateChat()}>
                 <MessageIcon className="text-primary w-[24px] h-[24px]" />
               </button>
             </div>

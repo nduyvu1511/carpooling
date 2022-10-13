@@ -4,20 +4,28 @@ import {
   MessageForm,
   MessageFormData,
   MessageReply,
+  MessageUnreadCountRes,
   PayloadType,
   RoomInfoRes,
   RoomTypingRes,
   TopMemberRes,
   UserRes,
 } from "@/models"
-import { createSlice } from "@reduxjs/toolkit"
+import { chatApi } from "@/services"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { Socket } from "socket.io-client"
+
+export const fetchMessageUnreadCount = createAsyncThunk(
+  "chat/fetchMessageUnreadCount",
+  async () => (await chatApi.getMessageUnreadCount())?.result?.data
+)
 
 interface ChatSlice {
   currentTyping: RoomTypingRes | undefined
   socket: Socket<any> | undefined
   messageFormData: MessageFormData[]
   profile: UserRes | undefined
+  messageUnreadCount: MessageUnreadCountRes | undefined
   currentMessageEmotionId: string | undefined
   currentDetailMessageId: string | undefined
   currentProfileId: string | undefined
@@ -30,6 +38,7 @@ interface ChatSlice {
 
 const initialState: ChatSlice = {
   currentTyping: undefined,
+  messageUnreadCount: undefined,
   socket: undefined,
   messageFormData: [],
   profile: undefined,
@@ -69,6 +78,30 @@ const chatSlice = createSlice({
       state.currentRoomInfo = payload
     },
 
+    setMessageUnreadCount: (state, { payload }: { payload: MessageUnreadCountRes | undefined }) => {
+      state.messageUnreadCount = payload
+    },
+
+    updateMessageUnreadCount: (
+      state,
+      { payload }: { payload: { room_id: string; type: "increase" | "decrease" } }
+    ) => {
+      if (!state?.messageUnreadCount?.room_ids) return
+      const { room_id, type } = payload
+
+      if (type === "decrease") {
+        const data = state.messageUnreadCount?.room_ids?.filter((id) => id !== room_id)
+        state.messageUnreadCount.room_ids = data
+        state.messageUnreadCount.message_unread_count = data?.length
+      } else {
+        const isDuplicate = state.messageUnreadCount?.room_ids?.includes(room_id)
+        if (isDuplicate) return
+
+        state.messageUnreadCount.room_ids.push(room_id)
+        state.messageUnreadCount.message_unread_count += 1
+      }
+    },
+
     updateCurrentRoomInfo: (
       state,
       {
@@ -103,10 +136,12 @@ const chatSlice = createSlice({
         state.socket?.emit("leave_room", state.currentRoomId)
       }
 
-      state.socket?.emit("join_room", payload)
       state.currentRoomId = payload
 
       if (payload) {
+        //Sự kiện dùng để tham gia vào phòng chat
+        state.socket?.emit("join_room", payload)
+
         const index = (state?.messageFormData || [])?.findIndex((item) => item.room_id === payload)
 
         if (index === -1) {
@@ -194,6 +229,27 @@ const chatSlice = createSlice({
         state?.messageFormData[index]?.attachments as MessageAttachment[]
       )?.filter((item) => item.id !== payload.imageId)
     },
+
+    resetChatState: (state) => {
+      state.currentTyping = undefined
+      state.socket = undefined
+      state.messageFormData = []
+      state.profile = undefined
+      state.messageUnreadCount = undefined
+      state.currentMessageEmotionId = undefined
+      state.currentDetailMessageId = undefined
+      state.currentProfileId = undefined
+      state.currentRoomId = undefined
+      state.currentPreviewImages = undefined
+      state.currentRoomInfo = undefined
+      state.currentMessageFormDataIndex = -1
+      state.accessToken = undefined
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchMessageUnreadCount.fulfilled, (state, { payload }) => {
+      state.messageUnreadCount = payload
+    })
   },
 })
 
@@ -217,4 +273,7 @@ export const {
   setCurrentRoomInfo,
   updateCurrentRoomInfo,
   setAccessToken,
+  setMessageUnreadCount,
+  updateMessageUnreadCount,
+  resetChatState,
 } = chatSlice.actions

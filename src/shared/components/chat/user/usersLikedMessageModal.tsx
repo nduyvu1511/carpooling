@@ -16,7 +16,7 @@ interface Props {
 
 export const UsersLikedMessageModal = ({ messageId }: Props) => {
   const dispatch = useDispatch()
-  const { data, error, isValidating } = useSWR<UsersLikedMessageRes | undefined>(
+  const { data, error } = useSWR<UsersLikedMessageRes | undefined>(
     messageId ? `get_users_liked_message_${messageId}` : null,
     () =>
       chatApi.getUsersLikedMessage(messageId).then((res: AxiosResponse<UsersLikedMessageRes>) => {
@@ -28,7 +28,7 @@ export const UsersLikedMessageModal = ({ messageId }: Props) => {
 
   const [currentSelect, setCurrentSelect] = useState<
     { key: string; data: UserReactionRes[] } | undefined
-  >()
+  >(data?.["all"] ? { data: data?.["all"], key: "all" } : undefined)
 
   const closeModal = () => {
     dispatch(setCurrentMessageEmotionId(undefined))
@@ -43,7 +43,7 @@ export const UsersLikedMessageModal = ({ messageId }: Props) => {
 
   return (
     <ModalSm
-      showLoading={isValidating}
+      showLoading={data === undefined && error === undefined}
       className="max-w-[440px]"
       onClose={closeModal}
       title="Chi tiết tin nhắn"

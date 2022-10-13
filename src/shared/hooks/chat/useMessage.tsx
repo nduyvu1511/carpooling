@@ -19,10 +19,8 @@ import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { Socket } from "socket.io-client"
 import useSWR from "swr"
 import { v4 as uuidv4 } from "uuid"
-import { useChatNotification } from "./useChatNotification"
 
 interface UseMessageRes {
   data: ListRes<MessageRes[]> | undefined
@@ -33,7 +31,7 @@ interface UseMessageRes {
   sendMessage: (params: UseParams<SendMessageData, MessageRes>) => void
   appendMessage: (params: MessageRes) => void
   confirmReadMessage: (params: MessageRes) => void
-  confirmReadAllMessageInRoom: (params: string) => void
+  // confirmReadAllMessageInRoom: (params: string) => void
   likeMessage: (params: LikeMessage, cb?: (params: LikeMessageRes) => void) => void
   unlikeMessage: (params: UnlikeMessage, cb?: (params: UnlikeMessage) => void) => void
   mutateMessageReaction: (_: mutateMessageReaction) => void
@@ -41,7 +39,6 @@ interface UseMessageRes {
   mutatePartnerReactionMessage: (message: MessageRes) => void
   resendMessage: (message: MessageRes) => void
   confirmReadAllMessage: () => void
-  socketHandler: (socket: Socket) => void
 }
 
 interface UseMessageProps {
@@ -50,7 +47,6 @@ interface UseMessageProps {
 }
 
 export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessageRes => {
-  const { createNotification } = useChatNotification()
   const userInfo = useSelector((state: RootState) => state.chat.profile)
   const [isFetchingMore, setFetchingMore] = useState<boolean>(false)
 
@@ -101,9 +97,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   }
 
   const appendMessage = (params: MessageRes) => {
-    console.log("params from append message: ", params)
     if (!data) return
-    console.log("params 2 from append message: ", params)
 
     mutate(
       produce(data, (draft) => {
@@ -201,32 +195,6 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     }
   }
 
-  const socketHandler = (socket: Socket) => {
-    console.log("this is instance of socket: ", socket)
-    socket.on("receive_message", (data: MessageRes) => {
-      appendMessage(data)
-      console.log("receive message: ", data)
-
-      if (document.hasFocus()) {
-        socket.emit("read_message", data)
-      } else {
-        createNotification(data)
-      }
-    })
-
-    socket.on("confirm_read_message", (data: MessageRes) => {
-      confirmReadMessage(data)
-    })
-
-    socket.on("like_message", (payload: MessageRes) => {
-      mutatePartnerReactionMessage(payload)
-    })
-
-    socket.on("unlike_message", (payload: MessageRes) => {
-      mutatePartnerReactionMessage(payload)
-    })
-  }
-
   const getMessage = async (data: SendMessageData): Promise<SendMessage> => {
     let attachment_ids: string[] = []
     if (data.attachments?.length) {
@@ -318,19 +286,19 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     )
   }
 
-  const confirmReadAllMessageInRoom = async (roomId: string, cb?: Function) => {
-    if (!data?.data?.length) return
+  // const confirmReadAllMessageInRoom = async (roomId: string, cb?: Function) => {
+  //   if (!data?.data?.length) return
 
-    const res: any = await chatApi.confirmReadAllMessageInRoom(roomId)
-    if (res?.success) {
-      mutate(
-        produce(data, (draft) => {
-          draft.data[draft.data.length - 1].is_read = true
-        }),
-        false
-      )
-    }
-  }
+  //   const res: any = await chatApi.confirmReadAllMessageInRoom(roomId)
+  //   if (res?.success) {
+  //     mutate(
+  //       produce(data, (draft) => {
+  //         draft.data[draft.data.length - 1].is_read = true
+  //       }),
+  //       false
+  //     )
+  //   }
+  // }
 
   const mutateByMessageRes = (message: MessageRes) => {
     if (!data?.data?.length) return
@@ -447,7 +415,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     sendMessage,
     appendMessage,
     confirmReadMessage,
-    confirmReadAllMessageInRoom,
+    // confirmReadAllMessageInRoom,
     likeMessage,
     unlikeMessage,
     mutateMessageReaction,
@@ -456,6 +424,5 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     mutatePartnerReactionMessage,
     resendMessage,
     confirmReadAllMessage,
-    socketHandler,
   }
 }

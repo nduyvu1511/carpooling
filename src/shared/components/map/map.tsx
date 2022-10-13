@@ -61,7 +61,6 @@ export const Map = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  // const [libraries] = useState<any>(["places", "geometry"])
   const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
   const [mapLoading, setMapLoading] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
@@ -79,12 +78,6 @@ export const Map = ({
   })
 
   const onLoad = useCallback((map: any) => (mapRef.current = map), [])
-
-  // const { isLoaded } = useLoadScript({
-  //   googleMapsApiKey: GOOGLE_MAP_API_KEY,
-  //   language: "vi",
-  //   libraries,
-  // })
 
   // Get Directions result
   useEffect(() => {

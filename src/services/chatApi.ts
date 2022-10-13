@@ -1,5 +1,4 @@
 import {
-  AddMessageUnread,
   changeUserStatusParams,
   ChatAxiosResponse,
   CreateGroupChat,
@@ -8,6 +7,7 @@ import {
   GetTokenParams,
   LikeMessage,
   LoginFormParams,
+  MessageUnreadCountRes,
   QueryCommonParams,
   SendMessage,
   TokenRes,
@@ -90,7 +90,7 @@ const chatApi = {
     return axiosClient.get(`/chat/user/profile${id ? `?user_id=${id}` : ""}`)
   },
 
-  getMessageUnreadCount: (): Promise<AxiosResponse<{ message_unread_count: number }>> => {
+  getMessageUnreadCount: (): Promise<AxiosResponse<MessageUnreadCountRes>> => {
     return axiosClient.get("/chat/user/message_unread_count")
   },
 
@@ -153,17 +153,17 @@ const chatApi = {
     return axiosClient.get("/chat/user")
   },
 
-  addMessageUnreadToRoom: (params: AddMessageUnread) => {
-    return axiosClient.post("/chat/room/message_unread", params)
-  },
+  // addMessageUnreadToRoom: (params: AddMessageUnread) => {
+  //   return axiosClient.post("/chat/room/message_unread", params)
+  // },
 
-  clearMessageUnreadFromRoom: (roomId: string) => {
-    return axiosClient.delete(`/chat/room/${roomId}/message_unread`)
-  },
+  // clearMessageUnreadFromRoom: (roomId: string) => {
+  //   return axiosClient.delete(`/chat/room/${roomId}/message_unread`)
+  // },
 
-  confirmReadMessage: (message_id: string) => {
-    return axiosClient.patch(`/chat/message/read`, { message_id })
-  },
+  // confirmReadMessage: (message_id: string) => {
+  //   return axiosClient.patch(`/chat/message/read`, { message_id })
+  // },
 
   confirmReadAllMessageInRoom: (room_id: string) => {
     return axiosClient.patch(`/chat/message/read_all`, { room_id })

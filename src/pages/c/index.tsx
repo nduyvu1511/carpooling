@@ -1,7 +1,12 @@
 import { Modal, RideContainer, Seo, UserInfoForm } from "@/components"
 import { RootState } from "@/core/store"
 import { isObjectHasValue } from "@/helper"
-import { useProfile, useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
+import {
+  useProfile,
+  useQueryCompoundingCarCustomer,
+  useQueryCompoundingCarParams,
+  useSocket
+} from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import { CompoundingFilterParams, UpdateUserInfoParams, UserInfoFormSubmit } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
@@ -13,9 +18,11 @@ import { notify } from "reapop"
 const HomeCustomer = () => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const { connectSocket } = useSocket()
   const { updateUserInfo } = useProfile()
-  const authModalType = useSelector((state: RootState) => state.common.authModalType)
   const { getValueFromQuery } = useQueryCompoundingCarParams()
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
+  const socket = useSelector((state: RootState) => state.chat.socket)
   const {
     data: rideList,
     isValidating,
@@ -25,6 +32,13 @@ const HomeCustomer = () => {
     isFetchingMore,
     isInitialLoading,
   } = useQueryCompoundingCarCustomer()
+
+  useEffect(() => {
+    if (!socket?.connected) {
+      setTimeout(() => connectSocket(), 1000)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket])
 
   useEffect(() => {
     if (router.isReady) {

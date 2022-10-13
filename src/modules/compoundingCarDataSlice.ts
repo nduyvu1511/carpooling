@@ -2,33 +2,31 @@ import { setToSessionStorage } from "@/helper"
 import { CarIdType, ProvinceId, VehicleTypeParams } from "@/models"
 import { addressApi, vehicleApi } from "@/services"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { AxiosResponse } from "axios"
-import { getFromSessionStorage } from "./../shared/helper/functions"
 
 interface CompoundingSlice {
   vehicleTypes: CarIdType[]
   provinces: ProvinceId[]
 }
 
-export const fetchVehicles = createAsyncThunk("compounding/fetchVehicles", async () => {
-  const response: AxiosResponse = await vehicleApi.getCarTypes()
-  return response.result.data
-})
+export const fetchVehicles = createAsyncThunk(
+  "compounding/fetchVehicles",
+  async () => (await vehicleApi.getCarTypes())?.result?.data
+)
 
-export const fetchProvinces = createAsyncThunk("compounding/fetchProvinces", async () => {
-  const response: AxiosResponse = await addressApi.getProvinces()
-  return response.result.data
-})
+export const fetchProvinces = createAsyncThunk(
+  "compounding/fetchProvinces",
+  async () => (await addressApi.getProvinces())?.result?.data
+)
 
-let initialState: CompoundingSlice = {
+const initialState: CompoundingSlice = {
   provinces: [],
   vehicleTypes: [],
 }
 
-try {
-  initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
-  initialState.provinces = getFromSessionStorage("compounding_provinces") || []
-} catch (error) {}
+// try {
+//   initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
+//   initialState.provinces = getFromSessionStorage("compounding_provinces") || []
+// } catch (error) {}
 
 const compoundingCarDataSlice = createSlice({
   name: "compounding",
@@ -46,7 +44,7 @@ const compoundingCarDataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchVehicles.fulfilled, (state, { payload }) => {
-      const data = payload.map((item: VehicleTypeParams) => ({
+      const data = payload?.map((item: VehicleTypeParams) => ({
         label: item.name,
         value: item.car_id,
         number_seat: item.number_seat,

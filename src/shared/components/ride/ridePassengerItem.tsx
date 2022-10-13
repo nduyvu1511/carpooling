@@ -20,6 +20,7 @@ interface RidePassengerItemProps {
   onClickConfirm?: Function
   onClickPaid?: Function
   onCancelWaiting?: Function
+  onChat?: (id: number) => void
 }
 
 const RidePassengerItem = ({
@@ -30,6 +31,7 @@ const RidePassengerItem = ({
   onClickConfirm,
   onClickPaid,
   onCancelWaiting,
+  onChat,
 }: RidePassengerItemProps) => {
   const { partner, from_address, to_address, expected_going_on_date } = data
 
@@ -75,7 +77,7 @@ const RidePassengerItem = ({
             <a className="mr-16" href={`tel:${data.partner.phone}`}>
               <PhoneIcon2 className="w-[18px] h-[18px]" />
             </a>
-            <button>
+            <button onClick={() => onChat?.(partner.partner_id)}>
               <MessageIcon className="text-primary w-[24px] h-[24px]" />
             </button>
           </div>
@@ -104,12 +106,12 @@ const RidePassengerItem = ({
           >
             <PhoneIcon2 className="w-[18px] h-[18px] text-primary" />
           </a>
-          <a
-            href={`tel:${partner.phone}`}
+          <button
+            onClick={() => onChat?.(partner.partner_id)}
             className="w-[44px] h-[44px] bg-bg-blue rounded-[8px] flex-center mr-12"
           >
             <MessageIcon className="w-[24px] h-[24px] text-primary" />
-          </a>
+          </button>
           <button
             onClick={() => onClickViewMap?.()}
             className="w-[44px] h-[44px] bg-bg-blue rounded-[8px] flex-center"

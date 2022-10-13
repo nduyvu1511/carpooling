@@ -1,5 +1,5 @@
 import store from "@/core/store"
-import { setProfile } from "@/modules"
+import { resetChatState, setProfile } from "@/modules"
 import axios from "axios"
 import { userApi } from "./userApi"
 
@@ -23,6 +23,8 @@ try {
         if (response?.data?.result?.code === 401 || response?.data?.result?.code === 403) {
           await userApi.logout()
           store?.dispatch(setProfile(undefined))
+          store.dispatch(resetChatState())
+
           return
         }
 

@@ -27,7 +27,9 @@ interface AuthHeaderProps {
 const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
   const router = useRouter()
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
-  const msgUnreadCount = useSelector((state: RootState) => state.userInfo.msgUnreadCount)
+  const msgUnreadCount = useSelector(
+    (state: RootState) => state.chat.messageUnreadCount?.message_unread_count || 0
+  )
   const [bookingType, setBookingType] = useState<CompoundingType | undefined>()
 
   const toggleBookingModal = (status: CompoundingType | undefined) => {
@@ -133,7 +135,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                         {msgUnreadCount ? (
                           <Badge
                             size={13}
-                            count={msgUnreadCount || 0}
+                            count={msgUnreadCount}
                             className="absolute top-[-2px] right-[-2px]"
                           />
                         ) : null}

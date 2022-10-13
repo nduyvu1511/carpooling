@@ -2,11 +2,9 @@ import { InputSearch, Spinner } from "@/components"
 import { RootState } from "@/core/store"
 import { useRoom } from "@/hooks"
 import { RoomFunctionHandler, RoomRes } from "@/models"
-import { setCurrentRoomId } from "@/modules"
-import { useRouter } from "next/router"
-import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import { ForwardedRef, forwardRef, useImperativeHandle, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { RoomItem } from "./roomItem"
 import { RoomSearch } from "./roomSearch"
 
@@ -20,9 +18,6 @@ export const Room = forwardRef(function RoomChild(
   { onSelectRoom }: RoomProps,
   ref: OnForwaredRoomDetail
 ) {
-  const dispatch = useDispatch()
-  const router = useRouter()
-  const room_id = router.query.room_id?.toString()
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
 
   const [showSearch, setShowSearch] = useState<boolean>()
@@ -36,7 +31,6 @@ export const Room = forwardRef(function RoomChild(
     isFirstLoading,
     changeStatusOfRoom,
     messageUnreadhandler,
-    increaseMessageUnread,
     changeOrderAndAppendLastMessage,
     appendLastMessage,
   } = useRoom(roomId)
@@ -48,29 +42,16 @@ export const Room = forwardRef(function RoomChild(
     changeStatusOfRoom: (params) => {
       changeStatusOfRoom(params)
     },
-    increaseMessageUnread: (params) => {
-      if (params.room_id !== roomId) {
-        increaseMessageUnread(params)
-      }
-    },
     changeOrderAndAppendLastMessage: (params) => {
       changeOrderAndAppendLastMessage(params)
     },
     appendLastMessage: (params) => {
       appendLastMessage(params)
     },
+    clearMessagesUnreadFromRoom: (rId) => {
+      clearMessagesUnreadFromRoom(rId)
+    },
   }))
-
-  useEffect(() => {
-    if (!data?.data?.length || !room_id || room_id === roomId) return
-    dispatch(setCurrentRoomId(room_id))
-  }, [room_id, roomId, dispatch, data])
-
-  useEffect(() => {
-    if (!data?.data?.length || !roomId) return
-    clearMessagesUnreadFromRoom(roomId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId])
 
   return (
     <div className="chat-room h-full flex-1 flex flex-col relative">

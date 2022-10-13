@@ -23,7 +23,8 @@ export const useChatNotification = () => {
         notification.addEventListener("click", () => {
           if (currentRoomId !== data.room_id) {
             if (router.pathname !== "/chat") {
-              router.push(`/chat?room_id=${data.room_id}`)
+              router.push("/chat")
+              dispatch(setCurrentRoomId(data.room_id))
             } else {
               dispatch(setCurrentRoomId(data.room_id))
             }

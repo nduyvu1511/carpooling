@@ -1,3 +1,4 @@
+import { RootState } from "@/core/store"
 import { isObjectHasValue, toImageUrl } from "@/helper"
 import { useFetcher } from "@/hooks"
 import {
@@ -14,10 +15,10 @@ import {
   UserLoginRes,
   UserRes,
 } from "@/models"
-import { setProfile } from "@/modules"
+import { resetChatState, setProfile, setSocketInstance } from "@/modules"
 import { chatApi, userApi } from "@/services"
 import { AxiosResponse } from "axios"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 interface UseAuthRes {
   getUserInfo: (handleSuccess: (props: UserInfo) => void, handleError?: Function) => void
@@ -39,6 +40,7 @@ interface UseAuthRes {
 export const useAuth = (): UseAuthRes => {
   const dispatch = useDispatch()
   const { fetcherHandler } = useFetcher()
+  const socket = useSelector((state: RootState) => state.chat.socket)
 
   const setToken = async (_params: UseParams<string, undefined>) => {
     const { params, onSuccess, config, onError } = _params
@@ -128,9 +130,7 @@ export const useAuth = (): UseAuthRes => {
       onSuccess: (userInfo) => {
         onSuccess(userInfo)
       },
-      onError: () => {
-        onError?.()
-      },
+      onError: () => onError?.(),
       config,
     })
   }
@@ -141,6 +141,8 @@ export const useAuth = (): UseAuthRes => {
       if (res?.result?.code !== 200) return
       cb?.()
       dispatch(setProfile(undefined))
+      dispatch(resetChatState())
+      socket?.disconnect()
     } catch (error) {
       console.log(error)
     }

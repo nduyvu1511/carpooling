@@ -6,10 +6,16 @@ import {
   MessageRes,
   RoomDetailFunctionHandler,
   RoomType,
+  RoomTypingRes,
   SendMessageData,
   UnlikeMessage,
 } from "@/models"
-import { setCurrentProfileId, setCurrentRoomInfo } from "@/modules"
+import {
+  setCurrentProfileId,
+  setCurrentRoomInfo,
+  setCurrentTyping,
+  updateMessageUnreadCount,
+} from "@/modules"
 import { chatApi } from "@/services"
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -34,12 +40,7 @@ export const RoomDetail = forwardRef(function RoomChild(
   const socket = useSelector((state: RootState) => state.chat.socket)
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
 
-  const { changeStatusOfRoom, data, isFirstLoading } = useRoomDetail({
-    roomId,
-    callback: (res) => {
-      handleReadMessage(res)
-    },
-  })
+  const { changeStatusOfRoom, data, isFirstLoading } = useRoomDetail({ roomId })
 
   const {
     appendMessage,
@@ -63,7 +64,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     changeStatusOfRoom: (params) => {
       changeStatusOfRoom(params)
     },
-    changeMesageStatus: async (params) => {
+    changeMesageStatus: (params) => {
       confirmReadMessage(params)
     },
     mutateWithMessageRes: (params) => {
@@ -71,6 +72,9 @@ export const RoomDetail = forwardRef(function RoomChild(
     },
     mutatePartnerReactionMessage: (params) => {
       mutatePartnerReactionMessage(params)
+    },
+    confirmReadAllMessage: () => {
+      confirmReadAllMessage()
     },
   }))
 
@@ -106,6 +110,7 @@ export const RoomDetail = forwardRef(function RoomChild(
   }) => {
     if (!lastMessage || lastMessage.is_author || lastMessage?.is_read) return
 
+    dispatch(updateMessageUnreadCount({ room_id: lastMessage.room_id, type: "increase" }))
     socket?.emit("read_message", lastMessage)
     confirmReadMessage(lastMessage)
 
@@ -119,6 +124,17 @@ export const RoomDetail = forwardRef(function RoomChild(
       chatApi.confirmReadAllMessageInRoom(roomId)
     }
   }
+
+  useEffect(() => {
+    if (!socket) return
+    socket.on("start_typing", (payload: RoomTypingRes) => {
+      dispatch(setCurrentTyping(payload))
+    })
+
+    socket.on("stop_typing", () => {
+      dispatch(setCurrentTyping(undefined))
+    })
+  }, [socket, dispatch])
 
   useEffect(() => {
     if (!roomId || !isWindowFocus || !messages?.data?.length) return
@@ -139,7 +155,6 @@ export const RoomDetail = forwardRef(function RoomChild(
         Chọn cuộc hội thoại để bắt đầu trò chuyện
       </div>
     )
-
   return (
     <div className="flex flex-col flex-1 chat-message bg-white-color">
       {isFirstLoading ? (

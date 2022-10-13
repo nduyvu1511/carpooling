@@ -7,9 +7,10 @@ import { SummaryItem } from "./summaryItem"
 
 interface RideSummaryPassengerItemProps {
   data: CompoundingCarCustomer | CustomerInvoice
+  onChat?: (id: number) => void
 }
 
-const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
+const RideSummaryPassengerItem = ({ data, onChat }: RideSummaryPassengerItemProps) => {
   return (
     <>
       <div className="flex items-center justify-between mb-24">
@@ -31,7 +32,7 @@ const RideSummaryPassengerItem = ({ data }: RideSummaryPassengerItemProps) => {
           <a className="mr-16" href={`tel:${data.partner.phone}`}>
             <PhoneIcon2 className="w-[18px] h-[18px]" />
           </a>
-          <button>
+          <button onClick={() => onChat?.(data.partner.partner_id)}>
             <MessageIcon className="text-primary w-[24px] h-[24px]" />
           </button>
         </div>

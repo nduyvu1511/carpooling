@@ -18,7 +18,12 @@ import {
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
-import { useCompoundingCarDriver, useDriverCheckout, useRatingActions } from "@/hooks"
+import {
+  useChatActions,
+  useCompoundingCarDriver,
+  useDriverCheckout,
+  useRatingActions,
+} from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes, DownPayment, ReportRatingParams } from "@/models"
 import { useRouter } from "next/router"
@@ -40,17 +45,18 @@ const ConfirmBookingCustomer = () => {
     key: `confirm_booking_compounding_car_customer_${compounding_car_id}`,
     type: "once",
   })
+  const { createSingleChat } = useChatActions()
   const { reportRating } = useRatingActions()
   const { cancelDepositCompoundingCarDriver, fetchDepositCompoundingCarDriver } =
     useDriverCheckout()
   const [showAlert, setShowAlert] = useState<number | undefined>()
-  const [depositFailure, setDepositFailure] = useState<
-    DepositCompoundingCarDriverFailureRes | undefined
-  >()
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
   const [currentReportRatingId, setCurrentReportRatingId] = useState<number | undefined>()
   const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
   const [showCustomerList, setShowCustomerList] = useState<boolean>(false)
+  const [depositFailure, setDepositFailure] = useState<
+    DepositCompoundingCarDriverFailureRes | undefined
+  >()
 
   const handleReportRating = (params: ReportRatingParams) => {
     reportRating({
@@ -119,7 +125,12 @@ const ConfirmBookingCustomer = () => {
                         className="border-b border-solid border-border-color py-12 last:border-none"
                         key={item.compounding_car_customer_id}
                       >
-                        <RideSummaryPassengerItem data={item} />
+                        <RideSummaryPassengerItem
+                          onChat={(partner_id) =>
+                            createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                          }
+                          data={item}
+                        />
                       </div>
                     ))}
                 </AccordionItem>

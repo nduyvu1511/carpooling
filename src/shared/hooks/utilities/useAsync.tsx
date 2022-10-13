@@ -64,4 +64,3 @@ const useAsync = (): Res => {
 }
 
 export { useAsync }
-

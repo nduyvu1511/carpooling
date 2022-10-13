@@ -1,14 +1,14 @@
 import { RootState } from "@/core/store"
 import { LayoutProps } from "@/models"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { useSelector } from "react-redux"
 
 const CustomerEmptyLayout = ({ children }: LayoutProps) => {
   const router = useRouter()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (userInfo?.car_account_type !== "customer") {
       router.push("/")
     }

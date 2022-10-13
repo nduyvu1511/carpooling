@@ -106,9 +106,11 @@ export const RoomItem = ({
                   !data?.message_unread_count ? "text-gray-color-7" : "text-blue-50"
                 }`}
               >
-                <span className="text-12 font-medium leading-[18px] mr-4  line-clamp-1 word-wrap-anywhere">
-                  {data?.last_message?.is_author ? "Bạn" : data.last_message?.author_name}:
-                </span>
+                {data?.last_message?.is_author || data?.room_type === "group" ? (
+                  <span className="text-12 font-medium leading-[18px] mr-4  line-clamp-1 word-wrap-anywhere">
+                    {data?.last_message?.is_author ? "Bạn" : data.last_message?.author_name}:
+                  </span>
+                ) : null}
                 <span
                   className={`text-12 leading-[18px] font-medium line-clamp-1 word-wrap-anywhere flex-1`}
                 >

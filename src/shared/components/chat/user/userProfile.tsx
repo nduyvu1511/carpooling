@@ -98,21 +98,21 @@ export const UserProfile = ({ data }: UserProfileProps) => {
         <ul>
           <li className="flex items-start mb-12">
             <p className="text-xs leading-[24px] w-[100px]">Bio</p>
-            <p className="text-sm">{data?.bio || "Chưa có thông tin"}</p>
+            <p className="text-sm flex-1">{data?.bio || "Chưa có thông tin"}</p>
           </li>
           <li className="flex items-start mb-12">
             <p className="text-xs leading-[24px] w-[100px]">Điện thoại</p>
-            <p className="text-sm">{data?.phone || ""}</p>
+            <p className="text-sm flex-1">{data?.phone || ""}</p>
           </li>
           <li className="flex items-start mb-12">
             <p className="text-xs leading-[24px] w-[100px]">Giới tính</p>
-            <p className="text-sm">
+            <p className="text-sm flex-1">
               {data?.gender === "female" ? "Nữ" : data.gender === "male" ? "Nam" : "Khác"}
             </p>
           </li>
           <li className="flex items-start">
             <p className="text-xs leading-[24px] w-[100px]">Ngày sinh</p>
-            <p className="text-sm">
+            <p className="text-sm flex-1">
               {data?.date_of_birth
                 ? moment(data.date_of_birth).format("DD/MM/YYYY")
                 : "Chưa có thông tin"}

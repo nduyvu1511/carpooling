@@ -1,8 +1,6 @@
 import { AuthHeader } from "@/components"
-import { RootState } from "@/core/store"
-import { useRouter } from "next/router"
-import { ReactNode, useEffect } from "react"
-import { useSelector } from "react-redux"
+import { ReactNode } from "react"
+import { DriverEmptyLayout } from "./empty"
 
 interface DriverLayoutProps {
   children: ReactNode
@@ -10,20 +8,11 @@ interface DriverLayoutProps {
 }
 
 const DriverLayout = ({ children, showHeaderOnMobile = false }: DriverLayoutProps) => {
-  const router = useRouter()
-  const { userInfo } = useSelector((state: RootState) => state.userInfo)
-
-  useEffect(() => {
-    if (userInfo?.car_account_type !== "car_driver") {
-      router.push("/")
-    }
-  }, [userInfo, router])
-
   return (
-    <>
+    <DriverEmptyLayout>
       <AuthHeader className={`${showHeaderOnMobile ? "" : "hidden lg:flex"}`} />
       <main className="min-h-screen h-full bg-bg flex flex-col">{children}</main>
-    </>
+    </DriverEmptyLayout>
   )
 }
 

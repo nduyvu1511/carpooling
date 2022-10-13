@@ -1,37 +1,23 @@
 import { SpinnerLoading } from "@/components"
-import { AppDispatch, RootState } from "@/core"
+import { RootState, useAppDispatch } from "@/core"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
-import { useAuth, useChatNotification } from "@/hooks"
-import { MessageRes, UserRes } from "@/models"
-import {
-  fetchProvinces,
-  fetchVehicles,
-  setChatProfile,
-  setLoadedGoogleMap,
-  setMessageUnreadCount,
-  setProfile,
-  setSocketInstance,
-} from "@/modules"
-import { chatApi, userApi } from "@/services"
+import { useAuth, useSocket } from "@/hooks"
+import { fetchProvinces, fetchVehicles, setLoadedGoogleMap, setProfile } from "@/modules"
 import { useLoadScript } from "@react-google-maps/api"
 import "moment/locale/vi"
-import { useRouter } from "next/router"
 import { ReactNode, useEffect, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
-import { io, Socket } from "socket.io-client"
+import { Socket } from "socket.io-client"
 
 const libraries: any = ["places", "geometry"]
 
 const App = ({ children }: { children: ReactNode }) => {
+  const dispatch = useAppDispatch()
   const { getUserInfo } = useAuth()
-  const dispatch = useDispatch<AppDispatch>()
+  const socket = useRef<Socket<any>>()
   const notifications = useSelector((state: RootState) => state.notifications)
-  const provinces = useSelector((state: RootState) => state.compoundingCarData.provinces)
-  const vehicleTypes = useSelector((state: RootState) => state.compoundingCarData.vehicleTypes)
-  const router = useRouter()
-  const { createNotification } = useChatNotification()
-  const socketIo = useRef<Socket<any>>()
+  const { connectSocket } = useSocket()
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
@@ -45,65 +31,12 @@ const App = ({ children }: { children: ReactNode }) => {
     }
   }, [dispatch, isLoaded])
 
-  const connectSocket = async () => {
-    const res = await userApi.getChatToken()
-    const access_token = res.result?.data?.chat_access_token
-    if (!access_token) return
-
-    const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
-      query: {
-        access_token,
-      },
-    })
-
-    socket.emit("login")
-
-    socket.on("connect", () => {
-      if (socket.connected) {
-        socket.on("login", (res: UserRes) => {
-          dispatch(setChatProfile(res))
-        })
-
-        dispatch(setSocketInstance(socket))
-
-        if (socketIo?.current) {
-          socketIo.current = socket
-        }
-
-        socket.on("login", (res: UserRes) => {
-          dispatch(setChatProfile(res))
-        })
-
-        socket.on("receive_unread_message", (data: MessageRes) => {
-          if (router.pathname !== "/chat") {
-            createNotification(data)
-          }
-        })
-      }
-    })
-
-    return socket
-  }
-
-  const disconnectSocket = (socket: Socket) => {
-    socket.off("connect")
-    socket.off("disconnect")
-  }
-
   useEffect(() => {
+    dispatch(fetchProvinces())
+    dispatch(fetchVehicles())
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
     })
-
-    connectSocket()
-
-    chatApi
-      .getMessageUnreadCount()
-      .then((res) => {
-        dispatch(setMessageUnreadCount(res.data.message_unread_count))
-      })
-      .catch((err) => {})
-
     setUpNotifications({
       defaultProps: {
         position: "top-center",
@@ -113,19 +46,16 @@ const App = ({ children }: { children: ReactNode }) => {
       },
     })
 
-    if (!provinces?.[0]?.province_id) {
-      dispatch(fetchProvinces() as any)
-    }
+    connectSocket()
 
-    if (!vehicleTypes?.[0]?.value) {
-      dispatch(fetchVehicles() as any)
-    }
-
+    const socketIo = socket.current
     return () => {
-      if (socketIo?.current) {
-        disconnectSocket(socketIo.current)
+      if (socketIo) {
+        socketIo.off("connect")
+        socketIo.off("disconnect")
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

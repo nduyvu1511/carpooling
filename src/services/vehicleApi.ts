@@ -1,10 +1,10 @@
-import { GetPriceUnitParams, StationRes } from "@/models"
+import { GetPriceUnitParams, StationRes, VehicleTypeParams } from "@/models"
 import { AxiosResponse } from "axios"
 import axiosClient from "."
 
 const vehicleApi = {
   getCarTypes: () => {
-    return axiosClient.post("/api/address_controller/get_car_data", {
+    return axiosClient.post<VehicleTypeParams[]>("/api/address_controller/get_car_data", {
       params: {},
     })
   },

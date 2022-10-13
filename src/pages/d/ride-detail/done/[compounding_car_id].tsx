@@ -8,7 +8,7 @@ import {
   RideSummaryPassengerItem,
   Seo,
 } from "@/components"
-import { useBackRouter } from "@/hooks"
+import { useBackRouter, useChatActions } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import { ridesApi } from "@/services"
@@ -28,6 +28,8 @@ const RideDone = () => {
         .then((res) => res.result.data)
         .catch((err) => console.log(err))
   )
+  const { createSingleChat } = useChatActions()
+
   const [show, setShow] = useState<boolean>()
 
   useBackRouter({
@@ -93,7 +95,12 @@ const RideDone = () => {
                 >
                   {compoundingCar.customer_invoice.map((item, index) => (
                     <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
-                      <RideSummaryPassengerItem data={item} />
+                      <RideSummaryPassengerItem
+                        onChat={(partner_id) =>
+                          createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                        }
+                        data={item}
+                      />
                     </li>
                   ))}
                 </AccordionItem>

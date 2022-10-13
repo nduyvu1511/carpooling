@@ -69,7 +69,7 @@ const RideContainer = ({
 
   return (
     <>
-      <section className="ride-container container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 pb-[70px] md:pb-0 xl:px-0">
+      <section className="ride-container container bg-white-color md:bg-[transparent] px-0 md:p-12 lg:p-24 flex-1 md:pb-0 xl:px-0">
         <div className="xl:grid xl:grid-cols-sidebar-grid gap-24">
           {!showFilter && router.isReady ? (
             <div className="hidden xl:block h-fit sticky top-[81px] block-element px-[18px] py-24 z-[100]">
@@ -81,7 +81,7 @@ const RideContainer = ({
             </div>
           ) : null}
 
-          <div className="block-element px-12 md:px-16 lg:px-24 pb-24">
+          <div className="md:block-element px-custom pb-24">
             <div className="mb-24 md:mb-[40px]">
               <h4 className="text-[18px] xs:text-[20px] leading-[28px] md:text-[24px] md:leading-[32px] text-primary font-medium pt-16 md:pt-24">
                 {carAccountType === "car_driver"

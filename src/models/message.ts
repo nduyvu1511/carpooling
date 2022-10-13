@@ -4,7 +4,6 @@ import {
   Lnglat,
   MessageResponseStatus,
   QueryCommonParams,
-  TagRes,
 } from "./common"
 import { IUser, UserRes } from "./user"
 
@@ -30,6 +29,11 @@ export interface IMessage {
   }[]
   created_at: Date
   updated_at: Date
+}
+
+export interface MessageUnreadCountRes {
+  message_unread_count: number
+  room_ids: string[]
 }
 
 export type MessageRes = Pick<IMessage, "room_id" | "created_at"> & {

@@ -14,7 +14,7 @@ import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
 import { ridesApi } from "@/services"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 import { useSelector } from "react-redux"
 import useSWR from "swr"
 import { RootState } from "../core"
@@ -23,7 +23,7 @@ const HomeGuest = () => {
   const router = useRouter()
   const { data: news, isValidating: isLoading } = useNews()
   const { userInfo } = useSelector((state: RootState) => state.userInfo)
-  const { data, isValidating, error } = useSWR<CompoundingCarRes[]>(
+  const { data, isValidating } = useSWR<CompoundingCarRes[]>(
     "get_compounding_car_template",
     () =>
       ridesApi
@@ -33,11 +33,13 @@ const HomeGuest = () => {
     { dedupingInterval: 100000 }
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!userInfo) return
+
     if (userInfo?.car_account_type === "customer") {
       router.push("/c")
     }
+
     if (userInfo?.car_account_type === "car_driver") {
       router.push("/d")
     }
@@ -45,14 +47,14 @@ const HomeGuest = () => {
   }, [userInfo])
 
   return (
-    <section className="">
+    <section>
       <Seo
         description="Ứng dụng gọi xe đường dài số 1 Việt Nam"
         thumbnailUrl={ogImage}
         title="Ứng dụng đặt xe ExxeVn"
         url=""
       />
-      
+
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>

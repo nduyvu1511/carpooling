@@ -1,16 +1,7 @@
-import {
-  ChangeStatusOfRoom,
-  FriendStatusRes,
-  MessageRes,
-  RoomDetailRes,
-  RoomTypingRes,
-} from "@/models"
-import { checkForUserDisconnectWhenTyping, setCurrentTyping } from "@/modules"
+import { ChangeStatusOfRoom, RoomDetailRes } from "@/models"
 import { chatApi } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
-import { useDispatch } from "react-redux"
-import { Socket } from "socket.io-client"
 import useSWR, { mutate } from "swr"
 
 interface Res {
@@ -22,11 +13,9 @@ interface Res {
 
 interface Props {
   roomId: string
-  callback?: (_: { lastMessage: MessageRes; messages: MessageRes[] }) => void
 }
 
-export const useRoomDetail = ({ roomId, callback }: Props): Res => {
-  const dispatch = useDispatch()
+export const useRoomDetail = ({ roomId }: Props): Res => {
   const {
     data,
     error,
@@ -39,12 +28,6 @@ export const useRoomDetail = ({ roomId, callback }: Props): Res => {
           chatApi.getRoomDetail(roomId).then((res: AxiosResponse<RoomDetailRes>) => {
             const data = res?.data
             mutate(`get_messages_in_room_${roomId}`, data.messages, false)
-
-            const lastMessage = data.messages?.data?.[(data.messages?.data?.length || 0) - 1]
-            if (lastMessage?.message_id && !lastMessage.is_author && !lastMessage.is_read) {
-              callback?.({ lastMessage, messages: data?.messages?.data || [] })
-            }
-
             return data
           })
       : null

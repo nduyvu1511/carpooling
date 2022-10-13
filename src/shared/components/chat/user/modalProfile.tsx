@@ -12,9 +12,12 @@ interface Props {
 
 export const ModalProfile = ({ userId }: Props) => {
   const dispatch = useDispatch()
-  const { data, isValidating } = useSWR<UserRes | undefined>(
+  const { data, error } = useSWR<UserRes | undefined>(
     userId ? `get_profile_partner_${userId}` : null,
-    () => chatApi.getProfile(userId).then((res) => res.data)
+    () => chatApi.getProfile(userId).then((res) => res.data),
+    {
+      dedupingInterval: 60000,
+    }
   )
 
   const closeModal = () => {
@@ -31,7 +34,7 @@ export const ModalProfile = ({ userId }: Props) => {
   return (
     <div className="modal-profile">
       <ModalSm
-        showLoading={isValidating}
+        showLoading={data === undefined && error === undefined}
         zIndex={3004}
         onClose={closeModal}
         title="Thông tin tài khoản"

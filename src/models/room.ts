@@ -128,9 +128,9 @@ export type ChangeStatusOfRoom = FriendStatusRes & { type: "login" | "logout" }
 export interface RoomFunctionHandler {
   messageUnreadhandler: (_: MessageRes) => void
   changeStatusOfRoom: (_: ChangeStatusOfRoom) => void
-  increaseMessageUnread: (_: MessageRes) => void
   appendLastMessage: (_: MessageRes) => void
   changeOrderAndAppendLastMessage: (_: MessageRes) => void
+  clearMessagesUnreadFromRoom: (id: string) => void
 }
 
 export interface RoomDetailFunctionHandler {
@@ -139,6 +139,7 @@ export interface RoomDetailFunctionHandler {
   changeMesageStatus: (_: MessageRes) => void
   mutateWithMessageRes: (_: MessageRes) => void
   mutatePartnerReactionMessage: (_: MessageRes) => void
+  confirmReadAllMessage: (rId: string) => void
 }
 
 export interface AddMessageUnreadToRoomRes {

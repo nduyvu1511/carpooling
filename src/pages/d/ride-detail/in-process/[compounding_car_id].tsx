@@ -5,7 +5,7 @@ import {
   RideDoneIcon,
   RidePaidIcon,
   RidePickupIcon,
-  RideWaitingIcon,
+  RideWaitingIcon
 } from "@/assets"
 import {
   Alert,
@@ -18,10 +18,10 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  Seo,
+  Seo
 } from "@/components"
 import { RIDE_STATE_COLOR } from "@/helper"
-import { useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
+import { useChatActions, useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -32,6 +32,7 @@ const StartRunningCompoundingCar = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
   const { getCurrentLocation } = useCurrentLocation()
+  const { createSingleChat } = useChatActions()
   const {
     confirmDoneCompoundingCar,
     confirmStateCompoundingCarCustomer,
@@ -273,6 +274,9 @@ const StartRunningCompoundingCar = () => {
                         className="border-b border-solid border-border-color py-16 md:py-24 first:pt-0 last:border-none"
                       >
                         <RidePassengerItem
+                          onChat={(partner_id) =>
+                            createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                          }
                           onClickViewMap={() =>
                             item.state === "in_process"
                               ? handleGenerateGoogleMapUrl({
