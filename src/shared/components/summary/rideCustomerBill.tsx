@@ -102,7 +102,11 @@ const RideCustomerBill = ({
       </div>
 
       <div className="mb-24">
-        <DriverInfoSummary titleClassName="text-blue-7" driver={data.car_driver_id} />
+        <DriverInfoSummary
+          titleClassName="text-blue-7"
+          compounding_car_id={data.compounding_car_id}
+          driver={data.car_driver_id}
+        />
       </div>
 
       <div className="">

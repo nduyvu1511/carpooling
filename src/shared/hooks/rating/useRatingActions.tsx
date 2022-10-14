@@ -6,7 +6,7 @@ import {
   UpdateRatingParams,
   UseParams,
 } from "@/models"
-import { ratingApi } from "@/services"
+import { ratingAPI } from "@/services"
 import { useFetcher } from "../async"
 
 interface Res {
@@ -22,7 +22,7 @@ export const useRatingActions = (): Res => {
   const deleteRating = async (_params: UseParams<DeleteRatingParams, RatingRes>) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler({
-      fetcher: ratingApi.deleteRating(params),
+      fetcher: ratingAPI.deleteRating(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
     })
@@ -31,7 +31,7 @@ export const useRatingActions = (): Res => {
   const addRating = async (_params: UseParams<CreateRatingParams, RatingRes>) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler({
-      fetcher: ratingApi.createRating(params),
+      fetcher: ratingAPI.createRating(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
     })
@@ -40,7 +40,7 @@ export const useRatingActions = (): Res => {
   const updateRating = async (_params: UseParams<UpdateRatingParams, RatingRes>) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler({
-      fetcher: ratingApi.updateRating(params),
+      fetcher: ratingAPI.updateRating(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
     })
@@ -49,7 +49,7 @@ export const useRatingActions = (): Res => {
   const reportRating = async (_params: UseParams<ReportRatingParams, any>) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler({
-      fetcher: ratingApi.reportRating(params),
+      fetcher: ratingAPI.reportRating(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
       config: { successMsg: "Báo cáo đánh giá thành công, vui lòng chờ xác nhận" },

@@ -3,7 +3,7 @@ import { ItemSelect, Spinner } from "@/components"
 import { isArrayHasValue } from "@/helper"
 import { useInputText } from "@/hooks"
 import { RatingReportReasonRes, ReportRatingFormParams } from "@/models"
-import { ratingApi } from "@/services"
+import { ratingAPI } from "@/services"
 import { useState } from "react"
 import useSWR from "swr"
 
@@ -16,7 +16,7 @@ const RatingReport = ({ onSubmit }: RatingReportProps) => {
   const { isValidating, data } = useSWR<RatingReportReasonRes[]>(
     "get_rating_report_reason_list",
     () =>
-      ratingApi
+      ratingAPI
         .getRatingReportReasonList()
         .then((res) => res?.result?.data)
         .catch((err) => console.log(err))

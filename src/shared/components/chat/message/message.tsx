@@ -44,11 +44,13 @@ export const Message = ({
         }}
         dataLength={data?.data?.length}
       >
+        {isFetchingMore ? <Spinner size={20} /> : null}
+
         {data?.data?.length
           ? data.data.map((item, index) => {
               const messages = data?.data || []
               const prevMsg = messages[index - 1]
-              const nextMsg = messages[index + 1]
+              const nextMsg = messages[index + 1] 
 
               const shouldShowDate =
                 !prevMsg || !moment(item?.created_at).isSame(moment(prevMsg?.created_at), "date")

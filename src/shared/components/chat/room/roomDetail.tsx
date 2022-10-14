@@ -10,13 +10,8 @@ import {
   SendMessageData,
   UnlikeMessage,
 } from "@/models"
-import {
-  setCurrentProfileId,
-  setCurrentRoomInfo,
-  setCurrentTyping,
-  updateMessageUnreadCount,
-} from "@/modules"
-import { chatApi } from "@/services"
+import { setCurrentProfileId, setCurrentRoomInfo, setCurrentTyping } from "@/modules"
+import { chatAPI } from "@/services"
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Message, MessageForm } from "../message"
@@ -110,7 +105,6 @@ export const RoomDetail = forwardRef(function RoomChild(
   }) => {
     if (!lastMessage || lastMessage.is_author || lastMessage?.is_read) return
 
-    dispatch(updateMessageUnreadCount({ room_id: lastMessage.room_id, type: "increase" }))
     socket?.emit("read_message", lastMessage)
     confirmReadMessage(lastMessage)
 
@@ -121,7 +115,7 @@ export const RoomDetail = forwardRef(function RoomChild(
 
     if (listMessageUnread?.length) {
       confirmReadAllMessage()
-      chatApi.confirmReadAllMessageInRoom(roomId)
+      chatAPI.confirmReadAllMessageInRoom(roomId)
     }
   }
 
@@ -158,7 +152,7 @@ export const RoomDetail = forwardRef(function RoomChild(
   return (
     <div className="flex flex-col flex-1 chat-message bg-white-color">
       {isFirstLoading ? (
-        <Spinner />
+        <Spinner className="py-40" />
       ) : (
         <>
           <div className="h-[70px] border-b border-border-color border-solid">
@@ -171,7 +165,7 @@ export const RoomDetail = forwardRef(function RoomChild(
                         member_count: data?.member_count,
                         members: data.members?.data?.map((item) => ({
                           user_id: item.user_id,
-                          user_avatar: item.avatar.thumbnail_url,
+                          user_avatar: item?.avatar?.thumbnail_url,
                           user_name: item.user_name,
                           is_online: item?.is_online,
                         })),

@@ -47,15 +47,14 @@ const App = ({ children }: { children: ReactNode }) => {
     })
 
     connectSocket()
-
     const socketIo = socket.current
+
     return () => {
       if (socketIo) {
         socketIo.off("connect")
         socketIo.off("disconnect")
       }
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

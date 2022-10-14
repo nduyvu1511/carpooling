@@ -11,7 +11,7 @@ import {
 import { useBackRouter, useChatActions } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -23,7 +23,7 @@ const RideDone = () => {
   const { data: compoundingCar, isValidating } = useSWR<DriverCompoundingCarInvoiceRes | undefined>(
     compounding_car_id ? `get_driver_compounding_car_invoice_${compounding_car_id}` : null,
     () =>
-      ridesApi
+      rideAPI
         .getDriverCompoundingCarInvoice({ compounding_car_id: Number(compounding_car_id) })
         .then((res) => res.result.data)
         .catch((err) => console.log(err))
@@ -97,7 +97,10 @@ const RideDone = () => {
                     <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
                       <RideSummaryPassengerItem
                         onChat={(partner_id) =>
-                          createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                          createSingleChat({
+                            params: { partner_id, compounding_car_id: item.compounding_car_id },
+                            onSuccess: () => {},
+                          })
                         }
                         data={item}
                       />

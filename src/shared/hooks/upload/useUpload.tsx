@@ -1,5 +1,5 @@
 import { AttachmentChildParams, AttachmentItem, AttachmentRouteType } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -31,11 +31,11 @@ const useUploadAttachment = (): UseUploadAttachmentRes => {
       setUploading(true)
       let res: AxiosResponse<any>
       if (type === "common") {
-        res = await userApi.createAttachmentCommon({
+        res = await userAPI.createAttachmentCommon({
           attachments: params,
         })
       } else {
-        res = await userApi.createAttachmentAvatar({
+        res = await userAPI.createAttachmentAvatar({
           attachments: params,
         })
       }

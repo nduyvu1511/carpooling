@@ -15,7 +15,7 @@ import {
   setCurrentRoomInfo,
   updateCurrentRoomInfo,
 } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import produce from "immer"
 import { useState } from "react"
 import { FiEdit3 } from "react-icons/fi"
@@ -47,7 +47,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
 
   const updateRoomAvatar = async (formData: FormData, onSuccess?: (_: AttachmentRes) => void) => {
     asyncHandler<AttachmentRes>({
-      fetcher: chatApi.uploadSingleImage(formData),
+      fetcher: chatAPI.uploadSingleImage(formData),
       config: { showScreenLoading: true, showErrorMsg: true },
       onSuccess: (data) => onSuccess?.(data),
     })
@@ -106,7 +106,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
 
   const updateRoomInfo = async (params: UpdateRoomInfoForm, cb?: Function) => {
     asyncHandler<RoomInfoRes>({
-      fetcher: chatApi.updateRoomInfo({
+      fetcher: chatAPI.updateRoomInfo({
         ...params,
         room_id: data.room_id,
       }),
@@ -172,13 +172,13 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
                 <p className="text-base font-semibold mb-12 px-16">
                   Thành viên ({data.members?.length || 0})
                 </p>
-                <div className="r">
-                  {data.members?.map((item, index) => (
+                <div className="">
+                  {data.members?.map((item) => (
                     <UserItem
                       onClick={() => dispatch(setCurrentProfileId(item.user_id))}
                       key={item.user_id}
                       data={{
-                        avatar: item.user_avatar,
+                        avatar: item?.user_avatar,
                         user_id: item.user_id,
                         user_name: item.user_name,
                       }}

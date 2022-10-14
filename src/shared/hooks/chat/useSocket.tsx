@@ -6,8 +6,7 @@ import {
   setSocketInstance,
   updateMessageUnreadCount,
 } from "@/modules"
-import { userApi } from "@/services"
-import { useRouter } from "next/router"
+import { userAPI } from "@/services"
 import { io, Socket } from "socket.io-client"
 import { useChatNotification } from "./useChatNotification"
 
@@ -16,14 +15,13 @@ interface UseSocketRes {
 }
 
 export const useSocket = (): UseSocketRes => {
-  const router = useRouter()
   const dispatch = useAppDispatch()
   const { createNotification } = useChatNotification()
 
   // This function only run at first time
   const connectSocket = async () => {
     // token is stored in http only request, so to get token, this is only way to do that
-    const res = await userApi.getChatToken()
+    const res = await userAPI.getChatToken()
     const access_token = res.result?.data?.chat_access_token
     if (!access_token) return
 
@@ -47,7 +45,7 @@ export const useSocket = (): UseSocketRes => {
 
         socket.on("receive_unread_message", (data: MessageRes) => {
           dispatch(updateMessageUnreadCount({ room_id: data.room_id, type: "increase" }))
-          if (router.pathname !== "/chat") {
+          if (!window?.location?.pathname?.includes("/chat")) {
             createNotification(data)
           }
         })

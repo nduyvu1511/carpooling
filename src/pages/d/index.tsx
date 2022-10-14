@@ -1,16 +1,13 @@
 import { RideContainer, Seo } from "@/components"
-import { RootState } from "@/core/store"
 import { isObjectHasValue } from "@/helper"
-import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams, useSocket } from "@/hooks"
+import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { CompoundingFilterParams } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useSelector } from "react-redux"
 
 const HomeDriver = () => {
   const router = useRouter()
-  const { connectSocket } = useSocket()
   const { getValueFromQuery } = useQueryCompoundingCarParams()
   const {
     data: ridesList,
@@ -21,7 +18,6 @@ const HomeDriver = () => {
     isFetchingMore,
     isInitialLoading,
   } = useQueryCompoundingCarDriver()
-  const socket = useSelector((state: RootState) => state.chat.socket)
 
   useEffect(() => {
     if (router.isReady) {
@@ -29,13 +25,6 @@ const HomeDriver = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
-
-  useEffect(() => {
-    if (!socket?.connected) {
-      setTimeout(() => connectSocket(), 1000)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket])
 
   const handleFilterRides = (params: CompoundingFilterParams | undefined) => {
     if (isObjectHasValue(params)) {

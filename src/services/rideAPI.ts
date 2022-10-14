@@ -1,6 +1,8 @@
 import {
   CancelCompoundingCarDriverParams,
   CancelCompoundingCarParams,
+  CompoundingCarCustomer,
+  CompoundingCarDriverRes,
   CompoundingListDriverParams,
   ConfirmCompoundingCar,
   ConfirmPayFullCustomerParams,
@@ -23,9 +25,10 @@ import {
   UpdateCompoundingCarCustomer,
   UpdateCompoundingCarDriver,
 } from "@/models"
+import { AxiosResponse } from "axios"
 import axiosClient from "."
 
-const ridesApi = {
+const rideAPI = {
   getCompoundingCarListForCustomer: (params: GetCompoundingCarCustomerList) => {
     return axiosClient.post("/api/compounding_car_controller/get_compounding_car_by_compounding", {
       params,
@@ -56,13 +59,17 @@ const ridesApi = {
     })
   },
 
-  confirmCarpoolingCompoundingCarCustomer: (params: GetDetailCompoundingCustomer) => {
+  confirmCarpoolingCompoundingCarCustomer: (
+    params: GetDetailCompoundingCustomer
+  ): Promise<AxiosResponse<CompoundingCarCustomer>> => {
     return axiosClient.post("/api/compounding_car_controller/confirm_compounding_car_customer", {
       params,
     })
   },
 
-  getDetailCompoundingCar: (params: GetDetailCompounding) => {
+  getDetailCompoundingCar: (
+    params: GetDetailCompounding
+  ): Promise<AxiosResponse<CompoundingCarDriverRes>> => {
     return axiosClient.post("/api/compounding_car_controller/get_detail_compounding_car", {
       params,
     })
@@ -315,4 +322,4 @@ const ridesApi = {
   },
 }
 
-export { ridesApi }
+export { rideAPI }

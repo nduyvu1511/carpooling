@@ -1,5 +1,5 @@
 import { CompoundingCarDriverState, DriverActivityRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useState } from "react"
 import { useQueryList } from "../async"
 
@@ -22,7 +22,7 @@ export const useDriverActivities = (): Res => {
       initialData: undefined,
       key: "query_activity_for_driver",
       limit: 12,
-      fetcher: ridesApi.getHistoryCompoundingCarDriver,
+      fetcher: rideAPI.getHistoryCompoundingCarDriver,
       params: { limit: LIMIT_ACTIVITIES_LENGTH, offset: 0 },
     })
 
@@ -34,7 +34,7 @@ export const useDriverActivities = (): Res => {
     if (compounding_car_state === activityStates) return
     setActivityStates(compounding_car_state)
     filterList(
-      ridesApi.getHistoryCompoundingCarDriver({
+      rideAPI.getHistoryCompoundingCarDriver({
         compounding_car_state,
         limit: LIMIT_ACTIVITIES_LENGTH,
         offset: 0,
@@ -45,7 +45,7 @@ export const useDriverActivities = (): Res => {
   const fetchMoreActivities = async () => {
     const newOffset = offset + LIMIT_ACTIVITIES_LENGTH
     fetchMoreItem(
-      ridesApi.getHistoryCompoundingCarDriver({
+      rideAPI.getHistoryCompoundingCarDriver({
         compounding_car_state: activityStates,
         limit: LIMIT_ACTIVITIES_LENGTH,
         offset: newOffset,

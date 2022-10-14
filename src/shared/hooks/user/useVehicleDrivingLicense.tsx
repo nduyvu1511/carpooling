@@ -4,7 +4,7 @@ import {
   UpdateDrivingLicenseParams,
   UseParams,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -25,7 +25,7 @@ const useVehicleDrivingLicense = (shouldFetch = false): UseVehicleDrivingLicense
     "vehicle_driving_license",
     shouldFetch
       ? () =>
-          userApi
+          userAPI
             .getDrivingLicense()
             .then((res: AxiosResponse<DrivingLicenseRes>) => res?.result?.data)
       : null,
@@ -41,7 +41,7 @@ const useVehicleDrivingLicense = (shouldFetch = false): UseVehicleDrivingLicense
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createDrivingLicense(params),
+      fetcher: userAPI.createDrivingLicense(params),
       onSuccess: (data: DrivingLicenseRes) => {
         onSuccess(data)
       },
@@ -54,7 +54,7 @@ const useVehicleDrivingLicense = (shouldFetch = false): UseVehicleDrivingLicense
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.updateDrivingLicense(params),
+      fetcher: userAPI.updateDrivingLicense(params),
       onSuccess: (data: DrivingLicenseRes) => {
         onSuccess(data)
       },

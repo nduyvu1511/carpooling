@@ -7,15 +7,20 @@ import { Star } from "../star"
 
 interface DriverInfoSummaryProps {
   driver: CarDriverId
+  compounding_car_id: number
   titleClassName?: string
 }
 
-export const DriverInfoSummary = ({ driver, titleClassName = "" }: DriverInfoSummaryProps) => {
+export const DriverInfoSummary = ({
+  driver,
+  titleClassName = "",
+  compounding_car_id,
+}: DriverInfoSummaryProps) => {
   const { createSingleChat } = useChatActions()
 
   const handleCreateChat = () => {
     createSingleChat({
-      params: { partner_id: driver.partner_id },
+      params: { partner_id: driver.partner_id, compounding_car_id },
       onSuccess: () => {},
     })
   }

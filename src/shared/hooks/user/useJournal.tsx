@@ -8,7 +8,7 @@ import {
   TransactionRes,
   UseParams,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR, { KeyedMutator } from "swr"
@@ -46,7 +46,7 @@ const LIMIT = 12
 const useJournal = (): useJournalProps => {
   const { fetcherHandler } = useFetcher()
   const { isValidating, mutate, data, error } = useSWR("get_wallet_list", () =>
-    userApi.getJournalList({ limit: LIMIT }).then((res) => {
+    userAPI.getJournalList({ limit: LIMIT }).then((res) => {
       const data: Journal = res?.result?.data || []
       setHasMore((data?.transaction?.length || 0) >= LIMIT)
       return data
@@ -63,7 +63,7 @@ const useJournal = (): useJournalProps => {
     try {
       const newOffset = offset + LIMIT
       setFetchingMore(true)
-      const res: AxiosResponse<Journal> = await userApi.getJournalList({
+      const res: AxiosResponse<Journal> = await userAPI.getJournalList({
         ...date,
         limit: LIMIT,
         offset: newOffset,
@@ -86,7 +86,7 @@ const useJournal = (): useJournalProps => {
     try {
       setLoading(true)
       setDate(params)
-      const res: AxiosResponse<Journal> = await userApi.getJournalList({
+      const res: AxiosResponse<Journal> = await userAPI.getJournalList({
         ...params,
         limit: LIMIT,
         offset: 0,
@@ -108,7 +108,7 @@ const useJournal = (): useJournalProps => {
     onError,
   }: UseParams<MakeWithdrawingRequestParams, TransactionRes>) => {
     fetcherHandler({
-      fetcher: userApi.MakeWithdrawingRequest(params),
+      fetcher: userAPI.MakeWithdrawingRequest(params),
       onSuccess: (data) => {
         onSuccess?.(data)
       },
@@ -122,7 +122,7 @@ const useJournal = (): useJournalProps => {
     onError,
   }: UseParams<CreateRechargeRequestParams, CreateRechargeMoneyRes>) => {
     fetcherHandler({
-      fetcher: userApi.createRechargeRequest(params),
+      fetcher: userAPI.createRechargeRequest(params),
       onSuccess: (data) => {
         onSuccess?.(data)
       },
@@ -136,7 +136,7 @@ const useJournal = (): useJournalProps => {
     onError,
   }: UseParams<ConfirmRechargeRequestParams, any>) => {
     fetcherHandler({
-      fetcher: userApi.confirmRechargeRequest(params),
+      fetcher: userAPI.confirmRechargeRequest(params),
       onSuccess: (data) => {
         mutate()
         onSuccess?.(data)

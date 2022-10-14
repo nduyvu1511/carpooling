@@ -8,7 +8,7 @@ import {
   VnpayStatus,
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
-import { ridesApi, userApi } from "@/services"
+import { chatAPI, rideAPI, userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -36,7 +36,7 @@ const CheckoutProcess = ({
 }: CheckoutProcessProps) => {
   const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState<number | undefined>(30)
+  const [countdown, _] = useState<number | undefined>(30)
 
   useEffect(() => {
     return () => {
@@ -52,7 +52,7 @@ const CheckoutProcess = ({
 
     if (sale_order_id && compounding_car_customer_id) {
       setValidating(true)
-      ridesApi
+      rideAPI
         .confirmDepositCompoundingCarCustomer({
           compounding_car_customer_id,
         })
@@ -73,18 +73,33 @@ const CheckoutProcess = ({
         .catch(() => setValidating(false))
     } else if (compounding_car_id) {
       setValidating(true)
-      ridesApi
+      rideAPI
         .confirmDepositForDriver({ compounding_car_id })
         .then((res: AxiosResponse<CompoundingCarDriverRes>) => {
           setValidating(false)
-          if (res.result.data.state === "confirm_deposit") {
+          const data = res?.result?.data
+
+          if (data?.state === "confirm_deposit") {
+            // Create group chat for this ride if it is carpooling
+            if (
+              data?.compounding_car_id &&
+              data?.compounding_type === "compounding" &&
+              data?.compounding_car_customers?.length > 0
+            ) {
+              chatAPI.createGroupChat({
+                member_ids: data.compounding_car_customers?.map((item) => item.partner.partner_id),
+                room_name: data.compounding_car_name,
+                compounding_car_id: data.compounding_car_id,
+              })
+            }
+
             window.close()
           }
         })
         .catch(() => setValidating(false))
     } else if (payment_id) {
       setValidating(true)
-      userApi
+      userAPI
         .confirmRechargeRequest({ payment_id })
         .then((res: AxiosResponse<TransactionRes>) => {
           setValidating(false)

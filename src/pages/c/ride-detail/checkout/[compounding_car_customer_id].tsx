@@ -13,7 +13,7 @@ import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import useSWR from "swr"
@@ -32,7 +32,7 @@ const CheckoutCustomer = () => {
   const { isValidating: isAmountBalanceLoading, data: amountBalance } = useSWR<number>(
     "get_amount_balance_in_cash_wallet",
     () =>
-      ridesApi
+      rideAPI
         .getAmountBalanceInCashWallet()
         .then((res) => res?.result?.data?.money_in_cash_wallet || 0)
         .catch((err) => console.log(err))

@@ -1,5 +1,5 @@
 import { PaymentRes } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import useSWR from "swr"
 
 interface Res {
@@ -12,7 +12,7 @@ export const usePaymentMethodRechargeMoney = (): Res => {
   const { isValidating, mutate, data, error } = useSWR<PaymentRes[]>(
     "usePaymentMethodRechargeMoney",
     () =>
-      userApi
+      userAPI
         .getPaymentMethodListForRechargeMoney()
         .then((res) => res?.result?.data)
         .catch((err) => console.log(err)),

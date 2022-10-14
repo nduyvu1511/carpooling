@@ -1,6 +1,6 @@
 import { formatMoneyVND, PAYMENT_PURPOSE_COLOR, PAYMENT_PURPOSE_NAME } from "@/helper"
 import { JournalDetailCompoundingCarCustomerRes, JournalDetailRes } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import moment from "moment"
 import useSWR from "swr"
 import { Spinner } from "../loading"
@@ -14,7 +14,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
   const { isValidating, data } = useSWR<JournalDetailRes | JournalDetailCompoundingCarCustomerRes>(
     payment_id ? `get_transaction_detail_${payment_id}` : null,
     () =>
-      userApi
+      userAPI
         .getDetailTransaction({ payment_id })
         .then((res) => res.result.data)
         .catch((err) => console.log(err)),

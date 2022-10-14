@@ -1,6 +1,6 @@
 import { useNews } from "@/hooks"
 import { CategoryRes } from "@/models"
-import { newsApi } from "@/services"
+import { newsAPI } from "@/services"
 import useSWR from "swr"
 import { Tabs } from "../common"
 import { Spinner } from "../loading"
@@ -18,7 +18,7 @@ const News = () => {
   } = useNews()
 
   const { data: categories } = useSWR<CategoryRes[]>("get_category_list", () =>
-    newsApi
+    newsAPI
       .getCategories()
       .then((res: any) => res.data)
       .catch((err) => console.log(err))

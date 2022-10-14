@@ -2,7 +2,7 @@ import { blankAvatar } from "@/assets"
 import { ModalSm, UserItem } from "@/components"
 import { MessageDetailRes } from "@/models"
 import { setcurrentDetailMessageId, setCurrentProfileId } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import moment from "moment"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
@@ -16,7 +16,7 @@ export const ModalMessageDetail = ({ messageId }: Props) => {
   const dispatch = useDispatch()
   const { data, isValidating } = useSWR<MessageDetailRes | undefined>(
     messageId ? `get_detail_message_${messageId}` : null,
-    () => chatApi.getDetailMessage(messageId).then((res) => res.data)
+    () => chatAPI.getDetailMessage(messageId).then((res) => res.data)
   )
 
   const closeModal = () => {

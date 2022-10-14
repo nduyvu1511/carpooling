@@ -74,12 +74,14 @@ export type LastMessage = Pick<
 
 export interface CreateSingleChat {
   partner_id: number | string
+  compounding_car_id: number
 }
 
 export interface CreateGroupChat {
-  room_name: Pick<IRoom, "room_name">
+  room_name: string
   room_avatar_id?: AttachmentId
   member_ids: number[]
+  compounding_car_id: number
 }
 
 export type CreateGroupChatServicesParams = Pick<

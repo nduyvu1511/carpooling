@@ -127,7 +127,10 @@ const ConfirmBookingCustomer = () => {
                       >
                         <RideSummaryPassengerItem
                           onChat={(partner_id) =>
-                            createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                            createSingleChat({
+                              params: { partner_id, compounding_car_id: item.compounding_car_id },
+                              onSuccess: () => {},
+                            })
                           }
                           data={item}
                         />

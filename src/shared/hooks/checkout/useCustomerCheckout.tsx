@@ -6,7 +6,7 @@ import {
   CreatePaymentRes,
   UseParams,
 } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useFetcher } from "../async"
 
 interface UseCustomerCheckoutRes {
@@ -24,7 +24,7 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
   const createPayment = async (props: UseParams<CreatePaymentParams, CreatePaymentRes>) => {
     const { params, onSuccess, onError } = props
     fetcherHandler({
-      fetcher: ridesApi.createPayment(params),
+      fetcher: rideAPI.createPayment(params),
       onSuccess: (params: CreatePaymentRes) => {
         onSuccess(params)
       },
@@ -35,7 +35,7 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
   const confirmTransaction = async (props: UseParams<ConfirmTransactionParams, any>) => {
     const { params, onSuccess, onError } = props
     fetcherHandler({
-      fetcher: ridesApi.confirmTransaction(params),
+      fetcher: rideAPI.confirmTransaction(params),
       onSuccess: (params: any) => {
         onSuccess(params)
       },
@@ -46,7 +46,7 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
   const confirmDepositCompoundingCarCustomer = async (_: UseParams<number, undefined>) => {
     const { params: compounding_car_customer_id, onSuccess, config, onError } = _
     fetcherHandler<CompoundingCarCustomer>({
-      fetcher: ridesApi.confirmDepositCompoundingCarCustomer({
+      fetcher: rideAPI.confirmDepositCompoundingCarCustomer({
         compounding_car_customer_id,
       }),
       onSuccess: (data) => {
@@ -67,7 +67,7 @@ export const useCustomerCheckout = (): UseCustomerCheckoutRes => {
     const { onSuccess, params, onError } = _
 
     fetcherHandler({
-      fetcher: ridesApi.customerPayForRemainingAmount(params),
+      fetcher: rideAPI.customerPayForRemainingAmount(params),
       onSuccess: (result) => {
         if (result?.state === "done") {
           onSuccess?.(result)

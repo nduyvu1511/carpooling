@@ -1,5 +1,5 @@
 import { RatingRes } from "@/models"
-import { ratingApi } from "@/services"
+import { ratingAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR, { KeyedMutator } from "swr"
@@ -18,7 +18,7 @@ export const useDriverRating = (limit = 12): Res => {
   const { data, isValidating, mutate, error } = useSWR<RatingRes[]>(
     "get_driver_rating",
     () =>
-      ratingApi
+      ratingAPI
         .getRatingListByDriver()
         .then((res: AxiosResponse<any>) => res?.result?.data || [])
         .catch((err) => console.log(err)),
@@ -34,7 +34,7 @@ export const useDriverRating = (limit = 12): Res => {
     try {
       const newOffset = offset + limit
       setFetchingMore(true)
-      const res: AxiosResponse<RatingRes[]> = await ratingApi.getRatingListByCustomer({
+      const res: AxiosResponse<RatingRes[]> = await ratingAPI.getRatingListByCustomer({
         limit,
         offset: newOffset,
       })

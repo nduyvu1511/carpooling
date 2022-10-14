@@ -1,6 +1,6 @@
 import { RootState } from "@/core/store"
 import { isObjectHasValue, toImageUrl } from "@/helper"
-import { useFetcher } from "@/hooks"
+import { useFetcher, useSocket } from "@/hooks"
 import {
   CheckPhoneExistParams,
   GetTokenParams,
@@ -15,8 +15,8 @@ import {
   UserLoginRes,
   UserRes,
 } from "@/models"
-import { resetChatState, setProfile, setSocketInstance } from "@/modules"
-import { chatApi, userApi } from "@/services"
+import { resetChatState, setProfile } from "@/modules"
+import { chatAPI, userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useDispatch, useSelector } from "react-redux"
 
@@ -40,18 +40,18 @@ interface UseAuthRes {
 export const useAuth = (): UseAuthRes => {
   const dispatch = useDispatch()
   const { fetcherHandler } = useFetcher()
+  const { connectSocket } = useSocket()
+
   const socket = useSelector((state: RootState) => state.chat.socket)
 
   const setToken = async (_params: UseParams<string, undefined>) => {
     const { params, onSuccess, config, onError } = _params
     fetcherHandler<null>({
-      fetcher: userApi.setToken(params),
+      fetcher: userAPI.setToken(params),
       onSuccess: () => {
-        onSuccess(undefined)
+        if (!socket?.connected) onSuccess(undefined)
       },
-      onError: () => {
-        onError?.()
-      },
+      onError: () => onError?.(),
       config,
     })
   }
@@ -61,8 +61,13 @@ export const useAuth = (): UseAuthRes => {
   ) => {
     const { params, onSuccess, onError } = _params
     fetcherHandler<null>({
-      fetcher: userApi.setChatToken(params),
-      onSuccess: () => onSuccess(undefined),
+      fetcher: userAPI.setChatToken(params),
+      onSuccess: () => {
+        if (!socket?.connected) {
+          connectSocket()
+        }
+        onSuccess(undefined)
+      },
       onError: () => onError?.(),
       config: { showErrorMsg: false, showScreenLoading: false },
     })
@@ -71,7 +76,7 @@ export const useAuth = (): UseAuthRes => {
   const createChatUser = async (_params: UseParams<UserInfo, UserLoginRes>) => {
     const { params, onSuccess, onError } = _params
     try {
-      const res = await chatApi.createUser({
+      const res = await chatAPI.createUser({
         avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : "",
         phone: params.phone,
         role: params.car_account_type,
@@ -93,9 +98,9 @@ export const useAuth = (): UseAuthRes => {
 
   const loginToChatServer = async (params: GetTokenParams) => {
     try {
-      const res = await chatApi.generateToken(params)
+      const res = await chatAPI.generateToken(params)
       if (res?.success) {
-        await userApi.setChatToken(res.data)
+        setChatToken({ params: res.data, onSuccess: () => {} })
       }
     } catch (error) {
       console.log(error)
@@ -105,7 +110,7 @@ export const useAuth = (): UseAuthRes => {
   const updateChatUser = async (_params: UseParams<UserInfo, UserRes>) => {
     const { params, onSuccess, onError } = _params
     try {
-      const res = await chatApi.updateUser({
+      const res = await chatAPI.updateUser({
         avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : "",
         bio: params?.description || "",
         date_of_birth: params?.date_of_birth || "",
@@ -126,7 +131,7 @@ export const useAuth = (): UseAuthRes => {
     const { onSuccess, params, onError, config } = _params
 
     fetcherHandler<UserInfo>({
-      fetcher: userApi.updateUserInfo(params as UpdateUserInfoParams),
+      fetcher: userAPI.updateUserInfo(params as UpdateUserInfoParams),
       onSuccess: (userInfo) => {
         onSuccess(userInfo)
       },
@@ -137,7 +142,7 @@ export const useAuth = (): UseAuthRes => {
 
   const logout = async (cb?: Function) => {
     try {
-      const res: AxiosResponse<any> = await userApi.logout()
+      const res: AxiosResponse<any> = await userAPI.logout()
       if (res?.result?.code !== 200) return
       cb?.()
       dispatch(setProfile(undefined))
@@ -151,14 +156,13 @@ export const useAuth = (): UseAuthRes => {
   const loginByOTP = async (_params: UseParams<LoginByOTP, LoginRes>) => {
     const { onSuccess, params, onError, config } = _params
     fetcherHandler<LoginRes>({
-      fetcher: userApi.loginByOTP(params),
+      fetcher: userAPI.loginByOTP(params),
       onSuccess: (data) => {
         onSuccess(data)
+        // Also login to chat server but not required to wait for this
         loginToChatServer({ phone: data.phone, user_id: data.partner_id })
       },
-      onError: () => {
-        onError?.()
-      },
+      onError: () => onError?.(),
       config,
     })
   }
@@ -166,13 +170,9 @@ export const useAuth = (): UseAuthRes => {
   const getTokenByOTP = async (_params: UseParams<LoginByOTP, LoginRes>) => {
     const { onSuccess, params, onError, config } = _params
     fetcherHandler({
-      fetcher: userApi.getTokenByOTP(params),
-      onSuccess: (data) => {
-        onSuccess(data)
-      },
-      onError: () => {
-        onError?.()
-      },
+      fetcher: userAPI.getTokenByOTP(params),
+      onSuccess: (data) => onSuccess(data),
+      onError: () => onError?.(),
       config,
     })
   }
@@ -180,7 +180,7 @@ export const useAuth = (): UseAuthRes => {
   const loginWithPassword = async (_params: UseParams<LoginFormParams, LoginWithPasswordRes>) => {
     const { onSuccess, params, config, onError } = _params
     fetcherHandler<LoginRes>({
-      fetcher: userApi.login(params),
+      fetcher: userAPI.login(params),
       onSuccess: (params) => {
         onSuccess(params)
       },
@@ -200,7 +200,7 @@ export const useAuth = (): UseAuthRes => {
     } = _params
 
     fetcherHandler<UserInfo>({
-      fetcher: userApi.checkPhoneExist(phone),
+      fetcher: userAPI.checkPhoneExist(phone),
       onSuccess: (res) => {
         type === "register" ? onError?.() : onSuccess?.(res)
       },
@@ -213,7 +213,7 @@ export const useAuth = (): UseAuthRes => {
 
   const getUserInfo = async (handleSuccess: (props: UserInfo) => void, handleError?: Function) => {
     try {
-      const res: AxiosResponse<UserInfo> = await userApi.getUserInfo()
+      const res: AxiosResponse<UserInfo> = await userAPI.getUserInfo()
       if (res?.result?.code !== 200 || !isObjectHasValue(res?.result?.data)) {
         handleError && handleError()
         return

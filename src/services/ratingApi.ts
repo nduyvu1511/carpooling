@@ -8,7 +8,7 @@ import {
 } from "@/models"
 import axiosClient from "."
 
-const ratingApi = {
+const ratingAPI = {
   getRatingTags: (rating_number?: RatingRangePost) => {
     return axiosClient.post("/api/rating_controller/get_quick_rating_tag", {
       params: { rating_number },
@@ -57,4 +57,4 @@ const ratingApi = {
     return axiosClient.post("/api/rating_controller/get_list_quick_reported_reason", {})
   },
 }
-export { ratingApi }
+export { ratingAPI }

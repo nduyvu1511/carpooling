@@ -1,7 +1,7 @@
 import { GetPostsParams } from "@/models"
 import axiosClient from "."
 
-export const newsApi = {
+export const newsAPI = {
   getPosts: ({ limit = 12, offset = 0, categoryId }: GetPostsParams) => {
     return axiosClient.get(
       `https://tintuc.exxe.vn/api/post?limit=${limit}&offset=${offset}${

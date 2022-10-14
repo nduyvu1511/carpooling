@@ -14,7 +14,7 @@ import {
   UnlikeMessageRes,
   UseParams,
 } from "@/models"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useState } from "react"
@@ -63,7 +63,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
     if (isFetchingMore || !roomId || !data) return
     try {
       setFetchingMore(true)
-      const res: AxiosResponse<ListRes<MessageRes[]>> = await chatApi.getMessagesInRoom({
+      const res: AxiosResponse<ListRes<MessageRes[]>> = await chatAPI.getMessagesInRoom({
         offset: (data?.offset || 0) + LIMIT_MESSAGES,
         limit: LIMIT_MESSAGES,
         room_id: roomId,
@@ -208,7 +208,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
 
         // get attachments from API response
         try {
-          const res: any = await chatApi.uploadMultipleImage(formData)
+          const res: any = await chatAPI.uploadMultipleImage(formData)
           if (res?.success) {
             attachment_ids = res?.data?.map((item: AttachmentRes) => item.attachment_id) || []
           }
@@ -241,7 +241,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
 
     try {
       const messageParams = await getMessage(params)
-      const res: any = await chatApi.sendMessage(messageParams)
+      const res: any = await chatAPI.sendMessage(messageParams)
 
       if (res?.success) {
         appendMessage({ ...res.data, status: "fulfilled" })
@@ -289,7 +289,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   // const confirmReadAllMessageInRoom = async (roomId: string, cb?: Function) => {
   //   if (!data?.data?.length) return
 
-  //   const res: any = await chatApi.confirmReadAllMessageInRoom(roomId)
+  //   const res: any = await chatAPI.confirmReadAllMessageInRoom(roomId)
   //   if (res?.success) {
   //     mutate(
   //       produce(data, (draft) => {
@@ -385,7 +385,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
       type: "delete",
     })
 
-    const res: any = await chatApi.unlikeMessage(params.message_id)
+    const res: any = await chatAPI.unlikeMessage(params.message_id)
 
     if (res?.success) {
       cb?.(res.data)
@@ -400,7 +400,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
       type: "add",
     })
 
-    const res: any = await chatApi.likeMessage(params)
+    const res: any = await chatAPI.likeMessage(params)
 
     if (res?.success) {
       cb?.(res.data)

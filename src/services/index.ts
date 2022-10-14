@@ -1,7 +1,7 @@
 import store from "@/core/store"
 import { resetChatState, setProfile } from "@/modules"
 import axios from "axios"
-import { userApi } from "./userApi"
+import { userAPI } from "./userAPI"
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_DOMAIN_URL,
@@ -21,7 +21,7 @@ try {
     async (response) => {
       if (response?.data) {
         if (response?.data?.result?.code === 401 || response?.data?.result?.code === 403) {
-          await userApi.logout()
+          await userAPI.logout()
           store?.dispatch(setProfile(undefined))
           store.dispatch(resetChatState())
 
@@ -41,13 +41,12 @@ try {
 }
 
 export default axiosClient
-export * from "./addressApi"
-export * from "./chatApi"
-export * from "./compoundingCarApi"
-export * from "./newsApi"
-export * from "./promotionApi"
-export * from "./ratingApi"
-export * from "./userApi"
-export * from "./vehicleApi"
-export * from "./chatApi"
-export * from "./notificationApi"
+export * from "./addressAPI"
+export * from "./chatAPI"
+export * from "./rideAPI"
+export * from "./newsAPI"
+export * from "./promotionAPI"
+export * from "./ratingAPI"
+export * from "./userAPI"
+export * from "./chatAPI"
+export * from "./notificationAPI"

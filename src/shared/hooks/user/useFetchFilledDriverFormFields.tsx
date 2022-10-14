@@ -1,5 +1,5 @@
 import { FilledDataFieldsKey, FilledDataFieldsRes } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 
@@ -15,7 +15,7 @@ export const useFetchFilledDriverFormFields = (shouldFetch = true): Res => {
     "get_filled_data_fields",
     shouldFetch
       ? () =>
-          userApi.getFilledDataFields().then((res: AxiosResponse<FilledDataFieldsRes>) => {
+          userAPI.getFilledDataFields().then((res: AxiosResponse<FilledDataFieldsRes>) => {
             const data = res?.result?.data
 
             return {

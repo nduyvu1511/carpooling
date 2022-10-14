@@ -1,7 +1,7 @@
 import { GetPromotionDetail, QueryCommonParams } from "@/models"
 import axiosClient from "."
 
-const notificationApi = {
+const notificationAPI = {
   getPromotionList: (params: QueryCommonParams) => {
     return axiosClient.post("/api/compounding_car_notification_controller/get_list_notification", {
       params,
@@ -18,4 +18,4 @@ const notificationApi = {
   },
 }
 
-export { notificationApi }
+export { notificationAPI }

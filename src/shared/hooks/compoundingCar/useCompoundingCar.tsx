@@ -1,6 +1,6 @@
 import { isObjectHasValue } from "@/helper"
 import { CompoundingCarRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR, { KeyedMutator } from "swr"
 
@@ -25,7 +25,7 @@ export const useCompoundingCar = ({
   const { isValidating, data, mutate, error } = useSWR<CompoundingCarRes, any>(
     compounding_car_id ? key : null,
     () =>
-      ridesApi
+      rideAPI
         .getDetailCompoundingCar({
           compounding_car_id: Number(compounding_car_id),
         })

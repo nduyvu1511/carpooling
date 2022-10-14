@@ -27,11 +27,14 @@ import {
   VehicleDetailFormParams,
   VehicleInsuranceParams,
   VerifyOTPCode,
+  GetPriceUnitParams,
+  StationRes,
+  VehicleTypeParams,
 } from "@/models"
 import { AxiosResponse } from "axios"
 import axiosClient from "."
 
-const userApi = {
+const userAPI = {
   login: (data: LoginFormParams) => {
     return axiosClient.post("/api/user_information_controller/login", {
       params: data,
@@ -303,6 +306,44 @@ const userApi = {
       params,
     })
   },
+
+  getCarTypes: () => {
+    return axiosClient.post<VehicleTypeParams[]>("/api/address_controller/get_car_data", {
+      params: {},
+    })
+  },
+
+  getCarBrands: () => {
+    return axiosClient.post("/api/address_controller/get_car_brand_data", {
+      params: {},
+    })
+  },
+
+  getCarPriceUnit: (params: GetPriceUnitParams) => {
+    return axiosClient.post("/api/address_controller/get_price_unit", {
+      params,
+    })
+  },
+
+  getCarUtilities: () => {
+    return axiosClient.post("/api/address_controller/get_extra_utility", {
+      params: {},
+    })
+  },
+
+  getCarQualityStandards: () => {
+    return axiosClient.post("/api/address_controller/get_quality_car_standard", {
+      params: {},
+    })
+  },
+
+  getPickUpStations: (province_id: number): Promise<AxiosResponse<StationRes[]>> => {
+    return axiosClient.post("/api/address_controller/get_pick_up_station", {
+      params: {
+        province_id,
+      },
+    })
+  },
 }
 
-export { userApi }
+export { userAPI }

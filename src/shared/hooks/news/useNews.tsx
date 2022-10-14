@@ -1,5 +1,5 @@
 import { PostRes } from "@/models"
-import { newsApi } from "@/services"
+import { newsAPI } from "@/services"
 import { useState } from "react"
 import { useQueryList } from "../async"
 
@@ -20,7 +20,7 @@ const useNews = (): Res => {
   const [categoryId, setCategoryId] = useState<string>("all")
   const { data, error, fetchMoreItem, filterList, hasMore, isFetchingMore, isValidating, offset } =
     useQueryList<PostRes[]>({
-      fetcher: newsApi.getPosts,
+      fetcher: newsAPI.getPosts,
       initialData: undefined,
       key: "get_news_list",
       params: { limit: LIMIT, offset: 0 },
@@ -29,14 +29,14 @@ const useNews = (): Res => {
   const fetchMoreNews = () => {
     const newOffset = offset + LIMIT
     fetchMoreItem(
-      newsApi.getPosts({ categoryId: categoryId === "all" ? "" : categoryId, offset: newOffset })
+      newsAPI.getPosts({ categoryId: categoryId === "all" ? "" : categoryId, offset: newOffset })
     )
   }
 
   const filterNews = (categoryId: string) => {
     setCategoryId(categoryId)
     filterList(
-      newsApi.getPosts({
+      newsAPI.getPosts({
         categoryId: categoryId === "all" ? "" : categoryId,
         offset: 0,
         limit: LIMIT,

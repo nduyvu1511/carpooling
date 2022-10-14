@@ -7,7 +7,7 @@ import {
   DriverConfirmCompoundingCarCustomerParams,
   UseParams,
 } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useMemo, useState } from "react"
@@ -53,7 +53,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   } = useSWR<CompoundingCarDriverRes, any>(
     compounding_car_id ? `get_compounding_car_schedules_driver_${compounding_car_id}` : null,
     () =>
-      ridesApi
+      rideAPI
         .getDetailCompoundingCar({
           compounding_car_id: Number(compounding_car_id),
         })
@@ -73,7 +73,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   const confirmDoneCompoundingCar = async (_: UseParams<number, CompoundingCarRes>) => {
     const { onSuccess, params: compounding_car_id, config, onError } = _
     fetcherHandler({
-      fetcher: ridesApi.confirmDoneCompoundingCar({ compounding_car_id }),
+      fetcher: rideAPI.confirmDoneCompoundingCar({ compounding_car_id }),
       onSuccess: (data) => onSuccess?.(data),
       onError: () => onError?.(),
       config,
@@ -85,7 +85,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   ) => {
     const { onSuccess, params, config, onError } = _
     fetcherHandler<CompoundingCarCustomer>({
-      fetcher: ridesApi.driverConfirmWaitingForCustomer(params),
+      fetcher: rideAPI.driverConfirmWaitingForCustomer(params),
       onSuccess: (data) => {
         if (!compoundingCar?.compounding_car_customers?.length) return
         mutateCompoundingCarCustomer(data)
@@ -102,7 +102,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   ) => {
     const { onSuccess, params: compounding_car_customer_id, config, onError } = _
     fetcherHandler<CompoundingCarCustomer>({
-      fetcher: ridesApi.driverConfirmCustomerPayFullForCompoundingCar({
+      fetcher: rideAPI.driverConfirmCustomerPayFullForCompoundingCar({
         compounding_car_customer_id,
       }),
       onSuccess: (data) => {
@@ -117,7 +117,7 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
   const startRunningCompoundingCar = async (_: UseParams<number, CompoundingCarRes>) => {
     const { onSuccess, params: compounding_car_id, config, onError } = _
     fetcherHandler({
-      fetcher: ridesApi.startRunningCompoundingCar({
+      fetcher: rideAPI.startRunningCompoundingCar({
         compounding_car_id,
       }),
       onSuccess: (data) => {
@@ -147,8 +147,8 @@ const useCompoundingCarProcess = (compounding_car_id: number | undefined): Res =
     fetcherHandler({
       fetcher:
         params.state === "done"
-          ? ridesApi.driverConfirmCompoundingCarCustomer(params)
-          : ridesApi.driverConfirmPickingUpCompoundingCarCustomer(params),
+          ? rideAPI.driverConfirmCompoundingCarCustomer(params)
+          : rideAPI.driverConfirmPickingUpCompoundingCarCustomer(params),
       onSuccess: (data) => {
         mutateCompoundingCarCustomer(data)
         onSuccess?.(data)

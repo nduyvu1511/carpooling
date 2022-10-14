@@ -1,7 +1,6 @@
-
 import axiosClient from "."
 
-const addressApi = {
+const addressAPI = {
   getAddress: () => {
     return axiosClient.post("/api/address_controller/get_address_data", {
       params: {},
@@ -35,4 +34,4 @@ const addressApi = {
   },
 }
 
-export { addressApi }
+export { addressAPI }

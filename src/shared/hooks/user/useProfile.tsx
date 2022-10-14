@@ -5,7 +5,7 @@ import {
   UseParams,
   UserInfo,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -29,7 +29,7 @@ const useProfile = (shouldFetch = false): UserRes => {
     "get_user_info",
     shouldFetch
       ? () =>
-          userApi.getUserInfo().then((res: AxiosResponse<UserInfo>) => {
+          userAPI.getUserInfo().then((res: AxiosResponse<UserInfo>) => {
             return res?.result?.data
           })
       : null,
@@ -43,7 +43,7 @@ const useProfile = (shouldFetch = false): UserRes => {
   const createUserInfo = async (para: UseParams<CreateUserFormParams, UserInfo>) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createUserInfo(params),
+      fetcher: userAPI.createUserInfo(params),
       onSuccess: (data: UserInfo) => {
         onSuccess(data)
       },
@@ -56,7 +56,7 @@ const useProfile = (shouldFetch = false): UserRes => {
   ) => {
     const { onSuccess, params, onError, showLoading = true } = para
     fetcherHandler({
-      fetcher: userApi.updateUserInfo(params),
+      fetcher: userAPI.updateUserInfo(params),
       onSuccess: (data: UserInfo) => {
         mutate(data, false)
         onSuccess(data)

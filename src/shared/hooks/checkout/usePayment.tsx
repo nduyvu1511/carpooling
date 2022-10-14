@@ -1,5 +1,5 @@
 import { PaymentRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR from "swr"
@@ -15,7 +15,7 @@ export const usePayment = (): UsePasswordRes => {
   const { isValidating, data } = useSWR(
     "get_payment_list",
     () =>
-      ridesApi
+      rideAPI
         .getPaymentMethods()
         .then((res: AxiosResponse<PaymentRes[]>) => {
           return res.result?.data

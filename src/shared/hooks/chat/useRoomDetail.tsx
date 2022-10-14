@@ -1,5 +1,5 @@
 import { ChangeStatusOfRoom, RoomDetailRes } from "@/models"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
 import useSWR, { mutate } from "swr"
@@ -25,7 +25,7 @@ export const useRoomDetail = ({ roomId }: Props): Res => {
     roomId ? `get_room_detail_${roomId}` : null,
     roomId
       ? () =>
-          chatApi.getRoomDetail(roomId).then((res: AxiosResponse<RoomDetailRes>) => {
+          chatAPI.getRoomDetail(roomId).then((res: AxiosResponse<RoomDetailRes>) => {
             const data = res?.data
             mutate(`get_messages_in_room_${roomId}`, data.messages, false)
             return data

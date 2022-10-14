@@ -1,5 +1,5 @@
 import { RatingRangePost, RatingTagRes } from "@/models"
-import { ratingApi } from "@/services"
+import { ratingAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useState } from "react"
 
@@ -15,7 +15,7 @@ export const useFetchRatingTags = (rating_number?: RatingRangePost): Res => {
   useEffect(() => {
     if (!rating_number) return
     setValidating(true)
-    ratingApi
+    ratingAPI
       .getRatingTags(rating_number)
       .then((res: AxiosResponse<RatingTagRes[]>) => {
         setValidating(false)

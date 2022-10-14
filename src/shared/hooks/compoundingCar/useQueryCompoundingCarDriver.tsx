@@ -1,5 +1,5 @@
 import { CompoundingCarRes, CompoundingListDriverParams } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useQueryList } from "../async"
 
 interface Res {
@@ -24,7 +24,7 @@ export const useQueryCompoundingCarDriver = (): Res => {
 
   const filterRides = async (params: CompoundingListDriverParams) => {
     filterList(
-      ridesApi.getCompoundingCarListForDriver({
+      rideAPI.getCompoundingCarListForDriver({
         ...params,
         limit: params.limit || LIMIT,
         offset: 0,
@@ -35,7 +35,7 @@ export const useQueryCompoundingCarDriver = (): Res => {
   const fetchMoreRides = async (params: CompoundingListDriverParams) => {
     const newOffset = offset + LIMIT
     fetchMoreItem(
-      ridesApi.getCompoundingCarListForDriver({
+      rideAPI.getCompoundingCarListForDriver({
         ...params,
         limit: params.limit || LIMIT,
         offset: newOffset,

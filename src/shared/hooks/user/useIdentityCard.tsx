@@ -1,5 +1,5 @@
 import { IdCardParams, IdCardUpdateParams, IdentityCardRes, UseParams } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -18,7 +18,7 @@ const useIdentityCard = (shouldFetch = false): UseIdentityCardRes => {
     "identity_card",
     shouldFetch
       ? () =>
-          userApi.getIdentityCard().then((res: AxiosResponse<IdentityCardRes>) => res?.result?.data)
+          userAPI.getIdentityCard().then((res: AxiosResponse<IdentityCardRes>) => res?.result?.data)
       : null,
     {
       shouldRetryOnError: false,
@@ -30,7 +30,7 @@ const useIdentityCard = (shouldFetch = false): UseIdentityCardRes => {
   const createIdentityCard = async (para: UseParams<IdCardParams, IdentityCardRes>) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createIdentityCard(params),
+      fetcher: userAPI.createIdentityCard(params),
       onSuccess: (data: IdentityCardRes) => {
         onSuccess(data)
       },
@@ -41,7 +41,7 @@ const useIdentityCard = (shouldFetch = false): UseIdentityCardRes => {
   const updateIdentityCard = async (para: UseParams<IdCardUpdateParams, IdentityCardRes>) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.updateIdentityCard(params),
+      fetcher: userAPI.updateIdentityCard(params),
       onSuccess: (data: IdentityCardRes) => {
         onSuccess(data)
       },

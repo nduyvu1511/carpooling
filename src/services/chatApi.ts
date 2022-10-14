@@ -27,7 +27,7 @@ const axiosClient = axios.create({
 
 // const memoizedRefreshToken = mem(
 //   async () => {
-//     const res = await chatApi.refreshToken()
+//     const res = await chatAPI.refreshToken()
 //     return res
 //   },
 //   {
@@ -65,7 +65,7 @@ try {
   console.log(error)
 }
 
-const chatApi = {
+const chatAPI = {
   createUser: (params: CreateUserParams): Promise<ChatAxiosResponse<UserRes>> => {
     return axiosClient.post("/chat/user", params)
   },
@@ -83,7 +83,7 @@ const chatApi = {
   },
 
   createGroupChat: (params: CreateGroupChat) => {
-    return axiosClient.post("/chat/room/group_chat", params)
+    return axiosClient.post("/chat/room/group", params)
   },
 
   getProfile: (id?: string) => {
@@ -151,6 +151,18 @@ const chatApi = {
   },
   getUserData: () => {
     return axiosClient.get("/chat/user")
+  },
+
+  deleteRoom: (room_id: string) => {
+    return axiosClient.delete(`/chat/room/${room_id}`)
+  },
+
+  deleteRoomByCompoundingCarId: (compounding_car_id: number) => {
+    return axiosClient.delete(`/chat/room/ride/${compounding_car_id}`)
+  },
+
+  restoreRoom: (room_id: string) => {
+    return axiosClient.post(`/chat/room/restore/${room_id}`)
   },
 
   // addMessageUnreadToRoom: (params: AddMessageUnread) => {
@@ -227,4 +239,4 @@ const chatApi = {
   },
 }
 
-export { chatApi }
+export { chatAPI }

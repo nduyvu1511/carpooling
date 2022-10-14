@@ -12,7 +12,7 @@ import {
 import { useNews } from "@/hooks"
 import { GuestLayout } from "@/layout"
 import { CompoundingCarRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useLayoutEffect } from "react"
 import { useSelector } from "react-redux"
@@ -26,7 +26,7 @@ const HomeGuest = () => {
   const { data, isValidating } = useSWR<CompoundingCarRes[]>(
     "get_compounding_car_template",
     () =>
-      ridesApi
+      rideAPI
         .getCompoundingCarTemplates()
         .then((res) => res.result.data || [])
         .catch((err) => console.log(err)),

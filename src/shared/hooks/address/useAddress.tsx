@@ -1,7 +1,7 @@
 import { RootState } from "@/core/store"
 import { convertViToEn } from "@/helper"
 import { DistrictId, OptionModel, ProvinceId, WardId } from "@/models"
-import { addressApi } from "@/services"
+import { addressAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
@@ -41,14 +41,14 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
   }, [])
 
   const getDistricts = (state_id: number) => {
-    addressApi
+    addressAPI
       .getDistricts([state_id])
       .then((res: AxiosResponse<DistrictId[]>) => setDistricts(res?.result?.data || []))
       .catch((err) => console.log(err))
   }
 
   const getWards = (district_id: number) => {
-    addressApi
+    addressAPI
       .getWards([district_id])
       .then((res: AxiosResponse<WardId[]>) => setWards(res?.result?.data || []))
       .catch((err) => console.log(err))

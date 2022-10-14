@@ -1,6 +1,6 @@
 import { CreateGroupChat, CreateSingleChat, RoomDetailRes, UseParams } from "@/models"
 import { setCurrentRoomId } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 import { useAsync } from "../utilities"
@@ -23,7 +23,7 @@ export const useChatActions = (): UseChatActionsRes => {
   const createSingleChat = (_: UseParams<CreateSingleChat, RoomDetailRes>) => {
     const { params, onSuccess, config, onError } = _
     asyncHandler<RoomDetailRes>({
-      fetcher: chatApi.createSingleChat(params),
+      fetcher: chatAPI.createSingleChat(params),
       onSuccess: (data) => {
         router.push("/chat")
         redirectToChatPage(data.room_id)
@@ -37,7 +37,7 @@ export const useChatActions = (): UseChatActionsRes => {
   const createGroupChat = (_: UseParams<CreateGroupChat, RoomDetailRes>) => {
     const { params, onSuccess, config, onError } = _
     asyncHandler<RoomDetailRes>({
-      fetcher: chatApi.createGroupChat(params),
+      fetcher: chatAPI.createGroupChat(params),
       onSuccess: (data) => {
         redirectToChatPage(data.room_id)
         onSuccess?.(data)

@@ -2,9 +2,9 @@ import {
   CertificateInspectionParams,
   CertificateInspectionRes,
   UpdateCertificateInspectionParams,
-  UseParams
+  UseParams,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -27,7 +27,7 @@ const useCertificateInspection = (shouldFetch = false): UseCertificateInspection
     "certificate_inspection",
     shouldFetch
       ? () =>
-          userApi
+          userAPI
             .getCertificateInspection()
             .then((res: AxiosResponse<CertificateInspectionRes>) => res?.result?.data)
       : null,
@@ -43,7 +43,7 @@ const useCertificateInspection = (shouldFetch = false): UseCertificateInspection
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createCertificateInspection(params),
+      fetcher: userAPI.createCertificateInspection(params),
       onSuccess: (data: CertificateInspectionRes) => {
         onSuccess(data)
       },
@@ -56,7 +56,7 @@ const useCertificateInspection = (shouldFetch = false): UseCertificateInspection
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.updateCertificateInspection(params),
+      fetcher: userAPI.updateCertificateInspection(params),
       onSuccess: (data: CertificateInspectionRes) => {
         onSuccess(data)
       },
@@ -73,4 +73,3 @@ const useCertificateInspection = (shouldFetch = false): UseCertificateInspection
 }
 
 export { useCertificateInspection }
-

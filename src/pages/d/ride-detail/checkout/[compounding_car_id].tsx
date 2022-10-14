@@ -10,17 +10,14 @@ import {
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { CancelRideParams, DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
+import { chatAPI, rideAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const CheckoutDriver = () => {
   const router = useRouter()
   const { compounding_car_id } = router.query
-  const {
-    data: compoundingCar,
-    isInitialLoading,
-    mutate,
-  } = useCompoundingCarDriver({
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCarDriver({
     key: `compounding_car_driver_deposit_customer_${compounding_car_id}`,
     type: "autoFocus",
     compounding_car_id: Number(compounding_car_id),
@@ -75,8 +72,31 @@ const CheckoutDriver = () => {
       },
       onSuccess: (data) => {
         if (params.provider === "exxe_wallet") {
-          redirectToCheckoutSuccess()
-          mutate()
+          if (!compoundingCar?.compounding_car_id) return
+
+          rideAPI
+            .getDetailCompoundingCar({ compounding_car_id })
+            .then((res) => {
+              const data = res?.result?.data
+              if (data?.state !== "confirm_deposit") return
+
+              // If ride type is carpooling, then create new group chat
+              if (
+                data?.compounding_type === "compounding" &&
+                data?.compounding_car_customers?.length > 0
+              ) {
+                chatAPI.createGroupChat({
+                  room_name: data.compounding_car_name,
+                  compounding_car_id: data.compounding_car_id,
+                  member_ids: data.compounding_car_customers?.map(
+                    (item) => item.partner.partner_id
+                  ),
+                })
+              }
+
+              redirectToCheckoutSuccess()
+            })
+            .catch((err) => console.log(err))
         } else {
           window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
         }

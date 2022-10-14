@@ -21,7 +21,7 @@ import {
   WithdrawFormParams,
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -54,7 +54,7 @@ const Wallet = () => {
   const { data: transaction, mutate } = useSWR<JournalDetailRes>(
     paymentId ? `get_transaction_status_${paymentId}` : null,
     () =>
-      userApi
+      userAPI
         .getDetailTransaction({ payment_id: paymentId || 0 })
         .then((res: AxiosResponse<JournalDetailRes>) => res?.result?.data),
     { dedupingInterval: 0, revalidateOnFocus: true }

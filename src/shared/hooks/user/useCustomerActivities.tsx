@@ -1,5 +1,5 @@
 import { CompoundingCarCustomerState, CustomerActivityRes, RatingState } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { useState } from "react"
 import { useQueryList } from "../async"
 
@@ -26,7 +26,7 @@ export const useCustomerActivities = (): Res => {
       initialData: undefined,
       key: "query_activity_for_customer",
       limit: 12,
-      fetcher: ridesApi.getCustomerActivities,
+      fetcher: rideAPI.getCustomerActivities,
       params: { limit: LIMIT_ACTIVITIES_LENGTH, offset: 0 },
     })
 
@@ -36,7 +36,7 @@ export const useCustomerActivities = (): Res => {
   const fetchMoreActivities = async (rating_state?: RatingState) => {
     const newOffset = offset + LIMIT_ACTIVITIES_LENGTH
     fetchMoreItem(
-      ridesApi.getCustomerActivities({
+      rideAPI.getCustomerActivities({
         limit: LIMIT_ACTIVITIES_LENGTH,
         offset: newOffset,
         compounding_car_state: activityStates,
@@ -61,7 +61,7 @@ export const useCustomerActivities = (): Res => {
     }
 
     filterList(
-      ridesApi.getCustomerActivities({
+      rideAPI.getCustomerActivities({
         compounding_car_state,
         rating_state: rating_state
           ? rating_state === "rated"

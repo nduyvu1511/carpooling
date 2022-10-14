@@ -1,5 +1,5 @@
 import { RequestOTPCode, UseParams, VerifyOTPCode } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { useFetcher } from "../async"
 
 interface UseOTPRes {
@@ -13,7 +13,7 @@ export const useOTP = (): UseOTPRes => {
   const requestOTPCode = (_: UseParams<RequestOTPCode, any>) => {
     const { onSuccess, params, config, onError } = _
     fetcherHandler({
-      fetcher: userApi.requestOTP(params),
+      fetcher: userAPI.requestOTP(params),
       onSuccess: (res: any) => {
         onSuccess?.(res)
       },
@@ -27,7 +27,7 @@ export const useOTP = (): UseOTPRes => {
   const verifyOTPCode = (_: UseParams<VerifyOTPCode, any>) => {
     const { onSuccess, params, config, onError } = _
     fetcherHandler({
-      fetcher: userApi.verifyOTP(params),
+      fetcher: userAPI.verifyOTP(params),
       onSuccess: (res: any) => {
         onSuccess?.(res)
       },

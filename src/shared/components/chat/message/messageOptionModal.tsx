@@ -15,6 +15,7 @@ interface MessageOptionModalProps {
   onCopy?: () => void
   onSaveNote?: () => void
   value?: MessageReactionType | null
+  onSaveToNote?: () => void
 }
 
 export const MessageOptionModal = ({
@@ -26,6 +27,7 @@ export const MessageOptionModal = ({
   onSaveNote,
   onViewDetail,
   value,
+  onSaveToNote,
 }: MessageOptionModalProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const emotionRef = useRef<HTMLDivElement>(null)

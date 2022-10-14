@@ -6,7 +6,7 @@ import {
   SavePromotionParams,
   UseParams,
 } from "@/models"
-import { promotionApi } from "@/services/promotionApi"
+import { promotionApi } from "@/services/promotionAPI"
 import { useFetcher } from "../async"
 
 interface Res {

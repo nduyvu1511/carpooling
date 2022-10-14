@@ -8,7 +8,7 @@ import {
   UseParams,
 } from "@/models"
 import { setScreenLoading } from "@/modules"
-import { ridesApi } from "@/services"
+import { chatAPI, rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useDispatch } from "react-redux"
 import { useFetcher } from "../async"
@@ -41,7 +41,7 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
   }: FetchDepositCompoundingCarDriver) => {
     try {
       showLoading && dispatch(setScreenLoading({ show: true }))
-      const res: AxiosResponse<any> = await ridesApi.getDepositCompoundingCarDriver({
+      const res: AxiosResponse<any> = await rideAPI.getDepositCompoundingCarDriver({
         compounding_car_id,
       })
       if (!res?.result?.success) {
@@ -60,8 +60,9 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
   ) => {
     const { onSuccess, params, config, onError } = _
     fetcherHandler({
-      fetcher: ridesApi.cancelDepositForDriver(params),
+      fetcher: rideAPI.cancelDepositForDriver(params),
       onSuccess: (data) => {
+        chatAPI.deleteRoomByCompoundingCarId(params.compounding_car_id)
         onSuccess?.(data)
       },
       onError: onError?.(),
@@ -80,7 +81,7 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     } = _
 
     fetcherHandler({
-      fetcher: ridesApi.confirmDepositForDriver({ compounding_car_id }),
+      fetcher: rideAPI.confirmDepositForDriver({ compounding_car_id }),
       onSuccess: (data) => onSuccess?.(data),
       onError: () => onError?.(),
       config,
@@ -92,7 +93,7 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
   ) => {
     const { params, onSuccess, onError } = props
     fetcherHandler({
-      fetcher: ridesApi.createPaymentForDriver(params),
+      fetcher: rideAPI.createPaymentForDriver(params),
       onSuccess: (data: CreatePaymentRes) => {
         onSuccess?.(data)
       },

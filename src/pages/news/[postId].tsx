@@ -1,7 +1,7 @@
 import { NewsSlide, Seo } from "@/components"
 import { StaticLayout } from "@/layout"
 import { PostDetailRes, PostRes } from "@/models"
-import { newsApi } from "@/services"
+import { newsAPI } from "@/services"
 import { useRouter } from "next/router"
 import useSWR from "swr"
 
@@ -11,7 +11,7 @@ const PostDetail = () => {
   const { isValidating, data } = useSWR<PostDetailRes>(
     postId ? `get_post_detail_${postId}` : null,
     () =>
-      newsApi
+      newsAPI
         .getPostDetail(postId + "")
         .then((res: any) => res.data)
         .catch((err) => console.log(err)),
@@ -20,7 +20,7 @@ const PostDetail = () => {
   const { data: newsRelated, isValidating: isRelatedLoading } = useSWR<PostRes[]>(
     data?.category?.categoryId ? `get_related_post_${postId}` : null,
     () =>
-      newsApi
+      newsAPI
         .getPosts({ categoryId: data?.category?.categoryId })
         .then((res: any) => res.data)
         .catch((err) => console.log(err)),

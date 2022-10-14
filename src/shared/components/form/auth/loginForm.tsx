@@ -18,14 +18,14 @@ export const LoginForm = ({
   onClickResetPassword,
   onClickLoginSMS,
   onClickRegister,
-  view,
+  view = "page",
 }: LoginFormProps) => {
   const formStorage = getFromLocalStorage(FORM_LOGIN_KEY)
 
   const {
     control,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid },
   } = useForm<LoginFormParams>({
     resolver: yupResolver(loginSchema),
     mode: "all",
@@ -89,10 +89,7 @@ export const LoginForm = ({
 
       <div className="text-14 font-medium text-blue-8 leading-26 text-center">
         Bạn chưa có tài khoản?{" "}
-        <a
-          onClick={() => onClickRegister && onClickRegister()}
-          className="text-primary cursor-pointer"
-        >
+        <a onClick={() => onClickRegister?.()} className="text-primary cursor-pointer">
           Đăng ký
         </a>
       </div>

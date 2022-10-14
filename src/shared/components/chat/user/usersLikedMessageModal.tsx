@@ -2,7 +2,7 @@ import { blankAvatar } from "@/assets"
 import { ModalSm } from "@/components"
 import { MessageReactionType, UserReactionRes, UsersLikedMessageRes } from "@/models"
 import { setCurrentMessageEmotionId, setCurrentProfileId } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -19,7 +19,7 @@ export const UsersLikedMessageModal = ({ messageId }: Props) => {
   const { data, error } = useSWR<UsersLikedMessageRes | undefined>(
     messageId ? `get_users_liked_message_${messageId}` : null,
     () =>
-      chatApi.getUsersLikedMessage(messageId).then((res: AxiosResponse<UsersLikedMessageRes>) => {
+      chatAPI.getUsersLikedMessage(messageId).then((res: AxiosResponse<UsersLikedMessageRes>) => {
         const { data } = res
         setCurrentSelect({ data: data?.["all"] || [], key: "all" })
         return data

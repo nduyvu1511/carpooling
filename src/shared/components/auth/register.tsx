@@ -108,11 +108,7 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
           <AuthBg />
         </div>
       ) : (
-        <AccountTypeForm
-          onSubmit={(type) => {
-            handleRegister(type)
-          }}
-        />
+        <AccountTypeForm onSubmit={handleRegister} />
       )}
     </div>
   )

@@ -1,4 +1,11 @@
-import { Alert, CheckoutInfo, RideCancelForm, RideToolTip, WalletBalanceAlert } from "@/components"
+import {
+  Alert,
+  CheckoutInfo,
+  RideCancelForm,
+  RideToolTip,
+  WalletBalanceAlert,
+  PaymentSlide,
+} from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarActions, usePayment } from "@/hooks"
@@ -7,12 +14,11 @@ import {
   CompoundingCarCustomer,
   CompoundingCarDriverRes,
   IDepositSummaryOptional,
-  PaymentRes
+  PaymentRes,
 } from "@/models"
 import { useRouter } from "next/router"
 import { ReactNode, useState } from "react"
 import { useSelector } from "react-redux"
-import { PaymentSlide } from "./paymentSlide"
 
 interface CheckoutProps {
   secondsRemains: number
@@ -243,4 +249,3 @@ const Checkout = ({
 }
 
 export { Checkout }
-

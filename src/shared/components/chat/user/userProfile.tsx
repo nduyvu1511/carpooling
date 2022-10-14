@@ -1,6 +1,5 @@
 import { blankAvatar, imageBlur } from "@/assets"
-import { useAsync } from "@/hooks"
-import { ListRes, RoomRes, UserRes } from "@/models"
+import { UserRes } from "@/models"
 import {
   setcurrentDetailMessageId,
   setCurrentMessageEmotionId,
@@ -8,21 +7,18 @@ import {
   setCurrentRoomId,
   setCurrentRoomInfo,
 } from "@/modules"
-import { chatApi } from "@/services"
-import produce from "immer"
 import moment from "moment"
 import Image from "next/image"
 import { useDispatch } from "react-redux"
-import { useSWRConfig } from "swr"
 
 interface UserProfileProps {
   data: UserRes
 }
 
 export const UserProfile = ({ data }: UserProfileProps) => {
-  const { cache, mutate } = useSWRConfig()
+  // const { cache, mutate } = useSWRConfig()
   const dispatch = useDispatch()
-  const { asyncHandler } = useAsync()
+  // const { asyncHandler } = useAsync()
 
   const joinRoomHandler = (roomId: string) => {
     dispatch(setCurrentRoomId(roomId))
@@ -39,33 +35,31 @@ export const UserProfile = ({ data }: UserProfileProps) => {
     if (data?.room_id) {
       joinRoomHandler(data.room_id)
     } else {
-      asyncHandler<RoomRes>({
-        fetcher: chatApi.createSingleChat({ partner_id: data.user_id }),
-        onSuccess: (data) => {
-          const roomList: ListRes<RoomRes[]> = cache.get("get_room_list")
-
-          if (!roomList?.data?.length) {
-            mutate("get_room_list")
-          } else {
-            mutate(
-              "get_room_list",
-              produce(roomList, (draft) => {
-                draft.total += 1
-                draft.offset += 1
-                draft.data.unshift({
-                  ...data,
-                  room_avatar: (data?.room_avatar as any)?.thumbnail_url || data?.room_avatar || "",
-                })
-              }),
-              false
-            )
-          }
-
-          setTimeout(() => {
-            joinRoomHandler(data.room_id)
-          }, 100)
-        },
-      })
+      // asyncHandler<RoomRes>({
+      //   fetcher: chatAPI.createSingleChat({ partner_id: data.user_id }),
+      //   onSuccess: (data) => {
+      //     const roomList: ListRes<RoomRes[]> = cache.get("get_room_list")
+      //     if (!roomList?.data?.length) {
+      //       mutate("get_room_list")
+      //     } else {
+      //       mutate(
+      //         "get_room_list",
+      //         produce(roomList, (draft) => {
+      //           draft.total += 1
+      //           draft.offset += 1
+      //           draft.data.unshift({
+      //             ...data,
+      //             room_avatar: (data?.room_avatar as any)?.thumbnail_url || data?.room_avatar || "",
+      //           })
+      //         }),
+      //         false
+      //       )
+      //     }
+      //     setTimeout(() => {
+      //       joinRoomHandler(data.room_id)
+      //     }, 100)
+      //   },
+      // })
     }
   }
 
@@ -82,14 +76,14 @@ export const UserProfile = ({ data }: UserProfileProps) => {
           />
         </div>
         <p className="text-base font-semibold line-clamp-1 word-wrap-anywhere">{data.user_name}</p>
-        {!data?.is_yourself ? (
+        {/* {!data?.is_yourself ? (
           <button
             onClick={handleJoinRoom}
             className="bg-bg h-[32px] px-32 py-4 rounded-[5px] text-sm font-semibold mt-16"
           >
             Nhắn tin
           </button>
-        ) : null}
+        ) : null} */}
       </div>
 
       <div className="p-16">
@@ -102,7 +96,7 @@ export const UserProfile = ({ data }: UserProfileProps) => {
           </li>
           <li className="flex items-start mb-12">
             <p className="text-xs leading-[24px] w-[100px]">Điện thoại</p>
-            <p className="text-sm flex-1">{data?.phone || ""}</p>
+            <p className="text-sm flex-1">{"**********"}</p>
           </li>
           <li className="flex items-start mb-12">
             <p className="text-xs leading-[24px] w-[100px]">Giới tính</p>

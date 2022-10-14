@@ -6,7 +6,7 @@ import {
   ReasonCancelCompoundingCarRes,
   ReasonsCancelCompoundingCarParams,
 } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import moment from "moment"
 import { useRef, useState } from "react"
@@ -34,7 +34,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
       ? "get_reson_to_cancel_ride"
       : null,
     () =>
-      ridesApi
+      rideAPI
         .getReasonsToCancelCompoundingCar({
           ...params,
           car_account_type: userInfo?.car_account_type,

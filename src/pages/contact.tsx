@@ -4,7 +4,7 @@ import { ADDRESS, EMAIL, PHONE } from "@/helper"
 import { useFetcher } from "@/hooks"
 import { StaticLayout } from "@/layout"
 import { ContactParams } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { useRef } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
@@ -20,7 +20,7 @@ const Contact = () => {
 
   const handleSendContact = (params: ContactParams) => {
     fetcherHandler({
-      fetcher: userApi.createContact(params),
+      fetcher: userAPI.createContact(params),
       onSuccess: () => {
         childRef.current?.onReset?.()
         dispatch(notify("Gửi liên hệ thành công, cảm ơn bạn đã liên hệ với ExxeVn", "success"))

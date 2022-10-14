@@ -1,6 +1,6 @@
 import { useAddress } from "@/hooks"
 import { StationId, StationRes } from "@/models"
-import { vehicleApi } from "@/services"
+import { userAPI } from "@/services"
 import { isArray } from "lodash"
 import { useEffect, useState } from "react"
 import Select from "react-select"
@@ -21,7 +21,7 @@ export const Station = ({ defaultValue, onChange }: StationProps) => {
   const fetchStations = async (provinceId: number) => {
     try {
       setValidating(true)
-      const res = await vehicleApi.getPickUpStations(provinceId || 0)
+      const res = await userAPI.getPickUpStations(provinceId || 0)
       setValidating(false)
       const data = res?.result?.data || []
       setStations(data)

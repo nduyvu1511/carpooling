@@ -11,13 +11,13 @@ import {
   TopMemberRes,
   UserRes,
 } from "@/models"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { Socket } from "socket.io-client"
 
 export const fetchMessageUnreadCount = createAsyncThunk(
   "chat/fetchMessageUnreadCount",
-  async () => (await chatApi.getMessageUnreadCount())?.result?.data
+  async () => (await chatAPI.getMessageUnreadCount())?.data
 )
 
 interface ChatSlice {
@@ -128,6 +128,7 @@ const chatSlice = createSlice({
 
     setCurrentRoomId: (state, { payload }: PayloadType<string | undefined>) => {
       if (payload === state.currentRoomId) return
+
       if (state.currentTyping?.room_id === payload) {
         state.currentTyping = undefined
       }

@@ -25,7 +25,7 @@ const CheckoutSuccess = () => {
   })
   const { createSingleChat } = useChatActions()
 
-  const [show, setShow] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(true)
 
   useBackRouter({
     cb: () => {
@@ -99,7 +99,10 @@ const CheckoutSuccess = () => {
                     <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
                       <RideSummaryPassengerItem
                         onChat={(partner_id) =>
-                          createSingleChat({ params: { partner_id }, onSuccess: () => {} })
+                          createSingleChat({
+                            params: { partner_id, compounding_car_id: item.compounding_car_id },
+                            onSuccess: () => {},
+                          })
                         }
                         data={item}
                       />

@@ -3,7 +3,7 @@ import { RootState } from "@/core/store"
 import { useQueryList } from "@/hooks"
 import { ListRes, RoomRes } from "@/models"
 import { addRoomHistory, deleteRoomHistory } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useDispatch, useSelector } from "react-redux"
@@ -27,7 +27,7 @@ export const RoomSearch = ({
   const roomHistory = useSelector((state: RootState) => state.roomHistory.data)
   const { data, isValidating, filterList, offset } = useQueryList<ListRes<RoomRes[]>>({
     initialData: undefined,
-    fetcher: chatApi.getRoomList,
+    fetcher: chatAPI.getRoomList,
     key: "get_room_list_search",
   })
 
@@ -44,7 +44,7 @@ export const RoomSearch = ({
           onChange={(search_term) => {
             setSearchTerm(search_term)
             if (search_term) {
-              filterList(chatApi.getRoomList({ offset, search_term }))
+              filterList(chatAPI.getRoomList({ offset, search_term }))
             }
           }}
           attributes={{ placeholder: "Tìm kiếm" }}

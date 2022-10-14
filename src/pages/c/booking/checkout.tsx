@@ -17,7 +17,7 @@ import {
   CompoundingCarCustomerState,
   PaymentRes,
 } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -37,7 +37,7 @@ const CheckoutCustomer = () => {
   } = useSWR<CompoundingCarCustomer>(
     compounding_car_customer_id ? `booking_checkout_customer_${compounding_car_customer_id}` : null,
     () =>
-      ridesApi
+      rideAPI
         .getDetailCompoundingCarCustomer({
           compounding_car_customer_id: Number(compounding_car_customer_id),
         })

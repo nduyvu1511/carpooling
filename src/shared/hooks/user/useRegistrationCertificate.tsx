@@ -4,7 +4,7 @@ import {
   UseParams,
   VehicleDetailFormParams,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -27,7 +27,7 @@ const useRegistrationCertificate = (shouldFetch = false): UseRegistrationCertifi
     "registration_certificate",
     shouldFetch
       ? () =>
-          userApi
+          userAPI
             .getCertificateRegistrationVehicle()
             .then((res: AxiosResponse<RegistrationCertificateRes>) => res?.result?.data)
       : null,
@@ -43,7 +43,7 @@ const useRegistrationCertificate = (shouldFetch = false): UseRegistrationCertifi
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createCertificateRegistrationVehicle(params),
+      fetcher: userAPI.createCertificateRegistrationVehicle(params),
       onSuccess: (data: RegistrationCertificateRes) => {
         onSuccess(data)
       },
@@ -56,7 +56,7 @@ const useRegistrationCertificate = (shouldFetch = false): UseRegistrationCertifi
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.updateCertificateRegistrationVehicle(params),
+      fetcher: userAPI.updateCertificateRegistrationVehicle(params),
       onSuccess: (data: RegistrationCertificateRes) => {
         onSuccess(data)
       },

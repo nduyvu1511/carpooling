@@ -49,11 +49,14 @@ export const Chat = memo(function _Chat() {
       if (document.hasFocus()) {
         socket.emit("read_message", data)
       } else {
-        createNotification(data)
+        if (window?.location?.pathname?.includes("/chat")) {
+          createNotification(data)
+        }
       }
     })
 
     socket.on("read_all_message", (room_id: string) => {
+      console.log("read all message in room")
       roomRef.current?.clearMessagesUnreadFromRoom(room_id)
       dispatch(updateMessageUnreadCount({ room_id: room_id, type: "decrease" }))
     })
@@ -67,7 +70,9 @@ export const Chat = memo(function _Chat() {
     })
 
     socket.on("receive_unread_message", (data: MessageRes) => {
-      createNotification(data)
+      if (window?.location?.pathname?.includes("/chat")) {
+        createNotification(data)
+      }
       roomRef.current?.messageUnreadhandler(data)
     })
 

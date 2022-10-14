@@ -4,7 +4,7 @@ import { RootState } from "@/core/store"
 import { useAuth } from "@/hooks"
 import { AuthModalType, LoginFormParams, UserInfo } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
@@ -40,18 +40,20 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
   }
 
   const handleResetPassword = async (token: string) => {
-    const res = await userApi.setToken(token)
-    if (res?.result?.success) {
-      handleGetUserInfo(false)
+    try {
+      const res = await userAPI.setToken(token)
+      if (res?.result?.success) {
+        handleGetUserInfo()
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
   const handleLoginWithPassword = (params: LoginFormParams) => {
     loginWithPassword({
       params,
-      onSuccess: () => {
-        handleGetUserInfo()
-      },
+      onSuccess: () => handleGetUserInfo(),
       config: { toggleOverFlow: false },
     })
   }
@@ -98,7 +100,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
           {authModalType === "login" ? (
             <LoginForm
               view="modal"
-              onSubmit={(data) => handleLoginWithPassword(data)}
+              onSubmit={handleLoginWithPassword}
               onClickResetPassword={() => dispatch(setAuthModalType("resetPassword"))}
               onClickLoginSMS={() => dispatch(setAuthModalType("sms"))}
               onClickRegister={() => dispatch(setAuthModalType("register"))}

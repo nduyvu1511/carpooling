@@ -1,6 +1,6 @@
 import { getLastMessage } from "@/helper"
 import { ChangeStatusOfRoom, ListRes, MessageRes, RoomRes } from "@/models"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
 import { useState } from "react"
@@ -25,7 +25,7 @@ const LIMIT = 30
 
 export const useRoom = (roomId?: string): UseRoomRes => {
   const { isValidating, mutate, data, error } = useSWR<ListRes<RoomRes[]>>("get_room_list", () =>
-    chatApi.getRoomList({ limit: LIMIT }).then((res: AxiosResponse<ListRes<RoomRes[]>>) => {
+    chatAPI.getRoomList({ limit: LIMIT }).then((res: AxiosResponse<ListRes<RoomRes[]>>) => {
       setHasMore(res.data?.has_more || false)
 
       return res.data
@@ -76,7 +76,7 @@ export const useRoom = (roomId?: string): UseRoomRes => {
 
     try {
       setFetchingMore(true)
-      const res: AxiosResponse<ListRes<RoomRes[]>> = await chatApi.getRoomList({
+      const res: AxiosResponse<ListRes<RoomRes[]>> = await chatAPI.getRoomList({
         limit: LIMIT,
         offset: (data?.offset || 0) + LIMIT,
       })
@@ -112,7 +112,7 @@ export const useRoom = (roomId?: string): UseRoomRes => {
   //   onErr?: Function
   // ) => {
   //   try {
-  //     const res: any = await chatApi.addMessageUnreadToRoom({ message_id: params.message_id })
+  //     const res: any = await chatAPI.addMessageUnreadToRoom({ message_id: params.message_id })
   //     if (res?.success) {
   //       cb?.(res?.data?.message_unread_count || 0)
   //     } else {
@@ -129,7 +129,7 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     const room = { ...data.data[index] }
     if (!room.message_unread_count || room.message_unread_count <= 0) return
 
-    // const res: any = await chatApi.clearMessageUnreadFromRoom(roomId)
+    // const res: any = await chatAPI.clearMessageUnreadFromRoom(roomId)
     // if (res?.success) {
     mutate(
       produce(data, (draft) => {

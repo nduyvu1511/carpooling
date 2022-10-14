@@ -49,7 +49,7 @@ import {
   CreateTwoWayCompoundingCarForm,
   OptionModel,
 } from "@/models"
-import { vehicleApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import moment from "moment"
 import { useSelector } from "react-redux"
@@ -151,7 +151,7 @@ export const useCompoundingForm = (): Res => {
       onErr,
     } = params
     try {
-      const res: AxiosResponse<any> = await vehicleApi.getCarPriceUnit({
+      const res: AxiosResponse<any> = await userAPI.getCarPriceUnit({
         car_id,
         from_province_id,
         to_province_id,

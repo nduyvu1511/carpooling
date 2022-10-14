@@ -1,7 +1,7 @@
 import { CloseThickIcon } from "@/assets"
 import { Spinner } from "@/components"
 import { ListRes, TagRes } from "@/models"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import useSWR from "swr"
 
 interface QuickMessageProps {
@@ -10,9 +10,9 @@ interface QuickMessageProps {
 }
 
 export const QuickMessage = ({ onChange, onClose }: QuickMessageProps) => {
-  const { isValidating, data } = useSWR<ListRes<TagRes[]>>(
+  const { error, data } = useSWR<ListRes<TagRes[]>>(
     "get_quick_message",
-    () => chatApi.getTagMessageList({ limit: 30 }).then((res) => res.data),
+    () => chatAPI.getTagMessageList({ limit: 30 }).then((res) => res.data),
     {
       dedupingInterval: 1000000000,
     }
@@ -27,7 +27,7 @@ export const QuickMessage = ({ onChange, onClose }: QuickMessageProps) => {
         </button>
       </div>
 
-      {isValidating ? (
+      {error === undefined && data === undefined ? (
         <Spinner className="py-24" size={24} />
       ) : (
         <div className="h-full overflow-y-auto flex-1">

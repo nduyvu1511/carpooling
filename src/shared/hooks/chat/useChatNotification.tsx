@@ -22,16 +22,13 @@ export const useChatNotification = () => {
 
         notification.addEventListener("click", () => {
           if (currentRoomId !== data.room_id) {
-            if (router.pathname !== "/chat") {
+            if (!window.location?.pathname?.includes("/chat")) {
               router.push("/chat")
               dispatch(setCurrentRoomId(data.room_id))
             } else {
               dispatch(setCurrentRoomId(data.room_id))
             }
           }
-          //   else {
-          //     document.querySelector(`.message-item-${data.message_id}`)?.scrollIntoView()
-          //   }
         })
       }
     })

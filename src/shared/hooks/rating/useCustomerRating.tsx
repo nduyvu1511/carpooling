@@ -1,5 +1,5 @@
 import { RatingRes } from "@/models"
-import { ratingApi } from "@/services"
+import { ratingAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useState } from "react"
 import useSWR from "swr"
@@ -18,7 +18,7 @@ export const useCustomerRating = (limit = 12): Res => {
   const { data, isValidating, mutate } = useSWR<RatingRes[]>(
     "get_customer_rating",
     () =>
-      ratingApi
+      ratingAPI
         .getRatingListByCustomer()
         .then((res: AxiosResponse<any>) => {
           const list = res.result?.data || []
@@ -52,7 +52,7 @@ export const useCustomerRating = (limit = 12): Res => {
     try {
       const newOffset = offset + limit
       setFetchingMore(true)
-      const res: AxiosResponse<RatingRes[]> = await ratingApi.getRatingListByCustomer({
+      const res: AxiosResponse<RatingRes[]> = await ratingAPI.getRatingListByCustomer({
         limit,
         offset: newOffset,
       })

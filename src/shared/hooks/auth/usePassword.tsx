@@ -1,5 +1,5 @@
 import { ResetPasswordParams, ResetPasswordRes } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR, { KeyedMutator } from "swr"
 import { useFetcher } from "../async"
@@ -39,7 +39,7 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
     "check_password",
     shouldFetch
       ? () =>
-          userApi.checkHasPassword().then((res: AxiosResponse<any>) => {
+          userAPI.checkHasPassword().then((res: AxiosResponse<any>) => {
             if (res?.result?.success) {
               return res?.result?.data?.has_password || false
             }
@@ -56,7 +56,7 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
     const { password, handleSuccess, re_password } = props
     if (!password || !re_password) return
     fetcherHandler({
-      fetcher: userApi.createNewPassword({
+      fetcher: userAPI.createNewPassword({
         password,
         re_password,
       }),
@@ -70,7 +70,7 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
   const resetPassword = async (props: DoResetPasswordParams) => {
     const { params, onSuccess, onError } = props
     fetcherHandler({
-      fetcher: userApi.resetPassword(params),
+      fetcher: userAPI.resetPassword(params),
       onSuccess: (res) => onSuccess?.(res),
       onError: () => onError?.(),
     })
@@ -80,7 +80,7 @@ export const usePassword = (shouldFetch = false): UsePasswordRes => {
     const { password, handleSuccess, re_password, old_password } = props
     if (!password || !re_password) return
     fetcherHandler<ResetPasswordRes>({
-      fetcher: userApi.changePassword({
+      fetcher: userAPI.changePassword({
         password,
         re_password,
         old_password,

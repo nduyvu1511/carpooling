@@ -36,6 +36,7 @@ interface MessageItemProps {
   shouldBreak?: boolean
   onClickReplyMsg?: (id: string) => void
   onResendMessage?: (_: MessageRes) => void
+  onSaveToNote?: (note: string) => void
   roomType: RoomType
 }
 
@@ -55,6 +56,7 @@ export const MessageItem = ({
   onClickReplyMsg,
   onResendMessage,
   roomType,
+  onSaveToNote,
 }: MessageItemProps) => {
   const dispatch = useDispatch()
   const messageOptionMenuRef = useRef<HTMLDivElement>(null)
@@ -113,6 +115,11 @@ export const MessageItem = ({
     dispatch(setcurrentDetailMessageId(data.message_id))
   }
 
+  const handleSaveToNote = () => {
+    if (!data?.message_text) return
+    onSaveToNote?.(data.message_text)
+  }
+
   return (
     <div
       className={`message-item relative flex message-item-${data.message_id} ${
@@ -122,6 +129,7 @@ export const MessageItem = ({
     >
       {action === "longpress" ? (
         <MessageOptionModal
+          onSaveNote={() => handleSaveToNote?.()}
           onReaction={handleReactOnMessage}
           onReply={handleSetMessageReply}
           onCopy={handleCopyText}
@@ -134,6 +142,7 @@ export const MessageItem = ({
 
       {setMessageOptionMenu ? (
         <MessageOptionMenu
+          onSaveToNote={() => handleSaveToNote?.()}
           roomType={roomType}
           onClose={() => setShowMessageOptionMenu(false)}
           onViewDetail={handleViewDetail}

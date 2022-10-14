@@ -1,4 +1,4 @@
-import { imageBlur } from "@/assets"
+import { blankAvatar, imageBlur } from "@/assets"
 import { MessageReactionType } from "@/models"
 import Image from "next/image"
 import React from "react"
@@ -23,7 +23,13 @@ export const UserItem = ({ data, onClick, className = "" }: UserItemProps) => {
         className="flex items-center flex-1 cursor-pointer"
       >
         <span className="w-[40px] h-[40px] rounded-[50%] overflow-hidden mr-12 relative">
-          <Image blurDataURL={imageBlur} src={data.avatar} alt="" layout="fill" objectFit="cover" />
+          <Image
+            blurDataURL={imageBlur}
+            src={data?.avatar || blankAvatar}
+            alt=""
+            layout="fill"
+            objectFit="cover"
+          />
         </span>
         <span className="text-14 font-medium text-blue-8 flex-1 line-clamp-1 word-wrap-anywhere">
           {data.user_name}

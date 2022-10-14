@@ -12,13 +12,13 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  Seo,
+  Seo
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
-import { ridesApi } from "@/services"
+import { rideAPI } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -115,7 +115,7 @@ const RidesDetail = () => {
   const handleCancelCompoundingCar = (params: CancelCompoundingFormParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
     fetcherHandler({
-      fetcher: ridesApi.cancelCompoundingCar({
+      fetcher: rideAPI.cancelCompoundingCar({
         ...params,
         compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
       }),

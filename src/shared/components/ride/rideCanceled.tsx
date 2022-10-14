@@ -54,10 +54,15 @@ const RideCanceled = ({ compoundingCar, showLoading }: RideCanceledProps) => {
             ) : null}
             {compoundingCar?.down_payment ? (
               <SummaryItem
-                label={`Số tiền đặt cọc (
-                ${(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)`}
+                label={`Số tiền đặt cọc 
+                ${
+                  (compoundingCar as CompoundingCancelCar)?.down_payment?.percent
+                    ? `(${(compoundingCar as CompoundingCancelCar)?.down_payment?.percent * 100}%)`
+                    : ""
+                }`}
                 value={formatMoneyVND(
-                  (compoundingCar as CompoundingCancelCar)?.down_payment?.total
+                  (compoundingCar as CompoundingCancelCar)?.down_payment?.total ||
+                    (compoundingCar as any)?.down_payment
                 )}
               />
             ) : null}

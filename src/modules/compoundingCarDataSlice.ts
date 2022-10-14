@@ -1,6 +1,6 @@
 import { setToSessionStorage } from "@/helper"
 import { CarIdType, ProvinceId, VehicleTypeParams } from "@/models"
-import { addressApi, vehicleApi } from "@/services"
+import { addressAPI, userAPI } from "@/services"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 interface CompoundingSlice {
@@ -10,12 +10,12 @@ interface CompoundingSlice {
 
 export const fetchVehicles = createAsyncThunk(
   "compounding/fetchVehicles",
-  async () => (await vehicleApi.getCarTypes())?.result?.data
+  async () => (await userAPI.getCarTypes())?.result?.data
 )
 
 export const fetchProvinces = createAsyncThunk(
   "compounding/fetchProvinces",
-  async () => (await addressApi.getProvinces())?.result?.data
+  async () => (await addressAPI.getProvinces())?.result?.data
 )
 
 const initialState: CompoundingSlice = {

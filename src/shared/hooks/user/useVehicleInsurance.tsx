@@ -4,7 +4,7 @@ import {
   VehicleInsuranceParams,
   VehicleInsuranceRes,
 } from "@/models"
-import { userApi } from "@/services"
+import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import useSWR from "swr"
 import { useFetcher } from "../async"
@@ -25,7 +25,7 @@ const useVehicleInsurance = (shouldFetch = false): UseVehicleInsuranceRes => {
     "vehicle_insurance",
     shouldFetch
       ? () =>
-          userApi
+          userAPI
             .getVehicleInsurance()
             .then((res: AxiosResponse<VehicleInsuranceRes>) => res?.result?.data)
       : null,
@@ -41,7 +41,7 @@ const useVehicleInsurance = (shouldFetch = false): UseVehicleInsuranceRes => {
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.createVehicleInsurance(params),
+      fetcher: userAPI.createVehicleInsurance(params),
       onSuccess: (data: VehicleInsuranceRes) => {
         onSuccess(data)
       },
@@ -54,7 +54,7 @@ const useVehicleInsurance = (shouldFetch = false): UseVehicleInsuranceRes => {
   ) => {
     const { onSuccess, params, onError } = para
     fetcherHandler({
-      fetcher: userApi.updateVehicleInsurance(params),
+      fetcher: userAPI.updateVehicleInsurance(params),
       onSuccess: (data: VehicleInsuranceRes) => {
         onSuccess(data)
       },

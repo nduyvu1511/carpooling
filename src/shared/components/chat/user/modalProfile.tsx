@@ -1,7 +1,7 @@
 import { ModalSm, UserProfile } from "@/components"
 import { UserRes } from "@/models"
 import { setCurrentProfileId } from "@/modules"
-import { chatApi } from "@/services"
+import { chatAPI } from "@/services"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import useSWR from "swr"
@@ -14,7 +14,7 @@ export const ModalProfile = ({ userId }: Props) => {
   const dispatch = useDispatch()
   const { data, error } = useSWR<UserRes | undefined>(
     userId ? `get_profile_partner_${userId}` : null,
-    () => chatApi.getProfile(userId).then((res) => res.data),
+    () => chatAPI.getProfile(userId).then((res) => res.data),
     {
       dedupingInterval: 60000,
     }
