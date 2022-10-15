@@ -17,7 +17,7 @@ import {
   CompoundingCarCustomerState,
   PaymentRes,
 } from "@/models"
-import { rideAPI } from "@/services"
+import { chatAPI, rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -53,7 +53,7 @@ const CheckoutCustomer = () => {
         .catch((err) => console.log(err)),
 
     {
-      dedupingInterval: 100,
+      dedupingInterval: 1000,
       revalidateOnFocus: state === "confirm",
     }
   )
@@ -81,11 +81,12 @@ const CheckoutCustomer = () => {
     createPayment({
       params: {
         acquirer_id: params.acquirer_id,
-        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}&sale_order_id=${compoundingCar.sale_order_id}`,
+        returned_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/c/booking/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}&compounding_type=${compoundingCar.compounding_type}&compounding_car_id=${compoundingCar.compounding_car_id}`,
         compounding_car_customer_id: compoundingCar.compounding_car_customer_id,
       },
       onSuccess: (data) => {
         if (params.provider === "exxe_wallet") {
+          chatAPI.joinRoomByCompoundingCarId(compoundingCar.compounding_car_id)
           redirectToCheckoutSuccess()
         } else {
           window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()

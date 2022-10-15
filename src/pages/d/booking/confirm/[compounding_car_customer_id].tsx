@@ -59,6 +59,7 @@ const CompoundingCarDriver = () => {
       params: {
         ...params,
         compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
+        compounding_type: "convenient",
       },
       onSuccess: () => {
         clearCarpoolingWayCompoundingCar()

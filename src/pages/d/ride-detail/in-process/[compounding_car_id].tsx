@@ -23,6 +23,7 @@ import {
 import { RIDE_STATE_COLOR } from "@/helper"
 import { useChatActions, useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
+import { chatAPI } from "@/services"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMemo, useState } from "react"
@@ -72,6 +73,7 @@ const StartRunningCompoundingCar = () => {
       onSuccess: () => {
         setConfirmDoneCompoundingCarModal(false)
         router.push(`/d/ride-detail/done/${compoundingCar.compounding_car_id}`)
+        chatAPI.softDeleteRoomByCompoundingCarId(compoundingCar.compounding_car_id)
       },
     })
   }
@@ -141,7 +143,7 @@ const StartRunningCompoundingCar = () => {
   ])
 
   return (
-    <>
+    <section className="in_process-page">
       <Seo
         description="Bắt đầu chuyến đi"
         thumbnailUrl=""
@@ -150,7 +152,6 @@ const StartRunningCompoundingCar = () => {
       />
       <BookingLayout
         overflowHidden={false}
-        className="pb-[70px] lg:pb-24 overflow-clip"
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         title={`${compoundingCar?.state === "done" ? "Hoàn thành chuyến đi" : "Bắt đầu chuyến đi"}`}
@@ -350,7 +351,7 @@ const StartRunningCompoundingCar = () => {
           type="info"
         />
       ) : null}
-    </>
+    </section>
   )
 }
 

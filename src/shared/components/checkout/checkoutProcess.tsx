@@ -4,6 +4,7 @@ import { VNPAY_STATUS_NAME } from "@/helper"
 import {
   CompoundingCarCustomer,
   CompoundingCarDriverRes,
+  CompoundingType,
   TransactionRes,
   VnpayStatus,
 } from "@/models"
@@ -24,6 +25,7 @@ interface CheckoutProcessProps {
   compounding_car_id?: number
   payment_id?: number
   sale_order_id?: number
+  compounding_type?: CompoundingType
 }
 
 const CheckoutProcess = ({
@@ -32,7 +34,7 @@ const CheckoutProcess = ({
   compounding_car_customer_id,
   compounding_car_id,
   payment_id,
-  sale_order_id,
+  compounding_type,
 }: CheckoutProcessProps) => {
   const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
@@ -50,7 +52,8 @@ const CheckoutProcess = ({
   useEffect(() => {
     if (vnp_ResponseCode !== "00") return
 
-    if (sale_order_id && compounding_car_customer_id) {
+    // Confirm deposit for passenger
+    if (compounding_car_customer_id) {
       setValidating(true)
       rideAPI
         .confirmDepositCompoundingCarCustomer({
@@ -58,20 +61,18 @@ const CheckoutProcess = ({
         })
         .then((res: AxiosResponse<CompoundingCarCustomer>) => {
           setValidating(false)
-          if (
-            fetcher_type === "confirmDepositForDriver" ||
-            fetcher_type === "confirmDepositCompoundingCarCustomer"
-          ) {
-            if (res.result.success) {
-              window.close()
+
+          if (res.result.success || res.result.data.state === "confirm_paid") {
+            // Join to chat
+            if (compounding_car_id && compounding_type === "compounding") {
+              chatAPI.joinRoomByCompoundingCarId(Number(compounding_car_id))
             }
-          }
-          if (res.result.data.state === "confirm_paid") {
             window.close()
           }
         })
         .catch(() => setValidating(false))
     } else if (compounding_car_id) {
+      // Confirm deposit for driver
       setValidating(true)
       rideAPI
         .confirmDepositForDriver({ compounding_car_id })
@@ -98,6 +99,7 @@ const CheckoutProcess = ({
         })
         .catch(() => setValidating(false))
     } else if (payment_id) {
+      // Confirm deposit for wallet
       setValidating(true)
       userAPI
         .confirmRechargeRequest({ payment_id })

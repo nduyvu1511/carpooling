@@ -13,13 +13,16 @@ interface RatingReportProps {
 
 const RatingReport = ({ onSubmit }: RatingReportProps) => {
   const { onChange, value } = useInputText()
-  const { isValidating, data } = useSWR<RatingReportReasonRes[]>(
+  const { error, data } = useSWR<RatingReportReasonRes[]>(
     "get_rating_report_reason_list",
     () =>
       ratingAPI
         .getRatingReportReasonList()
         .then((res) => res?.result?.data)
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err)),
+    {
+      dedupingInterval: 60 * 1000 * 10,
+    }
   )
   const [reportIds, setReportIds] = useState<number[]>([])
   const [showAll, setShowAll] = useState<boolean>(false)
@@ -37,7 +40,7 @@ const RatingReport = ({ onSubmit }: RatingReportProps) => {
       <div className="flex-1 modal-form-content">
         <ul className="mb-24">
           <p className="form-label mb-12">Chọn lý do để báo cáo:</p>
-          {isValidating ? (
+          {error === undefined && data === undefined ? (
             <Spinner className="py-24" />
           ) : (
             (data || [])
@@ -99,3 +102,4 @@ const RatingReport = ({ onSubmit }: RatingReportProps) => {
 }
 
 export { RatingReport }
+

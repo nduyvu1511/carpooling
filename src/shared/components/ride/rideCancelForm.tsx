@@ -29,7 +29,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
   const selectRef = useRef<any>(null)
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
 
-  const { data, isValidating } = useSWR(
+  const { data, error } = useSWR(
     params?.compounding_car_customer_state || params?.compounding_car_state
       ? "get_reson_to_cancel_ride"
       : null,
@@ -41,7 +41,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
         })
         .then((res: AxiosResponse<ReasonCancelCompoundingCarRes[]>) => res.result.data),
     {
-      dedupingInterval: 10000,
+      dedupingInterval: 100 * 60 * 1000,
     }
   )
 
@@ -70,7 +70,7 @@ const RideCancelForm = ({ params, onSubmit, onClose, expectedGoingOnDate }: Ride
       }
     >
       <div className="">
-        {isValidating ? (
+        {error === undefined && data === undefined ? (
           <Spinner size={40} className="py-[80px]" />
         ) : (
           <>

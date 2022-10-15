@@ -6,7 +6,7 @@ import {
   UpdateCompoundingCar,
   UseParams,
 } from "@/models"
-import { rideAPI } from "@/services"
+import { chatAPI, rideAPI } from "@/services"
 import { useFetcher } from "../async"
 
 interface UseCompoundingCarActions {
@@ -71,6 +71,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     fetcherHandler({
       fetcher: rideAPI.customerCancelCompoundingCarBeforeDeposit(params),
       onSuccess: (data: CompoundingCarCustomer) => {
+        chatAPI.leaveRoomByCompoundingCarId(data.compounding_car_id)
         onSuccess(data)
       },
       onError: () => {

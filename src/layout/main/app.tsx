@@ -5,17 +5,18 @@ import { useAuth, useSocket } from "@/hooks"
 import { fetchProvinces, fetchVehicles, setLoadedGoogleMap, setProfile } from "@/modules"
 import { useLoadScript } from "@react-google-maps/api"
 import "moment/locale/vi"
-import { ReactNode, useEffect, useRef } from "react"
+import { useRouter } from "next/router"
+import { ReactNode, useEffect } from "react"
 import { useSelector } from "react-redux"
 import NotificationsSystem, { atalhoTheme, dismissNotification, setUpNotifications } from "reapop"
-import { Socket } from "socket.io-client"
 
 const libraries: any = ["places", "geometry"]
 
 const App = ({ children }: { children: ReactNode }) => {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const { getUserInfo } = useAuth()
-  const socket = useRef<Socket<any>>()
+  const socket = useSelector((state: RootState) => state.chat.socket)
   const notifications = useSelector((state: RootState) => state.notifications)
   const { connectSocket } = useSocket()
 
@@ -32,11 +33,15 @@ const App = ({ children }: { children: ReactNode }) => {
   }, [dispatch, isLoaded])
 
   useEffect(() => {
-    dispatch(fetchProvinces())
-    dispatch(fetchVehicles())
     getUserInfo((userInfo) => {
       dispatch(setProfile(userInfo))
     })
+
+    if (router.pathname?.includes("/checking-checkout-status")) return
+
+    dispatch(fetchProvinces())
+    dispatch(fetchVehicles())
+
     setUpNotifications({
       defaultProps: {
         position: "top-center",
@@ -47,12 +52,11 @@ const App = ({ children }: { children: ReactNode }) => {
     })
 
     connectSocket()
-    const socketIo = socket.current
 
     return () => {
-      if (socketIo) {
-        socketIo.off("connect")
-        socketIo.off("disconnect")
+      if (socket) {
+        socket.off("connect")
+        socket.off("disconnect")
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -62,7 +62,6 @@ export const useDriverCheckout = (): UseDriverCheckoutRes => {
     fetcherHandler({
       fetcher: rideAPI.cancelDepositForDriver(params),
       onSuccess: (data) => {
-        chatAPI.deleteRoomByCompoundingCarId(params.compounding_car_id)
         onSuccess?.(data)
       },
       onError: onError?.(),

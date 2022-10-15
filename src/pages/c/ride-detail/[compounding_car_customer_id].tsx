@@ -12,29 +12,24 @@ import {
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
-  Seo
+  Seo,
 } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
-import { rideAPI } from "@/services"
+import { chatAPI, rideAPI } from "@/services"
 import moment from "moment"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
-interface ModalType {
-  value: number | boolean
-  name: "ratingModal" | ""
-}
-
 const RidesDetail = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { compounding_car_customer_id } = router.query
-
+  const { addRating, updateRating, deleteRating } = useRatingActions()
   const { fetcherHandler } = useFetcher()
   const {
     data: compoundingCar,
@@ -46,11 +41,10 @@ const RidesDetail = () => {
     type: "once",
   })
 
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
   const [showRatingModal, setShowRatingModal] = useState<boolean>(false)
   const [currentRatingUpdate, setCurrentRatingUpdate] = useState<RatingRes>()
-  const { addRating, updateRating, deleteRating } = useRatingActions()
   const [currentDeleteRating, setCurrentDeleteRating] = useState<number | undefined>()
-  const [showCancelModal, setShowCancelModal] = useState<boolean | undefined>()
 
   const handleAddRating = (params: CreateRatingFormParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
@@ -112,6 +106,15 @@ const RidesDetail = () => {
     }
   }
 
+  const toggleCancelModal = (status: boolean) => {
+    setShowCancelModal(status)
+    if (status) {
+      toggleBodyOverflow("hidden")
+    } else {
+      toggleBodyOverflow("unset")
+    }
+  }
+
   const handleCancelCompoundingCar = (params: CancelCompoundingFormParams) => {
     if (!compoundingCar?.compounding_car_customer_id) return
     fetcherHandler({
@@ -121,18 +124,10 @@ const RidesDetail = () => {
       }),
       onSuccess: () => {
         setShowCancelModal(false)
+        chatAPI.leaveRoomByCompoundingCarId(compoundingCar.compounding_car_customer_id)
         router.push(`/c/ride-detail/cancel/${compoundingCar.compounding_car_customer_id}`)
       },
     })
-  }
-
-  const toggleCancelModal = (status: boolean) => {
-    setShowCancelModal(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

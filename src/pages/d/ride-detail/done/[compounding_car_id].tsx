@@ -49,7 +49,7 @@ const RideDone = () => {
         url={`d/ride-detail/in-process/${compoundingCar?.compounding_car_id}`}
       />
       <HeaderMobile title="Hoàn thành chuyến đi" className="lg:hidden" />
-      <div className="content-container block-element p-custom my-24 mt-[56px] md:mt-[80px] lg:mt-24">
+      <div className="content-container block-element p-custom md:mb-24 mt-24 sm:mt-[56px] md:mt-[80px] lg:mt-24">
         {isValidating ? (
           <>
             <RideProgress state={undefined} />

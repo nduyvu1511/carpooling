@@ -40,15 +40,18 @@ const BookingModal = ({
     setCompoundingType(formType)
   }, [formType])
 
+  console.log("booking re render")
+
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     if (!compoundingType) return
+
     createCompoundingCar({
       params: { ...params, compounding_type: compoundingType },
       onSuccess: (data) => {
         onClose()
 
         // Clear form from localstorage
-        if (data?.compounding_type === "compounding") {
+        if (data?.compounding_type === "compounding" || data?.compounding_type === "convenient") {
           clearCarpoolingWayCompoundingCar()
         } else if (data?.compounding_type === "one_way") {
           clearOneWayCompoundingCar()

@@ -32,7 +32,7 @@ const BookingLayout = ({
       ) : null}
 
       <section
-        className={`container px-0 md:p-16 lg:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
+        className={`booking-layout container px-0 md:p-16 lg:p-24 xl:px-0 mt-[56px] lg:mt-0 pb-[64px] flex-1 md:pb-24 bg-white-color md:bg-[transparent] ${className}`}
       >
         <div className="md:block-element h-full">
           {topNode ? (
