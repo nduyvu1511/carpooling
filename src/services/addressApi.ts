@@ -22,6 +22,7 @@ const addressAPI = {
   getWards: (list_int: number[]) => {
     return axiosClient.post("/api/address_information_controller/get_list_ward", {
       params: {
+        
         district_ids: list_int,
       },
     })
