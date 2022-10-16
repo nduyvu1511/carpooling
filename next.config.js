@@ -8,13 +8,12 @@ module.exports = withImages({
   images: {
     disableStaticImages: true,
     domains: [
-      "quanly.exxe.vn",
       process.env.NEXT_PUBLIC_IMAGE_URL,
       process.env.NEXT_PUBLIC_NEWS_IMAGE,
+      process.env.NEXT_PUBLIC_CHAT_IMAGE,
     ],
   },
   typescript: {
     ignoreBuildErrors: true,
   },
 })
- 

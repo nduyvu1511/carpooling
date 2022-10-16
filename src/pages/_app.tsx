@@ -17,7 +17,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <PersistGate loading={null} persistor={persistor}>
         <SWRConfig value={{ revalidateOnFocus: false, shouldRetryOnError: false }}>
           <Head>
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
+            {/* <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> */}
           </Head>
           <App>
             <Layout>
