@@ -27,7 +27,7 @@ export const useSocket = (): UseSocketRes => {
 
     dispatch(fetchMessageUnreadCount())
 
-    const socket = io(process.env.NEXT_PUBLIC_CHAT_SOCKET_URL as string, {
+    const socket = io(process.env.NEXT_PUBLIC_CHAT_API_URL as string, {
       query: {
         access_token,
       },
