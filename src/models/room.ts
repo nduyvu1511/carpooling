@@ -21,6 +21,7 @@ export interface IRoom {
 
 export interface RoomRes {
   room_id: string
+  compounding_car_id: number
   room_name: string | null
   room_avatar?: string | null
   room_type: RoomType
@@ -133,6 +134,9 @@ export interface RoomFunctionHandler {
   appendLastMessage: (_: MessageRes) => void
   changeOrderAndAppendLastMessage: (_: MessageRes) => void
   clearMessagesUnreadFromRoom: (id: string) => void
+  addRoom: (room: RoomDetailRes) => void
+  deleteRoomByCompoundingCarId: (c_id: number) => void
+  deleteRoom: (c_id: string) => void
 }
 
 export interface RoomDetailFunctionHandler {

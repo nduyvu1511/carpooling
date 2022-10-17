@@ -1,5 +1,5 @@
 import { getLastMessage } from "@/helper"
-import { ChangeStatusOfRoom, ListRes, MessageRes, RoomRes } from "@/models"
+import { ChangeStatusOfRoom, ListRes, MessageRes, RoomDetailRes, RoomRes } from "@/models"
 import { chatAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import produce from "immer"
@@ -19,6 +19,9 @@ type UseRoomRes = {
   changeOrderAndAppendLastMessage: (_: MessageRes) => void
   clearMessagesUnreadFromRoom: (room_id: string) => void
   fetchMoreRooms: () => void
+  addRoom: (room: RoomDetailRes) => void
+  deleteRoom: (rId: string) => void
+  deleteRoomByCompoundingCarId: (rId: number) => void
 }
 
 const LIMIT = 30
@@ -42,7 +45,6 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     if (index === -1) return
 
     if (roomId !== params.room_id) {
-      // increaseMessageUnread(params, (message_unread_count) => {
       const lastMessage = getLastMessage(params)
       mutate(
         produce(data, (draft) => {
@@ -67,8 +69,58 @@ export const useRoom = (roomId?: string): UseRoomRes => {
         }),
         false
       )
-      // })
     }
+  }
+
+  const roomDetailResToRoomListRes = (params: RoomDetailRes): RoomRes => {
+    return {
+      is_online: params.is_online,
+      compounding_car_id: params.compounding_car_id,
+      member_count: params.member_count,
+      message_unread_count: 0,
+      room_id: params.room_id,
+      room_name: params.room_name,
+      room_type: params.room_type,
+      last_message: null,
+      room_avatar: params?.room_avatar?.thumbnail_url,
+      top_members: params?.members?.data?.map((item) => ({
+        user_avatar: item.avatar.thumbnail_url,
+        user_name: item.user_name,
+        user_id: item.user_id,
+        is_online: item.is_online,
+      })),
+    }
+  }
+
+  const addRoom = (room: RoomDetailRes) => {
+    mutate(
+      produce(data, (draft) => {
+        ;(draft?.data || []).unshift(roomDetailResToRoomListRes(room))
+      }),
+      false
+    )
+  }
+
+  const deleteRoom = (rId: string) => {
+    if (!data?.data?.length) return
+
+    mutate(
+      produce(data, (draft) => {
+        draft.data = draft.data.filter(({ room_id }) => room_id !== rId)
+      }),
+      false
+    )
+  }
+
+  const deleteRoomByCompoundingCarId = (cId: number) => {
+    if (!data?.data?.length) return
+
+    mutate(
+      produce(data, (draft) => {
+        draft.data = draft.data.filter(({ compounding_car_id }) => compounding_car_id !== cId)
+      }),
+      false
+    )
   }
 
   const fetchMoreRooms = async () => {
@@ -129,15 +181,12 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     const room = { ...data.data[index] }
     if (!room.message_unread_count || room.message_unread_count <= 0) return
 
-    // const res: any = await chatAPI.clearMessageUnreadFromRoom(roomId)
-    // if (res?.success) {
     mutate(
       produce(data, (draft) => {
         draft.data[index].message_unread_count = 0
       }),
       false
     )
-    // }
   }
 
   const appendLastMessage = (params: MessageRes) => {
@@ -225,5 +274,8 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     changeOrderAndAppendLastMessage,
     clearMessagesUnreadFromRoom,
     isFirstLoading: error === undefined && data === undefined,
+    addRoom,
+    deleteRoom,
+    deleteRoomByCompoundingCarId,
   }
 }

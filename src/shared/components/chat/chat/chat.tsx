@@ -57,7 +57,6 @@ export const Chat = memo(function _Chat() {
     })
 
     socket.on("read_all_message", (room_id: string) => {
-      console.log("read all message in room")
       roomRef.current?.clearMessagesUnreadFromRoom(room_id)
       dispatch(updateMessageUnreadCount({ room_id: room_id, type: "decrease" }))
     })
@@ -86,7 +85,18 @@ export const Chat = memo(function _Chat() {
     })
 
     socket.on("create_room", (room: RoomDetailRes) => {
+      roomRef.current?.addRoom(room)
       console.log("new room created: ", room)
+    })
+
+    socket.on("delete_room", (room_id: string) => {
+      roomRef.current?.deleteRoom(room_id)
+      console.log("new room deleted: ", room_id)
+    })
+
+    socket.on("delete_room_by_compounding_car", (compounding_car_id: number) => {
+      roomRef.current?.deleteRoomByCompoundingCarId(compounding_car_id)
+      console.log("new room deleted: ", compounding_car_id)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

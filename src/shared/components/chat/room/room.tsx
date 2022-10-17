@@ -19,38 +19,33 @@ export const Room = forwardRef(function RoomChild(
   ref: OnForwaredRoomDetail
 ) {
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
-
   const [showSearch, setShowSearch] = useState<boolean>()
 
   const {
     data,
-    clearMessagesUnreadFromRoom,
-    fetchMoreRooms,
-    isFetchingMore,
     hasMore,
+    addRoom,
+    isFetchingMore,
     isFirstLoading,
+    fetchMoreRooms,
+    appendLastMessage,
     changeStatusOfRoom,
     messageUnreadhandler,
+    clearMessagesUnreadFromRoom,
+    deleteRoomByCompoundingCarId,
     changeOrderAndAppendLastMessage,
-    appendLastMessage,
+    deleteRoom,
   } = useRoom(roomId)
 
   useImperativeHandle(ref, () => ({
-    messageUnreadhandler: (mes) => {
-      messageUnreadhandler(mes)
-    },
-    changeStatusOfRoom: (params) => {
-      changeStatusOfRoom(params)
-    },
-    changeOrderAndAppendLastMessage: (params) => {
-      changeOrderAndAppendLastMessage(params)
-    },
-    appendLastMessage: (params) => {
-      appendLastMessage(params)
-    },
-    clearMessagesUnreadFromRoom: (rId) => {
-      clearMessagesUnreadFromRoom(rId)
-    },
+    messageUnreadhandler: messageUnreadhandler,
+    changeStatusOfRoom: changeStatusOfRoom,
+    changeOrderAndAppendLastMessage: changeOrderAndAppendLastMessage,
+    appendLastMessage: appendLastMessage,
+    clearMessagesUnreadFromRoom: clearMessagesUnreadFromRoom,
+    addRoom: addRoom,
+    deleteRoomByCompoundingCarId: deleteRoomByCompoundingCarId,
+    deleteRoom: deleteRoom,
   }))
 
   return (
