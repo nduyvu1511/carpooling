@@ -114,6 +114,13 @@ export const COMPOUNDING_TYPE_NAME = {
   convenient: "Tiện chuyến",
 }
 
+export const COMPOUNDING_TYPE_HEADING = {
+  one_way: "Tạo chuyến một chiều",
+  two_way: "Tạo chuyến hai chiều",
+  compounding: "Tạo chuyến đi ghép",
+  convenient: "Tạo chuyến tiện chuyến",
+}
+
 export const RIDE_STATE_COLOR = {
   in_process: "#5A78FF",
   done: "#FFE2CC",

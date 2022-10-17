@@ -4,9 +4,9 @@ import { useOTP } from "@/hooks"
 import { RechargeRequestFormParams, WithdrawFormParams } from "@/models"
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { Tabs } from "../common"
-import { OtpForm, ReChargeMoneyForm, WithdrawForm } from "../form"
-import { Alert } from "../modal"
+import { Tabs } from "../../common"
+import { OtpForm, ReChargeMoneyForm, WithdrawForm } from "../../form"
+import { Alert } from "../../modal"
 
 interface TransactionProps {
   accountBalance: number

@@ -1,4 +1,5 @@
 import { Modal, Tabs } from "@/components"
+import { COMPOUNDING_TYPE_HEADING } from "@/helper"
 import { useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CarAccountType, CompoundingType, CreateCompoundingCarParams } from "@/models"
 import { useRouter } from "next/router"
@@ -40,8 +41,6 @@ const BookingModal = ({
     setCompoundingType(formType)
   }, [formType])
 
-  console.log("booking re render")
-
   const handleCreateCompoundingCar = ({ params }: HandleCreateCompoundingCarParams) => {
     if (!compoundingType) return
 
@@ -78,15 +77,7 @@ const BookingModal = ({
     <Modal
       key="booking-modal"
       show={!!show}
-      heading={
-        compoundingType === "compounding"
-          ? "Tạo chuyến đi ghép"
-          : compoundingType === "one_way"
-          ? "Tạo chuyến đi một chiều"
-          : compoundingType === "convenient"
-          ? "Tạo chuyến đi tiện chuyến"
-          : "Tạo chuyến đi hai chiều"
-      }
+      heading={COMPOUNDING_TYPE_HEADING[compoundingType as CompoundingType]}
       onClose={onClose}
       headerNode={
         carAccountType === "customer" ? (

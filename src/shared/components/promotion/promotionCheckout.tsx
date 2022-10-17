@@ -2,6 +2,7 @@ import { toggleBodyOverflow } from "@/helper"
 import { usePromotionActions } from "@/hooks"
 import { CarAccountType, PromotionRes } from "@/models"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { PromotionForm } from "../form"
 import { PromotionModal } from "./promotionModal"
 
@@ -24,6 +25,7 @@ export const PromotionCheckout = ({
   data,
   disabled,
 }: PromotionCheckoutProps) => {
+  const dispatch = useDispatch()
   const [showPromotionModal, setShowPromotionModal] = useState<boolean>(false)
   const [promotionCode, setPromotionCode] = useState<string | undefined>(data?.promotion_code)
   const {
@@ -58,8 +60,7 @@ export const PromotionCheckout = ({
   }
 
   const handleApplyPromotion = (promotion: PromotionRes) => {
-    if (accountType === "car_driver") {
-      if (!compounding_car_id) return
+    if (accountType === "car_driver" && compounding_car_id) {
       applyPromotionForDriver({
         params: { compounding_car_id, promotion_id: promotion.promotion_id },
         onSuccess: () => {
@@ -68,8 +69,7 @@ export const PromotionCheckout = ({
           onApplyPromotion?.()
         },
       })
-    } else {
-      if (!compounding_car_customer_id) return
+    } else if (accountType === "customer" && compounding_car_customer_id) {
       applyPromotionForCustomer({
         params: { compounding_car_customer_id, promotion_id: promotion.promotion_id },
         onSuccess: () => {

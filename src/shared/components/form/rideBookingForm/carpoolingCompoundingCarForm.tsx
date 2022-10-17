@@ -49,7 +49,7 @@ interface CarpoolingCompoundingFormProps {
   disabled?: boolean
   showButon?: boolean
   view?: "page" | "modal"
-  btnLabel?: string
+  labelBtn?: string
   showNote?: boolean
   compoundingType?: CompoundingType
 }
@@ -63,7 +63,7 @@ export const CarpoolingCompoundingForm = ({
   disabled = false,
   showButon = true,
   view,
-  btnLabel,
+  labelBtn,
   showNote = true,
   compoundingType = "compounding",
 }: CarpoolingCompoundingFormProps) => {
@@ -329,7 +329,13 @@ export const CarpoolingCompoundingForm = ({
           <ButtonSubmit
             view={view}
             title={
-              btnLabel || (mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Lưu")
+              labelBtn
+                ? labelBtn
+                : mode === "create"
+                ? "Tiếp tục"
+                : mode === "confirm"
+                ? "Xác nhận"
+                : "Lưu"
             }
             isError={isObjectHasValue(errors)}
             parentClassName={`${view === "page" ? "mt-[40px]" : ""}`}

@@ -42,10 +42,10 @@ export type RoomDetailRes = Omit<
 > & {
   room_avatar: AttachmentRes | null
   offline_at: Date | null
-  messages_pinned: ListRes<MessageRes[]>
+  // messages_pinned: ListRes<MessageRes[]>
   messages: ListRes<MessageRes[]>
   members: ListRes<RoomMemberRes[]>
-  leader_user_info: RoomMemberRes | null
+  // leader_user_info: RoomMemberRes | null
 }
 
 export type RoomType = "group" | "single" | "admin"

@@ -14,6 +14,7 @@ const initialState: CommonSliceParams = {
   authModalType: undefined,
   isShowSummaryDetail: false,
   isLoadedGoogleMap: false,
+  
 }
 
 const commonSlice = createSlice({

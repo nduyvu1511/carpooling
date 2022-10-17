@@ -107,12 +107,10 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                       },
                     ].map(({ icon, label, value }, index) => (
                       <li
-                        style={{ backgroundColor: COMPOUNDING_TYPE_BG[value as CompoundingType] }}
-                        onClick={() => {
-                          toggleBookingModal(value as CompoundingType)
-                        }}
-                        className="flex-center bg-[#EEEBFF] mr-16 p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center"
                         key={index}
+                        onClick={() => toggleBookingModal(value as CompoundingType)}
+                        style={{ backgroundColor: COMPOUNDING_TYPE_BG?.[value as CompoundingType] }}
+                        className={`flex-center mr-16 p-[8px] h-[40px] w-[140px] rounded-[5px] last:mr-0 cursor-pointer flex items-center`}
                       >
                         {icon}
                         <span className="ml-8 text-xs text-blue-8">{label}</span>

@@ -39,7 +39,10 @@ const CompoundingCarDriver = () => {
 
     if (userInfo?.verified_car_driver_account === "blocked_account") {
       dispatch(
-        notify("Tài khoản của bạn đã bị khóa, vui lòng liên hệ với ExxeVn để giải quyết", "warning")
+        notify(
+          "Tài khoản của bạn đã bị khóa, vui lòng liên hệ với bộ phận CSKH để giải quyết",
+          "warning"
+        )
       )
       return
     }
@@ -100,7 +103,6 @@ const CompoundingCarDriver = () => {
                 onSubmit={(data) => handleConfirmCompoundingCar(data)}
                 view="page"
                 mode="confirm"
-                btnLabel=""
               />
             </>
           ) : (

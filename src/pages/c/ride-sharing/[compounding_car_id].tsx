@@ -6,7 +6,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  Seo,
+  Seo
 } from "@/components"
 import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
@@ -66,6 +66,7 @@ const RidesDetailCustomer = () => {
       <Seo url={`c/ride-sharing/${compounding_car_id}`} title="Tạo chuyến đi ghép" />
 
       <CustomerBookingLayout
+        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Thông tin chuyến đi"}
         showLoading={isInitialLoading}
         topNode={<RideProgress state={compoundingCar?.state} />}
         rightNode={
@@ -76,7 +77,6 @@ const RidesDetailCustomer = () => {
             />
           ) : null
         }
-        title={compoundingCarCustomer ? "Xác nhận chuyến đi ghép" : "Thông tin chuyến đi"}
       >
         {isInitialLoading ? (
           <RideDetailLoading />
@@ -113,8 +113,8 @@ const RidesDetailCustomer = () => {
                 type="existed"
                 limitNumberSeat={compoundingCar?.number_available_seat}
                 view="page"
-                mode={compoundingCarCustomer?.compounding_car_id ? "confirm" : "create"}
-                btnLabel={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
+                mode="create"
+                labelBtn={`${compoundingCarCustomer ? "Xác nhận" : "Tiếp tục"}`}
               />
             ) : null}
           </>

@@ -82,17 +82,17 @@ const CheckoutProcess = ({
 
           if (data?.state === "confirm_deposit") {
             // Create group chat for this ride if it is carpooling
-            if (
-              data?.compounding_car_id &&
-              data?.compounding_type === "compounding" &&
-              data?.compounding_car_customers?.length > 0
-            ) {
-              chatAPI.createGroupChat({
-                member_ids: data.compounding_car_customers?.map((item) => item.partner.partner_id),
-                room_name: data.compounding_car_name,
-                compounding_car_id: data.compounding_car_id,
-              })
-            }
+            // if (
+            //   data?.compounding_car_id &&
+            //   data?.compounding_type === "compounding" &&
+            //   data?.compounding_car_customers?.length > 0
+            // ) {
+            //   chatAPI.createGroupChat({
+            //     member_ids: data.compounding_car_customers?.map((item) => item.partner.partner_id),
+            //     room_name: data.compounding_car_name,
+            //     compounding_car_id: data.compounding_car_id,
+            //   })
+            // }
 
             window.close()
           }

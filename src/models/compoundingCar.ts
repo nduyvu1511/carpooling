@@ -610,6 +610,11 @@ export interface CustomerInvoice extends CompoundingCarCustomer {
   paid_date: string
 }
 
+export interface AmountInvoiceRes {
+  percent: number
+  total: number
+}
+
 export interface DriverCompoundingCarInvoiceRes {
   compounding_car_id: number
   compounding_car_code: string
@@ -629,18 +634,9 @@ export interface DriverCompoundingCarInvoiceRes {
   state: CompoundingCarDriverState
   customer_invoice: CustomerInvoice[]
   amount_total: number
-  vat: {
-    percent: number
-    total: number
-  }
-  service_charge: {
-    percent: number
-    total: number
-  }
-  pit: {
-    percent: number
-    total: number
-  }
+  vat: AmountInvoiceRes
+  service_charge: AmountInvoiceRes
+  pit: AmountInvoiceRes
   down_payment: DownPayment
   cash: number
   amount_due: number

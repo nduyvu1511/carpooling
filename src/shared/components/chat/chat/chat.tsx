@@ -4,6 +4,7 @@ import {
   FriendStatusRes,
   MessageRes,
   RoomDetailFunctionHandler,
+  RoomDetailRes,
   RoomFunctionHandler,
   RoomRes,
 } from "@/models"
@@ -82,6 +83,10 @@ export const Chat = memo(function _Chat() {
 
     socket.on("unlike_message", (payload: MessageRes) => {
       roomDetailRef.current?.mutatePartnerReactionMessage(payload)
+    })
+
+    socket.on("create_room", (room: RoomDetailRes) => {
+      console.log("new room created: ", room)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

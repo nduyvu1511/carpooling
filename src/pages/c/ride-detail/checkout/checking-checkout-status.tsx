@@ -11,7 +11,7 @@ const CheckingCheckoutStatus = () => {
     <>
       <Seo
         title="Tiền hành thanh toán chuyến đi"
-        url={`c/ride-detail/checkout/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`}
+      url={`c/ride-detail/checkout/checking-checkout-status?compounding_car_customer_id=${compounding_car_customer_id}`}
       />
 
       {compounding_car_customer_id ? (

@@ -33,6 +33,7 @@ interface OneWayCompoundingFormProps {
   mode?: "create" | "update" | "confirm"
   disabled?: boolean
   view?: "page" | "modal"
+  labelBtn?: string
 }
 
 export const OneWayCompoundingForm = ({
@@ -41,6 +42,7 @@ export const OneWayCompoundingForm = ({
   mode,
   disabled = false,
   view = "page",
+  labelBtn,
 }: OneWayCompoundingFormProps) => {
   const {
     handleSubmit,
@@ -214,7 +216,13 @@ export const OneWayCompoundingForm = ({
         <ButtonSubmit
           view={view}
           title={
-            mode === "create" ? "Tiếp tục" : mode === "confirm" ? "Xác nhận" : "Tiến hành đặt cọc"
+            labelBtn
+              ? labelBtn
+              : mode === "create"
+              ? "Tiếp tục"
+              : mode === "confirm"
+              ? "Xác nhận"
+              : "Tiến hành đặt cọc"
           }
           isError={isObjectHasValue(errors)}
         />

@@ -45,7 +45,7 @@ const Activities = () => {
   return (
     <CustomerAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
       <Seo description="Quản lý hoạt động của bạn" title="Hoạt động" url="c/account/activities" />
-      
+
       <div className="px-custom">
         <div className="mb-24">
           <div className="flex items-center relative">
@@ -54,8 +54,8 @@ const Activities = () => {
               {customerActivityFilters.map(({ label, value }, index) => (
                 <li className="mr-[12px] lg:mr-16 lg:mb-16 last:mr-24" key={index}>
                   <TagActivityItem<CompoundingCarCustomerState[]>
-                    bgColor={STATE_BG_COLOR[value?.[0] || ""]}
-                    color={STATE_COLOR[value?.[0] || ""]}
+                    bgColor={STATE_BG_COLOR?.[value?.[0] || ""]}
+                    color={STATE_COLOR?.[value?.[0] || ""]}
                     label={label}
                     value={value as CompoundingCarCustomerState[]}
                     isActive={getActiveStringOrListString(activityStates, value)}

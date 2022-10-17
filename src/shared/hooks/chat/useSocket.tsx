@@ -31,6 +31,7 @@ export const useSocket = (): UseSocketRes => {
       query: {
         access_token,
       },
+      reconnectionDelay: 100000,
     })
 
     socket.emit("login")

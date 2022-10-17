@@ -88,20 +88,23 @@ const ConfirmBookingCustomer = () => {
                 {compoundingCar.compounding_type === "one_way" ? (
                   <OneWayCompoundingForm
                     defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
-                    mode={"confirm"}
+                    mode="create"
+                    labelBtn="Xác nhận"
                     onSubmit={handleConfirmCompoundingCar}
                   />
                 ) : compoundingCar.compounding_type === "two_way" ? (
                   <TwoWayCompoundingForm
                     view="page"
                     defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
-                    mode={"confirm"}
+                    mode="create"
+                    labelBtn="Xác nhận"
                     onSubmit={handleConfirmCompoundingCar}
                   />
                 ) : (
                   <CarpoolingCompoundingForm
                     view="page"
-                    mode={"confirm"}
+                    mode="create"
+                    labelBtn="Xác nhận"
                     defaultValues={{
                       ...compoundingCarCustomerResToCarpoolingForm(compoundingCar),
                       from_location: compoundingCar?.is_picking_up_from_start

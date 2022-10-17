@@ -3,10 +3,13 @@ import {
   ApplyPromotionDriverParams,
   CancelPromotionCustomerParams,
   CancelPromotionDriverParams,
+  CompoundingCarCustomer,
   SavePromotionParams,
   UseParams,
 } from "@/models"
 import { promotionApi } from "@/services/promotionAPI"
+import { useDispatch } from "react-redux"
+import { notify } from "reapop"
 import { useFetcher } from "../async"
 
 interface Res {
@@ -18,15 +21,26 @@ interface Res {
 }
 
 export const usePromotionActions = (): Res => {
+  const dispatch = useDispatch()
   const { fetcherHandler } = useFetcher()
 
-  const applyPromotionForCustomer = (_: UseParams<ApplyPromotionCustomerParams, any>) => {
+  const applyPromotionForCustomer = (
+    _: UseParams<ApplyPromotionCustomerParams, CompoundingCarCustomer>
+  ) => {
     const { onSuccess, params, config, onError } = _
-    fetcherHandler({
+    fetcherHandler<CompoundingCarCustomer>({
       fetcher: promotionApi.applyPromotionForCustomer(params),
-      onSuccess: (data) => onSuccess(data),
+      onSuccess: (data) => {
+        if ((data?.discount_after_tax || 0) > 0) {
+          onSuccess(data)
+          dispatch(notify("Đã áp dụng chương trình khuyến mãi", "success"))
+        } else {
+          dispatch(notify("Không thể áp dụng khuyến mãi này", "error"))
+          onError?.()
+        }
+      },
       onError: () => onError?.(),
-      config: { ...config, successMsg: "Áp dụng khuyến mãi thành công!" },
+      config: { ...config },
     })
   }
 

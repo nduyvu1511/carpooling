@@ -153,16 +153,10 @@ const chatAPI = {
     return axiosClient.get("/chat/user")
   },
 
-  deleteRoom: (room_id: string) => {
-    return axiosClient.delete(`/chat/room/${room_id}`)
-  },
-
-  softDeleteRoomByCompoundingCarId: (compounding_car_id: number) => {
-    return axiosClient.delete(`/chat/room/ride/${compounding_car_id}`)
-  },
-
-  destroyRoom: (compounding_car_id: number) => {
-    return axiosClient.delete(`/chat/room/ride/${compounding_car_id}/destroy`)
+  softDeleteRoomByCompoundingCarId: (
+    compounding_car_id: number
+  ): Promise<ChatAxiosResponse<{ compounding_car_id: number }>> => {
+    return axiosClient.delete(`/chat/room/compounding_car_id/${compounding_car_id}`)
   },
 
   restoreRoom: (room_id: string) => {
@@ -238,11 +232,11 @@ const chatAPI = {
   },
 
   leaveRoomByCompoundingCarId: (compounding_car_id: number) => {
-    return axiosClient.delete(`/chat/room/ride/${compounding_car_id}/leave`)
+    return axiosClient.delete(`/chat/room/compounding_car_id/${compounding_car_id}/leave`)
   },
 
   joinRoomByCompoundingCarId: (compounding_car_id: number) => {
-    return axiosClient.post(`/chat/room/ride/${compounding_car_id}/join`)
+    return axiosClient.post(`/chat/room/compounding_car_id/${compounding_car_id}/join`)
   },
 
   updateRoomInfo: (params: UpdateRoomInfo) => {

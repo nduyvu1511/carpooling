@@ -11,6 +11,7 @@ module.exports = withImages({
       process.env.NEXT_PUBLIC_IMAGE_URL,
       process.env.NEXT_PUBLIC_NEWS_IMAGE,
       process.env.NEXT_PUBLIC_CHAT_IMAGE,
+      "exxe.vn",
     ],
   },
   typescript: {
