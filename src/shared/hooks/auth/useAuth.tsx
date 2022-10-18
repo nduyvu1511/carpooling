@@ -15,7 +15,7 @@ import {
   UserLoginRes,
   UserRes,
 } from "@/models"
-import { resetChatState, setProfile } from "@/modules"
+import { clearRoomHisory, resetChatState, setProfile } from "@/modules"
 import { chatAPI, userAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useDispatch, useSelector } from "react-redux"
@@ -147,6 +147,7 @@ export const useAuth = (): UseAuthRes => {
       cb?.()
       dispatch(setProfile(undefined))
       dispatch(resetChatState())
+      dispatch(clearRoomHisory())
       socket?.disconnect()
     } catch (error) {
       console.log(error)

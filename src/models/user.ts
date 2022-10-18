@@ -42,6 +42,67 @@ export interface UserInfo {
   rating_number?: number
 }
 
+export interface VehicleDetailFormParams {
+  car_brand_id: number
+  car_id: number
+  car_name: string
+  year_of_issue: string
+  license_plates: string
+  front_car_image_url: number
+
+  back_car_image_url: number
+  ownership_type: "car_owner" | "rental_car"
+  owner_name: string
+  owner_address: string
+  front_registration_image_url: number
+  back_registration_image_url: number
+  sign_image_url: number
+}
+
+export interface ImageRes {
+  url: string
+  id: number
+}
+
+export type OwnerShipType = "car_owner" | "rental_car"
+
+export interface VehicleDetailFormSchema {
+  car_brand_id: OptionModel
+  car_id: OptionModel
+  car_name: string
+  year_of_issue: string
+  license_plates: string
+  front_car_image_url: ImageRes
+  back_car_image_url: ImageRes
+  owner_name: string
+  owner_address: string
+  front_registration_image_url: ImageRes
+  back_registration_image_url: ImageRes
+  sign_image_url: ImageRes
+  ownership_type: OwnerShipType
+}
+
+export interface RegistrationCertificateRes {
+  car_registration_certificate_id: number
+  car: { car_id: number; name: string; car_type: string }
+  car_name: string
+  year_of_issue: string
+  license_plates: string
+  front_car_image: ImageRes
+  back_car_image: ImageRes
+  car_brand: {
+    brand_id: number
+    brand_name: string
+    brand_icon: { icon_id: number; icon_url: string }
+  }
+  ownership_type: OwnerShipType
+  owner_name: string
+  owner_address: string
+  front_registration_image_url: ImageRes
+  back_registration_image_url: ImageRes
+  sign_image_url: ImageRes
+}
+
 export type UserInfoFormKey = keyof UserInfoFormParams
 export type VehicleKeyType = "brand" | "model" | "type" | "desc"
 export type IdCardKeyType = "text" | "select" | "date" | "file"
@@ -64,21 +125,10 @@ export type DrivingLicenseFormKey =
   | "license_class"
   | "date_of_issue"
   | "date_of_expiry"
+
 export type CarAccountType = "customer" | "car_driver"
-export type VehicleDetailFormKey =
-  | "car_brand_id"
-  | "car_id"
-  | "car_name"
-  | "front_car_image_url"
-  | "back_car_image_url"
-  | "license_plates"
-  | "year_of_issue"
-export type VehicleInsuranceFormKey =
-  | "front_insurance_image_url"
-  | "back_insurance_image_url"
-  | "identity_number"
-  | "date_of_issue"
-  | "date_of_expiry"
+export type VehicleDetailFormKey = keyof VehicleDetailFormParams
+export type VehicleInsuranceFormKey = keyof VehicleInsuranceParams
 export type VehicleImageKeyType = "frontImage" | "backImage"
 export type CertificateInspectionFormKey =
   | "back_inspection_certificate_image_url"
@@ -156,7 +206,7 @@ export type UserInforFormAddressKey = keyof UserInfoFormAddress
 export interface UserInfoFormParams {
   date_of_birth: string
   description?: string
-  avatar_attachment_id: number
+  avatar_attachment_id: ImageRes
   name: string
   email?: string
   gender: GenderType
@@ -170,19 +220,14 @@ export interface UserInfoFormParams {
 
 export type UserInfoFormSubmit = Pick<
   UserInfoFormParams,
-  | "avatar_attachment_id"
-  | "date_of_birth"
-  | "description"
-  | "avatar_attachment_id"
-  | "name"
-  | "gender"
-  | "email"
+  "date_of_birth" | "description" | "name" | "gender" | "email"
 > & {
   country_id?: number
   province_id?: number
   district_id?: number
   ward_id?: number
   street?: string
+  avatar_attachment_id: number
 }
 
 export interface CreateUserFormParams {
@@ -207,7 +252,17 @@ export interface IdCardParams {
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
-  place_of_issue: string
+  place_of_issue: number
+  address: string
+}
+
+export interface IdCardSchema {
+  front_identity_card_image_url: ImageRes
+  back_identity_card_image_url: ImageRes
+  identity_number: string
+  date_of_issue: string
+  date_of_expiry: string
+  place_of_issue: OptionModel
   address: string
 }
 
@@ -228,34 +283,6 @@ export interface UpdateDrivingLicenseParams extends DrivingLicenseParams {
   car_driving_license_id: number
 }
 
-export interface VehicleDetailFormParams {
-  car_brand_id: number
-  car_id: number
-  car_name: string
-  year_of_issue: string
-  license_plates: string
-  front_car_image_url: number
-  back_car_image_url: number
-}
-
-export interface RegistrationCertificateRes {
-  car_registration_certificate_id: number
-  car: { car_id: number; name: string; car_type: string }
-  car_name: string
-  year_of_issue: string
-  license_plates: string
-  front_car_image: { id: number; url: string }
-  back_car_image: {
-    id: number
-    url: string
-  }
-  car_brand: {
-    brand_id: number
-    brand_name: string
-    brand_icon: { icon_id: number; icon_url: string }
-  }
-}
-
 export interface UpdateVehicleDetailFormParams extends VehicleDetailFormParams {
   car_registration_certificate_id: number
 }
@@ -266,6 +293,14 @@ export interface VehicleInsuranceParams {
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
+}
+
+export type VehicleInsuranceSchema = Pick<
+  VehicleInsuranceParams,
+  "identity_number" | "date_of_expiry" | "date_of_issue"
+> & {
+  front_insurance_image_url: ImageRes
+  back_insurance_image_url: ImageRes
 }
 
 export interface VehicleInsuranceRes {
@@ -293,6 +328,14 @@ export interface CertificateInspectionParams {
   back_inspection_certificate_image_url: number
   identity_number: string
   date_of_expiry: string
+}
+
+export type CertificateInspectionSchema = Pick<
+  CertificateInspectionParams,
+  "identity_number" | "date_of_expiry"
+> & {
+  front_inspection_certificate_image_url: ImageRes
+  back_inspection_certificate_image_url: ImageRes
 }
 
 export interface CertificateInspectionRes {
@@ -354,6 +397,14 @@ export interface DrivingLicenseFormParams {
   date_of_expiry: string
 }
 
+export type DrivingLicenseFormSchema = Pick<
+  DrivingLicenseFormParams,
+  "license_class" | "date_of_expiry" | "date_of_issue" | "identity_number"
+> & {
+  front_license_image_url: ImageRes
+  back_license_image_url: ImageRes
+}
+
 export interface DrivingLicenseRes {
   car_driving_license_id: number
   partner: UserInfo
@@ -385,7 +436,7 @@ export interface IdentityCardRes {
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
-  place_of_issue: string
+  place_of_issue: OptionModel
   address: string
 }
 

@@ -1,9 +1,8 @@
-import { RootState } from "@/core/store"
 import { CreateGroupChat, CreateSingleChat, RoomDetailRes, UseParams } from "@/models"
 import { setCurrentRoomId } from "@/modules"
 import { chatAPI } from "@/services"
 import { useRouter } from "next/router"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useAsync } from "../utilities"
 
 interface UseChatActionsRes {
@@ -13,7 +12,6 @@ interface UseChatActionsRes {
 
 export const useChatActions = (): UseChatActionsRes => {
   const router = useRouter()
-  const socket = useSelector((state: RootState) => state.chat.socket)
   const dispatch = useDispatch()
   const { asyncHandler } = useAsync()
 
@@ -27,7 +25,6 @@ export const useChatActions = (): UseChatActionsRes => {
     asyncHandler<RoomDetailRes>({
       fetcher: chatAPI.createSingleChat(params),
       onSuccess: (data) => {
-        socket?.emit("create_room", data)
         router.push("/chat")
         redirectToChatPage(data.room_id)
         onSuccess?.(data)

@@ -1,9 +1,15 @@
 import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { idCardFormFields, identityCardSchema } from "@/helper"
 import { useAddress } from "@/hooks"
-import { IdCardName, IdCardParams, IdentityCardRes, OptionModel } from "@/models"
+import {
+  IdCardName,
+  IdCardParams,
+  IdCardSchema,
+  IdentityCardRes,
+  ImageRes,
+  OptionModel,
+} from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
 
@@ -18,33 +24,37 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
   const {
     register,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { errors, isValid },
     control,
     getValues,
-  } = useForm<IdCardParams>({
+  } = useForm<IdCardSchema>({
     resolver: yupResolver(identityCardSchema),
     mode: "all",
     defaultValues: {
-      back_identity_card_image_url: defaultValues?.back_identity_card_image_url?.id || undefined,
-      front_identity_card_image_url: defaultValues?.front_identity_card_image_url?.id || undefined,
+      back_identity_card_image_url: defaultValues?.back_identity_card_image_url?.id
+        ? defaultValues.back_identity_card_image_url
+        : undefined,
+      front_identity_card_image_url: defaultValues?.front_identity_card_image_url?.id
+        ? defaultValues.front_identity_card_image_url
+        : undefined,
       date_of_expiry: defaultValues?.date_of_expiry,
       date_of_issue: defaultValues?.date_of_issue,
       identity_number: defaultValues?.identity_number,
-      place_of_issue: defaultValues?.place_of_issue,
+      place_of_issue: defaultValues?.place_of_issue?.value
+        ? defaultValues.place_of_issue
+        : undefined,
       address: defaultValues?.address,
     },
   })
 
-  const [frontImage, setFrontImage] = useState<string>()
-  const [backImage, setBackImage] = useState<string>()
-
-  const onSubmitHandler = (data: IdCardParams) => {
-    onSubmit &&
-      onSubmit({
-        ...data,
-        back_identity_card_image_url: Number(data.back_identity_card_image_url),
-        front_identity_card_image_url: Number(data.front_identity_card_image_url),
-      })
+  const onSubmitHandler = (data: IdCardSchema) => {
+    onSubmit?.({
+      ...data,
+      back_identity_card_image_url: Number(data.back_identity_card_image_url.id),
+      front_identity_card_image_url: Number(data.front_identity_card_image_url.id),
+      date_of_issue: data.date_of_issue,
+      place_of_issue: Number(data.place_of_issue.value),
+    })
   }
 
   const getOptionsSelect = (name: IdCardName): OptionModel[] => {
@@ -75,18 +85,10 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
                   <div className="driver-bio__form-input">
                     <InputImage
                       id={field.name}
-                      image={
-                        (field.name === "front_identity_card_image_url"
-                          ? frontImage || defaultValues?.front_identity_card_image_url?.url
-                          : backImage || defaultValues?.back_identity_card_image_url?.url) || ""
-                      }
-                      isError={!!errors?.[field.name]?.message}
+                      image={(getValues(field.name) as ImageRes)?.url || ""}
+                      isError={!!errors?.[field.name]}
                       getImage={(file) => {
-                        field.name === "front_identity_card_image_url" &&
-                          setFrontImage(file.attachment_url)
-                        field.name === "back_identity_card_image_url" &&
-                          setBackImage(file.attachment_url)
-                        onChange(file.attachment_id)
+                        onChange({ id: file.attachment_id, url: file.attachment_url })
                       }}
                     />
                   </div>
@@ -114,18 +116,11 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
                 render={({ field: { onChange, onBlur } }) => (
                   <div onBlur={onBlur} className="form-select">
                     <Select
-                      value={
-                        field.name === "place_of_issue" && getValues("place_of_issue")
-                          ? {
-                              value: getValues("place_of_issue"),
-                              label: getValues("place_of_issue"),
-                            }
-                          : undefined
-                      }
+                      value={getValues(field.name) || undefined}
                       className={`${errors?.[field.name] ? "form-select-error" : ""}`}
                       placeholder={field.placeholder}
                       onChange={(val) => {
-                        onChange(field.name === "place_of_issue" ? val?.label : val?.value)
+                        onChange(val)
                       }}
                       onBlur={onBlur}
                       id={field.name}
@@ -158,8 +153,10 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
               />
             ) : null}
 
-            {errors[field.name] || dirtyFields[field.name] ? (
-              <p className="form-err-msg">{errors[field.name]?.message}</p>
+            {errors[field.name] ? (
+              <p className="form-err-msg">
+                {(errors[field.name] as any)?.message || "Vui lòng nhập trường này"}
+              </p>
             ) : null}
           </div>
         ))}

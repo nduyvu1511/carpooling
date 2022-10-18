@@ -33,7 +33,7 @@ export const Avatar = ({
                   left: index === 0 || index === 2 ? 2 : -2,
                   top: index === 0 || index === 1 ? 2 : -2,
                 }}
-                className={`relative w-[23px] h-[23px] rounded-[50%] overflow-hidden border border-solid border-border-color-2 bg-white-color`}
+                className={`relative w-[23px] h-[23px] rounded-[50%] overflow-hidden bg-white-color`}
               >
                 <Image
                   blurDataURL={imageBlur}

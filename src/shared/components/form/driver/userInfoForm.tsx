@@ -19,6 +19,7 @@ import {
   CarAccountType,
   IdCardParams,
   IdentityCardRes,
+  ImageRes,
   UserInfo,
   UserInfoFormParams,
   UserInfoFormSubmit,
@@ -62,7 +63,9 @@ export const UserInfoForm = ({
     resolver: yupResolver(userFormSchema),
     mode: "all",
     defaultValues: {
-      avatar_attachment_id: Number(defaultValues?.avatar_url?.image_id) || undefined,
+      avatar_attachment_id: defaultValues?.avatar_url?.image_id
+        ? { id: defaultValues.avatar_url.image_id, url: defaultValues.avatar_url.image_url }
+        : undefined,
       date_of_birth: defaultValues?.date_of_birth || undefined,
       gender: defaultValues?.gender || undefined,
       name: defaultValues?.partner_name || undefined,
@@ -95,7 +98,6 @@ export const UserInfoForm = ({
       identity_number: defaultValues?.identity_card_id?.identity_number || undefined,
     },
   })
-  const [image, setImage] = useState<string>()
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false)
   const [showIdentityCardForm, setShowIdentityCardForm] = useState<boolean>(false)
 
@@ -108,7 +110,7 @@ export const UserInfoForm = ({
   const onSubmitHandler = (params: UserInfoFormParams) => {
     const { district_id, ward_id, province_id, street } = params
     const data: UserInfoFormSubmit = {
-      avatar_attachment_id: +params.avatar_attachment_id,
+      avatar_attachment_id: +params.avatar_attachment_id.id,
       date_of_birth: params.date_of_birth,
       gender: params.gender,
       name: params.name,
@@ -129,25 +131,19 @@ export const UserInfoForm = ({
       data.country_id = 241
     }
 
-    onSubmit && onSubmit(data)
+    onSubmit?.(data)
   }
 
   const toggleShowAddressModal = (status: boolean) => {
     setShowAddressModal(status)
-    if (status) {
-      view === "page" && toggleBodyOverflow("hidden")
-    } else {
-      view === "page" && toggleBodyOverflow("unset")
-    }
+    if (view === "modal") return
+    toggleBodyOverflow(status ? "hidden" : "unset")
   }
 
   const toggleShowIdentityCardForm = (status: boolean) => {
     setShowIdentityCardForm(status)
-    if (status) {
-      view === "page" && toggleBodyOverflow("hidden")
-    } else {
-      view === "page" && toggleBodyOverflow("unset")
-    }
+    if (view === "modal") return
+    toggleBodyOverflow(status ? "hidden" : "unset")
   }
 
   const handleAddIdentityCard = (params: IdCardParams) => {
@@ -202,16 +198,16 @@ export const UserInfoForm = ({
                   <Controller
                     control={control}
                     name={field.name}
-                    render={({ field: { onChange } }) => (
+                    render={({ field: { onChange, onBlur } }) => (
                       <div className="driver-bio__form-input">
                         <InputImage
+                          onBlur={onBlur}
                           type="avatar"
                           id={field.name}
-                          image={image || defaultValues?.avatar_url?.image_url || ""}
+                          image={(getValues(field.name) as ImageRes)?.url || ""}
                           isError={!!errors?.[field.name]}
                           getImage={(img) => {
-                            onChange(img.attachment_id)
-                            setImage(img.attachment_url)
+                            onChange({ id: img.attachment_id, url: img.attachment_url } as ImageRes)
                           }}
                         />
                       </div>
@@ -281,6 +277,7 @@ export const UserInfoForm = ({
                     name={field.name}
                     render={({ field: { onChange, onBlur } }) => (
                       <InputGender
+                        onBlur={onBlur}
                         value={getValues("gender")}
                         onChange={(gender) => {
                           onChange(gender)

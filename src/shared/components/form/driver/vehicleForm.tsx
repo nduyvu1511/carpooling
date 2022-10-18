@@ -1,9 +1,14 @@
-import { ButtonSubmit, InputImage } from "@/components"
+import { ButtonSubmit, InputImage, InputRadio } from "@/components"
 import { vehicleDetailFormFields, vehicleDetailSchema } from "@/helper"
 import { useCompoundingForm, useFetchCarBrand } from "@/hooks"
-import { RegistrationCertificateRes, VehicleDetailFormParams } from "@/models"
+import {
+  ImageRes,
+  RegistrationCertificateRes,
+  VehicleDetailFormParams,
+  VehicleDetailFormSchema,
+} from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
 
@@ -20,34 +25,52 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
   const {
     register,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    getValues,
+    formState: { errors },
     control,
-  } = useForm<VehicleDetailFormParams>({
+  } = useForm<VehicleDetailFormSchema>({
     resolver: yupResolver(vehicleDetailSchema),
     mode: "all",
     defaultValues: {
-      back_car_image_url: defaultValues?.back_car_image?.id,
-      front_car_image_url: defaultValues?.front_car_image?.id,
+      back_car_image_url: defaultValues?.back_car_image?.id
+        ? defaultValues?.back_car_image
+        : undefined,
+      front_car_image_url: defaultValues?.front_car_image?.id
+        ? defaultValues?.front_car_image
+        : undefined,
       year_of_issue: defaultValues?.year_of_issue,
-      car_id: defaultValues?.car?.car_id,
-      car_name: defaultValues?.car?.name,
+      car_id: defaultValues?.car?.car_id
+        ? { label: defaultValues.car.name, value: defaultValues.car.car_id }
+        : undefined,
+      car_name: defaultValues?.car_name,
       license_plates: defaultValues?.license_plates,
-      car_brand_id: defaultValues?.car_brand?.brand_id,
+      car_brand_id: defaultValues?.car_brand?.brand_id
+        ? { label: defaultValues.car_brand.brand_name, value: defaultValues.car_brand.brand_id }
+        : undefined,
+      back_registration_image_url: defaultValues?.back_registration_image_url?.id
+        ? defaultValues?.back_registration_image_url
+        : undefined,
+      front_registration_image_url: defaultValues?.front_registration_image_url?.id
+        ? defaultValues?.front_registration_image_url
+        : undefined,
+      owner_address: defaultValues?.owner_address || undefined,
+      owner_name: defaultValues?.owner_name || undefined,
+      ownership_type: defaultValues?.ownership_type || undefined,
+      sign_image_url: defaultValues?.sign_image_url?.id ? defaultValues?.sign_image_url : undefined,
     },
   })
 
-  const [frontImage, setFrontImage] = useState<string>("")
-  const [backImage, setBackImage] = useState<string>("")
-
-  const onSubmitHandler = (data: VehicleDetailFormParams) => {
-    onSubmit &&
-      onSubmit({
-        ...data,
-        back_car_image_url: Number(data.back_car_image_url),
-        front_car_image_url: Number(data.front_car_image_url),
-        car_id: Number(data.car_id),
-        car_brand_id: Number(data.car_brand_id),
-      })
+  const onSubmitHandler = (data: VehicleDetailFormSchema) => {
+    onSubmit?.({
+      ...data,
+      back_registration_image_url: Number(data.back_registration_image_url.id),
+      back_car_image_url: Number(data.back_car_image_url.id),
+      front_car_image_url: Number(data.front_car_image_url.id),
+      car_id: Number(data.car_id.value),
+      car_brand_id: Number(data.car_brand_id.value),
+      front_registration_image_url: Number(data.front_registration_image_url.id),
+      sign_image_url: Number(data.sign_image_url.id),
+    })
   }
 
   const vehicleBrandOptions = useMemo(() => {
@@ -74,17 +97,10 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
                 <div className="driver-bio__form-input">
                   <InputImage
                     id={field.name}
-                    image={
-                      field.name === "front_car_image_url"
-                        ? frontImage || defaultValues?.front_car_image?.url
-                        : backImage || defaultValues?.back_car_image?.url
-                    }
-                    isError={!!errors?.[field.name]?.message}
+                    image={(getValues(field.name) as ImageRes)?.url || ""}
+                    isError={!!errors?.[field.name]}
                     getImage={(img) => {
-                      onChange(img.attachment_id)
-                      field.name === "front_car_image_url"
-                        ? setFrontImage(img.attachment_url)
-                        : setBackImage(img.attachment_url)
+                      onChange({ id: img.attachment_id, url: img.attachment_url })
                     }}
                   />
                 </div>
@@ -102,6 +118,48 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
               {...register(field.name, {
                 required: true,
               })}
+            />
+          ) : null}
+
+          {field.type === "radio" ? (
+            <Controller
+              control={control}
+              name={field.name}
+              render={({ field: { onChange, onBlur } }) => (
+                <div className="flex items-center">
+                  <div onBlur={onBlur} className="flex items-center mr-24">
+                    <InputRadio
+                      isChecked={getValues("ownership_type") === "car_owner"}
+                      onCheck={() => {
+                        onChange("car_owner")
+                      }}
+                    />
+                    <label
+                      onClick={() => onChange("car_owner")}
+                      htmlFor=""
+                      className="ml-8 text-sm cursor-pointer select-none"
+                    >
+                      Chủ xe
+                    </label>
+                  </div>
+
+                  <div onBlur={onBlur} className="flex items-center">
+                    <InputRadio
+                      isChecked={getValues("ownership_type") === "rental_car"}
+                      onCheck={() => {
+                        onChange("rental_car")
+                      }}
+                    />
+                    <label
+                      onClick={() => onChange("rental_car")}
+                      htmlFor=""
+                      className="ml-8 text-sm cursor-pointer select-none"
+                    >
+                      Thuê xe
+                    </label>
+                  </div>
+                </div>
+              )}
             />
           ) : null}
 
@@ -133,7 +191,7 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
                         ? vehicleBrandOptions
                         : undefined
                     }
-                    onChange={(val) => val?.value && onChange(val.value)}
+                    onChange={(val) => val?.value && onChange(val)}
                     onBlur={onBlur}
                     id={field.name}
                     className={`${errors?.[field.name] ? "form-select-error" : ""}`}
@@ -144,8 +202,10 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
             </div>
           ) : null}
 
-          {errors[field.name] || dirtyFields[field.name] ? (
-            <p className="form-err-msg">{errors[field.name]?.message}</p>
+          {errors[field.name] ? (
+            <p className="form-err-msg">
+              {(errors[field.name] as any)?.message || "Vui lòng nhập trường này"}
+            </p>
           ) : null}
         </div>
       ))}

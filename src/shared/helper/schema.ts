@@ -43,8 +43,20 @@ export const certificateRegistrationSchema = Yup.object().shape({
 })
 
 export const inspectionCertificateSchema = Yup.object().shape({
-  front_inspection_certificate_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
-  back_inspection_certificate_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
+  front_inspection_certificate_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt trước")
+    .required("Vui lòng chọn ảnh mặt trước"),
+  back_inspection_certificate_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt sau")
+    .required("Vui lòng chọn ảnh mặt sau"),
   identity_number: Yup.string().required("Vui lòng nhập số đăng kiểm"),
   date_of_expiry: Yup.string()
     .matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ")
@@ -89,7 +101,12 @@ export const loginSchema = Yup.object().shape({
 
 export const userFormSchema = Yup.object().shape(
   {
-    avatar_attachment_id: Yup.string().required("Vui lòng chọn ảnh đại diện"),
+    avatar_attachment_id: Yup.object({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+      .typeError("Vui lòng chọn ảnh đại diện")
+      .required("Vui lòng chọn ảnh đại diện"),
     date_of_birth: Yup.string()
       .matches(DATE_SCHEMA, "Vui lòng nhập ngày sinh hợp lệ")
       .required("Vui lòng nhập ngày sinh"),
@@ -159,24 +176,52 @@ export const userFormAddressSchema = Yup.object().shape({
 })
 
 export const identityCardSchema = Yup.object().shape({
-  front_identity_card_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
-  back_identity_card_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
+  front_identity_card_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .required("Vui lòng ảnh mặt trước"),
+  back_identity_card_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .required("Vui lòng chọn ảnh mặt sau"),
   identity_number: Yup.string()
     .min(7, "Phải có ít nhất 7 đến 12 ký tự")
     .max(12, "Phải có ít nhất 7 đến 12 ký tự")
     .required("Vui lòng nhập trường này"),
   date_of_issue: Yup.string()
     .matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ")
+    .typeError("Vui lòng nhập ngày cấp")
     .required("Vui lòng nhập ngày cấp"),
   date_of_expiry: Yup.string().matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ").nullable(),
-  place_of_issue: Yup.string().required("Vui lòng nhập nơi cấp"),
+  place_of_issue: Yup.object()
+    .shape({
+      label: Yup.string().required(),
+      value: Yup.string().required(),
+    })
+    .required("Vui lòng nhập nơi cấp"),
   address: Yup.string().required("Vui lòng nhập địa chỉ"),
   identity_card_id: Yup.string().nullable(),
 })
 
 export const insuranceShema = Yup.object().shape({
-  front_insurance_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
-  back_insurance_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
+  front_insurance_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt trước")
+    .required("Vui lòng chọn ảnh mặt trước"),
+  back_insurance_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt sau")
+    .required("Vui lòng chọn ảnh mặt sau"),
   identity_number: Yup.string()
     .min(8, "Phải có ít nhất 8 đến 12 ký tự")
     .max(13, "Phải có ít nhất 8 đến 12 ký tự")
@@ -190,8 +235,20 @@ export const insuranceShema = Yup.object().shape({
 })
 
 export const drivingLicenseSchema = Yup.object().shape({
-  front_license_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
-  back_license_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
+  front_license_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt trước")
+    .required("Vui lòng chọn ảnh mặt trước"),
+  back_license_image_url: Yup.object()
+    .shape({
+      id: Yup.number().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng chọn ảnh mặt sau")
+    .required("Vui lòng chọn ảnh mặt sau"),
   identity_number: Yup.string()
     .min(8, "Vui lòng nhập đúng số bằng lái xe")
     .max(13, "Vui lòng nhập đúng số bằng lái xe")
@@ -208,15 +265,58 @@ export const drivingLicenseSchema = Yup.object().shape({
 })
 
 export const vehicleDetailSchema = Yup.object().shape({
-  car_brand_id: Yup.string().required("Vui lòng nhập hãng xe"),
-  car_id: Yup.string().required("Vui lòng nhập loại xe"),
+  car_brand_id: Yup.object()
+    .shape({
+      label: Yup.string().required(),
+      value: Yup.string().required(),
+    })
+    .required("Vui lòng chọn tên hãng xe"),
+  car_id: Yup.object()
+    .shape({
+      label: Yup.string().required(),
+      value: Yup.string().required(),
+    })
+    .required("Vui lòng chọn loại xe"),
   car_name: Yup.string().required("Vui lòng nhập tên xe"),
-  front_car_image_url: Yup.string().required("Vui lòng chọn ảnh mặt trước"),
-  back_car_image_url: Yup.string().required("Vui lòng chọn ảnh mặt sau"),
+  front_car_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .required("Vui lòng chọn ảnh mặt trước của xe"),
+  back_car_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .required("Vui lòng chọn ảnh mặt sau của xe"),
   license_plates: Yup.string().required("Vui lòng nhập biển số xe"),
   year_of_issue: Yup.string()
     .matches(YEAR_SCHEMA, "Vui lòng nhập năm hợp lệ")
     .required("Vui lòng nhập năm sản xuất xe"),
+  back_registration_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .required("Vui lòng nhập cà vẹt xe"),
+  front_registration_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .required("Vui lòng nhập cà vẹt xe"),
+  owner_address: Yup.string().required("Vui lòng nhập địa chỉ chủ xe"),
+  owner_name: Yup.string().required("Vui lòng nhập tên chủ xe"),
+  ownership_type: Yup.string()
+    .oneOf(["car_owner", "rental_car"])
+    .required("Vui lòng nhập loại hình chủ sở hữu xe"),
+  sign_image_url: Yup.object()
+    .shape({
+      url: Yup.string().required(),
+      id: Yup.number().required(),
+    })
+    .required("Vui lòng nhập phù hiệu xe"),
 })
 
 export const departureFormSchema = Yup.object().shape({
@@ -234,7 +334,6 @@ export const createCompoundingCarSchema = Yup.object().shape({
   compounding_type: Yup.string()
     .oneOf(["one_way", "two_way", "compounding"], "Vui lòng nhập đúng định dạng loại chuyến đi")
     .required("Vuilòng chọn loại chuyến đi"),
-
   from_province_id: Yup.string().required("Vui lòng nhập tỉnh đi"),
   from_pick_up_station_id: Yup.string().required("Vui lòng nhập điểm đón"),
   to_pick_up_station_id: Yup.string().required("Vui lòng nhập điểm đến"),

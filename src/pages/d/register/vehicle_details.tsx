@@ -44,6 +44,9 @@ const VehicleInsurance = () => {
         <>
           <ImageFileLoading />
           <ImageFileLoading />
+          <ImageFileLoading />
+          <ImageFileLoading />
+          <ImageFileLoading />
           <InputLoading />
           <InputLoading />
           <InputLoading />

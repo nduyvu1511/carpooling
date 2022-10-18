@@ -22,8 +22,12 @@ const roomHistorySlice = createSlice({
     deleteRoomHistory: (state, { payload }: PayloadType<string>) => {
       state.data = state.data.filter((item) => item.room_id !== payload)
     },
+
+    clearRoomHisory: (state) => {
+      state.data = []
+    },
   },
 })
 
 export default roomHistorySlice.reducer
-export const { addRoomHistory, deleteRoomHistory } = roomHistorySlice.actions
+export const { addRoomHistory, deleteRoomHistory, clearRoomHisory } = roomHistorySlice.actions

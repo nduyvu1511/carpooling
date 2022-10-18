@@ -1,8 +1,12 @@
 import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { insuranceShema, vehicleInsuranceForm } from "@/helper"
-import { VehicleInsuranceParams, VehicleInsuranceRes } from "@/models"
+import {
+  ImageRes,
+  VehicleInsuranceParams,
+  VehicleInsuranceRes,
+  VehicleInsuranceSchema,
+} from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 interface VehicleInsuranceFormProps {
@@ -18,32 +22,32 @@ export const VehicleInsuranceForm = ({
 }: VehicleInsuranceFormProps) => {
   const {
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { errors },
     control,
     getValues,
     register,
-  } = useForm<VehicleInsuranceParams>({
+  } = useForm<VehicleInsuranceSchema>({
     resolver: yupResolver(insuranceShema),
     mode: "all",
     defaultValues: {
-      back_insurance_image_url: defaultValues?.back_insurance_image_url?.id,
+      back_insurance_image_url: defaultValues?.back_insurance_image_url?.id
+        ? defaultValues?.back_insurance_image_url
+        : undefined,
       date_of_expiry: defaultValues?.date_of_expiry,
       date_of_issue: defaultValues?.date_of_issue,
       identity_number: defaultValues?.identity_number,
-      front_insurance_image_url: defaultValues?.front_insurance_image_url?.id,
+      front_insurance_image_url: defaultValues?.front_insurance_image_url?.id
+        ? defaultValues?.front_insurance_image_url
+        : undefined,
     },
   })
 
-  const [frontImage, setFrontImage] = useState<string>()
-  const [backImage, setBackImage] = useState<string>()
-
-  const onSubmitHandler = (data: VehicleInsuranceParams) => {
-    onSubmit &&
-      onSubmit({
-        ...data,
-        back_insurance_image_url: Number(data.back_insurance_image_url),
-        front_insurance_image_url: Number(data.front_insurance_image_url),
-      })
+  const onSubmitHandler = (data: VehicleInsuranceSchema) => {
+    onSubmit?.({
+      ...data,
+      back_insurance_image_url: Number(data.back_insurance_image_url.id),
+      front_insurance_image_url: Number(data.front_insurance_image_url.id),
+    })
   }
 
   return (
@@ -63,18 +67,11 @@ export const VehicleInsuranceForm = ({
                 <div className="driver-bio__form-input">
                   <InputImage
                     id={field.name}
-                    isError={!!errors?.[field.name]?.message}
+                    isError={!!errors?.[field.name]}
+                    image={(getValues(field.name) as ImageRes)?.url || ""}
                     getImage={(file) => {
-                      onChange(file.attachment_id)
-                      field.name === "front_insurance_image_url"
-                        ? setFrontImage(file.attachment_url)
-                        : setBackImage(file.attachment_url)
+                      onChange({ id: file.attachment_id, url: file.attachment_url } as ImageRes)
                     }}
-                    image={
-                      field.name === "front_insurance_image_url"
-                        ? frontImage || defaultValues?.front_insurance_image_url?.url
-                        : backImage || defaultValues?.back_insurance_image_url?.url
-                    }
                   />
                 </div>
               )}
@@ -126,8 +123,10 @@ export const VehicleInsuranceForm = ({
             />
           ) : null}
 
-          {errors[field.name] || dirtyFields[field.name] ? (
-            <p className="form-err-msg">{errors[field.name]?.message}</p>
+          {errors[field.name] ? (
+            <p className="form-err-msg">
+              {(errors[field.name] as any)?.message || "Vui lòng nhập trường này"}
+            </p>
           ) : null}
         </div>
       ))}

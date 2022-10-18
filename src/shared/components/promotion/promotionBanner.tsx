@@ -6,6 +6,7 @@ import { promotionApi } from "@/services"
 import moment from "moment"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useRef, useState } from "react"
 import { Autoplay, Pagination } from "swiper"
 import "swiper/css"
@@ -17,6 +18,7 @@ import { Spinner } from "../loading"
 const ITEM_HEIGHT = 118
 
 const PromotionBanner = () => {
+  const router = useRouter()
   const breakpoints = useBreakpoint()
   const [index, setIndex] = useState<number>(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -54,11 +56,15 @@ const PromotionBanner = () => {
         >
           {[...data, ...data].map((item, index) => (
             <SwiperSlide
-              className="aspect-[3/1] cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
+              className="aspect-[3/1] relative cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
               key={index}
             >
               <Link href="/promotion">
-                <a href="cursor-pointer">
+                <a
+                  onClick={() => router.push("/promotion")}
+                  className="relative block w-full h-full"
+                  href="cursor-pointer"
+                >
                   <Image
                     className="rounded-[16px] cursor-pointer"
                     alt=""

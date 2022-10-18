@@ -4,11 +4,12 @@ import { InputRadio } from "./inputRadio"
 interface InputGenderProps {
   onChange: (params: GenderType) => void
   value: GenderType | undefined
+  onBlur?: Function
 }
 
-const InputGender = ({ onChange: onChangeProps, value: valueProps }: InputGenderProps) => {
+const InputGender = ({ onChange: onChangeProps, value: valueProps, onBlur }: InputGenderProps) => {
   return (
-    <div className="flex items-center">
+    <div onBlur={() => onBlur?.()} className="flex items-center">
       {[
         ["Nam", "male"],
         ["Nữ", "female"],

@@ -14,7 +14,14 @@ interface InputImageProps {
   onBlur?: Function
 }
 
-export const InputImage = ({ getImage, isError, image, id, type = "common" }: InputImageProps) => {
+export const InputImage = ({
+  getImage,
+  isError,
+  image,
+  id,
+  type = "common",
+  onBlur,
+}: InputImageProps) => {
   const { isUploading, uploadImages } = useUploadAttachment()
   const { getBase64Images } = useAttachment({
     limit: 1,
@@ -63,6 +70,7 @@ export const InputImage = ({ getImage, isError, image, id, type = "common" }: In
     >
       <input onChange={uploadImage} id={id} hidden type="file" name="" accept="image/*" />
       <label
+        onBlur={() => onBlur?.()}
         htmlFor={id}
         className={`flex-center flex-col h-[100px] overflow-hidden w-[148px] rounded-[5px] border border-dashed border-border-color-2 cursor-pointer relative flex-center file-image-picker mb-[4px] ${
           image && !isUploading ? "border-none" : ""

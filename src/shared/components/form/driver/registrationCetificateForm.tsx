@@ -1,10 +1,12 @@
-import { InputImage } from "@/components"
-
-import { ButtonSubmit, InputDate } from "@/components"
+import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { certificatesRegistrationFormFields, inspectionCertificateSchema } from "@/helper"
-import { CertificateInspectionParams, CertificateInspectionRes } from "@/models"
+import {
+  CertificateInspectionParams,
+  CertificateInspectionRes,
+  CertificateInspectionSchema,
+  ImageRes,
+} from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 interface RegistrationCetificateFormProps {
@@ -22,29 +24,31 @@ export const RegistrationCetificateForm = ({
     register,
     getValues,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { errors },
     control,
-  } = useForm<CertificateInspectionParams>({
+  } = useForm<CertificateInspectionSchema>({
     resolver: yupResolver(inspectionCertificateSchema),
     mode: "all",
     defaultValues: {
-      back_inspection_certificate_image_url: defaultValues?.back_inspection_certificate_image?.id,
-      front_inspection_certificate_image_url: defaultValues?.front_inspection_certificate_image?.id,
+      back_inspection_certificate_image_url: defaultValues?.back_inspection_certificate_image?.id
+        ? defaultValues?.back_inspection_certificate_image
+        : undefined,
+      front_inspection_certificate_image_url: defaultValues?.front_inspection_certificate_image?.id
+        ? defaultValues?.front_inspection_certificate_image
+        : undefined,
       date_of_expiry: defaultValues?.date_of_expiry,
       identity_number: defaultValues?.identity_number,
     },
   })
 
-  const [frontImage, setFrontImage] = useState<string>()
-  const [backImage, setBackImage] = useState<string>()
-
-  const onSubmitHandler = (data: CertificateInspectionParams) => {
-    onSubmit &&
-      onSubmit({
-        ...data,
-        back_inspection_certificate_image_url: Number(data.back_inspection_certificate_image_url),
-        front_inspection_certificate_image_url: Number(data.front_inspection_certificate_image_url),
-      })
+  const onSubmitHandler = (data: CertificateInspectionSchema) => {
+    onSubmit?.({
+      ...data,
+      back_inspection_certificate_image_url: Number(data.back_inspection_certificate_image_url.id),
+      front_inspection_certificate_image_url: Number(
+        data.front_inspection_certificate_image_url.id
+      ),
+    })
   }
 
   return (
@@ -60,22 +64,16 @@ export const RegistrationCetificateForm = ({
             <Controller
               control={control}
               name={field.name}
-              render={({ field: { onChange } }) => (
+              render={({ field: { onChange, onBlur } }) => (
                 <div className="driver-bio__form-input">
                   <InputImage
+                    onBlur={onBlur}
                     id={field.name}
-                    image={
-                      field.name === "front_inspection_certificate_image_url"
-                        ? frontImage || defaultValues?.front_inspection_certificate_image?.url
-                        : backImage || defaultValues?.back_inspection_certificate_image?.url
+                    image={(getValues(field.name) as ImageRes)?.url || ""}
+                    isError={!!errors?.[field.name]}
+                    getImage={(img) =>
+                      onChange({ id: img.attachment_id, url: img.attachment_url } as ImageRes)
                     }
-                    isError={!!errors?.[field.name]?.message}
-                    getImage={(img) => {
-                      onChange(img.attachment_id)
-                      field.name === "front_inspection_certificate_image_url"
-                        ? setFrontImage(img.attachment_url)
-                        : setBackImage(img.attachment_url)
-                    }}
                   />
                 </div>
               )}
@@ -95,12 +93,12 @@ export const RegistrationCetificateForm = ({
                   }`}
                 >
                   <InputDate
-                    value={
-                      field.name === "date_of_expiry" ? getValues("date_of_expiry") : undefined
-                    }
                     placeholder="Ngày hết hạn"
                     onChange={(val) => onChange(val)}
                     disablePassDay={false}
+                    value={
+                      field.name === "date_of_expiry" ? getValues("date_of_expiry") : undefined
+                    }
                   />
                 </div>
               )}
@@ -123,8 +121,8 @@ export const RegistrationCetificateForm = ({
             />
           ) : null}
 
-          {errors[field.name] || dirtyFields[field.name] ? (
-            <p className="form-err-msg">{errors[field.name]?.message}</p>
+          {errors[field.name] ? (
+            <p className="form-err-msg">{(errors[field.name] as any)?.message}</p>
           ) : null}
         </div>
       ))}

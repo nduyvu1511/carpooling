@@ -73,15 +73,11 @@ export const RoomDetail = forwardRef(function RoomChild(
   }
 
   const handleReactionMessage = (params: LikeMessage) => {
-    likeMessage(params, (data) => {
-      socket?.emit("like_message", data)
-    })
+    likeMessage(params)
   }
 
   const handleUndoMesasgeReaction = (params: UnlikeMessage) => {
-    unlikeMessage(params, (data) => {
-      socket?.emit("unlike_message", data)
-    })
+    unlikeMessage(params)
   }
 
   const handleReadMessage = ({

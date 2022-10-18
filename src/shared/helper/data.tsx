@@ -354,7 +354,7 @@ export const vehicleInsuranceForm: {
 export const vehicleDetailFormFields: {
   name: VehicleDetailFormKey
   placeholder: string
-  type: "file" | "text" | "select" | "date"
+  type: "file" | "text" | "select" | "date" | "radio"
   isRequired: boolean
   options?: OptionModel[]
 }[] = [
@@ -367,6 +367,24 @@ export const vehicleDetailFormFields: {
   {
     name: "back_car_image_url",
     placeholder: "Hình Đuôi Xe",
+    isRequired: true,
+    type: "file",
+  },
+  {
+    name: "front_registration_image_url",
+    placeholder: "Cà vẹt xe mặt trước",
+    isRequired: true,
+    type: "file",
+  },
+  {
+    name: "back_registration_image_url",
+    placeholder: "Cà vẹt xe mặt sau",
+    isRequired: true,
+    type: "file",
+  },
+  {
+    name: "sign_image_url",
+    placeholder: "Phù hiệu xe",
     isRequired: true,
     type: "file",
   },
@@ -399,6 +417,24 @@ export const vehicleDetailFormFields: {
   {
     name: "year_of_issue",
     placeholder: "Năm Sản Xuất Xe",
+    isRequired: true,
+    type: "text",
+  },
+  {
+    name: "ownership_type",
+    placeholder: "Loại sở hữu xe",
+    isRequired: true,
+    type: "radio",
+  },
+  {
+    name: "owner_name",
+    placeholder: "Tên chủ xe",
+    isRequired: true,
+    type: "text",
+  },
+  {
+    name: "owner_address",
+    placeholder: "Địa chỉ chủ xe",
     isRequired: true,
     type: "text",
   },
