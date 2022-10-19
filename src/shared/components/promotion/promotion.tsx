@@ -20,7 +20,7 @@ type PromotionValue = "all" | "saved" | "new"
 export const Promotion = ({ className }: PromotionProps) => {
   const router = useRouter()
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
-  const { data, fetchMoreItem, hasMore, isFetchingMore, offset, isValidating, filterList, mutate } =
+  const { data, fetchMoreItem, hasMore, isFetchingMore, isValidating, filterList, mutate } =
     useQueryList<PromotionRes[]>({
       fetcher: promotionApi.getPromotionList,
       initialData: undefined,

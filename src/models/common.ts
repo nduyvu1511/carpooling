@@ -98,14 +98,8 @@ export interface ResponseType<T> {
     data: T
   }
 }
-
-export type AuthModalType =
-  | "login"
-  | "resetPassword"
-  | "sms"
-  | "register"
-  | "updateProfile"
-  | undefined
+export type AuthModalType = "login" | "resetPassword" | "sms" | "register" | "updateProfile"
+export type AuthModalTypeSlice = AuthModalType | undefined
 export type OnForwaredResetForm = ForwardedRef<{ onReset: Function }>
 
 export interface ActivityItem<T> {

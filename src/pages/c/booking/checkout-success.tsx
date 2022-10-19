@@ -1,4 +1,11 @@
-import { HeaderMobile, RideCustomerBill, RideProgress, Seo, Spinner } from "@/components"
+import {
+  HeaderMobile,
+  RideCustomerBill,
+  RideProgress,
+  RideSummaryLoading,
+  Seo,
+  Spinner,
+} from "@/components"
 import { useBackRouter, useCompoundingCarCustomer } from "@/hooks"
 import { CustomerLayout } from "@/layout"
 import Link from "next/link"
@@ -32,7 +39,7 @@ const CheckoutSuccess = () => {
       <HeaderMobile className="md:hidden" title="Đặt chuyến thành công" />
       <div className="content-container md:py-custom pb-[70px] md:pb-[70px] mt-[56px] md:mt-0">
         {isValidating ? (
-          <Spinner className="py-[60px]" size={40} />
+          <RideSummaryLoading view="lg" />
         ) : (
           <div className="block-element p-custom">
             <RideProgress className="mb-24 md:mb-[40px]" state={compoundingCarCustomer?.state} />

@@ -1,10 +1,10 @@
 import { toggleBodyOverflow } from "@/helper"
-import { AuthModalType, PayloadType } from "@/models"
+import { AuthModalType, AuthModalTypeSlice, PayloadType } from "@/models"
 import { createSlice } from "@reduxjs/toolkit"
 
 interface CommonSliceParams {
   isScreenLoading: boolean
-  authModalType: AuthModalType | undefined
+  authModalType: AuthModalTypeSlice
   isShowSummaryDetail: boolean
   isLoadedGoogleMap: boolean
 }
@@ -14,7 +14,6 @@ const initialState: CommonSliceParams = {
   authModalType: undefined,
   isShowSummaryDetail: false,
   isLoadedGoogleMap: false,
-  
 }
 
 const commonSlice = createSlice({

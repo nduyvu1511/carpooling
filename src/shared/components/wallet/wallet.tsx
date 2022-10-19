@@ -247,7 +247,6 @@ const Wallet = () => {
       </Modal>
 
       {/* Transaction modal */}
-
       {transaction?.payment_id?.state === "posted" ? (
         <Alert
           show={true}
@@ -257,7 +256,7 @@ const Wallet = () => {
             dispatch(setCheckoutPaymentId(undefined))
             mutate(undefined, false)
             if (router.query?.next) {
-              router.push(router.query.next + "")
+              router.push(router.query.next as string)
             } else {
               mutateJournal()
             }

@@ -41,7 +41,6 @@ export const useAuth = (): UseAuthRes => {
   const dispatch = useDispatch()
   const { fetcherHandler } = useFetcher()
   const { connectSocket } = useSocket()
-
   const socket = useSelector((state: RootState) => state.chat.socket)
 
   const setToken = async (_params: UseParams<string, undefined>) => {
@@ -49,7 +48,7 @@ export const useAuth = (): UseAuthRes => {
     fetcherHandler<null>({
       fetcher: userAPI.setToken(params),
       onSuccess: () => {
-        if (!socket?.connected) onSuccess(undefined)
+        onSuccess(undefined)
       },
       onError: () => onError?.(),
       config,
@@ -63,10 +62,10 @@ export const useAuth = (): UseAuthRes => {
     fetcherHandler<null>({
       fetcher: userAPI.setChatToken(params),
       onSuccess: () => {
+        onSuccess(undefined)
         if (!socket?.connected) {
           connectSocket()
         }
-        onSuccess(undefined)
       },
       onError: () => onError?.(),
       config: { showErrorMsg: false, showScreenLoading: false },
@@ -208,7 +207,7 @@ export const useAuth = (): UseAuthRes => {
       onError: () => {
         type === "register" ? onSuccess?.(undefined) : onError?.()
       },
-      config: { ...config, showErrorMsg: false },
+      config: { ...config, showErrorMsg: type === "resetPassword" },
     })
   }
 

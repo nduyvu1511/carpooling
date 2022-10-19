@@ -121,3 +121,11 @@ export const MESSAGE_OPTION_MENU_SIZE = {
 }
 
 export const MESSAGES_LIMIT = 30
+
+export const AUTH_MODAL_HEADING = {
+  login: "Đăng nhập",
+  register: "Đăng ký",
+  resetPassword: "Quên mật khẩu",
+  sms: "Đăng nhập bằng SMS",
+  updateProfile: "Cập nhật thông tin",
+}

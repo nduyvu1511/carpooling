@@ -16,7 +16,7 @@ export const ReChargeMoneyForm = ({ onSubmit, view = "modal" }: ReChargeMoneyFor
   const { data: paymentList, isValidating: isPaymentLoading } = usePaymentMethodRechargeMoney()
   const {
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     control,
     getValues,
     setValue,

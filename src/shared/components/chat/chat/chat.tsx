@@ -96,7 +96,6 @@ export const Chat = memo(function _Chat() {
 
     socket.on("delete_room_by_compounding_car", (compounding_car_id: number) => {
       roomRef.current?.deleteRoomByCompoundingCarId(compounding_car_id)
-      console.log("new room deleted: ", compounding_car_id)
     })
 
     socket.on("member_join_room", (params: any) => {

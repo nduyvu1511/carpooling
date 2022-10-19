@@ -13,12 +13,12 @@ export const OtpForm = ({ phoneNumber, onSubmit, resendOTPCode }: PhoneFormProps
 
   return (
     <form
+      className="form-control"
       onSubmit={(e) => {
         e.preventDefault()
         if (otpVal?.length < 6) return
-        onSubmit && onSubmit(otpVal)
+        onSubmit?.(otpVal)
       }}
-      className="form-control"
     >
       <div className="form-control-otp">
         <p className="text-sm text-center mb-[40px]">

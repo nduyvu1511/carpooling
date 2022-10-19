@@ -194,11 +194,14 @@ const RidesDetail = () => {
                 <div className="ml-12"></div>
               )}
 
-              {compoundingCar.state === "confirm_paid" ? (
-                compoundingCar.rating_state === "no_rating" &&
-                !compoundingCar?.rating?.compounding_car_customer_id ? (
-                  <ButtonSubmit title="Thêm đánh giá" onClick={() => toggleRatingModal(true)} />
-                ) : null
+              {compoundingCar.state === "confirm_paid" &&
+              compoundingCar.rating_state === "no_rating" &&
+              !compoundingCar?.rating?.compounding_car_customer_id ? (
+                <ButtonSubmit title="Thêm đánh giá" onClick={() => toggleRatingModal(true)} />
+              ) : null}
+
+              {compoundingCar.state === "done" || compoundingCar.state === "customer_pay" ? (
+                <p className="text-sm">Vui lòng chờ tài xế kết thúc chuyến đi để đánh giá</p>
               ) : null}
             </>
           )}

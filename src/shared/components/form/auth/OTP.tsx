@@ -24,9 +24,9 @@ export const OTP = ({
 }: LoginOtpProps) => {
   const dispatch = useDispatch()
   const { checkPhoneExist } = useAuth()
+  const { requestOTPCode, verifyOTPCode } = useOTP()
   const [expandForm, setExpandForm] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>(defaultPhoneNumber)
-  const { requestOTPCode, verifyOTPCode } = useOTP()
 
   const handleGenerateOTPCode = (phone: string) => {
     requestOTPCode({
@@ -81,11 +81,11 @@ export const OTP = ({
       ) : (
         <div className="otp__form">
           <OtpForm
+            phoneNumber={phone || ""}
+            onSubmit={(val) => handleVerifyOTP(val)}
             resendOTPCode={() => {
               handleGenerateOTPCode(phone)
             }}
-            phoneNumber={phone || ""}
-            onSubmit={(val) => handleVerifyOTP(val)}
           />
         </div>
       )}

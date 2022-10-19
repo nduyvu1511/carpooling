@@ -14,6 +14,7 @@ import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
 import { rideAPI } from "@/services"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import useSWR from "swr"
@@ -99,35 +100,59 @@ const CheckoutCustomer = () => {
       ) : compoundingCar ? (
         <>
           <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-          <RideDetailInfo showSnackbar={false} data={compoundingCar} />
-          <div className="my-24 border-b border-solid border-border-color"></div>
-          <div className="mb-[40px]">
-            <p className="uppercase text-base font-semibold mb-16 md:mb-24">
-              Phương thức thanh toán
-            </p>
-            <PaymentCheckoutSlide
-              amountBalance={amountBalance || 0}
-              isLoading={isAmountBalanceLoading}
-              onChange={(val) => setPaymenMethod(val)}
-              currentValue={paymentMethod}
-            />
-          </div>
 
-          <button
-            onClick={() => {
-              if (
-                paymentMethod === "exxe_wallet" &&
-                (amountBalance || 0) < compoundingCar.amount_due
-              ) {
-                toggleModal("walletBalanceAlert")
-                return
-              }
-              toggleModal("confirmCheckout")
-            }}
-            className={`btn-primary ${!paymentMethod ? "btn-disabled" : ""}`}
-          >
-            Tiến hành thanh toán
-          </button>
+          {compoundingCar.state === "done" ||
+          compoundingCar.state === "customer_pay" ||
+          compoundingCar.state === "confirm_paid" ? (
+            <div className="mb-24 md:mb-40">
+              <p className="text-sm">
+                Chuyến đi đã được thanh toán{" "}
+                <Link
+                  href={`/c/ride-detail/checkout/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`}
+                >
+                  <a className="text-primary hover:underline">Xem chi tiết trong hóa đơn</a>
+                </Link>
+              </p>
+            </div>
+          ) : null}
+
+          <RideDetailInfo showSnackbar={false} data={compoundingCar} />
+
+          <div className="my-24 border-b border-solid border-border-color"></div>
+
+          {compoundingCar.state === "in_process" ||
+          compoundingCar.state === "waiting" ||
+          compoundingCar.state === "deposit" ? (
+            <>
+              <div className="mb-[40px]">
+                <p className="uppercase text-base font-semibold mb-16 md:mb-24">
+                  Phương thức thanh toán
+                </p>
+                <PaymentCheckoutSlide
+                  amountBalance={amountBalance || 0}
+                  isLoading={isAmountBalanceLoading}
+                  onChange={(val) => setPaymenMethod(val)}
+                  currentValue={paymentMethod}
+                />
+              </div>
+
+              <button
+                onClick={() => {
+                  if (
+                    paymentMethod === "exxe_wallet" &&
+                    (amountBalance || 0) < compoundingCar.amount_due
+                  ) {
+                    toggleModal("walletBalanceAlert")
+                    return
+                  }
+                  toggleModal("confirmCheckout")
+                }}
+                className={`btn-primary ${!paymentMethod ? "btn-disabled" : ""}`}
+              >
+                Tiến hành thanh toán
+              </button>
+            </>
+          ) : null}
         </>
       ) : null}
 

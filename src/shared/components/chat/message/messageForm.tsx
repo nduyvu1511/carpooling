@@ -197,7 +197,12 @@ export const MessageForm = ({ onSubmit, className }: MessageFormProps) => {
 
       {/* Image pickup preview */}
       {messageFormData?.attachments?.length ? (
-        <div className="h-[176px] absolute top-[-176px] z-[100] left-0 right-0 bg-gray-05 px-12 md:px-16">
+        <div
+          style={{
+            top: messageFormData?.reply_to?.message_id ? -250 : -176,
+          }}
+          className={`h-[176px] absolute z-[100] left-0 right-0 bg-gray-05 px-12 md:px-16`}
+        >
           <ImagePickupPreview
             onClose={() => dispatch(setMessageDataInRoom({ ...messageFormData, attachments: [] }))}
             onAdd={handleAddFile}
@@ -208,7 +213,7 @@ export const MessageForm = ({ onSubmit, className }: MessageFormProps) => {
       ) : null}
 
       {/* Reply to */}
-      {messageFormData?.reply_to ? (
+      {messageFormData?.reply_to?.message_id ? (
         <div className="px-12 md:px-16 pt-12 absolute top-[-76px] border-t border-border-color border-solid left-0 right-0 bg-gray-05 z-[200]">
           <div className="p-12 flex-1 rounded-[8px] h-[64px] relative bg-bg pt-12">
             <div className="flex items-center">

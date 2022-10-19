@@ -33,9 +33,7 @@ const RideDoneCustomer = () => {
         <div className="mb-[56px] lg:mb-0"></div>
         <div className="content-container block-element md:mt-16 lg:mt-24 p-custom flex-1 pb-[70px]">
           {isInitialLoading ? (
-            <div className="p-custom">
-              <RideSummaryLoading view="lg" />
-            </div>
+            <RideSummaryLoading view="lg" />
           ) : data ? (
             <>
               <RideProgress className="pr-0 pb-0 mb-[40px]" state={data?.state} />

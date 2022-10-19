@@ -1,4 +1,4 @@
-import { CalendarIcon } from "@/assets"
+import { CalendarDoneIcon, CalendarIcon } from "@/assets"
 import moment from "moment"
 import { HTMLProps } from "react"
 import Datetime from "react-datetime"
@@ -12,6 +12,7 @@ interface InputDateProps {
   value?: string
   placeholder?: string
   currentDay?: string
+  showDiffCalendarIcon?: boolean
 }
 
 const InputDate = ({
@@ -22,6 +23,7 @@ const InputDate = ({
   value,
   placeholder,
   currentDay,
+  showDiffCalendarIcon = false,
 }: InputDateProps) => {
   const disablePastDt = (current: any) => {
     const yesterday = moment().subtract(1, "day")
@@ -47,7 +49,11 @@ const InputDate = ({
           <input {...props} readOnly placeholder={placeholder} value={value ? props.value : ""} />
         )}
       />
-      <CalendarIcon className="absolute-vertical right-0 text-gray-color-5 pointer-events-none" />
+      {showDiffCalendarIcon ? (
+        <CalendarDoneIcon className="absolute-vertical right-0 text-gray-color-5 pointer-events-none" />
+      ) : (
+        <CalendarIcon className="absolute-vertical right-0 text-gray-color-5 pointer-events-none" />
+      )}
     </div>
   )
 }

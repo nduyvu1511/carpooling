@@ -2,7 +2,7 @@ import {
   compoundingCustomerOrderList,
   compoundingOrderList,
   isArrayHasValue,
-  isObjectHasValue
+  isObjectHasValue,
 } from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
 import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
@@ -88,6 +88,7 @@ export const RideFilter = ({
 
         <div className="form-date form-date-sm mb-[10px]">
           <InputDate
+            showDiffCalendarIcon
             onChange={(val) => {
               setCompoundingFormValues({
                 ...compoundingFormValues,

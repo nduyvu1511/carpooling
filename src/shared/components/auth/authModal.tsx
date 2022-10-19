@@ -1,19 +1,20 @@
 import { CloseThickIcon } from "@/assets"
 import { AuthBg, Login, LoginForm, Modal, Register, ResetPassword } from "@/components"
 import { RootState } from "@/core/store"
+import { AUTH_MODAL_HEADING } from "@/helper"
 import { useAuth } from "@/hooks"
-import { AuthModalType, LoginFormParams, UserInfo } from "@/models"
+import { AuthModalType, AuthModalTypeSlice, LoginFormParams, UserInfo } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { userAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
-const AuthModal = ({ show }: { show: AuthModalType }) => {
+const AuthModal = ({ show }: { show: AuthModalTypeSlice }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const authModalType = useSelector((state: RootState) => state.common.authModalType)
-  const { loginWithPassword, getUserInfo, loginToChatServer } = useAuth()
+  const { loginWithPassword, getUserInfo, loginToChatServer, setToken } = useAuth()
 
   const redirectUser = (userInfo: UserInfo) => {
     if (!userInfo?.car_account_type) {
@@ -41,10 +42,10 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
 
   const handleResetPassword = async (token: string) => {
     try {
-      const res = await userAPI.setToken(token)
-      if (res?.result?.success) {
-        handleGetUserInfo()
-      }
+      setToken({
+        params: token,
+        onSuccess: () => handleGetUserInfo(),
+      })
     } catch (error) {
       console.log(error)
     }
@@ -56,15 +57,6 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       onSuccess: () => handleGetUserInfo(),
       config: { toggleOverFlow: false },
     })
-  }
-
-  const getModalHeading = (): string => {
-    if (authModalType === "login") return "Đăng nhập"
-    if (authModalType === "register") return "Đăng ký"
-    if (authModalType === "resetPassword") return "Quên mật khẩu"
-    if (authModalType === "sms") return "Đăng nhập bằng SMS"
-    if (authModalType === "updateProfile") return "Cập nhật thông tin"
-    return "Đăng nhập"
   }
 
   const handleRedirectModal = () => {
@@ -82,7 +74,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
       iconType={authModalType === "login" ? "close" : "back"}
       key="auth-modal"
       show={!!show}
-      heading={getModalHeading()}
+      heading={AUTH_MODAL_HEADING[authModalType as AuthModalType]}
       onClose={handleRedirectModal}
       rightHeaderNode={
         authModalType !== "login" ? (
@@ -116,6 +108,7 @@ const AuthModal = ({ show }: { show: AuthModalType }) => {
           {authModalType === "register" ? (
             <Register
               onSuccess={() => {
+                router.push("/c")
                 dispatch(setAuthModalType("updateProfile"))
               }}
             />
