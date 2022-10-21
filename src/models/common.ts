@@ -334,3 +334,9 @@ export type ChatAxiosResponse<T> = AxiosResponse & {
   status_code: number
   data: T
 }
+
+export interface OpenGraphData {
+  content: string
+  property: string
+  key: string
+}

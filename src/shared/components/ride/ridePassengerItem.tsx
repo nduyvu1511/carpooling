@@ -42,7 +42,7 @@ const RidePassengerItem = ({
       }`}
     >
       <div className="">
-        <div className="flex items-center mb-16 justify-between">
+        <div className="flex items-center mb-16 justify-between w-full">
           <div className="flex items-center flex-1 sm:flex-none sm:mr-16">
             <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden">
               <Image
@@ -56,18 +56,19 @@ const RidePassengerItem = ({
                 alt={partner.partner_name}
               />
             </div>
-            <div className="text-sm md:text-base mr-12 flex items-stretch flex-1 ml-8 w-full text-primary">
-              <span className="flex-1 my-auto font-semibold text-14 md:text-16">
+
+            <div className="text-sm md:text-base mr-12 flex items-stretch flex-1 ml-8 text-primary max-w-[250px]">
+              <span className="flex-1 my-auto font-semibold text-14 md:text-16 line-clamp-1 word-wrap-anywhere">
                 {partner.partner_name}
               </span>
             </div>
 
             <span
+              className="h-fit ml-auto sm:ml-unset whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] right-0"
               style={{
                 color: (RIDE_STATE_TEXT_COLOR as any)?.[data.state],
                 backgroundColor: (RIDE_STATE_BG as any)?.[data.state],
               }}
-              className="h-fit ml-auto sm:ml-unset whitespace-nowrap text-[10px] sm:text-12 px-[8px] py-[4px] rounded-[5px] right-0"
             >
               {(RIDE_STATE_NAME as any)?.[data.state]}
             </span>
@@ -79,6 +80,10 @@ const RidePassengerItem = ({
             </a>
             <button onClick={() => onChat?.(partner.partner_id)}>
               <MessageIcon className="text-primary w-[24px] h-[24px]" />
+            </button>
+
+            <button onClick={() => onClickViewMap?.()} className="flex-center ml-16">
+              <LocationThinIcon className="w-[19px] h-[21px] text-primary" />
             </button>
           </div>
         </div>

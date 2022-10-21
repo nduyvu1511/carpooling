@@ -28,7 +28,7 @@ export const ButtonSubmit = ({
       } btn-submit ${parentClassName} z-[100]`}
     >
       <button
-        onClick={() => onClick && onClick()}
+        onClick={() => !disabled && onClick?.()}
         type="submit"
         className={`btn-primary mx-auto md:mx-[unset] h-[48px] ${
           showMargin ? "" : ""

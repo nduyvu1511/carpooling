@@ -144,24 +144,15 @@ const DriverInfo = () => {
                 ))}
               </div>
 
-              {userInfo?.verified_car_driver_account !== "inactive_account" ? (
+              {userInfo?.verified_car_driver_account === "inactive_account" ? (
                 <ButtonSubmit
                   className="flex-center"
-                  title="Tiếp tục"
+                  title="Hoàn thành"
                   view={"page"}
                   onClick={handleCreateDriverForm}
+                  disabled={filledDataCount.current < filledDataCount.total}
                 />
-              ) : // <div className="flex-center absolute left-0 right-0 bottom-0 py-16 px-custom">
-              //   <button
-              //     onClick={handleCreateDriverForm}
-              //     className={`btn-primary ${
-              //       filledDataCount.current < filledDataCount.total ? "btn-not-allowed" : ""
-              //     }`}
-              //   >
-              //     Gửi hồ sơ
-              //   </button>
-              // </div>
-              null}
+              ) : null}
             </>
           )}
         </div>

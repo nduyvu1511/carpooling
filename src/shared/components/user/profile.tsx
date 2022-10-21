@@ -104,6 +104,8 @@ const Profile = ({ type }: ProfileProps) => {
                     layout="fill"
                     alt=""
                     objectFit="cover"
+                    width={140}
+                    height={140}
                   />
                 </div>
               </label>

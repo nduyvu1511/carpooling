@@ -2,7 +2,7 @@ import { CompoundingType, LastMessage, MessageRes, OptionModel, TimeType } from 
 import _ from "lodash"
 import moment from "moment"
 import { LatLng } from "use-places-autocomplete"
-import { BASE64_READER_REGEX } from "./constants"
+import { BASE64_READER_REGEX, OBJECT_ID_REGEX } from "./constants"
 
 export const correctEmail = (value: string) => {
   ;/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
@@ -370,4 +370,8 @@ export const getLastMessage = (params: MessageRes): LastMessage => {
     message_text: getMessageDescription(params),
     room_id: params.room_id,
   }
+}
+
+export const isObjectID = (val: string): boolean => {
+  return OBJECT_ID_REGEX.test(val)
 }

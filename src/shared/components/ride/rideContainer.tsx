@@ -117,7 +117,7 @@ const RideContainer = ({
                   dataLength={list?.length || 0}
                   next={() => onFetchMore?.()}
                   hasMore={hasMore}
-                  loader={isFetchingMore ? <Spinner size={30} className="py-[20px]" /> : null}
+                  loader={isFetchingMore ? <Spinner size={24} className="py-[20px]" /> : null}
                 >
                   <ul className={gridStyle}>
                     {list?.length > 0 &&
