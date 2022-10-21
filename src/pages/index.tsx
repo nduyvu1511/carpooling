@@ -7,7 +7,7 @@ import {
   NewsSlide,
   PlaceSlide,
   PromotionBanner,
-  Seo,
+  Seo
 } from "@/components"
 import { DOMAIN_URL } from "@/helper"
 import { useNews } from "@/hooks"

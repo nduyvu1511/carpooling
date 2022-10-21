@@ -99,7 +99,6 @@ const RideContainer = ({
               itemActive={defaultParams?.compounding_type}
               onChange={(val) => onFilterRide?.({ compounding_type: val as CompoundingType })}
             />
-            {/* <div className="bg-white-color relative h-[3px] top-[-9px] mx-[-12px] md:mx-[-16px] z-[801] lg:mx-[-24px]"></div> */}
 
             {isValidating ? (
               <ul className={gridStyle}>
