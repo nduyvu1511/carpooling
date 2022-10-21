@@ -9,7 +9,7 @@ import {
   Seo,
 } from "@/components"
 import { isObjectHasValue } from "@/helper"
-import { useCompoundingCarActions, useCustomerCheckout } from "@/hooks"
+import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import {
   CancelRideParams,
@@ -32,33 +32,12 @@ const CheckoutCustomer = () => {
 
   const {
     data: compoundingCar,
-    error,
     mutate,
-  } = useSWR<CompoundingCarCustomer>(
-    compounding_car_customer_id ? `booking_checkout_customer_${compounding_car_customer_id}` : null,
-    () =>
-      rideAPI
-        .getDetailCompoundingCarCustomer({
-          compounding_car_customer_id: Number(compounding_car_customer_id),
-        })
-        .then((res: AxiosResponse<any>) => {
-          const data = res?.result?.data
-          if (isObjectHasValue(data)) {
-            setState(data.state)
-            return data
-          }
-
-          return null
-        })
-        .catch((err) => console.log(err)),
-
-    {
-      dedupingInterval: 1000,
-      revalidateOnFocus: state === "confirm",
-    }
-  )
-
-  const isInitialLoading = error === undefined && compoundingCar === undefined
+    isInitialLoading,
+  } = useCompoundingCarCustomer({
+    key: `booking_checkout_customer_${compounding_car_customer_id}`,
+    type: "once",
+  })
 
   useEffect(() => {
     if (compoundingCar === undefined) return
