@@ -1,4 +1,11 @@
-import { CompoundingType, LastMessage, MessageRes, OptionModel, TimeType } from "@/models"
+import {
+  CompoundingCarCustomerState,
+  CompoundingCarDriverState,
+  LastMessage,
+  MessageRes,
+  OptionModel,
+  TimeType,
+} from "@/models"
 import _ from "lodash"
 import moment from "moment"
 import { LatLng } from "use-places-autocomplete"
@@ -374,4 +381,55 @@ export const getLastMessage = (params: MessageRes): LastMessage => {
 
 export const isObjectID = (val: string): boolean => {
   return OBJECT_ID_REGEX.test(val)
+}
+
+export const compareCompoundingCarCustomerState = ({
+  currentState,
+  targetState,
+}: {
+  currentState: CompoundingCarCustomerState
+  targetState: CompoundingCarCustomerState
+}): "less" | "equal" | "greater" => {
+  const arr = {
+    draft: 1,
+    confirm: 2,
+    deposit: 3,
+    waiting: 4,
+    assign: 5,
+    in_process: 6,
+    done: 7,
+    customer_pay: 9,
+    confirm_paid: 10,
+    cancel: 11,
+  }
+
+  const currentIndex = arr[currentState]
+  const targetIndex = arr[targetState]
+
+  return currentIndex > targetIndex ? "greater" : currentIndex === targetIndex ? "equal" : "less"
+}
+
+export const compareCompoundingCarDriverState = ({
+  currentState,
+  targetState,
+}: {
+  currentState: CompoundingCarDriverState
+  targetState: CompoundingCarDriverState
+}): "less" | "equal" | "greater" => {
+  const arr = {
+    draft: 1,
+    waiting_deposit: 2,
+    waiting: 3,
+    confirm_deposit: 4,
+    confirm: 5,
+    start_running: 6,
+    stop_picking: 7,
+    done: 8,
+    cancel: 9,
+  }
+
+  const currentIndex = arr[currentState]
+  const targetIndex = arr[targetState]
+
+  return currentIndex > targetIndex ? "greater" : currentIndex === targetIndex ? "equal" : "less"
 }

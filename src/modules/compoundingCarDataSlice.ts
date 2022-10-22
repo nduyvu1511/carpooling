@@ -1,4 +1,4 @@
-import { setToSessionStorage } from "@/helper"
+import { getFromSessionStorage, setToSessionStorage } from "@/helper"
 import { CarIdType, ProvinceId, VehicleTypeParams } from "@/models"
 import { addressAPI, userAPI } from "@/services"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
@@ -23,10 +23,10 @@ const initialState: CompoundingSlice = {
   vehicleTypes: [],
 }
 
-// try {
-//   initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
-//   initialState.provinces = getFromSessionStorage("compounding_provinces") || []
-// } catch (error) {}
+try {
+  initialState.vehicleTypes = getFromSessionStorage("compounding_vehicleTypes") || []
+  initialState.provinces = getFromSessionStorage("compounding_provinces") || []
+} catch (error) {}
 
 const compoundingCarDataSlice = createSlice({
   name: "compounding",

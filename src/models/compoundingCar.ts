@@ -41,7 +41,7 @@ export type CompoundingCarCustomerState =
   | "customer_pay" //thanh toan online
   | "confirm_paid" //thanh toan het
   | "cancel" //huy
-  | "waiting_customer"
+// | "waiting_customer"
 
 export interface VehicleTypeParams {
   car_id: number

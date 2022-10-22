@@ -1,12 +1,14 @@
 import {
   Checkout,
   CheckoutLoading,
+  CheckoutPaid,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
   Seo,
 } from "@/components"
+import { compareCompoundingCarDriverState } from "@/helper"
 import { useCompoundingCarDriver, useDriverCheckout } from "@/hooks"
 import { BookingLayout, DriverLayout } from "@/layout"
 import { CancelRideParams, DepositCompoundingCarDriverRes, PaymentRes } from "@/models"
@@ -47,13 +49,13 @@ const CheckoutDriver = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compounding_car_id])
 
-  useEffect(() => {
-    if (!compoundingCar) return
-    if (compoundingCar?.state === "confirm_deposit") {
-      redirectToCheckoutSuccess()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compoundingCar])
+  // useEffect(() => {
+  //   if (!compoundingCar) return
+  //   if (compoundingCar?.state === "confirm_deposit") {
+  //     redirectToCheckoutSuccess()
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [compoundingCar])
 
   const redirectToCheckoutSuccess = () => {
     router.push(`/d/ride-detail/checkout/checkout-success?compounding_car_id=${compounding_car_id}`)
@@ -98,7 +100,8 @@ const CheckoutDriver = () => {
             })
             .catch((err) => console.log(err))
         } else {
-          window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
+          router.replace(data.vnpay_payment_url)
+          // window.open(data.vnpay_payment_url, "name", "height=600,width=800")?.focus()
         }
       },
     })
@@ -127,25 +130,36 @@ const CheckoutDriver = () => {
         <CheckoutLoading />
       ) : (
         <>
-          {compoundingCar ? (
-            <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-          ) : null}
+          {deposit?.payment_id && compoundingCar?.compounding_car_id ? (
+            <>
+              {compareCompoundingCarDriverState({
+                currentState: compoundingCar?.state,
+                targetState: "confirm_deposit",
+              }) === "greater" ? (
+                <CheckoutPaid
+                  link={`/d/booking/checkout-success?compounding_car_id=${compounding_car_id}`}
+                />
+              ) : (
+                <>
+                  <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
 
-          {deposit && compoundingCar ? (
-            <Checkout
-              type="deposit"
-              checkoutData={{
-                amount_due: deposit.amount_due,
-                amount_total: deposit.amount_total,
-                down_payment: deposit.down_payment,
-              }}
-              data={compoundingCar}
-              descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
-              secondsRemains={+deposit.second_remains}
-              onCheckout={(id) => handleCreatePayment(id)}
-              onCancelCheckout={handleCancelCompoundingCar}
-              returnedUrl={`/d/ride-detail/checkout/${compoundingCar?.compounding_car_id}`}
-            />
+                  <Checkout
+                    type="deposit"
+                    checkoutData={{
+                      amount_due: deposit.amount_due,
+                      amount_total: deposit.amount_total,
+                      down_payment: deposit.down_payment,
+                    }}
+                    data={compoundingCar}
+                    descRideTooltip="số tiền còn lại sẽ được hoàn trả sau khi hoàn thành chuyến đi."
+                    secondsRemains={+deposit.second_remains}
+                    onCheckout={(id) => handleCreatePayment(id)}
+                    onCancelCheckout={handleCancelCompoundingCar}
+                    returnedUrl={`/d/ride-detail/checkout/${compoundingCar?.compounding_car_id}`}
+                  />
+                </>
+              )}
+            </>
           ) : null}
         </>
       )}

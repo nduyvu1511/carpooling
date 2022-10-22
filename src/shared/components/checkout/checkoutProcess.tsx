@@ -1,4 +1,4 @@
-import { ErrorCircleIcon, WarningIcon } from "@/assets"
+import { CheckCircleIcon, ErrorCircleIcon, WarningIcon } from "@/assets"
 import { Countdown, Spinner } from "@/components"
 import { VNPAY_STATUS_NAME } from "@/helper"
 import {
@@ -6,7 +6,7 @@ import {
   CompoundingCarDriverRes,
   CompoundingType,
   TransactionRes,
-  VnpayStatus,
+  VnpayStatus
 } from "@/models"
 import { setCheckoutPaymentId } from "@/modules"
 import { chatAPI, rideAPI, userAPI } from "@/services"
@@ -26,6 +26,8 @@ interface CheckoutProcessProps {
   payment_id?: number
   sale_order_id?: number
   compounding_type?: CompoundingType
+  onRedirect: Function
+  onBack: Function
 }
 
 const CheckoutProcess = ({
@@ -35,6 +37,8 @@ const CheckoutProcess = ({
   compounding_car_id,
   payment_id,
   compounding_type,
+  onRedirect,
+  onBack,
 }: CheckoutProcessProps) => {
   const dispatch = useDispatch()
   const [isValidating, setValidating] = useState<boolean>(false)
@@ -67,7 +71,7 @@ const CheckoutProcess = ({
             if (compounding_car_id && compounding_type === "compounding") {
               chatAPI.joinRoomByCompoundingCarId(Number(compounding_car_id))
             }
-            window.close()
+            onRedirect?.()
           }
         })
         .catch(() => setValidating(false))
@@ -93,8 +97,7 @@ const CheckoutProcess = ({
             //     compounding_car_id: data.compounding_car_id,
             //   })
             // }
-
-            window.close()
+            onRedirect?.()
           }
         })
         .catch(() => setValidating(false))
@@ -106,7 +109,7 @@ const CheckoutProcess = ({
         .then((res: AxiosResponse<TransactionRes>) => {
           setValidating(false)
           if (res.result.data?.state === "posted") {
-            window.close()
+            onRedirect?.()
           }
         })
         .catch(() => setValidating(false))
@@ -115,7 +118,7 @@ const CheckoutProcess = ({
   }, [])
 
   return (
-    <div className="container flex-1 block-element p-custom py-24">
+    <div className="w-full h-full">
       {isValidating ? (
         <div className="flex flex-col bg-info-10 rounded-[8px] p-custom">
           <div className=" flex-center flex-col">
@@ -128,30 +131,44 @@ const CheckoutProcess = ({
             </p>
             <div className="my-16 border-b border-info border-solid w-full"></div>
 
-            <p className="text-sm md:text-base text-center">
+            <p className="text-sm text-center">
               Giao dịch đang trong quá trình thanh toán, vui lòng chờ thông tin hoặc liên hệ Tổng
               đài ExxeVn nếu cần thêm hỗ trợ
             </p>
           </div>
+
+          <div className="fixed z-[2000] bg-[rgba(0,0,0,0.4)] inset-0 flex justify-center">
+            <Spinner className="z-10 text-primary" size={40} />
+          </div>
         </div>
-      ) : vnp_ResponseCode !== "00" ? (
-        <div className="">
-          <div className="p-16 sm:p-[32px] flex-center flex-col bg-[#FDF3F3] mb-24 rounded-[8px]">
-            <ErrorCircleIcon className="w-[66px] h-[66px] mb-24" />
-
-            <p className="text-18 md:text-[22px] text-center text-error font-semibold">
-              Giao dịch không thành công
+      ) : (
+        <>
+          <div
+            style={{ backgroundColor: vnp_ResponseCode === "00" ? "#F4FDF7" : "#FDF3F3" }}
+            className="p-16 sm:p-[32px] flex-center flex-col mb-24 rounded-[8px]"
+          >
+            {vnp_ResponseCode === "00" ? (
+              <CheckCircleIcon className="text-success w-[66px] h-[66px] mb-24" />
+            ) : (
+              <ErrorCircleIcon className="w-[66px] h-[66px] mb-24" />
+            )}
+            <p
+              style={{ color: vnp_ResponseCode === "00" ? "#008F5D " : "#FF3B30" }}
+              className="text-18 md:text-[22px] text-center font-semibold"
+            >
+              {vnp_ResponseCode === "00" ? "Giao dịch thành công" : "Giao dịch không thành công"}
             </p>
-
-            <div className="my-16 border-b border-[#F2A0A0] border-solid w-full"></div>
-
+            <div
+              style={{ borderColor: vnp_ResponseCode === "00" ? "#A7F2C1" : "#F2A0A0" }}
+              className="my-16 border-b border-solid w-full"
+            ></div>
             <p className="text-sm ml-12 leading-[22px] flex-1 text-center">
               {VNPAY_STATUS_NAME[vnp_ResponseCode]}
             </p>
           </div>
 
           <div className="flex-center flex-col">
-            <button onClick={() => window.close()} className="btn-primary mb-24">
+            <button onClick={() => onBack?.()} className="btn-primary mb-24">
               Trở về trang thanh toán
             </button>
 
@@ -160,21 +177,16 @@ const CheckoutProcess = ({
                 <span className="text-sm text-gray-color-7">Tự động chuyển hướng sau </span>
                 <Countdown
                   className="w-[50px] inline-block font-semibold text-primary"
-                  onExpiredCoundown={() => window.close()}
+                  onExpiredCoundown={() => onBack?.()}
                   secondsRemains={countdown}
                 />
               </p>
             ) : null}
           </div>
-        </div>
-      ) : null}
-
-      {isValidating ? (
-        <div className="fixed z-[2000] bg-[rgba(0,0,0,0.2)] inset-0 flex-center">
-          <Spinner className="z-10" size={40} />
-        </div>
-      ) : null}
+        </>
+      )}
     </div>
   )
 }
 export { CheckoutProcess }
+

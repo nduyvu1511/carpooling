@@ -15,7 +15,7 @@ const CheckoutSuccess = () => {
 
   useBackRouter({
     cb: (as) => {
-      if (as.includes("/c/booking/checkout")) {
+      if (as.includes("/c/booking")) {
         setTimeout(() => {
           router.push("/c")
         }, 0)
@@ -29,7 +29,11 @@ const CheckoutSuccess = () => {
         title="Đặt chuyến thành công"
         url={`c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`}
       />
-      <HeaderMobile className="md:hidden" title="Đặt chuyến thành công" />
+      <HeaderMobile
+        onBackBtnClick={() => router.push("/c")}
+        className="md:hidden"
+        title="Đặt chuyến thành công"
+      />
       <div className="content-container md:py-custom pb-[70px] md:pb-[70px] mt-[56px] md:mt-0">
         <div className="block-element p-custom">
           {isValidating ? (

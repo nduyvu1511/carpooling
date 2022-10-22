@@ -13,13 +13,13 @@ interface Res {
 
 interface Props {
   key: string
-  type: "once" | "autoFocus"
+  type?: "once" | "autoFocus"
   compounding_car_customer_id?: number
 }
 
 export const useCompoundingCarCustomer = ({
   key,
-  type,
+  type = "once",
   compounding_car_customer_id,
 }: Props): Res => {
   const { isValidating, data, error, mutate } = useSWR<CompoundingCarCustomer, any>(

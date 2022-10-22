@@ -14,6 +14,8 @@ const CheckingRechargeStatus = () => {
     <>
       {currentPaymentId && vnp_ResponseCode ? (
         <CheckoutProcess
+          onBack={() => window.close()}
+          onRedirect={() => window.close()}
           fetcher_type="confirmRechargeRequest"
           vnp_ResponseCode={vnp_ResponseCode as VnpayStatus}
           payment_id={currentPaymentId}

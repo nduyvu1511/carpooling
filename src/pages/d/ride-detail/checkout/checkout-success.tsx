@@ -18,18 +18,21 @@ const CheckoutSuccess = () => {
   const breakpoints = useBreakpoint()
   const router = useRouter()
   const { compounding_car_id } = router.query
+  const { createSingleChat } = useChatActions()
   const { data: compoundingCar, isValidating } = useCompoundingCarDriver({
     key: `get_compounding_car_customer_detail_checkout_${compounding_car_id}`,
     type: "once",
     compounding_car_id: Number(compounding_car_id),
   })
-  const { createSingleChat } = useChatActions()
-
   const [show, setShow] = useState<boolean>(true)
 
   useBackRouter({
-    cb: () => {
-      router.push("/d")
+    cb: (as) => {
+      if (as.includes("/d/booking")) {
+        setTimeout(() => {
+          router.push("/d")
+        }, 0)
+      }
     },
   })
 

@@ -91,7 +91,7 @@ export const PromotionCheckout = ({
   }
 
   return (
-    <>
+    <div className={`${disabled ? "pointer-events-none opacity-40 select-none" : ""}`}>
       <p className="text-base font-semibold uppercase mb-16 md:mb-24">MÃ KHUYẾN MÃI</p>
       <PromotionForm
         disabled={disabled}
@@ -109,6 +109,6 @@ export const PromotionCheckout = ({
           compounding_car_customer_id={compounding_car_customer_id}
         />
       ) : null}
-    </>
+    </div>
   )
 }
