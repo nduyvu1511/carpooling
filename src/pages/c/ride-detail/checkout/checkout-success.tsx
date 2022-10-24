@@ -16,7 +16,7 @@ const RideDoneCustomer = () => {
   useBackRouter({
     cb: (as) => {
       if (as.includes(`/c/ride-detail/checkout`)) {
-        router.push("/c")
+        router.push("/")
       }
     },
   })
@@ -64,7 +64,7 @@ const RideDoneCustomer = () => {
               </div>
 
               <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12 flex-center">
-                <Link href="/c">
+                <Link href="/">
                   <a className="btn-primary-outline px-12 sm:px-[28px] h-[48px] mr-12 md:mr-16">
                     Trang chủ
                   </a>

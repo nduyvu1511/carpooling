@@ -111,9 +111,7 @@ export const Map = ({
         getAddressFromLngLat({ lat, lng })
       },
       onError: () => {
-        setTimeout(() => {
-          setShowAlert(true)
-        }, 1000)
+        setShowAlert(true)
       },
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,7 +152,7 @@ export const Map = ({
   }
 
   const handleConfirmLocation = () => {
-    if (!currentAddress?.address) return
+    if (currentAddress?.lat === 0 && currentAddress?.lng === 0) return
 
     const province_id = getProvinceIdByGooglePlace(currentAddress.address)
     if (!province_id) {
@@ -246,7 +244,9 @@ export const Map = ({
           <span
             onClick={handleConfirmLocation}
             className={`btn-primary mx-auto ${
-              !currentAddress?.lat || mapLoading ? "btn-disabled" : ""
+              (currentAddress?.lat === 0 && currentAddress?.lng === 0) || mapLoading
+                ? "btn-disabled"
+                : ""
             }`}
           >
             Xác nhận

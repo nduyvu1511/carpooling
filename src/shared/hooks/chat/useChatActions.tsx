@@ -3,6 +3,7 @@ import { setCurrentRoomId } from "@/modules"
 import { chatAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
+import { notify } from "reapop"
 import { useAsync } from "../utilities"
 
 interface UseChatActionsRes {
@@ -22,6 +23,17 @@ export const useChatActions = (): UseChatActionsRes => {
 
   const createSingleChat = (_: UseParams<CreateSingleChat, RoomDetailRes>) => {
     const { params, onSuccess, config, onError } = _
+
+    if (
+      params?.state !== "deposit" &&
+      params?.state !== "in_process" &&
+      params?.state !== "waiting" &&
+      params?.state !== "assign"
+    ) {
+      dispatch(notify("Bạn không thể tạo phòng chat ở trạng thái này", "warning"))
+      return
+    }
+
     asyncHandler<RoomDetailRes>({
       fetcher: chatAPI.createSingleChat(params),
       onSuccess: (data) => {

@@ -103,7 +103,7 @@ const PromotionButton = () => {
       onClick={() => router.push("/promotion")}
       className={`fixed bottom-[48px] md:bottom-[66px] lg:bottom-[100px] right-24 md:right-[36px] bg-bg-error-2 flex-center text-base font-semibold text-error py-[10px]
      md:py-[15px] px-[20px] md:px-[28px] rounded-[30px] shadow-shadow-3 z-[100] transition-all duration-300 ${
-       height > 300 ? "opacity-100 visible" : "opacity-0 invisible"
+       height > 200 ? "opacity-100 visible" : "opacity-0 invisible"
      }`}
     >
       <CouponFillIcon className="mr-8" /> Ưu đãi

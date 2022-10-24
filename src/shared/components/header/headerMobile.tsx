@@ -54,7 +54,7 @@ const HeaderMobile = ({
             <ul className="p-8 rounded-[5px] w-[220px] block-element border border-gray-color-1 border-solid absolute top-[calc(100%-0px)] right-0">
               <li
                 onClick={() => {
-                  router.push(userInfo?.car_account_type === "car_driver" ? "/d" : "/c")
+                  router.push("/")
                   setShowMenu(false)
                 }}
                 className="flex items-center p-12 cursor-pointer hover:bg-bg rounded-[5px]"

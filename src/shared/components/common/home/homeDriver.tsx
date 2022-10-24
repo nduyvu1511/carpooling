@@ -1,7 +1,6 @@
 import { RideContainer, Seo } from "@/components"
 import { isObjectHasValue } from "@/helper"
 import { useQueryCompoundingCarDriver, useQueryCompoundingCarParams } from "@/hooks"
-import { DriverLayout } from "@/layout"
 import { CompoundingFilterParams } from "@/models"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -40,8 +39,8 @@ const HomeDriver = () => {
   }
 
   return (
-    <DriverLayout showHeaderOnMobile>
-      <Seo title="Các chuyến đi chưa có tài xế" url={"d"} />
+    <>
+      <Seo title="Các chuyến đi chưa có tài xế" url={""} />
 
       <RideContainer
         hasMore={hasMore}
@@ -57,8 +56,9 @@ const HomeDriver = () => {
         onFilterRide={(data) => handleFilterRides(data)}
         key="car_driver"
       />
-    </DriverLayout>
+    </>
   )
 }
 
-export default HomeDriver
+export { HomeDriver }
+

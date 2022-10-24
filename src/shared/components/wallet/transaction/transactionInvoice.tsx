@@ -1,3 +1,4 @@
+import { RideDriverSummary } from "@/components/summary"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 
 interface TransactionInvoiceProps {
@@ -7,13 +8,8 @@ interface TransactionInvoiceProps {
 export const TransactionInvoice = ({ data }: TransactionInvoiceProps) => {
   return (
     <div>
-      {/* <RideSummaryInfo data={data as CompoundingCarRes} />
-      <DriverDepositInfo
-        discount_after_tax={20000}
-        amount_total={data.amount_total || 0}
-        down_payment={data.down_payment}
-        deposit_date={data.deposit_date}
-      /> */}
+      <p className="title-uppercase mb-16">Thông tin thanh toán</p>
+      <RideDriverSummary data={data} />
     </div>
   )
 }

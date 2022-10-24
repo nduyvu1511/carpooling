@@ -1,4 +1,5 @@
 import { AttachmentId, AttachmentRes, ListRes, QueryCommonParams } from "./common"
+import { CompoundingCarCustomerState } from "./compoundingCar"
 import { MessageRes } from "./message"
 import { FriendStatusRes, IUser } from "./user"
 
@@ -76,6 +77,7 @@ export type LastMessage = Pick<
 export interface CreateSingleChat {
   partner_id: number | string
   compounding_car_id: number
+  state: CompoundingCarCustomerState
 }
 
 export interface CreateGroupChat {

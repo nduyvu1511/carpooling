@@ -163,7 +163,7 @@ const DriverInfo = () => {
         title="Cảm ơn bạn đã điền đủ thông tin"
         desc="Hồ sơ của bạn đang được xét duyệt, bộ phận Nhân Sự của Exxe sẽ liên hệ với bạn sớm nhất"
         onClose={() => setOpenAlert(false)}
-        onConfirm={() => router.push("/d")}
+        onConfirm={() => router.push("/")}
       />
     </DriverEmptyLayout>
   )

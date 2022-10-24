@@ -99,11 +99,11 @@ export const Chat = memo(function _Chat() {
     })
 
     socket.on("member_join_room", (params: any) => {
-      console.log("new member join room: ", params)
+      // console.log("new member join room: ", params)
     })
 
     socket.on("member_leave_room", (params: any) => {
-      console.log("new member join room: ", params)
+      // console.log("new member join room: ", params)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

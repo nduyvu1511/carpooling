@@ -111,14 +111,12 @@ export const Promotion = ({ className }: PromotionProps) => {
               {data?.map((item) => (
                 <PromotionItem
                   onSave={handleSavePromotion}
+                  onApply={() => router.push("/")}
+                  key={item.promotion_id}
+                  data={item}
                   onClick={(id) => {
                     toggleModal(id)
                   }}
-                  onApply={() =>
-                    router.push(userInfo?.car_account_type === "car_driver" ? "/d" : "/c")
-                  }
-                  key={item.promotion_id}
-                  data={item}
                 />
               ))}
             </div>

@@ -30,7 +30,7 @@ const RideCanceledPage = () => {
       ) : null}
 
       <div className="flex justify-center md:justify-start mt-40 mb-12">
-        <button onClick={() => router.push("/c")} className="btn-primary-outline">
+        <button onClick={() => router.push("/")} className="btn-primary-outline">
           Về trang chủ
         </button>
       </div>

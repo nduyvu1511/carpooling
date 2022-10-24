@@ -5,7 +5,7 @@ import {
   RideDoneIcon,
   RidePaidIcon,
   RidePickupIcon,
-  RideWaitingIcon,
+  RideWaitingIcon
 } from "@/assets"
 import {
   Alert,
@@ -18,7 +18,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  Seo,
+  Seo
 } from "@/components"
 import { RIDE_STATE_COLOR } from "@/helper"
 import { useChatActions, useCompoundingCarProcess, useCurrentLocation } from "@/hooks"

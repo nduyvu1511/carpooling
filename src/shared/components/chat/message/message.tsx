@@ -34,7 +34,7 @@ export const Message = ({
     >
       <InfiniteScroll
         inverse
-        className="px-12 lg:p-16"
+        className="px-12 lg:p-16 min-h-full"
         scrollableTarget="messageScrollable"
         loader={isFetchingMore ? <Spinner size={20} /> : null}
         hasMore={data.has_more}
@@ -50,7 +50,7 @@ export const Message = ({
           ? data.data.map((item, index) => {
               const messages = data?.data || []
               const prevMsg = messages[index - 1]
-              const nextMsg = messages[index + 1] 
+              const nextMsg = messages[index + 1]
 
               const shouldShowDate =
                 !prevMsg || !moment(item?.created_at).isSame(moment(prevMsg?.created_at), "date")

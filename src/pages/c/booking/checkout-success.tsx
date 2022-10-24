@@ -17,7 +17,7 @@ const CheckoutSuccess = () => {
     cb: (as) => {
       if (as.includes("/c/booking")) {
         setTimeout(() => {
-          router.push("/c")
+          router.push("/")
         }, 0)
       }
     },
@@ -30,7 +30,7 @@ const CheckoutSuccess = () => {
         url={`c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`}
       />
       <HeaderMobile
-        onBackBtnClick={() => router.push("/c")}
+        onBackBtnClick={() => router.push("/")}
         className="md:hidden"
         title="Đặt chuyến thành công"
       />
@@ -58,7 +58,7 @@ const CheckoutSuccess = () => {
               ) : null}
 
               <div className="content-container fixed bottom-0 right-0 left-0 bg-white-color z-10 p-12">
-                <Link href="/c">
+                <Link href="/">
                   <a className="btn-primary-outline mx-auto">Về trang chủ</a>
                 </Link>
               </div>

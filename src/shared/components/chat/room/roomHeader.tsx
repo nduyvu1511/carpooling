@@ -1,9 +1,8 @@
-import { MultiUserIcon } from "@/assets"
+import { ArrowLeft2Icon, MultiUserIcon } from "@/assets"
 import { toFirstUpperCase } from "@/helper"
 import { RoomDetailRes } from "@/models"
 import { setCurrentRoomId } from "@/modules"
 import moment from "moment"
-import { MdOutlineArrowBackIosNew } from "react-icons/md"
 import { useDispatch } from "react-redux"
 import { Avatar } from "../user/avatar"
 
@@ -18,7 +17,8 @@ export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
     <div className="h-full px-16 flex-center">
       <div className="mr-12 md:hidden">
         <button className="p-8" onClick={() => dispatch(setCurrentRoomId(undefined))}>
-          <MdOutlineArrowBackIosNew className="text-sm text-gray-color-4" />
+          {/* <MdOutlineArrowBackIosNew className="text-sm text-gray-color-4" /> */}
+          <ArrowLeft2Icon className="w-[10px] h-[16px]" />
         </button>
       </div>
 

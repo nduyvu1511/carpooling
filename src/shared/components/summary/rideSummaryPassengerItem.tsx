@@ -8,9 +8,14 @@ import { SummaryItem } from "./summaryItem"
 interface RideSummaryPassengerItemProps {
   data: CompoundingCarCustomer | CustomerInvoice
   onChat?: (id: number) => void
+  showContactButtons?: boolean
 }
 
-const RideSummaryPassengerItem = ({ data, onChat }: RideSummaryPassengerItemProps) => {
+const RideSummaryPassengerItem = ({
+  data,
+  onChat,
+  showContactButtons = true,
+}: RideSummaryPassengerItemProps) => {
   return (
     <>
       <div className="flex items-center justify-between mb-24">
@@ -28,14 +33,16 @@ const RideSummaryPassengerItem = ({ data, onChat }: RideSummaryPassengerItemProp
           </p>
         </div>
 
-        <div className="items-center flex">
-          <a className="mr-16" href={`tel:${data.partner.phone}`}>
-            <PhoneIcon2 className="w-[18px] h-[18px]" />
-          </a>
-          <button onClick={() => onChat?.(data.partner.partner_id)}>
-            <MessageIcon className="text-primary w-[24px] h-[24px]" />
-          </button>
-        </div>
+        {showContactButtons ? (
+          <div className="items-center flex">
+            <a className="mr-16" href={`tel:${data.partner.phone}`}>
+              <PhoneIcon2 className="w-[18px] h-[18px]" />
+            </a>
+            <button onClick={() => onChat?.(data.partner.partner_id)}>
+              <MessageIcon className="text-primary w-[24px] h-[24px]" />
+            </button>
+          </div>
+        ) : null}
       </div>
       <SummaryItem
         label="Điểm đón"

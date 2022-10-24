@@ -54,18 +54,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
       <HeaderWrapper className={className}>
         <div className="container">
           <div className="flex items-center justify-between">
-            <div
-              onClick={() =>
-                router.push(
-                  userInfo?.car_account_type === "car_driver"
-                    ? "/d"
-                    : userInfo?.car_account_type === "customer"
-                    ? "/c"
-                    : "/"
-                )
-              }
-              className=""
-            >
+            <div onClick={() => router.push("/")}>
               <LogoIcon className="cursor-pointer" />
             </div>
 

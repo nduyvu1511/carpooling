@@ -1295,7 +1295,7 @@ input[type="number"] {
   & .chat-message {
     &-list {
       scrollbar-width: thin;
-      max-height: calc(100vh - 188px);
+      max-height: calc(100vh - 132px);
 
       @media screen and(min-width: 768px) {
         max-height: calc(100vh - 242px);
@@ -1388,4 +1388,8 @@ input[type="number"] {
       padding-bottom: 24px;
     }
   }
+}
+
+.infinite-scroll-component {
+  overflow: unset !important;
 }

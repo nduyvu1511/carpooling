@@ -1,6 +1,6 @@
 import { ButtonSubmit, InputDate, InputImage } from "@/components"
 import { idCardFormFields, identityCardSchema } from "@/helper"
-import { useAddress } from "@/hooks"
+import { useAddress, useDebounce } from "@/hooks"
 import {
   IdCardName,
   IdCardParams,
@@ -42,6 +42,10 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
       identity_number: defaultValues?.identity_number,
       place_of_issue: defaultValues?.place_of_issue?.value
         ? defaultValues.place_of_issue
+        : Number(defaultValues?.place_of_issue)
+        ? provinceOptions.find(
+            ({ value }) => Number(value) === Number((defaultValues as IdCardSchema)?.place_of_issue)
+          )
         : undefined,
       address: defaultValues?.address,
     },
@@ -116,15 +120,16 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
                 render={({ field: { onChange, onBlur } }) => (
                   <div onBlur={onBlur} className="form-select">
                     <Select
+                      menuShouldScrollIntoView={false}
                       value={getValues(field.name) || undefined}
                       className={`${errors?.[field.name] ? "form-select-error" : ""}`}
                       placeholder={field.placeholder}
-                      onChange={(val) => {
-                        onChange(val)
-                      }}
                       onBlur={onBlur}
                       id={field.name}
                       options={getOptionsSelect(field.name) as []}
+                      onChange={(val) => {
+                        onChange(val)
+                      }}
                     />
                   </div>
                 )}

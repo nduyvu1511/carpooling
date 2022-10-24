@@ -158,21 +158,6 @@ export const useRoom = (roomId?: string): UseRoomRes => {
     return index
   }
 
-  // const increaseMessageUnread = async (
-  //   params: MessageRes,
-  //   cb?: (_: number) => void,
-  //   onErr?: Function
-  // ) => {
-  //   try {
-  //     const res: any = await chatAPI.addMessageUnreadToRoom({ message_id: params.message_id })
-  //     if (res?.success) {
-  //       cb?.(res?.data?.message_unread_count || 0)
-  //     } else {
-  //       onErr?.()
-  //     }
-  //   } catch (error) {}
-  // }
-
   const clearMessagesUnreadFromRoom = async (roomId: string) => {
     if (!data?.data?.length) return
     const index = getRoomIndex(roomId)

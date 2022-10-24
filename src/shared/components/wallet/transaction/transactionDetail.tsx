@@ -34,7 +34,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
         <Spinner size={24} className="py-[24px]" />
       ) : (data as JournalDetailRes)?.payment_purpose ? (
         <>
-          <ul className="mb-[40px]">
+          <ul>
             <li className="flex items-start mb-12">
               <p className="text-xs w-[200px] mr-16">Mã giao dịch</p>
               <p className="text-14 md:text-16 font-semibold text-primary xs:flex-1 text-right xs:whitespace-nowrap">
@@ -48,7 +48,7 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
               </p>
             </li>
             <li className="flex items-start justify-between mb-16">
-              <p className="text-xs w-[200px] mr-16">Phương thức hoàn tiền</p>
+              <p className="text-xs w-[200px] mr-16">Loại giao dịch</p>
               <span
                 style={{
                   color: PAYMENT_PURPOSE_COLOR[(data as JournalDetailRes).payment_purpose]?.color,
@@ -70,9 +70,11 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
           </ul>
 
           {(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id ? (
-            <RideSummaryInfo
-              data={(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id}
-            />
+            <div className="mt-40">
+              <RideSummaryInfo
+                data={(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id}
+              />
+            </div>
           ) : null}
         </>
       ) : (data as DriverCompoundingCarInvoiceRes)?.compounding_car_id ? (

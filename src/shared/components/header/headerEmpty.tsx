@@ -10,18 +10,7 @@ export const HeaderEmpty = () => {
 
   return (
     <div className="container flex items-center justify-start h-full">
-      <div
-        onClick={() =>
-          router.push(
-            userInfo?.car_account_type === "car_driver"
-              ? "/d"
-              : userInfo?.car_account_type === "customer"
-              ? "/c"
-              : "/"
-          )
-        }
-        className=""
-      >
+      <div onClick={() => router.push("/")} className="">
         <LogoIcon className="cursor-pointer" />
       </div>
     </div>

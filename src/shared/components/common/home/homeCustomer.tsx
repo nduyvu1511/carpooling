@@ -2,7 +2,6 @@ import { Modal, RideContainer, Seo, UserInfoForm } from "@/components"
 import { RootState } from "@/core/store"
 import { isObjectHasValue } from "@/helper"
 import { useProfile, useQueryCompoundingCarCustomer, useQueryCompoundingCarParams } from "@/hooks"
-import { CustomerLayout } from "@/layout"
 import { CompoundingFilterParams, UpdateUserInfoParams, UserInfoFormSubmit } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
 import { useRouter } from "next/router"
@@ -10,12 +9,12 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 
-const HomeCustomer = () => {
+export const HomeCustomer = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const { updateUserInfo } = useProfile()
-  const authModalType = useSelector((state: RootState) => state.common.authModalType)
   const { getValueFromQuery } = useQueryCompoundingCarParams()
+  const authModalType = useSelector((state: RootState) => state.common.authModalType)
   const {
     data: rideList,
     isValidating,
@@ -53,19 +52,15 @@ const HomeCustomer = () => {
         dispatch(setProfile(userInfo))
         dispatch(notify("Cập nhật thông tin thành công!", "success"))
         dispatch(setAuthModalType(undefined))
-        router.push(userInfo.car_account_type === "car_driver" ? "/d" : "/c")
+        router.push("/")
       },
     })
   }
 
   return (
-    <CustomerLayout showHeaderOnMobile>
-      <Seo
-        description=""
-        thumbnailUrl=""
-        title="Các chuyến đi hiện có"
-        url={process.env.NEXT_PUBLIC_DOMAIN_URL + "/c"}
-      />
+    <>
+      <Seo title="Các chuyến đi hiện có" url={"c"} />
+
       <RideContainer
         hasMore={hasMore}
         isFetchingMore={isFetchingMore}
@@ -90,8 +85,6 @@ const HomeCustomer = () => {
           <UserInfoForm onSubmit={handleUpdateUserInfo} />
         </Modal>
       ) : null}
-    </CustomerLayout>
+    </>
   )
 }
-
-export default HomeCustomer

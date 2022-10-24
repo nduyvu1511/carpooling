@@ -16,12 +16,12 @@ const ConfirmCheckoutDriver = () => {
 
       {compounding_car_id ? (
         <CheckoutProcess
-          onBack={() => router.push(`/d/ride-detail/checkout/${compounding_car_id}`)}
+          onBack={() => router.replace(`/d/ride-detail/checkout/${compounding_car_id}`)}
           fetcher_type="confirmDepositForDriver"
           compounding_car_id={Number(compounding_car_id)}
           vnp_ResponseCode={vnp_ResponseCode as VnpayStatus}
           onRedirect={() =>
-            router.push(
+            router.replace(
               `/d/ride-detail/checkout/checkout-success?compounding_car_id=${compounding_car_id}`
             )
           }

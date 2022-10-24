@@ -16,16 +16,7 @@ const Maintance = () => {
         Trang web hiện đang bảo trì, chúng tôi sẽ cố gắng trở lại sớm. Cảm ơn đã chờ đợi!{" "}
       </p>
 
-      <Link
-        href={`${
-          userInfo?.car_account_type === "car_driver"
-            ? "d"
-            : userInfo?.car_account_type === "customer"
-            ? "/c"
-            : "/"
-        }`}
-        className="btn-primary"
-      >
+      <Link href="/" className="btn-primary">
         <a className="btn-primary">Trang chủ</a>
       </Link>
     </div>

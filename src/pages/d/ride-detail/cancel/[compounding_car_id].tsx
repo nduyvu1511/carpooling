@@ -16,7 +16,7 @@ const RideCanceledPage = () => {
   useBackRouter({
     cb: (as) => {
       if (as.includes("c/ride-detail")) {
-        router.push("/c")
+        router.push("/")
       }
     },
   })
@@ -33,7 +33,7 @@ const RideCanceledPage = () => {
 
       <RideCanceled compoundingCar={compoundingCar} showLoading={isInitialLoading} />
       <div className="mt-40">
-        <Link href="/d">
+        <Link href="/">
           <a className="btn-primary-outline mx-auto sm:mx-0">Về trang chủ</a>
         </Link>
       </div>

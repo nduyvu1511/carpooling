@@ -105,7 +105,7 @@ const MapSearch = memo(function MapSearchChild({ onSelect, disabled }: MapSearch
             }}
             className="absolute-vertical right-[10px]"
           >
-            <CloseIcon className="w-[18px]" />
+            <CloseIcon className="w-16 h-16" />
           </button>
         ) : null}
       </div>

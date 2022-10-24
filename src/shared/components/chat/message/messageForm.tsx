@@ -180,7 +180,7 @@ export const MessageForm = ({ onSubmit, className }: MessageFormProps) => {
   const storeMessageText = () => {
     const val = messageInputRef?.current?.value || ""
     if (val !== messageFormData?.text) {
-      dispatch(setMessageText(val))
+      dispatch(setMessageText(val.trim()))
     }
   }
 
@@ -253,7 +253,7 @@ export const MessageForm = ({ onSubmit, className }: MessageFormProps) => {
 
       {/* Message input */}
       <div className="flex-1 flex items-center">
-        <div className="relative">
+        <div className="relative hidden md:block">
           {showEmoji ? (
             <div
               onBlur={storeMessageText}

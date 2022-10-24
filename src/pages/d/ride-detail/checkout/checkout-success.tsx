@@ -30,7 +30,7 @@ const CheckoutSuccess = () => {
     cb: (as) => {
       if (as.includes("/d/booking")) {
         setTimeout(() => {
-          router.push("/d")
+          router.push("/")
         }, 0)
       }
     },
@@ -124,7 +124,7 @@ const CheckoutSuccess = () => {
             ) : null}
 
             <div className="flex justify-center lg:justify-start">
-              <Link href="/d">
+              <Link href="/">
                 <a className="btn-primary-outline">Về trang chủ</a>
               </Link>
             </div>

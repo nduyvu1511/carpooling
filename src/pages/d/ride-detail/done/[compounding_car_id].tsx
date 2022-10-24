@@ -8,7 +8,7 @@ import {
   RideSummaryPassengerItem,
   Seo,
 } from "@/components"
-import { useBackRouter, useChatActions } from "@/hooks"
+import { useBackRouter } from "@/hooks"
 import { DriverLayout } from "@/layout"
 import { DriverCompoundingCarInvoiceRes } from "@/models"
 import { rideAPI } from "@/services"
@@ -28,14 +28,13 @@ const RideDone = () => {
         .then((res) => res.result.data)
         .catch((err) => console.log(err))
   )
-  const { createSingleChat } = useChatActions()
 
   const [show, setShow] = useState<boolean>()
 
   useBackRouter({
     cb: (as) => {
       if (as.includes(`/d/ride-detail/in-process`)) {
-        router.push("/d")
+        router.push("/")
       }
     },
   })
@@ -77,7 +76,7 @@ const RideDone = () => {
 
             <div className="mb-24">
               <p className="title-uppercase mb-16">Hóa đơn</p>
-              <RideDriverSummary ride={compoundingCar} />
+              <RideDriverSummary data={compoundingCar} />
             </div>
 
             {compoundingCar && compoundingCar?.customer_invoice?.length > 0 ? (
@@ -95,15 +94,7 @@ const RideDone = () => {
                 >
                   {compoundingCar.customer_invoice.map((item, index) => (
                     <li className="mb-24 last:mb-0" key={item.compounding_car_customer_id}>
-                      <RideSummaryPassengerItem
-                        onChat={(partner_id) =>
-                          createSingleChat({
-                            params: { partner_id, compounding_car_id: item.compounding_car_id },
-                            onSuccess: () => {},
-                          })
-                        }
-                        data={item}
-                      />
+                      <RideSummaryPassengerItem showContactButtons={false} data={item} />
                     </li>
                   ))}
                 </AccordionItem>
@@ -122,7 +113,7 @@ const RideDone = () => {
             </div>
 
             <div className="flex-center mt-[40px]">
-              <Link href="/d">
+              <Link href="/">
                 <a className="btn-primary-outline">Về trang chủ</a>
               </Link>
             </div>

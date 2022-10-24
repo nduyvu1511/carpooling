@@ -180,11 +180,9 @@ const Checkout = ({
         <Alert
           show={true}
           title="Giao dịch này đã quá hạn thanh toán, vui lòng đặt chuyến mới"
-          onConfirm={() =>
-            router.push(`${userInfo?.car_account_type === "car_driver" ? "/d" : "/c"}`)
-          }
           type="error"
           showLeftBtn={false}
+          onConfirm={() => router.push("/")}
         />
       ) : null}
 

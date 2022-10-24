@@ -28,7 +28,7 @@ import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useDispatch, useSelector } from "react-redux"
 import useSWR from "swr"
-import { Transaction } from "./transaction"
+import { Transaction, TransactionDetailModal } from "./transaction"
 import { WalletInfo } from "./walletInfo"
 
 type ModalType = "transaction" | "payment" | "filter"
@@ -234,17 +234,10 @@ const Wallet = () => {
         </div>
       </div>
 
-      <Modal
-        key="transaction-detail-modal"
-        show={!!currentPaymentId}
-        onClose={() => handleToggleModal({ status: undefined, type: "payment" })}
-        heading="Chi tiết giao dịch"
-        className=""
-      >
-        <div className="p-12 py-24 md:p-24">
-          {currentPaymentId ? <TransactionDetail payment_id={currentPaymentId} /> : null}
-        </div>
-      </Modal>
+      <TransactionDetailModal
+        paymentId={currentPaymentId}
+        onClose={() => setCurrentPaymentId(undefined)}
+      />
 
       {/* Transaction modal */}
       {transaction?.payment_id?.state === "posted" ? (

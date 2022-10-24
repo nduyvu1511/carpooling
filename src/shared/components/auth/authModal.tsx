@@ -5,7 +5,6 @@ import { AUTH_MODAL_HEADING } from "@/helper"
 import { useAuth } from "@/hooks"
 import { AuthModalType, AuthModalTypeSlice, LoginFormParams, UserInfo } from "@/models"
 import { setAuthModalType, setProfile } from "@/modules"
-import { userAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
@@ -22,7 +21,7 @@ const AuthModal = ({ show }: { show: AuthModalTypeSlice }) => {
       return
     }
 
-    router.push(userInfo?.car_account_type === "car_driver" ? "/d" : "/c")
+    router.push("/")
     dispatch(setAuthModalType(undefined))
   }
 
@@ -108,7 +107,7 @@ const AuthModal = ({ show }: { show: AuthModalTypeSlice }) => {
           {authModalType === "register" ? (
             <Register
               onSuccess={() => {
-                router.push("/c")
+                router.push("/")
                 dispatch(setAuthModalType("updateProfile"))
               }}
             />

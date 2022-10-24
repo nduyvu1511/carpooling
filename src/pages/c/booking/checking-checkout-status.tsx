@@ -22,12 +22,12 @@ const ConfirmedCheckout = () => {
           vnp_ResponseCode={vnp_ResponseCode as VnpayStatus}
           compounding_type={compounding_type as CompoundingType}
           onRedirect={() =>
-            router.push(
+            router.replace(
               `/c/booking/checkout-success?compounding_car_customer_id=${compounding_car_customer_id}`
             )
           }
           onBack={() =>
-            router.push(
+            router.replace(
               `/c/booking/checkout?compounding_car_customer_id=${compounding_car_customer_id}`
             )
           }
