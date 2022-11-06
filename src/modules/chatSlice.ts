@@ -104,9 +104,7 @@ const chatSlice = createSlice({
 
     updateCurrentRoomInfo: (
       state,
-      {
-        payload,
-      }: PayloadType<{ room_name?: string; room_avatar?: AttachmentRes | null; room_id: string }>
+      { payload }: PayloadType<{ room_name?: string; room_avatar?: string | null; room_id: string }>
     ) => {
       if (payload.room_id !== state.currentRoomInfo?.room_id) return
 

@@ -1,9 +1,8 @@
 import { useClickOutside } from "@/hooks"
 import { MessageReactionType } from "@/models"
 import { useRef } from "react"
-import { HiReply } from "react-icons/hi"
-import { MdContentCopy } from "react-icons/md"
-import { TbEye, TbNote } from "react-icons/tb"
+import { HiOutlineReply } from "react-icons/hi"
+import { TbCopy, TbEye, TbNote } from "react-icons/tb"
 import { MessageReactionIcon } from "./messageReactionIcon"
 
 interface MessageOptionModalProps {
@@ -79,7 +78,7 @@ export const MessageOptionModal = ({
             }}
             className="flex-center flex-col"
           >
-            <HiReply className="text-xl text-gray-color-3 mb-4" />
+            <HiOutlineReply className="text-[20px] text-gray-color-3 mb-4" />
 
             <p className="text-[10px] leading-[14px] font-medium text-gray-color-3">Trả lời</p>
           </button>
@@ -91,7 +90,7 @@ export const MessageOptionModal = ({
             }}
             className="flex-center flex-col"
           >
-            <TbEye className="text-xl text-gray-color-3 mb-4" />
+            <TbEye className="text-[20px] text-gray-color-3 mb-4" />
             <p className="text-[10px] leading-[14px] font-medium text-gray-color-3">Chi tiết</p>
           </button>
 
@@ -102,7 +101,7 @@ export const MessageOptionModal = ({
             }}
             className="flex-center flex-col"
           >
-            <MdContentCopy className="text-xl text-gray-color-3 mb-4" />
+            <TbCopy className="text-[20px] text-gray-color-3 mb-4" />
 
             <p className="text-[10px] leading-[14px] font-medium text-gray-color-3">Copy</p>
           </button>
@@ -114,7 +113,7 @@ export const MessageOptionModal = ({
             }}
             className="flex-center flex-col"
           >
-            <TbNote className="text-xl text-gray-color-3 mb-4" />
+            <TbNote className="text-[20px] text-gray-color-3 mb-4" />
 
             <p className="text-[10px] leading-[14px] font-medium text-gray-color-3">
               Lưu vào ghi chú

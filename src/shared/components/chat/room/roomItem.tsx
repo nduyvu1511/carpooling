@@ -52,7 +52,7 @@ export const RoomItem = ({
         <Avatar
           isGroup={data.room_type === "group"}
           avatarGroup={data.top_members?.map((item) => item.user_avatar)}
-          avatar={data?.room_avatar || (data as any)?.room_avatar?.thumbnail_url || ""}
+          avatar={data?.room_avatar || data?.room_avatar || ""}
           isOnline={data.is_online}
           memberCount={data.member_count}
         />

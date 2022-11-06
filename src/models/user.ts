@@ -1,4 +1,4 @@
-import { AttachmentRes, IAttachment, OptionModel, QueryCommonParams } from "./common"
+import { IAttachment, OptionModel, QueryCommonParams } from "./common"
 
 export interface LoginFormParams {
   phone: string
@@ -521,7 +521,7 @@ export type UserRes = Pick<
 > & {
   socket_id: string
   user_id: string
-  avatar: AttachmentRes
+  avatar: string | null
   room_id?: string
   is_yourself?: boolean
 }

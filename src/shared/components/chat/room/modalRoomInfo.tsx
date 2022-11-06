@@ -66,7 +66,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
                 item.room_name = params.room_name
               }
 
-              if (params?.room_avatar?.attachment_id) {
+              if (params?.room_avatar) {
                 data.room_avatar = data.room_avatar
               }
 
@@ -93,7 +93,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
             draft.data.room_name = params.room_name
           }
 
-          if (params?.room_avatar?.attachment_id) {
+          if (params?.room_avatar) {
             draft.data.room_avatar = params.room_avatar
           }
         }),
@@ -142,7 +142,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
                   <CommonAvatar
                     onClick={() => setShowModalChangeRoomAvatar(true)}
                     size={72}
-                    url={data?.room_avatar?.thumbnail_url || ""}
+                    url={data?.room_avatar || ""}
                     className="mb-12"
                   />
 
@@ -194,7 +194,7 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
 
       {showModalChangeRoomName ? (
         <ModalChangeRoomName
-          avatar={data?.room_avatar?.url || ""}
+          avatar={data?.room_avatar || ""}
           initialName={data?.room_name || ""}
           onClose={() => setShowModalChangeRoomName(false)}
           onSubmit={(room_name) =>
@@ -207,11 +207,11 @@ export const ModalRoomInfo = ({ data }: ModalRoomInfoProps) => {
 
       {showModalChangeRoomAvatar ? (
         <ModalChangeAvatar
-          avatar={data?.room_avatar?.url || ""}
+          avatar={data?.room_avatar || ""}
           onClose={() => setShowModalChangeRoomAvatar(false)}
           onSubmit={(data) => {
             updateRoomAvatar(data, (res) => {
-              updateRoomInfo({ room_avatar_id: res.attachment_id }, () => {
+              updateRoomInfo({ room_avatar: res.thumbnail_url }, () => {
                 setShowModalChangeRoomAvatar(false)
               })
             })

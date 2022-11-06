@@ -59,7 +59,7 @@ export const HomeCustomer = () => {
 
   return (
     <>
-      <Seo title="Các chuyến đi hiện có" url={"c"} />
+      <Seo title="Các chuyến đi hiện có" url={""} />
 
       <RideContainer
         hasMore={hasMore}

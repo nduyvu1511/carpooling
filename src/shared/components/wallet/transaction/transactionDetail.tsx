@@ -36,19 +36,14 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
         <>
           <ul>
             <li className="flex items-start mb-12">
-              <p className="text-xs w-[200px] mr-16">Mã giao dịch</p>
-              <p className="text-14 md:text-16 font-semibold text-primary xs:flex-1 text-right xs:whitespace-nowrap">
+              <p className="text-xs w-[150px] mr-16">Mã giao dịch</p>
+              <p className="text-14 md:text-16 font-semibold text-primary xs:flex-1 text-right word-anywhere">
                 {(data as JournalDetailCompoundingCarCustomerRes)?.payment_id?.payment_code}
               </p>
             </li>
-            <li className="flex items-start mb-12">
-              <p className="text-xs w-[200px] mr-16">Số tiền giao dịch</p>
-              <p className="text-14 md:text-16 font-semibold text-error flex-1 text-right">
-                {formatMoneyVND((data as JournalDetailRes)?.payment_id?.amount)}
-              </p>
-            </li>
+
             <li className="flex items-start justify-between mb-16">
-              <p className="text-xs w-[200px] mr-16">Loại giao dịch</p>
+              <p className="text-xs w-[150px] mr-16">Loại giao dịch</p>
               <span
                 style={{
                   color: PAYMENT_PURPOSE_COLOR[(data as JournalDetailRes).payment_purpose]?.color,
@@ -62,9 +57,26 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
             </li>
 
             <li className="flex items-start mb-16">
-              <p className="text-xs w-[200px] mr-16">Ngày giao dịch</p>
+              <p className="text-xs w-[150px] mr-16">Thời gian thanh toán</p>
               <p className="text-sm md:text-base flex-1 text-right">
                 {moment((data as JournalDetailRes)?.payment_id?.date)?.format("HH:mm DD/MM/YYYY")}
+              </p>
+            </li>
+
+            <li className="flex items-start mb-16">
+              <p className="text-xs w-[150px] mr-16">Nguồn tiền</p>
+              <p className="text-sm md:text-base flex-1 text-right">Ví Exxe</p>
+            </li>
+
+            <li className="flex items-start mb-16">
+              <p className="text-xs w-[150px] mr-16">Phí giao dịch</p>
+              <p className="text-sm md:text-base flex-1 text-right">Miễn phí</p>
+            </li>
+
+            <li className="flex items-start mb-12">
+              <p className="text-xs w-[150px] mr-16">Số tiền giao dịch</p>
+              <p className="text-14 md:text-16 font-semibold text-error flex-1 text-right">
+                {formatMoneyVND((data as JournalDetailRes)?.payment_id?.amount)}
               </p>
             </li>
           </ul>

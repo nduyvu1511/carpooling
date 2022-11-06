@@ -138,7 +138,9 @@ module.exports = {
     },
 
     screens: {
+      xxs: "350px",
       xs: "375px",
+      400: "400px",
       420: "420px",
       sm: "640px",
       md: "768px",
@@ -164,15 +166,12 @@ module.exports = {
     ({ matchUtilities, theme /* … */ }) => {
       // …
       matchUtilities(
-        // https://gist.github.com/olets/9b833a33d01384eed1e9f1e106003a3b
         {
           aspect: (value) => ({
             "@supports (aspect-ratio: 1 / 1)": {
               aspectRatio: value,
             },
             "@supports not (aspect-ratio: 1 / 1)": {
-              // https://github.com/takamoso/postcss-aspect-ratio-polyfill
-
               "&::before": {
                 content: '""',
                 float: "left",

@@ -167,7 +167,7 @@ export const MessageItem = ({
             {shouldBreak ? (
               <Image
                 blurDataURL={imageBlur}
-                src={data.author.author_avatar.thumbnail_url}
+                src={data.author.author_avatar}
                 alt=""
                 layout="fill"
                 objectFit="cover"

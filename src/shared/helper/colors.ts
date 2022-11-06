@@ -61,6 +61,10 @@ export const PAYMENT_PURPOSE_COLOR = {
     color: "#10B981",
     bg: "#DCFDD9",
   },
+  customer_invoice: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
   car_driver_withdrawing: {
     color: "#FF3B30",
     bg: "#FFEBEA",
@@ -70,6 +74,19 @@ export const PAYMENT_PURPOSE_COLOR = {
     bg: "#F4FDF7",
   },
   passenger_wallet_recharge: {
+    color: "#008F5D",
+    bg: "#F4FDF7",
+  },
+
+  cancel_car_driver_deposit: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
+  cancel_passenger_deposit: {
+    color: "#10B981",
+    bg: "#DCFDD9",
+  },
+  exxe_reward: {
     color: "#008F5D",
     bg: "#F4FDF7",
   },

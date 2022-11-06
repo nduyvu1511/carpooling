@@ -227,11 +227,6 @@ export type AttachmentRes = Pick<IAttachment, "thumbnail_url" | "url" | "attachm
   attachment_id: string
 }
 
-export interface AttachmentId {
-  attachment_id: string
-  url: string
-}
-
 export interface ServiceQueryListRes<T> {
   total: number
   data: T

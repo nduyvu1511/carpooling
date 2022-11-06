@@ -14,8 +14,8 @@ export const useChatNotification = () => {
     Notification.requestPermission().then((per) => {
       if (per === "granted") {
         const notification = new Notification(data?.author?.author_name || "Tin nhắn mới", {
-          badge: data.author?.author_avatar?.thumbnail_url,
-          icon: data.author?.author_avatar?.thumbnail_url,
+          badge: data.author?.author_avatar,
+          icon: data.author?.author_avatar,
           body: getMessageDescription(data),
           tag: data.room_id,
         })

@@ -47,7 +47,11 @@ const RideDone = () => {
         title="Hoàn thành chuyến đi"
         url={`d/ride-detail/in-process/${compoundingCar?.compounding_car_id}`}
       />
-      <HeaderMobile title="Hoàn thành chuyến đi" className="lg:hidden" />
+      <HeaderMobile
+        onBackBtnClick={() => router.push("/")}
+        title="Hoàn thành chuyến đi"
+        className="lg:hidden"
+      />
       <div className="content-container block-element p-custom md:mb-24 mt-24 sm:mt-[56px] md:mt-[80px] lg:mt-24">
         {isValidating ? (
           <>

@@ -69,7 +69,7 @@ export const UserProfile = ({ data }: UserProfileProps) => {
         <div className="relative mb-12 w-[80px] h-[80px] rounded-[50%] overflow-hidden">
           <Image
             blurDataURL={imageBlur}
-            src={data.avatar?.thumbnail_url || blankAvatar}
+            src={data.avatar || blankAvatar}
             layout="fill"
             alt=""
             objectFit="cover"

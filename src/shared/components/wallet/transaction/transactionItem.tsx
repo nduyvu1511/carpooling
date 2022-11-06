@@ -45,14 +45,16 @@ export const TransactionItem = ({ transaction, onChange }: TransactionItemProps)
     >
       <div className="sm:hidden w-full">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-medium xs:text-sm">ID: {transaction.payment_code}</p>
+          <p className="text-xs font-medium xs:text-sm flex-1 mr-12">
+            ID: {transaction.payment_code}
+          </p>
 
           <span
             style={{
               color: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.color,
               backgroundColor: PAYMENT_PURPOSE_COLOR[transaction.payment_purpose]?.bg,
             }}
-            className="text-xs rounded-[5px] py-[4px] px-8"
+            className="text-[10px] 420:text-xs rounded-[5px] py-[4px] px-8"
           >
             {PAYMENT_PURPOSE_NAME[transaction.payment_purpose]}
           </span>

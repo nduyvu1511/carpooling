@@ -82,9 +82,9 @@ export const useRoom = (roomId?: string): UseRoomRes => {
       room_name: params.room_name,
       room_type: params.room_type,
       last_message: null,
-      room_avatar: params?.room_avatar?.thumbnail_url,
+      room_avatar: params?.room_avatar,
       top_members: params?.members?.data?.map((item) => ({
-        user_avatar: item.avatar.thumbnail_url,
+        user_avatar: item.avatar,
         user_name: item.user_name,
         user_id: item.user_id,
         is_online: item.is_online,

@@ -29,8 +29,8 @@ export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
             memberCount={data.member_count}
             isGroup={data.room_type === "group"}
             isOnline={data.is_online}
-            avatar={data.room_avatar?.thumbnail_url || ""}
-            avatarGroup={data.members?.data?.map((item) => item.avatar.thumbnail_url)}
+            avatar={data.room_avatar || ""}
+            avatarGroup={data.members?.data?.map((item) => item.avatar)}
           />
         </div>
 

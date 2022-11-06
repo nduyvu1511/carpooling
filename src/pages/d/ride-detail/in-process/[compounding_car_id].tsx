@@ -5,7 +5,7 @@ import {
   RideDoneIcon,
   RidePaidIcon,
   RidePickupIcon,
-  RideWaitingIcon
+  RideWaitingIcon,
 } from "@/assets"
 import {
   Alert,
@@ -18,7 +18,7 @@ import {
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  Seo
+  Seo,
 } from "@/components"
 import { RIDE_STATE_COLOR } from "@/helper"
 import { useChatActions, useCompoundingCarProcess, useCurrentLocation } from "@/hooks"
@@ -277,7 +277,11 @@ const StartRunningCompoundingCar = () => {
                         <RidePassengerItem
                           onChat={(partner_id) =>
                             createSingleChat({
-                              params: { partner_id, compounding_car_id: item.compounding_car_id },
+                              params: {
+                                partner_id,
+                                compounding_car_id: item.compounding_car_id,
+                                state: item.state,
+                              },
                               onSuccess: () => {},
                             })
                           }

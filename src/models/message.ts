@@ -65,7 +65,7 @@ export type AttachmentType = "image" | "video" | "voice"
 export interface AuthorMessage {
   author_id: string
   author_name: string
-  author_avatar: AttachmentRes
+  author_avatar: string
 }
 
 export interface MessageUser {

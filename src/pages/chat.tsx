@@ -16,6 +16,7 @@ const ChatPage = () => {
         className={`${!roomId ? "" : "hidden"} md:hidden border-none`}
         title="Tin nhắn"
       />
+
       <div
         className={`container px-0 md:px-16 ${
           roomId ? "" : "mt-[56px]"

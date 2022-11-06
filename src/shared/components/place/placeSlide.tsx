@@ -1,22 +1,15 @@
 import { CompoundingCarRes } from "@/models"
-import { rideAPI } from "@/services"
 import { SwiperSlide } from "swiper/react"
-import useSWR from "swr"
 import { Slide } from "../common"
 import { PlaceItem } from "./placeItem"
 
-export const PlaceSlide = () => {
-  const { data, isValidating } = useSWR<CompoundingCarRes[]>(
-    "get_compounding_car_template",
-    () =>
-      rideAPI
-        .getCompoundingCarTemplates()
-        .then((res) => res.result.data || [])
-        .catch((err) => console.log(err)),
-    { dedupingInterval: 100000 }
-  )
+interface PlaceSlideProps {
+  data: CompoundingCarRes[]
+  showLoading?: boolean
+}
 
-  if (isValidating)
+export const PlaceSlide = ({ data, showLoading }: PlaceSlideProps) => {
+  if (showLoading)
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16 pr-12 md:pr-16">
         <div className="rounded-[5px] skeleton aspect-1"></div>
@@ -25,6 +18,7 @@ export const PlaceSlide = () => {
         <div className="rounded-[5px] skeleton aspect-1 hidden md:block"></div>
       </div>
     )
+
   return (
     <Slide>
       {data &&

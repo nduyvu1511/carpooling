@@ -13,7 +13,7 @@ const PaymentItem = ({ payment, onChange, isActive, className = "" }: PaymentIte
   return (
     <div
       onClick={() => onChange?.(payment)}
-      className={`cursor-pointer text-sm block-element p-12 shadow-shadow-1 border border-solid rounded-[8px] ${
+      className={`cursor-pointer text-sm block-element p-12 shadow-shadow-1 border border-solid rounded-[8px] select-none ${
         isActive ? "border-[1px] border-primary bg-bg-primary" : "border-border-color"
       } transition-all duration-150 cursor-pointer ${className}`}
     >

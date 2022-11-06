@@ -1,3 +1,5 @@
+declare module "react-reveal"
+
 export * from "./common"
 export * from "./location"
 export * from "./compoundingCar"

@@ -21,8 +21,8 @@ export const ModalPreviewImage = ({ urls }: ModalPreviewImageProps) => {
         Đóng
       </button>
 
-      <div className="h-[80%] w-[70%] absolute-vertical z-10">
-        <TransformWrapper>
+      <div className="h-[80%] w-full md:w-[80%] lg:w-[70%] absolute-vertical z-10">
+        <TransformWrapper centerOnInit>
           <TransformComponent>
             <img src={urls[0]} alt="" className="w-[auto] h-[auto] object-contain" />
           </TransformComponent>

@@ -39,6 +39,7 @@ const PostDetail = ({ fallback }: PostDetailProps) => {
         <Spinner />
       </div>
     )
+
   return (
     <StaticLayout
       lastNode={

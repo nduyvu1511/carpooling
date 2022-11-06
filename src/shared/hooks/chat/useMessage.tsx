@@ -170,12 +170,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
 
     return {
       author: {
-        author_avatar: {
-          attachment_id: userInfo?.avatar?.attachment_id || "",
-          attachment_type: "image",
-          thumbnail_url: userInfo?.avatar?.thumbnail_url || "",
-          url: userInfo?.avatar?.url || "",
-        },
+        author_avatar: userInfo?.avatar || "",
         author_id: userInfo?.user_id || "",
         author_name: userInfo?.user_name || "",
       },
@@ -303,7 +298,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   const mutateByMessageRes = (message: MessageRes) => {
     if (!data?.data?.length) return
     const index = findMessageIndex(message.message_id)
-    if (!index) return
+    if (index === -1) return
 
     mutate(
       produce(data, (draft) => {
@@ -316,7 +311,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   const mutatePartnerReactionMessage = (message: MessageRes) => {
     if (!data?.data?.length) return
     const index = findMessageIndex(message.message_id)
-    if (!index) return
+    if (index === -1) return
 
     mutate(
       produce(data, (draft) => {
@@ -335,7 +330,7 @@ export const useMessage = ({ initialData, roomId }: UseMessageProps): UseMessage
   }: mutateMessageReaction) => {
     if (!data?.data?.length) return
     const index = findMessageIndex(messageId)
-    if (!index) return
+    if (index === -1) return
 
     const message = data.data[index]
 

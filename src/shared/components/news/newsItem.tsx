@@ -1,3 +1,4 @@
+import { imageBlur } from "@/assets"
 import { PostRes } from "@/models"
 import moment from "moment"
 import Image from "next/image"
@@ -34,6 +35,7 @@ const NewsItem = ({ data, onClick }: NewsItemProps) => {
             layout="fill"
             objectFit="cover"
             alt=""
+            blurDataURL={imageBlur}
           />
         </div>
       </div>

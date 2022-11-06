@@ -4,7 +4,7 @@ import {
   HeroSection,
   HomeSection,
   NewsHome,
-  PlaceSlide,
+  PlaceHome,
   PromotionBanner,
   Seo,
 } from "@/components"
@@ -12,14 +12,12 @@ import {
 export const HomeGuest = () => {
   return (
     <section>
-      <Seo url="" title="Ứng dụng đặt xe ExxeVn" />
+      <Seo url="" title="Ứng dụng đặt xe đường dài ExxeVn" />
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
 
-      <HomeSection title="Lịch sử chuyến đi">
-        <PlaceSlide />
-      </HomeSection>
+      <PlaceHome />
 
       <HomeSection>
         <PromotionBanner />

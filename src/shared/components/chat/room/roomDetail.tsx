@@ -149,7 +149,7 @@ export const RoomDetail = forwardRef(function RoomChild(
                         member_count: data?.member_count,
                         members: data.members?.data?.map((item) => ({
                           user_id: item.user_id,
-                          user_avatar: item?.avatar?.thumbnail_url,
+                          user_avatar: item?.avatar,
                           user_name: item.user_name,
                           is_online: item?.is_online,
                         })),

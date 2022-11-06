@@ -236,7 +236,7 @@ const Wallet = () => {
 
       <TransactionDetailModal
         paymentId={currentPaymentId}
-        onClose={() => setCurrentPaymentId(undefined)}
+        onClose={() => handleToggleModal({ status: false, type: "payment" })}
       />
 
       {/* Transaction modal */}

@@ -25,16 +25,6 @@ const axiosClient = axios.create({
   },
 })
 
-// const memoizedRefreshToken = mem(
-//   async () => {
-//     const res = await chatAPI.refreshToken()
-//     return res
-//   },
-//   {
-//     maxAge: 10000,
-//   }
-// )
-
 axiosClient.interceptors.request.use(async (config) => {
   return config
 })

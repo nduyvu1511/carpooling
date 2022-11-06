@@ -3,7 +3,7 @@ import { ThreeDotsIcon } from "@/assets"
 import { useClickOutside } from "@/hooks"
 import { MessageReactionType } from "@/models"
 import { useRef, useState } from "react"
-import { HiReply } from "react-icons/hi"
+import { HiOutlineReply } from "react-icons/hi"
 import { RiEmotionHappyLine } from "react-icons/ri"
 import { MessageReactionIcon } from "./messageReactionIcon"
 
@@ -77,7 +77,7 @@ export const MessageOption = ({
         </div>
 
         <button onClick={() => onReply?.()} className="mr-24">
-          <HiReply className="text-base text-gray-color-3 hover:text-primary" />
+          <HiOutlineReply className="text-base text-gray-color-3 hover:text-primary" />
         </button>
 
         <div className="mr-8">

@@ -87,6 +87,10 @@ export const PAYMENT_PURPOSE_NAME = {
   car_driver_wallet_recharge: "Nạp tiền",
   passenger_wallet_recharge: "Nạp tiền",
   passenger_withdrawing: "Rút tiền",
+  customer_invoice: "Hóa đơn kết chuyến",
+  cancel_car_driver_deposit: "Hủy cọc",
+  cancel_passenger_deposit: "Hủy cọc",
+  exxe_reward: "Thưởng Exxe",
 }
 
 export const PHONE = "0847878788"

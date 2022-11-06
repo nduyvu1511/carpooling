@@ -77,10 +77,12 @@ export const Chat = memo(function _Chat() {
     })
 
     socket.on("react_message", (payload: MessageRes) => {
+      console.log("react message: ", payload)
       roomDetailRef.current?.mutatePartnerReactionMessage(payload)
     })
 
     socket.on("unreact_message", (payload: MessageRes) => {
+      console.log("un react message: ", payload)
       roomDetailRef.current?.mutatePartnerReactionMessage(payload)
     })
 
@@ -96,6 +98,7 @@ export const Chat = memo(function _Chat() {
 
     socket.on("delete_room_by_compounding_car", (compounding_car_id: number) => {
       roomRef.current?.deleteRoomByCompoundingCarId(compounding_car_id)
+      console.log("new room deleted by compounding car: ", compounding_car_id)
     })
 
     socket.on("member_join_room", (params: any) => {
