@@ -172,26 +172,13 @@ export const UserInfoForm = ({
         <div className="user-info-form-content">
           {userInfoFormfields.map((field) => (
             <div key={field.name} className="form-item">
-              {field.name === "avatar_attachment_id" ? (
-                showAvatar ? (
-                  <label htmlFor={field.name} className="form-label">
-                    {field.placeholder}{" "}
-                    {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
-                  </label>
-                ) : null
-              ) : field.name === "identity_number" ? (
-                type === "customer" ? (
-                  <label htmlFor={field.name} className="form-label">
-                    {field.placeholder}{" "}
-                    {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
-                  </label>
-                ) : null
-              ) : (
+              {(field.name === "avatar_attachment_id" && showAvatar) ||
+              field.name !== "avatar_attachment_id" ? (
                 <label htmlFor={field.name} className="form-label">
                   {field.placeholder}{" "}
                   {field?.isRequired ? <span className="form-label-warning">(*)</span> : null}
                 </label>
-              )}
+              ) : null}
 
               {showAvatar ? (
                 field.type === "file" ? (
@@ -299,6 +286,7 @@ export const UserInfoForm = ({
                       className={`form-date ${errors?.[field.name] ? "form-date-err" : ""}`}
                     >
                       <InputDate
+                        isValidDate={(curr) => curr.isBefore(Date.now())}
                         value={getValues("date_of_birth")}
                         placeholder="Ngày sinh"
                         onChange={(val) => onChange(val)}

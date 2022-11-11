@@ -23,7 +23,7 @@ export const ratingFormSchema = Yup.object().shape({
 
 export const createPasswordSchema = Yup.object().shape({
   password: Yup.string()
-    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")
+    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số")
     .required("Vui lòng nhập mật khẩu"),
   re_password: Yup.string()
     .oneOf([Yup.ref("password")], "Mật khẩu xác nhận phải trùng với mật khẩu mới")
@@ -73,10 +73,11 @@ export const contactSchema = Yup.object().shape({
 
 export const changePasswordSchema = Yup.object().shape({
   old_password: Yup.string()
-    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")
+    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số")
     .required("Vui lòng nhập mật khẩu"),
   password: Yup.string()
-    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")
+    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số")
+    .notOneOf([Yup.ref("old_password")], "Vui lòng nhập mật khẩu mới khác với mật khẩu trước đó")
     .required("Vui lòng nhập mật khẩu mới"),
   re_password: Yup.string()
     .oneOf([Yup.ref("password")], "Mật khẩu xác nhận phải trùng với mật khẩu mới")
@@ -86,7 +87,7 @@ export const changePasswordSchema = Yup.object().shape({
 export const passwordSchema = Yup.object().shape({
   password: Yup.string().matches(
     PASSWORD_SCHEMA,
-    "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt"
+    "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số"
   ),
 })
 
@@ -95,7 +96,7 @@ export const loginSchema = Yup.object().shape({
     .matches(PHONE_SCHEMA, "Vui lòng nhập số điện thoại hợp lệ")
     .required("Vui lòng nhập số điện thoại"),
   password: Yup.string()
-    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ, số và ký tự đặc biệt")
+    .matches(PASSWORD_SCHEMA, "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số")
     .required("Vui lòng nhập mật khẩu"),
 })
 
@@ -197,12 +198,7 @@ export const identityCardSchema = Yup.object().shape({
     .typeError("Vui lòng nhập ngày cấp")
     .required("Vui lòng nhập ngày cấp"),
   date_of_expiry: Yup.string().matches(DATE_SCHEMA, "Vui lòng nhập ngày hợp lệ").nullable(),
-  place_of_issue: Yup.object()
-    .shape({
-      label: Yup.string().required(),
-      value: Yup.string().required(),
-    })
-    .required("Vui lòng nhập nơi cấp"),
+  place_of_issue: Yup.string().required("Vui lòng nhập nơi cấp"),
   address: Yup.string().required("Vui lòng nhập địa chỉ"),
   identity_card_id: Yup.string().nullable(),
 })
@@ -317,6 +313,58 @@ export const vehicleDetailSchema = Yup.object().shape({
       id: Yup.number().required(),
     })
     .required("Vui lòng nhập phù hiệu xe"),
+})
+
+export const verifiedPhoneNumberSchema = Yup.object().shape({
+  verified_number_phone_image_url: Yup.object()
+    .shape({
+      id: Yup.string().required(),
+      url: Yup.string().required(),
+    })
+    .required("Vui lòng nhập trường này"),
+})
+
+export const carInformationSchema = Yup.object().shape({
+  car_brand_id: Yup.object()
+    .shape({
+      label: Yup.string().required(),
+      value: Yup.number().required(),
+    })
+    .nullable(),
+  car_name: Yup.string().required("Vui lòng nhập tên xe"),
+  // main_color: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required(),
+  //     value: Yup.string()
+  //       .oneOf(["black", "white", "gray", "red", "yellow", "blue", "other"])
+  //       .required(),
+  //   })
+  //   .nullable(),
+  car_front_image_id: Yup.object()
+    .shape({
+      id: Yup.string().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng nhập trường này")
+    .required(),
+  car_back_image_id: Yup.object()
+    .shape({
+      id: Yup.string().required(),
+      url: Yup.string().required(),
+    })
+    .typeError("Vui lòng nhập trường này")
+    .required(),
+  standard_id: Yup.number().nullable(),
+  extra_utility_ids: Yup.array().of(Yup.number()).typeError("Vui lòng nhập trường này").nullable(),
+  car_image_ids: Yup.array()
+    .of(
+      Yup.object().shape({
+        id: Yup.string().required(),
+        url: Yup.string().required(),
+      })
+    )
+    .typeError("Vui lòng nhập trường này")
+    .nullable(),
 })
 
 export const departureFormSchema = Yup.object().shape({

@@ -28,7 +28,7 @@ export const DriverRegisterLayout = ({
       </HeaderWrapper>
 
       <section className="driver-register-layout bg-white-color md:bg-bg md:py-16 lg:py-24 min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-80px)]">
-        <main className="content-container block-element">
+        <main className="content-container block-element overflow-hidden">
           <div className="fixed z-[1000] md:z-0 md:static left-0 right-0 top-0 bg-white-color flex px-12 sm:px-24 md:pt-24 items-center mb-24 md:mb-40 h-[56px] md:h-fit border-b border-border-color border-solid md:border-none">
             <button
               onClick={() => (!onBackBtnClick ? router.back() : onBackBtnClick())}

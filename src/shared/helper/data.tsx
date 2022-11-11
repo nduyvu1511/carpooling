@@ -1,4 +1,6 @@
 import {
+  CarColor,
+  CarInformationFormKey,
   CertificateInspectionFormKey,
   CompoundingCarCustomerFilterKey,
   CompoundingCarCustomerState,
@@ -7,7 +9,6 @@ import {
   CompoundingOrderField,
   CompoundingType,
   ContactFormKey,
-  DriverFormKey,
   DrivingLicenseClassType,
   DrivingLicenseFormKey,
   DrivingLicenseKeyType,
@@ -16,7 +17,7 @@ import {
   IdCardKeyType,
   IdCardName,
   NewPasswordFormKeys,
-  OptionModel,
+  OptionType,
   UserInfoFormKey,
   UserInforFormAddressKey,
   VehicleDetailFormKey,
@@ -174,7 +175,7 @@ export const idCardFormFields: {
   },
   {
     name: "place_of_issue",
-    type: "select",
+    type: "text",
     placeholder: "Nơi Cấp",
     isRequired: true,
   },
@@ -186,44 +187,75 @@ export const idCardFormFields: {
   },
 ]
 
+export const carColorOptions: { label: string; value: CarColor }[] = [
+  {
+    label: "Màu đen",
+    value: "black",
+  },
+  {
+    label: "Màu xanh",
+    value: "blue",
+  },
+  {
+    label: "Màu xám",
+    value: "gray",
+  },
+  {
+    label: "Màu đỏ",
+    value: "red",
+  },
+  {
+    label: "Màu trắng",
+    value: "white",
+  },
+  {
+    label: "Màu vàng",
+    value: "yellow",
+  },
+  {
+    label: "Khác",
+    value: "other",
+  },
+]
+
 export const driverFormFields: {
   heading: string
   child: {
     route: string
     label: string
     isRequired: boolean
-    key: DriverFormKey
     name: FilledDataFieldsKey
   }[]
 }[] = [
   {
     heading: "Thông tin cá nhân",
-
     child: [
       {
-        route: "bio_details",
-        label: "Họ & Tên",
+        route: "verified_phone_number",
+        label: "Xác thực số điện thoại",
         isRequired: true,
-        key: "info",
+        name: "verified_number_phone",
+      },
+      {
+        route: "bio_details",
+        label: "Thông tin cá nhân",
+        isRequired: true,
         name: "user_information",
       },
       {
         route: "identity_card_details",
         label: "CMND / Thẻ Căn Cước / Hộ Chiếu",
         isRequired: true,
-        key: "idCard",
         name: "identity_card",
       },
       {
         route: "driving_license_details",
         label: "Bằng Lái xe",
         isRequired: true,
-        key: "license",
         name: "car_driving_license",
       },
     ],
   },
-
   {
     heading: "Thông tin phương tiện di chuyển ",
     child: [
@@ -231,21 +263,24 @@ export const driverFormFields: {
         route: "vehicle_details",
         label: "Giấy Đăng Ký Xe",
         isRequired: true,
-        key: "vehicleRegistration",
         name: "car_registration_certificate",
+      },
+      {
+        route: "car_information",
+        label: "Thông tin xe",
+        isRequired: true,
+        name: "car_information_id",
       },
       {
         route: "registration_certificate",
         label: "Giấy Đăng Kiểm",
         isRequired: true,
-        key: "registrationCertificate",
         name: "periodical_inspection_certificate",
       },
       {
         route: "vehicle_insurance",
         label: "Bảo Hiểm Xe",
         isRequired: true,
-        key: "vehicleInsuranceImages",
         name: "compulsory_car_insurance",
       },
     ],
@@ -356,7 +391,7 @@ export const vehicleDetailFormFields: {
   placeholder: string
   type: "file" | "text" | "select" | "date" | "radio"
   isRequired: boolean
-  options?: OptionModel[]
+  options?: OptionType[]
 }[] = [
   {
     name: "front_car_image_url",
@@ -545,6 +580,62 @@ export const certificatesRegistrationFormFields: {
   },
 ]
 
+export const carInformationFormFields: {
+  type: "text" | "date" | "file" | "select" | "multipleFile" | "multipleSelect"
+  name: CarInformationFormKey
+  isRequired: boolean
+  label: string
+}[] = [
+  {
+    type: "select",
+    name: "car_brand_id",
+    isRequired: false,
+    label: "Hãng xe",
+  },
+  {
+    type: "text",
+    name: "car_name",
+    isRequired: false,
+    label: "Tên xe",
+  },
+  // {
+  //   type: "select",
+  //   name: "main_color",
+  //   isRequired: false,
+  //   label: "Màu xe",
+  // },
+  {
+    type: "file",
+    name: "car_front_image_id",
+    isRequired: true,
+    label: "Mặt trước xe",
+  },
+  {
+    type: "file",
+    name: "car_back_image_id",
+    isRequired: true,
+    label: "Mặt sau xe",
+  },
+  // {
+  //   type: "multipleSelect",
+  //   name: "standard_id",
+  //   isRequired: false,
+  //   label: "Tiêu chuẩn xe",
+  // },
+  // {
+  //   type: "multipleSelect",
+  //   name: "extra_utility_ids",
+  //   isRequired: false,
+  //   label: "Tiện ích của xe",
+  // },
+  {
+    type: "multipleFile",
+    name: "car_image_ids",
+    isRequired: false,
+    label: "Thêm ảnh về xe",
+  },
+]
+
 export const contactFormFields: {
   name: ContactFormKey
   label: string
@@ -614,7 +705,7 @@ export const driverActivityFilters: {
   { label: "Tất cả", value: [] },
   {
     label: "Đang đặt cọc",
-    value: ["waiting_deposit"],
+    value: ["waiting_deposit", "waiting"],
   },
   {
     label: "Xác nhận",

@@ -1,4 +1,4 @@
-import { OptionModel } from "@/models"
+import { OptionType } from "@/models"
 import { useRef } from "react"
 import { Control, Controller } from "react-hook-form"
 import Select from "react-select"
@@ -6,12 +6,12 @@ import Select from "react-select"
 interface InputSelectProps {
   placeholder: string
   required?: boolean
-  onChange: (params: OptionModel | undefined) => void
+  onChange: (params: OptionType | undefined) => void
   name: string
   control: Control<any>
-  options: OptionModel[]
-  defaultValue?: OptionModel | undefined
-  value?: OptionModel | undefined
+  options: OptionType[]
+  defaultValue?: OptionType | undefined
+  value?: OptionType | undefined
   isError?: boolean | undefined
   showLabel?: boolean
   disabled?: boolean
@@ -62,7 +62,7 @@ const InputSelect = ({
               options={options}
               onChange={(val) => {
                 onChange(val)
-                onChangeProps(val as OptionModel)
+                onChangeProps(val as OptionType)
               }}
               onBlur={onBlur}
               value={value}

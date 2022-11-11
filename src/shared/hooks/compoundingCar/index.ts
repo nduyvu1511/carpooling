@@ -1,4 +1,5 @@
 export * from "./useCalcDistance"
+export * from "./useFetchCarBrand"
 export * from "./useCompoundingCar"
 export * from "./useCompoundingCarActions"
 export * from "./useCompoundingCarCustomer"

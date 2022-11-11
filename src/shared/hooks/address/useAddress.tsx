@@ -1,6 +1,6 @@
 import { RootState } from "@/core/store"
 import { convertViToEn } from "@/helper"
-import { DistrictId, OptionModel, ProvinceId, WardId } from "@/models"
+import { DistrictId, OptionType, ProvinceId, WardId } from "@/models"
 import { addressAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useEffect, useMemo, useState } from "react"
@@ -10,18 +10,18 @@ interface UseAddress {
   getWards: (id: number) => void
   getDistricts: (id: number) => void
   provinces: ProvinceId[]
-  provinceOptions: OptionModel[]
+  provinceOptions: OptionType[]
   districts: DistrictId[]
-  districtOptions: OptionModel[]
+  districtOptions: OptionType[]
   wards: WardId[]
-  wardOptions: OptionModel[]
+  wardOptions: OptionType[]
   clearDistricts: Function
   clearWards: Function
   clearAddressList: Function
   setDistricts: Function
   setWards: Function
   getProvinceIdByGooglePlace: (stringTerms: string) => number | undefined
-  getProvinceOptionById: (id: number) => OptionModel | undefined
+  getProvinceOptionById: (id: number) => OptionType | undefined
 }
 
 export const useAddress = (state_id?: number, district_id?: number): UseAddress => {
@@ -97,12 +97,12 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
     return provinceId
   }
 
-  const getProvinceOptionById = (id: number | undefined): OptionModel | undefined => {
+  const getProvinceOptionById = (id: number | undefined): OptionType | undefined => {
     if (!id) return
     return provinceOptions?.find((item) => item.value === id)
   }
 
-  const provinceOptions: OptionModel[] = useMemo(() => {
+  const provinceOptions: OptionType[] = useMemo(() => {
     if (!provinces?.length) return []
     return provinces.map((item) => ({
       value: item.province_id,
@@ -110,7 +110,7 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
     }))
   }, [provinces])
 
-  const districtOptions: OptionModel[] = useMemo(() => {
+  const districtOptions: OptionType[] = useMemo(() => {
     if (!districts?.length) return []
     return districts.map((item) => ({
       value: item.district_id,
@@ -118,7 +118,7 @@ export const useAddress = (state_id?: number, district_id?: number): UseAddress 
     }))
   }, [districts])
 
-  const wardOptions: OptionModel[] = useMemo(() => {
+  const wardOptions: OptionType[] = useMemo(() => {
     if (!wards?.length) return []
     return wards.map((item) => ({
       value: item.ward_id,

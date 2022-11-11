@@ -1,15 +1,20 @@
 import {
   AttachmentParams,
   Auth,
+  CarBrandRes,
+  CarInformationRes,
   CertificateInspectionParams,
   ChangePasswordParams,
   ConfirmRechargeRequestParams,
   ContactParams,
+  CreateCarInformation,
   CreateNewPasswordParams,
   CreateRechargeRequestParams,
   CreateUserFormParams,
+  CreateVerifiedPhoneNumber,
   DrivingLicenseParams,
   GetDetailTransactionParams,
+  GetPriceUnitParams,
   GetTransactionListByWalletParams,
   IdCardParams,
   IdCardUpdateParams,
@@ -20,18 +25,20 @@ import {
   RequestOTPCode,
   ResetPasswordParams,
   ResetPasswordRes,
+  StationRes,
+  UpdateCarInformation,
   UpdateCertificateInspectionParams,
   UpdateDrivingLicenseParams,
   UpdateUserInfoParams,
   UpdateVehicleInsuranceParams,
+  UpdateVerifiedPhoneNumber,
   VehicleDetailFormParams,
   VehicleInsuranceParams,
-  VerifyOTPCode,
-  GetPriceUnitParams,
-  StationRes,
   VehicleTypeParams,
+  VerifiedPhoneNumberRes,
+  VerifyOTPCode,
 } from "@/models"
-import { AxiosResponse } from "axios"
+import { AxiosPromise, AxiosResponse } from "axios"
 import axiosClient from "."
 
 const userAPI = {
@@ -130,6 +137,42 @@ const userAPI = {
 
   createUserInfo: (params: CreateUserFormParams) => {
     return axiosClient.post("/api/user_information_controller/create_user_information", { params })
+  },
+
+  getCarInformation: (): AxiosPromise<CarInformationRes[]> => {
+    return axiosClient.post("/api/user_information_controller/get_car_information", {
+      params: {},
+    })
+  },
+
+  createCarInformation: (params: CreateCarInformation): AxiosPromise<CarInformationRes> => {
+    return axiosClient.post("/api/user_information_controller/create_car_information", {
+      params,
+    })
+  },
+
+  updateCarInformation: (params: UpdateCarInformation): AxiosPromise<CarInformationRes> => {
+    return axiosClient.post("/api/user_information_controller/update_car_information", {
+      params,
+    })
+  },
+
+  createVerifiedPhoneNumber: (params: CreateVerifiedPhoneNumber) => {
+    return axiosClient.post("/api/user_information_controller/create_verified_number_phone", {
+      params,
+    })
+  },
+
+  updateVerifiedPhoneNumber: (params: UpdateVerifiedPhoneNumber) => {
+    return axiosClient.post("/api/user_information_controller/update_verified_number_phone", {
+      params,
+    })
+  },
+
+  getVerifiedPhoneNumber: (): AxiosPromise<VerifiedPhoneNumberRes> => {
+    return axiosClient.post("/api/user_information_controller/get_verified_number_phone", {
+      params: {},
+    })
   },
 
   createAttachmentCommon: (params: AttachmentParams) => {
@@ -313,7 +356,7 @@ const userAPI = {
     })
   },
 
-  getCarBrands: () => {
+  getCarBrands: (): Promise<AxiosResponse<CarBrandRes[]>> => {
     return axiosClient.post("/api/address_controller/get_car_brand_data", {
       params: {},
     })

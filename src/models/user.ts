@@ -1,4 +1,4 @@
-import { IAttachment, OptionModel, QueryCommonParams } from "./common"
+import { IAttachment, OptionType, QueryCommonParams } from "./common"
 
 export interface LoginFormParams {
   phone: string
@@ -67,8 +67,8 @@ export interface ImageRes {
 export type OwnerShipType = "car_owner" | "rental_car"
 
 export interface VehicleDetailFormSchema {
-  car_brand_id: OptionModel
-  car_id: OptionModel
+  car_brand_id: OptionType
+  car_id: OptionType
   car_name: string
   year_of_issue: string
   license_plates: string
@@ -108,33 +108,15 @@ export type VehicleKeyType = "brand" | "model" | "type" | "desc"
 export type IdCardKeyType = "text" | "select" | "date" | "file"
 export type DrivingLicenseKeyType = "text" | "select" | "file" | "date"
 export type IdCardName = keyof IdCardParams
-
 export type NewPasswordFormKeys = "password" | "re_password" | "old_password"
-export type DriverFormKey =
-  | "idCard"
-  | "info"
-  | "license"
-  | "vehicleInsuranceImages"
-  | "vehicleRegistration"
-  | "registrationCertificate"
-
-export type DrivingLicenseFormKey =
-  | "front_license_image_url"
-  | "back_license_image_url"
-  | "identity_number"
-  | "license_class"
-  | "date_of_issue"
-  | "date_of_expiry"
-
+export type DriverFormKey = keyof FilledDataFieldsRes
+export type DrivingLicenseFormKey = keyof DrivingLicenseFormParams
 export type CarAccountType = "customer" | "car_driver"
 export type VehicleDetailFormKey = keyof VehicleDetailFormParams
 export type VehicleInsuranceFormKey = keyof VehicleInsuranceParams
 export type VehicleImageKeyType = "frontImage" | "backImage"
-export type CertificateInspectionFormKey =
-  | "back_inspection_certificate_image_url"
-  | "front_inspection_certificate_image_url"
-  | "identity_number"
-  | "date_of_expiry"
+export type CertificateInspectionFormKey = keyof CertificateInspectionParams
+export type CarInformationFormKey = keyof CreateCarInformation
 export type GenderType = "male" | "female" | "no_info"
 export type DriverAccountStatus = "inactive_account" | "active_account" | "blocked_account"
 export type DrivingLicenseClassType = "b1" | "b2" | "c" | "d" | "e" | "f"
@@ -191,10 +173,10 @@ export interface ChangePasswordFormParams extends NewPasswordParams {
 export interface CreatePasswordFormParams extends NewPasswordParams {}
 
 export interface UserInfoFormAddress {
-  country_id?: OptionModel
-  province_id: OptionModel
-  district_id: OptionModel
-  ward_id: OptionModel
+  country_id?: OptionType
+  province_id: OptionType
+  district_id: OptionType
+  ward_id: OptionType
   street: string
 }
 
@@ -210,10 +192,10 @@ export interface UserInfoFormParams {
   name: string
   email?: string
   gender: GenderType
-  country_id?: OptionModel
-  province_id?: OptionModel
-  district_id?: OptionModel
-  ward_id?: OptionModel
+  country_id?: OptionType
+  province_id?: OptionType
+  district_id?: OptionType
+  ward_id?: OptionType
   street?: string
   identity_number?: string
 }
@@ -252,7 +234,7 @@ export interface IdCardParams {
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
-  place_of_issue: number
+  place_of_issue: string
   address: string
 }
 
@@ -262,7 +244,7 @@ export interface IdCardSchema {
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
-  place_of_issue: OptionModel
+  place_of_issue: string
   address: string
 }
 
@@ -277,6 +259,15 @@ export interface DrivingLicenseParams {
   license_class: string
   date_of_issue: string
   date_of_expiry: string
+}
+
+export interface CarBrandRes {
+  brand_id: number
+  brand_name: string
+  brand_icon: {
+    icon_id: number
+    icon_url: string
+  }
 }
 
 export interface UpdateDrivingLicenseParams extends DrivingLicenseParams {
@@ -306,14 +297,8 @@ export type VehicleInsuranceSchema = Pick<
 export interface VehicleInsuranceRes {
   compulsory_car_insurance_id: number
   partner: number
-  front_insurance_image_url: {
-    id: number
-    url: string
-  }
-  back_insurance_image_url: {
-    id: number
-    url: string
-  }
+  front_insurance_image_url: ImageRes
+  back_insurance_image_url: ImageRes
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
@@ -340,14 +325,8 @@ export type CertificateInspectionSchema = Pick<
 
 export interface CertificateInspectionRes {
   periodical_inspection_certificate_id: number
-  front_inspection_certificate_image: {
-    id: number
-    url: string
-  }
-  back_inspection_certificate_image: {
-    id: number
-    url: string
-  }
+  front_inspection_certificate_image: ImageRes
+  back_inspection_certificate_image: ImageRes
   identity_number: string
   date_of_expiry: string
 }
@@ -408,14 +387,8 @@ export type DrivingLicenseFormSchema = Pick<
 export interface DrivingLicenseRes {
   car_driving_license_id: number
   partner: UserInfo
-  front_license_image_url: {
-    id: number
-    url: string
-  }
-  back_license_image_url: {
-    id: number
-    url: string
-  }
+  front_license_image_url: ImageRes
+  back_license_image_url: ImageRes
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
@@ -425,18 +398,12 @@ export interface DrivingLicenseRes {
 export interface IdentityCardRes {
   identity_card_id: number
   partner: UserInfo
-  front_identity_card_image_url: {
-    id: number
-    url: string
-  }
-  back_identity_card_image_url: {
-    id: number
-    url: string
-  }
+  front_identity_card_image_url: ImageRes
+  back_identity_card_image_url: ImageRes
   identity_number: string
   date_of_issue: string
   date_of_expiry: string
-  place_of_issue: OptionModel
+  place_of_issue: string
   address: string
 }
 
@@ -447,6 +414,76 @@ export type FilledDataFieldsKey =
   | "car_registration_certificate"
   | "periodical_inspection_certificate"
   | "compulsory_car_insurance"
+  | "verified_number_phone"
+  | "car_information_id"
+
+export interface CreateVerifiedPhoneNumber {
+  verified_number_phone_image_url: number
+}
+
+export interface VefifiedPhoneNumberForm {
+  verified_number_phone_image_url: ImageRes
+  phone: string
+}
+
+export interface VerifiedPhoneNumberRes {
+  verified_number_phone_id: number
+  phone: string
+  verified_number_phone_image: ImageRes
+  state: string
+}
+
+export interface UpdateVerifiedPhoneNumber extends CreateVerifiedPhoneNumber {
+  verified_number_phone_id: number
+}
+
+export type CarColor = "black" | "white" | "gray" | "red" | "yellow" | "blue" | "other"
+
+export interface CreateCarInformation {
+  car_brand_id?: number
+  car_name?: string
+  main_color?: CarColor
+  car_front_image_id: number
+  car_back_image_id: number
+  standard_id?: number
+  extra_utility_ids?: number[]
+  car_image_ids?: number[]
+}
+
+export interface CreateCarInformationForm {
+  car_brand_id?: OptionType
+  car_name?: string
+  main_color?: CarColor
+  car_front_image_id: ImageRes
+  car_back_image_id: ImageRes
+  standard_id?: number
+  extra_utility_ids?: number[]
+  car_image_ids?: ImageRes[]
+}
+
+export type UpdateCarInformation = Partial<CreateCarInformation> & {
+  car_information_id: number
+}
+
+export interface CarInformationRes {
+  car_information_id: number
+  car_brand: {
+    brand_id: number
+    brand_name: string
+    brand_icon: ImageRes
+  }
+  car_name: string
+  standard_id: {
+    standard_id: number
+    standard_name: string
+    required_extra_utility: []
+  }
+  extra_utility: []
+  car_front_image: ImageRes
+  car_back_image: ImageRes
+  car_images: ImageRes[]
+  state: string
+}
 
 export interface FilledDataFieldsRes {
   user_information: boolean
@@ -455,6 +492,8 @@ export interface FilledDataFieldsRes {
   car_registration_certificate: boolean
   periodical_inspection_certificate: boolean
   compulsory_car_insurance: boolean
+  verified_number_phone: boolean
+  car_information_id: boolean
 }
 
 export interface CarDriverId extends UserInfo {
@@ -462,7 +501,7 @@ export interface CarDriverId extends UserInfo {
 }
 
 export interface CheckPhoneExistParams {
-  phone: string
+  phone: number
   type: "login" | "register" | "resetPassword"
 }
 

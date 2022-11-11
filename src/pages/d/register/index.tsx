@@ -63,6 +63,8 @@ const DriverInfo = () => {
               <div className="skeleton h-[16px] rounded-[4px] mb-[32px]"></div>
               <div className="skeleton h-[16px] rounded-[4px] mb-[32px]"></div>
               <div className="skeleton h-[16px] rounded-[4px] mb-[32px]"></div>
+              <div className="skeleton h-[16px] rounded-[4px] mb-[32px]"></div>
+              <div className="skeleton h-[16px] rounded-[4px] mb-[32px]"></div>
               <div className=" flex-center">
                 <div className="w-[160px] rounded-[20px] py-[24px] skeleton mb-[24px]"></div>
               </div>

@@ -5,7 +5,7 @@ import {
   isObjectHasValue,
 } from "@/helper"
 import { useAddress, useCompoundingForm, useCurrentLocation } from "@/hooks"
-import { CarAccountType, CompoundingFilterParams, OptionModel } from "@/models"
+import { CarAccountType, CompoundingFilterParams, OptionType } from "@/models"
 import { useEffect, useMemo, useState } from "react"
 import "react-datetime/css/react-datetime.css"
 import Select from "react-select"
@@ -31,7 +31,7 @@ export const RideFilter = ({
   const { provinceOptions } = useAddress()
   const { vehicleTypeOptions, seats } = useCompoundingForm()
   const { getCurrentLocation } = useCurrentLocation()
-  const [numberSeatOptions, setNumberSeatOptions] = useState<OptionModel[]>(seats(16))
+  const [numberSeatOptions, setNumberSeatOptions] = useState<OptionType[]>(seats(16))
   const [compoundingFormValues, setCompoundingFormValues] = useState<
     CompoundingFilterParams | undefined
   >(defaultValues)

@@ -1,5 +1,5 @@
 import { ButtonSubmit, InputDate, InputImage } from "@/components"
-import { idCardFormFields, identityCardSchema } from "@/helper"
+import { convertViToEn, idCardFormFields, identityCardSchema } from "@/helper"
 import { useAddress, useDebounce } from "@/hooks"
 import {
   IdCardName,
@@ -7,7 +7,7 @@ import {
   IdCardSchema,
   IdentityCardRes,
   ImageRes,
-  OptionModel,
+  OptionType,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Controller, useForm } from "react-hook-form"
@@ -40,13 +40,7 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
       date_of_expiry: defaultValues?.date_of_expiry,
       date_of_issue: defaultValues?.date_of_issue,
       identity_number: defaultValues?.identity_number,
-      place_of_issue: defaultValues?.place_of_issue?.value
-        ? defaultValues.place_of_issue
-        : Number(defaultValues?.place_of_issue)
-        ? provinceOptions.find(
-            ({ value }) => Number(value) === Number((defaultValues as IdCardSchema)?.place_of_issue)
-          )
-        : undefined,
+      place_of_issue: defaultValues?.place_of_issue,
       address: defaultValues?.address,
     },
   })
@@ -57,11 +51,11 @@ export const IdentityCardForm = ({ onSubmit, defaultValues, view }: IdentityCard
       back_identity_card_image_url: Number(data.back_identity_card_image_url.id),
       front_identity_card_image_url: Number(data.front_identity_card_image_url.id),
       date_of_issue: data.date_of_issue,
-      place_of_issue: Number(data.place_of_issue.value),
+      place_of_issue: data.place_of_issue,
     })
   }
 
-  const getOptionsSelect = (name: IdCardName): OptionModel[] => {
+  const getOptionsSelect = (name: IdCardName): OptionType[] => {
     if (name === "place_of_issue") {
       return provinceOptions
     }

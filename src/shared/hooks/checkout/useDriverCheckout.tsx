@@ -8,7 +8,7 @@ import {
   UseParams,
 } from "@/models"
 import { setScreenLoading } from "@/modules"
-import { chatAPI, rideAPI } from "@/services"
+import { rideAPI } from "@/services"
 import { AxiosResponse } from "axios"
 import { useDispatch } from "react-redux"
 import { useFetcher } from "../async"

@@ -151,7 +151,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                     </Link>
                   </div>
 
-                  <div className="flex items-center max-w-[150px] w-full relative group cursor-pointer">
+                  <div className="relative group">
                     <div
                       onClick={() =>
                         router.push(
@@ -160,25 +160,27 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                           }`
                         )
                       }
-                      className="relative w-[32px] h-[32px]"
+                      className="flex items-center max-w-[150px] w-full cursor-pointer"
                     >
-                      <Image
-                        layout="fill"
-                        src={
-                          userInfo?.avatar_url?.image_url
-                            ? toImageUrl(userInfo?.avatar_url?.image_url || "")
-                            : blankAvatar
-                        }
-                        objectFit="cover"
-                        alt=""
-                        className="rounded-[50%]"
-                      />
-                    </div>
+                      <div className="relative w-[32px] h-[32px]">
+                        <Image
+                          layout="fill"
+                          src={
+                            userInfo?.avatar_url?.image_url
+                              ? toImageUrl(userInfo?.avatar_url?.image_url || "")
+                              : blankAvatar
+                          }
+                          objectFit="cover"
+                          alt=""
+                          className="rounded-[50%]"
+                        />
+                      </div>
 
-                    <div className="hidden sm:block ml-8 flex-1">
-                      <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
-                        {userInfo?.partner_name}
-                      </p>
+                      <div className="hidden sm:block ml-8 flex-1">
+                        <p className="text-sm lg:text-base word-wrap-anywhere line-clamp-1">
+                          {userInfo?.partner_name}
+                        </p>
+                      </div>
                     </div>
 
                     {/* hover */}

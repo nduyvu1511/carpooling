@@ -1,6 +1,6 @@
 import { userFormAddressSchema, userInfoAddressData } from "@/helper"
 import { useAddress } from "@/hooks"
-import { OptionModel, UserInfoFormAddress, UserInfoFormAddressOptional } from "@/models"
+import { OptionType, UserInfoFormAddress, UserInfoFormAddressOptional } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
@@ -77,11 +77,11 @@ const AddressForm = ({ defaultValues, onSubmit, className = "" }: AddressFormPro
                             setError("ward_id", {})
                           }
 
-                          getDistricts(Number((val as OptionModel)?.value))
+                          getDistricts(Number((val as OptionType)?.value))
                         }
 
                         if (name === "district_id") {
-                          getWards(Number((val as OptionModel)?.value))
+                          getWards(Number((val as OptionType)?.value))
                           if (getValues("ward_id.value")) {
                             setValue("ward_id", null as any)
                             setError("ward_id", {})

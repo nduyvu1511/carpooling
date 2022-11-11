@@ -1,5 +1,5 @@
 import { PaymentMethod } from "./checkout"
-import { ListQuery, OptionModel } from "./common"
+import { ListQuery, OptionType } from "./common"
 import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
 import { PromotionRes } from "./promotion"
 import { RatingRes } from "./rating"
@@ -83,7 +83,7 @@ export interface CarIdType {
 export interface CreateCommonCompoundingForm {
   from_location: FromLocation
   to_location: FromLocation
-  car_id: OptionModel
+  car_id: OptionType
   note?: string
   expected_going_on_date: string
   distance: number
@@ -323,7 +323,7 @@ export interface FormModeType {
 
 export interface CreateTwoWayCompoundingCarForm extends CreateCommonCompoundingForm {
   is_a_day_tour: boolean
-  hour_of_wait_time?: OptionModel
+  hour_of_wait_time?: OptionType
   expected_picking_up_date?: string
   price?: number
 }
@@ -355,9 +355,9 @@ export interface RideStation {
 }
 
 export interface CreateCarpoolingCompoundingForm {
-  car_id: OptionModel & { number_seat: number }
+  car_id: OptionType & { number_seat: number }
   price_per_passenger?: number
-  number_seat: OptionModel
+  number_seat: OptionType
   from_station: StationId
   to_station: StationId
   from_location?: FromLocation
@@ -502,15 +502,15 @@ export type CompoundingCarFilterKey = keyof CompoundingCarFilterParams
 
 export interface DefaultCompoundingCarFilterFormParams {
   order_by?: CompoundingOrderField
-  from_province_id?: OptionModel
-  to_province_id?: OptionModel
-  car_id?: OptionModel & { number_seat: number }
+  from_province_id?: OptionType
+  to_province_id?: OptionType
+  car_id?: OptionType & { number_seat: number }
   from_expected_going_on_date?: string
   to_expected_going_on_date?: string
   compounding_type?: CompoundingType
   current_latitude?: string
   current_longitude?: string
-  number_seat?: OptionModel
+  number_seat?: OptionType
 }
 
 export type DefaultCompoundingCarFilterKey = keyof DefaultCompoundingCarFilterFormParams

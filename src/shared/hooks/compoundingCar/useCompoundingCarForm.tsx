@@ -47,7 +47,7 @@ import {
   CreateCommonCompoundingForm,
   CreateOneWayCompoundingCarForm,
   CreateTwoWayCompoundingCarForm,
-  OptionModel,
+  OptionType,
 } from "@/models"
 import { userAPI } from "@/services"
 import { AxiosResponse } from "axios"
@@ -62,7 +62,7 @@ export interface CalcPriceParams {
 
 interface Res {
   vehicleTypeOptions: CarIdType[]
-  seats: (limit: number) => OptionModel[]
+  seats: (limit: number) => OptionType[]
   clearOneWayCompoundingCar: Function
   clearTwoWayCompoundingCar: Function
   clearCarpoolingWayCompoundingCar: Function

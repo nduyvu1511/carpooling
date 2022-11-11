@@ -1,5 +1,5 @@
 import { getTimes } from "@/helper"
-import { OptionModel } from "@/models"
+import { OptionType } from "@/models"
 import moment from "moment"
 import { useEffect, useMemo, useState } from "react"
 import Datetime from "react-datetime"
@@ -35,12 +35,12 @@ const MyInputDateTime = ({
   onBlur,
   currentDay,
 }: MyInputDateTimeProps) => {
-  const [times, setTimes] = useState<OptionModel[]>()
+  const [times, setTimes] = useState<OptionType[]>()
   const [time, setTime] = useState<string>(initialValue ? initialValue.slice(11) : "")
   const [date, setDate] = useState<string>(
     initialValue ? moment(initialValue.slice(0, 10)).format("YYYY-MM-DD") : ""
   )
-  const timeValue: OptionModel | null = useMemo(() => {
+  const timeValue: OptionType | null = useMemo(() => {
     if (!times || !time) return null
 
     return (
@@ -109,7 +109,7 @@ const MyInputDateTime = ({
     return current.isAfter(currentDay ? moment(currentDay) : yesterday)
   }
 
-  const getTimesBySameDay = (date: string): OptionModel[] => {
+  const getTimesBySameDay = (date: string): OptionType[] => {
     const data = [...getTimes()]
     const times = moment().isSame(date, "date")
       ? data.slice(data.findIndex((item) => item.value >= moment().format("HH:mm")))
@@ -123,7 +123,7 @@ const MyInputDateTime = ({
     }
   }
 
-  const handleSetTime = (val: OptionModel) => {
+  const handleSetTime = (val: OptionType) => {
     if (!val) return
     setTime(val?.value + "")
 
@@ -189,7 +189,7 @@ const MyInputDateTime = ({
           options={times}
           value={timeValue}
           placeholder={<p className="font-medium">Chọn giờ</p>}
-          onChange={(val) => handleSetTime(val as OptionModel)}
+          onChange={(val) => handleSetTime(val as OptionType)}
           className={`${disableHour ? "pointer-events-none opacity-60" : ""} `}
           maxMenuHeight={maxMenuHeight}
           isSearchable={isSelectSearchable}

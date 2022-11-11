@@ -8,7 +8,6 @@ import {
   VehicleDetailFormSchema,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
 
@@ -72,13 +71,6 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
       sign_image_url: Number(data.sign_image_url.id),
     })
   }
-
-  const vehicleBrandOptions = useMemo(() => {
-    return vehicleBrandList?.map((item) => ({
-      label: item.brand_name,
-      value: item.brand_id,
-    }))
-  }, [vehicleBrandList])
 
   return (
     <form className="form-control" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -186,9 +178,9 @@ export const VehicleForm = ({ onSubmit, defaultValues, view = "modal" }: Vehicle
                     placeholder={field.placeholder}
                     options={
                       field.name === "car_id"
-                        ? vehicleTypeOptions
+                        ? (vehicleTypeOptions as any)
                         : field.name === "car_brand_id"
-                        ? vehicleBrandOptions
+                        ? vehicleBrandList
                         : undefined
                     }
                     onChange={(val) => val?.value && onChange(val)}

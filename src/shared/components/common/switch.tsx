@@ -1,8 +1,8 @@
-import { OptionModel } from "@/models"
+import { OptionType } from "@/models"
 
 interface SwitchProps {
   onChange?: (_: string) => void
-  list: OptionModel[]
+  list: OptionType[]
   value?: string
 }
 

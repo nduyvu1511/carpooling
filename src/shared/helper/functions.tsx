@@ -3,7 +3,7 @@ import {
   CompoundingCarDriverState,
   LastMessage,
   MessageRes,
-  OptionModel,
+  OptionType,
   TimeType,
 } from "@/models"
 import _ from "lodash"
@@ -281,7 +281,7 @@ export const toggleBodyOverflow = (status: "hidden" | "unset") => {
   }
 }
 
-export const getTimes = (): OptionModel[] => {
+export const getTimes = (): OptionType[] => {
   let times = [],
     // periods = ["Sáng", "Chiều"],
     hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],

@@ -61,12 +61,12 @@ export interface CommonSlice {
   isOpenLocationFormModal: LocationType | undefined
 }
 
-export interface OptionModel {
+export interface OptionType {
   label: string
   value: string | number
 }
 
-export interface NumberSeatOptionModel {
+export interface NumberSeatOptionType {
   label: string
   value: number
   number_seat: number

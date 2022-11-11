@@ -1,5 +1,4 @@
 import { CalendarDoneIcon, CalendarIcon, LocationIcon3, LocationIcon4, ZoomInIcon } from "@/assets"
-import { COMPOUNDING_TYPE_BG, COMPOUNDING_TYPE_COLOR, COMPOUNDING_TYPE_NAME } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarDriverRes, CompoundingCarRes } from "@/models"
 import { setShowSummaryDetail } from "@/modules"
 import moment from "moment"
