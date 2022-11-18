@@ -133,7 +133,7 @@ const Wallet = () => {
     <>
       <div className="px-custom">
         <div className="items-stretch justify-between hidden lg:flex pb-12 md:py-24 border-b border-solid border-border-color">
-          <h4 className="h4 text-primary">Ví cá nhân</h4>
+          <h4 className="h4 text-primary">Tài khoản cá nhân</h4>
           <button
             onClick={() => handleToggleModal({ status: true, type: "transaction" })}
             className="btn-primary w-fit"

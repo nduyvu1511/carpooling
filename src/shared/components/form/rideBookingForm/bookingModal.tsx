@@ -74,60 +74,63 @@ const BookingModal = ({
   }
 
   return (
-    <Modal
-      key="booking-modal"
-      show={!!show}
-      heading={COMPOUNDING_TYPE_HEADING[compoundingType as CompoundingType]}
-      onClose={onClose}
-      headerNode={
-        carAccountType === "customer" ? (
-          <div className="lg:hidden">
-            <Tabs
-              type="full"
-              list={[
-                { label: "Một chiều", value: "one_way" },
-                { label: "Hai chiều", value: "two_way" },
-                { label: "Đi ghép", value: "compounding" },
-              ]}
-              tabActive={compoundingType || formType}
-              onChange={(val) => setCompoundingType(val as CompoundingType)}
+    <>
+      <Modal
+        key="booking-modal"
+        transitionType="down"
+        show={!!show}
+        heading={COMPOUNDING_TYPE_HEADING[compoundingType as CompoundingType]}
+        onClose={onClose}
+        headerNode={
+          carAccountType === "customer" ? (
+            <div className="lg:hidden">
+              <Tabs
+                type="full"
+                list={[
+                  { label: "Một chiều", value: "one_way" },
+                  { label: "Hai chiều", value: "two_way" },
+                  { label: "Ghép chuyến", value: "compounding" },
+                ]}
+                tabActive={compoundingType || formType}
+                onChange={(val) => setCompoundingType(val as CompoundingType)}
+              />
+            </div>
+          ) : null
+        }
+      >
+        <div className="flex-1 w-full overflow-auto px-custom py-custom pb-[64px] sm:pb-[78px]">
+          {compoundingType === "one_way" ? (
+            <OneWayCompoundingForm
+              defaultValues={oneWayCompoundingCarFormFromLocalStorage()}
+              onSubmit={(params) => {
+                handleCreateCompoundingCar({ params })
+              }}
+              view="modal"
+              mode="create"
             />
-          </div>
-        ) : null
-      }
-    >
-      <div className="flex-1 w-full overflow-auto px-custom py-custom pb-[64px] sm:pb-[78px]">
-        {compoundingType === "one_way" ? (
-          <OneWayCompoundingForm
-            defaultValues={oneWayCompoundingCarFormFromLocalStorage()}
-            onSubmit={(params) => {
-              handleCreateCompoundingCar({ params })
-            }}
-            view="modal"
-            mode="create"
-          />
-        ) : compoundingType === "two_way" ? (
-          <TwoWayCompoundingForm
-            defaultValues={twoWayCompoundingCarFormFromLocalStorage()}
-            onSubmit={(params) => {
-              handleCreateCompoundingCar({ params })
-            }}
-            view="modal"
-            mode="create"
-          />
-        ) : (
-          <CarpoolingCompoundingForm
-            compoundingType={compoundingType}
-            defaultValues={carpoolingCompoundingFormFromLocalStorage()}
-            onSubmit={(params) => {
-              handleCreateCompoundingCar({ params })
-            }}
-            view="modal"
-            mode="create"
-          />
-        )}
-      </div>
-    </Modal>
+          ) : compoundingType === "two_way" ? (
+            <TwoWayCompoundingForm
+              defaultValues={twoWayCompoundingCarFormFromLocalStorage()}
+              onSubmit={(params) => {
+                handleCreateCompoundingCar({ params })
+              }}
+              view="modal"
+              mode="create"
+            />
+          ) : (
+            <CarpoolingCompoundingForm
+              compoundingType={compoundingType}
+              defaultValues={carpoolingCompoundingFormFromLocalStorage()}
+              onSubmit={(params) => {
+                handleCreateCompoundingCar({ params })
+              }}
+              view="modal"
+              mode="create"
+            />
+          )}
+        </div>
+      </Modal>
+    </>
   )
 }
 

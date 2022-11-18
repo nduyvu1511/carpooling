@@ -68,7 +68,7 @@ const chatAPI = {
     return axiosClient.post("/chat/user/generate_token", params)
   },
 
-  createSingleChat: (params: CreateSingleChat) => {
+  createSingleChat: (params: Omit<CreateSingleChat, "state">) => {
     return axiosClient.post("/chat/room/single", params)
   },
 

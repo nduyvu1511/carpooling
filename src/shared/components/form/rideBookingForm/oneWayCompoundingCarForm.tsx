@@ -50,7 +50,7 @@ export const OneWayCompoundingForm = ({
     getValues,
     clearErrors,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
   } = useForm<CreateOneWayCompoundingCarForm>({
     resolver: yupResolver(oneWayCompoundingCarSchema),
@@ -214,6 +214,7 @@ export const OneWayCompoundingForm = ({
 
       {onSubmit ? (
         <ButtonSubmit
+          disabled={!isValid}
           view={view}
           title={
             labelBtn
@@ -224,7 +225,6 @@ export const OneWayCompoundingForm = ({
               ? "Xác nhận"
               : "Tiến hành đặt cọc"
           }
-          isError={isObjectHasValue(errors)}
         />
       ) : null}
     </form>

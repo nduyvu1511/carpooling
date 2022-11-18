@@ -160,7 +160,7 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
                           }`
                         )
                       }
-                      className="flex items-center max-w-[150px] w-full cursor-pointer"
+                      className="flex items-center max-w-[200px] w-full cursor-pointer"
                     >
                       <div className="relative w-[32px] h-[32px]">
                         <Image

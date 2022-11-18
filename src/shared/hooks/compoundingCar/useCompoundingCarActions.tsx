@@ -4,6 +4,7 @@ import {
   CreateCarpoolingCompoundingCar,
   CreateCompoundingCar,
   UpdateCompoundingCar,
+  UpdateCompoundingCarDriver,
   UseParams,
 } from "@/models"
 import { chatAPI, rideAPI } from "@/services"
@@ -11,6 +12,7 @@ import { useFetcher } from "../async"
 
 interface UseCompoundingCarActions {
   createCompoundingCar: (params: UseParams<CreateCompoundingCar, CompoundingCarCustomer>) => void
+  driverConfirmCompoundingCar: (_params: UseParams<{ compounding_car_id: number }, any>) => void
   confirmCompoundingCar: (
     _params: UseParams<{ compounding_car_customer_id: number }, CompoundingCarCustomer>
   ) => void
@@ -24,6 +26,7 @@ interface UseCompoundingCarActions {
   confirmExistedCompoundingCarCustomer: (
     params: UseParams<{ compounding_car_customer_id: number }, any>
   ) => any
+  updateDriverCompoundingCar: (_params: UseParams<UpdateCompoundingCarDriver, any>) => void
 }
 
 export const useCompoundingCarActions = (): UseCompoundingCarActions => {
@@ -104,6 +107,28 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     })
   }
 
+  const driverConfirmCompoundingCar = async (
+    _params: UseParams<{ compounding_car_id: number }, any>
+  ) => {
+    const {
+      params: { compounding_car_id },
+      onSuccess,
+      onError,
+    } = _params
+
+    fetcherHandler({
+      fetcher: rideAPI.confirmCompoundingCarForDriver({
+        compounding_car_id,
+      }),
+      onSuccess: (data: any) => {
+        onSuccess(data)
+      },
+      onError: () => {
+        onError?.()
+      },
+    })
+  }
+
   const confirmExistedCompoundingCarCustomer = async (
     _params: UseParams<{ compounding_car_customer_id: number }, any>
   ) => {
@@ -143,6 +168,23 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     })
   }
 
+  const updateDriverCompoundingCar = async (
+    _params: UseParams<UpdateCompoundingCarDriver, any>
+  ) => {
+    const { params, onSuccess, onError, config } = _params
+
+    fetcherHandler({
+      fetcher: rideAPI.updateCompoundingCarForDriver(params),
+      onSuccess: (data: any) => {
+        onSuccess(data)
+      },
+      onError: () => {
+        onError?.()
+      },
+      config,
+    })
+  }
+
   return {
     confirmCompoundingCar,
     createCompoundingCar,
@@ -150,5 +192,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     createExistingCompoundingCar,
     confirmExistedCompoundingCarCustomer,
     customerCancelCompoundingCarBeforeDeposit,
+    driverConfirmCompoundingCar,
+    updateDriverCompoundingCar,
   }
 }

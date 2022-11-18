@@ -13,7 +13,11 @@ export const RideDetailInfo = ({ data, showSnackbar = true }: RideDetailInfoProp
   const cancelDate = showSnackbar ? moment(data.expected_going_on_date).subtract(3, "hours") : null
   return (
     <>
-      <DriverInfoSummary compounding_car_id={data.compounding_car_id} driver={data.car_driver_id} />
+      <DriverInfoSummary
+        state={data.state}
+        compounding_car_id={data.compounding_car_id}
+        driver={data.car_driver_id}
+      />
       <div className="my-24 border-b border-solid border-border-color"></div>
       <ul>
         <p className="text-base font-semibold uppercase mb-16 md:mb-24">Hóa đơn</p>

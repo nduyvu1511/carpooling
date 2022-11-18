@@ -17,7 +17,7 @@ const AccountLayout = ({ children, desc, title, showHeaderMobile = true }: Accou
     }
   }, [])
 
-  if (!userInfo) return null
+  if (!userInfo?.car_account_type) return null
   return (
     <>
       {showHeaderMobile ? <HeaderMobile className="lg:hidden" title={title || ""} /> : null}

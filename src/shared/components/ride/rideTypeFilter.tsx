@@ -26,7 +26,7 @@ const RideTypeFilter = ({
             label: "Hai chiều",
             value: "two_way",
           },
-          { value: "compounding", label: "Đi ghép" },
+          { value: "compounding", label: "Ghép chuyến" },
         ]
       : [
           { value: "", label: "Tất cả" },

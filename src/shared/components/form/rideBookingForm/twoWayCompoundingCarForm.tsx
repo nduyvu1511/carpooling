@@ -59,7 +59,7 @@ export const TwoWayCompoundingForm = ({
     getValues,
     clearErrors,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
   } = useForm<CreateTwoWayCompoundingCarForm>({
     resolver: yupResolver(twoWayCompoundingCarSchema),
@@ -318,7 +318,7 @@ export const TwoWayCompoundingForm = ({
               ? "Xác nhận"
               : "Tiến hành đặt cọc"
           }
-          isError={isObjectHasValue(errors)}
+          disabled={!isValid}
           view={view}
         />
       ) : null}

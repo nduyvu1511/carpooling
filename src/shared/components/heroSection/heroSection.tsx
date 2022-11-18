@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { CarpoolingIcon, ConvenientIcon, mapbanner, OneWayIcon, TwoWayIcon } from "@/assets"
+import { CarpoolingIcon, ConvenientIcon, mapBanner, OneWayIcon, TwoWayIcon } from "@/assets"
 import { toggleBodyOverflow } from "@/helper"
 import { setAuthModalType } from "@/modules"
 import Image from "next/image"
@@ -15,7 +15,7 @@ export const HeroSection = () => {
     <>
       <div className="relative h-full w-full">
         <div className="relative w-full h-full">
-          <Image src={mapbanner} alt="" className="" objectFit="cover" layout="fill" />
+          <Image src={mapBanner} alt="" className="" objectFit="cover" layout="fill" />
         </div>
         <div className="absolute inset-0 p-24">
           <div className="absolute w-[80%] xs:w-[55%] sm:w-[40%] md:w-[35%] lg:w-[40%] xl:w-[40%] top-2/3 sm:top-1/2 flex flex-col items-end transform -translate-y-1/2 right-16 sm:right-24">

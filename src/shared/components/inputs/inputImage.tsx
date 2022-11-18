@@ -66,7 +66,7 @@ export const InputImage = ({
 
   return (
     <div
-      className="flex-center flex-col relative"
+      className="flex-center flex-col relative z-0"
       style={{
         pointerEvents: isUploading ? "none" : "unset",
         userSelect: "none",

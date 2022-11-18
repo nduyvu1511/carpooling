@@ -233,7 +233,7 @@ export const useCompoundingForm = (): Res => {
         province_id: Number(data.to_province.province_id),
       },
       is_checked_policy: true,
-      note: data.note,
+      note: data?.note || "",
       duration: data.duration,
       price: data.price_unit.price_unit,
     }

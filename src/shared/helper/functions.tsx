@@ -393,15 +393,16 @@ export const compareCompoundingCarCustomerState = ({
   const arr = {
     draft: 1,
     confirm: 2,
-    deposit: 3,
-    waiting: 4,
-    assign: 5,
-    waiting_customer: 6,
-    in_process: 7,
-    done: 8,
-    customer_pay: 9,
-    confirm_paid: 10,
-    cancel: 11,
+    confirm_deposit: 3,
+    deposit: 4,
+    waiting: 5,
+    assign: 6,
+    waiting_customer: 7,
+    in_process: 8,
+    done: 9,
+    customer_pay: 10,
+    confirm_paid: 11,
+    cancel: 12,
   }
 
   const currentIndex = arr[currentState]

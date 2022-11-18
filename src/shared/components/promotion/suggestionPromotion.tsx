@@ -1,6 +1,6 @@
 import { ArrowRightIcon, CouponFillIcon } from "@/assets"
 import { isArrayHasValue } from "@/helper"
-import { usePromotionActions, useScrollTop } from "@/hooks"
+import { useScrollTop } from "@/hooks"
 import { PromotionRes } from "@/models"
 import { promotionApi } from "@/services"
 import { useRouter } from "next/router"
@@ -11,8 +11,7 @@ import { PromotionItem } from "./promotionItem"
 
 export const SuggestionPromotion = () => {
   const router = useRouter()
-  const { savePromotion } = usePromotionActions()
-  const { isValidating, data, mutate } = useSWR<PromotionRes[]>(
+  const { isValidating, data } = useSWR<PromotionRes[]>(
     "get_suggestion_promotions",
     () =>
       promotionApi
@@ -24,20 +23,20 @@ export const SuggestionPromotion = () => {
     }
   )
 
-  const handleSavePromotion = (promotion: PromotionRes) => {
-    savePromotion({
-      params: { promotion_id: promotion.promotion_id },
-      onSuccess: () => {
-        if (!data) return
-        mutate(
-          [...data].map((item) =>
-            item.promotion_id === promotion.promotion_id ? { ...item, saved_promotion: true } : item
-          ),
-          false
-        )
-      },
-    })
-  }
+  // const handleSavePromotion = (promotion: PromotionRes) => {
+  //   savePromotion({
+  //     params: { promotion_id: promotion.promotion_id },
+  //     onSuccess: () => {
+  //       if (!data) return
+  //       mutate(
+  //         [...data].map((item) =>
+  //           item.promotion_id === promotion.promotion_id ? { ...item, saved_promotion: true } : item
+  //         ),
+  //         false
+  //       )
+  //     },
+  //   })
+  // }
 
   if (!isValidating && !isArrayHasValue(data)) return null
   return (
@@ -82,7 +81,7 @@ export const SuggestionPromotion = () => {
           : data?.map((item) => (
               <SwiperSlide className="cursor-pointer" key={item.promotion_id}>
                 <PromotionItem
-                  onSave={handleSavePromotion}
+                  // onSave={handleSavePromotion}
                   onClick={(id) => router.push(`/promotion/${id}`)}
                   data={item}
                 />

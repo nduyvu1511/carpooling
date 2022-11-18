@@ -95,4 +95,4 @@ export * from "./warningIcon"
 export * from "./youtubeIcon"
 export * from "./zaloIcon"
 export * from "./zoomInIcon"
-
+export * from "./guideIcon"

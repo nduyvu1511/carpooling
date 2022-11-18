@@ -23,7 +23,7 @@ const CompoundingCarDriver = () => {
   const { compounding_car_customer_id } = router.query
 
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
-  const { confirmCompoundingCar, updateCompoundingCar } = useCompoundingCarActions()
+  const { driverConfirmCompoundingCar, updateDriverCompoundingCar } = useCompoundingCarActions()
   const { compoundingCarCustomerResToCarpoolingForm, clearCarpoolingWayCompoundingCar } =
     useCompoundingForm()
   const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
@@ -58,16 +58,16 @@ const CompoundingCarDriver = () => {
       return
     }
 
-    updateCompoundingCar({
+    updateDriverCompoundingCar({
       params: {
         ...params,
-        compounding_car_customer_id: compoundingCar?.compounding_car_customer_id,
+        compounding_car_id: compoundingCar?.compounding_car_id,
         compounding_type: "convenient",
       },
       onSuccess: () => {
         clearCarpoolingWayCompoundingCar()
-        confirmCompoundingCar({
-          params: { compounding_car_customer_id: compoundingCar.compounding_car_customer_id },
+        driverConfirmCompoundingCar({
+          params: { compounding_car_id: compoundingCar.compounding_car_id },
           onSuccess: () => {
             router.push(
               `/d/ride-detail/checkout/checkout-success?compounding_car_id=${compoundingCar.compounding_car_id}`

@@ -1,13 +1,20 @@
 import { ChangePasswordForm, CreatePasswordForm, InputLoading, Seo } from "@/components"
 import { usePassword } from "@/hooks"
 import { AccountLayout, AuthLayout } from "@/layout"
-import { OnResetParams } from "@/models"
-import { useRef } from "react"
+import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
+import { RootState } from "../core"
 
 const Password = () => {
-  const changePwRef = useRef<OnResetParams>(null)
-  const createPwRef = useRef<OnResetParams>(null)
+  const router = useRouter()
+  const car_account_type = useSelector(
+    (state: RootState) => state.userInfo.userInfo?.car_account_type
+  )
   const { data: hasPassword, createPassword, changePassword, isValidating } = usePassword(true)
+
+  const redirect = () => {
+    router.push(`${car_account_type === "customer" ? "/c/account" : "/d/account"}`)
+  }
 
   return (
     <AuthLayout headerClassName="hidden lg:flex">
@@ -24,26 +31,19 @@ const Password = () => {
             <>
               {hasPassword ? (
                 <ChangePasswordForm
-                  ref={changePwRef}
                   onSubmit={(data) =>
                     changePassword({
                       ...data,
-                      handleSuccess: () => {
-                        console.log("hello")
-                        changePwRef.current?.onReset()
-                      },
+                      handleSuccess: redirect,
                     })
                   }
                 />
               ) : (
                 <CreatePasswordForm
-                  ref={createPwRef}
                   onSubmit={(data) =>
                     createPassword({
                       ...data,
-                      handleSuccess: () => {
-                        createPwRef.current?.onReset()
-                      },
+                      handleSuccess: redirect,
                     })
                   }
                 />

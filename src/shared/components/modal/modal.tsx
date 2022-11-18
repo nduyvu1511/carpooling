@@ -1,9 +1,9 @@
-import { ArrowLeft2Icon, ArrowLeftIcon, CloseThickIcon } from "@/assets"
+import { ArrowLeft2Icon, CloseThickIcon } from "@/assets"
 import { TransitionDirection } from "@/models"
 import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
-interface ModalProps {
+export interface ModalProps {
   heading: string
   onClose: Function
   children: ReactNode
@@ -32,6 +32,23 @@ const Modal = ({
   fullScreen = false,
   rightHeaderNode = null,
 }: ModalProps) => {
+  // useEffect(() => {
+  //   const handleEsc = (e: KeyboardEvent) => {
+  //     if (e.key === "Escape") {
+  //       e.preventDefault()
+  //       console.log("user press esc")
+  //       onClose?.()
+
+  //       // 👇️ your logic here
+  //     }
+  //   }
+  //   window.addEventListener("keydown", handleEsc)
+
+  //   return () => {
+  //     window.removeEventListener("keydown", handleEsc)
+  //   }
+  // }, [])
+
   return (
     <>
       <CSSTransition classNames={`modal-${transitionType}`} unmountOnExit timeout={500} in={show}>
@@ -68,6 +85,7 @@ const Modal = ({
 
       <CSSTransition classNames="fade" unmountOnExit timeout={500} in={show}>
         <div
+          onKeyUp={(e) => console.log(e.key)}
           onClick={() => overLayClose && onClose()}
           className={`fixed z-[2999] inset-[0] bg-black-60 ${overLayClose ? "cursor-pointer" : ""}`}
         ></div>

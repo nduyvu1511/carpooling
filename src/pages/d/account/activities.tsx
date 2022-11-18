@@ -37,7 +37,7 @@ const Activities = () => {
 
   return (
     <DriverAccountLayout desc="Quản lý thông tin hoạt động đặt chuyến." title="Hoạt động">
-      <Seo title="hoạt động" url="/d/account/activities" />
+      <Seo title="Hoạt động" url="/d/account/activities" />
 
       <div className="px-custom">
         <div className="mb-24 relative">

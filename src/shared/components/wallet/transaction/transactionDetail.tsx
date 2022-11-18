@@ -14,7 +14,7 @@ interface TransactionDetailProps {
 }
 
 const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
-  const { isValidating, data } = useSWR<
+  const { data, error } = useSWR<
     JournalDetailRes | JournalDetailCompoundingCarCustomerRes | DriverCompoundingCarInvoiceRes
   >(
     payment_id ? `get_transaction_detail_${payment_id}` : null,
@@ -24,13 +24,13 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
         .then((res) => res.result.data)
         .catch((err) => console.log(err)),
     {
-      dedupingInterval: 1000,
+      dedupingInterval: 1000 * 60 * 10,
     }
   )
 
   return (
     <>
-      {isValidating ? (
+      {error === undefined && data === undefined ? (
         <Spinner size={24} className="py-[24px]" />
       ) : (data as JournalDetailRes)?.payment_purpose ? (
         <>
@@ -81,7 +81,8 @@ const TransactionDetail = ({ payment_id }: TransactionDetailProps) => {
             </li>
           </ul>
 
-          {(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id ? (
+          {(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id
+            ?.compounding_car_id ? (
             <div className="mt-40">
               <RideSummaryInfo
                 data={(data as JournalDetailCompoundingCarCustomerRes)?.compounding_car_customer_id}

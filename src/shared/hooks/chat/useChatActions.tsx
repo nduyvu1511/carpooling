@@ -28,14 +28,18 @@ export const useChatActions = (): UseChatActionsRes => {
       params?.state !== "deposit" &&
       params?.state !== "in_process" &&
       params?.state !== "waiting" &&
-      params?.state !== "assign"
+      params?.state !== "assign" &&
+      params?.state !== "confirm_deposit"
     ) {
       dispatch(notify("Bạn không thể tạo phòng chat ở trạng thái này", "warning"))
       return
     }
 
     asyncHandler<RoomDetailRes>({
-      fetcher: chatAPI.createSingleChat(params),
+      fetcher: chatAPI.createSingleChat({
+        compounding_car_id: params.compounding_car_id,
+        partner_id: params.partner_id,
+      }),
       onSuccess: (data) => {
         router.push("/chat")
         redirectToChatPage(data.room_id)

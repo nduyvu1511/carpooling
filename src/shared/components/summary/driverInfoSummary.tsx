@@ -1,7 +1,7 @@
 import { MessageIcon, PhoneIcon2 } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { useChatActions } from "@/hooks"
-import { CarDriverId } from "@/models"
+import { CarDriverId, CompoundingCarCustomerState } from "@/models"
 import Image from "next/image"
 import { Star } from "../star"
 
@@ -9,18 +9,22 @@ interface DriverInfoSummaryProps {
   driver: CarDriverId
   compounding_car_id: number
   titleClassName?: string
+  state?: CompoundingCarCustomerState
 }
 
 export const DriverInfoSummary = ({
   driver,
   titleClassName = "",
   compounding_car_id,
+  state,
 }: DriverInfoSummaryProps) => {
   const { createSingleChat } = useChatActions()
 
   const handleCreateChat = () => {
+    if (!state) return
+
     createSingleChat({
-      params: { partner_id: driver.partner_id, compounding_car_id },
+      params: { partner_id: driver.partner_id, compounding_car_id, state },
       onSuccess: () => {},
     })
   }

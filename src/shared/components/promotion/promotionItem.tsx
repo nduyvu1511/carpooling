@@ -3,13 +3,14 @@ import { formatTimeType } from "@/helper"
 import { PromotionRes } from "@/models"
 import moment from "moment"
 import Image from "next/image"
+import { ReactNode } from "react"
 
 interface PromotionItemProps {
   data: null | PromotionRes
   disabled?: boolean
   onApply?: (_: PromotionRes) => void
   onClick?: (id: number) => void
-  onSave?: (_: PromotionRes) => void
+  // onSave?: (_: PromotionRes) => void
   appliedPromotionId?: number
 }
 
@@ -18,7 +19,7 @@ export const PromotionItem = ({
   disabled,
   onApply,
   onClick,
-  onSave,
+  // onSave,
   appliedPromotionId,
 }: PromotionItemProps) => {
   if (data === null)
@@ -35,6 +36,31 @@ export const PromotionItem = ({
         </div>
       </div>
     )
+
+  const renderButton = (): ReactNode => {
+    if (data?.promotion_id === appliedPromotionId)
+      return (
+        <button className="text-14 font-semibold z-10 pointer-events-none text-gray-color-6">
+          Đã áp dụng
+        </button>
+      )
+
+    return (
+      <button
+        onClick={(e) => {
+          if (!data?.is_promotion_applied) return
+          e.stopPropagation()
+          onApply?.(data)
+        }}
+        className={`text-14 font-semibold z-10 ${
+          data?.is_promotion_applied ? "text-primary" : "text-gray-color-6 pointer-events-none"
+        }`}
+      >
+        Áp dụng
+      </button>
+    )
+  }
+
   return (
     <div
       onClick={() => onClick?.(data.promotion_id)}
@@ -51,11 +77,12 @@ export const PromotionItem = ({
       <div className="absolute inset-0 overflow-hidden rounded-[16px]">
         <span className="absolute-vertical z-10  h-[18px] w-[18px] bg-white-color left-[-9px] rounded-[50%]"></span>
         <span className="absolute-vertical z-10 h-[18px] w-[18px] bg-white-color right-[-9px] rounded-[50%]"></span>
+
         <div className="absolute inset-0">
           <div className="absolute right-0 h-[60%] bottom-0 w-full">
             <Image src={promotionShape1} alt="" objectFit="cover" layout="fill" />
           </div>
-          <div className="absolute right-0 bottom-0 h-[58%] w-full">
+          <div className="absolute right-0 bottom-0 h-[60%] w-full">
             <Image src={promotionShape2} alt="" objectFit="cover" layout="fill" />
           </div>
         </div>
@@ -97,7 +124,8 @@ export const PromotionItem = ({
             )}
           </div>
 
-          <button
+          {renderButton()}
+          {/* <button
             onClick={(e) => {
               e.stopPropagation()
               if (data.promotion_id === appliedPromotionId) return
@@ -114,7 +142,7 @@ export const PromotionItem = ({
                 ? "Đã áp dụng"
                 : "Áp dụng"
               : "Lưu"}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

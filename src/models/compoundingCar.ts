@@ -30,9 +30,11 @@ export type CompoundingCarDriverState =
   | "stop_picking"
   | "done" // hoan thanh
   | "cancel" //huy chuyen di
+
 export type CompoundingCarCustomerState =
   | "draft"
   | "confirm"
+  | "confirm_deposit"
   | "deposit"
   | "waiting" //dang cho tai xe
   | "assign" //dang tim tai xe

@@ -40,6 +40,7 @@ export const StaticLayout = ({
             className="relative w-full aspect-[3/1] max-h-[500px] bg-center bg-no-repeat bg-cover"
           ></div>
         ) : null}
+
         {topNode}
         {showLoading ? (
           <Spinner className="my-[120px]" size={30} />

@@ -16,6 +16,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
   return new Promise((resolve) => {
     const cookies = new Cookies(req, res)
     const token = cookies.get("chat_access_token")
+    // const token =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzc1ZWYyOTU3ZjFlMGQ0MTJiNGQ5MGEiLCJ1c2VyX2lkIjoic2hvcF8xIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjY4NjczMzIxLCJleHAiOjE3MDAyMDkzMjF9.TLw3HbFlqV_3A7Xc5J6GQpg058ZwWEO3Zc4Nz-N6Ahg"
 
     if (token) {
       req.headers.Authorization = `Bearer ${token}`

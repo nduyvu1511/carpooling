@@ -24,7 +24,6 @@ import {
   CARPOOLING_NUMBER_SEAT,
   CARPOOLING_PRICE_PER_PASSENGER,
   CARPOOLING_TO_STATION,
-  isObjectHasValue,
   setToLocalStorage,
   subtractDateTimeToNumberOfHour,
 } from "@/helper"
@@ -74,7 +73,7 @@ export const CarpoolingCompoundingForm = ({
     getValues,
     watch,
     clearErrors,
-    formState: { errors },
+    formState: { errors, isValid },
     control,
   } = useForm<CreateCarpoolingCompoundingForm>({
     resolver: yupResolver(carpoolingCompoundingCarSchema),
@@ -337,7 +336,7 @@ export const CarpoolingCompoundingForm = ({
                 ? "Xác nhận"
                 : "Lưu"
             }
-            isError={isObjectHasValue(errors)}
+            disabled={!isValid}
             parentClassName={`${view === "page" ? "mt-[40px]" : ""}`}
           />
         ) : null}

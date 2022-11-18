@@ -666,7 +666,7 @@ export const compoundingTypeFilters: {
     value: "two_way",
   },
   {
-    label: "Đi Ghép",
+    label: "Ghép Chuyến",
     value: "compounding",
   },
 ]

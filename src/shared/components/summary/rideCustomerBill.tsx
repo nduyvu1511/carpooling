@@ -103,6 +103,7 @@ const RideCustomerBill = ({
 
       <div className="mb-24">
         <DriverInfoSummary
+          state={data.state}
           titleClassName="text-blue-7"
           compounding_car_id={data.compounding_car_id}
           driver={data.car_driver_id}

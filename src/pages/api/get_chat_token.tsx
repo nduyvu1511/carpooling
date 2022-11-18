@@ -33,7 +33,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
     ;(res as NextApiResponse<ResponseType<any>>).status(200).json({
       result: {
         message: "",
-        data: { chat_access_token: chat_access_token || "" },
+        data: {
+          chat_access_token:
+            // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzc1ZWYyOTU3ZjFlMGQ0MTJiNGQ5MGEiLCJ1c2VyX2lkIjoic2hvcF8xIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjY4NjczMzIxLCJleHAiOjE3MDAyMDkzMjF9.TLw3HbFlqV_3A7Xc5J6GQpg058ZwWEO3Zc4Nz-N6Ahg"
+            chat_access_token || "",
+        },
         success: true,
         validate_token: true,
         code: 200,

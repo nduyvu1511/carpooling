@@ -3,6 +3,7 @@ import {
   COMPOUNDING_TYPE_BG,
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
+  formatMoneyVND,
   getHoursName,
 } from "@/helper"
 import { CompoundingCarCustomer, CompoundingCarRes } from "@/models"
@@ -16,6 +17,7 @@ interface RideSummaryMapProps {
   showMap?: boolean
   className?: string
   showInfo?: boolean
+  amount_total?: number
 }
 
 export const RideSummaryMap = memo(function Child({
@@ -24,6 +26,13 @@ export const RideSummaryMap = memo(function Child({
   className = "",
   showInfo = true,
 }: RideSummaryMapProps) {
+  const openGoogleMap = () => {
+    window.open(
+      `https://www.google.com/maps/dir/?api=1&origin=${data.from_province.latitude},${data.from_province.longitude}&destination=${data.to_province.latitude},${data.to_province.longitude}`,
+      "_blank"
+    )
+  }
+
   return (
     <div className={`${showInfo ? "bg-gray-05 rounded-[5px] p-custom" : ""} ${className}`}>
       {showInfo ? (
@@ -36,9 +45,11 @@ export const RideSummaryMap = memo(function Child({
               {moment(data?.expected_going_on_date).format("HH:mm DD/MM/YYYY")}
             </p>
           </div>
+
           <div className="mx-8 flex-center flex-col">
             <ArrowLineRightIcon className="w-[14px] mb-12" />
           </div>
+
           <div className="flex-1 flex items-end flex-col">
             <p className="text-[22px] xl:text-28 font-medium leading-[36px] mb-4 line-clamp-1">
               {data?.to_province.province_brief_name}
@@ -53,15 +64,7 @@ export const RideSummaryMap = memo(function Child({
       ) : null}
 
       {showMap ? (
-        <div
-          onClick={() =>
-            window.open(
-              `https://www.google.com/maps/dir/?api=1&origin=${data.from_province.latitude},${data.from_province.longitude}&destination=${data.to_province.latitude},${data.to_province.longitude}`,
-              "_blank"
-            )
-          }
-          className="h-[200px]"
-        >
+        <div onClick={openGoogleMap} className="h-[200px]">
           <Map
             viewOnly
             directions={{
@@ -95,7 +98,12 @@ export const RideSummaryMap = memo(function Child({
             </span>
           </div>
           <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
-          <SummaryItem className="mb-0" label="Lộ trình ước tính" value={`${data.distance} Km`} />
+          <SummaryItem label="Lộ trình ước tính" value={`${data.distance} Km`} />
+          <SummaryItem
+            className="mb-0"
+            label="Số tiền cần đặt cọc"
+            value={formatMoneyVND(1250000)}
+          />
         </ul>
       ) : null}
     </div>

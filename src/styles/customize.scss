@@ -677,14 +677,14 @@
 .modal-up {
   &-enter {
     opacity: 0;
-    margin-top: 100%;
+    margin-top: 120px;
   }
   &-enter-active {
     opacity: 1;
     margin-top: 0;
     transition: 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: 500ms, margin 500ms;
+      transition: 300ms, margin 300ms;
     }
   }
   &-exit {
@@ -692,11 +692,11 @@
     margin-top: 0;
   }
   &-exit-active {
-    margin-top: 100%;
+    margin-top: 120px;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
 }
@@ -711,7 +711,7 @@
     margin-left: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
   &-exit {
@@ -723,7 +723,7 @@
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
 }
@@ -738,7 +738,7 @@
     margin-right: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
   &-exit {
@@ -750,7 +750,7 @@
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
 }
@@ -758,14 +758,14 @@
 .modal-down {
   &-enter {
     opacity: 0;
-    margin-top: -100%;
+    margin-top: -120px;
   }
   &-enter-active {
     opacity: 1;
     margin-top: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
   &-exit {
@@ -773,11 +773,11 @@
     margin-top: 0;
   }
   &-exit-active {
-    margin-top: -100%;
+    margin-top: -120px;
     opacity: 0;
     transition: opacity 300ms, margin 300ms;
     @media screen and (min-width: 1024px) {
-      transition: opacity 500ms, margin 500ms;
+      transition: opacity 300ms, margin 300ms;
     }
   }
 }

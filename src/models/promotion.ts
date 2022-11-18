@@ -46,6 +46,7 @@ export interface PromotionRes {
     value: number
     unit: string
   }
+  is_promotion_applied: boolean
   promotion_brief: string
   saved_promotion: boolean
   date_start: string

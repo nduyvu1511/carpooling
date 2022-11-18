@@ -1,12 +1,13 @@
-import { FilterNotFound, Modal, PromotionDetail, PromotionItem, Spinner } from "@/components"
+import { FilterNotFound, PromotionItem, Spinner } from "@/components"
 import { toggleBodyOverflow } from "@/helper"
-import { usePromotionActions, useQueryList } from "@/hooks"
+import { useQueryList } from "@/hooks"
 import { PromotionRes } from "@/models"
 import { promotionApi } from "@/services"
 import { AxiosPromise } from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { ModalPromotionDetail } from "./modalPromotionDetail"
 
 interface PromotionProps {
   className?: string
@@ -17,14 +18,14 @@ type PromotionValue = "all" | "saved" | "new"
 
 export const Promotion = ({ className }: PromotionProps) => {
   const router = useRouter()
-  const { data, fetchMoreItem, hasMore, isFetchingMore, isValidating, filterList, mutate } =
-    useQueryList<PromotionRes[]>({
-      fetcher: promotionApi.getPromotionList,
-      initialData: undefined,
-      key: "get_promotion_list",
-      params: { limit: 12, offset: 0 },
-    })
-  const { savePromotion } = usePromotionActions()
+  const { data, fetchMoreItem, hasMore, isFetchingMore, isValidating } = useQueryList<
+    PromotionRes[]
+  >({
+    fetcher: promotionApi.getPromotionList,
+    initialData: undefined,
+    key: "get_promotion_list",
+    params: { limit: 12, offset: 0 },
+  })
 
   const [promotionValue, setPromotionValue] = useState<PromotionValue>("all")
   const [promotionId, setPromotionId] = useState<number | undefined>()
@@ -38,20 +39,20 @@ export const Promotion = ({ className }: PromotionProps) => {
     }
   }
 
-  const handleSavePromotion = (promotion: PromotionRes) => {
-    savePromotion({
-      params: { promotion_id: promotion.promotion_id },
-      onSuccess: () => {
-        if (!data) return
-        mutate(
-          [...data].map((item) =>
-            item.promotion_id === promotion.promotion_id ? { ...item, saved_promotion: true } : item
-          ),
-          false
-        )
-      },
-    })
-  }
+  // const handleSavePromotion = (promotion: PromotionRes) => {
+  //   savePromotion({
+  //     params: { promotion_id: promotion.promotion_id },
+  //     onSuccess: () => {
+  //       if (!data) return
+  //       mutate(
+  //         [...data].map((item) =>
+  //           item.promotion_id === promotion.promotion_id ? { ...item, saved_promotion: true } : item
+  //         ),
+  //         false
+  //       )
+  //     },
+  //   })
+  // }
 
   const getFetcherApi = (value: PromotionValue): AxiosPromise => {
     return (
@@ -65,12 +66,12 @@ export const Promotion = ({ className }: PromotionProps) => {
 
   return (
     <div className="">
-      <div className="flex items-center mb-24">
+      {/* <div className="flex items-center mb-24">
         <p className="text-base font-semibold hidden md:block mr-16">Danh mục:</p>
         <ul className="flex overflow-auto scrollbar-hide">
           {[
             ["Tất cả", "all"],
-            ["Ưu đãi đã lưu", "saved"],
+            // ["Ưu đãi đã lưu", "saved"],
             ["Ưu đãi mới", "new"],
           ].map(([label, value]) => (
             <li
@@ -88,7 +89,7 @@ export const Promotion = ({ className }: PromotionProps) => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       {isValidating ? (
         <div className={`${className || gridClassName}`}>
@@ -107,7 +108,7 @@ export const Promotion = ({ className }: PromotionProps) => {
             <div className={`${className || gridClassName}`}>
               {data?.map((item) => (
                 <PromotionItem
-                  onSave={handleSavePromotion}
+                  // onSave={handleSavePromotion}
                   onApply={() => router.push("/")}
                   key={item.promotion_id}
                   data={item}
@@ -124,11 +125,10 @@ export const Promotion = ({ className }: PromotionProps) => {
       )}
 
       {promotionId ? (
-        <Modal heading="Điều kiện sử dụng" onClose={() => toggleModal(undefined)} show={true}>
-          <div className="p-custom">
-            <PromotionDetail promotion_id={promotionId} />
-          </div>
-        </Modal>
+        <ModalPromotionDetail
+          onClose={() => setPromotionId(undefined)}
+          promotion_id={promotionId}
+        />
       ) : null}
     </div>
   )
