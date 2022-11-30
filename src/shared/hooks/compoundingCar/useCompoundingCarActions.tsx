@@ -1,10 +1,12 @@
 import {
   CompoundingCarCustomer,
+  CompoundingCarRes,
   ConfirmCompoundingCar,
   CreateCarpoolingCompoundingCar,
   CreateCompoundingCar,
+  CreateConvenientCompoundingCar,
   UpdateCompoundingCar,
-  UpdateCompoundingCarDriver,
+  UpdateConvenientCompoundingCar,
   UseParams,
 } from "@/models"
 import { chatAPI, rideAPI } from "@/services"
@@ -26,7 +28,10 @@ interface UseCompoundingCarActions {
   confirmExistedCompoundingCarCustomer: (
     params: UseParams<{ compounding_car_customer_id: number }, any>
   ) => any
-  updateDriverCompoundingCar: (_params: UseParams<UpdateCompoundingCarDriver, any>) => void
+  updateDriverCompoundingCar: (_params: UseParams<UpdateConvenientCompoundingCar, any>) => void
+  createCompoundingCarForDriver: (
+    _params: UseParams<CreateConvenientCompoundingCar, CompoundingCarRes>
+  ) => void
 }
 
 export const useCompoundingCarActions = (): UseCompoundingCarActions => {
@@ -40,6 +45,24 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     fetcherHandler({
       fetcher: rideAPI.createCompoundingCar(params),
       onSuccess: (data: CompoundingCarCustomer) => {
+        onSuccess(data)
+      },
+      onError: () => {
+        onError?.()
+      },
+
+      config,
+    })
+  }
+
+  const createCompoundingCarForDriver = async (
+    _params: UseParams<CreateConvenientCompoundingCar, CompoundingCarRes>
+  ) => {
+    const { params, onSuccess, onError, config } = _params
+
+    fetcherHandler({
+      fetcher: rideAPI.createCompoundingCarForDriver(params),
+      onSuccess: (data: CompoundingCarRes) => {
         onSuccess(data)
       },
       onError: () => {
@@ -98,9 +121,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       fetcher: rideAPI.confirmCompoundingCar({
         compounding_car_customer_id,
       }),
-      onSuccess: (data: any) => {
-        onSuccess(data)
-      },
+      onSuccess,
       onError: () => {
         onError?.()
       },
@@ -120,9 +141,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       fetcher: rideAPI.confirmCompoundingCarForDriver({
         compounding_car_id,
       }),
-      onSuccess: (data: any) => {
-        onSuccess(data)
-      },
+      onSuccess,
       onError: () => {
         onError?.()
       },
@@ -143,9 +162,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
       fetcher: rideAPI.confirmCarpoolingCompoundingCarCustomer({
         compounding_car_customer_id,
       }),
-      onSuccess: (data: any) => {
-        onSuccess(data)
-      },
+      onSuccess,
       onError: () => {
         onError?.()
       },
@@ -158,9 +175,7 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
 
     fetcherHandler({
       fetcher: rideAPI.updateCompoundingCar(params),
-      onSuccess: (data: any) => {
-        onSuccess(data)
-      },
+      onSuccess,
       onError: () => {
         onError?.()
       },
@@ -169,18 +184,14 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
   }
 
   const updateDriverCompoundingCar = async (
-    _params: UseParams<UpdateCompoundingCarDriver, any>
+    _params: UseParams<UpdateConvenientCompoundingCar, any>
   ) => {
     const { params, onSuccess, onError, config } = _params
 
     fetcherHandler({
       fetcher: rideAPI.updateCompoundingCarForDriver(params),
-      onSuccess: (data: any) => {
-        onSuccess(data)
-      },
-      onError: () => {
-        onError?.()
-      },
+      onSuccess,
+      onError: () => onError?.(),
       config,
     })
   }
@@ -194,5 +205,6 @@ export const useCompoundingCarActions = (): UseCompoundingCarActions => {
     customerCancelCompoundingCarBeforeDeposit,
     driverConfirmCompoundingCar,
     updateDriverCompoundingCar,
+    createCompoundingCarForDriver,
   }
 }

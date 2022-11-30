@@ -1,10 +1,10 @@
 import {
   Alert,
   CheckoutInfo,
+  PaymentSlide,
   RideCancelForm,
   RideToolTip,
   WalletBalanceAlert,
-  PaymentSlide,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
@@ -48,12 +48,14 @@ const Checkout = ({
   checkoutData,
 }: CheckoutProps) => {
   const router = useRouter()
+
   const {
     currentSelectPayment,
     isValidating: isPaymentLoading,
     paymentList,
     setCurrentSelectPayment,
   } = usePayment()
+
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const [isExpiredCountdown, setExpiredCountdown] = useState<boolean>(false)
   const [modalType, setModalType] = useState<ModalType>()

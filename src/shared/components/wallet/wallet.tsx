@@ -4,7 +4,6 @@ import {
   FilterNotFound,
   Modal,
   Spinner,
-  TransactionDetail,
   TransactionItem,
   TransactionSuccess,
   WalletFilter,

@@ -5,21 +5,21 @@ import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
 interface LoginOtpProps {
-  onVerifyOTP: (token: string) => void
   type?: "register" | "login" | "resetPassword"
   children?: ReactNode
   btnClassName?: string
   defaultPhoneNumber?: string
   view?: "modal" | "page"
+  onVerifyOTP: (token: string) => void
   onRedirectToLogin?: Function
 }
 
 export const OTP = ({
-  onVerifyOTP,
   type,
   children,
   defaultPhoneNumber = "",
   view = "modal",
+  onVerifyOTP,
   onRedirectToLogin,
 }: LoginOtpProps) => {
   const dispatch = useDispatch()

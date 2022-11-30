@@ -317,6 +317,35 @@ export interface CreateCommonCompounding {
   duration?: number
 }
 
+export interface CreateConvenientCompoundingCar {
+  compounding_type: CompoundingType
+  from_province_id: number
+  from_pick_up_station_id: number
+  to_province_id: number
+  to_pick_up_station_id: number
+  expected_going_on_date: string
+  distance: number
+  duration: number
+  car_id: number
+  note: string
+}
+
+export interface UpdateConvenientCompoundingCar extends CreateConvenientCompoundingCar {
+  compounding_car_id: number
+}
+
+export interface CreateConvenientCompoundingForm {
+  car_id: OptionType & { number_seat: number }
+  price_per_passenger?: number
+  from_station: StationId
+  to_station: StationId
+  note?: string
+  expected_going_on_date: string
+  distance: number
+  is_checked_policy: boolean
+  duration: number
+}
+
 export interface CreateOneWayCompoundingCar extends CreateCommonCompounding {}
 
 export interface FormModeType {
@@ -385,19 +414,6 @@ export interface ConfirmTransactionParams {
 }
 
 export interface ConfirmTransactionPa {}
-
-export interface CreateCompoundingCarDriver {
-  compounding_type: CompoundingType
-  from_province_id: number
-  to_province_id: number
-  expected_going_on_date: string
-  car_id: number
-  note?: string
-  from_longitude: string
-  from_latitude: string
-  to_longitude: string
-  to_latitude: string
-}
 
 export interface UpdateOneWayCompoundingCar extends CreateOneWayCompoundingCar {
   compounding_car_customer_id: number
@@ -488,10 +504,6 @@ export interface GetDetailCompounding {
 
 export interface UpdateCompoundingCarCustomer {
   compounding_car_customer_id: number
-}
-
-export interface UpdateCompoundingCarDriver extends CreateCompoundingCarDriver {
-  compounding_car_id: number
 }
 
 export type CompoundingOrderField =

@@ -17,7 +17,7 @@ const AuthModal = ({ show }: { show: AuthModalTypeSlice }) => {
 
   const redirectUser = (userInfo: UserInfo) => {
     if (!userInfo?.car_account_type) {
-      dispatch(notify("Loại tài khoản không hợp lệ, vui lòng thử lại sau"))
+      dispatch(notify("Loại tài khoản không hợp lệ, vui lòng thử lại sau", 'error'))
       return
     }
 

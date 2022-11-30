@@ -1,7 +1,6 @@
 import { useAuth } from "@/hooks"
 import { LoginByOTP, UserInfo } from "@/models"
 import { setProfile } from "@/modules"
-import React from "react"
 import { useDispatch } from "react-redux"
 import { OTP } from "../form"
 

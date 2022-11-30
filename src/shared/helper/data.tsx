@@ -52,54 +52,66 @@ export const createNewPasswordFormFields: {
   { label: "Xác nhận mật khẩu mới", name: "re_password" },
 ]
 
-export const hoursBackList: { label: string; value: HourWaitTimeType }[] = [
+export const hoursBackList: { label: string; value: HourWaitTimeType; time: number }[] = [
   {
     label: "1 Giờ",
     value: "01_hour",
+    time: 1,
   },
   {
     label: "2 Giờ",
     value: "02_hour",
+    time: 2,
   },
   {
     label: "3 Giờ",
     value: "03_hour",
+    time: 3,
   },
   {
     label: "4 Giờ",
     value: "04_hour",
+    time: 4,
   },
   {
     label: "5 Giờ",
     value: "05_hour",
+    time: 5,
   },
   {
     label: "6 Giờ",
     value: "06_hour",
+    time: 6,
   },
   {
     label: "7 Giờ",
     value: "07_hour",
+    time: 7,
   },
   {
     label: "8 Giờ",
     value: "08_hour",
+    time: 8,
   },
   {
     label: "9 Giờ",
     value: "09_hour",
+    time: 9,
   },
   {
     label: "10 Giờ",
     value: "10_hour",
+    time: 10,
   },
   {
     label: "11 Giờ",
     value: "11_hour",
+    time: 11,
   },
   {
     label: "12 Giờ",
     value: "12_hour",
+    time: 12,
   },
 ]
 

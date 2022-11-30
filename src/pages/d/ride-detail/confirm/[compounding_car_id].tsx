@@ -1,7 +1,7 @@
 import {
   Alert,
-  CarpoolingCompoundingForm,
-  OneWayCompoundingForm,
+  CarpoolingForm,
+  OneWayForm,
   RideCancelForm,
   RideCheckoutPopup,
   RideDetailLoading,
@@ -10,7 +10,7 @@ import {
   RideSummaryModal,
   RideToolTip,
   Seo,
-  TwoWayCompoundingForm,
+  TwoWayForm,
 } from "@/components"
 import { RootState } from "@/core/store"
 import { toggleBodyOverflow } from "@/helper"
@@ -101,17 +101,17 @@ const RideConfirmCustomer = () => {
               {compoundingCar?.compounding_type ? (
                 <>
                   {compoundingCar.compounding_type === "one_way" ? (
-                    <OneWayCompoundingForm
+                    <OneWayForm
                       defaultValues={compoundingCarResToOneWayForm(compoundingCar)}
                       disabled
                     />
                   ) : compoundingCar.compounding_type === "two_way" ? (
-                    <TwoWayCompoundingForm
+                    <TwoWayForm
                       defaultValues={compoundingCarResToTwoWayForm(compoundingCar)}
                       disabled
                     />
                   ) : (
-                    <CarpoolingCompoundingForm
+                    <CarpoolingForm
                       defaultValues={compoundingCarResToCarpoolingForm(compoundingCar)}
                       disabled
                     />

@@ -356,12 +356,6 @@
   }
 }
 
-.two-way-form {
-  & .rdtPicker {
-    top: -334px;
-  }
-}
-
 .form-select {
   & .css-b62m3t-container {
     width: 100%;
@@ -371,6 +365,12 @@
     @media screen and (min-width: 768px) {
       font-size: 16px;
       height: 52px;
+    }
+
+    & .css-gg45go-NoOptionsMessage {
+      font-size: 14px;
+      font-weight: 500;
+      padding-block: 24px;
     }
 
     & .css-1s2u09g-control {

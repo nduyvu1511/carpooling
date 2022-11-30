@@ -24,22 +24,18 @@ import {
   CARPOOLING_NUMBER_SEAT,
   CARPOOLING_PRICE_PER_PASSENGER,
   CARPOOLING_TO_STATION,
-  setToLocalStorage,
+  setToSessionStorage,
   subtractDateTimeToNumberOfHour,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
-import {
-  CompoundingType,
-  CreateCarpoolingCompoundingCar,
-  CreateCarpoolingCompoundingForm,
-} from "@/models"
+import { CreateCarpoolingCompoundingCar, CreateCarpoolingCompoundingForm } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
 
-interface CarpoolingCompoundingFormProps {
+interface CarpoolingFormProps {
   onSubmit?: (params: CreateCarpoolingCompoundingCar) => void
   defaultValues?: CreateCarpoolingCompoundingForm
   type?: "new" | "existed"
@@ -50,10 +46,9 @@ interface CarpoolingCompoundingFormProps {
   view?: "page" | "modal"
   labelBtn?: string
   showNote?: boolean
-  compoundingType?: CompoundingType
 }
 
-export const CarpoolingCompoundingForm = ({
+export const CarpoolingForm = ({
   onSubmit,
   defaultValues,
   mode,
@@ -64,8 +59,7 @@ export const CarpoolingCompoundingForm = ({
   view,
   labelBtn,
   showNote = true,
-  compoundingType = "compounding",
-}: CarpoolingCompoundingFormProps) => {
+}: CarpoolingFormProps) => {
   const dispatch = useDispatch()
   const {
     handleSubmit,
@@ -107,8 +101,8 @@ export const CarpoolingCompoundingForm = ({
         if (errors?.distance) {
           clearErrors("distance")
         }
-        setToLocalStorage(CARPOOLING_DISTANCE, distance)
-        setToLocalStorage(CARPOOLING_DURATION, duration)
+        setToSessionStorage(CARPOOLING_DISTANCE, distance)
+        setToSessionStorage(CARPOOLING_DURATION, duration)
         setValue("distance", distance)
         setValue("duration", duration)
       },
@@ -119,7 +113,7 @@ export const CarpoolingCompoundingForm = ({
     if (fromLocationProvince?.province_id) {
       setValue("from_location", undefined)
       console.log(getValues())
-      setToLocalStorage(CARPOOLING_FROM_LOCATION, undefined)
+      setToSessionStorage(CARPOOLING_FROM_LOCATION, undefined)
       // setPickingUp(false)
     } else {
       setShowAlert(true)
@@ -139,7 +133,7 @@ export const CarpoolingCompoundingForm = ({
       },
       onSuccess: (data) => {
         setValue("price_per_passenger", data)
-        setToLocalStorage(CARPOOLING_PRICE_PER_PASSENGER, data)
+        setToSessionStorage(CARPOOLING_PRICE_PER_PASSENGER, data)
       },
     })
   }
@@ -166,7 +160,21 @@ export const CarpoolingCompoundingForm = ({
       price_per_passenger: data.price_per_passenger,
       duration: data?.duration || 0,
     }
-    onSubmit?.(params)
+
+    if (!getValues("distance")) {
+      calculateDistanceBetweenTwoCoordinates({
+        params: {
+          origin: { lat: +data.from_station.lat, lng: +data.from_station.lng },
+          destination: { lat: +data.to_station.lat, lng: +data.to_station.lng },
+        },
+        onSuccess: ({ distance, duration }) => {
+          onSubmit?.({ ...params, distance, duration })
+        },
+        config: { showScreenLoading: true },
+      })
+    } else {
+      onSubmit?.(params)
+    }
   }
 
   return (
@@ -174,13 +182,13 @@ export const CarpoolingCompoundingForm = ({
       <form className="carpooling-form" onSubmit={handleSubmit(onSubmitHandler)}>
         <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
           <div className="mb-8">
-            {fromLocationProvince?.province_id && compoundingType === "compounding" ? (
+            {fromLocationProvince?.province_id ? (
               <LocationField
                 disabled={disabled}
                 control={control}
                 name="from_location"
                 onChange={(val) => {
-                  setToLocalStorage(CARPOOLING_FROM_LOCATION, val)
+                  setToSessionStorage(CARPOOLING_FROM_LOCATION, val)
                   calcDistance()
                   calcPrice()
                 }}
@@ -195,7 +203,7 @@ export const CarpoolingCompoundingForm = ({
                 name="from_station"
                 disabled={disabled}
                 onChange={(val) => {
-                  setToLocalStorage(CARPOOLING_FROM_STATION, val)
+                  setToSessionStorage(CARPOOLING_FROM_STATION, val)
                   calcDistance()
                   calcPrice()
                 }}
@@ -207,9 +215,7 @@ export const CarpoolingCompoundingForm = ({
             )}
           </div>
 
-          {compoundingType === "compounding" &&
-          !disabled &&
-          (fromStationProvince?.province_id || fromLocationProvince?.province_id) ? (
+          {!disabled && (fromStationProvince?.province_id || fromLocationProvince?.province_id) ? (
             <div className="flex items-center">
               <InputCheckbox
                 type="circle"
@@ -233,7 +239,7 @@ export const CarpoolingCompoundingForm = ({
           name="to_station"
           disabled={disabled}
           onChange={(val) => {
-            setToLocalStorage(CARPOOLING_TO_STATION, val)
+            setToSessionStorage(CARPOOLING_TO_STATION, val)
             calcDistance()
             calcPrice()
           }}
@@ -261,7 +267,7 @@ export const CarpoolingCompoundingForm = ({
               dispatch(notify("Vui lòng chọn lại số hành khách", "error"))
             }
             setNumberSeat((val as any).number_seat)
-            setToLocalStorage(CARPOOLING_CAR_ID, val)
+            setToSessionStorage(CARPOOLING_CAR_ID, val)
             calcPrice()
           }}
         />
@@ -274,7 +280,7 @@ export const CarpoolingCompoundingForm = ({
           label="Thời gian đi"
           placeholder="Thời gian đi"
           onChange={(val) => {
-            setToLocalStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, val)
+            setToSessionStorage(CARPOOLING_EXPECTED_GOING_ON_DATE, val)
           }}
           disableDate={type === "existed"}
           maxHour={
@@ -291,7 +297,7 @@ export const CarpoolingCompoundingForm = ({
           isSearchable={false}
           control={control}
           onChange={(val) => {
-            setToLocalStorage(CARPOOLING_NUMBER_SEAT, val)
+            setToSessionStorage(CARPOOLING_NUMBER_SEAT, val)
           }}
           options={seats(limitNumberSeat || numberSeat || 0)}
           required
@@ -305,7 +311,7 @@ export const CarpoolingCompoundingForm = ({
             readOnly={disabled}
             label="Ghi chú cho chuyến đi"
             placeholder="Ghi chú cho chuyến đi"
-            onBlur={(val) => setToLocalStorage(CARPOOLING_NOTE, val)}
+            onBlur={(val) => setToSessionStorage(CARPOOLING_NOTE, val)}
           />
         ) : null}
 
@@ -316,7 +322,7 @@ export const CarpoolingCompoundingForm = ({
             control={control}
             name="is_checked_policy"
             onChange={(val) => {
-              setToLocalStorage(CARPOOLING_IS_CHECKED_POLICY, val || undefined)
+              setToSessionStorage(CARPOOLING_IS_CHECKED_POLICY, val || undefined)
               console.log(val)
             }}
           />
@@ -371,7 +377,7 @@ export const CarpoolingCompoundingForm = ({
           prevProvinceId={getValues("to_station.province_id")}
           onChooseLocation={(location) => {
             setValue("from_location", location)
-            setToLocalStorage(CARPOOLING_FROM_LOCATION, location)
+            setToSessionStorage(CARPOOLING_FROM_LOCATION, location)
             setShowMap(false)
           }}
         />

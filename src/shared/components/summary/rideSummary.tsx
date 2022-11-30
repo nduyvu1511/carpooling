@@ -11,6 +11,7 @@ interface RideSummaryProps {
   showFull?: boolean
   showMap?: boolean
   children?: ReactNode
+  amount_wallet?: number
 }
 
 export const RideSummary = ({
@@ -19,6 +20,7 @@ export const RideSummary = ({
   showFull = true,
   showMap = true,
   children = null,
+  amount_wallet,
 }: RideSummaryProps) => {
   const [tabsActive, setTabsActive] = useState<number[]>([])
 
@@ -37,7 +39,12 @@ export const RideSummary = ({
       }`}
     >
       <div className="mb-16">
-        <RideSummaryMap showInfo={view === "page"} data={data} showMap={showMap} />
+        <RideSummaryMap
+          amount_wallet={amount_wallet}
+          showInfo={view === "page"}
+          data={data}
+          showMap={showMap}
+        />
       </div>
 
       {showFull ? (

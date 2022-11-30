@@ -40,6 +40,10 @@ export interface UserInfo {
   street: string
   identity_card_id?: IdentityCardRes
   rating_number?: number
+  count_done_compounding_car: number
+  amount_total_in_bank_wallet: number
+  amount_total_in_cash_wallet: number
+  count_rating: number
 }
 
 export interface VehicleDetailFormParams {
@@ -501,7 +505,7 @@ export interface CarDriverId extends UserInfo {
 }
 
 export interface CheckPhoneExistParams {
-  phone: number
+  phone: string
   type: "login" | "register" | "resetPassword"
 }
 

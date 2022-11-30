@@ -151,8 +151,8 @@ export const RideFilter = ({
 
         <div className="form-select form-select-sm">
           <Select
+            isSearchable={false}
             maxMenuHeight={250}
-            key={"car_id"}
             options={vehicleTypeOptions}
             value={
               compoundingFormValues?.car_id
@@ -174,6 +174,7 @@ export const RideFilter = ({
         {type === "customer" ? (
           <div className="form-select form-select-sm">
             <Select
+              isSearchable={false}
               maxMenuHeight={180}
               key={"number_seat"}
               options={numberSeatOptions}
@@ -200,6 +201,7 @@ export const RideFilter = ({
 
         <div className="form-select form-select-sm mb-[-10px]">
           <Select
+            isSearchable={false}
             placeholder="Sắp xếp theo"
             value={
               compoundingFormValues?.order_by

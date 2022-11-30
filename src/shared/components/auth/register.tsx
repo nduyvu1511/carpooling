@@ -43,6 +43,7 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
           params: token,
           onSuccess: () => {
             dispatch(setProfile({ ...userInfo, car_account_type }))
+
             if (car_account_type === "customer") {
               onSuccess()
             } else {
@@ -75,9 +76,7 @@ export const Register = ({ onSuccess, onRedirectToLogin }: RegisterModalProps) =
             <OTP
               view="modal"
               type="register"
-              onVerifyOTP={(token) => {
-                handleGenerateToken(token)
-              }}
+              onVerifyOTP={handleGenerateToken}
               onRedirectToLogin={onRedirectToLogin}
             >
               <div className="mb-[40px]">

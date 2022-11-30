@@ -1,8 +1,7 @@
 import { RootState } from "@/core/store"
-import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { CalcDistanceRes, LatLng, UseParams } from "@/models"
-import { useLoadScript } from "@react-google-maps/api"
-import { useSelector } from "react-redux"
+import { setScreenLoading } from "@/modules"
+import { useDispatch, useSelector } from "react-redux"
 
 interface CalcDistanceParams {
   origin: LatLng
@@ -16,8 +15,8 @@ interface Res {
 }
 
 export const useCalcDistance = (): Res => {
+  const dispatch = useDispatch()
   const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
-
 
   const calculateDistanceBetweenTwoCoordinates = (
     _params: UseParams<CalcDistanceParams, CalcDistanceRes>
@@ -26,8 +25,12 @@ export const useCalcDistance = (): Res => {
     const { origin, destination } = params
     if (!isLoaded) return
 
+    const { config } = _params
+
     const service = new google.maps.DistanceMatrixService()
+
     try {
+      config?.showScreenLoading && dispatch(setScreenLoading({ show: true, toggleOverFlow: false }))
       service.getDistanceMatrix(
         {
           origins: [{ lng: origin.lng, lat: origin.lat }],
@@ -40,6 +43,9 @@ export const useCalcDistance = (): Res => {
           // avoidTolls: true,
         },
         (data) => {
+          config?.showScreenLoading &&
+            dispatch(setScreenLoading({ show: false, toggleOverFlow: false }))
+
           const value = data?.rows?.[0]?.elements?.[0]
           if (!value?.duration) return
           onSuccess({
@@ -49,6 +55,9 @@ export const useCalcDistance = (): Res => {
         }
       )
     } catch (error) {
+      config?.showScreenLoading &&
+        dispatch(setScreenLoading({ show: false, toggleOverFlow: false }))
+
       onError?.()
       console.log(error)
     }

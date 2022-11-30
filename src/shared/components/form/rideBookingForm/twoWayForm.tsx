@@ -2,6 +2,7 @@
 import {
   ButtonSubmit,
   DateTimeField,
+  InputCheckbox,
   LocationField,
   PolicyField,
   SelectField,
@@ -9,8 +10,7 @@ import {
 } from "@/components"
 import {
   hoursBackList,
-  isObjectHasValue,
-  setToLocalStorage,
+  setToSessionStorage,
   subtractDateTimeToNumberOfHour,
   twoWayCompoundingCarSchema,
   TWO_WAY_CAR_ID,
@@ -33,10 +33,10 @@ import {
   HourWaitTimeType,
 } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { InputCheckbox } from "../../inputs"
 
-interface TwoWayCompoundingFormProps {
+interface TwoWayFormProps {
   onSubmit?: (params: CreateTwoWayCompoundingCar) => void
   defaultValues?: CreateTwoWayCompoundingCarForm
   mode?: "create" | "update" | "confirm"
@@ -45,14 +45,14 @@ interface TwoWayCompoundingFormProps {
   labelBtn?: string
 }
 
-export const TwoWayCompoundingForm = ({
+export const TwoWayForm = ({
   onSubmit,
   defaultValues,
   mode,
   disabled = false,
   view = "page",
   labelBtn,
-}: TwoWayCompoundingFormProps) => {
+}: TwoWayFormProps) => {
   const {
     handleSubmit,
     setValue,
@@ -71,6 +71,7 @@ export const TwoWayCompoundingForm = ({
   const durationDistance = watch(["distance", "duration", "price"])
   const isAdayTour = watch("is_a_day_tour")
   const expectedGoingOnDate = watch("expected_going_on_date")
+  const [hours, setHours] = useState(hoursBackList)
 
   const calcDistance = () => {
     const fromLocation = getValues("from_location")
@@ -85,10 +86,19 @@ export const TwoWayCompoundingForm = ({
         if (errors?.distance) {
           clearErrors("distance")
         }
-        setToLocalStorage(TWO_WAY_DISTANCE, distance)
-        setToLocalStorage(TWO_WAY_DURATION, duration)
+        setToSessionStorage(TWO_WAY_DISTANCE, distance)
+        setToSessionStorage(TWO_WAY_DURATION, duration)
         setValue("distance", distance)
         setValue("duration", duration)
+
+        const time = getValues("expected_going_on_date")
+        if (!time) return
+
+        let hours = Number(time?.slice(11, 13)) + duration
+        if (Number(time?.slice(14, 16)) > 0) {
+          hours += 0.5
+        }
+        handleSetHours(hours)
       },
     })
   }
@@ -107,14 +117,14 @@ export const TwoWayCompoundingForm = ({
       },
       onSuccess: (data) => {
         setValue("price", data)
-        setToLocalStorage(TWO_WAY_PRICE, data)
+        setToSessionStorage(TWO_WAY_PRICE, data)
       },
     })
   }
 
   const handleToggleStatus = (value: boolean) => {
     setValue("is_a_day_tour", value)
-    setToLocalStorage(TWO_WAY_IS_A_DAY_TOUR, value)
+    setToSessionStorage(TWO_WAY_IS_A_DAY_TOUR, value)
   }
 
   const onSubmitHandler = (data: CreateTwoWayCompoundingCarForm) => {
@@ -149,23 +159,46 @@ export const TwoWayCompoundingForm = ({
         : false,
       duration: data?.duration || 0,
     }
-    onSubmit?.(params)
+
+    if (!getValues("distance")) {
+      calculateDistanceBetweenTwoCoordinates({
+        params: {
+          origin: { lat: +data.from_location.lat, lng: +data.from_location.lng },
+          destination: { lat: +data.to_location.lat, lng: +data.to_location.lng },
+        },
+        onSuccess: ({ distance, duration }) => {
+          onSubmit?.({ ...params, distance, duration })
+        },
+        config: { showScreenLoading: true },
+      })
+    } else {
+      onSubmit?.(params)
+    }
+  }
+
+  const handleSetHours = (hours: number) => {
+    if (getValues("hour_of_wait_time")) {
+      if (24 - hours - (getValues("hour_of_wait_time") as any)?.time < 0) {
+        setValue("hour_of_wait_time", null as any)
+      }
+    }
+
+    if (hours > 12) {
+      setHours([...hoursBackList].splice(0, 24 - hours))
+    } else {
+      setHours(hoursBackList)
+    }
   }
 
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        onSubmitHandler(data)
-      })}
-      className="two-way-form"
-    >
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="two-way-form">
       <div className="">
         <LocationField
           disabled={disabled}
           control={control}
           name="from_location"
           onChange={(data) => {
-            setToLocalStorage(TWO_WAY_FROM_LOCATION, data)
+            setToSessionStorage(TWO_WAY_FROM_LOCATION, data)
             calcDistance()
             calcPrice()
           }}
@@ -180,7 +213,7 @@ export const TwoWayCompoundingForm = ({
           control={control}
           name="to_location"
           onChange={(data) => {
-            setToLocalStorage(TWO_WAY_TO_LOCATION, data)
+            setToSessionStorage(TWO_WAY_TO_LOCATION, data)
             calcDistance()
             calcPrice()
           }}
@@ -204,7 +237,7 @@ export const TwoWayCompoundingForm = ({
         control={control}
         options={vehicleTypeOptions}
         onChange={(option) => {
-          setToLocalStorage(TWO_WAY_CAR_ID, option)
+          setToSessionStorage(TWO_WAY_CAR_ID, option)
           calcPrice()
         }}
       />
@@ -218,11 +251,16 @@ export const TwoWayCompoundingForm = ({
         defaultValue={getValues("expected_going_on_date")}
         name="expected_going_on_date"
         onChange={(val) => {
-          setToLocalStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, val)
+          let hours = Number((val as string).slice(11, 13)) + Number(getValues("duration") || 0)
+          if (Number((val as string).slice(14, 16)) > 0) {
+            hours += 0.5
+          }
+          handleSetHours(hours)
+
+          setToSessionStorage(TWO_WAY_EXPECTED_GOING_ON_DATE, val)
         }}
       />
 
-      {/* Handle later on...................................... */}
       <div className={`form-item ${disabled ? "pointer-events-none" : ""}`}>
         <label className="form-label">Thời gian về(*)</label>
 
@@ -231,10 +269,8 @@ export const TwoWayCompoundingForm = ({
             <InputCheckbox
               type="circle"
               size={20}
-              onCheck={() => {
-                handleToggleStatus(true)
-              }}
               isChecked={!!getValues("is_a_day_tour")}
+              onCheck={() => handleToggleStatus(true)}
             />
             <span className="ml-8" onClick={() => handleToggleStatus(true)}>
               Trong ngày
@@ -245,10 +281,8 @@ export const TwoWayCompoundingForm = ({
             <InputCheckbox
               type="circle"
               size={18}
-              onCheck={() => {
-                handleToggleStatus(false)
-              }}
               isChecked={!getValues("is_a_day_tour")}
+              onCheck={() => handleToggleStatus(false)}
             />
             <span className="ml-8" onClick={() => handleToggleStatus(false)}>
               Khác ngày
@@ -258,15 +292,16 @@ export const TwoWayCompoundingForm = ({
 
         {isAdayTour ? (
           <SelectField
+            noOptionsMessage={() => "Vui lòng chọn về khác ngày"}
             maxMenuHeight={160}
             disabled={disabled}
             placeholder="Số giờ"
             name="hour_of_wait_time"
             isSearchable={false}
             control={control}
-            options={hoursBackList}
+            options={hours}
             onChange={(val) => {
-              setToLocalStorage(TWO_WAY_HOUR_OF_WAIT_TIME, val)
+              setToSessionStorage(TWO_WAY_HOUR_OF_WAIT_TIME, val)
             }}
           />
         ) : (
@@ -279,7 +314,7 @@ export const TwoWayCompoundingForm = ({
             placeholder="Ngày đến"
             defaultValue={getValues("expected_picking_up_date")}
             onChange={(val) => {
-              setToLocalStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, val)
+              setToSessionStorage(TWO_WAY_EXPECTED_PICKING_UP_DATE, val)
             }}
           />
         )}
@@ -292,7 +327,7 @@ export const TwoWayCompoundingForm = ({
         readOnly={disabled}
         label="Ghi chú cho chuyến đi"
         placeholder="Ghi chú cho chuyến đi"
-        onBlur={(val) => setToLocalStorage(TWO_WAY_NOTE, val)}
+        onBlur={(val) => setToSessionStorage(TWO_WAY_NOTE, val)}
       />
 
       {mode === "create" && !disabled ? (
@@ -301,7 +336,7 @@ export const TwoWayCompoundingForm = ({
           defaultValue={getValues("is_checked_policy")}
           control={control}
           name="is_checked_policy"
-          onChange={(val) => setToLocalStorage(TWO_WAY_IS_CHECKED_POLICY, val || undefined)}
+          onChange={(val) => setToSessionStorage(TWO_WAY_IS_CHECKED_POLICY, val || undefined)}
         />
       ) : null}
 

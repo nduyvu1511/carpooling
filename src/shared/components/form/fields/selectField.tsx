@@ -55,7 +55,7 @@ export const SelectField = ({
 
       <div className="form-select">
         <Select
-          {...attribute}
+          noOptionsMessage={() => "Khồng có dữ liệu"}
           openMenuOnFocus={true}
           ref={selectRef}
           placeholder={attribute.placeholder}
@@ -71,6 +71,7 @@ export const SelectField = ({
           defaultValue={defaultValue}
           id={name}
           className={`${error ? "form-select-error" : ""}`}
+          {...attribute}
         />
       </div>
 

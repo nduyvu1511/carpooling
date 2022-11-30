@@ -87,7 +87,11 @@ const CheckoutCustomer = () => {
     <CustomerBookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
-      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
+      rightNode={
+        compoundingCar ? (
+          <RideSummary data={compoundingCar} amount_wallet={amountBalance || 0} />
+        ) : null
+      }
       title="Thanh toán cho chuyến đi"
     >
       <Seo

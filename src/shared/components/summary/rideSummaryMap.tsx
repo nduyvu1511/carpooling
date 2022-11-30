@@ -18,6 +18,7 @@ interface RideSummaryMapProps {
   className?: string
   showInfo?: boolean
   amount_total?: number
+  amount_wallet?: number
 }
 
 export const RideSummaryMap = memo(function Child({
@@ -25,6 +26,7 @@ export const RideSummaryMap = memo(function Child({
   showMap = true,
   className = "",
   showInfo = true,
+  amount_wallet,
 }: RideSummaryMapProps) {
   const openGoogleMap = () => {
     window.open(
@@ -87,6 +89,7 @@ export const RideSummaryMap = memo(function Child({
             <span className={`mr-16 ${"leading-[20px] text-12 font-medium text-gray-color-7"}`}>
               Loại chuyến
             </span>
+
             <span
               style={{
                 color: COMPOUNDING_TYPE_COLOR[data.compounding_type],
@@ -97,13 +100,19 @@ export const RideSummaryMap = memo(function Child({
               {COMPOUNDING_TYPE_NAME[data.compounding_type]}
             </span>
           </div>
+
           <SummaryItem label="Thời gian dự kiến" value={getHoursName(data.duration || 0)} />
           <SummaryItem label="Lộ trình ước tính" value={`${data.distance} Km`} />
-          <SummaryItem
-            className="mb-0"
-            label="Số tiền cần đặt cọc"
-            value={formatMoneyVND(1250000)}
-          />
+          {amount_wallet ? (
+            <SummaryItem label="Số tiền trong ví" value={formatMoneyVND(amount_wallet)} />
+          ) : null}
+          {data?.down_payment?.total ? (
+            <SummaryItem
+              className="mb-0"
+              label="Số tiền cần đặt cọc"
+              value={formatMoneyVND(data.down_payment?.total)}
+            />
+          ) : null}
         </ul>
       ) : null}
     </div>

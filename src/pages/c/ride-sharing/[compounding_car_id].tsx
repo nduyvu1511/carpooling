@@ -1,12 +1,12 @@
 import {
-  CarpoolingCompoundingForm,
+  CarpoolingForm,
   RideDetailLoading,
   RideProgress,
   RideSummary,
   RideSummaryMobile,
   RideSummaryModal,
   RideToolTip,
-  Seo
+  Seo,
 } from "@/components"
 import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
@@ -97,7 +97,7 @@ const RidesDetailCustomer = () => {
             ) : null}
 
             {compoundingCar ? (
-              <CarpoolingCompoundingForm
+              <CarpoolingForm
                 defaultValues={{
                   ...compoundingCarResToCarpoolingForm(compoundingCar),
                   note: "",

@@ -8,7 +8,6 @@ import {
   TextareaField,
 } from "@/components"
 import {
-  isObjectHasValue,
   oneWayCompoundingCarSchema,
   ONE_WAY_CAR_ID,
   ONE_WAY_DISTANCE,
@@ -19,7 +18,7 @@ import {
   ONE_WAY_NOTE,
   ONE_WAY_PRICE,
   ONE_WAY_TO_LOCATION,
-  setToLocalStorage,
+  setToSessionStorage,
   subtractDateTimeToNumberOfHour,
 } from "@/helper"
 import { useCalcDistance, useCompoundingForm } from "@/hooks"
@@ -27,7 +26,7 @@ import { CreateOneWayCompoundingCar, CreateOneWayCompoundingCarForm } from "@/mo
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 
-interface OneWayCompoundingFormProps {
+interface OneWayFormProps {
   onSubmit?: (params: CreateOneWayCompoundingCar) => void
   defaultValues?: CreateOneWayCompoundingCarForm
   mode?: "create" | "update" | "confirm"
@@ -36,14 +35,14 @@ interface OneWayCompoundingFormProps {
   labelBtn?: string
 }
 
-export const OneWayCompoundingForm = ({
+export const OneWayForm = ({
   onSubmit,
   defaultValues,
   mode,
   disabled = false,
   view = "page",
   labelBtn,
-}: OneWayCompoundingFormProps) => {
+}: OneWayFormProps) => {
   const {
     handleSubmit,
     setValue,
@@ -77,8 +76,8 @@ export const OneWayCompoundingForm = ({
         }
         setValue("distance", distance)
         setValue("duration", duration)
-        setToLocalStorage(ONE_WAY_DISTANCE, distance)
-        setToLocalStorage(ONE_WAY_DURATION, duration)
+        setToSessionStorage(ONE_WAY_DISTANCE, distance)
+        setToSessionStorage(ONE_WAY_DURATION, duration)
       },
     })
   }
@@ -97,7 +96,7 @@ export const OneWayCompoundingForm = ({
       },
       onSuccess: (data) => {
         setValue("price", data)
-        setToLocalStorage(ONE_WAY_PRICE, data)
+        setToSessionStorage(ONE_WAY_PRICE, data)
       },
     })
   }
@@ -120,7 +119,20 @@ export const OneWayCompoundingForm = ({
       duration: data?.duration || 0,
     }
 
-    onSubmit?.(params)
+    if (!getValues("distance")) {
+      calculateDistanceBetweenTwoCoordinates({
+        params: {
+          origin: { lat: +data.from_location.lat, lng: +data.from_location.lng },
+          destination: { lat: +data.to_location.lat, lng: +data.to_location.lng },
+        },
+        onSuccess: ({ distance, duration }) => {
+          onSubmit?.({ ...params, distance, duration })
+        },
+        config: { showScreenLoading: true },
+      })
+    } else {
+      onSubmit?.(params)
+    }
   }
 
   return (
@@ -135,7 +147,7 @@ export const OneWayCompoundingForm = ({
         control={control}
         name="from_location"
         onChange={(data) => {
-          setToLocalStorage(ONE_WAY_FROM_LOCATION, data)
+          setToSessionStorage(ONE_WAY_FROM_LOCATION, data)
           calcDistance()
           calcPrice()
         }}
@@ -150,7 +162,7 @@ export const OneWayCompoundingForm = ({
         control={control}
         name="to_location"
         onChange={(data) => {
-          setToLocalStorage(ONE_WAY_TO_LOCATION, data)
+          setToSessionStorage(ONE_WAY_TO_LOCATION, data)
           calcDistance()
           calcPrice()
         }}
@@ -173,7 +185,7 @@ export const OneWayCompoundingForm = ({
         control={control}
         options={vehicleTypeOptions}
         onChange={(option) => {
-          setToLocalStorage(ONE_WAY_CAR_ID, option)
+          setToSessionStorage(ONE_WAY_CAR_ID, option)
           calcPrice()
         }}
       />
@@ -186,7 +198,7 @@ export const OneWayCompoundingForm = ({
         label="Thời gian đi"
         placeholder="Thời gian đi"
         onChange={(val) => {
-          setToLocalStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
+          setToSessionStorage(ONE_WAY_EXPECTED_GOING_ON_DATE, val)
         }}
       />
 
@@ -197,7 +209,7 @@ export const OneWayCompoundingForm = ({
         readOnly={disabled}
         label="Ghi chú cho chuyến đi"
         placeholder="Ghi chú cho chuyến đi"
-        onBlur={(val) => setToLocalStorage(ONE_WAY_NOTE, val)}
+        onBlur={(val) => setToSessionStorage(ONE_WAY_NOTE, val)}
       />
 
       {mode === "create" && !disabled ? (
@@ -206,7 +218,7 @@ export const OneWayCompoundingForm = ({
           defaultValue={getValues("is_checked_policy")}
           control={control}
           name="is_checked_policy"
-          onChange={(val) => setToLocalStorage(ONE_WAY_IS_CHECKED_POLICY, val || undefined)}
+          onChange={(val) => setToSessionStorage(ONE_WAY_IS_CHECKED_POLICY, val || undefined)}
         />
       ) : null}
 

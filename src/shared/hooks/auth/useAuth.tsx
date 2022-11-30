@@ -202,7 +202,14 @@ export const useAuth = (): UseAuthRes => {
     fetcherHandler<UserInfo>({
       fetcher: userAPI.checkPhoneExist(phone),
       onSuccess: (res) => {
-        type === "register" ? onError?.() : onSuccess?.(res)
+        if (
+          (type === "register" && res?.car_account_type) ||
+          ((type === "login" || type === "resetPassword") && !res?.car_account_type)
+        ) {
+          onError?.(res)
+        } else {
+          onSuccess?.(res)
+        }
       },
       onError: () => {
         type === "register" ? onSuccess?.(undefined) : onError?.()

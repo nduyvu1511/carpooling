@@ -315,6 +315,14 @@ export const convertToEnNoSpaceAndSpecialCharacter = (address: string) => {
   return address.replace(/\W/g, "")
 }
 
+export const formatMoneyVndString = (number: number): string => {
+  if (number < 1000000) return formatMoneyVND(number)
+
+  if (number < 1000000000) return (number / 1000000).toFixed(0) + " triệu"
+
+  return (number / 1000000000).toFixed(0) + " tỷ"
+}
+
 export const removeBase64Reader = (str: string) => str.replace(BASE64_READER_REGEX, "")
 
 export const lngLatToKms = ({ from, to }: { from: LatLng; to: LatLng }): number => {

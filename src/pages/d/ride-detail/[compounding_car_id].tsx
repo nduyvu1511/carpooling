@@ -184,6 +184,8 @@ const ConfirmBookingCustomer = () => {
 
                   {compoundingCar.state === "start_running" ||
                   compoundingCar.state === "stop_picking" ||
+                  (compoundingCar.compounding_type === "convenient" &&
+                    compoundingCar.state === "confirm") ||
                   compoundingCar.state === "confirm_deposit" ? (
                     <button
                       onClick={() => {

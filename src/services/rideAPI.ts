@@ -8,8 +8,8 @@ import {
   ConfirmPayFullCustomerParams,
   ConfirmTransactionParams,
   CreateCarpoolingCompoundingCar,
-  CreateCompoundingCarDriver,
   CreateCompoundingCarParams,
+  CreateConvenientCompoundingCar,
   CreatePaymentDriverParams,
   CreatePaymentMethodParams,
   CreatePaymentParams,
@@ -23,7 +23,7 @@ import {
   ReasonsCancelCompoundingCarParams,
   UpdateCompoundingCar,
   UpdateCompoundingCarCustomer,
-  UpdateCompoundingCarDriver,
+  UpdateConvenientCompoundingCar,
 } from "@/models"
 import { AxiosResponse } from "axios"
 import axiosClient from "."
@@ -198,7 +198,7 @@ const rideAPI = {
     )
   },
 
-  createCompoundingCarForDriver: (params: CreateCompoundingCarDriver) => {
+  createCompoundingCarForDriver: (params: CreateConvenientCompoundingCar) => {
     return axiosClient.post("/api/compounding_car_for_driver_controller/create_compounding_car", {
       params,
     })
@@ -210,7 +210,7 @@ const rideAPI = {
     })
   },
 
-  updateCompoundingCarForDriver: (params: UpdateCompoundingCarDriver) => {
+  updateCompoundingCarForDriver: (params: UpdateConvenientCompoundingCar) => {
     return axiosClient.post("/api/compounding_car_for_driver_controller/update_compounding_car", {
       params,
     })

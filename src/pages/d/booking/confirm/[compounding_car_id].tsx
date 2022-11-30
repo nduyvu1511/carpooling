@@ -1,6 +1,6 @@
 import {
   Alert,
-  CarpoolingCompoundingForm,
+  ConvenientForm,
   RideDetailLoading,
   RideProgress,
   RideSummary,
@@ -9,9 +9,9 @@ import {
   Seo,
 } from "@/components"
 import { RootState } from "@/core/store"
-import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
+import { useCompoundingCar, useCompoundingCarActions, useCompoundingForm } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
-import { CreateCarpoolingCompoundingCar } from "@/models"
+import { CreateConvenientCompoundingCar } from "@/models"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -20,22 +20,21 @@ import { notify } from "reapop"
 const CompoundingCarDriver = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { compounding_car_customer_id } = router.query
+  const { compounding_car_id } = router.query
 
   const userInfo = useSelector((state: RootState) => state.userInfo.userInfo)
   const { driverConfirmCompoundingCar, updateDriverCompoundingCar } = useCompoundingCarActions()
-  const { compoundingCarCustomerResToCarpoolingForm, clearCarpoolingWayCompoundingCar } =
-    useCompoundingForm()
-  const { data: compoundingCar, isInitialLoading } = useCompoundingCarCustomer({
-    compounding_car_customer_id: Number(compounding_car_customer_id),
-    key: `confirm_booking_compounding_car_customer_driver_${compounding_car_customer_id}`,
+  const { compoundingCarResToConvenientForm, clearCarpoolingForm } = useCompoundingForm()
+  const { data: compoundingCar, isInitialLoading } = useCompoundingCar({
+    compounding_car_id: Number(compounding_car_id),
+    key: `confirm_booking_compounding_car_driver_${compounding_car_id}`,
     type: "once",
   })
 
   const [showAlertAccount, setShowAlertAccount] = useState<boolean>(false)
 
-  const handleConfirmCompoundingCar = (params: CreateCarpoolingCompoundingCar) => {
-    if (!compoundingCar?.compounding_car_customer_id) return
+  const handleConfirmCompoundingCar = (params: CreateConvenientCompoundingCar) => {
+    if (!compoundingCar?.compounding_car_id) return
 
     if (userInfo?.verified_car_driver_account === "blocked_account") {
       dispatch(
@@ -65,7 +64,7 @@ const CompoundingCarDriver = () => {
         compounding_type: "convenient",
       },
       onSuccess: () => {
-        clearCarpoolingWayCompoundingCar()
+        clearCarpoolingForm()
         driverConfirmCompoundingCar({
           params: { compounding_car_id: compoundingCar.compounding_car_id },
           onSuccess: () => {
@@ -89,7 +88,7 @@ const CompoundingCarDriver = () => {
         <Seo
           description="Xác nhận chuyến đi"
           title="Xác nhận chuyến đi"
-          url={`d/booking/confirm/${compounding_car_customer_id}`}
+          url={`d/booking/confirm/${compounding_car_id}`}
         />
         <>
           {isInitialLoading ? (
@@ -97,10 +96,9 @@ const CompoundingCarDriver = () => {
           ) : compoundingCar ? (
             <>
               <RideSummaryMobile className="lg:hidden mb-24" rides={compoundingCar} />
-              <CarpoolingCompoundingForm
-                compoundingType="convenient"
-                defaultValues={compoundingCarCustomerResToCarpoolingForm(compoundingCar)}
-                onSubmit={(data) => handleConfirmCompoundingCar(data)}
+              <ConvenientForm
+                defaultValues={compoundingCarResToConvenientForm(compoundingCar)}
+                onSubmit={handleConfirmCompoundingCar}
                 view="page"
                 mode="confirm"
               />

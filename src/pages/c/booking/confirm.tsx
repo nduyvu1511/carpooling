@@ -1,6 +1,6 @@
 import {
-  CarpoolingCompoundingForm,
-  OneWayCompoundingForm,
+  CarpoolingForm,
+  OneWayForm,
   RideDetailLoading,
   RideProgress,
   RideSummary,
@@ -8,17 +8,25 @@ import {
   RideSummaryModal,
   RideToolTip,
   Seo,
-  TwoWayCompoundingForm,
+  TwoWayForm,
 } from "@/components"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCompoundingForm } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CreateCompoundingCar } from "@/models"
+import { rideAPI } from "@/services"
 import { useRouter } from "next/router"
+import useSWR from "swr"
 
 const ConfirmBookingCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
 
+  const { data: amount_wallet } = useSWR<number>("get_amount_balance_in_cash_wallet", () =>
+    rideAPI
+      .getAmountBalanceInCashWallet()
+      .then((res) => res?.result?.data?.money_in_cash_wallet || 0)
+      .catch((err) => console.log(err))
+  )
   const {
     compoundingCarCustomerResToOneWayForm,
     compoundingCarCustomerResToTwoWayForm,
@@ -63,7 +71,9 @@ const ConfirmBookingCustomer = () => {
     <CustomerBookingLayout
       topNode={<RideProgress state={compoundingCar?.state} />}
       showLoading={isInitialLoading}
-      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
+      rightNode={
+        compoundingCar ? <RideSummary amount_wallet={amount_wallet} data={compoundingCar} /> : null
+      }
       title="Xác nhận chuyến đi"
     >
       <Seo
@@ -83,17 +93,18 @@ const ConfirmBookingCustomer = () => {
                   percentage={compoundingCar?.customer_deposit_percentage}
                   desc="Phần chi phí còn lại hành khách sẽ thanh toán cho tài xế sau khi hoàn tất chuyến đi."
                 />
+
                 <RideSummaryMobile className="mb-24 lg:hidden" rides={compoundingCar} />
 
                 {compoundingCar.compounding_type === "one_way" ? (
-                  <OneWayCompoundingForm
+                  <OneWayForm
                     defaultValues={compoundingCarCustomerResToOneWayForm(compoundingCar)}
                     mode="create"
                     labelBtn="Xác nhận"
                     onSubmit={handleConfirmCompoundingCar}
                   />
                 ) : compoundingCar.compounding_type === "two_way" ? (
-                  <TwoWayCompoundingForm
+                  <TwoWayForm
                     view="page"
                     defaultValues={compoundingCarCustomerResToTwoWayForm(compoundingCar)}
                     mode="create"
@@ -101,7 +112,7 @@ const ConfirmBookingCustomer = () => {
                     onSubmit={handleConfirmCompoundingCar}
                   />
                 ) : (
-                  <CarpoolingCompoundingForm
+                  <CarpoolingForm
                     view="page"
                     mode="create"
                     labelBtn="Xác nhận"

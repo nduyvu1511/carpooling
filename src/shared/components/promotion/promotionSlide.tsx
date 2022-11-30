@@ -17,7 +17,6 @@ export const PromotionSlide = ({ title, titleClassName = "" }: PromotionSlidePro
     key: "get_special_promotion_list",
     params: { limit: 12, offset: 0 },
   })
-  console.log(data)
 
   return (
     <div className="promotion-slide">

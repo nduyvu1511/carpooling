@@ -1,11 +1,11 @@
-import { EditIcon, SpinnerIcon } from "@/assets"
-import { InputLoading, RatingTag, TextareaLoading, UserInfoForm } from "@/components"
+import { EditIcon, MailIcon, PhoneIcon, SpinnerIcon } from "@/assets"
+import { AccountSummary, InputLoading, TextareaLoading, UserInfoForm } from "@/components"
 import { EMAIL_REGEX, removeBase64Reader, toImageUrl } from "@/helper"
 import { useAttachment, useProfile, useUploadAttachment } from "@/hooks"
 import { CarAccountType, UpdateUserInfoParams } from "@/models"
 import { setProfile } from "@/modules"
 import Image from "next/image"
-import { useRouter } from "next/router"
+import Link from "next/link"
 import { ChangeEvent } from "react"
 import { useDispatch } from "react-redux"
 import { notify } from "reapop"
@@ -16,7 +16,6 @@ interface ProfileProps {
 }
 
 const Profile = ({ type }: ProfileProps) => {
-  const router = useRouter()
   const dispatch = useDispatch()
   const {
     updateUserInfo,
@@ -128,34 +127,63 @@ const Profile = ({ type }: ProfileProps) => {
             </label>
           </div>
         </div>
+
         <div className="flex-1 md:ml-[48px]">
           <div className="flex-col flex-center md:items-start">
-            <div className="flex items-center mb-[8px] md:mb-16">
-              <p className="h3 line-clamp-1 word-wrap-anywhere font-semibold md:font-medium flex-1 mr-16 text-blue-7">
+            <div className="flex items-center mb-12 md:mb-16">
+              <p className="text-base font-semibold text-[20px] line-clamp-1 word-wrap-anywhere flex-1 text-blue-7">
                 {userInfo.partner_name}
               </p>
 
-              {userInfo?.rating_number ? (
-                <RatingTag
-                  onClick={() => router.push("/d/account/rating")}
-                  value={userInfo.rating_number}
-                />
+              {userInfo?.car_account_type === "customer" ? (
+                <div className="ml-12 md:hidden">
+                  <AccountTag userInfo={userInfo} />
+                </div>
+              ) : null}
+
+              {userInfo?.car_account_type === "car_driver" ? (
+                <div className="ml-12">
+                  <AccountTag userInfo={userInfo} />
+                </div>
               ) : null}
             </div>
 
-            <div className="mb-16 flex flex-col items-center md:items-start">
-              <AccountTag userInfo={userInfo} />
-            </div>
+            {userInfo?.car_account_type === "customer" ? (
+              <div className="mb-16 hidden md:block">
+                <AccountTag userInfo={userInfo} />
+              </div>
+            ) : null}
 
             <div className="flex items-center">
-              <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.phone}</p>
+              <p className="flex items-center">
+                <PhoneIcon className="mr-8 text-gray-color-7" />
+                <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.phone}</p>
+              </p>
+
               {userInfo?.email && EMAIL_REGEX.test(userInfo.email) ? (
                 <>
-                  <p className="mx-12 border-r h-[12px] border-solid border-border-color"></p>
+                  <span className="mx-12 h-10 border-l border-l-gray-10 border-solid w-1"> </span>
+                  <MailIcon className="mr-8" fill="#767676" />
                   <p className="text-xs line-clamp-1 word-wrap-anywhere">{userInfo.email}</p>
                 </>
               ) : null}
             </div>
+
+            {userInfo.car_account_type === "car_driver" ? (
+              <div className="mt-16">
+                <>
+                  {userInfo.verified_car_driver_account === "active_account" ? (
+                    <AccountSummary data={userInfo} />
+                  ) : userInfo.verified_car_driver_account === "inactive_account" ? (
+                    <Link passHref href="/d/register">
+                      <a className="text-primary text-sm underline">Bổ sung thông tin tài xế</a>
+                    </Link>
+                  ) : (
+                    <p className="text-sm">Tài khoản tài xế bị khóa</p>
+                  )}
+                </>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

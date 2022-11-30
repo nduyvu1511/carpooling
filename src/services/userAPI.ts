@@ -32,6 +32,7 @@ import {
   UpdateUserInfoParams,
   UpdateVehicleInsuranceParams,
   UpdateVerifiedPhoneNumber,
+  UserInfo,
   VehicleDetailFormParams,
   VehicleInsuranceParams,
   VehicleTypeParams,
@@ -80,7 +81,7 @@ const userAPI = {
     })
   },
 
-  checkPhoneExist: (phone: string) => {
+  checkPhoneExist: (phone: string): Promise<AxiosResponse<UserInfo>> => {
     return axiosClient.post("/api/user_information_controller/check_user_account", {
       params: {
         phone,

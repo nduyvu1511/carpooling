@@ -60,6 +60,15 @@ export const CARPOOLING_NUMBER_SEAT = "carpooling_number_seat"
 export const CARPOOLING_IS_PICKING_UP_FROM_START = "carpooling_is_picking_up_from_start"
 export const COMPOUNDING_VNPAY_CODE = "compounding_vnpay_code"
 export const LIMIT_COMPOUNDING_LIST = 12
+export const CONVENIENT_CAR_ID = "convenient_car_id"
+export const CONVENIENT_DISTANCE = "convenient_distance"
+export const CONVENIENT_DURATION = "convenient_duration"
+export const CONVENIENT_EXPECTED_GOING_ON_DATE = "convenient_expected_going_on_date"
+export const CONVENIENT_FROM_STATION = "convenient_from_station"
+export const CONVENIENT_IS_CHECKED_POLICY = "convenient_is_checked_policy"
+export const CONVENIENT_NOTE = "convenient_note"
+export const CONVENIENT_PRICE_PER_PASSENGER = "convenient_price_per_passenger"
+export const CONVENIENT_TO_STATION = "convenient_to_station"
 
 export const VNPAY_STATUS_NAME = {
   "00": "	Giao dịch thành công",

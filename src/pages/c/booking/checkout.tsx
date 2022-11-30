@@ -13,15 +13,23 @@ import { compareCompoundingCarCustomerState } from "@/helper"
 import { useCompoundingCarActions, useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelRideParams, PaymentRes } from "@/models"
-import { chatAPI } from "@/services"
+import { chatAPI, rideAPI } from "@/services"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+import useSWR from "swr"
 
 const CheckoutCustomer = () => {
   const router = useRouter()
   const { compounding_car_customer_id } = router.query
   const { createPayment } = useCustomerCheckout()
   const { customerCancelCompoundingCarBeforeDeposit } = useCompoundingCarActions()
+
+  const { data: amount_wallet } = useSWR<number>("get_amount_balance_in_cash_wallet", () =>
+    rideAPI
+      .getAmountBalanceInCashWallet()
+      .then((res) => res?.result?.data?.money_in_cash_wallet || 0)
+      .catch((err) => console.log(err))
+  )
 
   const {
     data: compoundingCar,
@@ -83,10 +91,12 @@ const CheckoutCustomer = () => {
 
   return (
     <CustomerBookingLayout
+      title="Đặt cọc chuyến đi"
       showLoading={isInitialLoading}
       topNode={<RideProgress state={compoundingCar?.state} />}
-      rightNode={compoundingCar ? <RideSummary data={compoundingCar} /> : null}
-      title="Đặt cọc chuyến đi"
+      rightNode={
+        compoundingCar ? <RideSummary amount_wallet={amount_wallet} data={compoundingCar} /> : null
+      }
     >
       <Seo
         title="Đặt cọc chuyến đi"

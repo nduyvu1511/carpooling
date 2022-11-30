@@ -1,4 +1,4 @@
-import { promotionItemImage } from "@/assets"
+import { imageBlur, promotionItemImage } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { PromotionRes } from "@/models"
 import moment from "moment"
@@ -24,11 +24,13 @@ export const PromotionInfoItem = ({ data }: PromotionInfoItemProps) => {
 
       <div className="relative aspect-[3/2] rounded-tl-[10px] rounded-tr-[10px] overflow-hidden">
         <Image
+          blurDataURL={imageBlur}
           src={
             data?.promotion_image_url?.image_url
               ? toImageUrl(data.promotion_image_url.image_url)
               : promotionItemImage
           }
+          loading="lazy"
           alt=""
           layout="fill"
           objectFit="cover"
