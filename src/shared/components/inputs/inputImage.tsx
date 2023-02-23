@@ -6,13 +6,13 @@ import Image from "next/image"
 import { ChangeEvent } from "react"
 
 interface InputImageProps {
-  getImage?: (params: AttachmentItem) => void
   isError?: boolean
   image?: string | undefined
   id: string
   type?: AttachmentRouteType
-  onBlur?: Function
   readOnly?: boolean
+  onBlur?: () => void
+  getImage?: (params: AttachmentItem) => void
   onDelete?: () => void
 }
 

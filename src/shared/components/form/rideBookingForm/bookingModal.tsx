@@ -131,7 +131,6 @@ const BookingModal = ({
     <>
       <Modal
         key="booking-modal"
-        transitionType="down"
         show={!!show}
         heading={COMPOUNDING_TYPE_HEADING[compoundingType as CompoundingType]}
         onClose={onClose}

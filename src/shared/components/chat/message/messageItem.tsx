@@ -212,6 +212,7 @@ export const MessageItem = ({
                     {data.author.author_name}
                   </p>
                 ) : null}
+
                 {/* Reply message */}
                 {data?.reply_to?.message_id ? (
                   <div
@@ -232,6 +233,7 @@ export const MessageItem = ({
                     </div>
                   </div>
                 ) : null}
+
                 {/* Message text */}
                 {data?.message_text ? (
                   <Linkify componentDecorator={componentDecorator}>
@@ -254,6 +256,7 @@ export const MessageItem = ({
                     />
                   </div>
                 ) : null}
+
                 {isLast || data.status === "rejected" ? (
                   <MessageStatus
                     onResendMessage={handleResendMessage}

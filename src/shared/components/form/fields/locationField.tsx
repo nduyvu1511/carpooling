@@ -101,7 +101,6 @@ export const LocationField = ({
         iconType="back"
         heading={modalTitle || "Chọn địa điểm"}
         onClose={() => toggleModal(false)}
-        transitionType="down"
       >
         <Map
           defaultLocation={value}

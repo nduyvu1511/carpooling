@@ -606,11 +606,7 @@ export interface CreatePasswordParams {
   confirm_new_password: string
 }
 
-export type FriendStatusRes = {
-  user_id: string
-  room_ids: string[]
-}
-
+;``
 export interface ResetPasswordRes {
   token: string
   car_account_type: string
@@ -620,4 +616,9 @@ export interface ResetPasswordRes {
 export interface TokenRes {
   access_token: string
   refresh_token: string
+}
+
+export interface FriendStatusRes {
+  room_ids: string[]
+  user_id: string
 }

@@ -100,7 +100,6 @@ export const StationField = ({
         }}
         iconType="back"
         heading={modalTitle || "Chọn trạm đến"}
-        transitionType="up"
       >
         <Station
           onChange={(val) => {

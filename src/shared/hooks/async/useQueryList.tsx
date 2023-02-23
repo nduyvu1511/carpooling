@@ -9,9 +9,9 @@ interface Props<T> {
   key: string
   initialData: T[] | undefined
   hasMore?: boolean
-  fetcher?: (params?: any) => Promise<AxiosResponse<any, any>>
   params?: ListQuery & any
   config?: Partial<PublicConfiguration<any, any, (args_0: string) => any>>
+  fetcher?: (params?: any) => Promise<AxiosResponse<any, any>>
 }
 
 export const useQueryList = <T,>({
@@ -19,9 +19,9 @@ export const useQueryList = <T,>({
   key,
   initialData,
   hasMore: hasMoreProps = true,
-  fetcher,
   params,
   config,
+  fetcher,
 }: Props<T>): UseQueryListRes<T> => {
   const [offset, setOffset] = useState<number>(0)
   const [hasMore, setHasMore] = useState<boolean>(hasMoreProps)

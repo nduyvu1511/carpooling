@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ResponseType } from "@/models"
 import Cookies from "cookies"
 import httpProxy from "http-proxy"

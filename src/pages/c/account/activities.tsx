@@ -81,6 +81,7 @@ const Activities = () => {
             />
           ) : null}
         </div>
+
         <div className="">
           {isValidating ? (
             <ul className="">

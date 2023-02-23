@@ -31,11 +31,7 @@ export const usePromotionActions = (): Res => {
     fetcherHandler<CompoundingCarCustomer>({
       fetcher: promotionApi.applyPromotionForCustomer(params),
       onSuccess: (data) => {
-        if (
-          data?.promotion?.promotion_id &&
-          data?.promotion?.is_promotion_applied &&
-          data?.discount_after_tax
-        ) {
+        if (data?.promotion?.promotion_id && data?.discount_after_tax) {
           onSuccess(data)
           dispatch(notify("Đã áp dụng chương trình khuyến mãi", "success"))
         } else {

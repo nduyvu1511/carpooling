@@ -3,12 +3,10 @@ import { ReactNode } from "react"
 import { CSSTransition } from "react-transition-group"
 
 interface AlertProps {
-  onClose?: Function
   title: string
   desc?: string
   className?: string
   type?: "warning" | "error" | "success" | "info"
-  onConfirm: Function
   leftBtnLabel?: string
   rightBtnLabel?: string
   showLeftBtn?: boolean
@@ -17,25 +15,27 @@ interface AlertProps {
   show: boolean | undefined
   showRightBtn?: boolean
   warningColor?: string
+  onClose?: () => void
+  onConfirm: () => void
 }
 
 const iconClassName = "alert-icon w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] my-24 sm:my-24"
 
 const Alert = ({
-  onClose,
   desc,
   className = "",
   type = "success",
-  onConfirm,
   leftBtnLabel = "Quay lại",
   rightBtnLabel = "Xác nhận",
   showLeftBtn = true,
   showRightBtn = true,
+  warningColor,
   children,
   disabledBtn = false,
   show,
   title,
-  warningColor,
+  onClose,
+  onConfirm,
 }: AlertProps) => {
   return (
     <>

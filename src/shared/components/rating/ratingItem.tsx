@@ -103,7 +103,7 @@ export const RatingItem = ({
       </div>
     )
   return (
-    <div className="flex items-start py-16 md:py-24 w-full overflow-hidden">
+    <div className="flex items-start py-16 md:py-24 w-full">
       <div className="relative w-[32px] h-[32px] rounded-[50%] overflow-hidden mr-16 shrink-0">
         <Image
           src={toImageUrl(rating?.partner_id?.avatar_url.image_url || "")}
