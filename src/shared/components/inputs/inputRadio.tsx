@@ -23,7 +23,14 @@ export const InputRadio = ({
       }`}
     >
       {isChecked ? (
-        <span style={{ backgroundColor: color }} className="w-[12px] h-[12px] rounded-[50%]"></span>
+        <span
+          style={{
+            backgroundColor: color,
+            width: size > 20 ? size - 10 : size - 5,
+            height: size > 20 ? size - 10 : size - 5,
+          }}
+          className="rounded-[50%]"
+        ></span>
       ) : null}
     </span>
   )

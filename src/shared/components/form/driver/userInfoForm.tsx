@@ -7,13 +7,7 @@ import {
   InputImage,
   Modal,
 } from "@/components"
-import {
-  EMAIL_REGEX,
-  isObjectHasValue,
-  toggleBodyOverflow,
-  userFormSchema,
-  userInfoFormfields,
-} from "@/helper"
+import { EMAIL_REGEX, isObjectHasValue, userFormSchema, userInfoFormfields } from "@/helper"
 import { useBackRouter, useIdentityCard } from "@/hooks"
 import {
   CarAccountType,
@@ -137,13 +131,11 @@ export const UserInfoForm = ({
   const toggleShowAddressModal = (status: boolean) => {
     setShowAddressModal(status)
     if (view === "modal") return
-    toggleBodyOverflow(status ? "hidden" : "unset")
   }
 
   const toggleShowIdentityCardForm = (status: boolean) => {
     setShowIdentityCardForm(status)
     if (view === "modal") return
-    toggleBodyOverflow(status ? "hidden" : "unset")
   }
 
   const handleAddIdentityCard = (params: IdCardParams) => {

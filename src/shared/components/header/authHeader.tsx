@@ -10,7 +10,7 @@ import {
 } from "@/assets"
 import { Badge, BookingModal, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
-import { COMPOUNDING_TYPE_BG, toggleBodyOverflow, toImageUrl } from "@/helper"
+import { COMPOUNDING_TYPE_BG, toImageUrl } from "@/helper"
 import { useBackRouter } from "@/hooks"
 import { CompoundingType } from "@/models"
 import Image from "next/image"
@@ -34,11 +34,6 @@ const AuthHeader = ({ className = "" }: AuthHeaderProps) => {
 
   const toggleBookingModal = (status: CompoundingType | undefined) => {
     setBookingType(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   useBackRouter({

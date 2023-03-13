@@ -17,10 +17,14 @@ import {
   GetCompoundingCarCustomerList,
   GetCompoundingCarCustomerStateParams,
   GetCompoundingCarDriverStateParams,
+  GetComputePriceUnitRes,
   GetDetailCompounding,
   GetDetailCompoundingCustomer,
+  GetPriceListReq,
+  GetPriceListUnitRes,
   ListQuery,
   ReasonsCancelCompoundingCarParams,
+  ResponseType,
   UpdateCompoundingCar,
   UpdateCompoundingCarCustomer,
   UpdateConvenientCompoundingCar,
@@ -319,6 +323,16 @@ const rideAPI = {
 
   getAmountBalanceInCashWallet: () => {
     return axiosClient.post("/api/wallet_controller/get_available_money_in_cash_wallet", {})
+  },
+
+  getPriceList: (params: GetPriceListReq): Promise<ResponseType<GetPriceListUnitRes>> => {
+    return axiosClient.post("/api/compounding_car_controller/price_unit", { params })
+  },
+
+  getComputePriceUnit: (): Promise<ResponseType<GetComputePriceUnitRes>> => {
+    return axiosClient.post("/api/compounding_car_controller/information_to_compute_price_unit", {
+      params: {},
+    })
   },
 }
 

@@ -1,4 +1,3 @@
-import { toggleBodyOverflow } from "@/helper"
 import { AuthModalType, AuthModalTypeSlice, PayloadType } from "@/models"
 import { createSlice } from "@reduxjs/toolkit"
 
@@ -28,28 +27,13 @@ const commonSlice = createSlice({
     ) => {
       state.isScreenLoading = show
       if (!toggleOverFlow) return
-      if (show) {
-        toggleBodyOverflow("hidden")
-      } else {
-        toggleBodyOverflow("unset")
-      }
     },
 
     setAuthModalType: (state, { payload }: PayloadType<AuthModalType | undefined>) => {
-      if (payload === undefined) {
-        toggleBodyOverflow("unset")
-      } else {
-        toggleBodyOverflow("hidden")
-      }
       state.authModalType = payload
     },
 
     setShowSummaryDetail: (state, { payload }: PayloadType<boolean>) => {
-      if (!payload) {
-        toggleBodyOverflow("unset")
-      } else {
-        toggleBodyOverflow("hidden")
-      }
       state.isShowSummaryDetail = payload
     },
 

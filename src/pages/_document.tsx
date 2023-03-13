@@ -1,5 +1,9 @@
 /* eslint-disable @next/next/no-sync-scripts */
+import { GOOGLE_MAP_API_KEY } from "@/helper"
 import Document, { Head, Html, Main, NextScript } from "next/document"
+// eslint-disable-next-line @next/next/no-script-in-document
+import Script from "next/script"
+
 class MyDocument extends Document {
   render() {
     return (
@@ -14,6 +18,13 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <Script
+            defer
+            id="googlemaps"
+            type="text/javascript"
+            strategy="beforeInteractive"
+            src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}&libraries=places`}
+          />
         </body>
       </Html>
     )

@@ -1,5 +1,4 @@
 import { FilterNotFound, PromotionItem, Spinner } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useQueryList } from "@/hooks"
 import { PromotionRes } from "@/models"
 import { promotionApi } from "@/services"
@@ -32,11 +31,6 @@ export const Promotion = ({ className }: PromotionProps) => {
 
   const toggleModal = (id: number | undefined) => {
     setPromotionId(id)
-    if (id) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   // const handleSavePromotion = (promotion: PromotionRes) => {

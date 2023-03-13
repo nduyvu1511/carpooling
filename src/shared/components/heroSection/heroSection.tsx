@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 import { CarpoolingIcon, ConvenientIcon, mapBanner, OneWayIcon, TwoWayIcon } from "@/assets"
-import { toggleBodyOverflow } from "@/helper"
 import { setAuthModalType } from "@/modules"
 import Image from "next/image"
 import { useDispatch } from "react-redux"
@@ -60,7 +59,6 @@ export const HeroSection = () => {
                 <li
                   onClick={() => {
                     dispatch(setAuthModalType("login"))
-                    toggleBodyOverflow("hidden")
                   }}
                   className="cursor-pointer flex-center flex-col p-16 rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color hover:bg-bg-primary transition-colors duration-300"
                   key={index}

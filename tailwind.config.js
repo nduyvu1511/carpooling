@@ -21,6 +21,7 @@ module.exports = {
         "shadow-1": "0px 1px 2px rgba(0, 0, 0, 0.05)",
         "shadow-2": "0px 2px 8px rgba(31, 31, 221, 0.2)",
         "shadow-3": "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        "shadow-4": "16px 16px 24px rgba(0, 0, 0, 0.05)",
       },
     },
     colors: {
@@ -45,6 +46,7 @@ module.exports = {
       green: "#008F5D",
       "border-color-1": "#C8C8C8",
       "border-color-2": "#D7D7D7",
+      "price-unit-section": "rgba(239, 236, 255, 0.4)",
       "border-color-3": "rgba(0, 32, 51, 0.26)",
       "border-color": "#F0F0F0",
       warning: "#ED9526",

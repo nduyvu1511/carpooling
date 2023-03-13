@@ -11,7 +11,6 @@ import {
   WalletLoading,
 } from "@/components"
 import { RootState } from "@/core/store"
-import { toggleBodyOverflow } from "@/helper"
 import { useJournal } from "@/hooks"
 import {
   JournalDetailRes,
@@ -66,7 +65,6 @@ const Wallet = () => {
 
   useEffect(() => {
     return () => {
-      toggleBodyOverflow("unset")
       if (paymentId) {
         dispatch(setCheckoutPaymentId(undefined))
       }
@@ -87,11 +85,6 @@ const Wallet = () => {
       setCurrentPaymentId(status as number)
     } else {
       setShowWithdrawModal(status as boolean)
-    }
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
     }
   }
 

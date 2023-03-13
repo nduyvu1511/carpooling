@@ -1,4 +1,3 @@
-import { toggleBodyOverflow } from "@/helper"
 import { usePromotionActions } from "@/hooks"
 import { CarAccountType, PromotionRes } from "@/models"
 import { useState } from "react"
@@ -83,11 +82,6 @@ export const PromotionCheckout = ({
 
   const toggleModal = (status: boolean) => {
     setShowPromotionModal(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

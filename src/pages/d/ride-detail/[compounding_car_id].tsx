@@ -14,7 +14,6 @@ import {
   RideSummaryPassengerItem,
   Seo,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import {
   useChatActions,
   useCompoundingCarDriver,
@@ -69,20 +68,10 @@ const ConfirmBookingCustomer = () => {
 
   const handleSetCurrentReportRating = (id: number | undefined) => {
     setCurrentReportRatingId(id)
-    if (id) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   const handleSetShowCancelModal = (status: boolean) => {
     setShowCancelModal(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

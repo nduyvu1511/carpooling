@@ -1,5 +1,5 @@
 import { SignoutIcon } from "@/assets"
-import { toggleBodyOverflow, toImageUrl } from "@/helper"
+import { toImageUrl } from "@/helper"
 import { useAuth } from "@/hooks"
 import { SidebarItem } from "@/models"
 import Image from "next/image"
@@ -60,7 +60,6 @@ const AccountSidebar = ({ navList, avatar, name, phone, onClick }: AccountSideba
           <SignoutIcon className="w-[20px] h-[20px] text-error" />
           <button
             onClick={() => {
-              toggleBodyOverflow("unset")
               logout(() => {
                 router.push("/")
               })

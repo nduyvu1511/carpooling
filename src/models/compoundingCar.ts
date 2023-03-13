@@ -666,3 +666,34 @@ export interface IDepositSummary {
 }
 
 export type IDepositSummaryOptional = Partial<IDepositSummary>
+
+export interface GetPriceListReq {
+  distance: number
+  going_on_date: string
+}
+
+export interface GetPriceListUnitRes {
+  gasoline_consumption_per_km: number
+  gasoline_price_unit: number
+  petroleum_consumption_per_km: number
+  petroleum_price_unit: number
+  price_unit: PriceUnitRes[]
+}
+
+export interface PriceUnitRes {
+  compounding_type: CompoundingType
+  car_id: {
+    car_id: number
+    name: string
+  }
+  price_unit_in_day: number
+  first_day: number
+  waiting_charge_per_day: number
+}
+
+export interface GetComputePriceUnitRes {
+  number_km_per_day: number
+  service_fee_percent: number
+  person_income_tax: number
+  car: VehicleTypeParams[]
+}

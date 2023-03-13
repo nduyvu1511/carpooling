@@ -8,7 +8,6 @@ import {
   Spinner,
   SuggestionPromotion,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useBackRouter } from "@/hooks"
 import {
   CarAccountType,
@@ -60,11 +59,6 @@ const RideContainer = ({
 
   const toggleShowFilter = (type: ModalFilterType) => {
     setShowFitler(type)
-    if (type) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

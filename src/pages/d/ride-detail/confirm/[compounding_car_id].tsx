@@ -13,7 +13,6 @@ import {
   TwoWayForm,
 } from "@/components"
 import { RootState } from "@/core/store"
-import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarDriver, useCompoundingForm, useDriverCheckout } from "@/hooks"
 import { DriverBookingLayout } from "@/layout"
 import { DepositCompoundingCarDriverFailureRes } from "@/models"
@@ -67,9 +66,6 @@ const RideConfirmCustomer = () => {
       },
       onError: (data) => {
         setDepositFailure(data)
-        setTimeout(() => {
-          toggleBodyOverflow("unset")
-        }, 0)
       },
       showLoading: true,
     })
@@ -147,14 +143,12 @@ const RideConfirmCustomer = () => {
               },
               onSuccess: () => {
                 setShowCancelModal(false)
-                toggleBodyOverflow("unset")
                 setDepositFailure(undefined)
                 router.push(`/d/ride-detail/cancel/${compoundingCar.compounding_car_id}`)
               },
             })
           }
           onClose={() => {
-            toggleBodyOverflow("unset")
             setShowCancelModal(false)
           }}
           params={{
@@ -176,7 +170,6 @@ const RideConfirmCustomer = () => {
               params: { compounding_car_id: showAlert },
               onSuccess: () => {
                 setShowAlert(undefined)
-                toggleBodyOverflow("unset")
                 setDepositFailure(undefined)
                 router.push(`/d/ride-detail/checkout/${compoundingCar.compounding_car_id}`)
               },
@@ -189,13 +182,11 @@ const RideConfirmCustomer = () => {
         <RideCheckoutPopup
           onCheckout={(id) => {
             router.push(`/d/ride-detail/checkout/${id}`)
-            toggleBodyOverflow("unset")
             setDepositFailure(undefined)
           }}
           onCancelRide={(id) => setShowAlert(id)}
           data={depositFailure}
           onClose={() => {
-            toggleBodyOverflow("unset")
             setDepositFailure(undefined)
           }}
         />

@@ -14,7 +14,6 @@ import {
   RideSummaryModal,
   Seo,
 } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useCompoundingCarCustomer, useFetcher, useRatingActions } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { CancelCompoundingFormParams, CreateRatingFormParams, RatingRes } from "@/models"
@@ -92,27 +91,16 @@ const RidesDetail = () => {
       onSuccess: () => {
         mutate()
         setCurrentDeleteRating(undefined)
-        toggleBodyOverflow("unset")
       },
     })
   }
 
   const toggleRatingModal = (status: boolean) => {
     setShowRatingModal(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   const toggleCancelModal = (status: boolean) => {
     setShowCancelModal(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   const handleCancelCompoundingCar = (params: CancelCompoundingFormParams) => {
@@ -183,7 +171,6 @@ const RidesDetail = () => {
                   <p className="text-base uppercase font-semibold mb-8">Đánh giá của bạn</p>
                   <RatingItem
                     onDelete={(id) => {
-                      toggleBodyOverflow("hidden")
                       setCurrentDeleteRating(id)
                     }}
                     onUpdate={(params) => setCurrentRatingUpdate(params)}
@@ -241,7 +228,6 @@ const RidesDetail = () => {
             title="Bạn có chắc chắn muốn xóa đánh giá này"
             onClose={() => {
               setCurrentDeleteRating(undefined)
-              toggleBodyOverflow("unset")
             }}
             onConfirm={() => currentDeleteRating && handleDeleteRating(currentDeleteRating)}
             type="warning"

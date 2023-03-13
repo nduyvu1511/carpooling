@@ -1,7 +1,7 @@
 import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
 import { AuthModal, Drawer, HeaderWrapper } from "@/components"
 import { RootState } from "@/core/store"
-import { PHONE, toggleBodyOverflow } from "@/helper"
+import { PHONE } from "@/helper"
 import { useBackRouter, useClickOutside } from "@/hooks"
 import { setAuthModalType } from "@/modules"
 import Link from "next/link"
@@ -27,17 +27,11 @@ export const Header = () => {
     cb: () => {
       setShowMenu(false)
       setShowDrawer(false)
-      toggleBodyOverflow("unset")
     },
   })
 
   const toggleShowDrawer = (status: boolean) => {
     setShowDrawer(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (
@@ -82,7 +76,7 @@ export const Header = () => {
               </div>
 
               <div className="flex items-center">
-                <div ref={menuRef} className="relative block xl:hidden">
+                <div ref={menuRef} className="relative flex xl:hidden">
                   <button onClick={() => setShowMenu(true)}>
                     <UserCircleIcon className="w-[26px] h-[26px] hidden sm:block sm:w-[33px] xl:hidden sm:h-[33px]" />
                   </button>

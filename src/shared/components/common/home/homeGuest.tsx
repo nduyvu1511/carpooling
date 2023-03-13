@@ -5,6 +5,7 @@ import {
   HomeSection,
   NewsHome,
   PlaceHome,
+  PriceList,
   PromotionBanner,
   Seo,
 } from "@/components"
@@ -16,6 +17,8 @@ export const HomeGuest = () => {
       <div className="h-[244px] sm:h-[350px] md:h-[453px] lg:h-[600px] xl:h-[calc(100vh-80px)]">
         <HeroSection />
       </div>
+
+      <PriceList />
 
       <PlaceHome />
 

@@ -1,6 +1,6 @@
 import { TrustIcon, WarningIcon } from "@/assets"
 import { PaymentItem, Spinner } from "@/components"
-import { formatMoneyVND, rechargeMoneySchema, toggleBodyOverflow } from "@/helper"
+import { formatMoneyVND, rechargeMoneySchema } from "@/helper"
 import { usePaymentMethodRechargeMoney } from "@/hooks"
 import { RechargeRequestFormParams } from "@/models"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -39,11 +39,6 @@ export const TransactionForm = ({
 
   const toggleShowConfirmWithdraw = (status: boolean) => {
     setShowConfirmWithdraw(status)
-    if (status) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   useEffect(() => {

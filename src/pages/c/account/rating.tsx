@@ -1,6 +1,5 @@
 import { RatingEmptyIcon } from "@/assets"
 import { Alert, Modal, RatingForm, RatingItem, Seo, Spinner } from "@/components"
-import { toggleBodyOverflow } from "@/helper"
 import { useCustomerRating, useRatingActions } from "@/hooks"
 import { CustomerAccountLayout } from "@/layout"
 import { CreateRatingFormParams, RatingRes } from "@/models"
@@ -28,7 +27,6 @@ const Rating = () => {
       onSuccess: () => {
         mutateDeleteRating(rating_id)
         setCurrentDeleteRatingId(undefined)
-        toggleBodyOverflow("unset")
       },
     })
   }
@@ -43,7 +41,6 @@ const Rating = () => {
       },
       onSuccess: (res) => {
         mutateUpdateRating(res)
-        toggleBodyOverflow("unset")
         setCurrentEditRating(undefined)
       },
     })
@@ -78,11 +75,9 @@ const Rating = () => {
                         >
                           <RatingItem
                             onUpdate={() => {
-                              toggleBodyOverflow("hidden")
                               setCurrentEditRating(item)
                             }}
                             onDelete={() => {
-                              toggleBodyOverflow("hidden")
                               setCurrentDeleteRatingId(item.rating_id)
                             }}
                             car_account_type="customer"
@@ -109,7 +104,6 @@ const Rating = () => {
         show={!!currentEditRating}
         heading="Chỉnh sửa đánh giá"
         onClose={() => {
-          toggleBodyOverflow("unset")
           setCurrentEditRating(undefined)
         }}
       >
@@ -126,7 +120,6 @@ const Rating = () => {
         type="warning"
         title="Bạn có chắc chắn muốn xóa đi đánh giá này "
         onClose={() => {
-          toggleBodyOverflow("unset")
           setCurrentDeleteRatingId(undefined)
         }}
         onConfirm={() => currentDeleteRatingId && handleDeleteRating(currentDeleteRatingId)}

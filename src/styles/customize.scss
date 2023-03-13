@@ -7,6 +7,10 @@
     @apply max-w-[1280px] w-full mx-auto px-custom xl:px-0;
   }
 
+  .price-container {
+    @apply max-w-[976px] w-full mx-auto px-custom xl:px-0;
+  }
+
   .flex-center {
     @apply flex justify-center items-center;
   }
@@ -358,6 +362,7 @@
 
 .form-select {
   & .css-b62m3t-container {
+    outline: none;
     width: 100%;
     height: 44px;
     font-size: 14px;
@@ -373,7 +378,7 @@
       padding-block: 24px;
     }
 
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       height: 44px;
       padding-inline: 5px;
       border: 1px solid rgba(55, 55, 55, 0.2);
@@ -387,7 +392,7 @@
       }
     }
 
-    & .css-1pahdxg-control {
+    & .css-t3ipsp-control {
       height: 44px;
       box-shadow: none;
       padding-inline: 5px;
@@ -399,9 +404,13 @@
         border-color: #bfbfbf;
         border-radius: 10px;
       }
+
+      // &:hover {
+      //   text-decoration: underline;
+      // }
     }
 
-    & .css-1okebmr-indicatorSeparator {
+    & .css-1u9des2-indicatorSeparator {
       display: none;
     }
 
@@ -429,22 +438,19 @@
       font-weight: 500;
     }
 
-    .css-14el2xx-placeholder {
+    .css-1jqq78o-placeholder {
       font-weight: 500;
       font-size: 14px;
-    }
-
-    & .css-14el2xx-placeholder {
       color: #d0d0d0;
     }
   }
 
   &-error {
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       border-color: #ff3b30 !important;
     }
 
-    & .css-1pahdxg-control {
+    & .css-t3ipsp-control {
       border-color: #ff3b30 !important;
     }
   }
@@ -455,23 +461,23 @@
     height: 32px;
     border-radius: 8px;
 
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       height: 32px;
       border-radius: 8px;
     }
 
-    & .css-1pahdxg-control {
+    & .css-t3ipsp-control {
       height: 32px;
       border-radius: 8px;
     }
   }
 
   &-error {
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       border-color: #ff3b30 !important;
     }
 
-    & .css-1pahdxg-control {
+    & .css-t3ipsp-control {
       border-color: #ff3b30 !important;
     }
   }
@@ -508,7 +514,7 @@
     color: #0c0055 !important;
   }
 
-  & .css-14el2xx-placeholder {
+  & .css-1jqq78o-placeholder {
     color: #0c0055 !important;
   }
 
@@ -532,18 +538,18 @@
     font-weight: 500;
     font-size: 14px;
 
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       border-radius: 0;
       padding-inline: 0;
       border: none;
       // border-bottom: 1px solid #bfbfbf;
     }
 
-    & .css-319lph-ValueContainer {
+    & .css-1fdsijx-ValueContainer {
       padding-inline: 0;
     }
 
-    & .css-1pahdxg-control {
+    & .css-t3ipsp-control {
       border: none;
       padding-inline: 0;
       // border-bottom: 1px solid #bfbfbf;
@@ -561,7 +567,7 @@
   & .css-b62m3t-container {
     height: 100%;
 
-    & .css-1s2u09g-control {
+    & .css-13cymwt-control {
       height: 100%;
     }
   }
@@ -1391,4 +1397,16 @@ input[type="number"] {
 
 .infinite-scroll-component {
   overflow: unset !important;
+}
+
+.price-list {
+  & .form-date {
+    height: 42px;
+    border-radius: 5px;
+
+    @media screen and (min-width: 768px) {
+      height: 48px;
+      border-radius: 8px;
+    }
+  }
 }

@@ -9,7 +9,7 @@ import {
   RideSummaryModal,
   Seo,
 } from "@/components"
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { formatMoneyVND } from "@/helper"
 import { useCompoundingCarCustomer, useCustomerCheckout } from "@/hooks"
 import { CustomerBookingLayout } from "@/layout"
 import { PaymentMethod } from "@/models"
@@ -76,11 +76,6 @@ const CheckoutCustomer = () => {
 
   const toggleModal = (type: ModalType | undefined) => {
     setModalType(type)
-    if (type) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   return (

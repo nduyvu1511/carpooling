@@ -7,7 +7,7 @@ import {
   WalletBalanceAlert,
 } from "@/components"
 import { RootState } from "@/core/store"
-import { formatMoneyVND, toggleBodyOverflow } from "@/helper"
+import { formatMoneyVND } from "@/helper"
 import { useCompoundingCarActions, usePayment } from "@/hooks"
 import {
   CancelRideParams,
@@ -63,11 +63,6 @@ const Checkout = ({
 
   const toggleModal = (type: ModalType | undefined) => {
     setModalType(type)
-    if (type) {
-      toggleBodyOverflow("hidden")
-    } else {
-      toggleBodyOverflow("unset")
-    }
   }
 
   const handleConfirmCompoundingCar = () => {
