@@ -33,7 +33,7 @@ export const InputDate = ({
   }
 
   return (
-    <div className="form-date pr-0">
+    <div className="form-date pr-0 pl-0">
       <Datetime
         renderMonth={(props, month) => <td {...props}>Thg {month + 1}</td>}
         closeOnSelect
@@ -45,14 +45,14 @@ export const InputDate = ({
         }}
         timeFormat={false}
         renderInput={(props) => (
-          <div className="h-[56px] rounded-[10px] flex items-center flex-1 w-full overflow-hidden">
-            <CalendarIcon className="text-gray-color-5 w-[20px] h-[20px] pointer-events-none" />
+          <div className="h-[56px] rounded-[10px] flex items-center flex-1 w-full overflow-hidden relative">
+            <CalendarIcon className="absolute-vertical left-12 text-gray-color-5 w-[20px] h-[20px] pointer-events-none" />
             <input
               {...props}
               value={value ? props.value : ""}
               placeholder={placeholder}
               readOnly
-              className={"h-full outline-none ml-12 flex-1"}
+              className={"h-full outline-none flex-1 px-12 pl-[42px]"}
             />
           </div>
         )}

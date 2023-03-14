@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
 import { Alert } from "../modal"
+import { InputLocation } from "../priceList"
 import { MapSearch } from "./mapSearch"
 
 type MapOptions = google.maps.MapOptions
@@ -210,7 +211,8 @@ export const Map = ({
         <div
           className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[6px] left-0 sm:left-[8px]`}
         >
-          <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} />
+          <InputLocation />
+          {/* <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} /> */}
         </div>
 
         <GoogleMap

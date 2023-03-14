@@ -95,6 +95,20 @@ export const DriverPriceList = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 lg:gap-y-16 sm:gap-x-40 md:gap-x-[64px] lg:gap-x-[120px]">
           <div className="flex items-center justify-between">
+            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">Loại xe</p>
+            <p className="font-medium text-14 md:text-16 lg:text-20">{carType}</p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
+              Loại chuyến
+            </p>
+            <p className="font-medium text-14 md:text-16 lg:text-20">
+              {COMPOUNDING_TYPE_NAME[compoundingType]}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
             <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">Ngày đi</p>
             <p className="font-medium text-14 md:text-16 lg:text-20">{fromDate}</p>
           </div>
@@ -137,20 +151,6 @@ export const DriverPriceList = ({
                 </span>
               </div>
             </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Loại chuyến
-            </p>
-            <p className="font-medium text-14 md:text-16 lg:text-20">
-              {COMPOUNDING_TYPE_NAME[compoundingType]}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">Loại xe</p>
-            <p className="font-medium text-14 md:text-16 lg:text-20">{carType}</p>
           </div>
         </div>
 

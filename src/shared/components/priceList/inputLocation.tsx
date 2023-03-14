@@ -1,4 +1,4 @@
-import { LocationOff } from "@/assets"
+import { CloseIcon, LocationOff } from "@/assets"
 import { useClickOutside } from "@/hooks"
 import { LatLng } from "@/models"
 import { useRef, useState } from "react"
@@ -56,20 +56,35 @@ export const InputLocation = ({ placeholder, onSelect }: InputLocationProps) => 
   }
 
   return (
-    <div ref={searchRef} className={"relative"}>
-      <input
-        ref={ref}
-        type="text"
-        value={searchValues}
-        onChange={(e) => {
-          setValue(e.target.value)
-          clearSuggestions()
-        }}
-        onClick={() => setShowSearchResult(true)}
-        onFocus={() => setShowSearchResult(true)}
-        placeholder={placeholder}
-        className="h-[42px] md:h-[48px] border border-solid px-12 border-gray-20 md:border-gray-color-2 outline-none w-full rounded-[5px] md:rounded-[8px] text-14 md:text-16 text-medium"
-      />
+    <div ref={searchRef} className={"relative flex-1"}>
+      <div className="relative">
+        <input
+          ref={ref}
+          type="text"
+          value={searchValues}
+          onChange={(e) => {
+            setValue(e.target.value)
+            clearSuggestions()
+          }}
+          onClick={() => setShowSearchResult(true)}
+          onFocus={() => setShowSearchResult(true)}
+          placeholder={placeholder}
+          className={`h-[42px] text-ellipsis md:h-[48px] flex-1  border border-solid px-12 border-gray-20 md:border-gray-color-2 outline-none w-full rounded-[5px] md:rounded-[8px] text-14 md:text-16 text-medium ${
+            searchValues ? "pr-[36px]" : ""
+          }`}
+        />
+        {searchValues ? (
+          <span
+            onClick={() => {
+              setValue("")
+              clearSuggestions()
+            }}
+            className="absolute-vertical right-12"
+          >
+            <CloseIcon className="w-[16px] h-[16px]" />
+          </span>
+        ) : null}
+      </div>
 
       {showSearchResult ? (
         <div className="z-[100] block-element shadow-lg max-h-[350px] overflow-y-auto flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px] absolute w-[calc(100%)] top-[50px] left-[0]">

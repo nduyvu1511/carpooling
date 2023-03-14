@@ -3,6 +3,7 @@ import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingType } from "@/models"
 import { useSelector } from "react-redux"
+import { Spinner } from "../loading"
 import { DriverPriceList } from "./driverPriceList"
 import { InputDate } from "./inputDate"
 import { InputLocation } from "./inputLocation"
@@ -10,6 +11,7 @@ import { SelectItem } from "./selectItem"
 import { usePriceList } from "./usePriceList"
 
 export const PriceList = () => {
+  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
   const vehicleTypeOptions = useSelector(
     (state: RootState) => state.compoundingCarData.vehicleTypes
   )
@@ -38,10 +40,14 @@ export const PriceList = () => {
   return (
     <div className="price-list">
       <div
-        style={{ backgroundImage: `url(${priceListBg})` }}
-        className={`mt-[64px] md:mt-[80px] lg:mt-[120px] bg-contain lg:bg-cover relative`}
+        style={{
+          backgroundImage: `url(${priceListBg})`,
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+        }}
+        className={`price-list-wrapper mt-[64px] md:mt-[80px] lg:mt-[120px] relative`}
       >
-        <div className="price-container py-16 md:py-24 lg:py-48">
+        <div className="price-container py-16 md:py-24 lg:py-48 z-10">
           <h1 className="h1 text-primary text-center mb-16 sm:mb-[32px] md:mb-[40px] lg:mb-[80px]">
             Báo giá nhanh cùng Exxe !
           </h1>
@@ -52,30 +58,46 @@ export const PriceList = () => {
             </h3>
             <div className="p-12 xs:p-16 md:p-24 lg:p-[40px] xl:p-[64px] shadow-shadow-4 rounded-[16px] bg-white-color">
               <div className="">
-                <div className="mb-12 md:mb-16 lg:mb-24 xl:mb-32">
-                  <div className="mb-12 md:mb-16 xl:mb-32">
-                    <p className="text-12 md:text-14 lg:text-16 mb-8 font-medium text-gray-color-8">
-                      Điểm đi
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
+                  <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
+                    Điểm đi:
+                  </p>
+
+                  {isLoaded ? (
                     <InputLocation
                       placeholder="Tìm kiếm điểm đi"
                       onSelect={handleSetFromLocation}
                     />
-                  </div>
-
-                  {/* <div className="hidden lg:block mx-[32px]">
-                    <ArrowTwowayIcon />
-                  </div> */}
-
-                  <div className="">
-                    <p className="text-12 md:text-14 lg:text-16 mb-8 font-medium text-gray-color-8">
-                      Điểm đến
-                    </p>
-                    <InputLocation placeholder="Tìm kiếm điểm đến" onSelect={handleSetToLocation} />
-                  </div>
+                  ) : (
+                    <Spinner />
+                  )}
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 xl:mb-32">
+                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
+                  <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
+                    Điểm đến:
+                  </p>
+
+                  {isLoaded ? (
+                    <InputLocation placeholder="Tìm kiếm điểm đến" onSelect={handleSetToLocation} />
+                  ) : (
+                    <Spinner />
+                  )}
+                </div>
+
+                {distance ? (
+                  <div className="flex items-center mb-12 md:mb-16 lg:mb-24">
+                    <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 mr-24 md:mr-0 md:w-[200px]">
+                      Lộ trình:
+                    </p>
+
+                    <div className="flex items-center flex-1 flex-wrap">
+                      <p className="text-20 font-semibold text-primary">{distance}KM</p>
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
                     Chọn loại hình:
                   </p>
@@ -89,7 +111,7 @@ export const PriceList = () => {
                       <SelectItem
                         key={value}
                         onClick={() => handleSetCompoundingType(value as CompoundingType)}
-                        className="mr-12 md:mr-16 lg:mr-24"
+                        className="mr-12 md:mr-16 lg:mr-24 mb-12 xs:mb-0"
                         active={value === compoundingType}
                         label={label}
                       />
@@ -97,7 +119,7 @@ export const PriceList = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 xl:mb-32">
+                <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
                     Chọn loại xe:
                   </p>
@@ -115,13 +137,29 @@ export const PriceList = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col xl:flex-row xl:items-center">
-                  <div className="flex-1 flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 xl:mb-0">
-                    <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 md:w-[200px] xl:w-auto xl:mr-24">
+                <div
+                  className={`${
+                    compoundingType === "two_way"
+                      ? "grid gap-x-32 lg:gap-x-[64px] gap-y-12 md:grid-cols-2"
+                      : ""
+                  }`}
+                >
+                  <div
+                    className={`${
+                      compoundingType === "two_way"
+                        ? "flex-col"
+                        : "flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 "
+                    }`}
+                  >
+                    <p
+                      className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
+                        compoundingType === "two_way" ? "mb-8" : "w-[200px] mb-8 md:mb-0"
+                      }`}
+                    >
                       Ngày đi:
                     </p>
 
-                    <div className="flex items-center flex-1">
+                    <div className={compoundingType !== "two_way" ? "flex-1" : ""}>
                       <InputDate
                         placeholder="Chọn ngày đi"
                         value={fromDate}
@@ -131,20 +169,28 @@ export const PriceList = () => {
                   </div>
 
                   {compoundingType === "two_way" ? (
-                    <div className="flex-1 flex flex-col md:flex-row md:items-center xl:ml-32">
-                      <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 md:w-[200px] xl:w-auto xl:mr-24">
+                    <div
+                      className={`${
+                        compoundingType === "two_way"
+                          ? "flex-col"
+                          : "flex flex-row items-center mb-12 md:mb-16 lg:mb-24 "
+                      }`}
+                    >
+                      <p
+                        className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
+                          compoundingType === "two_way" ? "mb-8" : "w-[200px] mb-8 md:mb-0"
+                        }`}
+                      >
                         Ngày về:
                       </p>
 
-                      <div className="flex items-center flex-1">
-                        <InputDate
-                          numberOfDays={numberOfDays}
-                          currentDay={fromDate}
-                          placeholder="Chọn ngày về"
-                          value={toDate}
-                          onChange={handleSetToDate}
-                        />
-                      </div>
+                      <InputDate
+                        numberOfDays={numberOfDays}
+                        currentDay={fromDate}
+                        placeholder="Chọn ngày về"
+                        value={toDate}
+                        onChange={handleSetToDate}
+                      />
                     </div>
                   ) : null}
                 </div>

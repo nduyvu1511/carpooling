@@ -1,4 +1,4 @@
-import { ArrowRightIcon, ClockIcon } from "@/assets"
+import { ArrowRightIcon, ClockIcon, promotionBanner1, promotionBanner2 } from "@/assets"
 import { toImageUrl } from "@/helper"
 import { useBreakpoint } from "@/hooks"
 import { PromotionRes } from "@/models"
@@ -68,7 +68,11 @@ const PromotionBanner = () => {
                   <Image
                     className="rounded-[16px] cursor-pointer"
                     alt=""
-                    src={toImageUrl(item?.promotion_banner_url?.image_url || "")}
+                    src={
+                      item?.promotion_banner_url?.image_url
+                        ? toImageUrl(item?.promotion_banner_url?.image_url)
+                        : promotionBanner2
+                    }
                     layout="fill"
                     objectFit="cover"
                   />

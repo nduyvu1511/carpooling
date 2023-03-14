@@ -9,6 +9,7 @@ module.exports = {
       gridTemplateColumns: {
         "sidebar-grid": "220px 1fr",
         "grid-330": "330px 1fr",
+        "grid-280": "280px 1fr",
         "grid-promotion-banner": "1fr 374px",
         "booking-grid": "1fr 500px",
         "wallet-grid": "440px 1fr",
@@ -22,6 +23,7 @@ module.exports = {
         "shadow-2": "0px 2px 8px rgba(31, 31, 221, 0.2)",
         "shadow-3": "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
         "shadow-4": "16px 16px 24px rgba(0, 0, 0, 0.05)",
+        "shadow-5": "0px 2px 4px rgba(191, 191, 191, 0.25)",
       },
     },
     colors: {

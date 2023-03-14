@@ -1,4 +1,13 @@
-import { FacebookIcon, LogoIcon, paymentMehods, TiktokIcon, YoutubeIcon, ZaloIcon } from "@/assets"
+import {
+  customerAppQR,
+  driverAppQR,
+  FacebookIcon,
+  LogoIcon,
+  paymentMehods,
+  TiktokIcon,
+  YoutubeIcon,
+  ZaloIcon,
+} from "@/assets"
 import { ADDRESS } from "@/helper"
 import Image from "next/image"
 import Link from "next/link"
@@ -60,15 +69,24 @@ const Footer = () => {
                 heading: "Về chúng tôi",
                 child: [
                   { label: "Giới thiệu về Exxe", path: "/about-us" },
-                  { label: "Quy chế hoạt động", path: "/regulations" },
-                  { label: "Chính sách & quy định", path: "/terms-&-conditions " },
+                  { label: "Nguyên tắc cộng đồng", path: "/terms-&-conditions" },
+                  { label: "Quy chế hoạt động", path: "/terms-&-conditions" },
+                  { label: "Phạt vi phạm và bồi thường", path: "/terms-&-conditions" },
+                  { label: "Hóa đơn dịch vụ vận tải", path: "/terms-&-conditions" },
+                  { label: "TỈ lệ phân chia và hợp tác", path: "/terms-&-conditions" },
+                  { label: "Giải quyết khiếu nại", path: "/terms-&-conditions" },
                   { label: "Tin tức", path: "/news" },
                 ],
               },
               {
                 heading: "Khách hàng",
                 child: [
-                  { label: "Tải ứng dụng Customer", path: "/" },
+                  { label: "", image: customerAppQR, path: "/" },
+                  {
+                    label: "Ứng dụng Exxe Customer",
+                    path: "",
+                    url: "https://qrfy.com/p/51qCUPhSwO",
+                  },
                   { label: "Hướng dẫn đăng kí Khách hàng", path: "/guide?type=customer" },
                   { label: "Hướng dẫn đặt xe", path: "/guide?type=customer" },
                   { label: "Hướng dẫn thanh toán", path: "/guide?type=customer" },
@@ -78,10 +96,19 @@ const Footer = () => {
               {
                 heading: "Tài xế",
                 child: [
-                  { label: "Tải ứng dụng Exxe Driver", path: "/" },
+                  {
+                    label: "",
+                    image: driverAppQR,
+                    path: "/",
+                  },
+                  {
+                    label: "Tải ứng dụng Exxe Driver",
+                    path: "/",
+                    url: "https://qrfy.com/p/Ntc0sjxrD1",
+                  },
                   { label: "Hướng dẫn đăng kí Tài xế ", path: "/guide?type=driver" },
                   { label: "Hướng dẫn sử dụng tài khoản", path: "/guide?type=driver" },
-                  { label: "Các chương trình thưởng", path: "" },
+                  { label: "Các chương trình thưởng", path: "/promotion" },
                 ],
               },
             ].map((item, index) => (
@@ -95,9 +122,24 @@ const Footer = () => {
                 <ul className="xs:flex-1 sm:flex-auto">
                   {item.child.map((_item, index) => (
                     <li className={`mb-8 lg:mb-[12px] last:mb-0`} key={index}>
-                      <Link href={_item.path}>
-                        <a className={`leading-[26px] text-14 text-blue-8`}>{_item.label}</a>
-                      </Link>
+                      {_item.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img className="w-[100px] h-[100px]" src={_item.image} alt="" />
+                      ) : _item.url ? (
+                        <Link href={_item.url}>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`leading-[26px] text-14 text-blue-8 hover:underline hover:text-primary`}
+                          >
+                            {_item.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <Link href={_item.path}>
+                          <a className={`leading-[26px] text-14 text-blue-8`}>{_item.label}</a>
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
