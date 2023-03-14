@@ -42,9 +42,10 @@ export const Regulations = () => {
           <p className="text-sm md:text-base ml-12 mb-12 font-semibold">
             + Tên đăng kí, số điện thoại
           </p>
-          <p className="text-sm md:text-base ml-12 font-semibold">+ Email</p>
+          <p className="text-sm md:text-base ml-12 font-semibold mb-24">+ Email</p>
         </ul>
-        <p className="text-lg text-primary mb-24">2. Phạm vi sử dụng thông tin</p>
+
+        <p className="text-lg text-primary mb-24 mt-12">2. Phạm vi sử dụng thông tin</p>
         <ul className="pl-12 list-disc mb-24">
           <li className="mb-12 text-sm md:text-base">
             Công ty sử dụng thông tin Khách hàng cung cấp để:
@@ -99,7 +100,7 @@ export const Regulations = () => {
         <p className="text-sm md:text-base font-semibold mb-24">
           Bảo vệ thông tin cá nhân Khách hàng thuê xe:
         </p>
-        <p className="text-sm md:text-base font-semibold mb-24">1. Mục đích sử dụng thông tin</p>
+        <p className="text-lg text-primary mb-24">1. Mục đích sử dụng thông tin</p>
         <p className="text-sm md:text-base font-semibold mb-24">
           Thông tin cá nhân của Khách hàng chỉ được dùng trong những mục đích sau đây
         </p>
@@ -124,8 +125,9 @@ export const Regulations = () => {
           gồm:
         </p>
         <p className="text-sm md:text-base ml-[40px]">+ Tên đăng kí, số điện thoại</p>
-        <p className="text-sm md:text-base ml-[40px]">+ Email</p>
-        <p className="text-sm md:text-base font-semibold mb-24">2. Phạm vi sử dụng thông tin</p>
+        <p className="text-sm md:text-base ml-[40px] mb-24">+ Email</p>
+
+        <p className="text-lg text-primary mb-24">2. Phạm vi sử dụng thông tin</p>
         <p className="text-sm md:text-base mb-12">
           - Công ty sử dụng thông tin Khách hàng cung cấp để:
         </p>
@@ -149,21 +151,57 @@ export const Regulations = () => {
           án, Cơ quan - - Công an điều tra liên quan đến hành vi vi phạm pháp luật nào đó của Khách
           hàng. Ngoài ra, không ai có quyền xâm phạm vào thông tin cá nhân của Khách hàng.
         </p>
-        <p className="text-sm md:text-base mb-24 font-semibold">3. Thời gian lưu trữ thông tin</p>
-        <p className="text-sm md:text-base mb-12">
+
+        <p className="text-lg text-primary mb-12">3. Thời gian lưu trữ thông tin</p>
+        <p className="text-sm md:text-base mb-24">
           - Dữ liệu cá nhân của Khách hàng sẽ được lưu trữ cho đến khi có yêu cầu hủy bỏ hoặc tự
           Khách hàng đăng nhập và thực hiện hủy bỏ. Còn lại trong mọi trường hợp thông tin cá nhân
           của Khách hàng sẽ được bảo mật trên máy chủ của Công ty.
         </p>
-        <p className="text-sm md:text-base mb-24 font-semibold">
-          4. Những người hoặc tổ chức có thể được tiếp cận với thông tin
+
+        <p className="text-lg text-primary mb-12">4. Điều khoản chức năng chia sẻ vị trí</p>
+        <p className="text-sm md:text-base mb-12">
+          Để sử dụng chức năng chia sẻ vị trí của ứng dụng, bạn cần cấp quyền truy cập vào vị trí
+          của thiết bị của bạn. Vị trí của bạn sẽ được sử dụng để xác định vị trí tài xế đến đón
+          bạn.
         </p>
         <p className="text-sm md:text-base mb-12">
+          Ứng dụng sẽ sử dụng vị trí của bạn để cập nhật thông tin về vị trí của tài xế, nhằm đảm
+          bảo khách hàng có thể đón xe đúng lúc và địa điểm đã đặt trước.
+        </p>
+        <p className="text-sm md:text-base mb-12">
+          Vị trí của bạn sẽ được sử dụng trong nền tảng và không ảnh hưởng đến hiệu suất của thiết
+          bị của bạn.
+        </p>
+        <p className="text-sm md:text-base mb-12">
+          Chúng tôi cam kết bảo mật thông tin vị trí của bạn và chỉ sử dụng nó để cung cấp dịch vụ
+          cho bạn. Chúng tôi sẽ không tiết lộ thông tin vị trí của bạn cho bất kỳ bên thứ ba nào
+          khác.
+        </p>
+        <p className="text-sm md:text-base mb-12">
+          Nếu bạn không muốn chia sẻ vị trí của mình, bạn có thể tắt chức năng này bất cứ lúc nào
+          trong cài đặt của ứng dụng.
+        </p>
+        <p className="text-sm md:text-base mb-12">
+          Bằng cách sử dụng ứng dụng này, bạn đồng ý với các điều khoản và điều kiện sử dụng của
+          chúng tôi và việc thu thập, sử dụng và tiết lộ thông tin vị trí của bạn như đã mô tả trong
+          Chính sách quyền riêng tư của chúng tôi.
+        </p>
+        <p className="text-sm md:text-base mb-24">
+          Chúng tôi có thể thay đổi các điều khoản và điều kiện này bất cứ lúc nào và thông tin về
+          các thay đổi này sẽ được thông báo cho bạn qua ứng dụng của chúng tôi.
+        </p>
+
+        <p className="text-lg text-primary mb-12">
+          5. Những người hoặc tổ chức có thể được tiếp cận với thông tin
+        </p>
+        <p className="text-sm md:text-base mb-24">
           - Chỉ Công ty mới có quyền tiếp cận thông tin Khách hàng, hoặc Cơ quan Nhà nước có thẩm
           quyền khi được yêu cầu cung cấp thông tin.
         </p>
-        <p className="text-sm md:text-base mb-24 font-semibold">
-          5. Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân
+
+        <p className="text-lg text-primary mb-24">
+          6. Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân
         </p>
         <p className="text-sm md:text-base mb-12">
           - Công ty Cổ Phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
@@ -513,7 +551,7 @@ export const Regulations = () => {
           đảm bảo bạn luôn sẵn sàng điện thoại để tài xế có thể liên lạc được với bạn về chuyến đi.
         </p>
 
-        <p className="text-sm md:text-base font-semibold mb-24">2. Đối với tài xế</p>
+        <p className="text-sm md:text-base font-semibold mb-12">2. Đối với tài xế</p>
         <p className="text-sm md:text-base mb-12">
           • Mở website: http://wwww.exxe.vn hoặc tải ứng dụng Exxe về thiết bị và cài đặt
         </p>
