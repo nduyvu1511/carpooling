@@ -178,7 +178,7 @@ export const PriceList = () => {
                         <NumericInput
                           min={minNumberOfDays}
                           onChange={(val) => handleSetNumberOfDays(val || 0)}
-                          className="price-list-input h-[38px] lg:h-[49.6px] w-[62px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
+                          className="price-list-input h-[38px] lg:h-[49.6px] w-[72px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
                           step={1}
                           value={numberOfDays}
@@ -284,7 +284,7 @@ export const PriceList = () => {
                 </div>
               </div>
 
-              <RenderButton />
+              {result ? <RenderButton /> : null}
             </div>
           </div>
         </div>
@@ -327,7 +327,10 @@ const RenderButton = () => {
 
   return (
     <>
-      <button onClick={() => setVisible(true)} className="btn-primary mx-auto mt-32">
+      <button
+        onClick={() => setVisible(true)}
+        className="btn-primary mx-auto mt-16 md:mt-24 lg:mt-32"
+      >
         Đặt chuyến ngay
       </button>
 

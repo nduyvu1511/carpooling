@@ -135,19 +135,21 @@ export const usePriceList = () => {
         setFromDate(newdate)
       }
 
+      let type = compoundingType
+      if (compoundingType !== "two_way") {
+        type = "two_way"
+        setCompoundingType("two_way")
+      }
+
       const newToDate = moment(newFromDate).add(days, "days").format("YYYY-MM-DD")
       setToDate(newToDate)
       calculatePrice({
         carType,
-        compoundingType,
+        compoundingType: type,
         distance,
         fromDate: newFromDate,
         toDate: newToDate,
       })
-    }
-
-    if (compoundingType !== "two_way") {
-      setCompoundingType("two_way")
     }
   }
 
