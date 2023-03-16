@@ -11,16 +11,17 @@ const requestOptions = {
 }
 
 interface InputLocationProps {
-  onSelect?: (params: LocationSearch) => void
   className?: string
   placeholder?: string
+  onSelect?: (params: LocationSearch) => void
+  onClearValue?: () => void
 }
 
 export interface LocationSearch extends LatLng {
   location: string
 }
 
-export const InputLocation = ({ placeholder, onSelect }: InputLocationProps) => {
+export const InputLocation = ({ placeholder, onSelect, onClearValue }: InputLocationProps) => {
   const ref = useRef<HTMLInputElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
@@ -63,8 +64,10 @@ export const InputLocation = ({ placeholder, onSelect }: InputLocationProps) => 
           type="text"
           value={searchValues}
           onChange={(e) => {
-            setValue(e.target.value)
+            const { value } = e.target
+            setValue(value)
             clearSuggestions()
+            onClearValue?.()
           }}
           onClick={() => setShowSearchResult(true)}
           onFocus={() => setShowSearchResult(true)}
@@ -78,6 +81,7 @@ export const InputLocation = ({ placeholder, onSelect }: InputLocationProps) => 
             onClick={() => {
               setValue("")
               clearSuggestions()
+              onClearValue?.()
             }}
             className="absolute-vertical right-12"
           >

@@ -9,6 +9,9 @@ import { InputDate } from "./inputDate"
 import { InputLocation } from "./inputLocation"
 import { SelectItem } from "./selectItem"
 import { usePriceList } from "./usePriceList"
+import NumericInput from "react-numeric-input"
+import { useCallback } from "react"
+import _ from "lodash"
 
 export const PriceList = () => {
   const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
@@ -27,15 +30,19 @@ export const PriceList = () => {
     fromLocation,
     toLocation,
     fuelPriceUnit,
+    service_fee_percent,
+    person_income_tax,
+    minNumberOfDays,
     handleSetCompoundingType,
     handleSelectVehicle,
     handleSetFromLocation,
     handleSetToLocation,
     handleSetFromDate,
+    handleSetNumberOfDays,
     handleSetToDate,
-    service_fee_percent,
-    person_income_tax,
   } = usePriceList()
+
+  const debounceFn = useCallback(_.debounce(handleSetNumberOfDays, 500), [numberOfDays])
 
   return (
     <div className="price-list">
@@ -60,7 +67,7 @@ export const PriceList = () => {
               <div className="">
                 <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Điểm đi:
+                    Điểm xuất phát:
                   </p>
 
                   {isLoaded ? (
@@ -137,29 +144,75 @@ export const PriceList = () => {
                   </div>
                 </div>
 
+                <div className="flex flex-col md:flex-row md:items-center md:mb-4 lg:mb-12">
+                  <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
+                    Số ngày đi:
+                  </p>
+
+                  <div className="flex items-center flex-1 flex-wrap">
+                    {(
+                      [
+                        [1, "Trong ngày"],
+                        [2, "2 Ngày"],
+                        [3, "3 Ngày"],
+                        [4, "4 Ngày"],
+                      ] as [number, string][]
+                    ).map(([value, label]) => (
+                      <SelectItem
+                        disabled={value < minNumberOfDays}
+                        key={value}
+                        onClick={() => handleSetNumberOfDays(value)}
+                        className="mr-12 md:mr-16 lg:mr-24 mb-12"
+                        active={compoundingType === "two_way" && value === numberOfDays}
+                        label={label}
+                      />
+                    ))}
+
+                    <div className="mb-12">
+                      <div className="flex items-center">
+                        <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 mr-8">
+                          Số ngày:{" "}
+                        </p>
+
+                        <NumericInput
+                          min={minNumberOfDays}
+                          onChange={(val) => debounceFn(val || 0)}
+                          className="price-list-input h-[38px] lg:h-[49.6px] w-[62px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
+                          type="number"
+                          step={1}
+                          value={numberOfDays}
+                          snap
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div
                   className={`${
-                    compoundingType === "two_way"
+                    compoundingType === "two_way" && fromDate
                       ? "grid gap-x-32 lg:gap-x-[64px] gap-y-12 md:grid-cols-2"
                       : ""
                   }`}
                 >
                   <div
                     className={`${
-                      compoundingType === "two_way"
+                      compoundingType === "two_way" && fromDate
                         ? "flex-col"
                         : "flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 "
                     }`}
                   >
                     <p
                       className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
-                        compoundingType === "two_way" ? "mb-8" : "w-[200px] mb-8 md:mb-0"
+                        compoundingType === "two_way" && fromDate
+                          ? "mb-8"
+                          : "w-[200px] mb-8 md:mb-0"
                       }`}
                     >
                       Ngày đi:
                     </p>
 
-                    <div className={compoundingType !== "two_way" ? "flex-1" : ""}>
+                    <div className={compoundingType === "two_way" && fromDate ? "" : "flex-1"}>
                       <InputDate
                         placeholder="Chọn ngày đi"
                         value={fromDate}
@@ -168,7 +221,7 @@ export const PriceList = () => {
                     </div>
                   </div>
 
-                  {compoundingType === "two_way" ? (
+                  {compoundingType === "two_way" && fromDate ? (
                     <div
                       className={`${
                         compoundingType === "two_way"
@@ -185,7 +238,7 @@ export const PriceList = () => {
                       </p>
 
                       <InputDate
-                        numberOfDays={numberOfDays}
+                        minNumberOfDays={minNumberOfDays - 1}
                         currentDay={fromDate}
                         placeholder="Chọn ngày về"
                         value={toDate}

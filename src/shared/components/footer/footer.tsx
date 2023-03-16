@@ -73,7 +73,7 @@ const Footer = () => {
                   { label: "Quy chế hoạt động", path: "/terms-&-conditions" },
                   { label: "Phạt vi phạm và bồi thường", path: "/terms-&-conditions" },
                   { label: "Hóa đơn dịch vụ vận tải", path: "/terms-&-conditions" },
-                  { label: "TỈ lệ phân chia và hợp tác", path: "/terms-&-conditions" },
+                  { label: "Tỉ lệ phân chia và hợp tác", path: "/terms-&-conditions" },
                   { label: "Giải quyết khiếu nại", path: "/terms-&-conditions" },
                   { label: "Tin tức", path: "/news" },
                 ],
@@ -153,7 +153,9 @@ const Footer = () => {
         <div className="">
           <div className="mb-16">
             <Link href="/">
-              <a className="text-sm font-bold leading-16 text-primary">Công ty cổ phần EXXE.VN</a>
+              <a className="text-sm font-bold leading-16 text-primary">
+                Công ty Cổ phần đầu tư công nghệ và vận tải ExxeVN
+              </a>
             </Link>
           </div>
 
@@ -161,10 +163,11 @@ const Footer = () => {
             <div className="flex-[2] mb-16 md:mb-0">
               <div className="">
                 <p className="text-12 leading-[20px] sm:text-14 sm:leading-26 font-normal text-blue-8">
-                  Địa chỉ: {ADDRESS}, Việt Nam.
+                  MST: 0317412411
                   <br />
-                  Số đăng ký kinh doanh: 0317412411. Ngày cấp: 01/08/2022. Nơi cấp: Sở Kế hoạch và
-                  đầu tư Thành phố Hồ Chí Minh
+                  Địa chỉ: 2 Hoàng Thế Thiện, phường An Lợi Đông, Tp.Thủ Đức, Tp.HCM
+                  <br />
+                  Số điện thoại: 0847878788
                 </p>
               </div>
             </div>
@@ -175,7 +178,7 @@ const Footer = () => {
           <div className="flex flex-col-reverse items-center sm:flex-row sm:justify-between">
             <div className="">
               <p className="text-12 sm:text-14 text-gray-color-8 md:mb-0">
-                © 2022 Công ty CP đầu tư công nghệ và vận tải EXXEVN
+                © 2022 Exxe.Vn. All Rights Reserved. 2022
               </p>
             </div>
 

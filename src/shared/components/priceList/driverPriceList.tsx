@@ -32,7 +32,6 @@ export const DriverPriceList = ({
   person_income_tax = 0,
   compoundingType,
 }: DriverPriceListProps) => {
-  console.log({ service_fee_percent, person_income_tax })
   const [fuelType, setfuelType] = useState<"gas" | "petro">("gas")
 
   const fuelCost = useMemo(() => {
@@ -41,8 +40,8 @@ export const DriverPriceList = ({
       : distance * fuelPriceUnit.petroleum_consumption_per_km * fuelPriceUnit.petroleum_price_unit
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fuelPriceUnit, fuelType])
-  const serviceFeeAmount = total * (1 - service_fee_percent)
-  const personIncomeTaxAmount = serviceFeeAmount * person_income_tax
+  const serviceFeeAmount = total * service_fee_percent
+  const personIncomeTaxAmount = total * (1 - service_fee_percent) * person_income_tax
   const totalAmount = total - (fuelCost + serviceFeeAmount + personIncomeTaxAmount)
 
   return (
@@ -59,9 +58,7 @@ export const DriverPriceList = ({
             </span>
             <div className="">
               {/* <p className="text-14 md:text-16 lg:text-20 font-semibold">TPHCM</p> */}
-              <p className="text-12 sm:text-14 lg:text-16 font-medium text-gray-color-7">
-                {fromLocation}
-              </p>
+              <p className="text-12 sm:text-14 lg:text-16 font-medium">{fromLocation}</p>
             </div>
           </div>
 
@@ -73,9 +70,7 @@ export const DriverPriceList = ({
             </span>
             <div className="">
               {/* <p className="text-14 md:text-16 lg:text-20 font-semibold">TPHCM</p> */}
-              <p className="text-12 sm:text-14 lg:text-16 font-medium text-gray-color-7">
-                {toLocation}
-              </p>
+              <p className="text-12 sm:text-14 lg:text-16 font-medium">{toLocation}</p>
             </div>
           </div>
         </div>
@@ -185,7 +180,7 @@ export const DriverPriceList = ({
 
           <div className="flex items-center justify-between mb-8 md:mb-12 lg:mb-16">
             <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Phí dịch vụ ({service_fee_percent * 100})
+              Phí dịch vụ ({service_fee_percent * 100}%)
             </p>
 
             <p className="text-14 md:text-16 lg:text-20 font-medium">

@@ -5,7 +5,7 @@ import "react-datetime/css/react-datetime.css"
 
 interface InputDateProps {
   onChange?: (val: string) => void
-  numberOfDays?: number
+  minNumberOfDays?: number
   placeholder?: string
   currentDay?: string
   value?: string
@@ -16,7 +16,7 @@ export const InputDate = ({
   currentDay,
   value,
   placeholder,
-  numberOfDays = 0,
+  minNumberOfDays = 0,
 }: InputDateProps) => {
   // const disablePastDt = (current: any) => {
   //   const yesterday = moment().subtract(1, "day")
@@ -25,7 +25,7 @@ export const InputDate = ({
 
   const disablePastDt = (current: any) => {
     const yesterday = moment().subtract(1, "day")
-    return current.isAfter(currentDay ? moment(currentDay).add(numberOfDays, "days") : yesterday)
+    return current.isAfter(currentDay ? moment(currentDay).add(minNumberOfDays, "days") : yesterday)
   }
 
   const handleChange = (val: Date) => {

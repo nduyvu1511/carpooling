@@ -694,6 +694,7 @@ export interface PriceUnitRes {
 export interface GetComputePriceUnitRes {
   number_km_per_day: number
   service_fee_percent: number
+  max_distance_traveling_in_day: number
   person_income_tax: number
   car: VehicleTypeParams[]
 }
