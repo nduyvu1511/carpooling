@@ -104,13 +104,12 @@ export const usePriceList = () => {
     }
 
     let newResult = price_unit_in_day
-    if (numberOfWaitingDays >= 1) {
+    if (numberOfWaitingDays >= 2) {
       newResult += first_day
     }
-    if (numberOfWaitingDays >= 2) {
-      newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
+    if (numberOfWaitingDays > 2) {
+      newResult += (numberOfWaitingDays - 2) * waiting_charge_per_day
     }
-    console.log({ numberOfWaitingDays })
     setResult(newResult)
   }
 

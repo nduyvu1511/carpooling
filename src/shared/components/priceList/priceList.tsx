@@ -3,18 +3,17 @@ import { customerAppQR, driverAppQR, priceListBg } from "@/assets"
 import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingType } from "@/models"
+import Link from "next/link"
+import { useState } from "react"
+import NumericInput from "react-numeric-input"
 import { useSelector } from "react-redux"
 import { Spinner } from "../loading"
+import { Modal } from "../modal"
 import { DriverPriceList } from "./driverPriceList"
 import { InputDate } from "./inputDate"
 import { InputLocation } from "./inputLocation"
 import { SelectItem } from "./selectItem"
 import { usePriceList } from "./usePriceList"
-import NumericInput from "react-numeric-input"
-import { useCallback, useState } from "react"
-import _ from "lodash"
-import { Modal } from "../modal"
-import Link from "next/link"
 
 export const PriceList = () => {
   const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
@@ -153,7 +152,7 @@ export const PriceList = () => {
                   <div className="flex items-center flex-1 flex-wrap">
                     {(
                       [
-                        [1, "Trong ngày"],
+                        [0, "Trong ngày"],
                         [2, "2 Ngày"],
                         [3, "3 Ngày"],
                         [4, "4 Ngày"],
