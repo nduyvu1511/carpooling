@@ -45,7 +45,6 @@ export const usePriceList = () => {
   const { data } = useSWR("compute_price_unit", () =>
     rideAPI.getComputePriceUnit().then((res) => res?.result?.data)
   )
-  console.log(data)
 
   const getPriceUnitFormula = async (params: GetPriceListReq) => {
     if (
@@ -100,9 +99,10 @@ export const usePriceList = () => {
     let numberOfWaitingDays = 0
     if (toDate && compoundingType === "two_way") {
       const dateRange = moment(toDate).diff(moment(fromDate), "days")
-      numberOfWaitingDays = dateRange - minNumberOfDays
+      // numberOfWaitingDays = dateRange - minNumberOfDays
+      numberOfWaitingDays = dateRange
     }
-
+    console.log({ numberOfWaitingDays })
     let newResult = price_unit_in_day
     if (numberOfWaitingDays >= 2) {
       newResult += first_day
@@ -121,6 +121,7 @@ export const usePriceList = () => {
     setMinNumberOfDays(days)
     if (days > (numberOfDays || 0)) {
       setToDate(undefined)
+      calculatePrice({ toDate: undefined })
     }
     return days
   }
@@ -189,7 +190,7 @@ export const usePriceList = () => {
       toDate,
     })
   }
-
+  console.log(priceUnit)
   const handleSetFromLocation = (val: LocationSearch) => {
     if (val.lat === fromLocation?.lat && val?.lng === fromLocation?.lat) return
 
