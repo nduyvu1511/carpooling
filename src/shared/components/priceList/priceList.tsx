@@ -3,6 +3,7 @@ import { customerAppQR, driverAppQR, priceListBg } from "@/assets"
 import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingType } from "@/models"
+import moment from "moment"
 import Link from "next/link"
 import { useState } from "react"
 import NumericInput from "react-numeric-input"
@@ -43,7 +44,7 @@ export const PriceList = () => {
     handleSetNumberOfDays,
     handleSetToDate,
   } = usePriceList()
-
+  console.log({ numberOfDays })
   return (
     <div className="price-list">
       <div
@@ -153,9 +154,9 @@ export const PriceList = () => {
                     {(
                       [
                         [0, "Trong ngày"],
-                        [2, "2 Ngày"],
-                        [3, "3 Ngày"],
-                        [4, "4 Ngày"],
+                        [1, "2 Ngày"],
+                        [2, "3 Ngày"],
+                        [3, "4 Ngày"],
                       ] as [number, string][]
                     ).map(([value, label]) => (
                       <SelectItem
@@ -175,12 +176,21 @@ export const PriceList = () => {
                         </p>
 
                         <NumericInput
-                          min={minNumberOfDays}
-                          onChange={(val) => handleSetNumberOfDays(val || 0)}
+                          min={minNumberOfDays || 1}
+                          onChange={(val) => {
+                            const newValue = (val || 0) - 1
+                            handleSetNumberOfDays(newValue >= 0 ? newValue : 0)
+                          }}
                           className="price-list-input h-[38px] lg:h-[49.6px] w-[72px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
                           step={1}
-                          value={numberOfDays}
+                          value={
+                            numberOfDays !== undefined
+                              ? numberOfDays > 0
+                                ? numberOfDays + 1
+                                : 1
+                              : undefined
+                          }
                           snap
                         />
                       </div>

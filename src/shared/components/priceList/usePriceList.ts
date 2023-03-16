@@ -98,9 +98,7 @@ export const usePriceList = () => {
 
     let numberOfWaitingDays = 0
     if (toDate && compoundingType === "two_way") {
-      const dateRange = moment(toDate).diff(moment(fromDate), "days")
-      // numberOfWaitingDays = dateRange - minNumberOfDays
-      numberOfWaitingDays = dateRange
+      numberOfWaitingDays = moment(toDate).diff(moment(fromDate), "days") + 1
     }
     console.log({ numberOfWaitingDays })
     let newResult = price_unit_in_day
@@ -130,9 +128,9 @@ export const usePriceList = () => {
     if (days >= minNumberOfDays) {
       let newFromDate = fromDate
       if (!fromDate) {
-        const newdate = moment().format("YYYY-MM-DD")
-        newFromDate = newdate
-        setFromDate(newdate)
+        const newDate = moment().format("YYYY-MM-DD")
+        newFromDate = newDate
+        setFromDate(newDate)
       }
 
       let type = compoundingType
@@ -190,7 +188,6 @@ export const usePriceList = () => {
       toDate,
     })
   }
-  console.log(priceUnit)
   const handleSetFromLocation = (val: LocationSearch) => {
     if (val.lat === fromLocation?.lat && val?.lng === fromLocation?.lat) return
 

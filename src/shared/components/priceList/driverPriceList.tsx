@@ -64,7 +64,7 @@ export const DriverPriceList = ({
 
           <div className="hidden sm:block w-32"></div>
 
-          <div className="flex items-start flex-1 justify-end">
+          <div className="flex items-start flex-1 sm:justify-end">
             <span className="mr-16">
               <LocationIcon7 />
             </span>
