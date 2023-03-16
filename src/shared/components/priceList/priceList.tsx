@@ -1,4 +1,5 @@
-import { priceListBg } from "@/assets"
+/* eslint-disable @next/next/no-img-element */
+import { customerAppQR, driverAppQR, priceListBg } from "@/assets"
 import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingType } from "@/models"
@@ -10,8 +11,10 @@ import { InputLocation } from "./inputLocation"
 import { SelectItem } from "./selectItem"
 import { usePriceList } from "./usePriceList"
 import NumericInput from "react-numeric-input"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import _ from "lodash"
+import { Modal } from "../modal"
+import Link from "next/link"
 
 export const PriceList = () => {
   const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
@@ -41,8 +44,6 @@ export const PriceList = () => {
     handleSetNumberOfDays,
     handleSetToDate,
   } = usePriceList()
-
-  const debounceFn = useCallback(_.debounce(handleSetNumberOfDays, 500), [numberOfDays])
 
   return (
     <div className="price-list">
@@ -176,7 +177,7 @@ export const PriceList = () => {
 
                         <NumericInput
                           min={minNumberOfDays}
-                          onChange={(val) => debounceFn(val || 0)}
+                          onChange={(val) => handleSetNumberOfDays(val || 0)}
                           className="price-list-input h-[38px] lg:h-[49.6px] w-[62px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
                           step={1}
@@ -282,6 +283,8 @@ export const PriceList = () => {
                   )}
                 </div>
               </div>
+
+              <RenderButton />
             </div>
           </div>
         </div>
@@ -316,5 +319,43 @@ export const PriceList = () => {
         </p>
       </div>
     </div>
+  )
+}
+
+const RenderButton = () => {
+  const [visible, setVisible] = useState<boolean>(false)
+
+  return (
+    <>
+      <button onClick={() => setVisible(true)} className="btn-primary mx-auto mt-32">
+        Đặt chuyến ngay
+      </button>
+
+      <Modal
+        className="w-[300px] h-fit sm:w-[500px] sm:h-fit rounded-[30px] sm:rounded-[30px] price-list-modal"
+        heading="Cài ứng dụng ExxeVn"
+        show={visible}
+        onClose={() => setVisible(false)}
+      >
+        <div className="grid grid-cols-2 gap-24 p-16 md:p-32">
+          <Link passHref href={process.env.NEXT_PUBLIC_CUSTOMER_APP_URL as string}>
+            <a target="_blank" rel="noopener noreferrer">
+              <div className="flex-center flex-col">
+                <img src={customerAppQR} alt="" />
+                <p className="text-xs md:text-sm mt-8 text-center">Ứng dụng cho khách hàng</p>
+              </div>
+            </a>
+          </Link>
+          <Link passHref href={process.env.NEXT_PUBLIC_DRIVER_APP_URL as string}>
+            <a target="_blank" rel="noopener noreferrer">
+              <div className="flex-center flex-col">
+                <img src={driverAppQR} alt="" />
+                <p className="text-xs md:text-sm mt-8 text-center">Ứng dụng cho tài xế</p>
+              </div>
+            </a>
+          </Link>
+        </div>
+      </Modal>
+    </>
   )
 }

@@ -85,7 +85,7 @@ const Footer = () => {
                   {
                     label: "Ứng dụng Exxe Customer",
                     path: "",
-                    url: "https://qrfy.com/p/51qCUPhSwO",
+                    url: process.env.NEXT_PUBLIC_CUSTOMER_APP_URL,
                   },
                   { label: "Hướng dẫn đăng kí Khách hàng", path: "/guide?type=customer" },
                   { label: "Hướng dẫn đặt xe", path: "/guide?type=customer" },
@@ -104,7 +104,7 @@ const Footer = () => {
                   {
                     label: "Tải ứng dụng Exxe Driver",
                     path: "/",
-                    url: "https://qrfy.com/p/Ntc0sjxrD1",
+                    url: process.env.NEXT_PUBLIC_DRIVER_APP_URL,
                   },
                   { label: "Hướng dẫn đăng kí Tài xế ", path: "/guide?type=driver" },
                   { label: "Hướng dẫn sử dụng tài khoản", path: "/guide?type=driver" },

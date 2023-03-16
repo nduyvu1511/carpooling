@@ -1,5 +1,5 @@
 import { useCalcDistance } from "@/hooks"
-import { CarIdType, CompoundingType } from "@/models"
+import { CarIdType, CompoundingType, GetPriceListReq, GetPriceListUnitRes } from "@/models"
 import { rideAPI } from "@/services"
 import moment from "moment"
 import { useState } from "react"
@@ -36,8 +36,7 @@ export const usePriceList = () => {
   const [distance, setDistance] = useState<number>()
   const [minNumberOfDays, setMinNumberOfDays] = useState<number>(0)
   const [isLoading, setLoading] = useState<boolean>()
-  const [fuelPriceUnit, setFuelPriceUnit] = useState<FuelPriceUnit>()
-
+  const [priceUnit, setPriceUnit] = useState<GetPriceListUnitRes | undefined>()
   const numberOfDays =
     toDate && fromDate && compoundingType === "two_way"
       ? moment(toDate).diff(moment(fromDate), "days")
@@ -46,6 +45,29 @@ export const usePriceList = () => {
   const { data } = useSWR("compute_price_unit", () =>
     rideAPI.getComputePriceUnit().then((res) => res?.result?.data)
   )
+  console.log(data)
+
+  const getPriceUnitFormula = async (params: GetPriceListReq) => {
+    if (
+      params.distance === distance &&
+      params.going_on_date === fromDate &&
+      priceUnit?.price_unit?.length
+    ) {
+      return priceUnit
+    }
+
+    setLoading(true)
+    try {
+      const res = await rideAPI.getPriceList(params)
+      const data = res?.result?.data
+      setLoading(false)
+      setPriceUnit(data)
+      return data
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
 
   const calculatePrice = async (params: calculatePriceParams) => {
     if (result) {
@@ -63,49 +85,33 @@ export const usePriceList = () => {
     )
       return
 
-    setLoading(true)
-    try {
-      const res = await rideAPI.getPriceList({
-        distance: newDistance,
-        going_on_date: fromDate,
-      })
-      const data = res?.result?.data
-      setFuelPriceUnit({
-        gasoline_price_unit: data?.gasoline_price_unit,
-        petroleum_price_unit: data?.petroleum_price_unit,
-        gasoline_consumption_per_km: data?.gasoline_consumption_per_km,
-        petroleum_consumption_per_km: data.petroleum_consumption_per_km,
-      })
-      const priceUnits = data?.price_unit || []
-      const priceUnit = priceUnits.find(
-        (item) => item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
-      )
-      if (!priceUnit) {
-        dispatch(notify("Không tìm thấy bảng giá nào", "info"))
-        return
-      }
-
-      const { first_day, price_unit_in_day, waiting_charge_per_day } = priceUnit
-
-      let numberOfWaitingDays = 0
-      if (toDate && compoundingType === "two_way") {
-        const dateRange = moment(toDate).diff(moment(fromDate), "days")
-        numberOfWaitingDays = dateRange - minNumberOfDays
-      }
-
-      let result = price_unit_in_day
-      if (numberOfWaitingDays >= 1) {
-        result += first_day
-      }
-      if (numberOfWaitingDays >= 2) {
-        result += (numberOfWaitingDays - 1) * waiting_charge_per_day
-      }
-
-      setResult(result)
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
+    const data = await getPriceUnitFormula({ distance: newDistance, going_on_date: fromDate })
+    const priceUnits = data?.price_unit || []
+    const priceUnit = priceUnits.find(
+      (item) => item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
+    )
+    if (!priceUnit) {
+      dispatch(notify("Không tìm thấy bảng giá nào", "info"))
+      return
     }
+
+    const { first_day, price_unit_in_day, waiting_charge_per_day } = priceUnit
+
+    let numberOfWaitingDays = 0
+    if (toDate && compoundingType === "two_way") {
+      const dateRange = moment(toDate).diff(moment(fromDate), "days")
+      numberOfWaitingDays = dateRange - minNumberOfDays
+    }
+
+    let newResult = price_unit_in_day
+    if (numberOfWaitingDays >= 1) {
+      newResult += first_day
+    }
+    if (numberOfWaitingDays >= 2) {
+      newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
+    }
+    console.log({ numberOfWaitingDays })
+    setResult(newResult)
   }
 
   const handleSetMinNumberOfDays = (_distance = distance || 0) => {
@@ -241,7 +247,12 @@ export const usePriceList = () => {
     distance,
     numberOfDays,
     isLoading,
-    fuelPriceUnit,
+    fuelPriceUnit: {
+      gasoline_consumption_per_km: priceUnit?.gasoline_consumption_per_km,
+      gasoline_price_unit: priceUnit?.gasoline_price_unit,
+      petroleum_consumption_per_km: priceUnit?.gasoline_consumption_per_km,
+      petroleum_price_unit: priceUnit?.petroleum_price_unit,
+    } as FuelPriceUnit,
     minNumberOfDays,
     service_fee_percent: data?.service_fee_percent,
     person_income_tax: data?.person_income_tax,
