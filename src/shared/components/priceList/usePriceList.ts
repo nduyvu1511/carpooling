@@ -1,3 +1,4 @@
+import { roundToHalf } from "@/helper"
 import { useCalcDistance } from "@/hooks"
 import { CarIdType, CompoundingType, GetPriceListReq, GetPriceListUnitRes } from "@/models"
 import { rideAPI } from "@/services"
@@ -84,8 +85,11 @@ export const usePriceList = () => {
     )
       return
 
-    const data = await getPriceUnitFormula({ distance: newDistance, going_on_date: fromDate })
-    const priceUnits = data?.price_unit || []
+    const priceFormula = await getPriceUnitFormula({
+      distance: newDistance,
+      going_on_date: fromDate,
+    })
+    const priceUnits = priceFormula?.price_unit || []
     const priceUnit = priceUnits.find(
       (item) => item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
     )
@@ -96,27 +100,38 @@ export const usePriceList = () => {
 
     const { first_day, price_unit_in_day, waiting_charge_per_day } = priceUnit
 
-    let numberOfWaitingDays = 0
-    if (toDate && compoundingType === "two_way") {
-      numberOfWaitingDays = moment(toDate).diff(moment(fromDate), "days") + 1
-    }
-    console.log({ numberOfWaitingDays })
     let newResult = price_unit_in_day
-    if (numberOfWaitingDays >= 2) {
-      newResult += first_day
+
+    if (toDate && compoundingType === "two_way") {
+      const numberOfWaitingDays = roundToHalf(
+        moment(toDate).diff(moment(fromDate), "days") -
+          (distance || 0) / (data?.number_km_per_day || 0)
+      )
+
+      // console.log({ numberOfWaitingDays })
+
+      if (numberOfWaitingDays > 0) {
+        newResult += first_day
+      }
+
+      if (numberOfWaitingDays > 1) {
+        newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
+      }
     }
-    if (numberOfWaitingDays > 2) {
-      newResult += (numberOfWaitingDays - 2) * waiting_charge_per_day
-    }
+
     setResult(newResult)
   }
 
-  const handleSetMinNumberOfDays = (_distance = distance || 0) => {
+  const handleSetMinNumberOfDays = (
+    _distance = distance || 0,
+    _compoundingType = compoundingType
+  ) => {
     const days =
       _distance > (data?.max_distance_traveling_in_day || 0)
-        ? Math.ceil(_distance / (data?.number_km_per_day || 550))
+        ? // (_compoundingType === "two_way" ? _distance * 2 : _distance) /
+          Math.ceil((_distance * 2) / (data?.number_km_per_day || 550))
         : 0
-    setMinNumberOfDays(days)
+    setMinNumberOfDays(days > 0 ? days - 1 : days)
     if (days > (numberOfDays || 0)) {
       setToDate(undefined)
       calculatePrice({ toDate: undefined })
@@ -125,30 +140,30 @@ export const usePriceList = () => {
   }
 
   const handleSetNumberOfDays = (days: number) => {
-    if (days >= minNumberOfDays) {
-      let newFromDate = fromDate
-      if (!fromDate) {
-        const newDate = moment().format("YYYY-MM-DD")
-        newFromDate = newDate
-        setFromDate(newDate)
-      }
+    if (days < minNumberOfDays) return
 
-      let type = compoundingType
-      if (compoundingType !== "two_way") {
-        type = "two_way"
-        setCompoundingType("two_way")
-      }
-
-      const newToDate = moment(newFromDate).add(days, "days").format("YYYY-MM-DD")
-      setToDate(newToDate)
-      calculatePrice({
-        carType,
-        compoundingType: type,
-        distance,
-        fromDate: newFromDate,
-        toDate: newToDate,
-      })
+    let newFromDate = fromDate
+    if (!fromDate) {
+      const newDate = moment().format("YYYY-MM-DD")
+      newFromDate = newDate
+      setFromDate(newDate)
     }
+
+    let type = compoundingType
+    if (compoundingType !== "two_way") {
+      type = "two_way"
+      setCompoundingType("two_way")
+    }
+
+    const newToDate = moment(newFromDate).add(days, "days").format("YYYY-MM-DD")
+    setToDate(newToDate)
+    calculatePrice({
+      carType,
+      compoundingType: type,
+      distance,
+      fromDate: newFromDate,
+      toDate: newToDate,
+    })
   }
 
   const calculateDistance = (origin?: LocationSearch, destination?: LocationSearch) => {
@@ -158,8 +173,8 @@ export const usePriceList = () => {
       params: { destination, origin },
       onSuccess: ({ distance }) => {
         setDistance(distance)
-        calculatePrice({ carType, fromDate, toDate, compoundingType, distance })
         handleSetMinNumberOfDays(distance)
+        calculatePrice({ carType, fromDate, toDate, compoundingType, distance })
       },
     })
   }
@@ -168,7 +183,7 @@ export const usePriceList = () => {
     if (type === compoundingType) return
 
     setCompoundingType(type)
-    handleSetMinNumberOfDays(distance)
+    handleSetMinNumberOfDays(distance, type)
     calculatePrice({
       carType,
       compoundingType: type,
@@ -256,6 +271,7 @@ export const usePriceList = () => {
     service_fee_percent: data?.service_fee_percent,
     person_income_tax: data?.person_income_tax,
     numberKmPerDay: data?.number_km_per_day,
+    vat_fee_percent: data?.vat_fee_percent,
     handleSetNumberOfDays,
     calculateDistance,
     handleSetCompoundingType,

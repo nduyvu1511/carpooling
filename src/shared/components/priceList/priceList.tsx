@@ -1,18 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { customerAppQR, driverAppQR, priceListBg } from "@/assets"
+import { priceListBg } from "@/assets"
 import { RootState } from "@/core/store"
 import { formatMoneyVND } from "@/helper"
 import { CompoundingType } from "@/models"
-import moment from "moment"
-import Link from "next/link"
 import { useState } from "react"
 import NumericInput from "react-numeric-input"
 import { useSelector } from "react-redux"
 import { Spinner } from "../loading"
-import { Modal } from "../modal"
 import { DriverPriceList } from "./driverPriceList"
 import { InputDate } from "./inputDate"
 import { InputLocation } from "./inputLocation"
+import { ModalInstallApp } from "./modalInstallApp"
 import { SelectItem } from "./selectItem"
 import { usePriceList } from "./usePriceList"
 
@@ -44,7 +42,7 @@ export const PriceList = () => {
     handleSetNumberOfDays,
     handleSetToDate,
   } = usePriceList()
-  console.log({ numberOfDays })
+
   return (
     <div className="price-list">
       <div
@@ -87,7 +85,11 @@ export const PriceList = () => {
                   </p>
 
                   {isLoaded ? (
-                    <InputLocation placeholder="Tìm kiếm điểm đến" onSelect={handleSetToLocation} />
+                    <InputLocation
+                      showCurrentLocation
+                      placeholder="Tìm kiếm điểm đến"
+                      onSelect={handleSetToLocation}
+                    />
                   ) : (
                     <Spinner />
                   )}
@@ -100,7 +102,9 @@ export const PriceList = () => {
                     </p>
 
                     <div className="flex items-center flex-1 flex-wrap">
-                      <p className="text-20 font-semibold text-primary">{distance}KM</p>
+                      <p className="text-14 md:text-16 lg:text-20 font-semibold text-primary">
+                        {distance}KM
+                      </p>
                     </div>
                   </div>
                 ) : null}
@@ -176,10 +180,11 @@ export const PriceList = () => {
                         </p>
 
                         <NumericInput
-                          min={minNumberOfDays || 1}
+                          snap
+                          min={minNumberOfDays + 1}
                           onChange={(val) => {
                             const newValue = (val || 0) - 1
-                            handleSetNumberOfDays(newValue >= 0 ? newValue : 0)
+                            handleSetNumberOfDays(newValue > 0 ? newValue : 0)
                           }}
                           className="price-list-input h-[38px] lg:h-[49.6px] w-[72px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
@@ -191,7 +196,6 @@ export const PriceList = () => {
                                 : 1
                               : undefined
                           }
-                          snap
                         />
                       </div>
                     </div>
@@ -316,7 +320,7 @@ export const PriceList = () => {
           fromLocation={fromLocation.location}
           toLocation={toLocation?.location}
           toDate={toDate}
-          total={result}
+          tripCost={result}
           person_income_tax={person_income_tax}
           service_fee_percent={service_fee_percent}
         />
@@ -343,31 +347,7 @@ const RenderButton = () => {
         Đặt chuyến ngay
       </button>
 
-      <Modal
-        className="w-[300px] h-fit sm:w-[500px] sm:h-fit rounded-[30px] sm:rounded-[30px] price-list-modal"
-        heading="Cài ứng dụng ExxeVn"
-        show={visible}
-        onClose={() => setVisible(false)}
-      >
-        <div className="grid grid-cols-2 gap-24 p-16 md:p-32">
-          <Link passHref href={process.env.NEXT_PUBLIC_CUSTOMER_APP_URL as string}>
-            <a target="_blank" rel="noopener noreferrer">
-              <div className="flex-center flex-col">
-                <img src={customerAppQR} alt="" />
-                <p className="text-xs md:text-sm mt-8 text-center">Ứng dụng cho khách hàng</p>
-              </div>
-            </a>
-          </Link>
-          <Link passHref href={process.env.NEXT_PUBLIC_DRIVER_APP_URL as string}>
-            <a target="_blank" rel="noopener noreferrer">
-              <div className="flex-center flex-col">
-                <img src={driverAppQR} alt="" />
-                <p className="text-xs md:text-sm mt-8 text-center">Ứng dụng cho tài xế</p>
-              </div>
-            </a>
-          </Link>
-        </div>
-      </Modal>
+      <ModalInstallApp onClose={() => setVisible(false)} show={visible} />
     </>
   )
 }

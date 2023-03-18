@@ -3,14 +3,13 @@ import { RootState } from "@/core/store"
 import { GOOGLE_MAP_API_KEY } from "@/helper"
 import { useAddress, useCurrentLocation, useDirections } from "@/hooks"
 import { DirectionLngLat, DirectionsResult, FromLocation, LatLng, LatlngAddress } from "@/models"
-import { DirectionsRenderer, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api"
+import { DirectionsRenderer, GoogleMap, Marker } from "@react-google-maps/api"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Geocode from "react-geocode"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "reapop"
 import { Spinner } from "../loading"
 import { Alert } from "../modal"
-import { InputLocation } from "../priceList"
 import { MapSearch } from "./mapSearch"
 
 type MapOptions = google.maps.MapOptions
@@ -211,8 +210,7 @@ export const Map = ({
         <div
           className={`absolute z-[1000] sm:max-w-[400px] w-full top-0 sm:top-[6px] left-0 sm:left-[8px]`}
         >
-          <InputLocation />
-          {/* <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} /> */}
+          <MapSearch disabled={!currentAddress?.lat} onSelect={handleSelectSearchValue} />
         </div>
 
         <GoogleMap

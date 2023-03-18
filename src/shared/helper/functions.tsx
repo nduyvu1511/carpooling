@@ -443,3 +443,15 @@ export const compareCompoundingCarDriverState = ({
 
   return currentIndex > targetIndex ? "greater" : currentIndex === targetIndex ? "equal" : "less"
 }
+
+export function roundToHalf(number: number) {
+  if (Number.isInteger(number)) {
+    return number
+  }
+  const rounded = Math.round(number * 10)
+  if (rounded % 10 < 5) {
+    return Math.floor(rounded / 10) + 0.5
+  } else {
+    return Math.ceil(rounded / 10)
+  }
+}

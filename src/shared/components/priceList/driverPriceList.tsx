@@ -1,22 +1,28 @@
 import { LocationIcon6, LocationIcon7 } from "@/assets"
-import { COMPOUNDING_TYPE_NAME, formatMoneyVND } from "@/helper"
+import {
+  COMPOUNDING_TYPE_BG,
+  COMPOUNDING_TYPE_COLOR,
+  COMPOUNDING_TYPE_NAME,
+  formatMoneyVND,
+} from "@/helper"
 import { CompoundingType } from "@/models"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { InputRadio } from "../inputs"
 import { FuelPriceUnit } from "./usePriceList"
 
 interface DriverPriceListProps {
   compoundingType: CompoundingType
   fromLocation: string
-  toLocation?: string
+  toLocation: string
   distance: number
   fromDate: string
   toDate: string | undefined
   carType: string
-  total: number
+  tripCost: number
   fuelPriceUnit: FuelPriceUnit
   service_fee_percent?: number | undefined
   person_income_tax?: number | undefined
+  vat_fee_percent?: number
 }
 
 export const DriverPriceList = ({
@@ -27,22 +33,24 @@ export const DriverPriceList = ({
   toDate,
   fuelPriceUnit,
   carType,
-  total,
+  tripCost,
   service_fee_percent = 0,
   person_income_tax = 0,
+  vat_fee_percent = 0.1,
   compoundingType,
 }: DriverPriceListProps) => {
   const [fuelType, setfuelType] = useState<"gas" | "petro">("gas")
 
-  const fuelCost = useMemo(() => {
-    return fuelType === "gas"
-      ? distance * fuelPriceUnit.gasoline_consumption_per_km * fuelPriceUnit.gasoline_price_unit
-      : distance * fuelPriceUnit.petroleum_consumption_per_km * fuelPriceUnit.petroleum_price_unit
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fuelPriceUnit, fuelType])
-  const serviceFeeAmount = total * service_fee_percent
-  const personIncomeTaxAmount = total * (1 - service_fee_percent) * person_income_tax
-  const totalAmount = total - (fuelCost + serviceFeeAmount + personIncomeTaxAmount)
+  const vatAmount = (tripCost / 1.1) * vat_fee_percent
+  const amountAfterSubtractVat = tripCost - vatAmount
+  const serviceFeeAmount = amountAfterSubtractVat * service_fee_percent
+  const amountActuallyReceive = amountAfterSubtractVat - serviceFeeAmount
+  const personIncomeTaxAmount = amountActuallyReceive * person_income_tax
+  const fuelCost =
+    distance *
+    fuelPriceUnit.gasoline_consumption_per_km *
+    (fuelType === "gas" ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
+  const incomeAmount = amountActuallyReceive - fuelCost
 
   return (
     <div className="price-container py-16 md:py-24 lg:py-48">
@@ -57,7 +65,6 @@ export const DriverPriceList = ({
               <LocationIcon6 />
             </span>
             <div className="">
-              {/* <p className="text-14 md:text-16 lg:text-20 font-semibold">TPHCM</p> */}
               <p className="text-12 sm:text-14 lg:text-16 font-medium">{fromLocation}</p>
             </div>
           </div>
@@ -69,7 +76,6 @@ export const DriverPriceList = ({
               <LocationIcon7 />
             </span>
             <div className="">
-              {/* <p className="text-14 md:text-16 lg:text-20 font-semibold">TPHCM</p> */}
               <p className="text-12 sm:text-14 lg:text-16 font-medium">{toLocation}</p>
             </div>
           </div>
@@ -80,113 +86,91 @@ export const DriverPriceList = ({
         <div className="mb-16 md:mb-24 lg:mb-32">
           <p className="text-center">
             <span className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Lộ trình:{" "}
+              Lộ trình:{"  "}
             </span>
-            <span className="text-14 md:text-16 lg:text-20 font-semibold">
+            <span className="text-14 md:text-16 lg:text-20 font-semibold text-primary">
               {distance.toFixed(2)}km
             </span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 lg:gap-y-16 sm:gap-x-40 md:gap-x-[64px] lg:gap-x-[120px]">
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">Loại xe</p>
-            <p className="font-medium text-14 md:text-16 lg:text-20">{carType}</p>
-          </div>
+        <div className="grid grid-cols-1 gap-y-12 lg:gap-y-16 mb-32">
+          <p className="uppercase text-16 font-semibold text-primary mb-16">THÔNG TIN CHUYẾN ĐI</p>
 
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Loại chuyến
-            </p>
-            <p className="font-medium text-14 md:text-16 lg:text-20">
-              {COMPOUNDING_TYPE_NAME[compoundingType]}
-            </p>
-          </div>
+          <Item
+            label="Loại chuyến"
+            value={
+              <span
+                style={{
+                  color: COMPOUNDING_TYPE_COLOR?.[compoundingType],
+                  backgroundColor: COMPOUNDING_TYPE_BG?.[compoundingType],
+                }}
+                className="py-4 px-10 rounded-[8px] text-12"
+              >
+                {COMPOUNDING_TYPE_NAME?.[compoundingType]}
+              </span>
+            }
+          />
+          <Item label="Điểm đón" value={fromLocation} />
+          <Item label="Điểm đến" value={toLocation} />
+          <Item label="Ngày đi" value={fromDate} />
+          {toDate ? <Item label="Ngày về" value={toDate} /> : null}
+          <Item
+            label="Nhiên liệu"
+            value={
+              <div className="flex items-center">
+                <div onClick={() => setfuelType("gas")} className="flex items-center mr-16">
+                  <InputRadio
+                    size={24}
+                    color={"#5D44FF"}
+                    isChecked={fuelType === "gas"}
+                    onCheck={() => setfuelType("gas")}
+                  />
+                  <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
+                    Xăng
+                  </span>
+                </div>
 
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">Ngày đi</p>
-            <p className="font-medium text-14 md:text-16 lg:text-20">{fromDate}</p>
-          </div>
-
-          {toDate ? (
-            <div className="flex items-center justify-between">
-              <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-                Ngày đến
-              </p>
-              <p className="font-medium text-14 md:text-16 lg:text-20">{toDate}</p>
-            </div>
-          ) : null}
-
-          <div className="flex items-center justify-between">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Nhiên liệu
-            </p>
-            <div className="flex items-center">
-              <div onClick={() => setfuelType("gas")} className="flex items-center mr-16">
-                <InputRadio
-                  size={24}
-                  color={"#5D44FF"}
-                  isChecked={fuelType === "gas"}
-                  onCheck={() => setfuelType("gas")}
-                />
-                <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
-                  Xăng
-                </span>
+                <div onClick={() => setfuelType("petro")} className="flex items-center">
+                  <InputRadio
+                    size={24}
+                    color={"#5D44FF"}
+                    isChecked={fuelType === "petro"}
+                    onCheck={() => setfuelType("petro")}
+                  />
+                  <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
+                    Dầu
+                  </span>
+                </div>
               </div>
-
-              <div onClick={() => setfuelType("petro")} className="flex items-center">
-                <InputRadio
-                  size={24}
-                  color={"#5D44FF"}
-                  isChecked={fuelType === "petro"}
-                  onCheck={() => setfuelType("petro")}
-                />
-                <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
-                  Dầu
-                </span>
-              </div>
-            </div>
-          </div>
+            }
+          />
+          <Item label="Loại xe" value={carType} />
         </div>
 
-        <div className="my-16 md:my-24 lg:my-32 border-t-gray-color-2 border-solid border-t"></div>
+        <div className="grid grid-cols-1 gap-y-12 lg:gap-y-16">
+          <p className="text-16 font-semibold text-primary uppercase">GIÁ CƯỚC CHUYẾN ĐI</p>
+          <Item label=" Tổng chi phí tuyến đi" value={formatMoneyVND(tripCost)} />
+          <Item label={`VAT(${vat_fee_percent * 100}%)`} value={formatMoneyVND(vatAmount)} />
 
-        <div className="">
-          <div className="flex items-center justify-between mb-8 md:mb-12 lg:mb-16">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Tổng chi phí chuyến xe:
-            </p>
+          <div className="border-t-gray-color-2 border-solid border-t"></div>
 
-            <p className="text-14 md:text-16 lg:text-20 font-medium">{formatMoneyVND(total)}</p>
-          </div>
+          <Item label="Số tiền (sau khi trừ VAT)" value={formatMoneyVND(amountAfterSubtractVat)} />
+          <Item
+            label={`Phí sử dụng dịch vụ ExxeVn (${service_fee_percent * 100}%)`}
+            value={`-${formatMoneyVND(serviceFeeAmount)}`}
+          />
 
-          <div className="flex items-center justify-between mb-8 md:mb-12 lg:mb-16">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Chi phí nhiên liệu:
-            </p>
+          <div className="border-t-gray-color-2 border-solid border-t"></div>
 
-            <p className="text-14 md:text-16 lg:text-20 font-medium">-{formatMoneyVND(fuelCost)}</p>
-          </div>
+          <Item label="Thực nhận sau chuyến đi" value={formatMoneyVND(amountActuallyReceive)} />
+          <Item
+            label={`Thuế thu nhập cá nhân ${person_income_tax * 100}%:`}
+            value={"-" + formatMoneyVND(personIncomeTaxAmount)}
+          />
+          <Item label="Chi phí nhiên liệu" value={"-" + formatMoneyVND(fuelCost)} />
 
-          <div className="flex items-center justify-between mb-8 md:mb-12 lg:mb-16">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Thuế thu nhập cá nhân 10%:
-            </p>
-
-            <p className="text-14 md:text-16 lg:text-20 font-medium">
-              -{formatMoneyVND(personIncomeTaxAmount)}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between mb-8 md:mb-12 lg:mb-16">
-            <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Phí dịch vụ ({service_fee_percent * 100}%)
-            </p>
-
-            <p className="text-14 md:text-16 lg:text-20 font-medium">
-              -{formatMoneyVND(serviceFeeAmount)}
-            </p>
-          </div>
+          <div className="border-t-gray-color-2 border-solid border-t"></div>
 
           <div className="flex items-center justify-between">
             <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
@@ -195,15 +179,29 @@ export const DriverPriceList = ({
 
             <div className="">
               <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
-                {formatMoneyVND(totalAmount, "VNĐ")}
+                {formatMoneyVND(incomeAmount, "VNĐ")}
               </p>
               <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
-                (Chưa bao gồm phí)
+                (Đã bao gồm {vat_fee_percent * 100}% thuế VAT)
               </p>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+const Item = ({ label, value }: { label: string; value: string | JSX.Element }) => {
+  return (
+    <div className="flex items-start justify-between">
+      <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">{label} :</p>
+
+      {(value as string)?.[0] ? (
+        <p className="flex-1 ml-12 font-medium text-14 md:text-16 lg:text-20 text-right">{value}</p>
+      ) : (
+        value || null
+      )}
     </div>
   )
 }

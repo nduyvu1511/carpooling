@@ -1,7 +1,8 @@
-import { CloseIcon, LocationOff } from "@/assets"
-import { useClickOutside } from "@/hooks"
+import { CloseIcon, LocationIcon2, LocationOff } from "@/assets"
+import { useClickOutside, useCurrentLocation } from "@/hooks"
 import { LatLng } from "@/models"
 import { useRef, useState } from "react"
+import Geocode from "react-geocode"
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
 import { Spinner } from "../loading"
 import { LocationItem } from "../location"
@@ -11,6 +12,7 @@ const requestOptions = {
 }
 
 interface InputLocationProps {
+  showCurrentLocation?: boolean
   className?: string
   placeholder?: string
   onSelect?: (params: LocationSearch) => void
@@ -21,7 +23,13 @@ export interface LocationSearch extends LatLng {
   location: string
 }
 
-export const InputLocation = ({ placeholder, onSelect, onClearValue }: InputLocationProps) => {
+export const InputLocation = ({
+  placeholder,
+  showCurrentLocation = false,
+  onSelect,
+  onClearValue,
+}: InputLocationProps) => {
+  const { getCurrentLocation } = useCurrentLocation()
   const ref = useRef<HTMLInputElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
@@ -31,10 +39,47 @@ export const InputLocation = ({ placeholder, onSelect, onClearValue }: InputLoca
     suggestions: { data: locations, loading, status },
     clearSuggestions,
   } = usePlacesAutocomplete({ debounce: 500, requestOptions })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentLocation, setCurrentLocation] = useState<LocationSearch>()
 
   useClickOutside([searchRef], () => {
     setShowSearchResult(false)
   })
+
+  const handleGetCurrentLocation = () => {
+    if (isLoading) return
+
+    if (currentLocation?.location) {
+      onSelect?.(currentLocation)
+      setValue(currentLocation.location)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      getCurrentLocation({
+        params: {},
+        onSuccess: ({ lat, lng }) => {
+          Geocode.fromLatLng(lat + "", lng + "").then(
+            (response) => {
+              setIsLoading(false)
+              const location = response.results?.[0]?.formatted_address
+              if (location) {
+                setValue(location)
+                onSelect?.({ lat, lng, location })
+                setCurrentLocation({ lat, lng, location })
+              }
+            },
+            () => {
+              setIsLoading(false)
+            }
+          )
+        },
+      })
+    } catch (error) {
+      setIsLoading(false)
+    }
+  }
 
   const getLocationFromSearchResult = async (
     location: google.maps.places.AutocompletePrediction
@@ -57,8 +102,8 @@ export const InputLocation = ({ placeholder, onSelect, onClearValue }: InputLoca
   }
 
   return (
-    <div ref={searchRef} className={"relative flex-1"}>
-      <div className="relative">
+    <div ref={searchRef} className={"relative flex-1 flex"}>
+      <div className="relative flex-1">
         <input
           ref={ref}
           type="text"
@@ -89,6 +134,15 @@ export const InputLocation = ({ placeholder, onSelect, onClearValue }: InputLoca
           </span>
         ) : null}
       </div>
+
+      {!showCurrentLocation ? (
+        <span
+          onClick={handleGetCurrentLocation}
+          className="flex-center bg-primary-opacity w-[42px] md:w-[48px] h-[42px] md:h-[48px] rounded-[8px] ml-12 cursor-pointer"
+        >
+          {!isLoading ? <LocationIcon2 /> : <Spinner size={18} />}
+        </span>
+      ) : null}
 
       {showSearchResult ? (
         <div className="z-[100] block-element shadow-lg max-h-[350px] overflow-y-auto flex-col flex rounded-none rounded-bl-[10px] rounded-br-[10px] absolute w-[calc(100%)] top-[50px] left-[0]">
