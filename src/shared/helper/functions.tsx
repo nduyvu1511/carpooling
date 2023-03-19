@@ -445,13 +445,8 @@ export const compareCompoundingCarDriverState = ({
 }
 
 export function roundToHalf(number: number) {
-  if (Number.isInteger(number)) {
-    return number
-  }
-  const rounded = Math.round(number * 10)
-  if (rounded % 10 < 5) {
-    return Math.floor(rounded / 10) + 0.5
-  } else {
-    return Math.ceil(rounded / 10)
-  }
+  const numberInt = Math.floor(number)
+  const numberDecimal = number % 1
+
+  return numberInt + (numberDecimal === 0 ? 0 : numberDecimal <= 0.5 ? 0.5 : 1)
 }

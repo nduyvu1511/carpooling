@@ -30,7 +30,7 @@ export const usePriceList = () => {
   const [fromLocation, setFromLocation] = useState<LocationSearch>()
   const [toLocation, setToLocation] = useState<LocationSearch>()
   const [compoundingType, setCompoundingType] = useState<CompoundingType>()
-  const [fromDate, setFromDate] = useState<string>()
+  const [fromDate, setFromDate] = useState<string>(moment().format("YYYY-MM-DD"))
   const [toDate, setToDate] = useState<string>()
   const [carType, setCarType] = useState<CarIdType>()
   const [result, setResult] = useState<number | undefined>()
@@ -47,7 +47,9 @@ export const usePriceList = () => {
     rideAPI.getComputePriceUnit().then((res) => res?.result?.data)
   )
 
-  const getPriceUnitFormula = async (params: GetPriceListReq) => {
+  const getPriceUnitFormula = async (params: Partial<GetPriceListReq>) => {
+    if (!params?.distance || !params?.going_on_date) return
+
     if (
       params.distance === distance &&
       params.going_on_date === fromDate &&
@@ -58,7 +60,7 @@ export const usePriceList = () => {
 
     setLoading(true)
     try {
-      const res = await rideAPI.getPriceList(params)
+      const res = await rideAPI.getPriceList(params as GetPriceListReq)
       const data = res?.result?.data
       setLoading(false)
       setPriceUnit(data)
@@ -76,6 +78,11 @@ export const usePriceList = () => {
 
     const { carType, fromDate, toDate, compoundingType, distance: _distance } = params
     const newDistance = _distance || distance
+    const priceFormula = await getPriceUnitFormula({
+      distance: newDistance,
+      going_on_date: fromDate,
+    })
+
     if (
       !newDistance ||
       !fromDate ||
@@ -85,10 +92,6 @@ export const usePriceList = () => {
     )
       return
 
-    const priceFormula = await getPriceUnitFormula({
-      distance: newDistance,
-      going_on_date: fromDate,
-    })
     const priceUnits = priceFormula?.price_unit || []
     const priceUnit = priceUnits.find(
       (item) => item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
@@ -101,16 +104,17 @@ export const usePriceList = () => {
     const { first_day, price_unit_in_day, waiting_charge_per_day } = priceUnit
 
     let newResult = price_unit_in_day
+    console.log({ newResult })
 
     if (toDate && compoundingType === "two_way") {
-      const numberOfWaitingDays = roundToHalf(
-        moment(toDate).diff(moment(fromDate), "days") -
-          (distance || 0) / (data?.number_km_per_day || 0)
-      )
+      const dateRange = moment(toDate).diff(moment(fromDate), "days")
+      const numberOfWaitingDays =
+        (dateRange > 0 ? dateRange + 1 : dateRange) -
+        roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
 
-      // console.log({ numberOfWaitingDays })
+      console.log({ numberOfWaitingDays })
 
-      if (numberOfWaitingDays > 0) {
+      if (numberOfWaitingDays >= 1) {
         newResult += first_day
       }
 
@@ -118,7 +122,7 @@ export const usePriceList = () => {
         newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
       }
     }
-
+    console.log({ newResult })
     setResult(newResult)
   }
 
@@ -131,12 +135,16 @@ export const usePriceList = () => {
         ? // (_compoundingType === "two_way" ? _distance * 2 : _distance) /
           Math.ceil((_distance * 2) / (data?.number_km_per_day || 550))
         : 0
-    setMinNumberOfDays(days > 0 ? days - 1 : days)
-    if (days > (numberOfDays || 0)) {
+
+    const newDays = days > 0 ? days - 1 : days
+
+    setMinNumberOfDays(newDays)
+    if (newDays > (numberOfDays || 0)) {
       setToDate(undefined)
       calculatePrice({ toDate: undefined })
     }
-    return days
+
+    return newDays
   }
 
   const handleSetNumberOfDays = (days: number) => {
@@ -182,13 +190,18 @@ export const usePriceList = () => {
   const handleSetCompoundingType = (type: CompoundingType) => {
     if (type === compoundingType) return
 
+    const minNumberOfDays = handleSetMinNumberOfDays(distance, type)
+    let newToDate = toDate
+    if (type === "two_way" && fromDate) {
+      newToDate = moment(fromDate).add(minNumberOfDays, "days").format("YYYY-MM-DD")
+      setToDate(newToDate)
+    }
     setCompoundingType(type)
-    handleSetMinNumberOfDays(distance, type)
     calculatePrice({
       carType,
       compoundingType: type,
       fromDate,
-      toDate,
+      toDate: newToDate,
     })
   }
 
