@@ -46,10 +46,13 @@ export const DriverPriceList = ({
   const serviceFeeAmount = amountAfterSubtractVat * service_fee_percent
   const amountActuallyReceive = amountAfterSubtractVat - serviceFeeAmount
   const personIncomeTaxAmount = amountActuallyReceive * person_income_tax
-  const fuelCost =
+  let fuelCost =
     distance *
     fuelPriceUnit.gasoline_consumption_per_km *
     (fuelType === "gas" ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
+  if (compoundingType === "two_way") {
+    fuelCost *= 2
+  }
   const incomeAmount = amountActuallyReceive - fuelCost
 
   return (
@@ -105,7 +108,7 @@ export const DriverPriceList = ({
                   color: COMPOUNDING_TYPE_COLOR?.[compoundingType],
                   backgroundColor: COMPOUNDING_TYPE_BG?.[compoundingType],
                 }}
-                className="py-4 px-10 rounded-[8px] text-12"
+                className="py-8 px-16 shadow-shadow-1 rounded-[8px] text-12"
               >
                 {COMPOUNDING_TYPE_NAME?.[compoundingType]}
               </span>
@@ -151,7 +154,10 @@ export const DriverPriceList = ({
         <div className="grid grid-cols-1 gap-y-12 lg:gap-y-16">
           <p className="text-16 font-semibold text-primary uppercase">GIÁ CƯỚC CHUYẾN ĐI</p>
           <Item label=" Tổng chi phí tuyến đi" value={formatMoneyVND(tripCost)} />
-          <Item label={`VAT(${vat_fee_percent * 100}%)`} value={formatMoneyVND(vatAmount)} />
+          <Item
+            label={`Thuế VAT của khách hàng(${vat_fee_percent * 100}%)`}
+            value={formatMoneyVND(vatAmount)}
+          />
 
           <div className="border-t-gray-color-2 border-solid border-t"></div>
 
@@ -177,14 +183,12 @@ export const DriverPriceList = ({
               Tổng thực nhận:
             </p>
 
-            <div className="">
-              <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
-                {formatMoneyVND(incomeAmount, "VNĐ")}
-              </p>
-              <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
+            <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
+              {formatMoneyVND(incomeAmount, "VNĐ")}
+            </p>
+            {/* <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
                 (Đã bao gồm {vat_fee_percent * 100}% thuế VAT)
-              </p>
-            </div>
+              </p> */}
           </div>
         </div>
       </div>
