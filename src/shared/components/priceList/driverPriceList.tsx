@@ -155,7 +155,7 @@ export const DriverPriceList = ({
           <p className="text-16 font-semibold text-primary uppercase">GIÁ CƯỚC CHUYẾN ĐI</p>
           <Item label=" Tổng chi phí tuyến đi" value={formatMoneyVND(tripCost)} />
           <Item
-            label={`Thuế VAT của khách hàng(${vat_fee_percent * 100}%)`}
+            label={`Thuế VAT của khách hàng (${vat_fee_percent * 100}%)`}
             value={formatMoneyVND(vatAmount)}
           />
 
@@ -171,7 +171,7 @@ export const DriverPriceList = ({
 
           <Item label="Thực nhận sau chuyến đi" value={formatMoneyVND(amountActuallyReceive)} />
           <Item
-            label={`Thuế thu nhập cá nhân ${person_income_tax * 100}%:`}
+            label={`Thuế thu nhập cá nhân (${person_income_tax * 100}%):`}
             value={"-" + formatMoneyVND(personIncomeTaxAmount)}
           />
           <Item label="Chi phí nhiên liệu" value={"-" + formatMoneyVND(fuelCost)} />
@@ -199,7 +199,7 @@ export const DriverPriceList = ({
 const Item = ({ label, value }: { label: string; value: string | JSX.Element }) => {
   return (
     <div className="flex items-start justify-between">
-      <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">{label} :</p>
+      <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">{label}</p>
 
       {(value as string)?.[0] ? (
         <p className="flex-1 ml-12 font-medium text-14 md:text-16 lg:text-20 text-right">{value}</p>

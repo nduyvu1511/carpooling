@@ -55,7 +55,7 @@ export const PriceList = () => {
       >
         <div className="price-container py-16 md:py-24 lg:py-48 z-10">
           <h1 className="h1 text-primary text-center mb-16 sm:mb-[32px] md:mb-[40px] lg:mb-[80px]">
-            Báo giá nhanh cùng Exxe !
+            Báo giá nhanh cùng Exxe
           </h1>
 
           <div className="">
@@ -66,7 +66,7 @@ export const PriceList = () => {
               <div className="">
                 <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Điểm xuất phát:
+                    Điểm xuất phát
                   </p>
 
                   {isLoaded ? (
@@ -81,7 +81,7 @@ export const PriceList = () => {
 
                 <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Điểm đến:
+                    Điểm đến
                   </p>
 
                   {isLoaded ? (
@@ -98,7 +98,7 @@ export const PriceList = () => {
                 {distance ? (
                   <div className="flex items-center mb-12 md:mb-16 lg:mb-24">
                     <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 mr-24 md:mr-0 md:w-[200px]">
-                      Lộ trình:
+                      Lộ trình
                     </p>
 
                     <div className="flex items-center flex-1 flex-wrap">
@@ -111,7 +111,7 @@ export const PriceList = () => {
 
                 <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Chọn loại hình:
+                    Chọn loại hình
                   </p>
 
                   <div className="flex items-center flex-1 flex-wrap">
@@ -133,7 +133,7 @@ export const PriceList = () => {
 
                 <div className="flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Chọn loại xe:
+                    Chọn loại xe
                   </p>
 
                   <div className="flex items-center flex-1 flex-wrap">
@@ -151,7 +151,7 @@ export const PriceList = () => {
 
                 <div className="flex flex-col md:flex-row md:items-center md:mb-4 lg:mb-12">
                   <p className="text-12 md:text-14 lg:text-16 mb-8 md:mb-0 font-medium text-gray-color-8 w-[200px]">
-                    Số ngày đi:
+                    Số ngày đi
                   </p>
 
                   <div className="flex items-center flex-1 flex-wrap">
@@ -176,7 +176,7 @@ export const PriceList = () => {
                     <div className="mb-12">
                       <div className="flex items-center">
                         <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 mr-8">
-                          Số ngày:{" "}
+                          Số ngày{" "}
                         </p>
 
                         <NumericInput
@@ -223,7 +223,7 @@ export const PriceList = () => {
                           : "w-[200px] mb-8 md:mb-0"
                       }`}
                     >
-                      Ngày đi:
+                      Ngày đi
                     </p>
 
                     <div className={compoundingType === "two_way" && fromDate ? "" : "flex-1"}>
@@ -248,7 +248,7 @@ export const PriceList = () => {
                           compoundingType === "two_way" ? "mb-8" : "w-[200px] mb-8 md:mb-0"
                         }`}
                       >
-                        Ngày về:
+                        Ngày về
                       </p>
 
                       <InputDate
@@ -268,7 +268,7 @@ export const PriceList = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="mb-12 md:mb-0">
                   <p className="text-12 md:text-14 lg:text-16 mb-4 md:mb-0 font-medium">
-                    Tổng cước phí:
+                    Tổng cước phí
                   </p>
                   <p className="text-12 md:text-14 font-normal text-gray-color-7">
                     (Chưa bao gồm phí cầu đường, bến bãi...)

@@ -41,8 +41,8 @@ export const sadIcon = require("./sadIcon.png")
 export const wowIcon = require("./wowIcon.png")
 export const priceListBg = require("./priceListBg.jpg")
 export const emptyNotification = require("./empty-notification.svg")
-export const driverAppQR = require("./driver-app-qr.png")
-export const customerAppQR = require("./customer-app-qr.png")
+export const driverAppQR = require("./driver-app-qr.jpg")
+export const customerAppQR = require("./customer-app-qr.jpg")
 export const QUY_CHE_HOAT_DONG = {
   1: require("./quy-che-hoat-dong/0001.jpg"),
   2: require("./quy-che-hoat-dong/0002.jpg"),

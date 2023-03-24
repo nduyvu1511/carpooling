@@ -32,7 +32,7 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
           <Link passHref href={process.env.NEXT_PUBLIC_CUSTOMER_APP_URL as string}>
             <a target="_blank" rel="noopener noreferrer">
               <div className="flex-center flex-col">
-                <img src={customerAppQR} alt="" />
+                <img className="w-[100px] h-[100px]" src={customerAppQR} alt="" />
                 <p className="text-xs md:text-sm mt-8 text-center">Dành cho khách hàng</p>
               </div>
             </a>
@@ -40,7 +40,7 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
           <Link passHref href={process.env.NEXT_PUBLIC_DRIVER_APP_URL as string}>
             <a target="_blank" rel="noopener noreferrer">
               <div className="flex-center flex-col">
-                <img src={driverAppQR} alt="" />
+                <img className="w-[100px] h-[100px]" src={driverAppQR} alt="" />
                 <p className="text-xs md:text-sm mt-8 text-center">Dành cho tài xế</p>
               </div>
             </a>

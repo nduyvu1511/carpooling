@@ -108,17 +108,21 @@ export const usePriceList = () => {
 
     if (toDate && compoundingType === "two_way") {
       const dateRange = moment(toDate).diff(moment(fromDate), "days")
-      const numberOfWaitingDays =
-        (dateRange > 0 ? dateRange + 1 : dateRange) -
-        roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
+      let numberOfWaitingDays = dateRange > 0 ? dateRange + 1 : dateRange
+      if ((distance || 0) > (data?.max_distance_traveling_in_day || 0)) {
+        numberOfWaitingDays -= roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
+      }
+
+      // (dateRange > 0 ? dateRange + 1 : dateRange) -
+      // roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
 
       console.log({ numberOfWaitingDays })
 
-      if (numberOfWaitingDays >= 1) {
+      if (numberOfWaitingDays > 1) {
         newResult += first_day
       }
 
-      if (numberOfWaitingDays > 1) {
+      if (numberOfWaitingDays > 2) {
         newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
       }
     }
