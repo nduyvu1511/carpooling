@@ -123,7 +123,7 @@ export const usePriceList = () => {
       }
 
       if (numberOfWaitingDays > 2) {
-        newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
+        newResult += (numberOfWaitingDays - 2) * waiting_charge_per_day
       }
     }
     console.log({ newResult })
