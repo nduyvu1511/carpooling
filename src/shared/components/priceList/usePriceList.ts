@@ -104,29 +104,35 @@ export const usePriceList = () => {
     const { first_day, price_unit_in_day, waiting_charge_per_day } = priceUnit
 
     let newResult = price_unit_in_day
-    console.log({ newResult })
 
     if (toDate && compoundingType === "two_way") {
-      const dateRange = moment(toDate).diff(moment(fromDate), "days")
-      let numberOfWaitingDays = dateRange > 0 ? dateRange + 1 : dateRange
-      if ((distance || 0) > (data?.max_distance_traveling_in_day || 0)) {
+      const dateRange = moment(toDate).diff(moment(fromDate), "days") + 1
+      let numberOfWaitingDays = dateRange
+      // let numberOfWaitingDays = dateRange > 1 ? dateRange : 1
+      if ((distance || 0) <= (data?.max_distance_traveling_in_day || 0)) {
+        numberOfWaitingDays -= 1
+      } else {
         numberOfWaitingDays -= roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
       }
+
+      // let numberOfWaitingDays = dateRange > 0 ? dateRange + 1 : dateRange
+      // if ((distance || 0) > (data?.max_distance_traveling_in_day || 0)) {
+      //   numberOfWaitingDays -= roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
+      // }
 
       // (dateRange > 0 ? dateRange + 1 : dateRange) -
       // roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
 
       console.log({ numberOfWaitingDays })
 
-      if (numberOfWaitingDays > 1) {
+      if (numberOfWaitingDays >= 1) {
         newResult += first_day
       }
 
-      if (numberOfWaitingDays > 2) {
-        newResult += (numberOfWaitingDays - 2) * waiting_charge_per_day
+      if (numberOfWaitingDays > 1) {
+        newResult += (numberOfWaitingDays - 1) * waiting_charge_per_day
       }
     }
-    console.log({ newResult })
     setResult(newResult)
   }
 
