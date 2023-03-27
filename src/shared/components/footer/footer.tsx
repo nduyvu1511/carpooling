@@ -8,7 +8,7 @@ import {
   YoutubeIcon,
   ZaloIcon,
 } from "@/assets"
-import { ADDRESS } from "@/helper"
+import { ADDRESS, PHONE } from "@/helper"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -167,7 +167,7 @@ const Footer = () => {
                   <br />
                   Địa chỉ: 2 Hoàng Thế Thiện, phường An Lợi Đông, Tp.Thủ Đức, Tp.HCM
                   <br />
-                  Số điện thoại: 0847878788
+                  Số điện thoại: {PHONE}
                 </p>
               </div>
             </div>

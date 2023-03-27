@@ -1,5 +1,6 @@
 import { mapBanner } from "@/assets"
 import { AuthHeader, Seo } from "@/components"
+import { PHONE } from "@/helper"
 import { AccountLayout } from "@/layout"
 import Image from "next/image"
 
@@ -12,7 +13,7 @@ const SupportPage = () => {
         <AccountLayout title="Hướng dẫn sử dụng">
           <div className="px-custom">
             <div className="flex flex-col items-center justify-center">
-              <h3 className="text-lg">Tổng đài hỗ trợ 0847878788</h3>
+              <h3 className="text-lg">Tổng đài hỗ trợ {PHONE}</h3>
               <input type="text" />
             </div>
 

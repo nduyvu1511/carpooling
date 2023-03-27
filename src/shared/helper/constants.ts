@@ -102,7 +102,7 @@ export const PAYMENT_PURPOSE_NAME = {
   exxe_reward: "Thưởng Exxe",
 }
 
-export const PHONE = "0847878788"
+export const PHONE = "19004744"
 export const ADDRESS = "Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM"
 export const EMAIL = "exxevn2022@gmail.com"
 export const DOMAIN_URL = process?.env?.NEXT_PUBLIC_DOMAIN_URL

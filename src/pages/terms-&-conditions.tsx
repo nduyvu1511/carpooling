@@ -7,6 +7,7 @@ import {
   VI_PHAM_VA_BIEN_PHAP,
 } from "@/assets"
 import { Footer, Header, Seo, TabContent } from "@/components"
+import { PHONE } from "@/helper"
 
 const textClassName = "text-sm md:text-base mb-12 font-medium"
 const titleClassName = "text-16 md:text-18 lg:text-20 mb-12 font-medium"
@@ -155,7 +156,7 @@ const data = [
             <p className={textClassName}>
               - Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp. Thủ Đức, Tp.HCM.
             </p>
-            <p className={textClassName}>- Số điện thoại: 0847878788</p>
+            <p className={textClassName}>- Số điện thoại: {PHONE}</p>
             <p className={textClassName}>- Email: ExxeVn2022@gmail.com</p>
           </ul>
         </div>
