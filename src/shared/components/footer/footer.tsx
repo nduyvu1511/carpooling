@@ -6,15 +6,18 @@ import {
   paymentMehods,
   TiktokIcon,
   YoutubeIcon,
-  ZaloIcon,
-} from "@/assets"
-import { ADDRESS, PHONE } from "@/helper"
-import Image from "next/image"
-import Link from "next/link"
+  ZaloIcon
+} from '@/assets';
+import { PHONE } from '@/helper';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
 const Footer = () => {
+  const [isMacOs] = useState((navigator?.platform || '')?.toLowerCase?.()?.includes('mac'));
+
   return (
-    <footer className="py-[40px] lg:py-[80px] bg-bg-primary">
+    <footer className="py-[40px] lg:py-[80px] bg-bg-primßary">
       <div className="container">
         <div className="lg:flex">
           <div className="w-fit lg:w-[25%] lg:mr-[40px] mb-[40px] xs:flex items-center lg:block">
@@ -66,51 +69,55 @@ const Footer = () => {
           <div className="lg:w-[75%] grid grid-col-1 md:grid-cols-3 gap-24 lg:gap-[40px]">
             {[
               {
-                heading: "Về chúng tôi",
+                heading: 'Về chúng tôi',
                 child: [
-                  { label: "Giới thiệu về Exxe", path: "/about-us" },
-                  { label: "Nguyên tắc cộng đồng", path: "/terms-&-conditions" },
-                  { label: "Quy chế hoạt động", path: "/terms-&-conditions" },
-                  { label: "Phạt vi phạm và bồi thường", path: "/terms-&-conditions" },
-                  { label: "Hóa đơn dịch vụ vận tải", path: "/terms-&-conditions" },
-                  { label: "Tỉ lệ phân chia và hợp tác", path: "/terms-&-conditions" },
-                  { label: "Giải quyết khiếu nại", path: "/terms-&-conditions" },
-                  { label: "Tin tức", path: "/news" },
-                ],
+                  { label: 'Giới thiệu về Exxe', path: '/about-us' },
+                  { label: 'Nguyên tắc cộng đồng', path: '/terms-&-conditions' },
+                  { label: 'Quy chế hoạt động', path: '/terms-&-conditions' },
+                  { label: 'Phạt vi phạm và bồi thường', path: '/terms-&-conditions' },
+                  { label: 'Hóa đơn dịch vụ vận tải', path: '/terms-&-conditions' },
+                  { label: 'Tỉ lệ phân chia và hợp tác', path: '/terms-&-conditions' },
+                  { label: 'Giải quyết khiếu nại', path: '/terms-&-conditions' },
+                  { label: 'Tin tức', path: '/news' }
+                ]
               },
               {
-                heading: "Khách hàng",
+                heading: 'Khách hàng',
                 child: [
-                  { label: "", image: customerAppQR, path: "/" },
+                  { label: '', image: customerAppQR, path: '/' },
                   {
-                    label: "Ứng dụng Exxe Customer",
-                    path: "",
-                    url: process.env.NEXT_PUBLIC_CUSTOMER_APP_URL,
+                    label: 'Ứng dụng Exxe Customer',
+                    path: '',
+                    url: isMacOs
+                      ? process.env.NEXT_PUBLIC_CUSTOMER_APP_IOS_URL
+                      : process.env.NEXT_PUBLIC_CUSTOMER_APP_ANDROID_URL
                   },
-                  { label: "Hướng dẫn đăng kí Khách hàng", path: "/guide?type=customer" },
-                  { label: "Hướng dẫn đặt xe", path: "/guide?type=customer" },
-                  { label: "Hướng dẫn thanh toán", path: "/guide?type=customer" },
-                  { label: "Câu hỏi thường gặp", path: "/q&a" },
-                ],
+                  { label: 'Hướng dẫn đăng kí Khách hàng', path: '/guide?type=customer' },
+                  { label: 'Hướng dẫn đặt xe', path: '/guide?type=customer' },
+                  { label: 'Hướng dẫn thanh toán', path: '/guide?type=customer' },
+                  { label: 'Câu hỏi thường gặp', path: '/q&a' }
+                ]
               },
               {
-                heading: "Tài xế",
+                heading: 'Tài xế',
                 child: [
                   {
-                    label: "",
+                    label: '',
                     image: driverAppQR,
-                    path: "/",
+                    path: '/'
                   },
                   {
-                    label: "Tải ứng dụng Exxe Driver",
-                    path: "/",
-                    url: process.env.NEXT_PUBLIC_DRIVER_APP_URL,
+                    label: 'Tải ứng dụng Exxe Driver',
+                    path: '/',
+                    url: isMacOs
+                      ? process.env.NEXT_PUBLIC_DRIVER_APP_IOS_URL
+                      : process.env.NEXT_PUBLIC_DRIVER_APP_ANDROID_URL
                   },
-                  { label: "Hướng dẫn đăng kí Tài xế ", path: "/guide?type=driver" },
-                  { label: "Hướng dẫn sử dụng tài khoản", path: "/guide?type=driver" },
-                  { label: "Các chương trình thưởng", path: "/promotion" },
-                ],
-              },
+                  { label: 'Hướng dẫn đăng kí Tài xế ', path: '/guide?type=driver' },
+                  { label: 'Hướng dẫn sử dụng tài khoản', path: '/guide?type=driver' },
+                  { label: 'Các chương trình thưởng', path: '/promotion' }
+                ]
+              }
             ].map((item, index) => (
               <div key={index} className="flex flex-col xs:flex-row md:flex-col">
                 <p
@@ -203,7 +210,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export { Footer }
+export { Footer };

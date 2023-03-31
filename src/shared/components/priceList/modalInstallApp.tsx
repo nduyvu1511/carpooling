@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { customerAppQR, driverAppQR } from "@/assets"
-import Link from "next/link"
-import { Modal, ModalProps } from "../modal"
+import { customerAppQR, driverAppQR } from '@/assets';
+import Link from 'next/link';
+import { Modal, ModalProps } from '../modal';
 
 interface ModalInstallAppProps extends Partial<ModalProps> {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
@@ -16,7 +16,7 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
       onClose={onClose}
     >
       <div className="p-16 md:p-32">
-        <p className="text-14 md:text-16 font-semibold text-center">
+        {/* <p className="text-14 md:text-16 font-semibold text-center">
           Đăng nhập/Đăng ký để đặt chuyến xe
         </p>
 
@@ -24,9 +24,11 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
           <span className="border-b border-solid border-border-color-1 flex-1 max-w-[100px]"></span>
           <span className="text-12 md:text-14 font-semibold text-gray-color-3 mx-8">Hoặc</span>
           <span className="border-b border-solid border-border-color-1 flex-1 max-w-[100px]"></span>
-        </div>
+        </div> */}
 
-        <p className="text-14 md:text-16 font-semibold text-center mb-16">Cài đặt ứng dụng</p>
+        <p className="text-14 md:text-16 font-semibold text-center mb-[32px]">
+          Đặt xe ngay tại đây
+        </p>
 
         <div className="grid grid-cols-2 gap-24 mb-32">
           <Link passHref href={process.env.NEXT_PUBLIC_CUSTOMER_APP_URL as string}>
@@ -57,5 +59,5 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};

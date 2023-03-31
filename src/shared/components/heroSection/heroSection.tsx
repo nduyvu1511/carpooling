@@ -1,15 +1,17 @@
 /* eslint-disable react/jsx-key */
-import { CarpoolingIcon, ConvenientIcon, mapBanner, OneWayIcon, TwoWayIcon } from "@/assets"
-import { setAuthModalType } from "@/modules"
-import Image from "next/image"
-import { useDispatch } from "react-redux"
-import { Autoplay } from "swiper"
-import "swiper/css"
-import "swiper/css/navigation"
-import { Swiper, SwiperSlide } from "swiper/react"
+import { CarpoolingIcon, ConvenientIcon, mapBanner, OneWayIcon, TwoWayIcon } from '@/assets';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Autoplay } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { ModalInstallApp } from '../priceList/modalInstallApp';
 
 export const HeroSection = () => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
+  const [visible, setVisible] = useState<boolean>(false);
+
   return (
     <>
       <div className="relative h-full w-full">
@@ -26,10 +28,10 @@ export const HeroSection = () => {
               loop
             >
               {[
-                ["Đặt xe đường dài", "Ứng dụng gọi xe đường dài số 1 Việt Nam"],
-                ["Tiết kiệm chi phí", "Tối ưu chi phí chuyến đi và đảm bảo chất lượng"],
-                ["Nhiều mô hình chuyến đi", "Phù hợp với nhu cầu của hành khách"],
-                ["Minh bạch về giá cả", "Lợi ích rõ ràng, chi tiết cho hành khách và đối tác"],
+                ['Đặt xe đường dài', 'Ứng dụng gọi xe đường dài số 1 Việt Nam'],
+                ['Tiết kiệm chi phí', 'Tối ưu chi phí chuyến đi và đảm bảo chất lượng'],
+                ['Nhiều mô hình chuyến đi', 'Phù hợp với nhu cầu của hành khách'],
+                ['Minh bạch về giá cả', 'Lợi ích rõ ràng, chi tiết cho hành khách và đối tác']
               ].map(([title, desc], index) => (
                 <SwiperSlide key={index}>
                   <div className="flex items-start flex-col">
@@ -51,14 +53,15 @@ export const HeroSection = () => {
             <p className="text-base mb-16 font-semibold">Bạn muốn đi đâu?</p>
             <ul className="grid grid-cols-4 gap-x-16">
               {[
-                ["Hai chiều", "two_way", <TwoWayIcon />],
-                ["Một chiều", "one_way", <OneWayIcon />],
-                ["Ghép chuyến", "compounding", <CarpoolingIcon />],
-                ["Tiện chuyến", "convenient", <ConvenientIcon />],
+                ['Hai chiều', 'two_way', <TwoWayIcon />],
+                ['Một chiều', 'one_way', <OneWayIcon />],
+                ['Ghép chuyến', 'compounding', <CarpoolingIcon />],
+                ['Tiện chuyến', 'convenient', <ConvenientIcon />]
               ].map(([label, _, icon], index) => (
                 <li
                   onClick={() => {
-                    dispatch(setAuthModalType("login"))
+                    setVisible(true);
+                    // dispatch(setAuthModalType("login"))
                   }}
                   className="cursor-pointer flex-center flex-col p-16 rounded-[10px] shadow-shadow-1 border border-solid border-border-color bg-white-color hover:bg-bg-primary transition-colors duration-300"
                   key={index}
@@ -71,6 +74,8 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      <ModalInstallApp onClose={() => setVisible(false)} show={visible} />
     </>
-  )
-}
+  );
+};

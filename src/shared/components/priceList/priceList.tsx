@@ -1,24 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
-import { priceListBg } from "@/assets"
-import { RootState } from "@/core/store"
-import { formatMoneyVND } from "@/helper"
-import { CompoundingType } from "@/models"
-import { useState } from "react"
-import NumericInput from "react-numeric-input"
-import { useSelector } from "react-redux"
-import { Spinner } from "../loading"
-import { DriverPriceList } from "./driverPriceList"
-import { InputDate } from "./inputDate"
-import { InputLocation } from "./inputLocation"
-import { ModalInstallApp } from "./modalInstallApp"
-import { SelectItem } from "./selectItem"
-import { usePriceList } from "./usePriceList"
+import { priceListBg } from '@/assets';
+import { RootState } from '@/core/store';
+import { formatMoneyVND } from '@/helper';
+import { CompoundingType } from '@/models';
+import { useState } from 'react';
+import NumericInput from 'react-numeric-input';
+import { useSelector } from 'react-redux';
+import { Spinner } from '../loading';
+import { DriverPriceList } from './driverPriceList';
+import { InputDate } from './inputDate';
+import { InputLocation } from './inputLocation';
+import { ModalInstallApp } from './modalInstallApp';
+import { SelectItem } from './selectItem';
+import { usePriceList } from './usePriceList';
 
 export const PriceList = () => {
-  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
+  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap);
   const vehicleTypeOptions = useSelector(
     (state: RootState) => state.compoundingCarData.vehicleTypes
-  )
+  );
   const {
     compoundingType,
     fromDate,
@@ -40,23 +40,27 @@ export const PriceList = () => {
     handleSetToLocation,
     handleSetFromDate,
     handleSetNumberOfDays,
-    handleSetToDate,
-  } = usePriceList()
+    handleSetToDate
+  } = usePriceList();
 
   return (
     <div className="price-list">
+      <h1 className="h1 text-primary text-center my-16 sm:my-[32px] md:my-[32px] lg:my-[48px]">
+        Báo giá nhanh cùng Exxe
+      </h1>
+
       <div
         style={{
           backgroundImage: `url(${priceListBg})`,
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed'
         }}
-        className={`price-list-wrapper mt-[64px] md:mt-[80px] lg:mt-[120px] relative`}
+        className={`price-list-wrapper relative`}
       >
         <div className="price-container py-16 md:py-24 lg:py-48 z-10">
-          <h1 className="h1 text-primary text-center mb-16 sm:mb-[32px] md:mb-[40px] lg:mb-[80px]">
+          {/* <h1 className="h1 text-primary text-center mb-16 sm:mb-[32px] md:mb-[40px] lg:mb-[80px]">
             Báo giá nhanh cùng Exxe
-          </h1>
+          </h1> */}
 
           <div className="">
             <h3 className="text-16 md:text-18 lg:text-24 font-medium text-center mb-16 lg:mb-32">
@@ -116,9 +120,9 @@ export const PriceList = () => {
 
                   <div className="flex items-center flex-1 flex-wrap">
                     {[
-                      ["one_way", "Một Chiều"],
-                      ["two_way", "Hai Chiều"],
-                      ["convenient", "Tiện chuyến"],
+                      ['one_way', 'Một Chiều'],
+                      ['two_way', 'Hai Chiều'],
+                      ['convenient', 'Tiện chuyến']
                     ].map(([value, label]) => (
                       <SelectItem
                         key={value}
@@ -157,10 +161,10 @@ export const PriceList = () => {
                   <div className="flex items-center flex-1 flex-wrap">
                     {(
                       [
-                        [0, "Trong ngày"],
-                        [1, "2 Ngày"],
-                        [2, "3 Ngày"],
-                        [3, "4 Ngày"],
+                        [0, 'Trong ngày'],
+                        [1, '2 Ngày'],
+                        [2, '3 Ngày'],
+                        [3, '4 Ngày']
                       ] as [number, string][]
                     ).map(([value, label]) => (
                       <SelectItem
@@ -168,7 +172,7 @@ export const PriceList = () => {
                         key={value}
                         onClick={() => handleSetNumberOfDays(value)}
                         className="mr-12 md:mr-16 lg:mr-24 mb-12"
-                        active={compoundingType === "two_way" && value === numberOfDays}
+                        active={compoundingType === 'two_way' && value === numberOfDays}
                         label={label}
                       />
                     ))}
@@ -176,17 +180,17 @@ export const PriceList = () => {
                     <div className="mb-12">
                       <div className="flex items-center">
                         <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 mr-8">
-                          Số ngày{" "}
+                          Số ngày{' '}
                         </p>
 
                         <NumericInput
                           snap
                           min={minNumberOfDays + 1}
                           onChange={(val) => {
-                            const newValue = (val || 0) - 1
-                            handleSetNumberOfDays(newValue > 0 ? newValue : 0)
+                            const newValue = (val || 0) - 1;
+                            handleSetNumberOfDays(newValue > 0 ? newValue : 0);
                           }}
-                          className="price-list-input h-[38px] lg:h-[49.6px] w-[72px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
+                          className="price-list-input h-[38px] lg:h-[49.6px] w-[78px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
                           step={1}
                           value={
@@ -204,29 +208,29 @@ export const PriceList = () => {
 
                 <div
                   className={`${
-                    compoundingType === "two_way" && fromDate
-                      ? "grid gap-x-32 lg:gap-x-[64px] gap-y-12 md:grid-cols-2"
-                      : ""
+                    compoundingType === 'two_way' && fromDate
+                      ? 'grid gap-x-32 lg:gap-x-[64px] gap-y-12 md:grid-cols-2'
+                      : ''
                   }`}
                 >
                   <div
                     className={`${
-                      compoundingType === "two_way" && fromDate
-                        ? "flex-col"
-                        : "flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 "
+                      compoundingType === 'two_way' && fromDate
+                        ? 'flex-col'
+                        : 'flex flex-col md:flex-row md:items-center mb-12 md:mb-16 lg:mb-24 '
                     }`}
                   >
                     <p
                       className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
-                        compoundingType === "two_way" && fromDate
-                          ? "mb-8"
-                          : "w-[200px] mb-8 md:mb-0"
+                        compoundingType === 'two_way' && fromDate
+                          ? 'mb-8'
+                          : 'w-[200px] mb-8 md:mb-0'
                       }`}
                     >
                       Ngày đi
                     </p>
 
-                    <div className={compoundingType === "two_way" && fromDate ? "" : "flex-1"}>
+                    <div className={compoundingType === 'two_way' && fromDate ? '' : 'flex-1'}>
                       <InputDate
                         placeholder="Chọn ngày đi"
                         value={fromDate}
@@ -235,17 +239,17 @@ export const PriceList = () => {
                     </div>
                   </div>
 
-                  {compoundingType === "two_way" && fromDate ? (
+                  {compoundingType === 'two_way' && fromDate ? (
                     <div
                       className={`${
-                        compoundingType === "two_way"
-                          ? "flex-col"
-                          : "flex flex-row items-center mb-12 md:mb-16 lg:mb-24 "
+                        compoundingType === 'two_way'
+                          ? 'flex-col'
+                          : 'flex flex-row items-center mb-12 md:mb-16 lg:mb-24 '
                       }`}
                     >
                       <p
                         className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
-                          compoundingType === "two_way" ? "mb-8" : "w-[200px] mb-8 md:mb-0"
+                          compoundingType === 'two_way' ? 'mb-8' : 'w-[200px] mb-8 md:mb-0'
                         }`}
                       >
                         Ngày về
@@ -283,7 +287,7 @@ export const PriceList = () => {
                   ) : result ? (
                     <>
                       <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
-                        {formatMoneyVND(result, "VNĐ")}
+                        {formatMoneyVND(result, 'VNĐ')}
                       </p>
                       <p className="text-12 md:text-14 font-normal text-gray-color-7">
                         (Đã bao gồm 10% phí VAT)
@@ -310,7 +314,7 @@ export const PriceList = () => {
       fromLocation &&
       toLocation &&
       fuelPriceUnit &&
-      (compoundingType || (compoundingType === "two_way" && toDate)) ? (
+      (compoundingType || (compoundingType === 'two_way' && toDate)) ? (
         <DriverPriceList
           fuelPriceUnit={fuelPriceUnit}
           compoundingType={compoundingType}
@@ -332,11 +336,11 @@ export const PriceList = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const RenderButton = () => {
-  const [visible, setVisible] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -349,5 +353,5 @@ const RenderButton = () => {
 
       <ModalInstallApp onClose={() => setVisible(false)} show={visible} />
     </>
-  )
-}
+  );
+};
