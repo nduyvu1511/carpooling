@@ -39,21 +39,22 @@ export const DriverPriceList = ({
   vat_fee_percent = 0.1,
   compoundingType
 }: DriverPriceListProps) => {
-  const [fuelType, setfuelType] = useState<'gas' | 'petro'>('gas')
+  // const [fuelType, setfuelType] = useState<'gas' | 'petro'>('gas')
 
   const vatAmount = (tripCost / 1.1) * vat_fee_percent
   const amountAfterSubtractVat = tripCost - vatAmount
   const serviceFeeAmount = amountAfterSubtractVat * service_fee_percent
   const amountActuallyReceive = amountAfterSubtractVat - serviceFeeAmount
   const personIncomeTaxAmount = amountActuallyReceive * person_income_tax
-  let fuelCost =
-    distance *
-    fuelPriceUnit.gasoline_consumption_per_km *
-    (fuelType === 'gas' ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
-  if (compoundingType === 'two_way') {
-    fuelCost *= 2
-  }
-  const incomeAmount = amountActuallyReceive - (fuelCost + personIncomeTaxAmount)
+  // let fuelCost =
+  //   distance *
+  //   fuelPriceUnit.gasoline_consumption_per_km *
+  //   (fuelType === 'gas' ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
+  // if (compoundingType === 'two_way') {
+  //   fuelCost *= 2
+  // }
+  // const incomeAmount = amountActuallyReceive - (fuelCost + personIncomeTaxAmount)
+  const incomeAmount = amountActuallyReceive - personIncomeTaxAmount
 
   return (
     <div className="price-container py-16 md:py-24 lg:py-48">
@@ -118,7 +119,7 @@ export const DriverPriceList = ({
           <Item label="Điểm đến" value={toLocation} />
           <Item label="Ngày đi" value={fromDate} />
           {toDate ? <Item label="Ngày về" value={toDate} /> : null}
-          <Item
+          {/* <Item
             label="Nhiên liệu"
             value={
               <div className="flex items-center">
@@ -147,7 +148,7 @@ export const DriverPriceList = ({
                 </div>
               </div>
             }
-          />
+          /> */}
           <Item label="Loại xe" value={carType} />
         </div>
 
@@ -174,13 +175,13 @@ export const DriverPriceList = ({
             label={`Thuế thu nhập cá nhân (${person_income_tax * 100}%):`}
             value={'-' + formatMoneyVND(personIncomeTaxAmount)}
           />
-          <Item label="Chi phí nhiên liệu" value={'-' + formatMoneyVND(fuelCost)} />
+          {/* <Item label="Chi phí nhiên liệu" value={'-' + formatMoneyVND(fuelCost)} /> */}
 
           <div className="border-t-gray-color-2 border-solid border-t"></div>
 
           <div className="flex items-center justify-between">
             <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Tổng thực nhận:
+              Tổng thực nhận
             </p>
 
             <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
