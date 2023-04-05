@@ -1,13 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { customerAppQR, driverAppQR } from '@/assets';
-import Link from 'next/link';
-import { Modal, ModalProps } from '../modal';
+import { customerAppQR, driverAppQR } from '@/assets'
+import Link from 'next/link'
+import { useState } from 'react'
+import { Modal, ModalProps } from '../modal'
 
 interface ModalInstallAppProps extends Partial<ModalProps> {
-  onClose: () => void;
+  onClose: () => void
 }
 
 export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
+  const [isMacOs] = useState((navigator?.platform || '')?.toLowerCase?.()?.includes('mac'))
+
   return (
     <Modal
       className="w-[320px] h-fit sm:w-[500px] sm:h-fit rounded-[30px] sm:rounded-[30px] price-list-modal"
@@ -31,7 +34,14 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
         </p>
 
         <div className="grid grid-cols-2 gap-24 mb-32">
-          <Link passHref href={process.env.NEXT_PUBLIC_CUSTOMER_APP_URL as string}>
+          <Link
+            passHref
+            href={
+              (isMacOs
+                ? process.env.NEXT_PUBLIC_CUSTOMER_APP_IOS_URL
+                : process.env.NEXT_PUBLIC_CUSTOMER_APP_ANDROID_URL) as string
+            }
+          >
             <a target="_blank" rel="noopener noreferrer">
               <div className="flex-center flex-col">
                 <img className="w-[100px] h-[100px]" src={customerAppQR} alt="" />
@@ -39,7 +49,14 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
               </div>
             </a>
           </Link>
-          <Link passHref href={process.env.NEXT_PUBLIC_DRIVER_APP_URL as string}>
+          <Link
+            passHref
+            href={
+              (isMacOs
+                ? process.env.NEXT_PUBLIC_DRIVER_APP_IOS_URL
+                : process.env.NEXT_PUBLIC_DRIVER_APP_ANDROID_URL) as string
+            }
+          >
             <a target="_blank" rel="noopener noreferrer">
               <div className="flex-center flex-col">
                 <img className="w-[100px] h-[100px]" src={driverAppQR} alt="" />
@@ -59,5 +76,5 @@ export const ModalInstallApp = ({ onClose, show }: ModalInstallAppProps) => {
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}

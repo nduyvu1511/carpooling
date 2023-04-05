@@ -1,14 +1,14 @@
-import { LocationIcon6, LocationIcon7 } from "@/assets"
+import { LocationIcon6, LocationIcon7 } from '@/assets'
 import {
   COMPOUNDING_TYPE_BG,
   COMPOUNDING_TYPE_COLOR,
   COMPOUNDING_TYPE_NAME,
-  formatMoneyVND,
-} from "@/helper"
-import { CompoundingType } from "@/models"
-import { useState } from "react"
-import { InputRadio } from "../inputs"
-import { FuelPriceUnit } from "./usePriceList"
+  formatMoneyVND
+} from '@/helper'
+import { CompoundingType } from '@/models'
+import { useState } from 'react'
+import { InputRadio } from '../inputs'
+import { FuelPriceUnit } from './usePriceList'
 
 interface DriverPriceListProps {
   compoundingType: CompoundingType
@@ -37,9 +37,9 @@ export const DriverPriceList = ({
   service_fee_percent = 0,
   person_income_tax = 0,
   vat_fee_percent = 0.1,
-  compoundingType,
+  compoundingType
 }: DriverPriceListProps) => {
-  const [fuelType, setfuelType] = useState<"gas" | "petro">("gas")
+  const [fuelType, setfuelType] = useState<'gas' | 'petro'>('gas')
 
   const vatAmount = (tripCost / 1.1) * vat_fee_percent
   const amountAfterSubtractVat = tripCost - vatAmount
@@ -49,11 +49,11 @@ export const DriverPriceList = ({
   let fuelCost =
     distance *
     fuelPriceUnit.gasoline_consumption_per_km *
-    (fuelType === "gas" ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
-  if (compoundingType === "two_way") {
+    (fuelType === 'gas' ? fuelPriceUnit.gasoline_price_unit : fuelPriceUnit.petroleum_price_unit)
+  if (compoundingType === 'two_way') {
     fuelCost *= 2
   }
-  const incomeAmount = amountActuallyReceive - fuelCost
+  const incomeAmount = amountActuallyReceive - (fuelCost + personIncomeTaxAmount)
 
   return (
     <div className="price-container py-16 md:py-24 lg:py-48">
@@ -89,7 +89,7 @@ export const DriverPriceList = ({
         <div className="mb-16 md:mb-24 lg:mb-32">
           <p className="text-center">
             <span className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
-              Lộ trình:{"  "}
+              Lộ trình:{'  '}
             </span>
             <span className="text-14 md:text-16 lg:text-20 font-semibold text-primary">
               {distance.toFixed(2)}km
@@ -106,7 +106,7 @@ export const DriverPriceList = ({
               <span
                 style={{
                   color: COMPOUNDING_TYPE_COLOR?.[compoundingType],
-                  backgroundColor: COMPOUNDING_TYPE_BG?.[compoundingType],
+                  backgroundColor: COMPOUNDING_TYPE_BG?.[compoundingType]
                 }}
                 className="py-8 px-16 shadow-shadow-1 rounded-[8px] text-12"
               >
@@ -122,24 +122,24 @@ export const DriverPriceList = ({
             label="Nhiên liệu"
             value={
               <div className="flex items-center">
-                <div onClick={() => setfuelType("gas")} className="flex items-center mr-16">
+                <div onClick={() => setfuelType('gas')} className="flex items-center mr-16">
                   <InputRadio
                     size={24}
-                    color={"#5D44FF"}
-                    isChecked={fuelType === "gas"}
-                    onCheck={() => setfuelType("gas")}
+                    color={'#5D44FF'}
+                    isChecked={fuelType === 'gas'}
+                    onCheck={() => setfuelType('gas')}
                   />
                   <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
                     Xăng
                   </span>
                 </div>
 
-                <div onClick={() => setfuelType("petro")} className="flex items-center">
+                <div onClick={() => setfuelType('petro')} className="flex items-center">
                   <InputRadio
                     size={24}
-                    color={"#5D44FF"}
-                    isChecked={fuelType === "petro"}
-                    onCheck={() => setfuelType("petro")}
+                    color={'#5D44FF'}
+                    isChecked={fuelType === 'petro'}
+                    onCheck={() => setfuelType('petro')}
                   />
                   <span className="cursor-default text-12 md:text-14 lg:text-16 font-medium ml-8">
                     Dầu
@@ -172,9 +172,9 @@ export const DriverPriceList = ({
           <Item label="Thực nhận sau chuyến đi" value={formatMoneyVND(amountActuallyReceive)} />
           <Item
             label={`Thuế thu nhập cá nhân (${person_income_tax * 100}%):`}
-            value={"-" + formatMoneyVND(personIncomeTaxAmount)}
+            value={'-' + formatMoneyVND(personIncomeTaxAmount)}
           />
-          <Item label="Chi phí nhiên liệu" value={"-" + formatMoneyVND(fuelCost)} />
+          <Item label="Chi phí nhiên liệu" value={'-' + formatMoneyVND(fuelCost)} />
 
           <div className="border-t-gray-color-2 border-solid border-t"></div>
 
@@ -184,7 +184,7 @@ export const DriverPriceList = ({
             </p>
 
             <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
-              {formatMoneyVND(incomeAmount, "VNĐ")}
+              {formatMoneyVND(incomeAmount, 'VNĐ')}
             </p>
             {/* <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
                 (Đã bao gồm {vat_fee_percent * 100}% thuế VAT)

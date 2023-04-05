@@ -7,14 +7,14 @@ import {
   TiktokIcon,
   YoutubeIcon,
   ZaloIcon
-} from '@/assets';
-import { PHONE } from '@/helper';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
+} from '@/assets'
+import { PHONE } from '@/helper'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 
 const Footer = () => {
-  const [isMacOs] = useState((navigator?.platform || '')?.toLowerCase?.()?.includes('mac'));
+  const [isMacOs] = useState((navigator?.platform || '')?.toLowerCase?.()?.includes('mac'))
 
   return (
     <footer className="py-[40px] lg:py-[80px] bg-bg-primßary">
@@ -84,7 +84,11 @@ const Footer = () => {
               {
                 heading: 'Khách hàng',
                 child: [
-                  { label: '', image: customerAppQR, path: '/' },
+                  {
+                    label: '',
+                    image: customerAppQR,
+                    path: '/'
+                  },
                   {
                     label: 'Ứng dụng Exxe Customer',
                     path: '',
@@ -210,7 +214,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export { Footer };
+export { Footer }
