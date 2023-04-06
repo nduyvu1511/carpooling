@@ -82,3 +82,31 @@ export const QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH = {
   10: require('./quy-che-dich-vu-van-tai-hanh-khach-va-tai-xe/0010.jpg'),
   11: require('./quy-che-dich-vu-van-tai-hanh-khach-va-tai-xe/0011.jpg')
 }
+export const CUSTOMER_BOOKING_IMAGES = {
+  1: require('./customer-booking-step-1.png'),
+  2: require('./customer-booking-step-2.png'),
+  3: require('./customer-booking-step-3.png'),
+  4: require('./customer-booking-step-4.png'),
+  5: require('./customer-booking-step-5.png'),
+  6: require('./customer-booking-step-6.png')
+}
+export const CUSTOMER_CONVENIENT_IMAGES = {
+  1: require('./customer-convenient-1.png'),
+  2: require('./customer-convenient-2.png'),
+  3: require('./customer-convenient-3.png'),
+  4: require('./customer-convenient-4.png'),
+  5: require('./customer-convenient-5.png'),
+  6: require('./customer-convenient-6.png')
+}
+export const DRIVER_RECEIVE_RIDE_IMAGES = {
+  1: require('./driver-receive-ride-1.png'),
+  2: require('./driver-receive-ride-2.png'),
+  3: require('./driver-receive-ride-3.png'),
+  4: require('./driver-receive-ride-4.png'),
+  5: require('./driver-receive-ride-5.png')
+}
+export const DRIVER_CREATE_CONVENIENT_IMAGES = {
+  1: require('./driver-create-convenient-1.png'),
+  2: require('./driver-create-convenient-2.png'),
+  3: require('./driver-create-convenient-3.png')
+}

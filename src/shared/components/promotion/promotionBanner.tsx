@@ -1,19 +1,19 @@
-import { ArrowRightIcon, ClockIcon, promotionBanner1, promotionBanner2 } from "@/assets"
-import { toImageUrl } from "@/helper"
-import { useBreakpoint } from "@/hooks"
-import { PromotionRes } from "@/models"
-import { promotionApi } from "@/services"
-import moment from "moment"
-import Image from "next/image"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useRef, useState } from "react"
-import { Autoplay, Pagination } from "swiper"
-import "swiper/css"
-import "swiper/css/pagination"
-import { Swiper, SwiperSlide } from "swiper/react"
-import useSWR from "swr"
-import { Spinner } from "../loading"
+import { ArrowRightIcon, ClockIcon, promotionBanner1, promotionBanner2 } from '@/assets'
+import { toImageUrl } from '@/helper'
+import { useBreakpoint } from '@/hooks'
+import { PromotionRes } from '@/models'
+import { promotionApi } from '@/services'
+import moment from 'moment'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
+import { Autoplay, Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import useSWR from 'swr'
+import { Spinner } from '../loading'
 
 const ITEM_HEIGHT = 118
 
@@ -24,7 +24,7 @@ const PromotionBanner = () => {
   const ref = useRef<HTMLDivElement>(null)
 
   const { isValidating, data } = useSWR<PromotionRes[] | undefined>(
-    "get_special_promotion_list",
+    'get_special_promotion_list',
     () =>
       promotionApi
         .getSpecialPromotionList({})
@@ -35,7 +35,7 @@ const PromotionBanner = () => {
   const handleSlideChange = (index: number) => {
     setIndex(index)
     if (index % 3 === 0) {
-      ref.current?.scrollTo({ top: index * ITEM_HEIGHT, behavior: "smooth" })
+      ref.current?.scrollTo({ top: index * ITEM_HEIGHT, behavior: 'smooth' })
     }
   }
 
@@ -54,14 +54,14 @@ const PromotionBanner = () => {
           pagination={{ clickable: false }}
           onAutoplay={({ realIndex }) => handleSlideChange(realIndex)}
         >
-          {[...data, ...data].map((item, index) => (
+          {data.map((item, index) => (
             <SwiperSlide
               className="aspect-[3/1] relative cursor-pointer xl:aspect-[2.17/1] rounded-[10px] xl:rounded-[16px] xl:pointer-events-none"
               key={index}
             >
               <Link href="/promotion">
                 <a
-                  onClick={() => router.push("/promotion")}
+                  onClick={() => router.push('/promotion')}
                   className="relative block w-full h-full"
                   href="cursor-pointer"
                 >
@@ -101,7 +101,7 @@ const PromotionBanner = () => {
                 <div className="mb-8">
                   <p
                     className={`text-16 h-[54px] md:text-18 font-semibold line-clamp-2 ${
-                      index === _index ? "text-primary" : "text-gray-color-7"
+                      index === _index ? 'text-primary' : 'text-gray-color-7'
                     }`}
                   >
                     {item.promotion_name}
@@ -110,9 +110,9 @@ const PromotionBanner = () => {
                 <div className="flex-1">
                   <p className="flex items-center mb-16 text-gray-color-7">
                     <ClockIcon className="w-[14px] h-[14px] mr-8 text-gray-color-7" />
-                    <span className="text-12">{moment(item.date_end).format("DD/MM/YYYY")}</span>
+                    <span className="text-12">{moment(item.date_end).format('DD/MM/YYYY')}</span>
                     <span className="mx-8">-</span>
-                    <span className="text-12">{moment(item.date_start).format("DD/MM/YYYY")}</span>
+                    <span className="text-12">{moment(item.date_start).format('DD/MM/YYYY')}</span>
                   </p>
 
                   <div className="bg-[#f3f3f3] rounded-[98px] overflow-hidden h-[3px] relative">

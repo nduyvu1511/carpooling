@@ -1,14 +1,14 @@
-import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from "@/assets"
-import { AuthModal, Drawer, HeaderWrapper } from "@/components"
-import { RootState } from "@/core/store"
-import { PHONE } from "@/helper"
-import { useBackRouter, useClickOutside } from "@/hooks"
-import { setAuthModalType } from "@/modules"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useRef, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Menu } from "../menu"
+import { LogoIcon, MenuIcon, PhoneIcon, UserCircleIcon } from '@/assets'
+import { AuthModal, Drawer, HeaderWrapper } from '@/components'
+import { RootState } from '@/core/store'
+import { PHONE } from '@/helper'
+import { useBackRouter, useClickOutside } from '@/hooks'
+import { setAuthModalType } from '@/modules'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Menu } from '../menu'
 
 export const Header = () => {
   const router = useRouter()
@@ -27,7 +27,7 @@ export const Header = () => {
     cb: () => {
       setShowMenu(false)
       setShowDrawer(false)
-    },
+    }
   })
 
   const toggleShowDrawer = (status: boolean) => {
@@ -51,41 +51,60 @@ export const Header = () => {
               <div className="flex-1 justify-center hidden md:flex">
                 <ul className="flex items-center">
                   {[
-                    ["Về chúng tôi", "/about-us"],
-                    ["Hướng dẫn", "/guide"],
-                    ["Tin tức", "/news"],
-                    ["Ưu đãi", "/promotion"],
-                    ["Liên hệ", "/contact"],
+                    ['Về chúng tôi', '/about-us'],
+                    ['Hướng dẫn', '/guide'],
+                    ['Tin tức', '/news'],
+                    ['Ưu đãi', '/promotion'],
+                    ['Liên hệ', '/contact']
                   ].map(([label, path]) => (
                     <li
-                      className={`mr-[40px] nav-link-hover last:mr-0 ${
-                        path === "/" ? "hidden lg:block" : ""
-                      } ${
+                      className={`mr-[40px] nav-link-hover last:mr-0 relative group ${
+                        path === '/' ? 'hidden lg:block' : ''
+                      } ${path === '/guide' ? 'guide-menu-hover' : ''} ${
                         path === router.pathname
-                          ? "border-b border-gray-color-4 border-solid hover:before:w-0"
-                          : ""
+                          ? 'border-b border-gray-color-4 border-solid hover:before:w-0'
+                          : ''
                       }`}
                       key={path}
                     >
                       <Link href={path}>
                         <a className="font-semibold text-16 leading-[20px]">{label}</a>
                       </Link>
+
+                      {path === '/guide' ? (
+                        <div
+                          className={`absolute hidden group-hover:block rounded-[6px] top-[40px] bg-white-color overflow-hidden shadow-shadow-2 w-[220px]`}
+                        >
+                          <div
+                            onClick={() => router.push('/guide?type=customer')}
+                            className="p-12 hover:bg-primary-opacity cursor-pointer"
+                          >
+                            <p className="text-sm">Dành cho khách hàng</p>
+                          </div>
+                          <div
+                            onClick={() => router.push('/guide?type=driver')}
+                            className="p-12 hover:bg-primary-opacity cursor-pointer"
+                          >
+                            <p className="text-sm">Dành cho tài xế</p>
+                          </div>
+                        </div>
+                      ) : null}
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div className="flex items-center">
-                <div ref={menuRef} className="relative flex xl:hidden">
+                <div ref={menuRef} className="relative flex hidden">
                   <button onClick={() => setShowMenu(true)}>
                     <UserCircleIcon className="w-[26px] h-[26px] hidden sm:block sm:w-[33px] xl:hidden sm:h-[33px]" />
                   </button>
 
-                  {showMenu ? (
+                  {/* {showMenu ? (
                     <div className="absolute right-0 top-[calc(100%+10px)] p-8 block-element border border-solid border-border-color">
                       <button
                         onClick={() => {
-                          dispatch(setAuthModalType("login"))
+                          dispatch(setAuthModalType('login'))
                           setShowMenu(false)
                         }}
                         className="btn bg-primary rounded-[5px] whitespace-nowrap mb-[12px]"
@@ -94,7 +113,7 @@ export const Header = () => {
                       </button>
                       <button
                         onClick={() => {
-                          dispatch(setAuthModalType("register"))
+                          dispatch(setAuthModalType('register'))
                           setShowMenu(false)
                         }}
                         className="btn text-text-color rounded-[5px] whitespace-nowrap"
@@ -102,7 +121,7 @@ export const Header = () => {
                         Đăng ký
                       </button>
                     </div>
-                  ) : null}
+                  ) : null} */}
                 </div>
 
                 <button onClick={() => toggleShowDrawer(true)} className="ml-24 block md:hidden">
@@ -117,13 +136,13 @@ export const Header = () => {
                 </div>
 
                 <button
-                  onClick={() => dispatch(setAuthModalType("login"))}
+                  onClick={() => dispatch(setAuthModalType('login'))}
                   className="btn-primary mr-16 leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng nhập
                 </button>
                 <button
-                  onClick={() => dispatch(setAuthModalType("register"))}
+                  onClick={() => dispatch(setAuthModalType('register'))}
                   className="btn-primary-outline leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng ký
@@ -143,11 +162,11 @@ export const Header = () => {
       >
         <Menu
           onClickLogin={() => {
-            dispatch(setAuthModalType("login"))
+            dispatch(setAuthModalType('login'))
             toggleShowDrawer(false)
           }}
           onClickRegister={() => {
-            dispatch(setAuthModalType("register"))
+            dispatch(setAuthModalType('register'))
             toggleShowDrawer(false)
           }}
           onClose={() => toggleShowDrawer(false)}

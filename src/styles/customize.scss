@@ -1435,3 +1435,33 @@ input[type="number"] {
     font-size: 16px !important;
   }
 }
+
+.guide-item-linear {
+  background: linear-gradient(141.78deg, #396AFC -18.14%, #2948FF 125.05%);;
+}
+
+
+
+.guide-slide {
+  & .swiper {
+    &-slide {
+      width: calc(100% - 48px) !important;
+    }
+  }
+
+ & .swiper-pagination  {
+  display: none;
+ }
+}
+
+.guide-menu-hover { 
+  &:after {
+    content: '';
+    position: absolute;
+    height: 24px;
+    width: 100%;
+    bottom: -20px;
+    left: 0;
+    background-color: 'transparent';
+  }
+}
