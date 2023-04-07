@@ -128,16 +128,16 @@ export const Header = () => {
                   <MenuIcon />
                 </button>
 
-                <div className="mr-16 items-center hidden xl:flex">
+                <div className="items-center hidden xl:flex">
                   <PhoneIcon className="mr-8 w-[15px] h-[15px]" />
                   <a className="text-base font-semibold text-primary" href={`tel:${PHONE}`}>
                     0847 878 788
                   </a>
                 </div>
 
-                <button
+                {/* <button
                   onClick={() => dispatch(setAuthModalType('login'))}
-                  className="btn-primary mr-16 leading-[22px] px-[28px] py-[11px] hidden xl:block"
+                  className="btn-primary mr-16 leading-[22px] px-[28px] ml-16 py-[11px] hidden xl:block"
                 >
                   Đăng nhập
                 </button>
@@ -146,7 +146,7 @@ export const Header = () => {
                   className="btn-primary-outline leading-[22px] px-[28px] py-[11px] hidden xl:block"
                 >
                   Đăng ký
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

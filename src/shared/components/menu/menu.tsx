@@ -1,6 +1,6 @@
-import { CloseIcon, LogoIcon, MailIcon, PhoneIcon } from "@/assets"
-import { EMAIL, PHONE } from "@/helper"
-import { useRouter } from "next/router"
+import { CloseIcon, LogoIcon, MailIcon, PhoneIcon } from '@/assets'
+import { EMAIL, PHONE } from '@/helper'
+import { useRouter } from 'next/router'
 
 interface MenuProps {
   onClickLogin?: Function
@@ -16,7 +16,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
       <div className="flex justify-between p-16">
         <button
           onClick={() => {
-            router.push("/")
+            router.push('/')
             onClose?.()
           }}
         >
@@ -29,24 +29,24 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
 
       <ul className="flex-1 flex flex-col items-center mt-24">
         {[
-          ["Đăng nhập", "login"],
-          ["Đăng ký", "register"],
-          ["Trang chủ", "/"],
-          ["Về chúng tôi", "/about-us"],
-          ["Hướng dẫn", "/guide"],
-          ["Ưu đãi", "/promotion"],
-          ["Tin tức", "/news"],
+          // ["Đăng nhập", "login"],
+          // ["Đăng ký", "register"],
+          ['Trang chủ', '/'],
+          ['Về chúng tôi', '/about-us'],
+          ['Hướng dẫn', '/guide'],
+          ['Ưu đãi', '/promotion'],
+          ['Tin tức', '/news']
         ].map(([label, path]) => (
           <li
-            className={`px-24 last:mb-0 text-14 ${path === "register" ? "mb-[64px]" : "mb-24"}`}
+            className={`px-24 last:mb-0 text-14 ${path === 'register' ? 'mb-[64px]' : 'mb-24'}`}
             key={path}
           >
             <button
               className=""
               onClick={() => {
-                if (path === "login") {
+                if (path === 'login') {
                   onClickLogin?.()
-                } else if (path === "register") {
+                } else if (path === 'register') {
                   onClickRegister?.()
                 } else {
                   router.push(path)
@@ -56,7 +56,7 @@ export const Menu = ({ onClose, onClickLogin, onClickRegister }: MenuProps) => {
             >
               <span
                 className={`text-base font-semibold ${
-                  router.pathname === path ? "border-b border-gray-color-4 border-solid" : ""
+                  router.pathname === path ? 'border-b border-gray-color-4 border-solid' : ''
                 }`}
               >
                 {label}
