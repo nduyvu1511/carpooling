@@ -1,17 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-import {
-  conditionPageBg,
-  QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH,
-  QUY_CHE_HOAT_DONG,
-  VI_PHAM_VA_BIEN_PHAP,
-} from "@/assets"
-import { Footer, Header, Seo, TabContent } from "@/components"
-import { PHONE } from "@/helper"
+import { conditionPageBg, QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH, QUY_CHE_HOAT_DONG } from '@/assets'
+import { Footer, Header, Seo, TabContent } from '@/components'
+import { PHONE } from '@/helper'
 
-const textClassName = "text-sm md:text-base mb-12 font-medium"
-const titleClassName = "text-16 md:text-18 lg:text-20 mb-12 font-medium"
-const elementClassName = "mb-24"
+const textClassName = 'text-sm md:text-base mb-12 font-medium'
+const titleClassName = 'text-16 md:text-18 lg:text-20 mb-12 font-medium'
+const elementClassName = 'mb-24'
 
 const Conditions = () => {
   return (
@@ -42,7 +37,7 @@ export default Conditions
 
 const data = [
   {
-    title: "Nguyên tắc cộng đồng",
+    title: 'Nguyên tắc cộng đồng',
     content: (
       <>
         <p className={textClassName}>
@@ -64,10 +59,10 @@ const data = [
           tình trạng sức khỏe tốt khi đang lái xe để đảm bảo an toàn tối đa.
         </p>
       </>
-    ),
+    )
   },
   {
-    title: "Chính sách bảo mật",
+    title: 'Chính sách bảo mật',
     content: (
       <>
         <p className={titleClassName}>
@@ -161,30 +156,30 @@ const data = [
           </ul>
         </div>
       </>
-    ),
+    )
   },
   {
-    title: "Quy chế Dịch vụ & Điều khoản sử dụng",
+    title: 'Quy chế Dịch vụ & Điều khoản sử dụng',
     content: (
       <>
         {Object.entries(QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH).map(([key, value]) => (
           <img key={key} src={value} alt="" />
         ))}
       </>
-    ),
+    )
   },
   {
-    title: "Quy chế hoạt động",
+    title: 'Quy chế hoạt động',
     content: (
       <>
         {Object.entries(QUY_CHE_HOAT_DONG).map(([key, value]) => (
           <img key={key} src={value} alt="" />
         ))}
       </>
-    ),
+    )
   },
   {
-    title: "Hóa đơn dịch vụ vận tải",
+    title: 'Hóa đơn dịch vụ vận tải',
     content: (
       <>
         <p className={titleClassName}>III. GIÁ CƯỚC PHÍ VÀ THANH TOÁN:</p>
@@ -338,21 +333,167 @@ const data = [
           </p>
         </div>
       </>
-    ),
+    )
   },
   {
-    title: "Phạt vi phạm và bồi thường thiệt hại",
+    title: 'Phạt vi phạm và bồi thường thiệt hại',
     content: (
       <>
-        {Object.entries(VI_PHAM_VA_BIEN_PHAP).map(([key, value]) => (
+        {/* {Object.entries(VI_PHAM_VA_BIEN_PHAP).map(([key, value]) => (
           <img key={key} src={value} alt="" />
-        ))}
-        {}
+        ))} */}
+        <p className={`${titleClassName} text-center`}>
+          BIỆN PHÁP XỬ LÝ VI PHẠM ĐỐI VỚI NHỮNG NGƯỜI KHÔNG TUÂN THỦ QUY CHẾ HOẠT ĐỘNG CỦA SÀN GIAO
+          DỊCH THƯƠNG MẠI ĐIỆN TỬ.
+        </p>
+
+        <div className={elementClassName}>
+          <p className={titleClassName}>Đình chỉ thủ công đối với các vi phạm sau:</p>
+          <p className={titleClassName}>A. ĐỐI VỚI TÀI XẾ:</p>
+          <ul>
+            <li className={textClassName}>- Hành vi vi phạm chất lượng dịch vụ.</li>
+            <li className={textClassName}>
+              - Hành động liên quan đến việc Quấy rối tình dục với Khách hàng, Tài xế khác, nhân
+              viên ExxeVn (bằng hành vi, qua văn bản, tin nhắn, điện thoại, email, mạng xã hội hoặc
+              lời nói).
+            </li>
+            <li className={textClassName}>
+              - Thực hiện hành vi vi phạm pháp luật nghiêm trọng, tội phạm.
+            </li>
+            <li className={textClassName}>
+              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc giả mạo,
+              phỉ báng Khách hàng, Tài xế khác, Người Bán/ExxeVn, cán bộ, nhân viên ExxeVn trực tiếp
+              hoặc thông qua các phương tiện truyền thông.
+            </li>
+            <li className={textClassName}>
+              - Sử dụng dữ liệu và tài khoản giả để đăng ký tài khoản: bằng lái, CMND giả, Xe giấy
+              tờ giả, sử dụng tài khoản bị chấm dứt...
+            </li>
+            <li className={textClassName}>
+              - Tài khoản của Tài xế hoặc khách hàng có dấu hiệu bị tấn công, xâm nhập bởi bên thứ
+              ba.
+            </li>
+            <li className={textClassName}>
+              - Điều khiển phương tiện vụ ẩu, quá tốc độ quy định, không an toàn, gây tai nạn nghiêm
+              trọng khi tham gia cung cấp dịch vụ.
+            </li>
+            <li className={textClassName}>
+              - Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Khách hàng, Tài
+              xế khác bằng bất kỳ phương tiện nào (bao gồm cả mạng xã hội).
+            </li>
+            <li className={textClassName}>
+              - Tài xế có hành vi xúc phạm danh dự, nhân phẩm, gây tổn hại đến Khách hàng, nhân viên
+              ExxeVn.
+            </li>
+            <li className={textClassName}>
+              - Tài xế sử dụng các chất kích thích, chất cồn ảnh hưởng đến an toàn chuyến đi khi
+              cung cấp dịch vụ cho Khách hàng gây mất uy tín, hình ảnh, thương hiệu của ExxeVn.
+            </li>
+            <li className={textClassName}>
+              - Bị phát hiện hoặc báo cáo là mang theo vũ khí sắc nhọn hoặc chất kích thích trong
+              khi đang thực hiện đơn hàng.
+            </li>
+            <li className={textClassName}>
+              - Tài xế có hành vi tranh cãi, khiêu khích đánh nhau (qua lời nói hoặc văn bản hoặc
+              nhắn tin hoặc mạng xã hội) với khách hàng trong hoặc sau chuyến đi.
+            </li>
+            <li className={textClassName}>
+              - Chạy sai xe (Không trùng biển số đăng ký) và sử dụng Xe mang biển số giả….
+            </li>
+            <li className={textClassName}>
+              - Đánh Cãi nhau với Tài xế khác của ExxeVn trước mặt Khách hàng hoặc trong khu vực
+              công cộng (Đang hoạt động/ Không hoạt động).
+            </li>
+            <li className={textClassName}>
+              - Cản trở các Tài xế khác thực hiện các chuyến xe/đơn hàng của họ.
+            </li>
+            <li className={textClassName}>
+              - Liên hệ với Khách hàng cho các vấn đề khác ngoài vấn đề đặt đơn hàng chuyến xe gây
+              phiền nhiễu, nhằm quấy rối.
+            </li>
+            <li className={textClassName}>
+              - Yêu cầu Khách hàng thanh toán thêm cước phí ngoài quy định (tiền boa, tiền giữ xe,
+              tiền xăng...).
+            </li>
+            <li className={textClassName}>- Mang theo người lạ khi đang thực hiện chở khách….</li>
+          </ul>
+        </div>
+
+        <div className={elementClassName}>
+          <p className={titleClassName}>B. ĐỐI VỚI KHÁCH HÀNG:</p>
+          <ul>
+            <li className={textClassName}>
+              - Xúc phạm danh dự, nhân phẩm, gây tổn hại đến với Tài xế (qua văn bản hoặc lời
+              nói/tin nhắn/mạng xã hội) (vi phạm nặng: 1 lần sẽ bị khóa 7 ngày; vi phạm nhẹ: 2 lần
+              sẽ bị khóa 7 ngày).
+            </li>
+            <li className={textClassName}>
+              - Thực hiện hành vi phạm tội trong chuyến xe trong đơn hàng của ExxeVn.
+            </li>
+            <li className={textClassName}>
+              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc giả mạo,
+              phi bảng ExxeVn trực tiếp hoặc thông qua các phương tiện truyền thông.
+            </li>
+            <li className={textClassName}>
+              - Cố tình báo cáo, phản hồi thông tin không đúng sự thật gây ảnh hưởng xấu tới Tài xế
+              của ExxeVn. Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Tài
+              xế/Khách hàng bằng bất kỳ phương tiện nào với mục đích xấu.
+            </li>
+            <li className={textClassName}>
+              - Khách hàng có hành vi đe dọa tính mạng, sức khỏe, tài sản, xúc phạm danh dự, nhân
+              phẩm Tài xế/nhân viên ExxeVn và người thân của họ.
+            </li>
+            <li className={textClassName}>
+              - Đưa hàng hoá hoặc tiền hoặc lợi ích khác cho nhân viên của ExxeVn nhằm mục đích phá
+              vỡ các quy tắc của ExxeVn. Bị phát hiện, báo cáo là có mang theo vũ khí hoặc ma túy
+              trong chuyến đi.
+            </li>
+            <li className={textClassName}>
+              - Khách hàng có hành vi đánh, dọa đánh, giết (qua lời nói hoặc văn bản hoặc tin nhắn,
+              qua việc sử dụng các mạng xã hội) với Tài xế trước, trong hoặc sau chuyến đi.
+            </li>
+            <li className={textClassName}>
+              - Không thanh toán tiền thanh toán không đủ tiền theo lệnh đặt xe/đơn hàng cho Tài xế
+              ExxeVn.
+            </li>
+            <li className={textClassName}>
+              - Liên hệ với Tài xế với mục đích lôi kéo qua các công ty đối thủ trước trong/sau
+              chuyến đi (vi phạm 2 lần đối với 2 tài xế khác nhau).
+            </li>
+            <li className={textClassName}>
+              - Khách hàng không liên lạc được hoặc số điện thoại không có thật.
+            </li>
+            <li className={textClassName}>
+              - Khách hàng đợi Tài xế đến nơi rồi huỷ không liên lạc được. Khách hàng đặt nhiều
+              chuyến 1 lúc rồi đi với Tài xế nào đến trước.
+            </li>
+            <li className={textClassName}>
+              - Các hành vi khác vi phạm tiêu chuẩn Chất lượng Dịch vụ của Tài xế do ExxeVn quy định
+              trong từng thời kỳ.
+            </li>
+            <li className={textClassName}>
+              - Cấu kết với Tài xế của ExxeVn thực hiện chuyến xe/đơn hàng giả mạo hoặc các giao
+              dịch bất thường trên ví thông qua hệ thống của ExxeVn nhằm trục lợi cho minh và/hoặc
+              người khác.
+            </li>
+            <li className={textClassName}>
+              - Cấu kết, giúp sức, thông đồng, thủ đoạn, hành vi khác cùng với Tài xế/ Khách hàng
+              khác tổ chức, cá nhân khác nhằm thực hiện các hành vi gian lận, lừa đảo, chiếm đoạt
+              tài sản của ExxeVn/Tài xế. Các hành vi vi phạm pháp luật khác gây ảnh hưởng xấu/ có
+              khả năng gây ảnh hương xấu nghiêm trọng đến hình ảnh, uy tín, thương hiệu của ExxeVn
+              (theo đánh giá của ExxeVn).
+            </li>
+            <li className={textClassName}>
+              - Khách hàng có tài khoản không hợp lệ. Lưu ý nếu khách hàng bị 3 lần cảnh cáo sẽ bằng
+              1 lần chấm dứt vĩnh viễn.
+            </li>
+          </ul>
+        </div>
       </>
-    ),
+    )
   },
   {
-    title: "Tỉ lệ phân chia và hợp tác kinh doanh",
+    title: 'Tỉ lệ phân chia và hợp tác kinh doanh',
     content: (
       <>
         <p className={textClassName}>Tỉ lệ phân chia kết quả hợp tác kinh doanh theo Hợp Đồng:</p>
@@ -377,15 +518,15 @@ const data = [
           </li>
         </ul>
       </>
-    ),
+    )
   },
   {
-    title: "Giải quyết khiếu nại",
+    title: 'Giải quyết khiếu nại',
     content: (
       <>
         <p className={titleClassName}>
           CƠ CHẾ GIẢI QUYẾT KHIẾU NẠI, TRANH CHẤP GIỮA CÁC BÊN LIÊN QUAN ĐẾN GIAO DỊCH TIẾN HÀNH
-          TRÊN SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ:{" "}
+          TRÊN SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ:{' '}
         </p>
         <p className={textClassName}>
           Công ty và Tài xế có trách nhiệm tiếp nhận các khiếu nại và hỗ trợ Khách hàng liên quan
@@ -503,6 +644,6 @@ const data = [
           </li>
         </ul>
       </>
-    ),
-  },
+    )
+  }
 ]
