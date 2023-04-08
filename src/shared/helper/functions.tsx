@@ -4,12 +4,12 @@ import {
   LastMessage,
   MessageRes,
   OptionType,
-  TimeType,
-} from "@/models"
-import _ from "lodash"
-import moment from "moment"
-import { LatLng } from "use-places-autocomplete"
-import { BASE64_READER_REGEX, OBJECT_ID_REGEX } from "./constants"
+  TimeType
+} from '@/models'
+import _ from 'lodash'
+import moment from 'moment'
+import { LatLng } from 'use-places-autocomplete'
+import { BASE64_READER_REGEX, OBJECT_ID_REGEX } from './constants'
 
 export const correctEmail = (value: string) => {
   ;/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
@@ -43,24 +43,24 @@ export const getHoursName = (hours: number): string => {
 
 export const formatTimeType = (time: TimeType): string => {
   switch (time) {
-    case "day":
-      return "ngày"
-    case "hour":
-      return "giờ"
-    case "minute":
-      return "phút"
-    case "month":
-      return "tháng"
-    case "second":
-      return "giây"
-    case "week":
-      return "tuần"
-    case "year":
-      return "năm"
+    case 'day':
+      return 'ngày'
+    case 'hour':
+      return 'giờ'
+    case 'minute':
+      return 'phút'
+    case 'month':
+      return 'tháng'
+    case 'second':
+      return 'giây'
+    case 'week':
+      return 'tuần'
+    case 'year':
+      return 'năm'
     default:
       break
   }
-  return "giây"
+  return 'giây'
 }
 
 export function isValidHttpUrl(string: string): boolean {
@@ -71,47 +71,47 @@ export function isValidHttpUrl(string: string): boolean {
   } catch (_) {
     return false
   }
-  return url.protocol === "http:" || url.protocol === "https:"
+  return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
 export const spliceArray = (arr: Array<any>, start: number, end: number) => {
   return [...arr].splice(start, end)
 }
 
-export const FormatNumber = (money: number, separator = ",") => {
-  if (!money) return "0"
-  return (money + "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1" + separator)
+export const FormatNumber = (money: number, separator = ',') => {
+  if (!money) return '0'
+  return (money + '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + separator)
 }
 
 export const formatNumberDec = (nStr: string, decSeparate: string, groupSeparate: string) => {
-  nStr += ""
+  nStr += ''
   let x = nStr.split(decSeparate)
   let x1 = x[0]
-  let x2 = x.length > 1 ? "." + x[1] : ""
+  let x2 = x.length > 1 ? '.' + x[1] : ''
   let rgx = /(\d+)(\d{3})/
   while (rgx.test(x1)) {
-    x1 = x1.replace(rgx, "$1" + groupSeparate + "$2")
+    x1 = x1.replace(rgx, '$1' + groupSeparate + '$2')
   }
   return x1 + x2
 }
 // hàm định dạng tiền việt nam
 
-export function formatMoneyVND(num: number | string, format = "đ"): string {
-  if (typeof num == "number") {
+export function formatMoneyVND(num: number | string, format = 'đ'): string {
+  if (typeof num == 'number') {
     num = Math.floor(num)
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
-  } else if (typeof num == "string") {
-    return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} ${format}`
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${format}`
+  } else if (typeof num == 'string') {
+    return `${num.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${format}`
   }
-  return ""
+  return ''
 }
 
-export function formatNumberInput(value: string, separator = ",") {
-  value += ""
-  const list = value.split(".")
-  const prefix = list[0].charAt(0) === "-" ? "-" : ""
+export function formatNumberInput(value: string, separator = ',') {
+  value += ''
+  const list = value.split('.')
+  const prefix = list[0].charAt(0) === '-' ? '-' : ''
   let num = prefix ? list[0].slice(1) : list[0]
-  let result = ""
+  let result = ''
   while (num.length > 3) {
     result = `${separator}${num.slice(-3)}${result}`
     num = num.slice(0, num.length - 3)
@@ -119,7 +119,7 @@ export function formatNumberInput(value: string, separator = ",") {
   if (num) {
     result = num + result
   }
-  return `${prefix}${result}${list[1] ? `.${list[1]}` : ""}`
+  return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`
 }
 
 export const toFirstUpperCase = (string: string) => {
@@ -134,7 +134,7 @@ export function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
   return {
     width,
-    height,
+    height
   }
 }
 
@@ -186,16 +186,16 @@ export function convertBase64(file: File) {
 
 export function convertViToEn(str: string, toUpperCase = false) {
   str = str.toLowerCase()
-  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
-  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
-  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i")
-  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
-  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
-  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
-  str = str.replace(/đ/g, "d")
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a')
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e')
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i')
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o')
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u')
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y')
+  str = str.replace(/đ/g, 'd')
   // Some system encode vietnamese combining accent as individual utf-8 characters
-  str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "") // Huyền sắc hỏi ngã nặng
-  str = str.replace(/\u02C6|\u0306|\u031B/g, "") // Â, Ê, Ă, Ơ, Ư
+  str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, '') // Huyền sắc hỏi ngã nặng
+  str = str.replace(/\u02C6|\u0306|\u031B/g, '') // Â, Ê, Ă, Ơ, Ư
 
   return toUpperCase ? str.toUpperCase() : str
 }
@@ -256,27 +256,27 @@ export const calculateElapsedTime = (timeCreated: string) => {
     week: 7 * 24 * 60 * 60 * 1000,
     day: 24 * 60 * 60 * 1000,
     hour: 60 * 60 * 1000,
-    minute: 60 * 1000,
+    minute: 60 * 1000
   }
   let diff = Date.now() - created
 
   for (const key in periods) {
     if (diff >= periods[key]) {
       let result = Math.floor(diff / periods[key])
-      return `${result} ${result === 1 ? key : key + "s"} ago`
+      return `${result} ${result === 1 ? key : key + 's'} ago`
     }
   }
 
-  return "Just now"
+  return 'Just now'
 }
 
-export const toggleBodyOverflow = (status: "hidden" | "unset") => {
+export const toggleBodyOverflow = (status: 'hidden' | 'unset') => {
   const body = document.body
   if (body) {
-    if (status === "hidden") {
-      body.classList.add("body-hidden")
+    if (status === 'hidden') {
+      body.classList.add('body-hidden')
     } else {
-      body.classList.remove("body-hidden")
+      body.classList.remove('body-hidden')
     }
   }
 }
@@ -292,11 +292,11 @@ export const getTimes = (): OptionType[] => {
   // for (prop in periods) {
   for (hour in hours) {
     for (min = 0; min < 60; min += 30) {
-      const timeStr = ("0" + hours[hour]).slice(-2) + ":" + ("0" + min).slice(-2)
+      const timeStr = ('0' + hours[hour]).slice(-2) + ':' + ('0' + min).slice(-2)
       // + " " + periods[prop]
       times.push({
         label: timeStr,
-        value: timeStr + ":00",
+        value: timeStr + ':00'
         // periods[prop] === "Sáng"
         //   ? timeStr + ":00"
         //   : `0${Number(timeStr.slice(0, 2)) + 12}`.slice(-2) +
@@ -312,18 +312,18 @@ export const getTimes = (): OptionType[] => {
 }
 
 export const convertToEnNoSpaceAndSpecialCharacter = (address: string) => {
-  return address.replace(/\W/g, "")
+  return address.replace(/\W/g, '')
 }
 
 export const formatMoneyVndString = (number: number): string => {
   if (number < 1000000) return formatMoneyVND(number)
 
-  if (number < 1000000000) return (number / 1000000).toFixed(0) + " triệu"
+  if (number < 1000000000) return (number / 1000000).toFixed(0) + ' triệu'
 
-  return (number / 1000000000).toFixed(0) + " tỷ"
+  return (number / 1000000000).toFixed(0) + ' tỷ'
 }
 
-export const removeBase64Reader = (str: string) => str.replace(BASE64_READER_REGEX, "")
+export const removeBase64Reader = (str: string) => str.replace(BASE64_READER_REGEX, '')
 
 export const lngLatToKms = ({ from, to }: { from: LatLng; to: LatLng }): number => {
   var R = 6371.071 // Radius of the Earth in miles
@@ -345,20 +345,18 @@ export const lngLatToKms = ({ from, to }: { from: LatLng; to: LatLng }): number 
 }
 
 export const subtractDateTimeToNumberOfHour = (dateTime: string, hour: number): string => {
-  return moment(dateTime).subtract(hour, "hours").format("YYYY-MM-DD HH:mm:ss")
+  return moment(dateTime).subtract(hour, 'hours').format('YYYY-MM-DD HH:mm:ss')
 }
-
-export const toImageUrl = (url: string) => `${process.env.NEXT_PUBLIC_API_URL}${url}`
 
 export const getActiveStringOrListString = (
   a: string[] | string,
   b: string[] | string
 ): boolean => {
   if (typeof a !== typeof b) return false
-  if (typeof a === "string") {
+  if (typeof a === 'string') {
     return a === b
   }
-  if (typeof a === "object") {
+  if (typeof a === 'object') {
     return a.length === b.length && a.every((item, index) => item === b[index])
   }
 
@@ -366,11 +364,11 @@ export const getActiveStringOrListString = (
 }
 
 export const getMessageDescription = (params: MessageRes): string => {
-  let message_text = params?.message_text || ""
+  let message_text = params?.message_text || ''
   if (params.attachments?.length) {
-    message_text = "Hình ảnh"
+    message_text = 'Hình ảnh'
   } else if (params?.location) {
-    message_text = "Vị trí"
+    message_text = 'Vị trí'
   }
 
   return message_text
@@ -378,12 +376,12 @@ export const getMessageDescription = (params: MessageRes): string => {
 
 export const getLastMessage = (params: MessageRes): LastMessage => {
   return {
-    author_name: params.author.author_name || "",
+    author_name: params.author.author_name || '',
     created_at: params.created_at,
     is_author: params.is_author,
     message_id: params.message_id,
     message_text: getMessageDescription(params),
-    room_id: params.room_id,
+    room_id: params.room_id
   }
 }
 
@@ -393,11 +391,11 @@ export const isObjectID = (val: string): boolean => {
 
 export const compareCompoundingCarCustomerState = ({
   currentState,
-  targetState,
+  targetState
 }: {
   currentState: CompoundingCarCustomerState
   targetState: CompoundingCarCustomerState
-}): "less" | "equal" | "greater" => {
+}): 'less' | 'equal' | 'greater' => {
   const arr = {
     draft: 1,
     confirm: 2,
@@ -410,22 +408,22 @@ export const compareCompoundingCarCustomerState = ({
     done: 9,
     customer_pay: 10,
     confirm_paid: 11,
-    cancel: 12,
+    cancel: 12
   }
 
   const currentIndex = arr[currentState]
   const targetIndex = arr[targetState]
 
-  return currentIndex > targetIndex ? "greater" : currentIndex === targetIndex ? "equal" : "less"
+  return currentIndex > targetIndex ? 'greater' : currentIndex === targetIndex ? 'equal' : 'less'
 }
 
 export const compareCompoundingCarDriverState = ({
   currentState,
-  targetState,
+  targetState
 }: {
   currentState: CompoundingCarDriverState
   targetState: CompoundingCarDriverState
-}): "less" | "equal" | "greater" => {
+}): 'less' | 'equal' | 'greater' => {
   const arr = {
     draft: 1,
     waiting_deposit: 2,
@@ -435,13 +433,13 @@ export const compareCompoundingCarDriverState = ({
     start_running: 6,
     stop_picking: 7,
     done: 8,
-    cancel: 9,
+    cancel: 9
   }
 
   const currentIndex = arr[currentState]
   const targetIndex = arr[targetState]
 
-  return currentIndex > targetIndex ? "greater" : currentIndex === targetIndex ? "equal" : "less"
+  return currentIndex > targetIndex ? 'greater' : currentIndex === targetIndex ? 'equal' : 'less'
 }
 
 export function roundToHalf(number: number) {
@@ -449,4 +447,14 @@ export function roundToHalf(number: number) {
   const numberDecimal = number % 1
 
   return numberInt + (numberDecimal === 0 ? 0 : numberDecimal <= 0.5 ? 0.5 : 1)
+}
+
+export const toImageUrl = (url: string) => {
+  if (!url) return ''
+
+  if (url?.includes('https://') || url?.includes('http://')) {
+    return url
+  }
+
+  return process.env.NEXT_PUBLIC_API_URL + url
 }

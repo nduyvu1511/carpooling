@@ -1,6 +1,6 @@
-import { Spinner } from "@/components"
-import { RootState } from "@/core/store"
-import { useDetectWindowFocus, useMessage, useRoomDetail } from "@/hooks"
+import { Spinner } from '@/components'
+import { RootState } from '@/core/store'
+import { useDetectWindowFocus, useMessage, useRoomDetail } from '@/hooks'
 import {
   LikeMessage,
   MessageRes,
@@ -8,15 +8,15 @@ import {
   RoomType,
   RoomTypingRes,
   SendMessageData,
-  UnlikeMessage,
-} from "@/models"
-import { setCurrentProfileId, setCurrentRoomInfo, setCurrentTyping } from "@/modules"
-import { chatAPI } from "@/services"
-import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Message, MessageForm } from "../message"
-import { RoomDetailModals } from "./roomDetailModals"
-import { RoomHeader } from "./roomHeader"
+  UnlikeMessage
+} from '@/models'
+import { setCurrentProfileId, setCurrentRoomInfo, setCurrentTyping } from '@/modules'
+import { chatAPI } from '@/services'
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Message, MessageForm } from '../message'
+import { RoomDetailModals } from './roomDetailModals'
+import { RoomHeader } from './roomHeader'
 
 type OnForwaredRoomDetail = ForwardedRef<RoomDetailFunctionHandler>
 
@@ -35,7 +35,7 @@ export const RoomDetail = forwardRef(function RoomChild(
   const socket = useSelector((state: RootState) => state.chat.socket)
   const roomId = useSelector((state: RootState) => state.chat.currentRoomId) as string
 
-  const { changeStatusOfRoom, data, isFirstLoading } = useRoomDetail({ roomId })
+  const { changeStatusOfRoom, data, isFirstLoading, isValidating } = useRoomDetail({ roomId })
 
   const {
     appendMessage,
@@ -49,7 +49,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     isFetchingMore,
     mutatePartnerReactionMessage,
     resendMessage,
-    confirmReadAllMessage,
+    confirmReadAllMessage
   } = useMessage({ roomId, initialData: data?.messages })
 
   useImperativeHandle(ref, () => ({
@@ -58,7 +58,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     changeMesageStatus: confirmReadMessage,
     mutateWithMessageRes: mutateByMessageRes,
     mutatePartnerReactionMessage: mutatePartnerReactionMessage,
-    confirmReadAllMessage: confirmReadAllMessage,
+    confirmReadAllMessage: confirmReadAllMessage
   }))
 
   const handleSendMessage = (params: SendMessageData) => {
@@ -66,8 +66,8 @@ export const RoomDetail = forwardRef(function RoomChild(
       params,
       onSuccess: (data) => {
         onSendMessage?.(data)
-        socket?.emit("send_message", data)
-      },
+        socket?.emit('send_message', data)
+      }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }
@@ -82,14 +82,14 @@ export const RoomDetail = forwardRef(function RoomChild(
 
   const handleReadMessage = ({
     lastMessage,
-    messages,
+    messages
   }: {
     lastMessage: MessageRes
     messages: MessageRes[]
   }) => {
     if (!lastMessage || lastMessage.is_author || lastMessage?.is_read) return
 
-    socket?.emit("read_message", lastMessage)
+    socket?.emit('read_message', lastMessage)
     confirmReadMessage(lastMessage)
 
     // Get list message unread except the last message has sent request
@@ -105,11 +105,11 @@ export const RoomDetail = forwardRef(function RoomChild(
 
   useEffect(() => {
     if (!socket) return
-    socket.on("start_typing", (payload: RoomTypingRes) => {
+    socket.on('start_typing', (payload: RoomTypingRes) => {
       dispatch(setCurrentTyping(payload))
     })
 
-    socket.on("stop_typing", () => {
+    socket.on('stop_typing', () => {
       dispatch(setCurrentTyping(undefined))
     })
   }, [socket, dispatch])
@@ -121,7 +121,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     if (lastMessage?.message_id && !lastMessage?.is_author && !lastMessage?.is_read) {
       handleReadMessage({
         lastMessage,
-        messages: messages.data,
+        messages: messages.data
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,7 +135,7 @@ export const RoomDetail = forwardRef(function RoomChild(
     )
   return (
     <div className="flex flex-col flex-1 chat-message bg-white-color">
-      {isFirstLoading ? (
+      {isFirstLoading || !data ? (
         <Spinner className="py-40" />
       ) : (
         <>
@@ -143,7 +143,7 @@ export const RoomDetail = forwardRef(function RoomChild(
             <RoomHeader
               onClick={() => {
                 if (data?.room_id) {
-                  if (data.room_type === "group") {
+                  if (data.room_type === 'group') {
                     dispatch(
                       setCurrentRoomInfo({
                         member_count: data?.member_count,
@@ -151,12 +151,12 @@ export const RoomDetail = forwardRef(function RoomChild(
                           user_id: item.user_id,
                           user_avatar: item?.avatar,
                           user_name: item.user_name,
-                          is_online: item?.is_online,
+                          is_online: item?.is_online
                         })),
                         room_id: data.room_id,
                         room_name: data.room_name,
                         room_type: data.room_type,
-                        room_avatar: data?.room_avatar,
+                        room_avatar: data?.room_avatar
                       })
                     )
                   } else {

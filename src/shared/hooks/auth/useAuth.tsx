@@ -1,11 +1,11 @@
-import { RootState } from "@/core/store"
-import { isObjectHasValue, toImageUrl } from "@/helper"
-import { useFetcher, useSocket } from "@/hooks"
+import { RootState } from '@/core/store'
+import { isObjectHasValue, toImageUrl } from '@/helper'
+import { useFetcher, useSocket } from '@/hooks'
 import {
   CheckPhoneExistParams,
-  GetTokenParams,
   LoginByOTP,
   LoginFormParams,
+  LoginParams,
   LoginRes,
   LoginWithPasswordRes,
   RegisterParams,
@@ -13,12 +13,12 @@ import {
   UseParams,
   UserInfo,
   UserLoginRes,
-  UserRes,
-} from "@/models"
-import { clearRoomHisory, resetChatState, setProfile } from "@/modules"
-import { chatAPI, userAPI } from "@/services"
-import { AxiosResponse } from "axios"
-import { useDispatch, useSelector } from "react-redux"
+  UserRes
+} from '@/models'
+import { clearRoomHisory, resetChatState, setProfile } from '@/modules'
+import { chatAPI, userAPI } from '@/services'
+import { AxiosResponse } from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 
 interface UseAuthRes {
   getUserInfo: (handleSuccess: (props: UserInfo) => void, handleError?: Function) => void
@@ -34,7 +34,7 @@ interface UseAuthRes {
   setChatToken: (
     _params: UseParams<{ access_token: string; refresh_token: string }, undefined>
   ) => void
-  loginToChatServer: (params: GetTokenParams) => void
+  loginToChatServer: (params: LoginParams, cb?: () => void, err?: () => void) => void
 }
 
 export const useAuth = (): UseAuthRes => {
@@ -51,7 +51,7 @@ export const useAuth = (): UseAuthRes => {
         onSuccess(undefined)
       },
       onError: () => onError?.(),
-      config,
+      config
     })
   }
 
@@ -68,7 +68,7 @@ export const useAuth = (): UseAuthRes => {
         }
       },
       onError: () => onError?.(),
-      config: { showErrorMsg: false, showScreenLoading: false },
+      config: { showErrorMsg: false, showScreenLoading: false }
     })
   }
 
@@ -76,14 +76,14 @@ export const useAuth = (): UseAuthRes => {
     const { params, onSuccess, onError } = _params
     try {
       const res = await chatAPI.createUser({
-        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : "",
+        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : '',
         phone: params.phone,
         role: params.car_account_type,
-        user_id: params.partner_id,
+        user_id: params.partner_id + '',
         user_name: params.partner_name,
-        bio: params?.description || "",
+        bio: params?.description || '',
         date_of_birth: params?.date_of_birth,
-        gender: params?.gender || "",
+        gender: params?.gender || ''
       })
       if (res?.success) {
         onSuccess?.(res.data)
@@ -95,13 +95,20 @@ export const useAuth = (): UseAuthRes => {
     }
   }
 
-  const loginToChatServer = async (params: GetTokenParams) => {
+  const loginToChatServer = async (params: LoginParams, cb?: () => void, onErr?: () => void) => {
     try {
-      const res = await chatAPI.generateToken(params)
+      const res = await chatAPI.login(params)
       if (res?.success) {
-        setChatToken({ params: res.data, onSuccess: () => {} })
+        setChatToken({
+          params: res.data,
+          onSuccess: () => {
+            cb?.()
+          },
+          onError: onErr
+        })
       }
     } catch (error) {
+      onErr?.()
       console.log(error)
     }
   }
@@ -110,11 +117,11 @@ export const useAuth = (): UseAuthRes => {
     const { params, onSuccess, onError } = _params
     try {
       const res = await chatAPI.updateUser({
-        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : "",
-        bio: params?.description || "",
-        date_of_birth: params?.date_of_birth || "",
-        gender: params?.gender || "",
-        user_name: params?.partner_name || "",
+        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : '',
+        bio: params?.description || '',
+        date_of_birth: params?.date_of_birth || '',
+        gender: params?.gender || '',
+        user_name: params?.partner_name || ''
       })
       if (res?.success) {
         onSuccess?.(res.data)
@@ -135,7 +142,7 @@ export const useAuth = (): UseAuthRes => {
         onSuccess(userInfo)
       },
       onError: () => onError?.(),
-      config,
+      config
     })
   }
 
@@ -160,10 +167,10 @@ export const useAuth = (): UseAuthRes => {
       onSuccess: (data) => {
         onSuccess(data)
         // Also login to chat server but not required to wait for this
-        loginToChatServer({ phone: data.phone, user_id: data.partner_id })
+        // loginToChatServer({ phone: data.phone, user_id: data.partner_id + '' })
       },
       onError: () => onError?.(),
-      config,
+      config
     })
   }
 
@@ -173,7 +180,7 @@ export const useAuth = (): UseAuthRes => {
       fetcher: userAPI.getTokenByOTP(params),
       onSuccess: (data) => onSuccess(data),
       onError: () => onError?.(),
-      config,
+      config
     })
   }
 
@@ -185,7 +192,7 @@ export const useAuth = (): UseAuthRes => {
         onSuccess(params)
       },
       onError: onError?.(),
-      config,
+      config
     })
   }
 
@@ -196,15 +203,15 @@ export const useAuth = (): UseAuthRes => {
       onSuccess,
       params: { phone, type },
       config,
-      onError,
+      onError
     } = _params
 
     fetcherHandler<UserInfo>({
       fetcher: userAPI.checkPhoneExist(phone),
       onSuccess: (res) => {
         if (
-          (type === "register" && res?.car_account_type) ||
-          ((type === "login" || type === "resetPassword") && !res?.car_account_type)
+          (type === 'register' && res?.car_account_type) ||
+          ((type === 'login' || type === 'resetPassword') && !res?.car_account_type)
         ) {
           onError?.(res)
         } else {
@@ -212,9 +219,9 @@ export const useAuth = (): UseAuthRes => {
         }
       },
       onError: () => {
-        type === "register" ? onSuccess?.(undefined) : onError?.()
+        type === 'register' ? onSuccess?.(undefined) : onError?.()
       },
-      config: { ...config, showErrorMsg: type === "resetPassword" },
+      config: { ...config, showErrorMsg: type === 'resetPassword' }
     })
   }
 
@@ -244,6 +251,6 @@ export const useAuth = (): UseAuthRes => {
     createChatUser,
     updateChatUser,
     setChatToken,
-    loginToChatServer,
+    loginToChatServer
   }
 }

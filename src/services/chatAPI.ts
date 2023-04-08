@@ -1,28 +1,29 @@
+import store from '@/core/store'
 import {
   changeUserStatusParams,
   ChatAxiosResponse,
   CreateGroupChat,
   CreateSingleChat,
   CreateUserParams,
-  GetTokenParams,
   LikeMessage,
-  LoginFormParams,
+  LoginParams,
   MessageUnreadCountRes,
   QueryCommonParams,
   SendMessage,
   TokenRes,
   UpdateProfile,
   UpdateRoomInfo,
-  UserRes,
-} from "@/models"
-import axios, { AxiosResponse } from "axios"
+  UserRes
+} from '@/models'
+import { resetChatState } from '@/modules'
+import axios, { AxiosResponse } from 'axios'
 
 const axiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api`,
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
 })
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -32,19 +33,15 @@ axiosClient.interceptors.request.use(async (config) => {
 try {
   axiosClient.interceptors.response.use(
     async (response) => {
-      // if (response?.data?.status_code === 401 || response?.data?.status_code === 403) {
-      //   const res: any = await memoizedRefreshToken()
-
-      //   if (res?.success) {
-      //     return response.data
-      //   } else {
-      //     store.dispatch(setProfile(undefined))
-      //   }
-      // }
-
       if (response?.data) {
+        if (response?.data?.result?.code === 401 || response?.data?.result?.code === 403) {
+          await chatAPI.logout()
+          store.dispatch(resetChatState())
+          return
+        }
         return response.data
       }
+
       return response
     },
     (err) => {
@@ -57,41 +54,45 @@ try {
 
 const chatAPI = {
   createUser: (params: CreateUserParams): Promise<ChatAxiosResponse<UserRes>> => {
-    return axiosClient.post("/chat/user", params)
+    return axiosClient.post('/chat/user', params)
   },
 
   updateUser: (params: UpdateProfile): Promise<ChatAxiosResponse<UserRes>> => {
-    return axiosClient.patch("/chat/user/profile", params)
+    return axiosClient.patch('/chat/user/profile', params)
   },
 
-  generateToken: (params: GetTokenParams): Promise<ChatAxiosResponse<TokenRes>> => {
-    return axiosClient.post("/chat/user/generate_token", params)
+  // login: (params: LoginParams): Promise<ChatAxiosResponse<TokenRes>> => {
+  //   return axiosClient.post('/chat/user/generate_token', params)
+  // },
+
+  generateToken: (params: LoginParams): Promise<ChatAxiosResponse<TokenRes>> => {
+    return axiosClient.post('/chat/user/generate_token', params)
   },
 
-  createSingleChat: (params: Omit<CreateSingleChat, "state">) => {
-    return axiosClient.post("/chat/room/single", params)
+  createSingleChat: (params: Omit<CreateSingleChat, 'state'>) => {
+    return axiosClient.post('/chat/room/single', params)
   },
 
   createGroupChat: (params: CreateGroupChat) => {
-    return axiosClient.post("/chat/room/group", params)
+    return axiosClient.post('/chat/room/group', params)
   },
 
   getProfile: (id?: string) => {
-    return axiosClient.get(`/chat/user/profile${id ? `?user_id=${id}` : ""}`)
+    return axiosClient.get(`/chat/user/profile${id ? `?user_id=${id}` : ''}`)
   },
 
   getMessageUnreadCount: (): Promise<AxiosResponse<MessageUnreadCountRes>> => {
-    return axiosClient.get("/chat/user/message_unread_count")
+    return axiosClient.get('/chat/user/message_unread_count')
   },
 
   getRoomList: ({
     limit = 30,
     offset = 0,
-    search_term,
+    search_term
   }: QueryCommonParams & { search_term?: string }) => {
     return axiosClient.get(
       `/chat/room?limit=${limit}&offset=${offset}${
-        search_term ? `&search_term=${search_term}` : ""
+        search_term ? `&search_term=${search_term}` : ''
       }`
     )
   },
@@ -103,7 +104,7 @@ const chatAPI = {
   getMessagesPinnedInRoom: ({
     limit = 30,
     offset = 0,
-    room_id,
+    room_id
   }: QueryCommonParams & { room_id: string }) => {
     return axiosClient.get(`/chat/room/${room_id}/messages_pinned?limit=${limit}&offset=${offset}`)
   },
@@ -111,7 +112,7 @@ const chatAPI = {
   getMessagesInRoom: ({
     limit = 30,
     offset = 0,
-    room_id,
+    room_id
   }: QueryCommonParams & { room_id: string }) => {
     return axiosClient.get(`/chat/room/${room_id}/messages?limit=${limit}&offset=${offset}`)
   },
@@ -119,13 +120,13 @@ const chatAPI = {
   getMembersInRoom: ({
     limit = 30,
     offset = 0,
-    room_id,
+    room_id
   }: QueryCommonParams & { room_id: string }) => {
     return axiosClient.get(`/chat/room/${room_id}/members?limit=${limit}&offset=${offset}`)
   },
 
   sendMessage: (params: SendMessage) => {
-    return axiosClient.post("/chat/message", params)
+    return axiosClient.post('/chat/message', params)
   },
 
   getMessageById: (msgId: string) => {
@@ -137,10 +138,10 @@ const chatAPI = {
   },
 
   changeUserStatus: (params: changeUserStatusParams) => {
-    return axiosClient.patch("/chat/status", params)
+    return axiosClient.patch('/chat/status', params)
   },
   getUserData: () => {
-    return axiosClient.get("/chat/user")
+    return axiosClient.get('/chat/user')
   },
 
   softDeleteRoomByCompoundingCarId: (
@@ -169,7 +170,7 @@ const chatAPI = {
     return axiosClient.patch(`/chat/message/read_all`, { room_id })
   },
 
-  login: (params: LoginFormParams) => {
+  login: (params: LoginParams): any => {
     return axiosClient.post(`/chat/user/login`, params)
   },
 
@@ -232,7 +233,7 @@ const chatAPI = {
   updateRoomInfo: (params: UpdateRoomInfo) => {
     const { room_id, ...rest } = params
     return axiosClient.patch(`/chat/room/info/${room_id}`, rest)
-  },
+  }
 }
 
 export { chatAPI }

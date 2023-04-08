@@ -1,44 +1,25 @@
 import { Header, LoginForm } from '@/components'
 import { useAuth } from '@/hooks'
-import { LoginFormParams, UserInfo } from '@/models'
-import { setAuthModalType, setProfile } from '@/modules'
+import { LoginFormParams } from '@/models'
+import { setScreenLoading } from '@/modules'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { notify } from 'reapop'
 
 const LoginPage = () => {
-  const router = useRouter()
   const dispatch = useDispatch()
-  const { loginWithPassword, getUserInfo, loginToChatServer, setToken } = useAuth()
+  const router = useRouter()
+  const { loginToChatServer } = useAuth()
 
-  const redirectUser = (userInfo: UserInfo) => {
-    if (!userInfo?.car_account_type) {
-      dispatch(notify('Loại tài khoản không hợp lệ, vui lòng thử lại sau', 'error'))
-      return
-    }
-
-    router.push('/')
-  }
-
-  const handleGetUserInfo = (shouldLoginChatServer = true) => {
-    getUserInfo((userInfo) => {
-      dispatch(setProfile(userInfo))
-      if (shouldLoginChatServer) {
-        loginToChatServer({ phone: userInfo.phone, user_id: userInfo.partner_id })
-      }
-
-      setTimeout(() => {
-        redirectUser(userInfo)
-      }, 200)
-    })
-  }
-
-  const handleLoginWithPassword = (params: LoginFormParams) => {
-    loginWithPassword({
+  const handleLoginWithPassword = async (params: LoginFormParams) => {
+    dispatch(setScreenLoading({ show: true }))
+    loginToChatServer(
       params,
-      onSuccess: () => handleGetUserInfo(),
-      config: { toggleOverFlow: false }
-    })
+      () => {
+        dispatch(setScreenLoading({ show: false }))
+        router.push('/chat')
+      },
+      () => dispatch(setScreenLoading({ show: false }))
+    )
   }
 
   return (
@@ -51,9 +32,9 @@ const LoginPage = () => {
               <LoginForm
                 view="modal"
                 onSubmit={handleLoginWithPassword}
-                onClickResetPassword={() => dispatch(setAuthModalType('resetPassword'))}
-                onClickLoginSMS={() => dispatch(setAuthModalType('sms'))}
-                onClickRegister={() => dispatch(setAuthModalType('register'))}
+                // onClickResetPassword={() => dispatch(setAuthModalType('resetPassword'))}
+                // onClickLoginSMS={() => dispatch(setAuthModalType('sms'))}
+                // onClickRegister={() => dispatch(setAuthModalType('register'))}
               />
             </div>
           </div>

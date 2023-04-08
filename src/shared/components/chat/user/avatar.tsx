@@ -1,5 +1,6 @@
-import { blankAvatar, imageBlur } from "@/assets"
-import Image from "next/image"
+import { blankAvatar, imageBlur } from '@/assets'
+import { toImageUrl } from '@/helper'
+import Image from 'next/image'
 
 interface RoomAvatarProps {
   avatar: string
@@ -16,7 +17,7 @@ export const Avatar = ({
   avatarGroup,
   isGroup,
   memberCount = 2,
-  onClick,
+  onClick
 }: RoomAvatarProps) => {
   return (
     <div
@@ -31,13 +32,13 @@ export const Avatar = ({
                 key={index}
                 style={{
                   left: index === 0 || index === 2 ? 2 : -2,
-                  top: index === 0 || index === 1 ? 2 : -2,
+                  top: index === 0 || index === 1 ? 2 : -2
                 }}
                 className={`relative w-[23px] h-[23px] rounded-[50%] overflow-hidden bg-white-color`}
               >
                 <Image
                   blurDataURL={imageBlur}
-                  src={item || blankAvatar}
+                  src={toImageUrl(item) || blankAvatar}
                   alt=""
                   className="rounded-[50%]"
                   layout="fill"
@@ -58,7 +59,7 @@ export const Avatar = ({
       ) : (
         <Image
           blurDataURL={imageBlur}
-          src={avatar || blankAvatar}
+          src={toImageUrl(avatar) || blankAvatar}
           alt=""
           className="rounded-[50%]"
           layout="fill"

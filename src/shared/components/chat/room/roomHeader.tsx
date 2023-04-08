@@ -1,10 +1,10 @@
-import { ArrowLeft2Icon, MultiUserIcon } from "@/assets"
-import { toFirstUpperCase } from "@/helper"
-import { RoomDetailRes } from "@/models"
-import { setCurrentRoomId } from "@/modules"
-import moment from "moment"
-import { useDispatch } from "react-redux"
-import { Avatar } from "../user/avatar"
+import { ArrowLeft2Icon, MultiUserIcon } from '@/assets'
+import { toFirstUpperCase } from '@/helper'
+import { RoomDetailRes } from '@/models'
+import { setCurrentRoomId } from '@/modules'
+import moment from 'moment'
+import { useDispatch } from 'react-redux'
+import { Avatar } from '../user/avatar'
 
 interface RoomHeaderProps {
   data: RoomDetailRes
@@ -26,11 +26,11 @@ export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
         <div className="mr-12">
           <Avatar
             onClick={onClick}
-            memberCount={data.member_count}
-            isGroup={data.room_type === "group"}
+            memberCount={data?.member_count}
+            isGroup={data?.room_type === 'group'}
             isOnline={data.is_online}
-            avatar={data.room_avatar || ""}
-            avatarGroup={data.members?.data?.map((item) => item.avatar)}
+            avatar={data?.room_avatar || ''}
+            avatarGroup={data?.members?.data?.map((item) => item.avatar)}
           />
         </div>
 
@@ -39,7 +39,7 @@ export const RoomHeader = ({ data, onClick }: RoomHeaderProps) => {
             {data.room_name}
           </p>
           <div className="flex items-center">
-            {data.room_type === "group" ? (
+            {data.room_type === 'group' ? (
               <button onClick={onClick} className="flex items-center cursor-pointer">
                 <MultiUserIcon className="hidden sm:block mr-4 text-base w-[16px] h-[16px]" />
                 <p className="text-[10px] sm:text-[12px] mr-12 text-gray-color-3 font-medium">

@@ -1,4 +1,4 @@
-import { IAttachment, OptionType, QueryCommonParams } from "./common"
+import { IAttachment, OptionType, QueryCommonParams } from './common'
 
 export interface LoginFormParams {
   phone: string
@@ -55,7 +55,7 @@ export interface VehicleDetailFormParams {
   front_car_image_url: number
 
   back_car_image_url: number
-  ownership_type: "car_owner" | "rental_car"
+  ownership_type: 'car_owner' | 'rental_car'
   owner_name: string
   owner_address: string
   front_registration_image_url: number
@@ -68,7 +68,7 @@ export interface ImageRes {
   id: number
 }
 
-export type OwnerShipType = "car_owner" | "rental_car"
+export type OwnerShipType = 'car_owner' | 'rental_car'
 
 export interface VehicleDetailFormSchema {
   car_brand_id: OptionType
@@ -108,22 +108,22 @@ export interface RegistrationCertificateRes {
 }
 
 export type UserInfoFormKey = keyof UserInfoFormParams
-export type VehicleKeyType = "brand" | "model" | "type" | "desc"
-export type IdCardKeyType = "text" | "select" | "date" | "file"
-export type DrivingLicenseKeyType = "text" | "select" | "file" | "date"
+export type VehicleKeyType = 'brand' | 'model' | 'type' | 'desc'
+export type IdCardKeyType = 'text' | 'select' | 'date' | 'file'
+export type DrivingLicenseKeyType = 'text' | 'select' | 'file' | 'date'
 export type IdCardName = keyof IdCardParams
-export type NewPasswordFormKeys = "password" | "re_password" | "old_password"
+export type NewPasswordFormKeys = 'password' | 're_password' | 'old_password'
 export type DriverFormKey = keyof FilledDataFieldsRes
 export type DrivingLicenseFormKey = keyof DrivingLicenseFormParams
-export type CarAccountType = "customer" | "car_driver"
+export type CarAccountType = 'customer' | 'car_driver'
 export type VehicleDetailFormKey = keyof VehicleDetailFormParams
 export type VehicleInsuranceFormKey = keyof VehicleInsuranceParams
-export type VehicleImageKeyType = "frontImage" | "backImage"
+export type VehicleImageKeyType = 'frontImage' | 'backImage'
 export type CertificateInspectionFormKey = keyof CertificateInspectionParams
 export type CarInformationFormKey = keyof CreateCarInformation
-export type GenderType = "male" | "female" | "no_info"
-export type DriverAccountStatus = "inactive_account" | "active_account" | "blocked_account"
-export type DrivingLicenseClassType = "b1" | "b2" | "c" | "d" | "e" | "f"
+export type GenderType = 'male' | 'female' | 'no_info'
+export type DriverAccountStatus = 'inactive_account' | 'active_account' | 'blocked_account'
+export type DrivingLicenseClassType = 'b1' | 'b2' | 'c' | 'd' | 'e' | 'f'
 
 // Interfaces
 export interface Auth {
@@ -161,7 +161,7 @@ export interface ResetPasswordParams {
 export interface UserEdit {
   email: string
   name: string
-  gender: "male" | "female" | ""
+  gender: 'male' | 'female' | ''
   image?: string
 }
 
@@ -206,7 +206,7 @@ export interface UserInfoFormParams {
 
 export type UserInfoFormSubmit = Pick<
   UserInfoFormParams,
-  "date_of_birth" | "description" | "name" | "gender" | "email"
+  'date_of_birth' | 'description' | 'name' | 'gender' | 'email'
 > & {
   country_id?: number
   province_id?: number
@@ -292,7 +292,7 @@ export interface VehicleInsuranceParams {
 
 export type VehicleInsuranceSchema = Pick<
   VehicleInsuranceParams,
-  "identity_number" | "date_of_expiry" | "date_of_issue"
+  'identity_number' | 'date_of_expiry' | 'date_of_issue'
 > & {
   front_insurance_image_url: ImageRes
   back_insurance_image_url: ImageRes
@@ -321,7 +321,7 @@ export interface CertificateInspectionParams {
 
 export type CertificateInspectionSchema = Pick<
   CertificateInspectionParams,
-  "identity_number" | "date_of_expiry"
+  'identity_number' | 'date_of_expiry'
 > & {
   front_inspection_certificate_image_url: ImageRes
   back_inspection_certificate_image_url: ImageRes
@@ -364,7 +364,7 @@ export interface UserInfoParams {
 
 export interface AttachmentChildParams {
   file: string
-  type: "image" | "video"
+  type: 'image' | 'video'
 }
 
 export interface AttachmentParams {
@@ -382,7 +382,7 @@ export interface DrivingLicenseFormParams {
 
 export type DrivingLicenseFormSchema = Pick<
   DrivingLicenseFormParams,
-  "license_class" | "date_of_expiry" | "date_of_issue" | "identity_number"
+  'license_class' | 'date_of_expiry' | 'date_of_issue' | 'identity_number'
 > & {
   front_license_image_url: ImageRes
   back_license_image_url: ImageRes
@@ -412,14 +412,14 @@ export interface IdentityCardRes {
 }
 
 export type FilledDataFieldsKey =
-  | "user_information"
-  | "identity_card"
-  | "car_driving_license"
-  | "car_registration_certificate"
-  | "periodical_inspection_certificate"
-  | "compulsory_car_insurance"
-  | "verified_number_phone"
-  | "car_information_id"
+  | 'user_information'
+  | 'identity_card'
+  | 'car_driving_license'
+  | 'car_registration_certificate'
+  | 'periodical_inspection_certificate'
+  | 'compulsory_car_insurance'
+  | 'verified_number_phone'
+  | 'car_information_id'
 
 export interface CreateVerifiedPhoneNumber {
   verified_number_phone_image_url: number
@@ -441,7 +441,7 @@ export interface UpdateVerifiedPhoneNumber extends CreateVerifiedPhoneNumber {
   verified_number_phone_id: number
 }
 
-export type CarColor = "black" | "white" | "gray" | "red" | "yellow" | "blue" | "other"
+export type CarColor = 'black' | 'white' | 'gray' | 'red' | 'yellow' | 'blue' | 'other'
 
 export interface CreateCarInformation {
   car_brand_id?: number
@@ -506,7 +506,7 @@ export interface CarDriverId extends UserInfo {
 
 export interface CheckPhoneExistParams {
   phone: string
-  type: "login" | "register" | "resetPassword"
+  type: 'login' | 'register' | 'resetPassword'
 }
 
 export interface PhoneParams {
@@ -521,7 +521,7 @@ export interface IUser {
   password: string
   bio?: string
   phone: string
-  user_id: number
+  user_id: string
   date_of_birth?: string
   blocked_user_ids: number[]
   gender?: Gender
@@ -539,28 +539,28 @@ export interface IUser {
 }
 
 export interface LoginByOTP {
-  type: "firebase" | "stringee"
+  type: 'firebase' | 'stringee'
   name_user?: string
   firebase_access_token?: string
   stringee_access_token?: string
 }
 
-export type UserPopulate = Omit<IUser, "avatar_id"> & {
+export type UserPopulate = Omit<IUser, 'avatar_id'> & {
   avatar_id: IAttachment
 }
 
 export type UserRes = Pick<
   IUser,
-  | "bio"
-  | "created_at"
-  | "date_of_birth"
-  | "gender"
-  | "is_online"
-  | "offline_at"
-  | "role"
-  | "phone"
-  | "user_name"
-  | "updated_at"
+  | 'bio'
+  | 'created_at'
+  | 'date_of_birth'
+  | 'gender'
+  | 'is_online'
+  | 'offline_at'
+  | 'role'
+  | 'phone'
+  | 'user_name'
+  | 'updated_at'
 > & {
   socket_id: string
   user_id: string
@@ -571,30 +571,30 @@ export type UserRes = Pick<
 
 export type CreateUserParams = Pick<
   IUser,
-  "user_name" | "date_of_birth" | "gender" | "role" | "bio" | "phone" | "user_id"
+  'user_name' | 'date_of_birth' | 'gender' | 'role' | 'bio' | 'phone' | 'user_id'
 > & {
-  user_id: number
+  user_id: string
   avatar: string
 }
 
 export type UpdateProfile = Partial<
-  Pick<IUser, "user_name" | "date_of_birth" | "gender" | "bio"> & {
+  Pick<IUser, 'user_name' | 'date_of_birth' | 'gender' | 'bio'> & {
     avatar: string
   }
 >
 export type UpdateProfileService = UpdateProfile & { user: IUser }
-export type GetTokenParams = Pick<IUser, "user_id" | "phone">
-export type UserRole = "customer" | "car_driver" | "admin"
-export type Gender = "male" | "female" | "no_info" | ""
+export type GetTokenParams = Pick<IUser, 'user_id' | 'phone'>
+export type UserRole = 'customer' | 'car_driver' | 'admin'
+export type Gender = 'male' | 'female' | 'no_info' | ''
 export type UserLoginRes = UserRes & { access_token: string; refresh_token: string }
-export type changeUserStatusParams = Pick<IUser, "is_online"> & { user_id: string }
-export type BlockUserStatus = "block" | "unblock"
+export type changeUserStatusParams = Pick<IUser, 'is_online'> & { user_id: string }
+export type BlockUserStatus = 'block' | 'unblock'
 export type BlockOrUnBlockUserParams = {
   user_id: string
   partner_id: string
   status: BlockUserStatus
 }
-export type getUserBlockListParams = Pick<IUser, "blocked_user_ids"> & QueryCommonParams
+export type getUserBlockListParams = Pick<IUser, 'blocked_user_ids'> & QueryCommonParams
 
 export interface LoginParams {
   phone: string
