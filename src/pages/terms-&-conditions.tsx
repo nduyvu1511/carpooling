@@ -348,7 +348,7 @@ const data = [
         </p>
 
         <div className={elementClassName}>
-          <p className={titleClassName}>Đình chỉ thủ công đối với các vi phạm sau:</p>
+          <p className={textClassName}>Đình chỉ thủ công đối với các vi phạm sau:</p>
           <p className={titleClassName}>A. ĐỐI VỚI TÀI XẾ:</p>
           <ul>
             <li className={textClassName}>- Hành vi vi phạm chất lượng dịch vụ.</li>
@@ -488,6 +488,212 @@ const data = [
               1 lần chấm dứt vĩnh viễn.
             </li>
           </ul>
+        </div>
+
+        <div className={elementClassName}>
+          <p className={titleClassName}>
+            BIỆN PHÁP XỬ LÝ VỚI CÁC HÀNH VI XÂM PHẠM QUYỀN LỢI NGƯỜI TIÊU DÙNG TRÊN SÀN GIAO DỊCH
+            THƯƠNG MẠI ĐIỆN TỬ
+          </p>
+          <p className={`${titleClassName} `}>
+            * Tài xế sẽ từ chối phục vụ khi hành khách có những hàng hóa như sau:{' '}
+          </p>
+          <ul>
+            <li className={textClassName}>
+              - Rượu các loại; Thuốc lá điếu, xì gà và các dạng thuốc lá thành phẩm khác. Các loại
+              pháo nổ, thuốc pháo nổ. Các chất ma túy. Thiết bị gây nhiễu thông tin di động tế bào.
+              Đèn trời. Vũ khí quân dụng, trang thiết bị, kĩ thuật, khí tài, phương tiện chuyên dùng
+              quân sự, công an, quân trang.
+            </li>
+            <li className={textClassName}>
+              - Đồ chơi nguy hiểm, đồ chơi có hại tới giáo dục nhân cách và sức khỏe của trẻ em hoặc
+              tới an ninh, trật tự, văn hóa xã hội (bao gồm cả các chương trình trò chơi điện tử).
+            </li>
+            <li className={textClassName}>
+              - Các sản phẩm văn hóa phản động, đồi trụy, mê tín dị đoan hoặc có hại tới giáo dục
+              thẩm mỹ, nhân cách. Di vật, cổ vật, bảo vật quốc gia thuộc di tích lịch sử văn hóa và
+              danh lam thắng cảnh, thuộc sở hữu toàn dân, sở hữu của các tổ chức chính trị, tổ chức
+              chính trị – xã hội. Hóa chất độc, tiền chất. Thuốc lá điếu, xì gà và các dạng thuốc lá
+              thành phẩm khác nhập lậu.
+            </li>
+            <li className={textClassName}>
+              - Thực vật, động vật hoang dã. Thủy sản cấm khai thác, thủy sản có dư lượng chất độc
+              hại vượt quá giới hạn cho phép, thủy sản có yếu tố độc tự nhiên gây nguy hiểm đến tính
+              mạng con người. Các loại thuốc chữa bệnh cho người, các loại vắc xin, sinh phẩm y tế,
+              mỹ phẩm, hóa chất và chế phẩm diệt côn trùng, diệt khuẩn trong lĩnh vực gia dụng và y
+              tế chưa được sử dụng tại Việt Nam.
+            </li>
+            <li className={textClassName}>
+              - Các loại trang thiết bị y tế chưa được phép sử dụng tại Việt Nam. Các loại mỹ phẩm y
+              tế chưa được công bố với cơ quan có thẩm quyền.
+            </li>
+          </ul>
+
+          <p className={`${textClassName} text-14`}>
+            ** Đối tác tài xế sẽ chịu trách nhiệm khi biết hành khách có mang các vật dụng và hàng
+            hoá trên nhưng bao che, không khai báo với các cơ quan có thẩm quyền. Đối tác tài xế
+            phải chịu trách nhiệm trước pháp luật.
+          </p>
+        </div>
+
+        <div className={elementClassName}>
+          <div className={elementClassName}>
+            <p className={titleClassName}>1. Đối với khách hàng:</p>
+            <ul>
+              <li className={textClassName}>
+                · Mở website: http://www.Exxe.vn hoặc tải ứng dụng ExxeVn về thiết bị và cài đặt.
+              </li>
+              <li className={textClassName}>
+                · Đăng kí tài khoản: Khách hàng đăng kí tài khoản bằng số điện thoại cá nhân. Lưu ý:
+                mỗi số điện thoại chỉ có thể đăng kí cho duy nhất 1 tài khoản.
+              </li>
+              <li className={textClassName}>
+                · Đặt chuyến xe: Hành khách chọn chuyến xe phù hợp với nhu cầu cá nhân, cung cấp đầy
+                đủ thông tin chuyến xe theo yêu cầu của hệ thống.
+              </li>
+              <li className={textClassName}>
+                · Xác nhận thông tin chuyến: Khách hàng kiểm tra, xác nhận và hoàn tất thông tin
+                chuyến đi.
+              </li>
+              <li className={textClassName}>
+                · Tiến hành đặt cọc: khách hàng sẽ đặt cọc 20% chuyến đi. Hình thức thanh toán gồm
+                có: ví điện tử, chuyển khoản, trực tuyến, Visa, Master Card…
+              </li>
+              <li className={textClassName}>
+                · Hoàn thành đặt chuyến: Hệ thống xác nhận chuyến đi của bạn đã hoàn thành đặt
+                chuyến, hãy đảm bảo bạn luôn sẵn sàng điện thoại để tài xế có thể liên lạc được với
+                bạn về chuyến đi.
+              </li>
+              <li className={textClassName}>· Giá cước chuyến đi đều đã bao gồm thuế VAT10%.</li>
+            </ul>
+            <p className={`${textClassName} italic`}>
+              *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Khách hàng có nhu cầu chuyến đi.
+              Sau khi hoàn tất chuyến, 20% đặt cọc này sẽ đc chuyển đến Tài khoản của Tài Xế.
+            </p>
+          </div>
+
+          <p className={titleClassName}>2. Đối với tài xế</p>
+          <ul>
+            <li className={textClassName}>
+              · Mở website: http://wwww.Exxe.vn hoặc tải ứng dụng ExxeDriver về thiết bị và cài đặt
+            </li>
+            <li className={textClassName}>
+              · Đăng kí tài khoản: đối tác đăng kí tài khoản bằng số điện thoại cá nhân. Cung cấp
+              đầy đủ thông tin giấy tờ pháp lý. Lưu ý: mỗi số điện thoại chỉ có thể đăng kí cho duy
+              nhất 1 tài khoản Tài Xế.
+            </li>
+            <li className={textClassName}>
+              · Lựa chọn chuyến: đối tác tài xế có thể chọn chuyến sẵn có hoặc tạo cuốc tiện chuyến.
+              Nếu chọn cuốc tiện chuyến, hãy cung cấp thông tin theo yêu cầu của hệ thống.
+            </li>
+            <li className={textClassName}>
+              · Xác nhận thông tin chuyến: Đối tác Tài Xế kiểm tra lại thông tin chuyến đi.
+            </li>
+            <li className={textClassName}>
+              · Tiến hành đặt cọc: đối tác Tài Xế sẽ đặt cọc 20% chuyến đi để nhận chuyến. (Hoặc nạp
+              tiền vào Tài khoản để nhận chuyến đi).
+            </li>
+            <li className={textClassName}>
+              · Các hình thức thanh toán gồm có: ví điện tử, chuyển khoản, trực tuyến, Visa, Master
+              Card…
+            </li>
+            <li className={textClassName}>
+              · Thực hiện chuyến đi: Sau khi nhận chuyến thành công, Đối tác liên hệ với hành khách
+              nhằm xác nhận điểm đón (với chuyến có sẵn) hoặc đợi hệ thống ghép với khách hàng (với
+              cuốc tiện chuyến)
+            </li>
+            <li className={textClassName}>
+              · CHÚ Ý: ExxeVnDriver thu phí dịch vụ 5% trên mỗi chuyến đi hoàn tất.
+            </li>
+            <li className={textClassName}>
+              · Số tiền đặt cọc (20%) của khách hàng và (20%) của tài xế sẽ được chuyển về ví của
+              tài xế sau khi Tài xế bấm xác nhận đã hoàn tất chuyến đi.
+            </li>
+            <li className={textClassName}>
+              · 5% phí sử dụng dịch vụ ExxeVn sẽ đc trừ vào tk của Tài xế.
+            </li>
+            <li className={textClassName}>
+              · Tài xế có thể rút tiền từ ví ở ExxeVn về tài khoản ngân hàng của mình sau khi hoàn
+              tất chuyến đi.
+            </li>
+            <li className={textClassName}>
+              · Số tiền rút về tài khoản sẽ được chuyển khoản trong vòng 24h làm việc.
+            </li>
+            <li className={textClassName}>
+              · *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi. Sau khi
+              hoàn tất chuyến, 20% đặc cọc này sẽ đc chuyển lại Ví của Tài Xế
+            </li>
+          </ul>
+        </div>
+
+        <div className={elementClassName}>
+          <p className={titleClassName}>
+            CHÍNH SÁCH ÁP DỤNG CHUNG CHO CÁC GIAO DỊCH VẬN TẢI LIÊN QUAN ĐẾN VẤN ĐỀ CHẤT LƯỢNG,
+            CHÍNH SÁCH HOÀN TIỀN, (QUY TRÌNH VÀ PHƯƠNG THỨC HOÀN TIỀN CHO KHÁCH HÀNG) TRONG TRƯỜNG
+            HỢP SÀN GIAO DỊCH VẬN TẢI THƯƠNG MẠI ĐIỆN TỬ CÓ CHỨC NĂNG ĐẶT CHUYẾN TRỰC TUYẾN:
+          </p>
+          <p className={titleClassName}>Chính sách huỷ chuyến và hoàn cọc: </p>
+          <ul>
+            <li className={textClassName}>
+              · Tài xế trong trường hợp muốn hủy chuyến sau khi khách hàng đã đặt chuyến thành công,
+              có thể thực hiện thao tác hủy chuyến trên ứng dụng ExxeVnDriver.
+            </li>
+            <li className={textClassName}>
+              · Nhằm gia tăng sự cam kết của tài xế cũng như đảm bảo quyền lợi của khách hàng,
+              trường hợp tài xế hủy chuyến (vì lí do xe hư/ không thể thực hiện được chuyến), nếu
+              như không thỏa thuận được hoặc không có sự đồng ý từ phía khách hàng, thì tài xế phải
+              bồi thường phí hủy chuyến cho khách hàng bằng đúng số tiền mà Tài Xế đã đặt cọc thông
+              qua Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn.
+            </li>
+            <li className={`${textClassName} italic`}>
+              · Chính sách huỷ chuyến và chi phí hủy chuyến được tính như sau:
+            </li>
+
+            <table className="table-auto w-full">
+              <thead>
+                <tr className="text-left">
+                  <th className="">Thời điểm hủy chuyến</th>
+                  <th className="">Phí hủy chuyến</th>
+                  <th className="">Đánh giá hệ thống</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="my-12 p-4">
+                  <td className="p-8">Trong vòng 1 giờ sau khi đặt cọc</td>
+                  <td className="p-8">0% Tiền cọc</td>
+                  <td className="p-8">3*</td>
+                </tr>
+                <tr>
+                  <td className="p-8">Sau 60 phút ***</td>
+                  <td className="p-8">100% Tiền cọc</td>
+                  <td className="p-8">5*</td>
+                </tr>
+              </tbody>
+            </table>
+          </ul>
+
+          <p className={`${textClassName} italic mt-24`}>Vi phạm chính sách Huỷ chuyến đi:</p>
+          <p className={`${textClassName} italic`}>
+            *** Trường hợp Đối Tác Tài Xế phát sinh huỷ chuyến, ExxeVnDriver sẽ trừ 100% tiền cọc
+            của Tài Xế (20% cước phí của chuyến xe) và sẽ chuyển số tiền đặt cọc này cho khách hàng.
+          </p>
+          <p className={`${textClassName} italic`}>
+            *** Và ngược lại, trường hợp khách hàng huỷ chuyến dẫn đến phát sinh chi phí huỷ chuyến,
+            ExxeVn sẽ cộng 100% tiền đặt cọc của khách hàng vào tài khoản của Tài Xế.
+          </p>
+          <p className={`${textClassName} italic`}>
+            *** Trường hợp Đối Tác Tài Xế huỷ chuyến ngoài quy định, chuyến đi của khách hàng sẽ là
+            chuyến
+          </p>
+          <p className={`${textClassName} italic`}>
+            đi ưu tiên. ExxeVn sẽ tìm Đối tác tài xế mới trong thời gian sớm nhất để chuyến đi của
+            khách hàng được trọn vẹn.
+          </p>
+          <p className={`${textClassName} italic`}>
+            *** Đối với trường hợp đi ghép, 20% đặt cọc của Tài Xế sẽ đc chia đều cho các khách hàng
+            đặt chuyến thành công. *** Nhằm gia tăng sự cam kết của tài xế, cũng như đảm bảo quyền
+            lợi của khách hàng: Đối tác và Khách hàng vui lòng liên lạc trước chuyến đi.
+          </p>
         </div>
       </>
     )
