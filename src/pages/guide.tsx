@@ -1,4 +1,4 @@
-import { directionBg } from '@/assets'
+import { guideBanner } from '@/assets'
 import { GuideSlide, Seo, Tabs } from '@/components'
 import {
   CUSTOMER_BOOKING_STEP,
@@ -13,7 +13,8 @@ import { useMemo, useState } from 'react'
 const Guide = () => {
   const router = useRouter()
   const [tabIndex, setTabIndex] = useState<number>(0)
-  const type: 'customer' | 'driver' = router.query?.type === 'driver' ? 'driver' : 'customer'
+  const type: 'customer' | 'driver' =
+    router.query?.type === 'driver' ? 'driver' : 'customer'
 
   const list = useMemo(() => {
     if (type === 'customer') {
@@ -31,11 +32,16 @@ const Guide = () => {
 
   return (
     <StaticLayout
-      bg={directionBg}
+      bg={guideBanner}
       subHeading="Hướng dẫn"
       heading={type === 'customer' ? 'Dành cho khách hàng' : 'Dành cho tài xế'}
     >
-      <Seo description="Hướng dẫn đặt xe" thumbnailUrl="" title="Hướng dẫn đặt xe" url="guide" />
+      <Seo
+        description="Hướng dẫn đặt xe"
+        thumbnailUrl=""
+        title="Hướng dẫn đặt xe"
+        url="guide"
+      />
       <div className="max-w-[972px] w-full mx-auto">
         <div className="mb-24 md:mb-32">
           <Tabs

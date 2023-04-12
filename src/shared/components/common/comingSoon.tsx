@@ -5,10 +5,10 @@ import {
   MailIcon,
   PhoneIcon,
   TiktokIcon,
-  YoutubeIcon,
-} from "@/assets"
-import { EMAIL, PHONE } from "@/helper"
-import Image from "next/image"
+  YoutubeIcon
+} from '@/assets'
+import { EMAIL, PHONE } from '@/helper'
+import Image from 'next/image'
 
 export const ComingSoon = () => {
   return (
@@ -24,7 +24,10 @@ export const ComingSoon = () => {
           </h1>
 
           <form className="w-full flex flex-col items-center md:items-start">
-            <label htmlFor="input" className="text-sm text-gray-color-5 mb-16 inline-block">
+            <label
+              htmlFor="input"
+              className="text-sm text-gray-color-5 mb-16 inline-block"
+            >
               Đăng ký để nhận thông báo
             </label>
             <div className="flex flex-col md:flex-row md:h-[60px] lg:h-[70px] max-w-[470px] w-full">
@@ -67,7 +70,7 @@ export const ComingSoon = () => {
             <p className="flex items-center justify-center mb-12 md:mb-0">
               <PhoneIcon className="mr-8" />
               <a className="text-sm md:text-base font-semibold" href={`tel:${PHONE}`}>
-                0847 878 788
+                1900 4744
               </a>
             </p>
 

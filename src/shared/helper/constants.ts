@@ -1,6 +1,7 @@
 import {
   angryIcon,
   CUSTOMER_BOOKING_IMAGES,
+  CUSTOMER_CONVENIENT_IMAGES,
   DRIVER_CREATE_CONVENIENT_IMAGES,
   DRIVER_RECEIVE_RIDE_IMAGES,
   heartIcon,
@@ -16,7 +17,8 @@ export const BIRTHDAY_SCHEMA = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
 export const STRING_AT_LEAST_TWO_CHARACTER = /^[a-z]+(?:\s[a-z]+)+$/
 export const PASSWORD_SCHEMA = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/
 export const DATE_SCHEMA = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
-export const BASE64_REGEX = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
+export const BASE64_REGEX =
+  /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
 export const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 export const OBJECT_ID_REGEX = /^[0-9a-fA-F]{24}$/
 export const VIETNAMESE_NAME =
@@ -113,7 +115,8 @@ export const PAYMENT_PURPOSE_NAME = {
 }
 
 export const PHONE = '19004744'
-export const ADDRESS = 'Số 10 S5, Villa Saroma, Phường An Lợi Đông, Quận 2, TPHCM'
+export const ADDRESS =
+  '27 Lưu Đình Lễ, phường An khánh, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
 export const EMAIL = 'exxevn2022@gmail.com'
 export const DOMAIN_URL = process?.env?.NEXT_PUBLIC_DOMAIN_URL
 
@@ -191,32 +194,32 @@ export const CUSTOMER_CONVENIENT_STEP = [
   {
     step: 'Bước 1',
     label: 'Chọn xem các chuyến tiện chuyến',
-    image: CUSTOMER_BOOKING_IMAGES[1]
+    image: CUSTOMER_CONVENIENT_IMAGES[1]
   },
   {
     step: 'Bước 2',
     label: 'Tìm kiếm các chuyến đi theo bộ lọc: Điểm đi, điểm đến, thời gian ',
-    image: CUSTOMER_BOOKING_IMAGES[2]
+    image: CUSTOMER_CONVENIENT_IMAGES[2]
   },
   {
     step: 'Bước 3',
     label: 'Chọn chuyến phù hợp',
-    image: CUSTOMER_BOOKING_IMAGES[3]
+    image: CUSTOMER_CONVENIENT_IMAGES[3]
   },
   {
     step: 'Bước 4',
     label: 'Chọn cước phi đặt cọc (20% giá cước chuyến đi)',
-    image: CUSTOMER_BOOKING_IMAGES[4]
+    image: CUSTOMER_CONVENIENT_IMAGES[4]
   },
   {
     step: 'Bước 5',
     label: 'Chọn hình thức thanh toán (TK Exxe, Thẻ hoặc ví điện tử VNPAY)',
-    image: CUSTOMER_BOOKING_IMAGES[5]
+    image: CUSTOMER_CONVENIENT_IMAGES[5]
   },
   {
     step: 'Bước 6',
     label: 'Chọn Đặt cọc để hoàn tất đặt chuyến và tận hưởng chuyến đi',
-    image: CUSTOMER_BOOKING_IMAGES[6]
+    image: CUSTOMER_CONVENIENT_IMAGES[6]
   }
 ]
 

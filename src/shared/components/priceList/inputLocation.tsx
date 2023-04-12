@@ -1,17 +1,20 @@
-import { CloseIcon, LocationIcon2, LocationOff } from "@/assets"
-import { useClickOutside, useCurrentLocation } from "@/hooks"
-import { LatLng } from "@/models"
-import { useRef, useState } from "react"
-import Geocode from "react-geocode"
-import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete"
-import { Spinner } from "../loading"
-import { LocationItem } from "../location"
+import { CloseIcon, LocationIcon2, LocationOff } from '@/assets'
+import { useAddress, useClickOutside, useCurrentLocation } from '@/hooks'
+import { LatLng } from '@/models'
+import { ChangeEvent, useRef, useState } from 'react'
+import Geocode from 'react-geocode'
+import { useDispatch } from 'react-redux'
+import { notify } from 'reapop'
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
+import { Spinner } from '../loading'
+import { LocationItem } from '../location'
 
 const requestOptions = {
-  componentRestrictions: { country: "vn" },
+  componentRestrictions: { country: 'vn' }
 }
 
 interface InputLocationProps {
+  previousLocation?: LocationSearch
   showCurrentLocation?: boolean
   className?: string
   placeholder?: string
@@ -26,9 +29,12 @@ export interface LocationSearch extends LatLng {
 export const InputLocation = ({
   placeholder,
   showCurrentLocation = false,
+  previousLocation,
   onSelect,
-  onClearValue,
+  onClearValue
 }: InputLocationProps) => {
+  const dispatch = useDispatch()
+  const { getProvinceIdByGooglePlace } = useAddress()
   const { getCurrentLocation } = useCurrentLocation()
   const ref = useRef<HTMLInputElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
@@ -37,7 +43,7 @@ export const InputLocation = ({
     value: searchValues,
     setValue,
     suggestions: { data: locations, loading, status },
-    clearSuggestions,
+    clearSuggestions
   } = usePlacesAutocomplete({ debounce: 500, requestOptions })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentLocation, setCurrentLocation] = useState<LocationSearch>()
@@ -46,11 +52,30 @@ export const InputLocation = ({
     setShowSearchResult(false)
   })
 
+  const checkValidLocation = (location: string) => {
+    if (
+      previousLocation?.location &&
+      getProvinceIdByGooglePlace(previousLocation.location) ===
+        getProvinceIdByGooglePlace(location)
+    ) {
+      dispatch(notify('Vui lòng chọn tỉnh khác với tỉnh hiện tại', 'warning'))
+      return false
+    }
+
+    return true
+  }
+
+  const handleSetLocation = (val: LocationSearch) => {
+    if (checkValidLocation(val.location)) {
+      onSelect?.(val)
+    }
+  }
+
   const handleGetCurrentLocation = () => {
     if (isLoading) return
 
     if (currentLocation?.location) {
-      onSelect?.(currentLocation)
+      handleSetLocation(currentLocation)
       setValue(currentLocation.location)
       return
     }
@@ -60,13 +85,13 @@ export const InputLocation = ({
       getCurrentLocation({
         params: {},
         onSuccess: ({ lat, lng }) => {
-          Geocode.fromLatLng(lat + "", lng + "").then(
+          Geocode.fromLatLng(lat + '', lng + '').then(
             (response) => {
               setIsLoading(false)
               const location = response.results?.[0]?.formatted_address
               if (location) {
                 setValue(location)
-                onSelect?.({ lat, lng, location })
+                handleSetLocation({ lat, lng, location })
                 setCurrentLocation({ lat, lng, location })
               }
             },
@@ -74,7 +99,7 @@ export const InputLocation = ({
               setIsLoading(false)
             }
           )
-        },
+        }
       })
     } catch (error) {
       setIsLoading(false)
@@ -84,6 +109,8 @@ export const InputLocation = ({
   const getLocationFromSearchResult = async (
     location: google.maps.places.AutocompletePrediction
   ) => {
+    if (!checkValidLocation(location.description)) return
+
     setValue(location.description)
     clearSuggestions()
     try {
@@ -92,17 +119,19 @@ export const InputLocation = ({
       const newLocation: LocationSearch = {
         lat,
         lng,
-        location: location.description,
+        location: location.description
       }
-      onSelect?.(newLocation)
+      handleSetLocation(newLocation)
       setShowSearchResult(false)
     } catch (error) {
       console.log(error)
     }
   }
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {}
+
   return (
-    <div ref={searchRef} className={"relative flex-1 flex"}>
+    <div ref={searchRef} className={'relative flex-1 flex'}>
       <div className="relative flex-1">
         <input
           ref={ref}
@@ -118,13 +147,13 @@ export const InputLocation = ({
           onFocus={() => setShowSearchResult(true)}
           placeholder={placeholder}
           className={`h-[42px] text-ellipsis md:h-[48px] flex-1  border border-solid px-12 border-gray-20 md:border-gray-color-2 outline-none w-full rounded-[5px] md:rounded-[8px] text-14 md:text-16 text-medium ${
-            searchValues ? "pr-[36px]" : ""
+            searchValues ? 'pr-[36px]' : ''
           }`}
         />
         {searchValues ? (
           <span
             onClick={() => {
-              setValue("")
+              setValue('')
               clearSuggestions()
               onClearValue?.()
             }}
@@ -152,26 +181,26 @@ export const InputLocation = ({
                 <Spinner className="py-[30px]" size={20} />
               ) : (
                 <>
-                  {status === "OK" ? (
+                  {status === 'OK' ? (
                     <ul className={`overflow-y-auto py-8`}>
                       {locations?.map((item, index) => (
                         <li key={index} className="">
                           <LocationItem
                             location={item}
-                            onSelect={(val) => getLocationFromSearchResult(val)}
+                            onSelect={getLocationFromSearchResult}
                           />
                         </li>
                       ))}
                     </ul>
-                  ) : status === "ZERO_RESULTS" ? (
+                  ) : status === 'ZERO_RESULTS' ? (
                     <div className="px-12 py-[24px] flex-1 flex-col flex-center">
                       <p className="flex-center mb-[12px] text-sm text-gray-color-3">
                         <LocationOff className="mr-[8px] text-lg text-gray-color-3" />
                         Không tìm được vị trí
                       </p>
                       <p className="text-sm text-gray-color-3 leading-[20px]">
-                        Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị trí của
-                        bạn
+                        Kiểm tra lại chính tả hoặc chọn vị trí trên bản đồ để xác định vị
+                        trí của bạn
                       </p>
                     </div>
                   ) : null}

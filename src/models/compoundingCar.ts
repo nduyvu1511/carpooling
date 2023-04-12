@@ -1,49 +1,55 @@
-import { PaymentMethod } from "./checkout"
-import { ListQuery, OptionType } from "./common"
-import { FromLocation, ProvinceId, StationId, StationParams, StationPickUpParams } from "./location"
-import { PromotionRes } from "./promotion"
-import { RatingRes } from "./rating"
-import { CarAccountType, CarDriverId, GenderType, UserInfo } from "./user"
+import { PaymentMethod } from './checkout'
+import { ListQuery, OptionType } from './common'
+import {
+  FromLocation,
+  ProvinceId,
+  StationId,
+  StationParams,
+  StationPickUpParams
+} from './location'
+import { PromotionRes } from './promotion'
+import { RatingRes } from './rating'
+import { CarAccountType, CarDriverId, GenderType, UserInfo } from './user'
 
 export type HourWaitTimeType =
-  | "01_hour"
-  | "02_hour"
-  | "03_hour"
-  | "04_hour"
-  | "05_hour"
-  | "06_hour"
-  | "07_hour"
-  | "08_hour"
-  | "09_hour"
-  | "10_hour"
-  | "11_hour"
-  | "12_hour"
-export type QualityCarType = "5_star" | "4_star" | "3_star"
-export type CompoundingType = "one_way" | "two_way" | "compounding" | "convenient"
+  | '01_hour'
+  | '02_hour'
+  | '03_hour'
+  | '04_hour'
+  | '05_hour'
+  | '06_hour'
+  | '07_hour'
+  | '08_hour'
+  | '09_hour'
+  | '10_hour'
+  | '11_hour'
+  | '12_hour'
+export type QualityCarType = '5_star' | '4_star' | '3_star'
+export type CompoundingType = 'one_way' | 'two_way' | 'compounding' | 'convenient'
 export type CompoundingCarDriverState =
-  | "draft" //danh cho tien chuyen
-  | "waiting_deposit" //cho dat coc
-  | "waiting"
-  | "confirm_deposit" //dat coc xong
-  | "confirm" //xac nhan cho don tien chuyen
-  | "start_running"
-  | "stop_picking"
-  | "done" // hoan thanh
-  | "cancel" //huy chuyen di
+  | 'draft' //danh cho tien chuyen
+  | 'waiting_deposit' //cho dat coc
+  | 'waiting'
+  | 'confirm_deposit' //dat coc xong
+  | 'confirm' //xac nhan cho don tien chuyen
+  | 'start_running'
+  | 'stop_picking'
+  | 'done' // hoan thanh
+  | 'cancel' //huy chuyen di
 
 export type CompoundingCarCustomerState =
-  | "draft"
-  | "confirm"
-  | "confirm_deposit"
-  | "deposit"
-  | "waiting" //dang cho tai xe
-  | "assign" //dang tim tai xe
-  | "in_process" //dang di chuyen
-  | "done" //hoan thanh
-  | "customer_pay" //thanh toan online
-  | "confirm_paid" //thanh toan het
-  | "cancel" //huy
-  | "waiting_customer"
+  | 'draft'
+  | 'confirm'
+  | 'confirm_deposit'
+  | 'deposit'
+  | 'waiting' //dang cho tai xe
+  | 'assign' //dang tim tai xe
+  | 'in_process' //dang di chuyen
+  | 'done' //hoan thanh
+  | 'customer_pay' //thanh toan online
+  | 'confirm_paid' //thanh toan het
+  | 'cancel' //huy
+  | 'waiting_customer'
 
 export interface VehicleTypeParams {
   car_id: number
@@ -179,7 +185,7 @@ export interface CompoundingCarRes extends DriverActivityRes {
 }
 
 export interface CompoundingCarDriverRes
-  extends Omit<CompoundingCarRes, "state" | "rating" | "partner"> {
+  extends Omit<CompoundingCarRes, 'state' | 'rating' | 'partner'> {
   compounding_car_customers: CompoundingCarCustomer[]
   state: CompoundingCarDriverState
   rating_ids: RatingRes[]
@@ -197,9 +203,9 @@ export interface PriceUnit {
 }
 
 export type RatingState =
-  | "no_rating" //chua danh gia co quyền đánh giá
-  | "rated" // đã đánh giá, có quyên chỉnh sửa
-  | "un_rating" // không có quyền sửa tạo
+  | 'no_rating' //chua danh gia co quyền đánh giá
+  | 'rated' // đã đánh giá, có quyên chỉnh sửa
+  | 'un_rating' // không có quyền sửa tạo
 
 export interface CancelReason {
   cancel_reason_id: number
@@ -349,7 +355,7 @@ export interface CreateConvenientCompoundingForm {
 export interface CreateOneWayCompoundingCar extends CreateCommonCompounding {}
 
 export interface FormModeType {
-  mode: "update" | "create"
+  mode: 'update' | 'create'
 }
 
 export interface CreateTwoWayCompoundingCarForm extends CreateCommonCompoundingForm {
@@ -507,9 +513,9 @@ export interface UpdateCompoundingCarCustomer {
 }
 
 export type CompoundingOrderField =
-  | "sort_by_lowest_price"
-  | "sort_by_highest_price"
-  | "sort_by_distance"
+  | 'sort_by_lowest_price'
+  | 'sort_by_highest_price'
+  | 'sort_by_distance'
 
 export type CompoundingCarCustomerFilterKey = keyof CompoundingCarCustomerFilterParams
 export type CompoundingCarFilterKey = keyof CompoundingCarFilterParams
@@ -559,7 +565,7 @@ export interface DepositCompoundingCarDriverRes {
   partner_type: string
   partner_id: UserInfo
   amount: number
-  state: "draft" | "confirm_depost" | string
+  state: 'draft' | 'confirm_depost' | string
   date: string
   compounding_car: {
     compounding_car_id: number
@@ -580,7 +586,7 @@ export interface DepositCompoundingCarDriverFailureRes {
 
 export type CompoundingCarCustomerWithState = Pick<
   CompoundingCarCustomer,
-  "compounding_car_customer_id" | "state"
+  'compounding_car_customer_id' | 'state'
 >
 
 export interface CancelRideParams {
@@ -670,6 +676,7 @@ export type IDepositSummaryOptional = Partial<IDepositSummary>
 export interface GetPriceListReq {
   distance: number
   going_on_date: string
+  returning_date: string
 }
 
 export interface GetPriceListUnitRes {

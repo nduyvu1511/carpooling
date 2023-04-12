@@ -8,13 +8,15 @@ import {
   YoutubeIcon,
   ZaloIcon
 } from '@/assets'
-import { PHONE } from '@/helper'
+import { ADDRESS, PHONE } from '@/helper'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
 const Footer = () => {
-  const [isMacOs] = useState((navigator?.platform || '')?.toLowerCase?.()?.includes('mac'))
+  const [isMacOs] = useState(
+    (navigator?.platform || '')?.toLowerCase?.()?.includes('mac')
+  )
 
   return (
     <footer className="py-[40px] lg:py-[80px] bg-bg-primßary">
@@ -148,7 +150,9 @@ const Footer = () => {
                         </Link>
                       ) : (
                         <Link href={_item.path}>
-                          <a className={`leading-[26px] text-14 text-blue-8`}>{_item.label}</a>
+                          <a className={`leading-[26px] text-14 text-blue-8`}>
+                            {_item.label}
+                          </a>
                         </Link>
                       )}
                     </li>
@@ -176,7 +180,7 @@ const Footer = () => {
                 <p className="text-12 leading-[20px] sm:text-14 sm:leading-26 font-normal text-blue-8">
                   MST: 0317412411
                   <br />
-                  Địa chỉ: 2 Hoàng Thế Thiện, phường An Lợi Đông, Tp.Thủ Đức, Tp.HCM
+                  Địa chỉ: {ADDRESS}
                   <br />
                   Số điện thoại: {PHONE}
                 </p>

@@ -1,24 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
-import { priceListBg } from '@/assets';
-import { RootState } from '@/core/store';
-import { formatMoneyVND } from '@/helper';
-import { CompoundingType } from '@/models';
-import { useState } from 'react';
-import NumericInput from 'react-numeric-input';
-import { useSelector } from 'react-redux';
-import { Spinner } from '../loading';
-import { DriverPriceList } from './driverPriceList';
-import { InputDate } from './inputDate';
-import { InputLocation } from './inputLocation';
-import { ModalInstallApp } from './modalInstallApp';
-import { SelectItem } from './selectItem';
-import { usePriceList } from './usePriceList';
+import { priceListBg } from '@/assets'
+import { RootState } from '@/core/store'
+import { formatMoneyVND } from '@/helper'
+import { CompoundingType } from '@/models'
+import { useState } from 'react'
+import NumericInput from 'react-numeric-input'
+import { useSelector } from 'react-redux'
+import { Spinner } from '../loading'
+import { DriverPriceList } from './driverPriceList'
+import { InputDate } from './inputDate'
+import { InputLocation } from './inputLocation'
+import { ModalInstallApp } from './modalInstallApp'
+import { SelectItem } from './selectItem'
+import { usePriceList } from './usePriceList'
 
 export const PriceList = () => {
-  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap);
+  const isLoaded = useSelector((state: RootState) => state.common.isLoadedGoogleMap)
   const vehicleTypeOptions = useSelector(
     (state: RootState) => state.compoundingCarData.vehicleTypes
-  );
+  )
   const {
     compoundingType,
     fromDate,
@@ -41,7 +41,7 @@ export const PriceList = () => {
     handleSetFromDate,
     handleSetNumberOfDays,
     handleSetToDate
-  } = usePriceList();
+  } = usePriceList()
 
   return (
     <div className="price-list">
@@ -75,6 +75,7 @@ export const PriceList = () => {
 
                   {isLoaded ? (
                     <InputLocation
+                      previousLocation={toLocation}
                       placeholder="Tìm kiếm điểm đi"
                       onSelect={handleSetFromLocation}
                     />
@@ -90,6 +91,7 @@ export const PriceList = () => {
 
                   {isLoaded ? (
                     <InputLocation
+                      previousLocation={fromLocation}
                       showCurrentLocation
                       placeholder="Tìm kiếm điểm đến"
                       onSelect={handleSetToLocation}
@@ -187,8 +189,8 @@ export const PriceList = () => {
                           snap
                           min={minNumberOfDays + 1}
                           onChange={(val) => {
-                            const newValue = (val || 0) - 1;
-                            handleSetNumberOfDays(newValue > 0 ? newValue : 0);
+                            const newValue = (val || 0) - 1
+                            handleSetNumberOfDays(newValue > 0 ? newValue : 0)
                           }}
                           className="price-list-input h-[38px] lg:h-[49.6px] w-[78px] flex-1 outline-none px-8 text-16 flex border border-solid border-border-color-1 rounded-[8x]"
                           type="number"
@@ -230,7 +232,11 @@ export const PriceList = () => {
                       Ngày đi
                     </p>
 
-                    <div className={compoundingType === 'two_way' && fromDate ? '' : 'flex-1'}>
+                    <div
+                      className={
+                        compoundingType === 'two_way' && fromDate ? '' : 'flex-1'
+                      }
+                    >
                       <InputDate
                         placeholder="Chọn ngày đi"
                         value={fromDate}
@@ -249,7 +255,9 @@ export const PriceList = () => {
                     >
                       <p
                         className={`text-12 md:text-14 lg:text-16 font-medium text-gray-color-8 ${
-                          compoundingType === 'two_way' ? 'mb-8' : 'w-[200px] mb-8 md:mb-0'
+                          compoundingType === 'two_way'
+                            ? 'mb-8'
+                            : 'w-[200px] mb-8 md:mb-0'
                         }`}
                       >
                         Ngày về
@@ -336,11 +344,11 @@ export const PriceList = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const RenderButton = () => {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false)
 
   return (
     <>
@@ -353,5 +361,5 @@ const RenderButton = () => {
 
       <ModalInstallApp onClose={() => setVisible(false)} show={visible} />
     </>
-  );
-};
+  )
+}

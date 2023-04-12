@@ -1,13 +1,18 @@
-import { roundToHalf } from "@/helper"
-import { useCalcDistance } from "@/hooks"
-import { CarIdType, CompoundingType, GetPriceListReq, GetPriceListUnitRes } from "@/models"
-import { rideAPI } from "@/services"
-import moment from "moment"
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { notify } from "reapop"
-import useSWR from "swr"
-import { LocationSearch } from "./inputLocation"
+import { roundToHalf } from '@/helper'
+import { useCalcDistance } from '@/hooks'
+import {
+  CarIdType,
+  CompoundingType,
+  GetPriceListReq,
+  GetPriceListUnitRes
+} from '@/models'
+import { rideAPI } from '@/services'
+import moment from 'moment'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { notify } from 'reapop'
+import useSWR from 'swr'
+import { LocationSearch } from './inputLocation'
 
 interface calculatePriceParams {
   fromDate?: string
@@ -30,7 +35,7 @@ export const usePriceList = () => {
   const [fromLocation, setFromLocation] = useState<LocationSearch>()
   const [toLocation, setToLocation] = useState<LocationSearch>()
   const [compoundingType, setCompoundingType] = useState<CompoundingType>()
-  const [fromDate, setFromDate] = useState<string>(moment().format("YYYY-MM-DD"))
+  const [fromDate, setFromDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [toDate, setToDate] = useState<string>()
   const [carType, setCarType] = useState<CarIdType>()
   const [result, setResult] = useState<number | undefined>()
@@ -39,11 +44,11 @@ export const usePriceList = () => {
   const [isLoading, setLoading] = useState<boolean>()
   const [priceUnit, setPriceUnit] = useState<GetPriceListUnitRes | undefined>()
   const numberOfDays =
-    toDate && fromDate && compoundingType === "two_way"
-      ? moment(toDate).diff(moment(fromDate), "days")
+    toDate && fromDate && compoundingType === 'two_way'
+      ? moment(toDate).diff(moment(fromDate), 'days')
       : undefined
 
-  const { data } = useSWR("compute_price_unit", () =>
+  const { data } = useSWR('compute_price_unit', () =>
     rideAPI.getComputePriceUnit().then((res) => res?.result?.data)
   )
 
@@ -81,6 +86,7 @@ export const usePriceList = () => {
     const priceFormula = await getPriceUnitFormula({
       distance: newDistance,
       going_on_date: fromDate,
+      returning_date: toDate || ''
     })
 
     if (
@@ -88,16 +94,17 @@ export const usePriceList = () => {
       !fromDate ||
       !carType ||
       !compoundingType ||
-      (compoundingType === "two_way" && !toDate)
+      (compoundingType === 'two_way' && !toDate)
     )
       return
 
     const priceUnits = priceFormula?.price_unit || []
     const priceUnit = priceUnits.find(
-      (item) => item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
+      (item) =>
+        item.car_id.car_id === carType?.value && item.compounding_type === compoundingType
     )
     if (!priceUnit) {
-      dispatch(notify("Không tìm thấy bảng giá nào", "info"))
+      dispatch(notify('Không tìm thấy bảng giá nào', 'info'))
       return
     }
 
@@ -105,14 +112,16 @@ export const usePriceList = () => {
 
     let newResult = price_unit_in_day
 
-    if (toDate && compoundingType === "two_way") {
-      const dateRange = moment(toDate).diff(moment(fromDate), "days") + 1
+    if (toDate && compoundingType === 'two_way') {
+      const dateRange = moment(toDate).diff(moment(fromDate), 'days') + 1
       let numberOfWaitingDays = dateRange
       // let numberOfWaitingDays = dateRange > 1 ? dateRange : 1
       if ((distance || 0) <= (data?.max_distance_traveling_in_day || 0)) {
         numberOfWaitingDays -= 1
       } else {
-        numberOfWaitingDays -= roundToHalf((distance || 0) / (data?.number_km_per_day || 0))
+        numberOfWaitingDays -= roundToHalf(
+          (distance || 0) / (data?.number_km_per_day || 0)
+        )
       }
 
       // let numberOfWaitingDays = dateRange > 0 ? dateRange + 1 : dateRange
@@ -162,25 +171,25 @@ export const usePriceList = () => {
 
     let newFromDate = fromDate
     if (!fromDate) {
-      const newDate = moment().format("YYYY-MM-DD")
+      const newDate = moment().format('YYYY-MM-DD')
       newFromDate = newDate
       setFromDate(newDate)
     }
 
     let type = compoundingType
-    if (compoundingType !== "two_way") {
-      type = "two_way"
-      setCompoundingType("two_way")
+    if (compoundingType !== 'two_way') {
+      type = 'two_way'
+      setCompoundingType('two_way')
     }
 
-    const newToDate = moment(newFromDate).add(days, "days").format("YYYY-MM-DD")
+    const newToDate = moment(newFromDate).add(days, 'days').format('YYYY-MM-DD')
     setToDate(newToDate)
     calculatePrice({
       carType,
       compoundingType: type,
       distance,
       fromDate: newFromDate,
-      toDate: newToDate,
+      toDate: newToDate
     })
   }
 
@@ -193,7 +202,7 @@ export const usePriceList = () => {
         setDistance(distance)
         handleSetMinNumberOfDays(distance)
         calculatePrice({ carType, fromDate, toDate, compoundingType, distance })
-      },
+      }
     })
   }
 
@@ -202,8 +211,8 @@ export const usePriceList = () => {
 
     const minNumberOfDays = handleSetMinNumberOfDays(distance, type)
     let newToDate = toDate
-    if (type === "two_way" && fromDate) {
-      newToDate = moment(fromDate).add(minNumberOfDays, "days").format("YYYY-MM-DD")
+    if (type === 'two_way' && fromDate) {
+      newToDate = moment(fromDate).add(minNumberOfDays, 'days').format('YYYY-MM-DD')
       setToDate(newToDate)
     }
     setCompoundingType(type)
@@ -211,7 +220,7 @@ export const usePriceList = () => {
       carType,
       compoundingType: type,
       fromDate,
-      toDate: newToDate,
+      toDate: newToDate
     })
   }
 
@@ -223,9 +232,10 @@ export const usePriceList = () => {
       carType: item,
       compoundingType,
       fromDate,
-      toDate,
+      toDate
     })
   }
+
   const handleSetFromLocation = (val: LocationSearch) => {
     if (val.lat === fromLocation?.lat && val?.lng === fromLocation?.lat) return
 
@@ -247,7 +257,7 @@ export const usePriceList = () => {
 
     let newToDate: string | undefined = toDate
     if (toDate) {
-      if (moment(date).add(minNumberOfDays, "days").isSameOrAfter(moment(toDate))) {
+      if (moment(date).add(minNumberOfDays, 'days').isSameOrAfter(moment(toDate))) {
         newToDate = undefined
         setToDate(undefined)
       }
@@ -257,7 +267,7 @@ export const usePriceList = () => {
       carType,
       compoundingType,
       fromDate: date,
-      toDate: newToDate,
+      toDate: newToDate
     })
   }
 
@@ -269,7 +279,7 @@ export const usePriceList = () => {
       carType,
       compoundingType,
       fromDate,
-      toDate: date,
+      toDate: date
     })
   }
 
@@ -288,7 +298,7 @@ export const usePriceList = () => {
       gasoline_consumption_per_km: priceUnit?.gasoline_consumption_per_km,
       gasoline_price_unit: priceUnit?.gasoline_price_unit,
       petroleum_consumption_per_km: priceUnit?.gasoline_consumption_per_km,
-      petroleum_price_unit: priceUnit?.petroleum_price_unit,
+      petroleum_price_unit: priceUnit?.petroleum_price_unit
     } as FuelPriceUnit,
     minNumberOfDays,
     service_fee_percent: data?.service_fee_percent,
@@ -302,6 +312,6 @@ export const usePriceList = () => {
     handleSetFromLocation,
     handleSetToLocation,
     handleSetFromDate,
-    handleSetToDate,
+    handleSetToDate
   }
 }
