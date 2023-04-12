@@ -1,6 +1,6 @@
-import { ArrowDownIcon } from "@/assets"
-import { useState } from "react"
-import { AccordionItem } from "./accordionItem"
+import { ArrowDownIcon } from '@/assets'
+import { useState } from 'react'
+import { AccordionItem } from './accordionItem'
 
 type TabContentProps = {
   data: [{ title: string; content: JSX.Element }]
@@ -20,12 +20,12 @@ export const TabContent = ({ data }: TabContentProps) => {
                 onClick={() => setIndex(_index)}
                 key={title}
                 className={`flex items-center select-none px-24 py-16 cursor-pointer border-primary border-solid ${
-                  index === _index ? "bg-primary  rounded-[5px]" : "bg-white-color"
+                  index === _index ? 'bg-primary  rounded-[5px]' : 'bg-white-color'
                 }`}
               >
                 <p
                   className={`text-16 font-semibold flex-1 ${
-                    index === _index ? "text-white-color" : "text-primary"
+                    index === _index ? 'text-white-color' : 'text-primary'
                   }`}
                 >
                   {title}
@@ -53,7 +53,7 @@ export const TabContent = ({ data }: TabContentProps) => {
         {data.map(({ title, content }, _index) => (
           <AccordionItem
             key={_index}
-            className={`px-24 py-16 ${_index === 0 ? "border-t-0" : ""}`}
+            className={`px-24 py-16 ${_index === 0 ? 'border-t-0' : ''}`}
             onClick={() => setIndexActive(_index === indexActive ? undefined : _index)}
             isActive={indexActive === _index}
             title={title}

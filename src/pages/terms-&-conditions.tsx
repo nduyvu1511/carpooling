@@ -2713,6 +2713,17 @@ const data = [
               4. Nội dung hiển thị của Điều khoản cụ thể của từng chuyến xe trên ứng dụng
               ExxeVn như sau:
             </p>
+
+            <div className="flex flex-col items-end justify-end mt-24">
+              <div className="flex-center flex-col">
+                <p className={`${textClassNameSemibold} text-center max-w-[300px]`}>
+                  CÔNG TY CỔ PHẦN ĐẦU TƯ CÔNG NGHỆ VÀ VẬN TẢI EXXEVN
+                </p>
+                <p className={`${textClassNameSemibold} text-center max-w-[200px]`}>
+                  ĐẠI DIỆN THEO PHÁP LUẬT GIÁM ĐỐC
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </>
@@ -3667,6 +3678,17 @@ const data = [
           4. Nội dung hiển thị của Điều khoản cụ thể của từng chuyến xe trên ứng dụng
           ExxeVn như sau:
         </p>
+
+        <div className="flex flex-col items-end justify-end mt-24">
+          <div className="flex-center flex-col">
+            <p className={`${textClassNameSemibold} text-center max-w-[300px]`}>
+              CÔNG TY CỔ PHẦN ĐẦU TƯ CÔNG NGHỆ VÀ VẬN TẢI EXXEVN
+            </p>
+            <p className={`${textClassNameSemibold} text-center max-w-[200px]`}>
+              ĐẠI DIỆN THEO PHÁP LUẬT GIÁM ĐỐC
+            </p>
+          </div>
+        </div>
       </>
     )
   }
