@@ -1,15 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-import {
-  conditionPageBg,
-  QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH,
-  QUY_CHE_HOAT_DONG
-} from '@/assets'
+import { conditionPageBg, QUY_CHE_DICH_VU_VAN_TAI_HANH_KHACH } from '@/assets'
 import { Footer, Header, Seo, TabContent } from '@/components'
-import { PHONE } from '@/helper'
+import { ADDRESS, PHONE } from '@/helper'
 
 const textClassName = 'text-sm md:text-base mb-12 font-medium'
 const textClassNameSemibold = 'text-sm md:text-base mb-12 font-semibold md:font-semibold'
+const textClassNameSemiboldItalic =
+  'text-sm md:text-base mb-12 font-semibold md:font-semibold italic'
 const titleClassName = 'text-16 md:text-18 lg:text-20 mb-12 font-medium'
 const elementClassName = 'mb-24'
 
@@ -48,21 +46,27 @@ const data = [
         <p className={textClassName}>
           Hãy đảm bảo rằng bạn luôn tuân thủ nghiêm chỉnh luật lệ giao thông Việt Nam. Khi
           di chuyển bằng xe ô tô, hãy luôn nhớ thắt dây an toàn dù bạn ngồi ghế trước hay
-          ghế sau. Khi di chuyển bằng xe máy, hãy luôn đội nón bảo hiểm khi ngồi trên xe.
+          ghế sau.
         </p>
         <p className={textClassName}>
           Đối tác tài xế có trách nhiệm cụ thể về vấn đề an toàn và tuyệt đối không thực
-          hiện các hành vi cấm theo Điều Luật Giao Thông Đường Bộ trong các chuyến xe be
-          như: không điều khiển phương tiện giao thông đường bộ mà trong cơ thể có chất ma
-          túy, trong máu hoặc hơi thở có nồng độ cồn; không chạy quá tốc độ cho phép, lạng
-          lách, đánh võng; không đe dọa, xúc phạm, tranh giành, lôi kéo hành khách; không
-          bắt ép hành khách sử dụng dịch vụ ngoài ý muốn; không sử dụng điện thoại khi
-          đang chạy xe (đối tác có thể dùng giá đỡ điện thoại để xem chỉ đường hay tai
-          nghe bluetooth để nghe điện thoại).
+          hiện các hành vi cấm theo Điều Luật Giao Thông Đường Bộ trong các chuyến xe của
+          ExxeVn như: không điều khiển phương tiện giao thông đường bộ mà trong cơ thể có
+          chất ma túy, trong máu hoặc hơi thở có nồng độ cồn. Không chạy quá tốc độ cho
+          phép, lạng lách, đánh võng, không đe dọa, xúc phạm, tranh giành, lôi kéo hành
+          khách. Không bắt ép hành khách sử dụng dịch vụ ngoài ý muốn; không sử dụng điện
+          thoại khi đang chạy xe (đối tác có thể dùng giá đỡ điện thoại để xem chỉ đường
+          hay tai nghe bluetooth để nghe điện thoại).
         </p>
         <p className={textClassName}>
-          Các đối tác tài xế không nên nhận chuyến trong tình trạng mệt mỏi và buồn ngủ.
-          Hãy đảm bảo tình trạng sức khỏe tốt khi đang lái xe để đảm bảo an toàn tối đa.
+          Đối tác tài xế có trách nhiệm cụ thể về vấn đề an toàn và tuyệt đối không thực
+          hiện các hành vi cấm theo Điều Luật Giao Thông Đường Bộ trong các chuyến xe của
+          ExxeVn như: không điều khiển phương tiện giao thông đường bộ mà trong cơ thể có
+          chất ma túy, trong máu hoặc hơi thở có nồng độ cồn. Không chạy quá tốc độ cho
+          phép, lạng lách, đánh võng, không đe dọa, xúc phạm, tranh giành, lôi kéo hành
+          khách. Không bắt ép hành khách sử dụng dịch vụ ngoài ý muốn; không sử dụng điện
+          thoại khi đang chạy xe (đối tác có thể dùng giá đỡ điện thoại để xem chỉ đường
+          hay tai nghe bluetooth để nghe điện thoại)
         </p>
       </>
     )
@@ -93,9 +97,8 @@ const data = [
             </li>
             <li className={textClassName}>
               - Giải quyết các sự vụ và tranh chấp phát sinh liên quan đến việc sử dụng
-              dịch vụ
+              dịch vụ trên dịch vụ vận tải.
             </li>
-            <li className={textClassName}>trên dịch vụ vận tải.</li>
             <li className={textClassName}>
               - Cung cấp thông tin cho các Cơ quan thực thi Pháp luật theo yêu cầu.
             </li>
@@ -115,7 +118,6 @@ const data = [
           <p className={textClassName}>
             Công ty sử dụng thông tin Khách hàng cung cấp để:
           </p>
-
           <p className={textClassName}>
             - Gửi các thông báo về các hoạt động trao đổi thông tin giữa Khách hàng và
             Công ty.
@@ -169,10 +171,7 @@ const data = [
               - Công ty Cổ Phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
             </p>
             <p className={textClassName}>- MST: 0317412411</p>
-            <p className={textClassName}>
-              - Trụ sở chính: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp. Thủ Đức,
-              Tp.HCM.
-            </p>
+            <p className={textClassName}>- Trụ sở chính: {ADDRESS}.</p>
             <p className={textClassName}>- Số điện thoại: {PHONE}</p>
             <p className={textClassName}>- Email: info@exxe.vn - ExxeVn2022@gmail.com </p>
           </ul>
@@ -258,7 +257,6 @@ const data = [
 
         <div className={elementClassName}>
           <p className={titleClassName}>3. Thời gian lưu trữ thông tin</p>
-
           <p className={textClassName}>
             - Dữ liệu cá nhân của Khách hàng sẽ được lưu trữ cho đến khi có yêu cầu hủy bỏ
             hoặc tự Khách hàng đăng nhập và thực hiện hủy bỏ. Còn lại trong mọi trường hợp
@@ -284,23 +282,12 @@ const data = [
           <p className={titleClassName}>
             5. Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân
           </p>
-
-          <p className={textClassName}>
-            Công ty sử dụng thông tin Khách hàng cung cấp để:
-          </p>
-
           <ul>
-            <li className={textClassName}>
-              <span className="font-semibold">
-                - Công ty Cổ Phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
-              </span>
+            <li className={textClassNameSemibold}>
+              - Công ty Cổ Phần Đầu Tư Công Nghệ và Vận Tải ExxeVn
             </li>
-            <li className={textClassName}>
-              <span className="font-semibold">- MST: 0317412411</span>
-            </li>
-            <li className={textClassName}>
-              - Trụ sở chính: 27 Lưu Đình Lễ, Phương An Khánh, TP. Thủ Đức, Tp.HCM
-            </li>
+            <li className={textClassNameSemibold}>- MST: 0317412411</li>
+            <li className={textClassName}>- Trụ sở chính: {ADDRESS}</li>
             <li className={textClassName}>
               - Số điện thoại:
               <span className="font-semibold">{PHONE}</span>
@@ -332,15 +319,17 @@ const data = [
             các bên nhằm duy trì sự tin cậy của Thành viên vào chất lượng dịch vụ của dịch
             vụ vận tải .
           </p>
-          <p className={titleClassName}>Khách hàng có thể thực hiện theo các bước sau:</p>
+          <p className={textClassNameSemibold}>
+            Khách hàng có thể thực hiện theo các bước sau:
+          </p>
 
           <ul>
             <li className={`${textClassName} mb-12`}>
               <span className="font-semibold">Bước 1: </span>
-              Khách hàng khiếu nại về dịch vụ qua số điện thoại 19004744 hoặc gửi email
-              cho Bộ phận Chăm sóc Khách hàng tại địa chỉ Email: Exxevn2022@gmail.com.
-              Thời gian để Công ty tiếp nhận khiếu nại là 3 ngày kể từ ngày sử dụng dịch
-              vụ hoặc từ ngày phát sinh sự việc.
+              Khách hàng khiếu nại về dịch vụ qua số điện thoại {PHONE} hoặc gửi email cho
+              Bộ phận Chăm sóc Khách hàng tại địa chỉ Email: Exxevn2022@gmail.com. Thời
+              gian để Công ty tiếp nhận khiếu nại là 3 ngày kể từ ngày sử dụng dịch vụ
+              hoặc từ ngày phát sinh sự việc.
             </li>
             <li className={`${textClassName} mb-12`}>
               <span className="font-semibold">Bước 2: </span>
@@ -357,11 +346,11 @@ const data = [
               </p>
             </li>
             <li className={`${textClassName} mb-12`}>
-              <span className="font-semibold">Bước 3: </span>
-              Giải quyết vấn đề: Bộ phận Chăm sóc Khách hàng sẽ tiến hành xác minh, kiểm
-              chứng và phân tích tính chất và mức độ của nội dung khiếu nại, phạm vi khiếu
-              nại và trách nhiệm xử lý để phối hợp với Tài xế và Bên cung cấp dịch vụ thứ
-              3 đưa ra biện pháp cụ thể để hỗ trợ Khách hàng giải quyết tranh chấp đó.
+              <p className="font-semibold">Bước 3: Giải quyết vấn đề: </p>
+              Bộ phận Chăm sóc Khách hàng sẽ tiến hành xác minh, kiểm chứng và phân tích
+              tính chất và mức độ của nội dung khiếu nại, phạm vi khiếu nại và trách nhiệm
+              xử lý để phối hợp với Tài xế và Bên cung cấp dịch vụ thứ 3 đưa ra biện pháp
+              cụ thể để hỗ trợ Khách hàng giải quyết tranh chấp đó.
               <p className="font-semibold ml-24 italic">
                 3a. Chuyển các vấn đề có liên quan trực tiếp đến Công ty cho các Bộ phận
                 có liên quan kiểm tra và đối chiếu.
@@ -374,218 +363,221 @@ const data = [
               nại. Tài xế sẽ thông báo cho Khách hàng biện pháp xử lý hoặc ủy quyền thông
               báo cho Công ty.
             </li>
-
             <li className={`${textClassName} mb-12`}>
-              <span className="font-semibold">Bước 4: </span>
-              Đóng khiếu nại:
-              <p className="font-semibold ml-24 italic">
-                4a. Khách hàng đồng ý với các phản hồi của Bộ phận Chăm sóc Khách hàng Kết
-                thúc khiếu nại. Khách hàng không đồng ý, Quay lại bước 3
+              <p className="font-semibold">Bước 4: Đóng khiếu nại:</p>
+              <div className="ml-24">
+                <p className={textClassName}>
+                  4a. Khách hàng đồng ý với các phản hồi của Bộ phận Chăm sóc Khách hàng
+                  Kết thúc khiếu nại. Khách hàng không đồng ý, Quay lại bước 3
+                </p>
+                <p className={textClassName}>
+                  4b. Theo dõi các giải quyết khiếu nại của Tài xế Kết thúc khiếu nại khi
+                  Khách hàng và Tài xế đã thỏa thuận xong.
+                </p>
+              </div>
+
+              <p className={textClassName}>
+                Khi nhận được thông báo về biện pháp xử lý từ Tài xế nhưng Khách hàng
+                không đồng ý thì Công ty sẽ chủ trì việc thương lượng, hòa giải giữa Khách
+                hàng và Tài xế để đi đến kết quả giải quyết phù hợp với cả hai bên.
               </p>
-              <p className="font-semibold ml-24 italic">
-                4b. Theo dõi các giải quyết khiếu nại của Tài xế Kết thúc khiếu nại khi
-                Khách hàng và Tài xế đã thỏa thuận xong.
+              <p className={textClassName}>
+                Trong trường hợp Khách hàng và Tài xế không đi đến thỏa thuận chung hoặc
+                Khách hàng không đồng ý với những biện pháp giải quyết cuối cùng của Tài
+                xế và/hoặc nằm ngoài khả năng và thẩm quyền của Công ty thì Khách hàng
+                hoặc Tài xế có thể nhờ đến Cơ quan Nhà nước có thẩm quyền can thiệp và
+                giải quyết theo Pháp luật nhằm đảm bảo lợi ích hợp pháp của các bên.
+              </p>
+              <p className={textClassName}>
+                Công ty tôn trọng và nghiêm túc thực hiện các quy định của Pháp luật về
+                Bảo vệ quyền lợi của người dùng. Công ty khuyến nghị Khách hàng và Tài xế
+                cung cấp chính xác, trung thực, chi tiết các thông tin cá nhân và nội dung
+                đăng tin liên quan đến dịch vụ.
+              </p>
+              <p className={textClassName}>
+                Chúng tôi cũng đề nghị Tài xế cần nghiêm túc tuân thủ các quy định của
+                Pháp luật, cũng như có những hành vi phù hợp đối với Khách hàng.
+              </p>
+              <p className={textClassName}>
+                Mọi hành vi lừa đảo, gian lận trong kinh doanh, gây tổn hại đến người khác
+                đều bị lên án và phải chịu hoàn toàn trách nhiệm trước Pháp luật.
+              </p>
+              <p className={textClassName}>
+                Các bên bao gồm Khách hàng và Tài xế sẽ phải có trách nhiệm tích cực trong
+                việc giải quyết khiếu nại. Tài xế cần có trách nhiệm chủ động xử lý và
+                cung cấp văn bản giấy tờ chứng thực thông tin liên quan đến sự việc đang
+                có khiếu nại, tranh chấp với Khách hàng.
+              </p>
+              <p className={textClassName}>
+                Công ty chỉ đóng vai trò hỗ trợ, phối hợp việc thương lượng, hòa giải và
+                giải quyết khiếu nại giữ Khách hàng và Tài xế. Công ty cũng có trách nhiệm
+                cung cấp những thông tin liên quan đến Khách hàng và Tài xế nếu được Tài
+                xế hoặc Khách hàng hoặc Cơ quan Pháp luật có thẩm quyền yêu cầu. Sau khi
+                Khách hàng và Tài xế đã giải quyết xong tranh chấp, cần có trách nhiệm báo
+                lại cho Công ty để cập nhật tình hình.
+              </p>
+              <p className={textClassName}>
+                Trong trường hợp giao dịch phát sinh mâu thuẫn mà lỗi thuộc về Tài xế:
+                Công ty sẽ áp dụng các biện pháp xử lý vi phạm tương ứng bao gồm nhưng
+                không giới hạn: cảnh cáo, khóa tài khoản hoặc chuyển cho Cơ quan Pháp luật
+                có thẩm quyền tùy theo mức độ của sai phạm. Công ty sẽ chấm dứt và gỡ bỏ
+                toàn bộ tin bài về sản phẩm, dịch vụ của Tài xế đó trên dịch vụ vận tải
+                đồng thời yêu cầu Tài xế bồi hoàn cho Khách hàng thỏa đáng trên cơ sở thỏa
+                thuận với Khách hàng.
               </p>
             </li>
           </ul>
-          <p className={textClassName}>
-            Khi nhận được thông báo về biện pháp xử lý từ Tài xế nhưng Khách hàng không
-            đồng ý thì Công ty sẽ chủ trì việc thương lượng, hòa giải giữa Khách hàng và
-            Tài xế để đi đến kết quả giải quyết phù hợp với cả hai bên.
-          </p>
-          <p className={textClassName}>
-            Trong trường hợp Khách hàng và Tài xế không đi đến thỏa thuận chung hoặc Khách
-            hàng không đồng ý với những biện pháp giải quyết cuối cùng của Tài xế và/hoặc
-            nằm ngoài khả năng và thẩm quyền của Công ty thì Khách hàng hoặc Tài xế có thể
-            nhờ đến Cơ quan Nhà nước có thẩm quyền can thiệp và giải quyết theo Pháp luật
-            nhằm đảm bảo lợi ích hợp pháp của các bên.
-          </p>
-          <p className={textClassName}>
-            Công ty tôn trọng và nghiêm túc thực hiện các quy định của Pháp luật về Bảo vệ
-            quyền lợi của người dùng. Công ty khuyến nghị Khách hàng và Tài xế cung cấp
-            chính xác, trung thực, chi tiết các thông tin cá nhân và nội dung đăng tin
-            liên quan đến dịch vụ.
-          </p>
-          <p className={textClassName}>
-            Chúng tôi cũng đề nghị Tài xế cần nghiêm túc tuân thủ các quy định của Pháp
-            luật, cũng như có những hành vi phù hợp đối với Khách hàng.
-          </p>
-          <p className={textClassName}>
-            Mọi hành vi lừa đảo, gian lận trong kinh doanh, gây tổn hại đến người khác đều
-            bị lên án và phải chịu hoàn toàn trách nhiệm trước Pháp luật.
-          </p>
-          <p className={textClassName}>
-            Các bên bao gồm Khách hàng và Tài xế sẽ phải có trách nhiệm tích cực trong
-            việc giải quyết khiếu nại. Tài xế cần có trách nhiệm chủ động xử lý và cung
-            cấp văn bản giấy tờ chứng thực thông tin liên quan đến sự việc đang có khiếu
-            nại, tranh chấp với Khách hàng.
-          </p>
-          <p className={textClassName}>
-            Công ty chỉ đóng vai trò hỗ trợ, phối hợp việc thương lượng, hòa giải và giải
-            quyết khiếu nại giữ Khách hàng và Tài xế. Công ty cũng có trách nhiệm cung cấp
-            những thông tin liên quan đến Khách hàng và Tài xế nếu được Tài xế hoặc Khách
-            hàng hoặc Cơ quan Pháp luật có thẩm quyền yêu cầu. Sau khi Khách hàng và Tài
-            xế đã giải quyết xong tranh chấp, cần có trách nhiệm báo lại cho Công ty để
-            cập nhật tình hình.
-          </p>
-          <p className={textClassName}>
-            Trong trường hợp giao dịch phát sinh mâu thuẫn mà lỗi thuộc về Tài xế: Công ty
-            sẽ áp dụng các biện pháp xử lý vi phạm tương ứng bao gồm nhưng không giới hạn:
-            cảnh cáo, khóa tài khoản hoặc chuyển cho Cơ quan Pháp luật có thẩm quyền tùy
-            theo mức độ của sai phạm. Công ty sẽ chấm dứt và gỡ bỏ toàn bộ tin bài về sản
-            phẩm, dịch vụ của Tài xế đó trên dịch vụ vận tải đồng thời yêu cầu Tài xế bồi
-            hoàn cho Khách hàng thỏa đáng trên cơ sở thỏa thuận với Khách hàng.
-          </p>
         </div>
 
         <div className={elementClassName}>
           <p className={titleClassName}>
-            BIỆN PHÁP XỬ LÝ VI PHẠM ĐỐI VỚI NHỮNG NGƯỜI KHÔNG TU N THỦ QUY CHẾ HOẠT ĐỘNG
+            BIỆN PHÁP XỬ LÝ VI PHẠM ĐỐI VỚI NHỮNG NGƯỜI KHÔNG TUÂN THỦ QUY CHẾ HOẠT ĐỘNG
             CỦA SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ.
           </p>
-          <p className={titleClassName}>Đình chỉ thủ công đối với các vi phạm sau:</p>
-          <p className={titleClassName}>A. ĐỐI VỚI TÀI XẾ:</p>
-
+          <p className={textClassNameSemibold}>
+            Đình chỉ thủ công đối với các vi phạm sau:
+          </p>
+          <p className={textClassNameSemibold}>A. ĐỐI VỚI TÀI XẾ:</p>
           <ul>
-            <li className={textClassName}>- Hành vi vi phạm chất lượng dịch vụ.</li>
+            <li className={textClassName}>• Hành vi vi phạm chất lượng dịch vụ.</li>
             <li className={textClassName}>
-              - Hành động liên quan đến việc Quấy rối tình dục với Khách hàng, Tài xế
-              khác, nhân viên ExxeVn (bằng hành vi, qua văn bản, tin nhắn, điện thoại,
+              • Hành động liên quan đến việc Quấy rối tình dục với Khách hàng, Tài xế
+              khác, nhân viên ExxeVn (bằng hành vi, qua văn bản, tin nhắn,  điện thoại,
               email, mạng xã hội hoặc lời nói).
             </li>
             <li className={textClassName}>
-              - Thực hiện hành vi vi phạm pháp luật nghiêm trọng, tội phạm.
+              • Thực hiện hành vi vi phạm pháp luật nghiêm trọng, tội phạm.
             </li>
             <li className={textClassName}>
-              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
+              • Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
               giả mạo, phỉ báng Khách hàng, Tài xế khác, Người Bán/ExxeVn, cán bộ, nhân
               viên ExxeVn trực tiếp hoặc thông qua các phương tiện truyền thông.
             </li>
             <li className={textClassName}>
-              - Sử dụng dữ liệu và tài khoản giả để đăng ký tài khoản: bằng lái, CMND giả,
+              • Sử dụng dữ liệu và tài khoản giả để đăng ký tài khoản: bằng lái, CMND giả,
               Xe giấy tờ giả, sử dụng tài khoản bị chấm dứt...
             </li>
             <li className={textClassName}>
-              - Tài khoản của Tài xế hoặc khách hàng có dấu hiệu bị tấn công, xâm nhập bởi
+              • Tài khoản của Tài xế hoặc khách hàng có dấu hiệu bị tấn công, xâm nhập bởi
               bên thứ ba.
             </li>
             <li className={textClassName}>
-              - Điều khiển phương tiện vụ ẩu, quá tốc độ quy định, không an toàn, gây tai
+              • Điều khiển phương tiện vụ ẩu, quá tốc độ quy định, không an toàn, gây tai
               nạn nghiêm trọng khi tham gia cung cấp dịch vụ.
             </li>
             <li className={textClassName}>
-              - Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Khách
-              hàng, Tài xế khác bằng bất kỳ phương tiện nào (bao gồm cả mạng xã hội).
+              • Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Khách
+              hàng, Tài xế khác bằng bất kỳ phương tiện nào (bao gồm cả mạng xã hội).
             </li>
             <li className={textClassName}>
-              - Tài xế có hành vi xúc phạm danh dự, nhân phẩm, gây tổn hại đến Khách hàng,
-              nhân viên ExxeVn.
+              • Tài xế có hành vi xúc phạm danh dự, nhân phẩm, gây tổn hại đến Khách hàng,
+              nhân viên ExxeVn.
             </li>
             <li className={textClassName}>
-              - Tài xế sử dụng các chất kích thích, chất cồn ảnh hưởng đến an toàn chuyến
-              đi khi cung cấp dịch vụ cho Khách hàng gây mất uy tín, hình ảnh, thương hiệu
+              • Tài xế sử dụng các chất kích thích, chất cồn ảnh hưởng đến an toàn chuyến
+              đi khi cung cấp dịch vụ cho Khách hàng gây mất uy tín, hình ảnh, thương hiệu
               của ExxeVn.
             </li>
             <li className={textClassName}>
-              - Bị phát hiện hoặc báo cáo là mang theo vũ khí sắc nhọn hoặc chất kích
-              thích trong khi đang thực hiện đơn hàng.
+              • Bị phát hiện hoặc báo cáo là mang theo vũ khí sắc nhọn hoặc chất kích
+              thích trong khi đang thực hiện đơn hàng.
             </li>
             <li className={textClassName}>
-              - Tài xế có hành vi tranh cãi, khiêu khích đánh nhau (qua lời nói hoặc văn
+              • Tài xế có hành vi tranh cãi, khiêu khích đánh nhau (qua lời nói hoặc văn
               bản hoặc nhắn tin hoặc mạng xã hội) với khách hàng trong hoặc sau chuyến đi.
             </li>
             <li className={textClassName}>
-              - Chạy sai xe (Không trùng biển số đăng ký) và sử dụng Xe mang biển số giả….
+              • Chạy sai xe (Không trùng biển số đăng ký) và sử dụng Xe mang biển số giả….
             </li>
             <li className={textClassName}>
-              - Đánh Cãi nhau với Tài xế khác của ExxeVn trước mặt Khách hàng hoặc trong
+              • Đánh Cãi nhau với Tài xế khác của ExxeVn trước mặt Khách hàng hoặc trong
               khu vực công cộng (Đang hoạt động/ Không hoạt động).
             </li>
             <li className={textClassName}>
-              - Cản trở các Tài xế khác thực hiện các chuyến xe/đơn hàng của họ.
+              • Cản trở các Tài xế khác thực hiện các chuyến xe/đơn hàng của họ.
             </li>
             <li className={textClassName}>
-              - Liên hệ với Khách hàng cho các vấn đề khác ngoài vấn đề đặt đơn hàng
-              chuyến xe gây phiền nhiễu, nhằm quấy rối.
+              • Liên hệ với Khách hàng cho các vấn đề khác ngoài vấn đề đặt đơn hàng
+              chuyến xe gây phiền nhiễu, nhằm quấy rối.
             </li>
             <li className={textClassName}>
-              - Yêu cầu Khách hàng thanh toán thêm cước phí ngoài quy định (tiền boa, tiền
+              • Yêu cầu Khách hàng thanh toán thêm cước phí ngoài quy định (tiền boa, tiền
               giữ xe, tiền xăng...).
             </li>
             <li className={textClassName}>
-              - Mang theo người lạ khi đang thực hiện chở khách….
+              • Mang theo người lạ khi đang thực hiện chở khách….
             </li>
           </ul>
         </div>
 
         <div className={elementClassName}>
-          <p className={titleClassName}>B. ĐỐI VỚI KHÁCH HÀNG:</p>
+          <p className={textClassNameSemibold}>B. ĐỐI VỚI KHÁCH HÀNG:</p>
           <ul>
             <li className={textClassName}>
-              - Xúc phạm danh dự, nhân phẩm, gây tổn hại đến với Tài xế (qua văn bản hoặc
+              • Xúc phạm danh dự, nhân phẩm, gây tổn hại đến với Tài xế (qua văn bản hoặc
               lời nói/tin nhắn/mạng xã hội) (vi phạm nặng: 1 lần sẽ bị khóa 7 ngày; vi
               phạm nhẹ: 2 lần sẽ bị khóa 7 ngày).
             </li>
             <li className={textClassName}>
-              - Thực hiện hành vi phạm tội trong chuyến xe trong đơn hàng của ExxeVn.
+              • Thực hiện hành vi phạm tội trong chuyến xe trong đơn hàng của ExxeVn.
             </li>
             <li className={textClassName}>
-              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
+              • Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
               giả mạo, phi bảng ExxeVn trực tiếp hoặc thông qua các phương tiện truyền
               thông.
             </li>
             <li className={textClassName}>
-              - Cố tình báo cáo, phản hồi thông tin không đúng sự thật gây ảnh hưởng xấu
+              • Cố tình báo cáo, phản hồi thông tin không đúng sự thật gây ảnh hưởng xấu
               tới Tài xế của ExxeVn. Phát tán thông tin số điện thoại, hình ảnh hoặc thông
               tin khác của Tài xế/Khách hàng bằng bất kỳ phương tiện nào với mục đích xấu.
             </li>
             <li className={textClassName}>
-              - Khách hàng có hành vi đe dọa tính mạng, sức khỏe, tài sản, xúc phạm danh
+              • Khách hàng có hành vi đe dọa tính mạng, sức khỏe, tài sản, xúc phạm danh
               dự, nhân phẩm Tài xế/nhân viên ExxeVn và người thân của họ.
             </li>
             <li className={textClassName}>
-              - Đưa hàng hoá hoặc tiền hoặc lợi ích khác cho nhân viên của ExxeVn nhằm mục
+              • Đưa hàng hoá hoặc tiền hoặc lợi ích khác cho nhân viên của ExxeVn nhằm mục
               đích phá vỡ các quy tắc của ExxeVn. Bị phát hiện, báo cáo là có mang theo vũ
               khí hoặc ma túy trong chuyến đi.
             </li>
             <li className={textClassName}>
-              - Khách hàng có hành vi đánh, dọa đánh, giết (qua lời nói hoặc văn bản hoặc
+              • Khách hàng có hành vi đánh, dọa đánh, giết (qua lời nói hoặc văn bản hoặc
               tin nhắn, qua việc sử dụng các mạng xã hội) với Tài xế trước, trong hoặc sau
               chuyến đi.
             </li>
             <li className={textClassName}>
-              - Không thanh toán tiền thanh toán không đủ tiền theo lệnh đặt xe/đơn hàng
+              • Không thanh toán tiền thanh toán không đủ tiền theo lệnh đặt xe/đơn hàng
               cho Tài xế ExxeVn.
             </li>
             <li className={textClassName}>
-              - Liên hệ với Tài xế với mục đích lôi kéo qua các công ty đối thủ trước
+              • Liên hệ với Tài xế với mục đích lôi kéo qua các công ty đối thủ trước
               trong/sau chuyến đi (vi phạm 2 lần đối với 2 tài xế khác nhau).
             </li>
             <li className={textClassName}>
-              - Khách hàng không liên lạc được hoặc số điện thoại không có thật.
+              • Khách hàng không liên lạc được hoặc số điện thoại không có thật.
             </li>
             <li className={textClassName}>
-              - Khách hàng đợi Tài xế đến nơi rồi huỷ không liên lạc được. Khách hàng đặt
+              • Khách hàng đợi Tài xế đến nơi rồi huỷ không liên lạc được. Khách hàng đặt
               nhiều chuyến 1 lúc rồi đi với Tài xế nào đến trước.
             </li>
             <li className={textClassName}>
-              - Các hành vi khác vi phạm tiêu chuẩn Chất lượng Dịch vụ của Tài xế do
+              • Các hành vi khác vi phạm tiêu chuẩn Chất lượng Dịch vụ của Tài xế do
               ExxeVn quy định trong từng thời kỳ.
             </li>
             <li className={textClassName}>
-              - Cấu kết với Tài xế của ExxeVn thực hiện chuyến xe/đơn hàng giả mạo hoặc
+              • Cấu kết với Tài xế của ExxeVn thực hiện chuyến xe/đơn hàng giả mạo hoặc
               các giao dịch bất thường trên ví thông qua hệ thống của ExxeVn nhằm trục lợi
               cho minh và/hoặc người khác.
             </li>
             <li className={textClassName}>
-              - Cấu kết, giúp sức, thông đồng, thủ đoạn, hành vi khác cùng với Tài xế/
+              • Cấu kết, giúp sức, thông đồng, thủ đoạn, hành vi khác cùng với Tài xế/
               Khách hàng khác tổ chức, cá nhân khác nhằm thực hiện các hành vi gian lận,
               lừa đảo, chiếm đoạt tài sản của ExxeVn/Tài xế. Các hành vi vi phạm pháp luật
               khác gây ảnh hưởng xấu/ có khả năng gây ảnh hương xấu nghiêm trọng đến hình
               ảnh, uy tín, thương hiệu của ExxeVn (theo đánh giá của ExxeVn).
             </li>
             <li className={textClassName}>
-              - Khách hàng có tài khoản không hợp lệ. Lưu ý nếu khách hàng bị 3 lần cảnh
+              • Khách hàng có tài khoản không hợp lệ. Lưu ý nếu khách hàng bị 3 lần cảnh
               cáo sẽ bằng 1 lần chấm dứt vĩnh viễn.
             </li>
           </ul>
@@ -593,43 +585,44 @@ const data = [
 
         <div className={elementClassName}>
           <p className={titleClassName}>
-            BIỆN PHÁP XỬ LÝ VỚI CÁC HÀNH VI X M PHẠM QUYỀN LỢI NGƯỜI TIÊU DÙNG TRÊN SÀN
+            BIỆN PHÁP XỬ LÝ VỚI CÁC HÀNH VI XÂM PHẠM QUYỀN LỢI NGƯỜI TIÊU DÙNG TRÊN SÀN
             GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
           </p>
-          <p className={`${textClassName} italic`}>
+          <p className={textClassNameSemiboldItalic}>
             * Tài xế sẽ từ chối phục vụ khi hành khách có những hàng hóa như sau:
           </p>
           <ul>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               - Rượu các loại; Thuốc lá điếu, xì gà và các dạng thuốc lá thành phẩm khác.
               Các loại pháo nổ, thuốc pháo nổ. Các chất ma túy. Thiết bị gây nhiễu thông
               tin di động tế bào. Đèn trời. Vũ khí quân dụng, trang thiết bị, kĩ thuật,
               khí tài, phương tiện chuyên dùng quân sự, công an, quân trang.
             </li>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               - Đồ chơi nguy hiểm, đồ chơi có hại tới giáo dục nhân cách và sức khỏe của
               trẻ em hoặc tới an ninh, trật tự, văn hóa xã hội (bao gồm cả các chương
               trình trò chơi điện tử).
             </li>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               - Các sản phẩm văn hóa phản động, đồi trụy, mê tín dị đoan hoặc có hại tới
               giáo dục thẩm mỹ, nhân cách. Di vật, cổ vật, bảo vật quốc gia thuộc di tích
               lịch sử văn hóa và danh lam thắng cảnh, thuộc sở hữu toàn dân, sở hữu của
               các tổ chức chính trị, tổ chức chính trị – xã hội. Hóa chất độc, tiền chất.
               Thuốc lá điếu, xì gà và các dạng thuốc lá thành phẩm khác nhập lậu.
             </li>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               - Thực vật, động vật hoang dã. Thủy sản cấm khai thác, thủy sản có dư lượng
               chất độc hại vượt quá giới hạn cho phép, thủy sản có yếu tố độc tự nhiên gây
               nguy hiểm đến tính mạng con người. Các loại thuốc chữa bệnh cho người, các
               loại vắc xin, sinh phẩm y tế, mỹ phẩm, hóa chất và chế phẩm diệt côn trùng,
               diệt khuẩn trong lĩnh vực gia dụng và y tế chưa được sử dụng tại Việt Nam.
             </li>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               - Các loại trang thiết bị y tế chưa được phép sử dụng tại Việt Nam. Các loại
               mỹ phẩm y tế chưa được công bố với cơ quan có thẩm quyền.
             </li>
-            <li className={`${textClassName} italic font-semibold`}>
+
+            <li className={textClassNameSemiboldItalic}>
               ** Đối tác tài xế sẽ chịu trách nhiệm khi biết hành khách có mang các vật
               dụng và hàng hoá trên nhưng bao che, không khai báo với các cơ quan có thẩm
               quyền. Đối tác tài xế phải chịu trách nhiệm trước pháp luật.
@@ -642,7 +635,7 @@ const data = [
             III. QUY CHẾ HOẠT ĐỘNG, SỬ DỤNG DỊCH VỤ VÀ PHƯƠNG THỨC THANH TOÁN
           </p>
 
-          <p className={titleClassName}>1. Đối với khách hàng:</p>
+          <p className={textClassNameSemibold}>• Đối với khách hàng:</p>
           <ul className="list-disc ml-24">
             <li className={textClassName}>
               Mở website: http://www.Exxe.vn hoặc tải ứng dụng ExxeVn về thiết bị và cài
@@ -669,10 +662,10 @@ const data = [
               chuyến, hãy đảm bảo bạn luôn sẵn sàng điện thoại để tài xế có thể liên lạc
               được với bạn về chuyến đi.
             </li>
-            <li className={textClassName}>
+            <li className={textClassNameSemibold}>
               Giá cước chuyến đi đều đã bao gồm thuế VAT10%.
             </li>
-            <li className={`${textClassName} italic`}>
+            <li className={textClassNameSemiboldItalic}>
               *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Khách hàng có nhu cầu
               chuyến đi. Sau khi hoàn tất chuyến, 20% đặt cọc này sẽ đc chuyển đến Tài
               khoản của Tài Xế.
@@ -681,57 +674,60 @@ const data = [
         </div>
 
         <div className={elementClassName}>
-          <p className={titleClassName}>2. Đối với tài xế</p>
+          <p className={textClassNameSemibold}>• Đối với tài xế</p>
           <ul className="list-disc ml-24">
             <li className={textClassName}>
-              Mở website: http://wwww.Exxe.vn hoặc tải ứng dụng ExxeDriver về thiết bị và
-              cài đặt
+              • Mở website: http://wwww.Exxe.vn hoặc tải ứng dụng ExxeDriver về thiết bị
+              và cài đặt
             </li>
             <li className={textClassName}>
-              Đăng kí tài khoản: đối tác đăng kí tài khoản bằng số điện thoại cá nhân.
+              • Đăng kí tài khoản: đối tác đăng kí tài khoản bằng số điện thoại cá nhân.
               Cung cấp đầy đủ thông tin giấy tờ pháp lý. Lưu ý: mỗi số điện thoại chỉ có
               thể đăng kí cho duy nhất 1 tài khoản Tài Xế.
             </li>
             <li className={textClassName}>
-              Lựa chọn chuyến: đối tác tài xế có thể chọn chuyến sẵn có hoặc tạo cuốc tiện
-              chuyến. Nếu chọn cuốc tiện chuyến, hãy cung cấp thông tin theo yêu cầu của
-              hệ thống.
+              • Lựa chọn chuyến: đối tác tài xế có thể chọn chuyến sẵn có hoặc tạo cuốc
+              tiện chuyến. Nếu chọn cuốc tiện chuyến, hãy cung cấp thông tin theo yêu cầu
+              của hệ thống.
             </li>
             <li className={textClassName}>
-              Xác nhận thông tin chuyến: Đối tác Tài Xế kiểm tra lại thông tin chuyến đi.
-              Tiến hành đặt cọc: đối tác Tài Xế sẽ đặt cọc 20% chuyến đi để nhận chuyến.
+              • Xác nhận thông tin chuyến: Đối tác Tài Xế kiểm tra lại thông tin chuyến
+              đi.
+            </li>
+            <li className={textClassName}>
+              • Tiến hành đặt cọc: đối tác Tài Xế sẽ đặt cọc 20% chuyến đi để nhận chuyến.
               (Hoặc nạp tiền vào Tài khoản để nhận chuyến đi).
             </li>
-
             <li className={textClassName}>
-              Các hình thức thanh toán gồm có: ví điện tử, chuyển khoản, trực tuyến, Visa,
-              Master Card…
+              • Các hình thức thanh toán gồm có: ví điện tử, chuyển khoản, trực tuyến,
+              Visa, Master Card…
             </li>
             <li className={textClassName}>
-              Thực hiện chuyến đi: Sau khi nhận chuyến thành công, Đối tác liên hệ với
+              • Thực hiện chuyến đi: Sau khi nhận chuyến thành công, Đối tác liên hệ với
               hành khách nhằm xác nhận điểm đón (với chuyến có sẵn) hoặc đợi hệ thống ghép
               với khách hàng (với cuốc tiện chuyến)
             </li>
             <li className={textClassName}>
-              <p className="font-semibold">
-                CHÚ Ý: ExxeVnDriver thu phí dịch vụ 5% trên mỗi chuyến đi hoàn tất.
-              </p>
+              • CHÚ Ý:{' '}
+              <span className={textClassNameSemiboldItalic}>
+                ExxeVnDriver thu phí dịch vụ 5% trên mỗi chuyến đi hoàn tất.
+              </span>
             </li>
             <li className={textClassName}>
-              Số tiền đặt cọc (20%) của khách hàng và (20%) của tài xế sẽ được chuyển về
+              • Số tiền đặt cọc (20%) của khách hàng và (20%) của tài xế sẽ được chuyển về
               ví của tài xế sau khi Tài xế bấm xác nhận đã hoàn tất chuyến đi.
             </li>
-            <li className={`${textClassName} italic`}>
-              5% phí sử dụng dịch vụ ExxeVn sẽ đc trừ vào tk của Tài xế.
+            <li className={textClassNameSemiboldItalic}>
+              • 5% phí sử dụng dịch vụ ExxeVn sẽ đc trừ vào tk của Tài xế.
             </li>
-            <li className={`${textClassName} italic`}>
-              Tài xế có thể rút tiền từ ví ở ExxeVn về tài khoản ngân hàng của mình sau
+            <li className={textClassNameSemiboldItalic}>
+              • Tài xế có thể rút tiền từ ví ở ExxeVn về tài khoản ngân hàng của mình sau
               khi hoàn tất chuyến đi.
             </li>
-            <li className={`${textClassName} italic`}>
-              Số tiền rút về tài khoản sẽ được chuyển khoản trong vòng 24h làm việc.
+            <li className={textClassNameSemiboldItalic}>
+              • Số tiền rút về tài khoản sẽ được chuyển khoản trong vòng 24h làm việc.
             </li>
-            <li className={`${textClassName} italic`}>
+            <li className={textClassNameSemiboldItalic}>
               *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi.
               Sau khi hoàn tất chuyến, 20% đặc cọc này sẽ đc chuyển lại Ví của Tài Xế.
             </li>
@@ -745,9 +741,7 @@ const data = [
             HÀNG) TRONG TRƯỜNG HỢP SÀN GIAO DỊCH VẬN TẢI THƯƠNG MẠI ĐIỆN TỬ CÓ CHỨC NĂNG
             ĐẶT CHUYẾN TRỰC TUYẾN:
           </p>
-          <p className={`${textClassName} font-semibold`}>
-            Chính sách huỷ chuyến và hoàn cọc:
-          </p>
+          <p className={textClassNameSemibold}>Chính sách huỷ chuyến và hoàn cọc:</p>
           <p className={textClassName}>
             Tài xế trong trường hợp muốn hủy chuyến sau khi khách hàng đã đặt chuyến thành
             công, có thể thực hiện thao tác hủy chuyến trên ứng dụng{' '}
@@ -763,67 +757,58 @@ const data = [
               Công ty Cổ phần Đầu Tư Công Nghệ và Vận Tải ExxeVn.
             </span>
           </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <p className={textClassNameSemiboldItalic}>
             Chính sách huỷ chuyến và chi phí hủy chuyến được tính như sau:
           </p>
 
-          <table className="table-auto w-full border border-solid border-border-color-1">
+          <table className="table-auto w-full">
             <thead>
               <tr className="text-left">
-                <th className="border border-solid p-12 border-border-color-1">
+                <th className="p-12 border border-solid border-border-color-1">
                   Thời điểm hủy chuyến
                 </th>
-                <th className="border border-solid p-12 border-border-color-1">
+                <th className="p-12 border border-solid border-border-color-1">
                   Phí hủy chuyến
                 </th>
-                <th className="border border-solid p-12 border-border-color-1">
+                <th className="p-12 border border-solid border-border-color-1">
                   Đánh giá hệ thống
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr className="my-12 p-4">
-                <td className="p-8 border border-solid border-border-color-1">
-                  Trong vòng 1 giờ sau khi đặt cọc
+                <td className="border border-solid border-border-color-1 p-8">
+                  Sau khi đặt cọc
                 </td>
-                <td className="p-8 border border-solid border-border-color-1">
-                  0% Tiền cọc
+                <td className="border border-solid border-border-color-1 p-8">
+                  <p className={textClassNameSemibold}>100% Tiền cọc</p>
+                  <p className={textClassNameSemibold}>*(20% cước phí chuyến xe)</p>
                 </td>
-                <td className="p-8 border border-solid border-border-color-1">3*</td>
-              </tr>
-              <tr>
-                <td className="p-8 border border-solid border-border-color-1">
-                  Sau 60 phút ***
-                </td>
-                <td className="p-8 border border-solid border-border-color-1">
-                  100% Tiền cọc
-                </td>
-                <td className="p-8 border border-solid border-border-color-1">5*</td>
+                <td className="border border-solid border-border-color-1 p-8">3*</td>
               </tr>
             </tbody>
           </table>
 
-          <p className={`${textClassName} font-semibold italic mt-24`}>
-            Vi phạm chính sách Huỷ chuyến đi:
-          </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <br />
+          <p className={textClassNameSemiboldItalic}>Vi phạm chính sách Huỷ chuyến đi:</p>
+          <p className={textClassNameSemiboldItalic}>
             *** Trường hợp Đối Tác Tài Xế phát sinh huỷ chuyến, ExxeVnDriver sẽ thu 50%
             tiền cọc của Tài Xế (10% cước phí của chuyến xe) và chuyển 50% số tiền đặt cọc
             (10% cước phí của chuyến xe) này cho khách hàng trong trường hợp không có Tài
             Xế khác nhận chuyến. (Trường hợp nếu có Tài Xế khác nhận chuyến thì 50% tiền
             đặt cọc (10% cước phí chuyến xe) sẽ được chuyển về TK của Tài Xế huỷ chuyến.
           </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <p className={textClassNameSemiboldItalic}>
             *** Trường hợp Đối Tác Tài Xế huỷ chuyến ngoài quy định, chuyến đi của khách
             hàng sẽ là chuyến đi ưu tiên. ExxeVn sẽ tìm Đối tác tài xế mới trong thời gian
             sớm nhất để chuyến đi của khách hàng dc trọn vẹn.
           </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <p className={textClassNameSemiboldItalic}>
             *** Và ngược lại, trường hợp Khách hàng huỷ chuyến dẫn đến phát sinh chi phí
             huỷ chuyến, ExxeVn sẽ thu 50% tiền đặt cọc (10% cước phí chuyến xe) và chuyển
             50% tiền cọc (10% cước phí chuyến xe) của khách hàng vào tài khoản của Tài Xế.
           </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <p className={textClassNameSemiboldItalic}>
             *** Nhằm gia tăng sự cam kết của tài xế, cũng như đảm bảo quyền lợi của khách
             hàng: Đối tác và Khách hàng vui lòng liên lạc trước chuyến đi.
           </p>
@@ -831,14 +816,14 @@ const data = [
 
         <div className={elementClassName}>
           <p className={titleClassName}>
-            QUYỀN VÀ NGHĨA VỤ CỦA THƯƠNG NH N, TỔ CHỨC CUNG CẤP DỊCH VỤ SÀN GIAO DỊCH
+            QUYỀN VÀ NGHĨA VỤ CỦA THƯƠNG NHÂN, TỔ CHỨC CUNG CẤP DỊCH VỤ SÀN GIAO DỊCH
             THƯƠNG MẠI ĐIỆN TỬ EXXEVN:
           </p>
 
-          <p className={`${textClassName} font-semibold`}>
+          <p className={textClassNameSemibold}>
             1/. Quyền và trách nhiệm của doanh nghiệp:
           </p>
-          <p className={`${textClassName} font-semibold italic`}>
+          <p className={textClassNameSemiboldItalic}>
             * Đối với doanh nghiệp cung cấp dịch vụ sàn giao dịch vận tải thương mại điện
             tử (ExxeVn):
           </p>
@@ -906,7 +891,7 @@ const data = [
             nhận đủ điều kiện kinh doanh).
           </p>
 
-          <p className={`${textClassName} italic font-semibold`}>
+          <p className={textClassNameSemiboldItalic}>
             * Đối với doanh nghiệp cung cấp dịch vụ khuyến mại trực tuyến:
           </p>
           <p className={textClassName}>
@@ -938,7 +923,7 @@ const data = [
         </div>
 
         <div className={elementClassName}>
-          <p className={`${textClassName} font-semibold`}>
+          <p className={textClassNameSemibold}>
             2. Quyền và trách nhiệm của doanh nghiệp, Hợp tác xã Vận tải:
           </p>
 
@@ -1250,6 +1235,17 @@ const data = [
             Mại Điện Tử <span className="font-semibold md:font-semibold">ExxeVn</span> .
           </p>
         </div>
+
+        <div className="flex flex-col items-end justify-end mt-24">
+          <div className="flex-center flex-col">
+            <p className={`${textClassNameSemibold} text-center max-w-[300px]`}>
+              CÔNG TY CỔ PHẦN ĐẦU TƯ CÔNG NGHỆ VÀ VẬN TẢI EXXEVN
+            </p>
+            <p className={`${textClassNameSemibold} text-center max-w-[200px]`}>
+              ĐẠI DIỆN THEO PHÁP LUẬT GIÁM ĐỐC
+            </p>
+          </div>
+        </div>
       </>
     )
   },
@@ -1257,85 +1253,84 @@ const data = [
     title: 'Phạt vi phạm và bồi thường thiệt hại',
     content: (
       <>
-        {/* {Object.entries(VI_PHAM_VA_BIEN_PHAP).map(([key, value]) => (
-          <img key={key} src={value} alt="" />
-        ))} */}
         <p className={`${titleClassName} text-center`}>
           BIỆN PHÁP XỬ LÝ VI PHẠM ĐỐI VỚI NHỮNG NGƯỜI KHÔNG TUÂN THỦ QUY CHẾ HOẠT ĐỘNG CỦA
           SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ.
         </p>
 
         <div className={elementClassName}>
-          <p className={textClassName}>Đình chỉ thủ công đối với các vi phạm sau:</p>
+          <p className={textClassNameSemibold}>
+            Đình chỉ thủ công đối với các vi phạm sau:
+          </p>
           <p className={titleClassName}>A. ĐỐI VỚI TÀI XẾ:</p>
           <ul>
-            <li className={textClassName}>- Hành vi vi phạm chất lượng dịch vụ.</li>
+            <li className={textClassName}>• Hành vi vi phạm chất lượng dịch vụ.</li>
             <li className={textClassName}>
-              - Hành động liên quan đến việc Quấy rối tình dục với Khách hàng, Tài xế
-              khác, nhân viên ExxeVn (bằng hành vi, qua văn bản, tin nhắn, điện thoại,
+              • Hành động liên quan đến việc Quấy rối tình dục với Khách hàng, Tài xế
+              khác, nhân viên ExxeVn (bằng hành vi, qua văn bản, tin nhắn,  điện thoại,
               email, mạng xã hội hoặc lời nói).
             </li>
             <li className={textClassName}>
-              - Thực hiện hành vi vi phạm pháp luật nghiêm trọng, tội phạm.
+              • Thực hiện hành vi vi phạm pháp luật nghiêm trọng, tội phạm.
             </li>
             <li className={textClassName}>
-              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
+              • Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
               giả mạo, phỉ báng Khách hàng, Tài xế khác, Người Bán/ExxeVn, cán bộ, nhân
               viên ExxeVn trực tiếp hoặc thông qua các phương tiện truyền thông.
             </li>
             <li className={textClassName}>
-              - Sử dụng dữ liệu và tài khoản giả để đăng ký tài khoản: bằng lái, CMND giả,
+              • Sử dụng dữ liệu và tài khoản giả để đăng ký tài khoản: bằng lái, CMND giả,
               Xe giấy tờ giả, sử dụng tài khoản bị chấm dứt...
             </li>
             <li className={textClassName}>
-              - Tài khoản của Tài xế hoặc khách hàng có dấu hiệu bị tấn công, xâm nhập bởi
+              • Tài khoản của Tài xế hoặc khách hàng có dấu hiệu bị tấn công, xâm nhập bởi
               bên thứ ba.
             </li>
             <li className={textClassName}>
-              - Điều khiển phương tiện vụ ẩu, quá tốc độ quy định, không an toàn, gây tai
+              • Điều khiển phương tiện vụ ẩu, quá tốc độ quy định, không an toàn, gây tai
               nạn nghiêm trọng khi tham gia cung cấp dịch vụ.
             </li>
             <li className={textClassName}>
-              - Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Khách
-              hàng, Tài xế khác bằng bất kỳ phương tiện nào (bao gồm cả mạng xã hội).
+              • Phát tán thông tin số điện thoại, hình ảnh hoặc thông tin khác của Khách
+              hàng, Tài xế khác bằng bất kỳ phương tiện nào (bao gồm cả mạng xã hội).
             </li>
             <li className={textClassName}>
-              - Tài xế có hành vi xúc phạm danh dự, nhân phẩm, gây tổn hại đến Khách hàng,
-              nhân viên ExxeVn.
+              • Tài xế có hành vi xúc phạm danh dự, nhân phẩm, gây tổn hại đến Khách hàng,
+              nhân viên ExxeVn.
             </li>
             <li className={textClassName}>
-              - Tài xế sử dụng các chất kích thích, chất cồn ảnh hưởng đến an toàn chuyến
-              đi khi cung cấp dịch vụ cho Khách hàng gây mất uy tín, hình ảnh, thương hiệu
+              • Tài xế sử dụng các chất kích thích, chất cồn ảnh hưởng đến an toàn chuyến
+              đi khi cung cấp dịch vụ cho Khách hàng gây mất uy tín, hình ảnh, thương hiệu
               của ExxeVn.
             </li>
             <li className={textClassName}>
-              - Bị phát hiện hoặc báo cáo là mang theo vũ khí sắc nhọn hoặc chất kích
-              thích trong khi đang thực hiện đơn hàng.
+              • Bị phát hiện hoặc báo cáo là mang theo vũ khí sắc nhọn hoặc chất kích
+              thích trong khi đang thực hiện đơn hàng.
             </li>
             <li className={textClassName}>
-              - Tài xế có hành vi tranh cãi, khiêu khích đánh nhau (qua lời nói hoặc văn
+              • Tài xế có hành vi tranh cãi, khiêu khích đánh nhau (qua lời nói hoặc văn
               bản hoặc nhắn tin hoặc mạng xã hội) với khách hàng trong hoặc sau chuyến đi.
             </li>
             <li className={textClassName}>
-              - Chạy sai xe (Không trùng biển số đăng ký) và sử dụng Xe mang biển số giả….
+              • Chạy sai xe (Không trùng biển số đăng ký) và sử dụng Xe mang biển số giả….
             </li>
             <li className={textClassName}>
-              - Đánh Cãi nhau với Tài xế khác của ExxeVn trước mặt Khách hàng hoặc trong
+              • Đánh Cãi nhau với Tài xế khác của ExxeVn trước mặt Khách hàng hoặc trong
               khu vực công cộng (Đang hoạt động/ Không hoạt động).
             </li>
             <li className={textClassName}>
-              - Cản trở các Tài xế khác thực hiện các chuyến xe/đơn hàng của họ.
+              • Cản trở các Tài xế khác thực hiện các chuyến xe/đơn hàng của họ.
             </li>
             <li className={textClassName}>
-              - Liên hệ với Khách hàng cho các vấn đề khác ngoài vấn đề đặt đơn hàng
-              chuyến xe gây phiền nhiễu, nhằm quấy rối.
+              • Liên hệ với Khách hàng cho các vấn đề khác ngoài vấn đề đặt đơn hàng
+              chuyến xe gây phiền nhiễu, nhằm quấy rối.
             </li>
             <li className={textClassName}>
-              - Yêu cầu Khách hàng thanh toán thêm cước phí ngoài quy định (tiền boa, tiền
+              • Yêu cầu Khách hàng thanh toán thêm cước phí ngoài quy định (tiền boa, tiền
               giữ xe, tiền xăng...).
             </li>
             <li className={textClassName}>
-              - Mang theo người lạ khi đang thực hiện chở khách….
+              • Mang theo người lạ khi đang thực hiện chở khách….
             </li>
           </ul>
         </div>
@@ -1344,70 +1339,70 @@ const data = [
           <p className={titleClassName}>B. ĐỐI VỚI KHÁCH HÀNG:</p>
           <ul>
             <li className={textClassName}>
-              - Xúc phạm danh dự, nhân phẩm, gây tổn hại đến với Tài xế (qua văn bản hoặc
+              • Xúc phạm danh dự, nhân phẩm, gây tổn hại đến với Tài xế (qua văn bản hoặc
               lời nói/tin nhắn/mạng xã hội) (vi phạm nặng: 1 lần sẽ bị khóa 7 ngày; vi
               phạm nhẹ: 2 lần sẽ bị khóa 7 ngày).
             </li>
             <li className={textClassName}>
-              - Thực hiện hành vi phạm tội trong chuyến xe trong đơn hàng của ExxeVn.
+              • Thực hiện hành vi phạm tội trong chuyến xe trong đơn hàng của ExxeVn.
             </li>
             <li className={textClassName}>
-              - Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
+              • Tuyên truyền hoặc thuyết phục người khác truyền bá tin tức gian lận hoặc
               giả mạo, phi bảng ExxeVn trực tiếp hoặc thông qua các phương tiện truyền
               thông.
             </li>
             <li className={textClassName}>
-              - Cố tình báo cáo, phản hồi thông tin không đúng sự thật gây ảnh hưởng xấu
+              • Cố tình báo cáo, phản hồi thông tin không đúng sự thật gây ảnh hưởng xấu
               tới Tài xế của ExxeVn. Phát tán thông tin số điện thoại, hình ảnh hoặc thông
               tin khác của Tài xế/Khách hàng bằng bất kỳ phương tiện nào với mục đích xấu.
             </li>
             <li className={textClassName}>
-              - Khách hàng có hành vi đe dọa tính mạng, sức khỏe, tài sản, xúc phạm danh
+              • Khách hàng có hành vi đe dọa tính mạng, sức khỏe, tài sản, xúc phạm danh
               dự, nhân phẩm Tài xế/nhân viên ExxeVn và người thân của họ.
             </li>
             <li className={textClassName}>
-              - Đưa hàng hoá hoặc tiền hoặc lợi ích khác cho nhân viên của ExxeVn nhằm mục
+              • Đưa hàng hoá hoặc tiền hoặc lợi ích khác cho nhân viên của ExxeVn nhằm mục
               đích phá vỡ các quy tắc của ExxeVn. Bị phát hiện, báo cáo là có mang theo vũ
               khí hoặc ma túy trong chuyến đi.
             </li>
             <li className={textClassName}>
-              - Khách hàng có hành vi đánh, dọa đánh, giết (qua lời nói hoặc văn bản hoặc
+              • Khách hàng có hành vi đánh, dọa đánh, giết (qua lời nói hoặc văn bản hoặc
               tin nhắn, qua việc sử dụng các mạng xã hội) với Tài xế trước, trong hoặc sau
               chuyến đi.
             </li>
             <li className={textClassName}>
-              - Không thanh toán tiền thanh toán không đủ tiền theo lệnh đặt xe/đơn hàng
+              • Không thanh toán tiền thanh toán không đủ tiền theo lệnh đặt xe/đơn hàng
               cho Tài xế ExxeVn.
             </li>
             <li className={textClassName}>
-              - Liên hệ với Tài xế với mục đích lôi kéo qua các công ty đối thủ trước
+              • Liên hệ với Tài xế với mục đích lôi kéo qua các công ty đối thủ trước
               trong/sau chuyến đi (vi phạm 2 lần đối với 2 tài xế khác nhau).
             </li>
             <li className={textClassName}>
-              - Khách hàng không liên lạc được hoặc số điện thoại không có thật.
+              • Khách hàng không liên lạc được hoặc số điện thoại không có thật.
             </li>
             <li className={textClassName}>
-              - Khách hàng đợi Tài xế đến nơi rồi huỷ không liên lạc được. Khách hàng đặt
+              • Khách hàng đợi Tài xế đến nơi rồi huỷ không liên lạc được. Khách hàng đặt
               nhiều chuyến 1 lúc rồi đi với Tài xế nào đến trước.
             </li>
             <li className={textClassName}>
-              - Các hành vi khác vi phạm tiêu chuẩn Chất lượng Dịch vụ của Tài xế do
+              • Các hành vi khác vi phạm tiêu chuẩn Chất lượng Dịch vụ của Tài xế do
               ExxeVn quy định trong từng thời kỳ.
             </li>
             <li className={textClassName}>
-              - Cấu kết với Tài xế của ExxeVn thực hiện chuyến xe/đơn hàng giả mạo hoặc
+              • Cấu kết với Tài xế của ExxeVn thực hiện chuyến xe/đơn hàng giả mạo hoặc
               các giao dịch bất thường trên ví thông qua hệ thống của ExxeVn nhằm trục lợi
               cho minh và/hoặc người khác.
             </li>
             <li className={textClassName}>
-              - Cấu kết, giúp sức, thông đồng, thủ đoạn, hành vi khác cùng với Tài xế/
+              • Cấu kết, giúp sức, thông đồng, thủ đoạn, hành vi khác cùng với Tài xế/
               Khách hàng khác tổ chức, cá nhân khác nhằm thực hiện các hành vi gian lận,
               lừa đảo, chiếm đoạt tài sản của ExxeVn/Tài xế. Các hành vi vi phạm pháp luật
               khác gây ảnh hưởng xấu/ có khả năng gây ảnh hương xấu nghiêm trọng đến hình
               ảnh, uy tín, thương hiệu của ExxeVn (theo đánh giá của ExxeVn).
             </li>
             <li className={textClassName}>
-              - Khách hàng có tài khoản không hợp lệ. Lưu ý nếu khách hàng bị 3 lần cảnh
+              • Khách hàng có tài khoản không hợp lệ. Lưu ý nếu khách hàng bị 3 lần cảnh
               cáo sẽ bằng 1 lần chấm dứt vĩnh viễn.
             </li>
           </ul>
@@ -1418,7 +1413,7 @@ const data = [
             BIỆN PHÁP XỬ LÝ VỚI CÁC HÀNH VI XÂM PHẠM QUYỀN LỢI NGƯỜI TIÊU DÙNG TRÊN SÀN
             GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
           </p>
-          <p className={`${titleClassName} `}>
+          <p className={`${textClassNameSemibold} italic`}>
             * Tài xế sẽ từ chối phục vụ khi hành khách có những hàng hóa như sau:{' '}
           </p>
           <ul>
@@ -1453,7 +1448,7 @@ const data = [
             </li>
           </ul>
 
-          <p className={`${textClassName} text-14`}>
+          <p className={`${textClassNameSemibold} italic`}>
             ** Đối tác tài xế sẽ chịu trách nhiệm khi biết hành khách có mang các vật dụng
             và hàng hoá trên nhưng bao che, không khai báo với các cơ quan có thẩm quyền.
             Đối tác tài xế phải chịu trách nhiệm trước pháp luật.
@@ -1461,8 +1456,11 @@ const data = [
         </div>
 
         <div className={elementClassName}>
+          <p className={titleClassName}>
+            III. QUY CHẾ HOẠT ĐỘNG, SỬ DỤNG DỊCH VỤ VÀ PHƯƠNG THỨC THANH TOÁN
+          </p>
           <div className={elementClassName}>
-            <p className={titleClassName}>1. Đối với khách hàng:</p>
+            <p className={textClassNameSemibold}>1. Đối với khách hàng:</p>
             <ul>
               <li className={textClassName}>
                 · Mở website: http://www.Exxe.vn hoặc tải ứng dụng ExxeVn về thiết bị và
@@ -1494,14 +1492,14 @@ const data = [
                 · Giá cước chuyến đi đều đã bao gồm thuế VAT10%.
               </li>
             </ul>
-            <p className={`${textClassName} italic`}>
+            <p className={`${textClassNameSemibold} italic`}>
               *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Khách hàng có nhu cầu
               chuyến đi. Sau khi hoàn tất chuyến, 20% đặt cọc này sẽ đc chuyển đến Tài
               khoản của Tài Xế.
             </p>
           </div>
 
-          <p className={titleClassName}>2. Đối với tài xế</p>
+          <p className={textClassNameSemibold}>2. Đối với tài xế</p>
           <ul>
             <li className={textClassName}>
               · Mở website: http://wwww.Exxe.vn hoặc tải ứng dụng ExxeDriver về thiết bị
@@ -1534,7 +1532,7 @@ const data = [
               hành khách nhằm xác nhận điểm đón (với chuyến có sẵn) hoặc đợi hệ thống ghép
               với khách hàng (với cuốc tiện chuyến)
             </li>
-            <li className={textClassName}>
+            <li className={`${textClassNameSemibold}`}>
               · CHÚ Ý: ExxeVnDriver thu phí dịch vụ 5% trên mỗi chuyến đi hoàn tất.
             </li>
             <li className={textClassName}>
@@ -1551,7 +1549,7 @@ const data = [
             <li className={textClassName}>
               · Số tiền rút về tài khoản sẽ được chuyển khoản trong vòng 24h làm việc.
             </li>
-            <li className={textClassName}>
+            <li className={`${textClassNameSemibold} italic`}>
               · *** 20% phí đặt cọc là số tiền để xác nhận đảm bảo Tài xế nhận chuyến đi.
               Sau khi hoàn tất chuyến, 20% đặc cọc này sẽ đc chuyển lại Ví của Tài Xế
             </li>
@@ -1565,7 +1563,7 @@ const data = [
             HÀNG) TRONG TRƯỜNG HỢP SÀN GIAO DỊCH VẬN TẢI THƯƠNG MẠI ĐIỆN TỬ CÓ CHỨC NĂNG
             ĐẶT CHUYẾN TRỰC TUYẾN:
           </p>
-          <p className={titleClassName}>Chính sách huỷ chuyến và hoàn cọc: </p>
+          <p className={textClassNameSemibold}>Chính sách huỷ chuyến và hoàn cọc: </p>
           <ul>
             <li className={textClassName}>
               · Tài xế trong trường hợp muốn hủy chuyến sau khi khách hàng đã đặt chuyến
@@ -1579,59 +1577,62 @@ const data = [
               tiền mà Tài Xế đã đặt cọc thông qua Công ty Cổ phần Đầu Tư Công Nghệ và Vận
               Tải ExxeVn.
             </li>
-            <li className={`${textClassName} italic`}>
+            <li className={`${textClassNameSemibold} italic`}>
               · Chính sách huỷ chuyến và chi phí hủy chuyến được tính như sau:
             </li>
 
             <table className="table-auto w-full">
               <thead>
                 <tr className="text-left">
-                  <th className="">Thời điểm hủy chuyến</th>
-                  <th className="">Phí hủy chuyến</th>
-                  <th className="">Đánh giá hệ thống</th>
+                  <th className="p-12 border border-solid border-border-color-1">
+                    Thời điểm hủy chuyến
+                  </th>
+                  <th className="p-12 border border-solid border-border-color-1">
+                    Phí hủy chuyến
+                  </th>
+                  <th className="p-12 border border-solid border-border-color-1">
+                    Đánh giá hệ thống
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="my-12 p-4">
-                  <td className="p-8">Trong vòng 1 giờ sau khi đặt cọc</td>
-                  <td className="p-8">0% Tiền cọc</td>
-                  <td className="p-8">3*</td>
-                </tr>
-                <tr>
-                  <td className="p-8">Sau 60 phút ***</td>
-                  <td className="p-8">100% Tiền cọc</td>
-                  <td className="p-8">5*</td>
+                  <td className="border border-solid border-border-color-1 p-8">
+                    Sau khi đặt cọc
+                  </td>
+                  <td className="border border-solid border-border-color-1 p-8">
+                    <p className={textClassNameSemibold}>100% Tiền cọc</p>
+                    <p className={textClassNameSemibold}>*(20% cước phí chuyến xe)</p>
+                  </td>
+                  <td className="border border-solid border-border-color-1 p-8">3*</td>
                 </tr>
               </tbody>
             </table>
           </ul>
 
-          <p className={`${textClassName} italic mt-24`}>
+          <p className={`${textClassNameSemiboldItalic} mt-24`}>
             Vi phạm chính sách Huỷ chuyến đi:
           </p>
-          <p className={`${textClassName} italic`}>
-            *** Trường hợp Đối Tác Tài Xế phát sinh huỷ chuyến, ExxeVnDriver sẽ trừ 100%
-            tiền cọc của Tài Xế (20% cước phí của chuyến xe) và sẽ chuyển số tiền đặt cọc
-            này cho khách hàng.
+          <p className={textClassNameSemiboldItalic}>
+            *** Trường hợp Đối Tác Tài Xế phát sinh huỷ chuyến, ExxeVnDriver sẽ thu 50%
+            tiền cọc của Tài Xế (10% cước phí của chuyến xe) và chuyển 50% số tiền đặt cọc
+            (10% cước phí của chuyến xe) này cho khách hàng trong trường hợp không có Tài
+            Xế khác nhận chuyến. (Trường hợp nếu có Tài Xế khác nhận chuyến thì 50% tiền
+            đặt cọc (10% cước phí chuyến xe) sẽ được chuyển về TK của Tài Xế huỷ chuyến.
           </p>
-          <p className={`${textClassName} italic`}>
-            *** Và ngược lại, trường hợp khách hàng huỷ chuyến dẫn đến phát sinh chi phí
-            huỷ chuyến, ExxeVn sẽ cộng 100% tiền đặt cọc của khách hàng vào tài khoản của
-            Tài Xế.
-          </p>
-          <p className={`${textClassName} italic`}>
+          <p className={textClassNameSemiboldItalic}>
             *** Trường hợp Đối Tác Tài Xế huỷ chuyến ngoài quy định, chuyến đi của khách
-            hàng sẽ là chuyến
+            hàng sẽ là chuyến đi ưu tiên. ExxeVn sẽ tìm Đối tác tài xế mới trong thời gian
+            sớm nhất để chuyến đi của khách hàng dc trọn vẹn.
           </p>
-          <p className={`${textClassName} italic`}>
-            đi ưu tiên. ExxeVn sẽ tìm Đối tác tài xế mới trong thời gian sớm nhất để
-            chuyến đi của khách hàng được trọn vẹn.
+          <p className={textClassNameSemiboldItalic}>
+            *** Và ngược lại, trường hợp Khách hàng huỷ chuyến dẫn đến phát sinh chi phí
+            huỷ chuyến, ExxeVn sẽ thu 50% tiền đặt cọc (10% cước phí chuyến xe) và chuyển
+            50% tiền cọc (10% cước phí chuyến xe) của khách hàng vào tài khoản của Tài Xế.
           </p>
-          <p className={`${textClassName} italic`}>
-            *** Đối với trường hợp đi ghép, 20% đặt cọc của Tài Xế sẽ đc chia đều cho các
-            khách hàng đặt chuyến thành công. *** Nhằm gia tăng sự cam kết của tài xế,
-            cũng như đảm bảo quyền lợi của khách hàng: Đối tác và Khách hàng vui lòng liên
-            lạc trước chuyến đi.
+          <p className={textClassNameSemiboldItalic}>
+            *** Nhằm gia tăng sự cam kết của tài xế, cũng như đảm bảo quyền lợi của khách
+            hàng: Đối tác và Khách hàng vui lòng liên lạc trước chuyến đi.
           </p>
         </div>
       </>
@@ -2003,9 +2004,7 @@ const data = [
                 CÔNG TY CỔ PHẦN ĐẦU TƯ CÔNG NGHỆ VÀ VẬN TẢI EXXEVN (ExxeVn)
               </span>
             </p>
-            <p className={textClassName}>
-              Địa chỉ: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp Thủ Đức, Tp.HCM.
-            </p>
+            <p className={textClassName}>Địa chỉ: {ADDRESS}.</p>
             <p className={textClassName}>Mã số thuế: 0317412411</p>
             <p className={textClassName}>Điện thoại: 19004744 - 0847878788</p>
             <p className={textClassName}>
@@ -2754,9 +2753,7 @@ const data = [
               CÔNG TY CỔ PHẦN ĐẦU TƯ CÔNG NGHỆ VÀ VẬN TẢI EXXEVN (ExxeVn)
             </span>
           </p>
-          <p className={textClassName}>
-            Địa chỉ: Số 2 Hoàng Thế Thiện, Phường An Lợi Đông, Tp Thủ Đức, Tp.HCM.
-          </p>
+          <p className={textClassName}>Địa chỉ: {ADDRESS}.</p>
           <p className={textClassName}>Mã số thuế: 0317412411</p>
           <p className={textClassName}>Điện thoại: 19004744 - 0847878788</p>
           <p className={textClassName}>

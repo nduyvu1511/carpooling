@@ -34,7 +34,6 @@ export const InputLocation = ({
   onClearValue
 }: InputLocationProps) => {
   const dispatch = useDispatch()
-  const { getProvinceIdByGooglePlace } = useAddress()
   const { getCurrentLocation } = useCurrentLocation()
   const ref = useRef<HTMLInputElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
@@ -52,23 +51,8 @@ export const InputLocation = ({
     setShowSearchResult(false)
   })
 
-  const checkValidLocation = (location: string) => {
-    if (
-      previousLocation?.location &&
-      getProvinceIdByGooglePlace(previousLocation.location) ===
-        getProvinceIdByGooglePlace(location)
-    ) {
-      dispatch(notify('Vui lòng chọn tỉnh khác với tỉnh hiện tại', 'warning'))
-      return false
-    }
-
-    return true
-  }
-
   const handleSetLocation = (val: LocationSearch) => {
-    if (checkValidLocation(val.location)) {
-      onSelect?.(val)
-    }
+    onSelect?.(val)
   }
 
   const handleGetCurrentLocation = () => {
@@ -109,8 +93,6 @@ export const InputLocation = ({
   const getLocationFromSearchResult = async (
     location: google.maps.places.AutocompletePrediction
   ) => {
-    if (!checkValidLocation(location.description)) return
-
     setValue(location.description)
     clearSuggestions()
     try {

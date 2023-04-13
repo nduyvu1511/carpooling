@@ -58,10 +58,6 @@ export const PriceList = () => {
         className={`price-list-wrapper relative`}
       >
         <div className="price-container py-16 md:py-24 lg:py-48 z-10">
-          {/* <h1 className="h1 text-primary text-center mb-16 sm:mb-[32px] md:mb-[40px] lg:mb-[80px]">
-            Báo giá nhanh cùng Exxe
-          </h1> */}
-
           <div className="">
             <h3 className="text-16 md:text-18 lg:text-24 font-medium text-center mb-16 lg:mb-32">
               Dành cho hành khách
