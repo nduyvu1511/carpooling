@@ -23,7 +23,9 @@ import { useDispatch, useSelector } from 'react-redux'
 interface UseAuthRes {
   getUserInfo: (handleSuccess: (props: UserInfo) => void, handleError?: Function) => void
   loginWithPassword: (_params: UseParams<LoginFormParams, LoginWithPasswordRes>) => void
-  checkPhoneExist: (_params: UseParams<CheckPhoneExistParams, UserInfo | undefined>) => void
+  checkPhoneExist: (
+    _params: UseParams<CheckPhoneExistParams, UserInfo | undefined>
+  ) => void
   logout: (cb?: Function) => void
   register: (_params: UseParams<RegisterParams, UserInfo>) => void
   setToken: (params: UseParams<string, undefined>) => void
@@ -76,7 +78,9 @@ export const useAuth = (): UseAuthRes => {
     const { params, onSuccess, onError } = _params
     try {
       const res = await chatAPI.createUser({
-        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : '',
+        avatar: params.avatar_url?.image_url
+          ? toImageUrl(params.avatar_url.image_url)
+          : '',
         phone: params.phone,
         role: params.car_account_type,
         user_id: params.partner_id + '',
@@ -95,7 +99,11 @@ export const useAuth = (): UseAuthRes => {
     }
   }
 
-  const loginToChatServer = async (params: LoginParams, cb?: () => void, onErr?: () => void) => {
+  const loginToChatServer = async (
+    params: LoginParams,
+    cb?: () => void,
+    onErr?: () => void
+  ) => {
     try {
       const res = await chatAPI.login(params)
       if (res?.success) {
@@ -106,6 +114,8 @@ export const useAuth = (): UseAuthRes => {
           },
           onError: onErr
         })
+      } else {
+        onErr?.()
       }
     } catch (error) {
       onErr?.()
@@ -117,7 +127,9 @@ export const useAuth = (): UseAuthRes => {
     const { params, onSuccess, onError } = _params
     try {
       const res = await chatAPI.updateUser({
-        avatar: params.avatar_url?.image_url ? toImageUrl(params.avatar_url.image_url) : '',
+        avatar: params.avatar_url?.image_url
+          ? toImageUrl(params.avatar_url.image_url)
+          : '',
         bio: params?.description || '',
         date_of_birth: params?.date_of_birth || '',
         gender: params?.gender || '',
@@ -184,7 +196,9 @@ export const useAuth = (): UseAuthRes => {
     })
   }
 
-  const loginWithPassword = async (_params: UseParams<LoginFormParams, LoginWithPasswordRes>) => {
+  const loginWithPassword = async (
+    _params: UseParams<LoginFormParams, LoginWithPasswordRes>
+  ) => {
     const { onSuccess, params, config, onError } = _params
     fetcherHandler<LoginRes>({
       fetcher: userAPI.login(params),
@@ -225,7 +239,10 @@ export const useAuth = (): UseAuthRes => {
     })
   }
 
-  const getUserInfo = async (handleSuccess: (props: UserInfo) => void, handleError?: Function) => {
+  const getUserInfo = async (
+    handleSuccess: (props: UserInfo) => void,
+    handleError?: Function
+  ) => {
     try {
       const res: AxiosResponse<UserInfo> = await userAPI.getUserInfo()
       if (res?.result?.code !== 200 || !isObjectHasValue(res?.result?.data)) {
