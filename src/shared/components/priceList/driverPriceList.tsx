@@ -99,7 +99,9 @@ export const DriverPriceList = ({
         </div>
 
         <div className="grid grid-cols-1 gap-y-12 lg:gap-y-16 mb-32">
-          <p className="uppercase text-16 font-semibold text-primary mb-16">THÔNG TIN CHUYẾN ĐI</p>
+          <p className="uppercase text-16 font-semibold text-primary mb-16">
+            THÔNG TIN CHUYẾN ĐI
+          </p>
 
           <Item
             label="Loại chuyến"
@@ -153,7 +155,9 @@ export const DriverPriceList = ({
         </div>
 
         <div className="grid grid-cols-1 gap-y-12 lg:gap-y-16">
-          <p className="text-16 font-semibold text-primary uppercase">GIÁ CƯỚC CHUYẾN ĐI</p>
+          <p className="text-16 font-semibold text-primary uppercase">
+            GIÁ CƯỚC CHUYẾN ĐI
+          </p>
           <Item label=" Tổng chi phí tuyến đi" value={formatMoneyVND(tripCost)} />
           <Item
             label={`Thuế VAT của khách hàng (${vat_fee_percent * 100}%)`}
@@ -162,7 +166,10 @@ export const DriverPriceList = ({
 
           <div className="border-t-gray-color-2 border-solid border-t"></div>
 
-          <Item label="Số tiền (sau khi trừ VAT)" value={formatMoneyVND(amountAfterSubtractVat)} />
+          <Item
+            label="Số tiền (sau khi trừ VAT)"
+            value={formatMoneyVND(amountAfterSubtractVat)}
+          />
           <Item
             label={`Phí sử dụng dịch vụ ExxeVn (${service_fee_percent * 100}%)`}
             value={`-${formatMoneyVND(serviceFeeAmount)}`}
@@ -170,7 +177,10 @@ export const DriverPriceList = ({
 
           <div className="border-t-gray-color-2 border-solid border-t"></div>
 
-          <Item label="Thực nhận sau chuyến đi" value={formatMoneyVND(amountActuallyReceive)} />
+          <Item
+            label="Thực nhận sau chuyến đi"
+            value={formatMoneyVND(amountActuallyReceive)}
+          />
           <Item
             label={`Thuế thu nhập cá nhân (${person_income_tax * 100}%):`}
             value={'-' + formatMoneyVND(personIncomeTaxAmount)}
@@ -187,9 +197,9 @@ export const DriverPriceList = ({
             <p className="text-20 md:text-24 lg:text-[30px] text-primary font-semibold">
               {formatMoneyVND(incomeAmount, 'VNĐ')}
             </p>
-            {/* <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
-                (Đã bao gồm {vat_fee_percent * 100}% thuế VAT)
-              </p> */}
+            <p className="text-10 md:text-12 lg:text-14 font-normal text-gray-color-7 text-right">
+              (Đã bao gồm {vat_fee_percent * 100}% thuế VAT)
+            </p>
           </div>
         </div>
       </div>
@@ -200,10 +210,14 @@ export const DriverPriceList = ({
 const Item = ({ label, value }: { label: string; value: string | JSX.Element }) => {
   return (
     <div className="flex items-start justify-between">
-      <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">{label}</p>
+      <p className="text-12 md:text-14 lg:text-16 font-medium text-gray-color-7">
+        {label}
+      </p>
 
       {(value as string)?.[0] ? (
-        <p className="flex-1 ml-12 font-medium text-14 md:text-16 lg:text-20 text-right">{value}</p>
+        <p className="flex-1 ml-12 font-medium text-14 md:text-16 lg:text-20 text-right">
+          {value}
+        </p>
       ) : (
         value || null
       )}
