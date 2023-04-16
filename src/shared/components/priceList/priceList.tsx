@@ -294,7 +294,7 @@ export const PriceList = () => {
                         {formatMoneyVND(result, 'VNĐ')}
                       </p>
                       <p className="text-12 md:text-14 font-normal text-gray-color-7">
-                        (Đã bao gồm 10% phí VAT)
+                        (Đã bao gồm 10% thuế VAT)
                       </p>
                     </>
                   ) : (

@@ -92,7 +92,7 @@ const Footer = () => {
                     path: '/'
                   },
                   {
-                    label: 'Ứng dụng Exxe Customer',
+                    label: 'Ứng dụng Exxe Passenger',
                     path: '',
                     url: isMacOs
                       ? process.env.NEXT_PUBLIC_CUSTOMER_APP_IOS_URL
