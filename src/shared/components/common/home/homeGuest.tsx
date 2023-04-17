@@ -3,12 +3,11 @@ import {
   Guide,
   HeroSection,
   HomeSection,
-  NewsHome,
   PlaceHome,
   PriceList,
   PromotionBanner,
-  Seo,
-} from "@/components"
+  Seo
+} from '@/components'
 
 export const HomeGuest = () => {
   return (
@@ -34,7 +33,7 @@ export const HomeGuest = () => {
         <Guide />
       </HomeSection>
 
-      <NewsHome />
+      {/* <NewsHome /> */}
     </section>
   )
 }
